@@ -44,9 +44,6 @@ module.exports = [
 
   # components
 
-  # image
-  "components/image/KDImage.coffee",
-
   # split
   "components/split/splitview.coffee",
   "components/split/splitresizer.coffee",
@@ -107,7 +104,6 @@ module.exports = [
 
   # upload
   "components/upload/KDFileUploadView.coffee",
-  "components/upload/KDImageUploadView.coffee",
   "components/upload/kdmultipartuploader.coffee",
 
   # buttons

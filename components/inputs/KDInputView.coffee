@@ -331,8 +331,7 @@ class KDInputView extends KDView
           wordBreak     : $input.css 'wordBreak'
           fontSize      : $input.css 'fontSize'
           lineHeight    : $input.css 'lineHeight'
-          whiteSpace    : "pre"
-          wordWrap      : "break-word"
+          whiteSpace    : "pre-line"
 
     @on "blur", =>
       @_clone.detach()

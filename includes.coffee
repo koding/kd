@@ -9,7 +9,6 @@ module.exports = [
   "libs/underscore-min.1.3.js"
   "libs/jquery.cookie.js",
   "libs/jquery-timeago.js",
-  "libs/jquery.mousewheel.js",
 
   ## Helpers
   "libs/date.format.js",
@@ -96,7 +95,6 @@ module.exports = [
   "components/inputs/KDOnOffSwitch.coffee",
   "components/inputs/KDMultipleChoice.coffee",
   "components/inputs/KDSelectBox.coffee",
-  "components/inputs/KDSliderView.coffee",
   "components/inputs/KDWmdInput.coffee",
   "components/inputs/tokenizedmenu.coffee",
   "components/inputs/tokenizedinput.coffee",

@@ -181,5 +181,6 @@ module.exports = [
   "themes/default/kd.form.styl",
   "themes/default/kd.tooltip.styl",
   "themes/default/kd.dia.styl",
+  "themes/default/kd.slide.styl"
 
 ]

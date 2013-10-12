@@ -159,7 +159,6 @@ module.exports = [
   "themes/default/kdfn.styl",
 
   # Default Theme
-  "themes/default/appfn.styl",
   "themes/default/kd.styl",
   "themes/default/kd.input.styl",
   "themes/default/kd.treeview.styl",

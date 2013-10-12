@@ -116,9 +116,7 @@ module.exports = [
   "components/forms/KDFormViewWithFields.coffee",
 
   # modal
-  "components/modals/KDModalController.coffee",
   "components/modals/KDModalView.coffee",
-  "components/modals/KDModalViewLoad.coffee",
   "components/modals/KDBlockingModalView.coffee",
   "components/modals/KDModalViewWithForms.coffee",
   "components/modals/KDModalViewStack.coffee",
@@ -136,8 +134,7 @@ module.exports = [
   # dialog
   "components/dialog/KDDialogView.coffee",
 
-  #tooltip
-  "components/tooltip/KDToolTipMenu.coffee",
+  # tooltip
   "components/tooltip/KDTooltip.coffee",
 
   # autocomplete

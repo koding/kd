@@ -101,8 +101,8 @@ module.exports = [
   "components/inputs/KDContentEditableView.coffee",
 
   # upload
-  "components/upload/KDFileUploadView.coffee",
-  "components/upload/kdmultipartuploader.coffee",
+  # "components/upload/KDFileUploadView.coffee",
+  # "components/upload/kdmultipartuploader.coffee",
 
   # buttons
   "components/buttons/KDButtonView.coffee",

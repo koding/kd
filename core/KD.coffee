@@ -72,8 +72,6 @@ catch e
   singletons      : {}
   subscriptions   : []
   classes         : {}
-  apiUri          : KD.config.apiUri
-  appsUri         : KD.config.appsUri
   utils           : __utils
   appClasses      : {}
   appScripts      : {}

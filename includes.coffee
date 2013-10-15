@@ -9,7 +9,6 @@ module.exports = [
   "libs/underscore-min.1.3.js"
   "libs/jquery.cookie.js",
   "libs/jquery-timeago.js",
-  "libs/jquery.mousewheel.js",
 
   ## Helpers
   "libs/date.format.js",
@@ -43,9 +42,6 @@ module.exports = [
   "core/KDViewController.coffee",
 
   # components
-
-  # image
-  "components/image/KDImage.coffee",
 
   # split
   "components/split/splitview.coffee",
@@ -99,16 +95,14 @@ module.exports = [
   "components/inputs/KDOnOffSwitch.coffee",
   "components/inputs/KDMultipleChoice.coffee",
   "components/inputs/KDSelectBox.coffee",
-  "components/inputs/KDSliderView.coffee",
   "components/inputs/KDWmdInput.coffee",
   "components/inputs/tokenizedmenu.coffee",
   "components/inputs/tokenizedinput.coffee",
   "components/inputs/KDContentEditableView.coffee",
 
   # upload
-  "components/upload/KDFileUploadView.coffee",
-  "components/upload/KDImageUploadView.coffee",
-  "components/upload/kdmultipartuploader.coffee",
+  # "components/upload/KDFileUploadView.coffee",
+  # "components/upload/kdmultipartuploader.coffee",
 
   # buttons
   "components/buttons/KDButtonView.coffee",
@@ -122,9 +116,7 @@ module.exports = [
   "components/forms/KDFormViewWithFields.coffee",
 
   # modal
-  "components/modals/KDModalController.coffee",
   "components/modals/KDModalView.coffee",
-  "components/modals/KDModalViewLoad.coffee",
   "components/modals/KDBlockingModalView.coffee",
   "components/modals/KDModalViewWithForms.coffee",
   "components/modals/KDModalViewStack.coffee",
@@ -142,8 +134,7 @@ module.exports = [
   # dialog
   "components/dialog/KDDialogView.coffee",
 
-  #tooltip
-  "components/tooltip/KDToolTipMenu.coffee",
+  # tooltip
   "components/tooltip/KDTooltip.coffee",
 
   # autocomplete
@@ -181,5 +172,6 @@ module.exports = [
   "themes/default/kd.form.styl",
   "themes/default/kd.tooltip.styl",
   "themes/default/kd.dia.styl",
+  "themes/default/kd.slide.styl"
 
 ]

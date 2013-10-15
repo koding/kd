@@ -41,7 +41,7 @@ class JContextMenu extends KDView
     if options.arrow
       @on "viewAppended", @bound "addArrow"
 
-    KDView.appendToDOMBody @
+    @appendToDomBody()
 
   childAppended:->
 

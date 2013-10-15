@@ -114,7 +114,7 @@ class KDAutoCompleteController extends KDViewController
       @hideDropdown()
 
     dropdownWrapper.setClass "kdautocomplete hidden #{@getOptions().listWrapperCssClass}"
-    KDView.appendToDOMBody dropdownWrapper
+    dropdownWrapper.appendToDomBody()
 
   hideDropdown:->
     dropdownWrapper = @dropdown.getView()

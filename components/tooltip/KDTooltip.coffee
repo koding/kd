@@ -130,7 +130,7 @@ class KDTooltip extends KDView
   display:(o = @getOptions())->
 
     # converts NESW-Values to topbottomleftright and retains them in @getOptions
-    KDView.appendToDOMBody this
+    @appendToDomBody()
     @getSingleton("windowController").addLayer this
     o = @translateCompassDirections o if o.gravity
     o.gravity = null

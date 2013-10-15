@@ -223,4 +223,4 @@ class KDNotificationView extends KDView
     if @getOptions().container
       @getOptions().container.addSubView @
     else
-      KDView.appendToDOMBody @
+      @appendToDomBody()

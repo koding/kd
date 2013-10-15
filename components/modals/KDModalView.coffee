@@ -33,7 +33,7 @@ class KDModalView extends KDView
     @on "viewAppended", =>
       @utils.wait 500, => @unsetClass "initial"
 
-    KDView.appendToDOMBody @
+    @appendToDomBody()
 
     @setModalWidth  options.width
     @setModalHeight options.height                if options.height
@@ -214,3 +214,30 @@ class KDModalView extends KDView
   @destroyStack: ->
     @stack.destroy()
     delete @stack
+
+  @confirm = (options)->
+    noop = -> modal.destroy()
+
+    { ok, cancel, title, content, description } = options
+    ok      = callback: ok      if not ok     or 'function' is typeof ok
+    cancel  = callback: cancel  if not cancel or 'function' is typeof cancel
+    modal   = new this
+      title         : title or 'You must confirm this action'
+      content       : content or if description
+        """
+        <div class='modalformline'>
+          <p>#{description}</p>
+        </div>
+        """
+      overlay       : yes
+      buttons       :
+        OK          :
+          title     : ok.title
+          style     : ok.style or "modal-clean-red"
+          callback  : ok.callback or noop
+        cancel      :
+          title     : cancel.title
+          style     : cancel.style or "modal-cancel"
+          callback  : cancel.callback or noop
+    modal.addSubView options.subView  if options.subView
+    modal

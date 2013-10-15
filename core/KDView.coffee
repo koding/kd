@@ -52,11 +52,15 @@ class KDView extends KDObject
       objects.overrider[title] = item
     objects.overrider
 
-  @appendToDOMBody = (view)->
-    view.parentIsInDom = yes
-    unless view.lazy
-      $("body").append view.$()
-      view.emit "viewAppended", view
+  appendToDomBody: ->
+    @parentIsInDom = yes
+    unless @lazy
+      $("body").append @$()
+      @utils.defer => @emit "viewAppended"
+
+  @appendToDOMBody = (view) ->
+    console.warn "KDView.viewAppended is deprecated; use #viewAppended instead"
+    view.appendToDomBody()
 
 # #
 # INSTANCE LEVEL
@@ -108,7 +112,7 @@ class KDView extends KDObject
       fireViewAppended = (child)->
         unless child.parentIsInDom
           child.parentIsInDom = yes
-          child.emit 'viewAppended', child unless child.lazy
+          child.emit 'viewAppended'  unless child.lazy
 
       if Array.isArray subViews
         fireViewAppended child for child in subViews
@@ -236,34 +240,34 @@ class KDView extends KDObject
   append:(child, selector)->
     @$(selector).append child.$()
     if @parentIsInDom
-      child.emit 'viewAppended', child
+      child.emit 'viewAppended'
     this
 
   appendTo:(parent, selector)->
     @$().appendTo parent.$(selector)
     if @parentIsInDom
-      @emit 'viewAppended', this
+      @emit 'viewAppended'
     this
 
   appendToSelector:(selector)->
     $(selector).append @$()
-    @emit 'viewAppended', this
+    @emit 'viewAppended'
 
   prepend:(child, selector)->
     @$(selector).prepend child.$()
     if @parentIsInDom
-      child.emit 'viewAppended', child
+      child.emit 'viewAppended'
     this
 
   prependTo:(parent, selector)->
     @$().prependTo parent.$(selector)
     if @parentIsInDom
-      @emit 'viewAppended', this
+      @emit 'viewAppended'
     this
 
   prependToSelector:(selector)->
     $(selector).prepend @$()
-    @emit 'viewAppended', this
+    @emit 'viewAppended'
 
   setPartial:(partial,selector)->
     @$(selector).append partial

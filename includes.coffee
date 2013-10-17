@@ -55,17 +55,17 @@ module.exports = [
   # loader
   "components/loader/KDLoaderView.coffee",
 
-  #list
+  # list
   "components/list/KDListViewController.coffee",
   "components/list/KDListView.coffee",
   "components/list/KDListItemView.coffee",
 
-  #tree
+  # tree
   "components/tree/treeviewcontroller.coffee",
   "components/tree/treeview.coffee",
   "components/tree/treeitemview.coffee",
 
-  #tabs
+  # tabs
   "components/tabs/KDTabHandleView.coffee",
   "components/tabs/KDTabView.coffee",
   "components/tabs/KDTabPaneView.coffee",
@@ -130,6 +130,10 @@ module.exports = [
   # sliderbar
   "components/sliderbar/KDSliderBarView.coffee",
   "components/sliderbar/KDSliderBarHandleView.coffee",
+
+  # slideshow
+  "components/slideshow/kdslideshowview.coffee",
+  "components/slideshow/kdslidepageview.coffee",
 
   # dialog
   "components/dialog/KDDialogView.coffee",

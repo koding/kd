@@ -1,10 +1,147 @@
 @import "./client/Framework/themes/default/kdfn"
 
+div.kd-slide
+  vendor  perspective, 1200px
+
 div.kd-page
 
-  // TODO: Add a function for this to kdfn ~ GG
-  -webkit-transition  left .6s ease-in-out, top .6s ease-in-out, -webkit-transform .3s ease-out
-  -moz-transition     left .6s ease-in-out, top .6s ease-in-out, -moz-transform .3s ease-out
-  -o-transition       left .6s ease-in-out, top .6s ease-in-out, -o-transform .3s ease-out
-  transition          left .6s ease-in-out, top .6s ease-in-out, transform .3s ease-out
+  vendor  transform,          translate3d(0, 0, 0)
+  vendor  transform-style,    preserve-3d
+
+  visibility                  hidden
+  overflow                    hidden
   abs()
+
+  &.current
+    visibility                visible
+    z-index                   1
+
+  &.moveToLeft
+    vendor  animation, moveToLeft .6s ease both
+
+  &.moveFromLeft
+    vendor  animation, moveFromLeft .6s ease both
+
+  &.moveToRight
+    vendor  animation, moveToRight .6s ease both
+
+  &.moveFromRight
+    vendor  animation, moveFromRight .6s ease both
+
+  &.moveToTop
+    vendor  animation, moveToTop .6s ease both
+
+  &.moveFromTop
+    vendor  animation, moveFromTop .6s ease both
+
+  &.moveToBottom
+    vendor  animation, moveToBottom .6s ease both
+
+  &.moveFromBottom
+    vendor  animation, moveFromBottom .6s ease both
+
+  &.rotateToLeft
+    vendor  transform-origin, top left
+    vendor  animation, rotateToLeft .6s ease both
+
+  &.rotateFromLeft
+    vendor  transform-origin, top left
+    vendor  animation, rotateFromLeft .6s ease both
+
+  &.rotateToRight
+    vendor  transform-origin, top right
+    vendor  animation, rotateToRight .6s ease both
+
+  &.rotateFromRight
+    vendor  transform-origin, top right
+    vendor  animation, rotateFromRight .6s ease both
+
+  &.rotateToTop
+    vendor  transform-origin, top left
+    vendor  animation, rotateToTop .6s ease both
+
+  &.rotateFromTop
+    vendor  transform-origin, top left
+    vendor  animation, rotateFromTop .6s ease both
+
+  &.rotateToBottom
+    vendor  transform-origin, bottom left
+    vendor  animation, rotateToBottom .6s ease both
+
+  &.rotateFromBottom
+    vendor  transform-origin, bottom left
+    vendor  animation, rotateFromBottom .6s ease both
+
+
+@keyframes moveToLeft
+  100%
+    vendor transform, translateX(-100%)
+
+@keyframes moveFromLeft
+  0%
+    vendor transform, translateX(-100%)
+
+@keyframes moveToRight
+  100%
+    vendor transform, translateX(100%)
+
+@keyframes moveFromRight
+  0%
+    vendor transform, translateX(100%)
+
+@keyframes moveToTop
+  100%
+    vendor transform, translateY(-100%)
+
+@keyframes moveFromTop
+  0%
+    vendor transform, translateY(-100%)
+
+@keyframes moveToBottom
+  100%
+    vendor transform, translateY(100%)
+
+@keyframes moveFromBottom
+  0%
+    vendor transform, translateY(100%)
+
+
+@keyframes rotateToLeft
+  100%
+    opacity 0
+    vendor transform, rotateY(90deg)
+
+@keyframes rotateFromLeft
+  0%
+    opacity 1
+    vendor transform, rotateY(90deg)
+
+@keyframes rotateToRight
+  100%
+    opacity 0
+    vendor transform, rotateY(-90deg)
+
+@keyframes rotateFromRight
+  0%
+    opacity 1
+    vendor transform, rotateY(-90deg)
+
+@keyframes rotateToTop
+  100%
+    opacity 0
+    vendor transform, rotateX(-90deg)
+
+@keyframes rotateFromTop
+  0%
+    opacity 1
+    vendor transform, rotateX(-90deg)
+
+@keyframes rotateToBottom
+  100%
+    opacity 0
+    vendor transform, rotateX(90deg)
+
+@keyframes rotateFromBottom
+  0%
+    opacity 1
+    vendor transform, rotateX(90deg)

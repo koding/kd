@@ -12,6 +12,13 @@ class KDSlideShowView extends JView
     @_coordsY  = []
     @_currentX = 0
 
+    hammer = Hammer @getElement()
+
+    hammer.on "swipeleft",  @bound 'nextPage'
+    hammer.on "swiperight", @bound 'previousPage'
+    hammer.on "swipeup",    @bound 'nextSubPage'
+    hammer.on "swipedown",  @bound 'previousSubPage'
+
   addPage:(page)->
     @addSubView page
 
@@ -62,6 +69,8 @@ class KDSlideShowView extends JView
       @_coordsY[@_currentX] = index
       newPage.move     if direction then "#{anim}FromTop"  else "#{anim}FromBottom"
       currentPage.move if direction then "#{anim}ToBottom" else "#{anim}ToTop"
+
+    @emit 'CurrentPageChanged', x: @_currentX, y:@_coordsY[@_currentX]
 
     newPage.setClass 'current'
     @utils.wait 600, -> currentPage.unsetClass 'current'

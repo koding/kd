@@ -18,6 +18,7 @@ module.exports = [
   "libs/mousetrap.js"
   "libs/marked.js",
   "libs/jspath.js",
+  "libs/hammer.js",
 
   ## Pistachio Compiler
   "libs/pistachio.js",

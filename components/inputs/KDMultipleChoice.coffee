@@ -39,7 +39,7 @@ class KDMultipleChoice extends KDInputView
 
     labelItems = ""
     for label in labels
-      activeClass = if label is defaultValue then ' active' else '' 
+      activeClass = if label is defaultValue then ' active' else ''
       clsName     = "multiple-choice-#{label}#{activeClass}"
       labelItems += "<a href='#' name='#{label}' class='#{clsName}' title='Select #{label}'>#{label}</a>"
 

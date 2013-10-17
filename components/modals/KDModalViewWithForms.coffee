@@ -4,6 +4,16 @@ class KDModalViewWithForms extends KDModalView
     super options,data
     @addSubView @modalTabs = new KDTabViewWithForms options.tabs
 
+  aggregateFormData:->
+    data = for own formName, form of @modalTabs.forms
+      name: formName
+      data: form.getData()
+    data.reduce (acc, form) ->
+      for own key, val of form.data
+        console.warn "Property #{key} will be overwitten!"  if key of acc
+        acc[key] = val
+      return acc
+    , {}
 
 # new KDModalViewWithForms
 #     title     : "with tabs and forms"

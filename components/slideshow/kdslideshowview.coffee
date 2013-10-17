@@ -4,7 +4,10 @@ class KDSlideShowView extends JView
 
   constructor:(options={}, data)->
 
-    options.cssClass = KD.utils.curry 'kd-slide', options.cssClass
+    options.cssClass      = KD.utils.curry 'kd-slide', options.cssClass
+    options.animation    ?= 'move'         # can be move or rotate
+    options.direction    ?= 'leftToRight'  # can be leftToRight or topToBottom
+    options.touchEnabled ?= yes
 
     super options, data
 
@@ -12,12 +15,30 @@ class KDSlideShowView extends JView
     @_coordsY  = []
     @_currentX = 0
 
-    hammer = Hammer @getElement()
+    {animation, direction, touchEnabled} = @getOptions()
 
-    hammer.on "swipeleft",  @bound 'nextPage'
-    hammer.on "swiperight", @bound 'previousPage'
-    hammer.on "swipeup",    @bound 'nextSubPage'
-    hammer.on "swipedown",  @bound 'previousSubPage'
+    topToBottom = [["#{animation}FromTop" , "#{animation}FromBottom"],
+                   ["#{animation}ToBottom", "#{animation}ToTop"]]
+    leftToRight = [["#{animation}FromLeft", "#{animation}FromRight"],
+                   ["#{animation}ToRight" , "#{animation}ToLeft"]]
+
+    if direction is 'topToBottom'
+      @xcoordAnimations = topToBottom
+      @ycoordAnimations = leftToRight
+      touchCallbacks    = ['nextSubPage', 'previousSubPage',
+                           'nextPage'   , 'previousPage']
+    else
+      @xcoordAnimations = leftToRight
+      @ycoordAnimations = topToBottom
+      touchCallbacks    = ['nextPage'   , 'previousPage',
+                           'nextSubPage', 'previousSubPage']
+
+    if touchEnabled
+      hammer = Hammer @getElement()
+      hammer.on "swipeleft",  @bound touchCallbacks[0]
+      hammer.on "swiperight", @bound touchCallbacks[1]
+      hammer.on "swipeup",    @bound touchCallbacks[2]
+      hammer.on "swipedown",  @bound touchCallbacks[3]
 
   addPage:(page)->
     @addSubView page
@@ -54,21 +75,20 @@ class KDSlideShowView extends JView
     index = Math.min pages.length - 1, Math.max 0, pageIndex
     return if current is index
 
-    direction = index < current
-    anim = (@getOption 'animation') or 'move'
+    direction = if index < current then 0 else 1
 
     if coord is X_COORD
       currentPage = pages[current][@_coordsY[current]]
       newPage     = pages[index][@_coordsY[index]]
       @_currentX  = index
-      newPage.move     if direction then "#{anim}FromLeft" else "#{anim}FromRight"
-      currentPage.move if direction then "#{anim}ToRight"  else "#{anim}ToLeft"
+      newPage.move     @xcoordAnimations[0][direction]
+      currentPage.move @xcoordAnimations[1][direction]
     else
       currentPage = pages[current]
       newPage     = pages[index]
       @_coordsY[@_currentX] = index
-      newPage.move     if direction then "#{anim}FromTop"  else "#{anim}FromBottom"
-      currentPage.move if direction then "#{anim}ToBottom" else "#{anim}ToTop"
+      newPage.move     @ycoordAnimations[0][direction]
+      currentPage.move @ycoordAnimations[1][direction]
 
     @emit 'CurrentPageChanged', x: @_currentX, y:@_coordsY[@_currentX]
 

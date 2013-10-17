@@ -131,6 +131,10 @@ module.exports = [
   "components/sliderbar/KDSliderBarView.coffee",
   "components/sliderbar/KDSliderBarHandleView.coffee",
 
+  # slideshow
+  "components/slideshow/kdslideshowview.coffee",
+  "components/slideshow/kdslidepageview.coffee",
+
   # dialog
   "components/dialog/KDDialogView.coffee",
 

@@ -35,7 +35,7 @@ class KDSlideShowView extends JView
   previousSubPage:->
     @jump @_coordsY[@_currentX] - 1, Y_COORD
 
-  jump:(pageIndex, coord)->
+  jump:(pageIndex, coord = 1)->
 
     if coord is X_COORD
     then [pages, current] = [@pages, @_currentX]

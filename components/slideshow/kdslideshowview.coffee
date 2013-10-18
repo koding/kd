@@ -40,6 +40,9 @@ class KDSlideShowView extends JView
       hammer.on "swipeup",    @bound touchCallbacks[2]
       hammer.on "swipedown",  @bound touchCallbacks[3]
 
+      # For touch enabled devices disable bounce scroll o_0
+      hammer.on "touchmove", (e)-> e.preventDefault()
+
   addPage:(page)->
     @addSubView page
 

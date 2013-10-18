@@ -63,7 +63,7 @@ class KDSlideShowView extends JView
   previousSubPage:->
     @jump @_coordsY[@_currentX] - 1, Y_COORD
 
-  jump:(pageIndex, coord = 1)->
+  jump:(pageIndex, coord = 1, callback = noop)->
 
     if coord is X_COORD
     then [pages, current] = [@pages, @_currentX]
@@ -93,4 +93,6 @@ class KDSlideShowView extends JView
     @emit 'CurrentPageChanged', x: @_currentX, y:@_coordsY[@_currentX]
 
     newPage.setClass 'current'
-    @utils.wait 600, -> currentPage.unsetClass 'current'
+    @utils.wait 600, ->
+      currentPage.unsetClass 'current'
+      callback()

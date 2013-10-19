@@ -536,7 +536,7 @@ class KDView extends KDObject
 
   bindEvents:($elm)->
     $elm or= @getDomElement()
-    defaultEvents = "mousedown mouseup click dblclick paste"
+    defaultEvents = "mousedown mouseup click dblclick"
     instanceEvents = @getOptions().bind
 
     eventsToBeBound = if instanceEvents

@@ -7,6 +7,7 @@ class KDModalView extends KDView
     options.width         ?= 400           # a Number for pixel value or a String e.g. "100px" or "20%"
     options.position     or= {}            # an Object holding top and left values
     options.title        or= null          # a String of text or HTML
+    options.subtitle     or= null          # a String of text or HTML
     options.content      or= null          # a String of text or HTML
     options.cssClass     or= ""            # a String
     options.buttons      or= null          # an Object of button options
@@ -25,6 +26,7 @@ class KDModalView extends KDView
     @putOverlay options.overlay                   if options.overlay
     @setClass "fx"                                if options.fx
     @setTitle options.title                       if options.title
+    @setSubtitle options.subtitle                 if options.subtitle
     @setContent options.content                   if options.content
     @addSubView options.view                      if options.view
 
@@ -71,7 +73,6 @@ class KDModalView extends KDView
         <div class='kdmodal-shadow'>
           <div class='kdmodal-inner'>
             #{helpButton}
-            <span class='close-icon closeModal' title='Close [ESC]'></span>
             <div class='kdmodal-title hidden'></div>
             <div class='kdmodal-content'></div>
           </div>
@@ -100,7 +101,6 @@ class KDModalView extends KDView
     button.destroy()  for own _key, button of @buttons
 
   click:(e)->
-    @destroy() if $(e.target).is(".closeModal")
     if $(e.target).is(".showHelp")
       {helpContent} = @getOptions()
       if helpContent
@@ -119,6 +119,10 @@ class KDModalView extends KDView
   setTitle:(title)->
     @$().find(".kdmodal-title").removeClass('hidden').html("<span class='title'>#{title}</span>")
     @modalTitle = title
+
+  setSubtitle:(subtitle)->
+    @$().find(".kdmodal-title").append("<span class='subtitle'>#{subtitle}</span>")
+    @modalSubtitle = subtitle
 
   setModalHeight:(value)->
     if value is "auto"

@@ -73,6 +73,7 @@ class KDModalView extends KDView
         <div class='kdmodal-shadow'>
           <div class='kdmodal-inner'>
             #{helpButton}
+            <span class='close-icon closeModal' title='Close [ESC]'></span>
             <div class='kdmodal-title hidden'></div>
             <div class='kdmodal-content'></div>
           </div>
@@ -101,6 +102,7 @@ class KDModalView extends KDView
     button.destroy()  for own _key, button of @buttons
 
   click:(e)->
+    @destroy() if $(e.target).is(".closeModal")
     if $(e.target).is(".showHelp")
       {helpContent} = @getOptions()
       if helpContent

@@ -154,6 +154,9 @@ module.exports = [
   # time
   "components/time/timeagoview.coffee",
 
+  # image
+  "components/image/KDWebcamView.coffee",
+
   # Framework Init Script
   "init.coffee",
 

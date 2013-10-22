@@ -160,7 +160,7 @@ class KDDiaScene extends JView
 
     @highlightLines()
 
-  allowedToConnect = (source, target)->
+  allowedToConnect: (source, target)->
 
     return no  unless source and target
     return no  if source.dia?.id is target.dia?.id
@@ -177,7 +177,7 @@ class KDDiaScene extends JView
     return yes
 
   connect:(source, target)->
-    return if not allowedToConnect source, target
+    return if not @allowedToConnect source, target
     log "Connecting #{source.dia.id} to #{target.dia.id}"
     @emit "ConnectionCreated", source, target
     @connections.push {source, target}

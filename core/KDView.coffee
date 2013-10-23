@@ -59,7 +59,7 @@ class KDView extends KDObject
       @utils.defer => @emit "viewAppended"
 
   @appendToDOMBody = (view) ->
-    console.warn "KDView.viewAppended is deprecated; use #viewAppended instead"
+    console.warn "KDView.appendToDOMBody is deprecated; use #appendToDomBody instead"
     view.appendToDomBody()
 
 # #

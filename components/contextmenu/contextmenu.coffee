@@ -8,17 +8,19 @@ class JContextMenu extends KDView
     options.offset.left   or= 0
     options.offset.top    or= 0
     options.arrow          ?= no
+    options.sticky         ?= no
 
     super options, data
 
     @topMargin  = 0
     @leftMargin = 0
+    @sticky     = no
 
     o = @getOptions()
 
     KD.getSingleton("windowController").addLayer @
 
-    @on 'ReceivedClickElsewhere', => @destroy()
+    @on 'ReceivedClickElsewhere', => @destroy() unless @sticky
 
     if data
       @treeController = new JContextMenuTreeViewController
@@ -34,7 +36,7 @@ class JContextMenu extends KDView
         lazyLoad          : o.lazyLoad ? no
       , data
       @addSubView @treeController.getView()
-      @treeController.getView().on 'ReceivedClickElsewhere', => @destroy()
+      @treeController.getView().on 'ReceivedClickElsewhere', => @destroy() unless @sticky
 
       @treeController.on "NodeExpanded", @bound "positionSubMenu"
 
@@ -42,6 +44,9 @@ class JContextMenu extends KDView
       @on "viewAppended", @bound "addArrow"
 
     @appendToDomBody()
+
+  setSticky:   -> @sticky = yes
+  unsetSticky: -> @sticky = no
 
   childAppended:->
 

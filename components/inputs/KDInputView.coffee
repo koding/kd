@@ -241,6 +241,9 @@ class KDInputView extends KDView
       @valid = no
     else
       @validationResults[rule] = null
+      @valid = not _.keys(@validationResults)
+                    .map((valid)-> not valid)
+                    .indexOf(false) > -1
 
   showValidationError:(message)->
 

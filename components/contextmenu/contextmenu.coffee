@@ -14,9 +14,9 @@ class JContextMenu extends KDView
 
     @topMargin  = 0
     @leftMargin = 0
-    @sticky     = no
 
     o = @getOptions()
+    @sticky = o.sticky
 
     KD.getSingleton("windowController").addLayer @
 
@@ -45,8 +45,7 @@ class JContextMenu extends KDView
 
     @appendToDomBody()
 
-  setSticky:   -> @sticky = yes
-  unsetSticky: -> @sticky = no
+  changeStickyState: (state)-> @sticky = state
 
   childAppended:->
 

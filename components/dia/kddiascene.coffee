@@ -178,7 +178,7 @@ class KDDiaScene extends JView
 
   connect:(source, target)->
     return if not @allowedToConnect source, target
-    log "Connecting #{source.dia.id} to #{target.dia.id}"
+    # log "Connecting #{source.dia.id} to #{target.dia.id}"
     @emit "ConnectionCreated", source, target
     @connections.push {source, target}
     @highlightLines target.dia

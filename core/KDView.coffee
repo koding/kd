@@ -36,6 +36,7 @@ class KDView extends KDObject
     mouseleave    : "mouseLeave"
     mousemove     : "mouseMove"
     mousewheel    : "mouseWheel"
+    wheel         : "mouseWheel"
     mouseover     : "mouseOver"
     contextmenu   : "contextMenu"
     dragstart     : "dragStart"

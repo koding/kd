@@ -25,6 +25,7 @@ class KDProgressBarView extends KDCustomHTMLView
     @bar.addSubView @lightLabel = new KDCustomHTMLView
       tagName     : "span"
       cssClass    : 'light-label'
+    @lightLabel.setWidth @getWidth(), "px"
 
   updateBar:(value, unit, label)->
     {determinate} = @getOptions()

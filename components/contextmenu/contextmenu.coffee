@@ -1,6 +1,6 @@
 class JContextMenu extends KDView
 
-  constructor:(options = {},data)->
+  constructor:(options = {}, data)->
 
     options.cssClass        = @utils.curry "jcontextmenu", options.cssClass
     options.menuWidth     or= 172

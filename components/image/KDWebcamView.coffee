@@ -57,14 +57,9 @@ class KDWebcamView extends JView
       @context = @picture.getElement().getContext "2d"
       @getUserMedia()
 
-    @on "error", (error)->
-      @setClass "forbidden"
-      new KDNotificationView
-        type    : "tiny"
-        title   : "Your browser doesn't allow to use camera."
+    @on "error", (error)-> @emit "forbidden"
 
-    @on "snap", =>
-      @video.setClass "invisible"
+    @on "snap", => @video.setClass "invisible"
 
     @on "countDownEnd", =>
       @button.hide()
@@ -123,6 +118,7 @@ class KDWebcamView extends JView
       @show()
       @button.show()
       @autoResize()
+      @emit "allowed"
 
   @setVideoStreamVendor: (video, stream)->
     if video.mozSrcObject isnt undefined

@@ -151,9 +151,9 @@ class KDView extends KDObject
 
     @addEventHandlers options
 
-    if options.pistachio
-      @setTemplate options.pistachio, options.pistachioParams
-      @template.update()
+    # if options.pistachio
+    #   @setTemplate options.pistachio, options.pistachioParams
+    #   @template.update()
 
     @setLazyLoader options.lazyLoadThreshold  if options.lazyLoadThreshold
 
@@ -473,11 +473,12 @@ class KDView extends KDObject
   setTemplate:(tmpl, params)->
     params ?= @getOptions()?.pistachioParams
     options = if params? then {params}
-    @template = new Pistachio @, tmpl, options
+    @template = new Pistachio this, tmpl, options
     @updatePartial @template.html
     @template.embedSubViews()
 
-  pistachio:(tmpl)-> "#{@options.prefix}#{tmpl}#{@options.suffix}"
+  pistachio: (tmpl) ->
+    "#{@options.prefix}#{tmpl}#{@options.suffix}"  if tmpl
 
   setParent:(parent)->
     if @parent? then error 'View already has a parent', this, @parent

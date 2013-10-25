@@ -151,6 +151,10 @@ class KDView extends KDObject
 
     @addEventHandlers options
 
+    # TODO: I commented this out because it was firing before viewAppended
+    #       I implemented the equivalent feature in JView, and I'm hoping
+    #       sometime soon we can merge JView into KDView.  C.T.
+    #
     # if options.pistachio
     #   @setTemplate options.pistachio, options.pistachioParams
     #   @template.update()

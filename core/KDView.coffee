@@ -814,6 +814,10 @@ class KDView extends KDObject
 # #
 
   viewAppended:->
+    { pistachio } = @getOptions()
+    if pistachio and not @template?
+      @setTemplate pistachio
+      @template.update()
 
   childAppended:(child)->
     # bubbling childAppended event

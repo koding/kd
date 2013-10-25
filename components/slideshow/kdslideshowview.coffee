@@ -46,7 +46,9 @@ class KDSlideShowView extends JView
   addPage:(page)->
     @addSubView page
 
-    if @pages.length is 0 then page.setClass 'current'
+    if @pages.length is 0
+      page.setClass 'current'
+      @currentPage = page
 
     @pages.push [page]
     @_coordsY.push 0
@@ -94,8 +96,9 @@ class KDSlideShowView extends JView
       currentPage.move @ycoordAnimations[1][direction]
 
     @emit 'CurrentPageChanged', x: @_currentX, y:@_coordsY[@_currentX]
-
     newPage.setClass 'current'
+    @currentPage = newPage
+
     @utils.wait 600, ->
       currentPage.unsetClass 'current'
       callback()

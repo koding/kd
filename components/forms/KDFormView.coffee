@@ -83,7 +83,7 @@ class KDFormView extends KDView
 
   getCallback:-> @formCallback
 
-  reset:-> @$()[0].reset()
+  reset:-> @getElement().reset()
 
   submit:(event)->
 

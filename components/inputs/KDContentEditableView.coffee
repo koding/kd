@@ -122,6 +122,6 @@ class KDContentEditableView extends KDView
       message = notice.getOptions().title
       delete @validationNotifications[message]
 
-  render: ->
+  viewAppended: ->
     super
     @unsetPlaceholder() if not @editingMode and @getValue().length is 0

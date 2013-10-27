@@ -16,6 +16,7 @@ class KDModalView extends KDView
     options.draggable    or= handle : ".kdmodal-title"
     # TO BE IMPLEMENTED
     options.resizable     ?= no            # a Boolean
+    options.appendToDomBody ?= yes
 
     options.helpContent  or= null
     options.helpTitle    or= "Need help?"
@@ -35,7 +36,7 @@ class KDModalView extends KDView
     @on "viewAppended", =>
       @utils.wait 500, => @unsetClass "initial"
 
-    @appendToDomBody()
+    @appendToDomBody()  if @getOptions().appendToDomBody
 
     @setModalWidth  options.width
     @setModalHeight options.height                if options.height

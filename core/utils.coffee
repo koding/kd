@@ -125,6 +125,14 @@ __utils =
         then hljs.highlight(lang,text).value
         else text
 
+  createExternalLink: (href) ->
+    tag = document.createElement "a"
+    tag.href = if href.indexOf("http") > -1 then href else "http://#{href}"
+    tag.target = "_blank"
+    document.body.appendChild tag
+    tag.click()
+    document.body.removeChild tag
+
   wait: (duration, fn)->
     if "function" is typeof duration
       fn = duration

@@ -9,6 +9,17 @@ class KDBlockingModalView extends KDModalView
     @$overlay.hide()
     @$overlay.appendTo "body"
     @$overlay.fadeIn 200
+    @$overlay.bind "click", => @doBlockingAnimation()
+
+  doBlockingAnimation:->
+    @unsetClass "blocking-animation"
+    @setClass   "blocking-animation"
+
+    @$overlay.off "click"
+
+    KD.utils.wait 500, =>
+      @unsetClass "blocking-animation"
+      @$overlay.bind "click", => @doBlockingAnimation()
 
   setDomElement:(cssClass)->
     @domElement = $ """

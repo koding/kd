@@ -268,3 +268,31 @@
 .kddialog-buttons
   .modal-clean-gray
     margin              10px 10px 0 0
+
+.kdmodal.blocking-animation
+  vendor                animation, blockingAnimation .5s 1 ease
+
+
+@-webkit-keyframes blockingAnimation
+  0%
+    -webkit-transform scale(1)
+  60%
+    -webkit-transform scale(0.8)
+  80%
+    -webkit-transform scale(1.1)
+  90%
+    -webkit-transform scale(0.95)
+  100%
+    -webkit-transform scale(1)
+
+@-moz-keyframes blockingAnimation
+  0%
+    -moz-transform scale(1)
+  60%
+    -moz-transform scale(0.8)
+  80%
+    -moz-transform scale(1.1)
+  90%
+    -moz-transform scale(0.95)
+  100%
+    -moz-transform scale(1)

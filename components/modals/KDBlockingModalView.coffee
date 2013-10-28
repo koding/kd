@@ -17,7 +17,7 @@ class KDBlockingModalView extends KDModalView
 
     @$overlay.off "click"
 
-    KD.utils.wait 500, =>
+    KD.utils.wait 200, =>
       @unsetClass "blocking-animation"
       @$overlay.bind "click", => @doBlockingAnimation()
 

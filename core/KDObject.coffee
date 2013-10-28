@@ -34,7 +34,7 @@ class KDObject extends KDEventEmitter
     target.on eventName, @lazyBound 'emit', prefix + eventName
 
   forwardEvents: (target, eventNames, prefix="") ->
-    @forwardEvent eventName, eventName, prefix  for eventName in eventNames
+    @forwardEvent target, eventName, prefix  for eventName in eventNames
 
   ready:(listener)->
     if @readyState is READY then @utils.defer listener

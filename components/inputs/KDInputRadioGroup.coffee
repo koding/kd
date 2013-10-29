@@ -79,17 +79,3 @@ class KDInputRadioGroup extends KDInputView
 
   getInputElements:->
     @getDomElement().find('input')
-
-class KDRadioGroup extends KDInputRadioGroup
-
-  constructor:(options={}, data)->
-
-    options.hideRadios = yes
-    options.showIcons  = yes
-
-    super options, data
-
-  setValue:(value, isDefault)->
-    super
-    @$().trigger "change" unless isDefault
-

@@ -151,7 +151,7 @@ class KDWebcamView extends JView
     flash  = new KDView
       cssClass: "kdwebcamview-flash"
 
-    KDView.appendToDOMBody flash
+    flash.appendToDomBody()
     KD.utils.defer ->
       flash.setClass "flashed"
       KD.utils.wait 500, -> flash.destroy()

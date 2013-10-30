@@ -52,6 +52,7 @@ class KDInputRadioGroup extends KDInputView
 
   click:(event)->
     input = $(event.target).closest(".kd-#{@getType()}-holder").find('input')
+    return if input.length < 1
     return no if input[0].getAttribute('disabled') is 'disabled'
     @setValue input[0].getAttribute "value"
 

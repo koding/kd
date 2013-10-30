@@ -108,7 +108,8 @@ class KDFormView extends KDView
 
     # put to be validated inputs in a queue
     inputs.forEach (input)->
-      if input.getOptions().validate
+      inputOptions = input.getOptions()
+      if inputOptions.validate or inputOptions.required
         toBeValidatedInputs.push input
       else
         # put regular input values to formdata

@@ -1,4 +1,5 @@
 class KDInputRadioGroup extends KDInputView
+
   constructor:(options)->
 
     options.type           or= 'radio'
@@ -7,6 +8,8 @@ class KDInputRadioGroup extends KDInputView
     options.cssClassPrefix or= ''
 
     super options
+
+    @_currentValue = @getOption 'defaultValue'
 
   setDomElement:->
     options = @getOptions()
@@ -49,6 +52,7 @@ class KDInputRadioGroup extends KDInputView
 
   click:(event)->
     input = $(event.target).closest(".kd-#{@getType()}-holder").find('input')
+    return if input.length < 1
     return no if input[0].getAttribute('disabled') is 'disabled'
     @setValue input[0].getAttribute "value"
 
@@ -60,24 +64,19 @@ class KDInputRadioGroup extends KDInputView
 
   setValue:(value, isDefault=no)->
     @$("input").attr "checked", no
-    @$("input[value='#{value}']").attr "checked", "checked"
-    @$("input[value='#{value}']").prop "checked", yes
+
+    inputElement = @$("input[value='#{value}']")
+    inputElement.attr "checked", "checked"
+    inputElement.prop "checked", yes
+
+    # Not sure about following ~ GG
+    if value? and value isnt @_currentValue and not isDefault
+      @emit "change", value
+
+    @_currentValue = value
+
     @$(".kd-radio-holder").removeClass 'active'
     @$(".kd-radio-holder.#{value}").addClass 'active'  if value? and value isnt ""
 
   getInputElements:->
     @getDomElement().find('input')
-
-class KDRadioGroup extends KDInputRadioGroup
-
-  constructor:(options={}, data)->
-
-    options.hideRadios = yes
-    options.showIcons  = yes
-
-    super options, data
-
-  setValue:(value, isDefault)->
-    super
-    @$().trigger "change" unless isDefault
-

@@ -43,7 +43,16 @@ class KDInputView extends KDView
     @enableTabKey() if options.enableTabKey
     @setCase options.forceCase if options.forceCase
 
+    if options.required
+      do (v = options.validate ?= {}) ->
+        v.rules ?= {}
+        v.messages ?= {}
+        v.rules.required = yes
+        v.messages.required = options.required
+
     @setValidation options.validate  if options.validate
+
+
     @bindValidationEvents()
 
     if options.type is "select" and options.selectOptions

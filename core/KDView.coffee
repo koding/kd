@@ -127,6 +127,7 @@ class KDView extends KDObject
     # development only
     if location.hostname is "localhost"
       @on "click", (event)=>
+        return unless event
         if event.metaKey and event.altKey and event.ctrlKey
           log @getData()
           event.stopPropagation?()

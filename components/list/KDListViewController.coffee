@@ -41,13 +41,15 @@ class KDListViewController extends KDViewController
 
     super options, data
 
+    {noItemFoundWidget} = @getOptions()
+
     listView.on 'ItemWasAdded', (view, index)=>
       @registerItem view, index
-      @hideNoItemWidget() if options.noItemFoundWidget
+      @hideNoItemWidget()  if noItemFoundWidget
 
     listView.on 'ItemIsBeingDestroyed', (itemInfo)=>
       @unregisterItem itemInfo
-      @showNoItemWidget() if options.noItemFoundWidget
+      @showNoItemWidget()  if noItemFoundWidget
 
     if options.keyNav
       listView.on 'KeyDownOnList', (event)=> @keyDownPerformed listView, event
@@ -107,7 +109,7 @@ class KDListViewController extends KDViewController
   # regressed, will put back whenever i'm here again. - SY
   showNoMoreItemWidget:->
     {noMoreItemFoundWidget} = @getOptions()
-    @scrollView.addSubView noMoreItemFoundWidget if noMoreItemFoundWidget
+    @scrollView.addSubView noMoreItemFoundWidget  if noMoreItemFoundWidget
 
 
   ###

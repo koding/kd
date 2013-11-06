@@ -107,7 +107,7 @@ class KDWindowController extends KDController
 
       if isInternalLink
         href   = e.target.getAttribute "href"
-        isHttp = href.indexOf("http") is 0
+        isHttp = href?.indexOf("http") is 0
         if isHttp
           e.target.target = "_blank"
         else

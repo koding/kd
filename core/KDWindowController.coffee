@@ -106,7 +106,7 @@ class KDWindowController extends KDController
                        e.target.target?.length is 0                           # targeted links should work as normal.
 
       if isInternalLink
-        href   = e.target.href
+        href   = e.target.getAttribute "href"
         isHttp = href.indexOf("http") is 0
         if isHttp
           e.target.target = "_blank"

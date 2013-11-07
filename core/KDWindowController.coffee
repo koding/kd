@@ -104,12 +104,16 @@ class KDWindowController extends KDController
     addListener 'click', (e)->
       isInternalLink = e.target?.nodeName.toLowerCase() is 'a' and\           # html nodenames are uppercase, so lowercase this.
                        e.target.target?.length is 0                           # targeted links should work as normal.
-                       # e.target.target isnt '_blank'                        # target _blank links should work as normal.
+
       if isInternalLink
-        e.preventDefault()
-        href = $(e.target).attr 'href'
-        if href and not /^#/.test href
-          KD.getSingleton('router').handleRoute href
+        href   = e.target.getAttribute "href"
+        isHttp = href?.indexOf("http") is 0
+        if isHttp
+          e.target.target = "_blank"
+        else
+          e.preventDefault()
+          if href and not /^#/.test href
+            KD.getSingleton("router").handleRoute href
 
     unless location.hostname is 'localhost'
       window.addEventListener 'beforeunload', @bound "beforeUnload"

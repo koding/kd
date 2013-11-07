@@ -275,6 +275,12 @@ class KDTabView extends KDScrollView
     handle = @getHandleByIndex index
     handle.getDomElement().addClass "hide-close-icon"
 
+  getVisibleHandles: ->
+    return @handles.filter (handle) -> handle.isHidden() is no
+
+  getVisibleTabs: ->
+    return @panes.filter (pane) -> pane.tabHandle.isHidden() is no
+
   resizeTabHandles: KD.utils.throttle ->
     return if not @getOptions().resizeTabHandles or @_tabHandleContainerHidden or @blockTabHandleResize
 

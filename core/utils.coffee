@@ -12,8 +12,18 @@ __utils =
       if @[key] then throw new Error "#{key} is already registered"
       else @[key] = val
 
-  formatPlural:(count, noun)->
-    "#{count or 0} #{if count is 1 then noun else Inflector.pluralize noun}"
+  formatPlural:(count, noun, showCount = yes)->
+    """
+    #{
+      if showCount
+      then "#{count} " or 0
+      else ''
+    }#{
+      if count is 1
+      then noun
+      else Inflector.pluralize noun
+    }
+    """
 
   selectText:(element, selectionStart, selectionEnd)->
     doc   = document
@@ -355,6 +365,10 @@ __utils =
 
     return "#{minus}#{bytes.toFixed 2} #{units[unitIndex]}"
 
+  splitTrim: (str, delim = ',', filterEmpty = yes) ->
+    arr = (str?.split(delim).map (part) -> do part.trim) ? []
+    arr = arr.filter Boolean  if filterEmpty
+    return arr
 ###
 //     Underscore.js 1.3.1
 //     (c) 2009-2012 Jeremy Ashkenas, DocumentCloud Inc.

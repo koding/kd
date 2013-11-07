@@ -12,8 +12,18 @@ __utils =
       if @[key] then throw new Error "#{key} is already registered"
       else @[key] = val
 
-  formatPlural:(count, noun)->
-    "#{count or 0} #{if count is 1 then noun else Inflector.pluralize noun}"
+  formatPlural:(count, noun, showCount = yes)->
+    """
+    #{
+      if showCount
+      then "#{count} " or 0
+      else ''
+    }#{
+      if count is 1
+      then noun
+      else Inflector.pluralize noun
+    }
+    """
 
   selectText:(element, selectionStart, selectionEnd)->
     doc   = document

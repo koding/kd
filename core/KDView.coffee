@@ -627,6 +627,8 @@ class KDView extends KDObject
 
   mouseOver:(event)->  yes
 
+  mouseWheel:(event)-> yes
+
   mouseDown:(event)->
     (KD.getSingleton "windowController").setKeyView null
     yes

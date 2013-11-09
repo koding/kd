@@ -1,10 +1,12 @@
 class KDViewController extends KDController
 
-  constructor:->
+  constructor:(options = {}, data)->
 
-    super
+    options.view or= new KDView
 
-    @setView @getOptions().view if @getOptions().view?
+    super options, data
+
+    @setView @getOptions().view  if @getOptions().view
 
   loadView:(mainView)->
 

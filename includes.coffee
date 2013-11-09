@@ -161,7 +161,7 @@ module.exports = [
   "init.coffee",
 
   # --- Styles ---
-  "themes/default/style.css",
+  "themes/normalize.css",
 
   # Style functions ---
   "themes/default/kdfn.styl",
@@ -182,4 +182,6 @@ module.exports = [
   "themes/default/kd.dia.styl",
   "themes/default/kd.slide.styl"
 
+  # helpers should be the last one
+  "themes/helpers.css",
 ]

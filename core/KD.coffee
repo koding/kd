@@ -176,6 +176,8 @@ catch e
 
   getNavItems        : -> @navItems.sort (a, b)-> a.order - b.order
 
+  setNavItems        : (navItems)-> @navItems = navItems.sort (a, b)-> a.order - b.order
+
   unregisterAppClass :(name)-> delete KD.appClasses[name]
 
   getAppClass        :(name)-> KD.appClasses[name]?.fn or null

@@ -8,9 +8,8 @@ __utils =
   idCounter : 0
 
   extend:(obj)->
-    for key, val of obj
-      if @[key] then throw new Error "#{key} is already registered"
-      else @[key] = val
+    @[key] = val  for key, val of obj
+    return obj
 
   formatPlural:(count, noun, showCount = yes)->
     """

@@ -282,6 +282,8 @@ class KDView extends KDObject
   updatePartial: (partial, selector) ->
     @$(selector).html partial
 
+  clear:-> @getElement().innerHTML = ''
+
   # UPDATE PARTIAL EXPERIMENT TO NOT TO ORPHAN SUBVIEWS
 
   # updatePartial: (partial, selector) ->

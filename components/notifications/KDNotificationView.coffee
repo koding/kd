@@ -11,7 +11,7 @@ class KDNotificationView extends KDView
     @notificationSetFollowUps   options.followUps     if options.followUps?
     @notificationShowTimer()                          if options.showTimer?
     @notificationSetCloseHandle options.closeManually
-    
+
     @once "viewAppended",       @bound "setLoader"    if options.loader
 
     @notificationDisplay()
@@ -137,7 +137,7 @@ class KDNotificationView extends KDView
 
     followUps = [followUps]  unless Array.isArray followUps
     chainDuration = 0
-    
+
     followUps.forEach (followUp)=>
 
       chainDuration += followUp.duration ? 10000
@@ -178,12 +178,13 @@ class KDNotificationView extends KDView
     @setClass "w-loader"
     {loader} = @getOptions()
 
-    loader.diameter or= switch @notificationType
-      when "tray"   then 25
-      when "growl"  then 30
-      when "mini"   then 18
-      when "sticky" then 25
-      else               30
+    diameters =
+      tray    : 25
+      growl   : 30
+      mini    : 18
+      sticky  : 25
+
+    loader.diameter = diameters[@notificationType] or 30
 
     @loader = new KDLoaderView
       size          :
@@ -198,13 +199,14 @@ class KDNotificationView extends KDView
         FPS         : loader.FPS       ? 24
 
     @addSubView @loader, null, yes
-    @$().css
-      paddingLeft : loader.diameter*2
-    @loader.$().css
+
+    @setCss "paddingLeft", loader.diameter * 2
+    @loader.setStyle
       position    : "absolute"
       left        : loader.left or Math.floor loader.diameter / 2
       top         : loader.top  or "50%"
       marginTop   : -(loader.diameter/2)
+
     @loader.show()
 
   showLoader:->

@@ -7,9 +7,11 @@ __utils =
 
   idCounter : 0
 
-  extend:(obj)->
-    @[key] = val  for key, val of obj
-    return obj
+  extend:(target, sources...)->
+    for source in sources
+      target[key] = val  for key, val of source
+
+    return target
 
   formatPlural:(count, noun, showCount = yes)->
     """

@@ -18,8 +18,8 @@ class KDDelimitedInputView extends KDInputView
     then ' '
     else ''
 
-  split: (value) ->
-    @utils.splitTrim value, @getOptions().delimiter
+  split: (value, options = @getOptions()) ->
+    @utils.splitTrim value, options.delimiter
 
   join: (value, options = @getOptions()) ->
     value.join "#{ options.delimiter }#{ @getPadding options }"

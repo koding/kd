@@ -722,14 +722,25 @@ class KDView extends KDObject
       if options.containment
         dragState.containment = {}
         {view} = options.containment
-        if 'string' is typeof view
-          dragState.containment.viewBounds = @[view].getBounds()
-        dragState.containment.viewBounds or= @parent.getBounds()
-        if 'number' is typeof options.containment.padding
-        then padding = options.containment.padding
-        else padding = 0
-        dragState.containment.padding = \
-            top: padding, right: padding, bottom: padding, left: padding
+
+        bounds = if 'string' is typeof view
+        then @[view].getBounds()
+        else if view instanceof KDView
+        then view.getBounds()
+        else @parent.getBounds()
+
+        dragState.containment.viewBounds = bounds
+
+        padding = top : 0, right : 0, bottom : 0, left : 0
+
+        oPad = options.containment.padding
+        if 'number' is typeof oPad
+        then v = oPad for own p, v of padding
+        else if 'object' is typeof oPad
+        then KD.utils.extend padding, oPad
+
+        dragState.containment.padding = padding
+
 
       # TODO: should move these lines
       dragState.handle      = options.handle

@@ -161,7 +161,8 @@ module.exports = [
   "init.coffee",
 
   # --- Styles ---
-  "themes/normalize.css",
+  "themes/reset.css",
+  # "themes/normalize.css",
 
   # Style functions ---
   "themes/default/kdfn.styl",

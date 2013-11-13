@@ -340,7 +340,8 @@ class KDListViewController extends KDViewController
 
     @hideNoItemWidget() if @noItemView and @getOptions().noItemFoundWidget
     unless @lazyLoader
-      @scrollView.addSubView @lazyLoader = new KDCustomHTMLView cssClass : "lazy-loader", partial : "Loading..."
+      wrapper = @scrollView or @getView()
+      wrapper.addSubView @lazyLoader = new KDCustomHTMLView cssClass : "lazy-loader", partial : "Loading..."
       @lazyLoader.addSubView @lazyLoader.spinner = new KDLoaderView
         size          :
           width       : 16

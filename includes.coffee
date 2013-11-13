@@ -88,6 +88,7 @@ module.exports = [
   "components/inputs/KDInputValidator.coffee",
   "components/inputs/KDLabelView.coffee",
   "components/inputs/KDInputView.coffee",
+  "components/inputs/KDDelimitedInputView.coffee",
   "components/inputs/KDInputViewWithPreview.coffee",
   "components/inputs/KDHitEnterInputView.coffee",
   "components/inputs/KDInputRadioGroup.coffee",

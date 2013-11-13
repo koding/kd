@@ -7,10 +7,11 @@ __utils =
 
   idCounter : 0
 
-  extend:(obj)->
-    for key, val of obj
-      if @[key] then throw new Error "#{key} is already registered"
-      else @[key] = val
+  extend:(target, sources...)->
+    for source in sources
+      target[key] = val  for key, val of source
+
+    return target
 
   formatPlural:(count, noun, showCount = yes)->
     """

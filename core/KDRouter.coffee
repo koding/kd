@@ -152,7 +152,7 @@ class KDRouter extends KDObject
     unless suppressListeners
       listeners = node[listenerKey]
       if listeners?.length
-        listener.call @, routeInfo, state, path  for listener in listeners
+        listener.call this, routeInfo, state, path  for listener in listeners
 
     return this
 

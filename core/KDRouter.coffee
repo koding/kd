@@ -66,9 +66,8 @@ class KDRouter extends KDObject
   handleNotFound:(route)->
     delete @userRoute
     @clear()
-    if location.hostname is "koding.com"
-      log "The route #{route} was not found!"
-      new KDNotificationView title: "404 Not found! #{route}"
+    log "The route #{route} was not found!"
+    new KDNotificationView title: "404 Not found! #{route}"
 
   routeWithoutEdgeAtIndex =(route, i)->
     "/#{route.slice(0, i).concat(route.slice i + 1).join '/'}"

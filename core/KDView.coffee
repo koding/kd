@@ -301,7 +301,7 @@ class KDView extends KDObject
 # CSS METHODS
 # #
 
-  _helpSetClass = (el, addOrRemove, cssClass)->
+  @setElementClass = (el, addOrRemove, cssClass)->
     el.classList[addOrRemove] cl for cl in cssClass.split(' ') when cl isnt ''
 
   setCss:(property, value)->
@@ -313,13 +313,15 @@ class KDView extends KDObject
     @$().css property, value for own property, value of properties
 
   setClass:(cssClass)->
+
     return unless cssClass
-    _helpSetClass @getElement(), "add", cssClass
+    KDView.setElementClass @getElement(), "add", cssClass
     return this
 
   unsetClass:(cssClass)->
+
     return unless cssClass
-    _helpSetClass @getElement(), "remove", cssClass
+    KDView.setElementClass @getElement(), "remove", cssClass
     return this
 
   toggleClass:(cssClass)->

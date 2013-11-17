@@ -305,13 +305,12 @@ class KDView extends KDObject
     el.classList[addOrRemove] cl for cl in cssClass.split(' ') when cl isnt ''
 
   setCss:(property, value)->
-    el = @$()
-    el.css property, value
+
+    @$().css property, value
 
   setStyle:(properties)->
-    el = @$()
-    for own property, value of properties
-      el.css property, value
+
+    @$().css property, value for own property, value of properties
 
   setClass:(cssClass)->
     return unless cssClass

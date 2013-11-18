@@ -225,5 +225,4 @@ catch e
 
 KD.enableLogs() if not KD.config?.suppressLogs
 
-KD.config.allowedApps = ['account', 'terminal']
 prettyPrint = noop

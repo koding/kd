@@ -71,13 +71,11 @@ class KDModalView extends KDView
 
     @domElement = $ """
       <div class='kdmodal #{cssClass}'>
-        <div class='kdmodal-shadow'>
-          <div class='kdmodal-inner'>
-            #{helpButton}
-            <span class='close-icon closeModal' title='Close [ESC]'></span>
-            <div class='kdmodal-title hidden'></div>
-            <div class='kdmodal-content'></div>
-          </div>
+        <div class='kdmodal-inner'>
+          #{helpButton}
+          <span class='close-icon closeModal' title='Close [ESC]'></span>
+          <div class='kdmodal-title hidden'></div>
+          <div class='kdmodal-content'></div>
         </div>
       </div>
     """

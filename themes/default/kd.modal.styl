@@ -12,36 +12,30 @@
 
 .kdmodal
   abs()
-  rounded                 5px
   z-index                 10001
   opacity                 0.0001
   top                     -1000%
   left                    -1000%
-  padding                 7px 7px 7px 7px
-  bg                      color,rgba(0,0,0,.2)
-  border                  1px solid rgba(255,255,255,.3)
+  rounded                 6px
   vendor                  transition, top .15s ease-in-out\, left .15s ease-in-out
 
   &.initial
     vendor                transition, none
 
-  .kdmodal-shadow
-    shadow                0 0 45px 15px rgba(0,0,0,.4)
-
   .kdmodal-inner
-    rounded               3px
+    rounded               6px
     height                auto
-    bg                    color,white
+    bg                    color,#fff
 
     .kdmodal-title
       margin              0
       padding             0
       cursor              move
       line-height         22px
-      color               #343434
-      rounded             3px 3px 0 0
-      bg                  color, rgba(0,0,0,.05)
-      border-bottom       1px solid rgba(0,0,0,.1)
+      color               #485259
+      rounded             6px 6px 0 0
+      bg                  color, #f8f8f9
+      border-bottom       1px solid #ededed
       padding             20px 0 20px 20px
       borderBox()
 
@@ -55,8 +49,8 @@
       span.subtitle
         font-size         14px
         display           block
-        color             #535353
-        font-weight       100
+        color             #91979b
+        font-weight       200
 
     .kdmodal-content
       rel()

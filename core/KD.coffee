@@ -144,24 +144,27 @@ catch e
 
     options.route        or= {}           # <string> or <Object{slug: string, handler: function}>
 
-    slug                   = if "string" is typeof options.route then options.route else options.route.slug
-    options.route          =
-      slug                 : slug or '/'
-      handler              : options.route.handler or null
+    registerRoute = (route)=>
+      slug        = if "string" is typeof route then route else route.slug
+      route       =
+        slug      : slug or '/'
+        handler   : route.handler or null
 
-    if options.route.slug isnt '/'
+      if route.slug isnt '/'
 
-      {route}         = options
-      {slug, handler} = route
+        {slug, handler} = route
 
-      cb = (router)->
-        handler or= ({params:{name}, query})->
-          router.openSection options.name, name, query
-        router.addRoute slug, handler
+        cb = (router)->
+          handler or= ({params:{name}, query})->
+            router.openSection options.name, name, query
+          router.addRoute slug, handler
 
-      if KD.singletons.router
-      then @utils.defer -> cb KD.getSingleton('router')
-      else KodingRouter.on 'RouterReady', cb
+        if KD.singletons.router
+        then @utils.defer -> cb KD.getSingleton('router')
+        else KodingRouter.on 'RouterReady', cb
+
+    options.route = [options.route]  unless Array.isArray options.route
+    registerRoute route for route in options.route
 
     if options.navItem?.order
       @registerNavItem options.navItem

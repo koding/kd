@@ -13,7 +13,7 @@ class KDModalView extends KDView
     options.buttons      or= null          # an Object of button options
     options.fx            ?= no            # a Boolean
     options.view         or= null          # a KDView instance
-    options.draggable    or= handle : ".kdmodal-title"
+    options.draggable     ?= handle : ".kdmodal-title"
     # TO BE IMPLEMENTED
     options.resizable     ?= no            # a Boolean
     options.appendToDomBody ?= yes

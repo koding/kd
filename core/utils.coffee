@@ -370,6 +370,13 @@ __utils =
     arr = (str?.split(delim).map (part) -> do part.trim) ? []
     arr = arr.filter Boolean  if filterEmpty
     return arr
+
+  objectToArray: (options)->
+    for key, option of options
+      option.title ?= key
+      option.key    = key
+      option
+
 ###
 //     Underscore.js 1.3.1
 //     (c) 2009-2012 Jeremy Ashkenas, DocumentCloud Inc.

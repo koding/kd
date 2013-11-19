@@ -1,10 +1,5 @@
 class KDTabViewWithForms extends KDTabView
 
-  sanitizeOptions = (options)->
-    for own key, option of options
-      option.title = key
-      option
-
   constructor:(options = {}, data)->
 
     options.navigable            ?= yes
@@ -18,7 +13,7 @@ class KDTabViewWithForms extends KDTabView
     {forms} = @getOptions()
 
     if forms
-      @createTabs forms = sanitizeOptions forms
+      @createTabs forms = @utils.objectToArray forms
       @showPane @panes[0]
 
     if forms.length is 1

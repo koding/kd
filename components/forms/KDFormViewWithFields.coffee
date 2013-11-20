@@ -11,8 +11,9 @@ class KDFormViewWithFields extends KDFormView
 
     {fields,buttons} = @getOptions()
 
-    @createFields   @utils.objectToArray fields   if fields
-    @createButtons  @utils.objectToArray buttons  if buttons
+    @createFields @utils.objectToArray fields  if fields
+    
+    @createButtons buttons  if buttons
 
     { @buttons } = @buttonField
 

@@ -8,7 +8,7 @@ class KDButtonBar extends KDView
 
     { buttons } = options
 
-    for buttonOptions in @utils.objectToArray buttons 
+    for buttonOptions in @utils.objectToArray buttons
       button = @createButton buttonOptions
       @addSubView button
       @buttons[buttonOptions.key] = button

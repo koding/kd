@@ -75,6 +75,7 @@ catch e
   utils           : __utils
   appClasses      : {}
   appScripts      : {}
+  appLabels       : {}
   lastFuncCall    : null
   navItems        : []
   instancesToBeTested: {}
@@ -141,7 +142,7 @@ catch e
     options.thirdParty    ?= no           # a Boolean
     options.menu         or= null         # <Array<Object{title: string, eventName: string, shortcut: string}>>
     options.navItem      or= {}           # <Object{title: string, eventName: string, shortcut: string}>
-
+    options.labels       or= []
     options.route        or= {}           # <string> or <Object{slug: string, handler: function}>
 
     registerRoute = (route)=>
@@ -175,23 +176,33 @@ catch e
       writable      : no
       value         : { fn, options }
 
+    if options.labels.length > 0
+      @setAppLabels options.name, options.labels
+
+  setAppLabels       : (name, labels)-> @appLabels[name] = labels
+
+  getAppName         : (name)->
+    for own app, labels of @appLabels
+      return app  if name in labels or name is app
+    return name
+
   registerNavItem    : (itemData)-> @navItems.push itemData
 
   getNavItems        : -> @navItems.sort (a, b)-> a.order - b.order
 
   setNavItems        : (navItems)-> @navItems = navItems.sort (a, b)-> a.order - b.order
 
-  unregisterAppClass :(name)-> delete KD.appClasses[name]
+  unregisterAppClass :(name)-> delete KD.appClasses[@getAppName name]
 
-  getAppClass        :(name)-> KD.appClasses[name]?.fn or null
+  getAppClass        :(name)-> KD.appClasses[@getAppName name]?.fn or null
 
-  getAppOptions      :(name)-> KD.appClasses[name]?.options or null
+  getAppOptions      :(name)-> KD.appClasses[@getAppName name]?.options or null
 
-  getAppScript       :(name)-> @appScripts[name] or null
+  getAppScript       :(name)-> @appScripts[@getAppName name] or null
 
-  registerAppScript  :(name, script)-> @appScripts[name] = script
+  registerAppScript  :(name, script)-> @appScripts[@getAppName name] = script
 
-  unregisterAppScript:(name)-> delete @appScripts[name]
+  unregisterAppScript:(name)-> delete @appScripts[@getAppName name]
 
   resetAppScripts    :-> @appScripts = {}
 

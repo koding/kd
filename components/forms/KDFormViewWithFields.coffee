@@ -1,11 +1,5 @@
 class KDFormViewWithFields extends KDFormView
 
-  sanitizeOptions = (options)->
-    for key,option of options
-      option.title or= key
-      option.key     = key
-      option
-
   constructor:->
 
     super
@@ -14,21 +8,19 @@ class KDFormViewWithFields extends KDFormView
 
     @inputs  = {}
     @fields  = {}
-    @buttons = {}
 
     {fields,buttons} = @getOptions()
 
-    @createFields sanitizeOptions  fields  if fields
-    @createButtons sanitizeOptions buttons if buttons
+    @createFields   @utils.objectToArray fields   if fields
+    @createButtons  @utils.objectToArray buttons  if buttons
+
+    { @buttons } = @buttonField
 
   createFields:(fields)->
     @addSubView @createField fieldData for fieldData in fields
 
   createButtons:(buttons)->
-    @addSubView @buttonField = new KDView cssClass : "formline button-field clearfix"
-    buttons.forEach (buttonOptions)=>
-      @buttonField.addSubView button = @createButton buttonOptions
-      @buttons[buttonOptions.key] = button
+    @addSubView @buttonField = new KDButtonBar { buttons }
 
   createField:(fieldData, field, isNextElement = no)->
     {itemClass, title} = fieldData
@@ -73,12 +65,6 @@ class KDFormViewWithFields extends KDFormView
     delete options.data  if data
     @inputs[options.title] = input = new itemClass options, data
     return input
-
-  createButton:(options)->
-    options.itemClass or= KDButtonView
-    o = $.extend {}, options
-    delete o.itemClass
-    button = new options.itemClass o
 
 
 # new KDFormViewWithFields

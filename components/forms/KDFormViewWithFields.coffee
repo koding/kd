@@ -48,7 +48,7 @@ class KDFormViewWithFields extends KDFormView
         @createField next, (inputWrapper or field), yes
 
     if fieldData.nextElementFlat
-      for key, next of fieldData.nextElementFlat
+      for own key, next of fieldData.nextElementFlat
         next.title or= key
         @createField next, field
 

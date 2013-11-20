@@ -112,6 +112,7 @@ module.exports = [
   "components/buttons/KDButtonMenu.coffee",
   "components/buttons/KDButtonGroupView.coffee",
   "components/buttons/KDToggleButton.coffee",
+  "components/buttons/KDButtonBar.coffee",
 
   # forms
   "components/forms/KDFormView.coffee",

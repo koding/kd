@@ -13,11 +13,13 @@ __utils =
 
     return target
 
+  dict: Object.create.bind null, null, (Object.create null)
+
   formatPlural:(count, noun, showCount = yes)->
     """
     #{
       if showCount
-      then "#{count} " or 0
+      then "#{count or 0} "
       else ''
     }#{
       if count is 1
@@ -46,7 +48,9 @@ __utils =
       chain.push caller
     chain
 
-  getUniqueId: do -> i = 0; -> "kd-#{i++}"
+  createCounter: createCounter = (i = 0) -> -> i++
+
+  getUniqueId: do (inc = createCounter()) -> -> "kd-#{do inc}"
 
   getRandomNumber :(range=1e6, min=0)->
     res = Math.floor Math.random()*range+1
@@ -162,9 +166,8 @@ __utils =
 
   killRepeat:(id)-> clearInterval id
 
-  defer:do ->
+  defer:do (queue = []) ->
     # this was ported from browserify's implementation of "process.nextTick"
-    queue = []
     if window?.postMessage and window.addEventListener
       window.addEventListener "message", ((ev) ->
         if ev.source is window and ev.data is "kd-tick"
@@ -370,7 +373,7 @@ __utils =
     arr = (str?.split(delim).map (part) -> do part.trim) ? []
     arr = arr.filter Boolean  if filterEmpty
     return arr
-
+  
   objectToArray: (options)->
     for key, option of options
       option.title ?= key

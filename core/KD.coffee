@@ -142,7 +142,8 @@ catch e
     options.thirdParty    ?= no           # a Boolean
     options.menu         or= null         # <Array<Object{title: string, eventName: string, shortcut: string}>>
     options.navItem      or= {}           # <Object{title: string, eventName: string, shortcut: string}>
-    options.labels       or= []
+    options.labels       or= []           # <Array<string>> list of labels to use as app name
+    options.version       ?= "1.0"        # <string> version
     options.route        or= {}           # <string> or <Object{slug: string, handler: function}>
 
     registerRoute = (route)=>

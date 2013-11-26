@@ -380,6 +380,13 @@ __utils =
       option.key    = key
       option
 
+  # The partition function takes a list and predicate fn and returns the pair of lists
+  # of elements which do and do not satisfy the predicate, respectively.
+  # (stolen from CoffeeScriptRedux)
+  partition: (list, fn) ->
+    result = [[], []]
+    result[+!fn item].push item for item in list
+    result
 ###
 //     Underscore.js 1.3.1
 //     (c) 2009-2012 Jeremy Ashkenas, DocumentCloud Inc.

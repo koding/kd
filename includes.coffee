@@ -99,6 +99,7 @@ module.exports = [
   "components/inputs/KDSelectBox.coffee",
   "components/inputs/KDWmdInput.coffee",
   "components/inputs/KDContentEditableView.coffee",
+  "components/inputs/KDTokenizedInputView.coffee",
 
   # upload
   # "components/upload/KDFileUploadView.coffee",

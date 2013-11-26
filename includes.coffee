@@ -98,8 +98,6 @@ module.exports = [
   "components/inputs/KDMultipleChoice.coffee",
   "components/inputs/KDSelectBox.coffee",
   "components/inputs/KDWmdInput.coffee",
-  "components/inputs/tokenizedmenu.coffee",
-  "components/inputs/tokenizedinput.coffee",
   "components/inputs/KDContentEditableView.coffee",
 
   # upload

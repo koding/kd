@@ -26,6 +26,7 @@ module.exports = [
   # --- Base class ---
   "core/utils.coffee",
   "core/KD.coffee",
+  "core/KD.dom.js",
   "core/KDEventEmitter.coffee",
 
   # # --- Framework ---

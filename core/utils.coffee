@@ -28,7 +28,22 @@ __utils =
     }
     """
 
-  selectText:(element, selectionStart, selectionEnd)->
+  getSelection:->
+    return  window.getSelection()
+
+  getSelectionRange:->
+    selection = __utils.getSelection()
+    return  selection.getRangeAt 0 if selection.type isnt "None"
+
+  getCursorNode:->
+    return  __utils.getSelectionRange().commonAncestorContainer
+
+  addRange:(range)->
+    selection = window.getSelection()
+    selection.removeAllRanges()
+    selection.addRange range
+
+  selectText:(element, start, end = start)->
     doc   = document
     if doc.body.createTextRange
       range = document.body.createTextRange()
@@ -37,9 +52,43 @@ __utils =
     else if window.getSelection
       selection = window.getSelection()
       range     = document.createRange()
+
       range.selectNodeContents element
+      range.setStart           element, start if start?
+      range.setEnd             element, end   if end?
+
       selection.removeAllRanges()
       selection.addRange range
+
+  selectEnd:(element, range)->
+    range   or= document.createRange()
+    element or= __utils.getSelection().focusNode
+
+    return  unless element
+
+    range.setStartAfter element
+    range.collapse no
+    __utils.addRange range
+
+  replaceRange:(node, replacement, start, end = start, appendTrailingSpace = yes)->
+    trailingSpace = document.createTextNode "\u00a0"
+
+    range = new Range()
+
+    if start?
+      range.setStart    node, start
+      range.setEnd      node, end
+    else
+      range.selectNode  node
+
+    range.deleteContents()
+
+    range.insertNode replacement
+    __utils.selectEnd replacement, range
+
+    if appendTrailingSpace
+      range.insertNode trailingSpace
+      __utils.selectEnd trailingSpace, range
 
   getCallerChain:(args, depth)->
     {callee:{caller}} = args

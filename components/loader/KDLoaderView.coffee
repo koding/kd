@@ -14,11 +14,11 @@ class KDLoaderView extends KDView
         height      : o.size.height             or 12
       loaderOptions :
         color       : o.loaderOptions.color     or "#000000"   # hex color
-        shape       : o.loaderOptions.shape     or "spiral"    # "spiral", "oval", "square", "rect", "roundRect"
-        diameter    : o.loaderOptions.diameter  or 12          # 10 - 200
-        density     : o.loaderOptions.density   or 30          # 5 - 160
-        range       : o.loaderOptions.range     or 0.4         # 0.1 - 2
-        speed       : o.loaderOptions.speed     or 1.5         # 1 - 10
+        shape       : o.loaderOptions.shape     or "rect"      # "spiral", "oval", "square", "rect", "roundRect"
+        diameter    : o.loaderOptions.diameter  or 20          # 10 - 200
+        density     : o.loaderOptions.density   or 12          # 5 - 160
+        range       : o.loaderOptions.range     or 1           # 0.1 - 2
+        speed       : o.loaderOptions.speed     or 1           # 1 - 10
         FPS         : o.loaderOptions.FPS       or 24          # 1 - 60
 
     options.loaderOptions.diameter = options.size.height = options.size.width

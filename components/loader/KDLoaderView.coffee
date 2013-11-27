@@ -49,14 +49,10 @@ class KDLoaderView extends KDView
   # easter
   mouseEnter:->
 
+    @canvas.setSpeed 2
     @canvas.setColor @utils.getRandomHex()
-    @canvas.setSpeed 1
 
   mouseLeave:->
 
     @canvas.setColor @getOptions().loaderOptions.color
     @canvas.setSpeed @getOptions().loaderOptions.speed
-
-  mouseMove:->
-
-    @canvas.setColor @utils.getRandomHex()

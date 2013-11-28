@@ -64,6 +64,16 @@ class KDWindowController extends KDController
       @setWindowProperties event
       @notifyWindowResizeListeners event
 
+    timer = null;
+    documentBody = document.body;
+    document.onscroll = =>
+      clearTimeout timer
+      if not document.body.classList.contains('onscroll')
+        documentBody.classList.add('onscroll')
+
+      timer = KD.utils.wait 200, ->
+        documentBody.classList.remove('onscroll')
+
     addListener "dragenter", (event)=>
       unless @dragInAction
         @emit 'DragEnterOnWindow', event

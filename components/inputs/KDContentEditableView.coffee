@@ -122,7 +122,10 @@ class KDContentEditableView extends KDView
 
     if @editingMode then content = value or ""
     else content = value or defaultValue or ""
-    @getEditableElement().textContent = content
+
+    element = @getEditableDomElement()
+    element.text ""
+    element.append document.createTextNode content
 
   validate: (event) ->
     valid = yes

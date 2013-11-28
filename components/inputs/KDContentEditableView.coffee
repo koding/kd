@@ -1,7 +1,7 @@
 class KDContentEditableView extends KDView
   constructor: (options = {}, data) ->
     options.cssClass      = KD.utils.curry "kdcontenteditableview", options.cssClass
-    options.bind          = KD.utils.curry "click input keydown paste", options.bind
+    options.bind          = KD.utils.curry "click input keydown paste drop", options.bind
     options.type        or= "text"
     options.multiline    ?= off
     options.placeholder or= ""
@@ -113,6 +113,18 @@ class KDContentEditableView extends KDView
     text = @getClipboardTextNode event.originalEvent.clipboardData
     {commonAncestorContainer, startOffset, endOffset} = @utils.getSelectionRange()
     @utils.replaceRange commonAncestorContainer, text, startOffset, endOffset
+
+  drop: (event) ->
+    event.preventDefault()
+    text = @getClipboardTextNode event.originalEvent.dataTransfer
+    {originalEvent: {clientX, clientY}} = event
+
+    if @getValue() is ""
+      startOffset = 0
+      @unsetPlaceholder()
+
+    {commonAncestorContainer, startOffset, endOffset} = document.caretRangeFromPoint clientX, clientY
+    @utils.replaceRange commonAncestorContainer, text, startOffset
 
   getClipboardTextNode: (clipboard) ->
     data = clipboard.getData "text/plain"

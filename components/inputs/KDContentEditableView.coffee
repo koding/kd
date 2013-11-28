@@ -1,7 +1,7 @@
 class KDContentEditableView extends KDView
   constructor: (options = {}, data) ->
     options.cssClass      = KD.utils.curry "kdcontenteditableview", options.cssClass
-    options.bind          = KD.utils.curry "click input keydown"  , options.bind
+    options.bind          = KD.utils.curry "click input keydown paste", options.bind
     options.type        or= "text"
     options.multiline    ?= off
     options.placeholder or= ""
@@ -107,6 +107,16 @@ class KDContentEditableView extends KDView
     else if value.length is 0
       @unsetPlaceholder()
       @focus()
+
+  paste: (event) ->
+    event.preventDefault()
+    text = @getClipboardTextNode event.originalEvent.clipboardData
+    {commonAncestorContainer, startOffset, endOffset} = @utils.getSelectionRange()
+    @utils.replaceRange commonAncestorContainer, text, startOffset, endOffset
+
+  getClipboardTextNode: (clipboard) ->
+    data = clipboard.getData "text/plain"
+    return  document.createTextNode data
 
   setPlaceholder: ->
     @setClass "placeholder"

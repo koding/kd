@@ -136,7 +136,7 @@ class KDTooltip extends KDView
     o.gravity = null
 
     @setClass 'in' if o.animate
-    @utils.defer => @setPosition o
+    @utils.defer => @setPositions o
 
   getCorrectPositionCoordinates:(o={},positionValues,callback=noop)->
     # values that can/will be used in all the submethods
@@ -156,10 +156,12 @@ class KDTooltip extends KDView
     # check the default values for overlapping boundaries, then
     # recalculate if there are overlaps
 
+    {forcePosition} = @getOptions()
+
     violations = getBoundaryViolations getCoordsFromPlacement(d, placement, direction),\
     d.container.width, d.container.height
 
-    if Object.keys(violations).length > 0 # check for possible alternatives
+    if !forcePosition and Object.keys(violations).length > 0 # check for possible alternatives
       variants = [
         ['top','right']
         ['right','top']
@@ -189,7 +191,7 @@ class KDTooltip extends KDView
     callback correctValues
     return correctValues
 
-  setPosition:(o = @getOptions(),animate = no)->
+  setPositions:(o = @getOptions(),animate = no)->
 
     @setClass 'animate-movement' if animate
 
@@ -215,6 +217,7 @@ class KDTooltip extends KDView
     {coords,placement,direction} = @getCorrectPositionCoordinates o,{placement,direction}
 
     # css classes for arrow positioning
+
     for placement_ in ['top','bottom','left','right']
       if placement is placement_
         @setClass 'placement-'+placement_

@@ -902,6 +902,10 @@ class KDView extends KDObject
     else
       kallback()
 
+  unsetTooltip:(o = {})->
+    @tooltip?.destroy()
+    delete @tooltip
+
   setTooltip:(o = {})->
 
     placementMap =
@@ -930,8 +934,7 @@ class KDView extends KDObject
     o.delegate  or= this
     o.events    or= ['mouseenter','mouseleave','mousemove']
 
-    @tooltip?.destroy()
-    delete @tooltip
+    @unsetTooltip()
     @tooltip = new KDTooltip o, {}
 
   getTooltip:-> @tooltip

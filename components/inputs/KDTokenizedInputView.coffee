@@ -18,6 +18,9 @@ class KDTokenizedInput extends KDContentEditableView
         when Node.ELEMENT_NODE
           if node.tagName.toLowerCase() is "br" then value += "\n"
           else if options.onlyText is yes then continue
+          else
+            tokenValue = @getTokenView(node.dataset.key)?.encodeValue?()
+            value += tokenValue  if tokenValue
 
     if value is @getOptions().placeholder then return ""
     else return value

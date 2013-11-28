@@ -12,13 +12,15 @@ class KDTokenizedInput extends KDContentEditableView
     value = ""
 
     for node in @getEditableElement().childNodes
-      continue  if node.textContent.length is 0
       switch node.nodeType
         when Node.TEXT_NODE
           value += node.textContent if node.textContent isnt ""
         when Node.ELEMENT_NODE
-          continue if options.onlyText is yes
-          value += @getTokenView(node.dataset.key)?.encodeValue?()
+          if node.tagName.toLowerCase() is "br" then value += "\n"
+          else if options.onlyText is yes then continue
+          else
+            tokenValue = @getTokenView(node.dataset.key)?.encodeValue?()
+            value += tokenValue  if tokenValue
 
     if value is @getOptions().placeholder then return ""
     else return value

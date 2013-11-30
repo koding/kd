@@ -64,8 +64,8 @@ class KDWindowController extends KDController
       @setWindowProperties event
       @notifyWindowResizeListeners event
 
-    timer = null
-    body  = {document}
+    timer  = null
+    {body} = document
     document.onscroll = =>
       clearTimeout timer
       if not body.classList.contains 'onscroll'

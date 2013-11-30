@@ -70,9 +70,7 @@ class KDTokenizedInput extends KDContentEditableView
     options.y = pos.top + parseInt window.getComputedStyle(@tokenInput).lineHeight, 10
 
     @menu = new JContextMenu options, data
-    @menu.on "ContextMenuItemReceivedClick", (item) =>
-      @addToken item.data
-      @hideMenu()
+    @menu.on "ContextMenuItemReceivedClick", @bound "menuItemClicked"
 
   hideMenu: ->
     @menu?.destroy()
@@ -80,10 +78,13 @@ class KDTokenizedInput extends KDContentEditableView
     @activeRule = null
     @tokenInput = null
 
-  addToken: (item) ->
+  menuItemClicked: (item, tokenViewClass = @getOptions().tokenViewClass) ->
+    @addToken item.data, tokenViewClass
+    @hideMenu()
+
+  addToken: (item, tokenViewClass) ->
     {type, prefix, pistachio} = @activeRule
-    tokenViewClass = @getOptions().tokenViewClass or TokenView
-    tokenView      = new tokenViewClass {type, prefix, pistachio}, item
+    tokenView = new tokenViewClass {type, prefix, pistachio}, item
 
     tokenKey              = "#{tokenView.getId()}-#{tokenView.getKey()}"
     @tokenViews[tokenKey] = tokenView

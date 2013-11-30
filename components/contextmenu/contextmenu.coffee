@@ -3,6 +3,8 @@ class JContextMenu extends KDView
   constructor:(options = {}, data)->
 
     options.cssClass        = @utils.curry "jcontextmenu", options.cssClass
+    options.menuMaxWidth  or= 272
+    options.menuMinWidth  or= 172
     options.menuWidth     or= 172
     options.offset        or= {}
     options.offset.left   or= 0
@@ -114,10 +116,20 @@ class JContextMenu extends KDView
     @topMargin  = expectedTop  - top
     @leftMargin = expectedLeft - left
 
-    @getDomElement().css
-      width     : "#{options.menuWidth}px"
-      top       : top
-      left      : left
+    {menuWidth, menuMaxWidth, menuMinWidth} = options
+
+    style   =
+      width : "#{menuWidth}px"
+      top   : top
+      left  : left
+
+    if menuMaxWidth
+      style.width    = "auto"
+      style.maxWidth = "#{menuMaxWidth}px"
+
+    style.minWidth = "#{menuMinWidth}px"  if menuMinWidth
+
+    @getDomElement().css style
 
   positionSubMenu: (nodeView)->
     {children, id} = nodeView.getData()

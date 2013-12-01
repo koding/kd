@@ -144,18 +144,19 @@ catch e
     options.navItem      or= {}           # <Object{title: string, eventName: string, shortcut: string}>
     options.labels       or= []           # <Array<string>> list of labels to use as app name
     options.version       ?= "1.0"        # <string> version
-    options.route        or= {}           # <string> or <Object{slug: string, handler: function}>
+    options.route        or= null         # <string> or <Object{slug: string, handler: function}>
+    options.routes       or= null         # <string> or <Object{slug: string, handler: function}>
 
-    registerRoute = (route)=>
+    registerRoute = (route, handler)=>
       slug        = if "string" is typeof route then route else route.slug
       route       =
         slug      : slug or '/'
-        handler   : route.handler or null
+        handler   : handler or route.handler or null
+
 
       if route.slug isnt '/'
 
         {slug, handler} = route
-
         cb = (router)->
           handler or= ({params:{name}, query})->
             router.openSection options.name, name, query
@@ -165,8 +166,10 @@ catch e
         then @utils.defer -> cb KD.getSingleton('router')
         else KodingRouter.on 'RouterReady', cb
 
-    options.route = [options.route]  unless Array.isArray options.route
-    registerRoute route for route in options.route
+    if   options.route
+    then registerRoute options.route
+    else if options.routes
+    then registerRoute route, handler for own route, handler of options.routes
 
     if options.navItem?.order
       @registerNavItem options.navItem
@@ -177,33 +180,23 @@ catch e
       writable      : no
       value         : { fn, options }
 
-    if options.labels.length > 0
-      @setAppLabels options.name, options.labels
-
-  setAppLabels       : (name, labels)-> @appLabels[name] = labels
-
-  getAppName         : (name)->
-    for own app, labels of @appLabels
-      return app  if name in labels or name is app
-    return name
-
   registerNavItem    : (itemData)-> @navItems.push itemData
 
   getNavItems        : -> @navItems.sort (a, b)-> a.order - b.order
 
   setNavItems        : (navItems)-> @navItems = navItems.sort (a, b)-> a.order - b.order
 
-  unregisterAppClass :(name)-> delete KD.appClasses[@getAppName name]
+  unregisterAppClass :(name)-> delete KD.appClasses[name]
 
-  getAppClass        :(name)-> KD.appClasses[@getAppName name]?.fn or null
+  getAppClass        :(name)-> KD.appClasses[name]?.fn or null
 
-  getAppOptions      :(name)-> KD.appClasses[@getAppName name]?.options or null
+  getAppOptions      :(name)-> KD.appClasses[name]?.options or null
 
-  getAppScript       :(name)-> @appScripts[@getAppName name] or null
+  getAppScript       :(name)-> @appScripts[name] or null
 
-  registerAppScript  :(name, script)-> @appScripts[@getAppName name] = script
+  registerAppScript  :(name, script)-> @appScripts[name] = script
 
-  unregisterAppScript:(name)-> delete @appScripts[@getAppName name]
+  unregisterAppScript:(name)-> delete @appScripts[name]
 
   resetAppScripts    :-> @appScripts = {}
 

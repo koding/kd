@@ -365,6 +365,7 @@ class KDInputView extends KDView
           padding       : $input.css 'padding'
           wordBreak     : $input.css 'wordBreak'
           fontSize      : $input.css 'fontSize'
+          fontWeight    : $input.css 'fontWeight'
           lineHeight    : $input.css 'lineHeight'
           whiteSpace    : "pre-line"
 

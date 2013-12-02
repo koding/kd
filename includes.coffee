@@ -2,7 +2,7 @@ module.exports = [
 
   # --- 3rd Party Libraries ---
   "libs/docwritenoop.js",
-  "libs/encode.js",
+  "libs/he.js",
 
   ## JQuery
   "libs/jquery-1.9.1.js",

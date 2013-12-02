@@ -70,23 +70,3 @@ class KDCheckBox extends KDInputView
     options.attributes ?= {}
     options.attributes.checked ?= options.defaultValue or no
     super options, data
-
-class KodingSwitch extends KDOnOffSwitch
-
-
-  constructor:(options = {}, data)->
-
-    options.labels       or= ['', '']
-    options.defaultValue  ?= off
-
-    super options, data
-
-
-  setDomElement:(cssClass)->
-
-    {name} = @getOptions()
-    @domElement = $ """
-      <div class='kdinput koding-on-off off #{cssClass}'>
-        <a href='#' class='on' title='turn on'></a><a href='#' class='off' title='turn off'></a>
-      </div>
-      """

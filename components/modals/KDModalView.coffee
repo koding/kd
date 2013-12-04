@@ -9,7 +9,6 @@ class KDModalView extends KDView
     options.title        or= null          # a String of text or HTML
     options.subtitle     or= null          # a String of text or HTML
     options.content      or= null          # a String of text or HTML
-    options.cssClass     or= ""            # a String
     options.buttons      or= null          # an Object of button options
     options.fx            ?= no            # a Boolean
     options.view         or= null          # a KDView instance

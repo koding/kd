@@ -18,6 +18,7 @@ class KDInputView extends KDView
     o.enableTabKey             ?= no            # a Boolean # NOT YET READY needs some work
     o.bind                    or= ""            # a String of event names
     o.forceCase               or= null          # a String of either "lowercase" or "uppercase"
+    o.theme                   or= 'default'     # a String of either "lowercase" or "uppercase"
 
     o.bind += " blur change focus"
 

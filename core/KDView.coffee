@@ -73,6 +73,7 @@ class KDView extends KDObject
     o.tagName     or= "div"     # a String of a HTML tag
     o.domId       or= null      # a String
     o.cssClass    or= ""        # a String
+    o.theme       or= 'default' # a String
     o.parent      or= null      # a KDView Instance
     o.partial     or= null      # a String of HTML or text
     o.pistachio   or= null      # a String of Pistachio
@@ -89,59 +90,19 @@ class KDView extends KDObject
 
     # TO BE IMPLEMENTED
     o.resizable   or= null      # TBDL
-    super o,data
+    super o, data
 
     data?.on? 'update', @bound 'render'
 
-    @setInstanceVariables options
-    @defaultInit options,data
-
-    @setClass 'kddraggable' if o.draggable
-
-    @on 'childAppended', @childAppended.bind this
-
-    @on 'viewAppended', =>
-      @setViewReady()
-      @viewAppended()
-      @childAppended this
-      @parentIsInDom = yes
-      subViews = @getSubViews()
-      # temp fix for KDTreeView
-      # subviews are stored in an object not in an array
-      # hmm not really sth weirder going on...
-
-      fireViewAppended = (child)->
-        unless child.parentIsInDom
-          child.parentIsInDom = yes
-          child.emit 'viewAppended'  unless child.lazy
-
-      if Array.isArray subViews
-        fireViewAppended child for child in subViews
-      else if subViews? and 'object' is typeof subViews
-        fireViewAppended child for own key, child of subViews
-
-      if @getOptions().introId
-        mainController = KD.getSingleton "mainController"
-        mainController.introductionTooltipController.emit "ShowIntroductionTooltip", this
-
-    # development only
-    if location.hostname is "localhost"
-      @on "click", (event)=>
-        return unless event
-        if event.metaKey and event.altKey and event.ctrlKey
-          log @getData()
-          event.stopPropagation?()
-          event.preventDefault?()
-          return false
-        else if event.altKey and (event.metaKey or event.ctrlKey)
-          log this
-          return false
-
-  setInstanceVariables:(options)->
     {@domId, @parent} = options
-    @subViews = []
+    @subViews         = []
 
-  defaultInit:(options,data)->
+    @defaultInit options,data
+    @devHacks()
+
+
+  defaultInit:(options, data)->
+
     @setDomElement options.cssClass
     @setDataId()
     @setDomId options.domId               if options.domId
@@ -149,6 +110,8 @@ class KDView extends KDObject
     @setSize options.size                 if options.size
     @setPosition options.position         if options.position
     @updatePartial options.partial        if options.partial
+    @setClass 'kddraggable' if options.draggable
+    @setClass options.theme if options.theme
 
     @addEventHandlers options
 
@@ -166,6 +129,29 @@ class KDView extends KDObject
     @setDraggable options.draggable  if options.draggable
 
     @bindEvents()
+
+    @on 'childAppended', @childAppended.bind this
+
+    @on 'viewAppended', =>
+      @setViewReady()
+      @viewAppended()
+      @childAppended this
+      @parentIsInDom = yes
+
+      fireViewAppended = (child)->
+        unless child.parentIsInDom
+          child.parentIsInDom = yes
+          child.emit 'viewAppended'  unless child.lazy
+
+      # temp fix for KDTreeView
+      # subviews are stored in an object not in an array
+      # hmm not really sth weirder going on...
+      subViews = @getSubViews()
+      if Array.isArray subViews
+        fireViewAppended child for child in subViews
+      else if subViews? and 'object' is typeof subViews
+        fireViewAppended child for own key, child of subViews
+
 
   getDomId:-> @domElement.attr "id"
 
@@ -518,6 +504,11 @@ class KDView extends KDObject
 # EVENT BINDING/HANDLING
 # #
 
+  addEventHandlers:(options)->
+    for own eventName, cb of options
+      if eventNames.test(eventName) and "function" is typeof cb
+        @on eventName, cb
+
 
   parentDidResize:(parent,event)->
     if @getSubViews()
@@ -661,11 +652,6 @@ class KDView extends KDObject
     # no
 
   submit:(event)-> no #propagations leads to window refresh
-
-  addEventHandlers:(options)->
-    for own eventName, cb of options
-      if eventNames.test(eventName) and "function" is typeof cb
-        @on eventName, cb
 
   setEmptyDragState:(moveBacktoInitialPosition = no)->
 
@@ -831,7 +817,7 @@ class KDView extends KDObject
 # #
 
   viewAppended:->
-    { pistachio } = @getOptions()
+    {pistachio} = @getOptions()
     if pistachio and not @template?
       @setTemplate pistachio
       @template.update()
@@ -955,3 +941,18 @@ class KDView extends KDObject
   setKeyView:->
 
     KD.getSingleton("windowController").setKeyView this
+
+
+  # development only
+  devHacks:->
+
+    @on "click", (event)=>
+      return unless event
+      if event.metaKey and event.altKey and event.ctrlKey
+        log @getData()
+        event.stopPropagation?()
+        event.preventDefault?()
+        return false
+      else if event.altKey and (event.metaKey or event.ctrlKey)
+        log this
+        return false

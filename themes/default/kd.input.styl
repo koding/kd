@@ -12,7 +12,8 @@ label.kdlabel
   color #888
   clear both
 
-input.kdinput.text,textarea.kdinput.text
+input.kdinput.text.default
+textarea.kdinput.text.default
   display             block
   border              1px solid #d7d7d7
   outline             none
@@ -29,11 +30,13 @@ input.kdinput.text,textarea.kdinput.text
     border            1px solid rgba(125,190,241,1)
     shadow            0 0 3px rgba(125,190,241,.7)
 
-textarea.kdinput.text
+textarea.kdinput.text.default
   height              auto
-textarea.kdinput.text.monospace
+
+textarea.kdinput.text.monospace.default
   font-family         mono
-.kdinput.hitenterview
+
+.kdinput.hitenterview.default
   resize              none
   overflow            hidden
   bg(image,url("../images/kd.hitenterview.inactive.png"))
@@ -42,6 +45,7 @@ textarea.kdinput.text.monospace
   bg(position,right bottom)
   &.active
     bg(image,url("../images/kd.hitenterview.active.png"))
+
 label.kdlabel
   cursor              default
   &[for]
@@ -52,18 +56,19 @@ label.kdlabel
     text-transform    none
     text-decoration   underline
 
-input.kdinput.text.validation-error,textarea.kdinput.text.validation-error
+input.kdinput.text.default.validation-error
+textarea.kdinput.text.default.validation-error
   border-color red
 
-input.kdinput.checkbox
+input.kdinput.checkbox.default
   &:focus
     shadow            0 0 3px rgba(125,190,241,.7)
 
-input.kdinput.autogrow
-textarea.kdinput.autogrow
+input.kdinput.default.autogrow
+textarea.kdinput.default.autogrow
   vendor              transition, height .15s ease-in-out
 
-select.kdinput.select
+select.kdinput.select.default
   rel()
   border              1px solid #ddd
   font-size           12px
@@ -88,7 +93,7 @@ KDInputView > KDSelectBox styles
 */
 }
 
-div.kdselectbox
+div.kdselectbox.default
   rel()
   z-index             100
   overflow            hidden
@@ -142,8 +147,8 @@ div.kdselectbox
 
 
 
-.kd-radio-holder,
-.kd-checkbox-holder
+.kd-radio-holder.default
+.kd-checkbox-holder.default
   display             block
   line-height         30px
   min-height          30px
@@ -164,17 +169,17 @@ KDInputView > KDSwitch styles
 */
 }
 
-.kdinputswitch
+.kdinputswitch.default
   background          transparent url("../images/switch_anim_orange_large1.png") no-repeat left bottom
   overflow            hidden
   margin              3px
   cursor              pointer
   size(59px,20px)
   fr()
-.kdinputswitch.off
+.kdinputswitch.default.off
   background-position left bottom
 
-.kdinputswitch.on
+.kdinputswitch.default.on
   background-position left top
 
 @css {
@@ -183,7 +188,7 @@ KDInputView > KDOnOffSwitch styles
 */
 }
 
-.on-off
+.on-off.default
   font-family           sans
   width                 auto
   rounded               2px
@@ -279,7 +284,7 @@ KDInputView > KDOnOffSwitch styles
     .big
       width               auto
 
-.kdview.kdfileupload
+.kdview.kdfileupload.default
   min-width         340px
 
   .kdfileuploadlist,.kdfileuploadthumblist

@@ -73,7 +73,6 @@ class KDView extends KDObject
     o.tagName     or= "div"     # a String of a HTML tag
     o.domId       or= null      # a String
     o.cssClass    or= ""        # a String
-    o.theme       or= 'default' # a String
     o.parent      or= null      # a KDView Instance
     o.partial     or= null      # a String of HTML or text
     o.pistachio   or= null      # a String of Pistachio
@@ -110,8 +109,7 @@ class KDView extends KDObject
     @setSize options.size                 if options.size
     @setPosition options.position         if options.position
     @updatePartial options.partial        if options.partial
-    @setClass 'kddraggable' if options.draggable
-    @setClass options.theme if options.theme
+    @setClass 'kddraggable'               if options.draggable
 
     @addEventHandlers options
 

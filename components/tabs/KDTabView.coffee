@@ -164,10 +164,8 @@ class KDTabView extends KDScrollView
 
 
   hideAllPanes:->
-    for pane in @panes
-      pane.hide()
-    for handle in @handles
-      handle.makeInactive()
+    pane.hide()           for pane   in @panes   when pane
+    handle.makeInactive() for handle in @handles when handle
 
   hideHandleContainer:->
     @tabHandleContainer.hide()

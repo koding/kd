@@ -152,6 +152,7 @@ catch e
     options.version       ?= "1.0"        # <string> version
     options.route        or= null         # <string> or <Object{slug: string, handler: function}>
     options.routes       or= null         # <string> or <Object{slug: string, handler: function}>
+    options.styles       or= []           # <Array<string>> list of stylesheets
 
     registerRoute = (route, handler)=>
       slug        = if "string" is typeof route then route else route.slug

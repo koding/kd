@@ -342,17 +342,7 @@ class KDListViewController extends KDViewController
     unless @lazyLoader
       wrapper = @scrollView or @getView()
       wrapper.addSubView @lazyLoader = new KDCustomHTMLView cssClass : "lazy-loader", partial : "Loading..."
-      @lazyLoader.addSubView @lazyLoader.spinner = new KDLoaderView
-        size          :
-          width       : 16
-        loaderOptions :
-          color       : "#5f5f5f"
-          diameter    : 16
-          density     : 60
-          range       : 0.4
-          speed       : 3
-          FPS         : 24
-
+      @lazyLoader.addSubView @lazyLoader.spinner = new KDLoaderView size : width : 32
       @lazyLoader.spinner.show()
       @emit 'LazyLoadThresholdReached'  if emitWhenReached
 

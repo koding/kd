@@ -132,7 +132,13 @@ catch e
     return error "AppClass is missing a name!"  unless options.name
 
     if KD.appClasses[options.name]
-      return warn "AppClass #{options.name} is already registered or the name is already taken!"
+
+      if KD.config.apps[options.name]
+        return warn "AppClass #{options.name} cannot be used, since its conflicting with an internal Koding App."
+      else
+        warn "AppClass #{options.name} is already registered or the name is already taken!"
+        warn "Removing the old one. It was ", KD.appClasses[options.name]
+        @unregisterAppClass options.name
 
     options.multiple      ?= no           # a Boolean
     options.background    ?= no           # a Boolean
@@ -146,6 +152,7 @@ catch e
     options.version       ?= "1.0"        # <string> version
     options.route        or= null         # <string> or <Object{slug: string, handler: function}>
     options.routes       or= null         # <string> or <Object{slug: string, handler: function}>
+    options.styles       or= []           # <Array<string>> list of stylesheets
 
     registerRoute = (route, handler)=>
       slug        = if "string" is typeof route then route else route.slug

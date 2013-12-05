@@ -103,8 +103,8 @@ class KDListViewController extends KDViewController
     {noItemFoundWidget} = @getOptions()
     @getListView().addSubView @noItemView = noItemFoundWidget
 
-  showNoItemWidget:-> @noItemView.show() if @itemsOrdered.length is 0
-  hideNoItemWidget:-> @noItemView.hide()
+  showNoItemWidget:-> @noItemView?.show() if @itemsOrdered.length is 0
+  hideNoItemWidget:-> @noItemView?.hide()
 
   # regressed, will put back whenever i'm here again. - SY
   showNoMoreItemWidget:->

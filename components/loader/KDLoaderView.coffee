@@ -10,8 +10,8 @@ class KDLoaderView extends KDView
       bind          : o.bind                    or "mouseenter mouseleave"
       showLoader    : o.showLoader              or no
       size          :
-        width       : o.size.width              or 12
-        height      : o.size.height             or 12
+        width       : o.size.width              or 24
+        height      : o.size.height             or 24
       loaderOptions :
         color       : o.loaderOptions.color     or "#000000"   # hex color
         shape       : o.loaderOptions.shape     or "rect"      # "spiral", "oval", "square", "rect", "roundRect"

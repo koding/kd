@@ -79,7 +79,7 @@ class KDContentEditableView extends KDView
     else
       @setContent @getValue() if @getOptions().type isnt "html"
 
-  click: => @focus() if @editingMode
+  click: => @focus() if @editingMode and not @focused
 
   input: (event) =>
     @emit "ValueChanged", event

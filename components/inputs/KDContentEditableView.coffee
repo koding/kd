@@ -106,7 +106,7 @@ class KDContentEditableView extends KDView
       event.preventDefault()
     else if value.length is 0
       @unsetPlaceholder()
-      @focus()
+      @focus()  if event.target isnt @getEditableElement()
 
   paste: (event) ->
     event.preventDefault()

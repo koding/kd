@@ -79,7 +79,7 @@ class KDContentEditableView extends KDView
     else
       @setContent @getValue() if @getOptions().type isnt "html"
 
-  click: => @focus() if @editingMode
+  click: => @focus() if @editingMode and not @focused
 
   input: (event) =>
     @emit "ValueChanged", event
@@ -106,7 +106,7 @@ class KDContentEditableView extends KDView
       event.preventDefault()
     else if value.length is 0
       @unsetPlaceholder()
-      @focus()
+      @focus()  if event.target isnt @getEditableElement()
 
   paste: (event) ->
     event.preventDefault()

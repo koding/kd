@@ -53,8 +53,8 @@ class KDTokenizedInput extends KDContentEditableView
     char  = node.textContent[start]
     for name, rule of @getOptions().rules
       if char is rule.prefix
-        @activeRule             = rule
-        @tokenInput             = document.createElement "span"
+        @activeRule = rule
+        @tokenInput = document.createElement "span"
         @tokenInput.textContent = rule.prefix
         @utils.replaceRange node, @tokenInput, start, start + rule.prefix.length
         @utils.selectText @tokenInput, rule.prefix.length

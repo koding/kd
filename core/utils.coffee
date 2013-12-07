@@ -15,6 +15,35 @@ __utils =
 
   dict: Object.create.bind null, null, (Object.create null)
 
+  elementShow: (el) ->
+    el?.classList.remove "hidden"
+
+  elementHide: (el) ->
+    el?.classList.add "hidden"
+
+  elementHasTag: (el, tagName) ->
+    el.tagName.toLowerCase() is tagName.toLowerCase()
+
+  elementIsVisible: (el) ->
+    return false  if el.offsetWidth <= 0 or el.offsetHeight <= 0
+    height = document.documentElement.clientHeight
+    rects = el.getClientRects()
+    onTop = (r) ->
+      x = (r.left + r.right) / 2
+      y = (r.top + r.bottom) / 2
+      document.elementFromPoint(x, y) is el
+
+    i = 0
+    l = rects.length
+
+    while i < l
+      r = rects[i]
+      inViewport = (if r.top > 0 then r.top <= height else (r.bottom > 0 and r.bottom <= height))
+      return true  if inViewport and onTop(r)
+      i++
+
+    return false
+
   formatPlural:(count, noun, showCount = yes)->
     """
     #{

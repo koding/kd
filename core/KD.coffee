@@ -78,6 +78,7 @@ catch e
   appLabels       : {}
   lastFuncCall    : null
   navItems        : []
+  navItemIndex    : {}
   instancesToBeTested: {}
 
   socketConnected:->
@@ -187,11 +188,17 @@ catch e
       writable      : no
       value         : { fn, options }
 
-  registerNavItem    : (itemData)-> @navItems.push itemData
+  registerNavItem    : (itemData)->
+    unless @navItemIndex[itemData.title]
+      @navItemIndex[itemData.title] = itemData
+      @navItems.push itemData
+      return true
+    return false
 
   getNavItems        : -> @navItems.sort (a, b)-> a.order - b.order
 
-  setNavItems        : (navItems)-> @navItems = navItems.sort (a, b)-> a.order - b.order
+  setNavItems        : (navItems)->
+    @registerNavItem item for item in navItems.sort (a, b)-> a.order - b.order
 
   unregisterAppClass :(name)-> delete KD.appClasses[name]
 

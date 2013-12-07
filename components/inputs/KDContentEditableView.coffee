@@ -1,10 +1,11 @@
 class KDContentEditableView extends KDView
   constructor: (options = {}, data) ->
-    options.cssClass      = KD.utils.curry "kdcontenteditableview", options.cssClass
-    options.bind          = KD.utils.curry "click input keydown paste drop", options.bind
-    options.type        or= "text"
-    options.multiline    ?= off
-    options.placeholder or= ""
+    options.cssClass         = KD.utils.curry "kdcontenteditableview", options.cssClass
+    options.bind             = KD.utils.curry "click input keydown paste drop", options.bind
+    options.type           or= "text"
+    options.multiline       ?= off
+    options.placeholder    or= ""
+    options.tabNavigation   ?= no
 
     super options, data
 
@@ -85,13 +86,15 @@ class KDContentEditableView extends KDView
     @emit "ValueChanged", event
 
   keyDown: (event) =>
+    {tabNavigation, multiline, validate} = @getOptions()
+
     switch event.which
-      when 9, 13
-        event.preventDefault()
-        @utils.stopDOMEvent event
+      when 9  then @utils.stopDOMEvent event  if tabNavigation
+      when 13 then @utils.stopDOMEvent event
 
     switch event.which
       when 9 # Tab key
+        break  unless tabNavigation
         @blur()
         if event.shiftKey then @emit "PreviousTabStop"
         else @emit "NextTabStop"

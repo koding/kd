@@ -180,7 +180,7 @@ __utils =
     # - links are broken due to textexpansions (images too i guess)
     return null unless text
 
-    marked text,
+    marked Encoder.htmlDecode(text),
       gfm       : true
       pedantic  : false
       sanitize  : true
@@ -422,7 +422,7 @@ __utils =
     arr = (str?.split(delim).map (part) -> do part.trim) ? []
     arr = arr.filter Boolean  if filterEmpty
     return arr
-  
+
   objectToArray: (options)->
     for key, option of options
       option.title ?= key

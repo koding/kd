@@ -86,6 +86,7 @@ class KDContentEditableView extends KDView
     @emit "ValueChanged", event
 
   keyDown: (event) =>
+    return  unless event.target is @getElement()
     {tabNavigation, multiline, validate} = @getOptions()
 
     switch event.which

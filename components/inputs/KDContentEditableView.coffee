@@ -114,9 +114,8 @@ class KDContentEditableView extends KDView
 
   paste: (event) ->
     event.preventDefault()
-    text = @getClipboardTextNode event.originalEvent.clipboardData
-    {commonAncestorContainer, startOffset, endOffset} = @utils.getSelectionRange()
-    @utils.replaceRange commonAncestorContainer, text, startOffset, endOffset
+    text = event.originalEvent.clipboardData.getData "text/plain"
+    document.execCommand "insertText", no, text
 
   drop: (event) ->
     event.preventDefault()
@@ -129,10 +128,6 @@ class KDContentEditableView extends KDView
 
     {commonAncestorContainer, startOffset, endOffset} = document.caretRangeFromPoint clientX, clientY
     @utils.replaceRange commonAncestorContainer, text, startOffset
-
-  getClipboardTextNode: (clipboard) ->
-    data = clipboard.getData "text/plain"
-    return  document.createTextNode data
 
   setPlaceholder: ->
     @setClass "placeholder"

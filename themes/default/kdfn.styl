@@ -143,14 +143,17 @@ pointer()
   cursor     pointer
 
 kalc()
-  // {arguments[0]} calc(arguments[1])
   vendor         transition, none
-  // {arguments[0]} arguments[2]
   {arguments[0]}  -webkit-calc(arguments[1]) arguments[2]
   {arguments[0]} calc(arguments[1]) arguments[2]
-  // selamin     aleykumpx
 
 flex()
   display         -webkit-box
   display         -moz-box
   display         flex
+
+singleTransformTransition()
+
+  -webkit-transition      -webkit-transform arguments[0] arguments[1]
+  -moz-transition         -moz-transform arguments[0] arguments[1]
+  transition              transform arguments[0] arguments[1]

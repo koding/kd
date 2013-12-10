@@ -43,7 +43,7 @@ class KDTokenizedInput extends KDContentEditableView
 
   matchPrefix: ->
     return  if @tokenInput
-    range = @utils.getSelectionRange()
+    return  unless range = @utils.getSelectionRange()
     node  = range.commonAncestorContainer
 
     if node.children?.length is 1
@@ -60,6 +60,7 @@ class KDTokenizedInput extends KDContentEditableView
         @utils.selectText @tokenInput, rule.prefix.length
 
   matchToken: ->
+    return  @cancel() unless @tokenInput.parentNode
     token = @tokenInput.textContent.substring @activeRule.prefix.length
     if token
       {dataSource} = @activeRule
@@ -119,11 +120,12 @@ class KDTokenizedInput extends KDContentEditableView
         else @matchPrefix()
 
   cancel: ->
-    text = document.createTextNode @tokenInput.textContent
-    @getEditableElement().insertBefore text, @tokenInput
-    @tokenInput.nextSibling.remove()
-    @tokenInput.remove()
-    @utils.selectEnd text
+    if @tokenInput.parentNode
+      text = document.createTextNode @tokenInput.textContent
+      @getEditableElement().insertBefore text, @tokenInput
+      @tokenInput.nextSibling.remove()
+      @tokenInput.remove()
+      @utils.selectEnd text
     @hideMenu()
 
   reset: ->

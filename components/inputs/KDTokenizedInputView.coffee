@@ -43,7 +43,7 @@ class KDTokenizedInput extends KDContentEditableView
 
   matchPrefix: ->
     return  if @tokenInput
-    range = @utils.getSelectionRange()
+    return  unless range = @utils.getSelectionRange()
     node  = range.commonAncestorContainer
 
     if node.children?.length is 1

@@ -60,6 +60,7 @@ class KDTokenizedInput extends KDContentEditableView
         @utils.selectText @tokenInput, rule.prefix.length
 
   matchToken: ->
+    return  @cancel() unless @tokenInput.parentNode
     token = @tokenInput.textContent.substring @activeRule.prefix.length
     if token
       {dataSource} = @activeRule

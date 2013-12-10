@@ -340,9 +340,20 @@ class KDListViewController extends KDViewController
 
     @hideNoItemWidget() if @noItemView and @getOptions().noItemFoundWidget
     unless @lazyLoader
-      wrapper = @scrollView or @getView()
-      wrapper.addSubView @lazyLoader = new KDCustomHTMLView cssClass : "lazy-loader", partial : "Loading..."
-      @lazyLoader.addSubView @lazyLoader.spinner = new KDLoaderView size : width : 32
+      {lazyLoaderOptions} = @getOptions()
+
+      lazyLoaderOptions                or= {}
+      lazyLoaderOptions.itemClass      or= KDCustomHTMLView
+      lazyLoaderOptions.partial         ?= 'Loading...'
+      lazyLoaderOptions.cssClass         = KD.utils.curry 'lazy-loader', lazyLoaderOptions.cssClass
+      lazyLoaderOptions.spinnerOptions or= size : width : 32
+      {itemClass, spinnerOptions}        = lazyLoaderOptions
+      delete lazyLoaderOptions.itemClass
+
+      wrapper     = @scrollView or @getView()
+      wrapper.addSubView @lazyLoader = new itemClass lazyLoaderOptions
+      @lazyLoader.addSubView @lazyLoader.spinner = new KDLoaderView spinnerOptions
+
       @lazyLoader.spinner.show()
       @emit 'LazyLoadThresholdReached'  if emitWhenReached
 

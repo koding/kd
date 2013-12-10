@@ -31,7 +31,7 @@ class KDTooltip extends KDView
     if @getOptions().animate then @setClass 'out' else @hide()
 
     @addListeners()
-    @getSingleton("windowController").on "ScrollHappened", @bound "hide"
+    KD.singleton("windowController").on "ScrollHappened", @bound "hide"
 
     @once "viewAppended", =>
       o = @getOptions()
@@ -63,7 +63,7 @@ class KDTooltip extends KDView
     return unless @visible
     super
     @getDomElement().remove()
-    @getSingleton("windowController").removeLayer this
+    KD.singleton("windowController").removeLayer this
     @visible = no
 
   update:(o = @getOptions(), view = null)->
@@ -135,7 +135,7 @@ class KDTooltip extends KDView
 
     # converts NESW-Values to topbottomleftright and retains them in @getOptions
     @appendToDomBody()
-    @getSingleton("windowController").addLayer this
+    KD.singleton("windowController").addLayer this
     o = @translateCompassDirections o if o.gravity
     o.gravity = null
 

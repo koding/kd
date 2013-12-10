@@ -119,11 +119,12 @@ class KDTokenizedInput extends KDContentEditableView
         else @matchPrefix()
 
   cancel: ->
-    text = document.createTextNode @tokenInput.textContent
-    @getEditableElement().insertBefore text, @tokenInput
-    @tokenInput.nextSibling.remove()
-    @tokenInput.remove()
-    @utils.selectEnd text
+    if @tokenInput.parentNode
+      text = document.createTextNode @tokenInput.textContent
+      @getEditableElement().insertBefore text, @tokenInput
+      @tokenInput.nextSibling.remove()
+      @tokenInput.remove()
+      @utils.selectEnd text
     @hideMenu()
 
   reset: ->

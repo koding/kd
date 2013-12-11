@@ -10,20 +10,38 @@ class KDTokenizedInput extends KDContentEditableView
 
   getValue: (options = {}) ->
     value = ""
-
     for node in @getEditableElement().childNodes
-      switch node.nodeType
-        when Node.TEXT_NODE
-          value += node.textContent if node.textContent isnt ""
-        when Node.ELEMENT_NODE
-          if node.tagName.toLowerCase() is "br" then value += "\n"
-          else if options.onlyText is yes then continue
-          else
-            tokenValue = @getTokenView(node.dataset.key)?.encodeValue?()
-            value += tokenValue  if tokenValue
-
+      value += "\n"  if node.tagName?.toLowerCase() is "div"
+      nodeValue = @getValueOfNode node
+      value += nodeValue  if nodeValue isnt "\n"
     if value is @getOptions().placeholder then return ""
     else return value
+
+  getValueOfNode: (node) ->
+    value = ""
+    switch node.nodeType
+      when Node.TEXT_NODE
+        value += node.textContent if node.textContent isnt ""
+      when Node.ELEMENT_NODE
+        value += @getValueOfElement node
+    return  value
+
+  getValueOfElement: (element) ->
+    key = element.dataset?.key
+    value = @getValueOfTokenElement key  if key
+    return  value if value
+
+    tagName = element.tagName.toLowerCase()
+    switch tagName
+      when "br" then return  "\n"
+      else
+        value = ""
+        value += @getValueOfNode child for child in element.childNodes
+        return  value or ""
+
+  getValueOfTokenElement: (key) ->
+    view = @getTokenView key
+    return  view.encodeValue() if key and view
 
   getTokens: ->
     tokens = []

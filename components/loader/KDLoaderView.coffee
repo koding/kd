@@ -47,12 +47,12 @@ class KDLoaderView extends KDView
     @canvas.hide() if @canvas
 
   # easter
-  mouseEnter:->
+  # mouseEnter:->
 
-    @canvas.setSpeed 2
-    @canvas.setColor @utils.getRandomHex()
+  #   @canvas.setSpeed 2
+  #   @canvas.setColor @utils.getRandomHex()
 
-  mouseLeave:->
+  # mouseLeave:->
 
-    @canvas.setColor @getOptions().loaderOptions.color
-    @canvas.setSpeed @getOptions().loaderOptions.speed
+  #   @canvas.setColor @getOptions().loaderOptions.color
+  #   @canvas.setSpeed @getOptions().loaderOptions.speed

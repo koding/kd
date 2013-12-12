@@ -340,8 +340,14 @@ class KDInputView extends KDView
           height        : "auto"
           zIndex        : 100000
           width         : $input.width()
-          border        : $input.css 'border'
-          padding       : $input.css 'padding'
+          borderTop     : $input.css 'border-top'
+          borderRight   : $input.css 'border-right'
+          borderBottom  : $input.css 'border-bottom'
+          borderLeft    : $input.css 'border-left'
+          paddingTop    : $input.css 'padding-top'
+          paddingRight  : $input.css 'padding-right'
+          paddingBottom : $input.css 'padding-bottom'
+          paddingLeft   : $input.css 'padding-left'
           wordBreak     : $input.css 'wordBreak'
           fontSize      : $input.css 'fontSize'
           lineHeight    : $input.css 'lineHeight'

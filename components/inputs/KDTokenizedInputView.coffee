@@ -117,7 +117,7 @@ class KDTokenizedInput extends KDContentEditableView
     @tokenViews[tokenKey] = tokenView
 
     tokenView.setAttributes "data-key": tokenKey
-    @getEditableElement().insertBefore tokenView.getElement(), @tokenInput
+    @tokenInput.parentElement.insertBefore tokenView.getElement(), @tokenInput
     tokenView.emit "viewAppended"
     @utils.selectText @tokenInput.nextSibling, 1
     @tokenInput.remove()

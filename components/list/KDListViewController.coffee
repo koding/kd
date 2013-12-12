@@ -15,6 +15,9 @@ class KDListViewController extends KDViewController
     options.noMoreItemFoundWidget or= null
 
     @itemsOrdered                 = [] unless @itemsOrdered
+    # CtF: this must be fixed: duplicate itemsOrdered and KDListView.items
+    # Object.defineProperty this, "itemsOrdered", get : => @getListView().items
+
     @itemsIndexed                 = {}
     @selectedItems                = []
     @lazyLoader                   = null
@@ -171,7 +174,7 @@ class KDListViewController extends KDViewController
   moveItemToIndex:(item, newIndex)->
 
     newIndex = Math.max(0, Math.min(@itemsOrdered.length-1, newIndex))
-    @itemsOrdered = @getListView().moveItemToIndex item, newIndex
+    @itemsOrdered = @getListView().moveItemToIndex(item, newIndex).slice()
 
   ###
   HANDLING MOUSE EVENTS

@@ -44,17 +44,21 @@ class KDTokenizedInput extends KDContentEditableView
     return  view.encodeValue() if key and view
 
   getTokens: ->
+    return  @findTokensInElement @getEditableElement()
+
+  findTokensInElement: (element) ->
     tokens = []
-
-    for node in @getEditableElement().childNodes
-      if node.nodeType is Node.ELEMENT_NODE
-        view = @getTokenView node.dataset.key
-        continue unless view
-        {type} = view.getOptions()
-        data   = view.getData()
-        tokens.push {type, data}
-
-    return tokens
+    for child in element.childNodes
+      switch child.nodeType
+        when Node.ELEMENT_NODE
+          if key = child.dataset?.key
+            view = @getTokenView key
+            {type} = view.getOptions()
+            data   = view.getData()
+            tokens.push {type, data}
+          else
+            tokens = tokens.concat @findTokensInElement child
+    return  tokens
 
   getTokenView: (key) ->
     return  @tokenViews[key]

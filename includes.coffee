@@ -72,6 +72,7 @@ module.exports = [
   "components/tabs/KDTabView.coffee",
   "components/tabs/KDTabPaneView.coffee",
   "components/tabs/KDTabViewWithForms.coffee",
+  "components/tabs/kdtabhandlemovenav.coffee",
 
   # menus
   "components/contextmenu/contextmenu.coffee",

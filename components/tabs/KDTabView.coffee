@@ -9,6 +9,7 @@ class KDTabView extends KDScrollView
     options.sortable             ?= no
     options.hideHandleContainer  ?= no
     options.hideHandleCloseIcons ?= no
+    options.enableMoveTabHandle  ?= no
     options.tabHandleContainer   ?= null
     options.tabHandleClass      or= KDTabHandleView
     options.paneData            or= []
@@ -31,6 +32,7 @@ class KDTabView extends KDScrollView
     @blockTabHandleResize = no
 
     @setTabHandleContainer options.tabHandleContainer
+    @setTabHandleMoveNav()  if options.enableMoveTabHandle
 
     @hideHandleCloseIcons() if options.hideHandleCloseIcons
     @hideHandleContainer()  if options.hideHandleContainer
@@ -140,7 +142,12 @@ class KDTabView extends KDScrollView
   appendHandle:(tabHandle)->
     @handleHeight or= @tabHandleContainer.getHeight()
     tabHandle.setDelegate @
-    @tabHandleContainer.addSubView tabHandle
+    @tabHandleContainer.tabs.addSubView tabHandle
+
+    {enableMoveTabHandle, maxHandleWidth} = @getOptions()
+    if enableMoveTabHandle
+      @_tabsWidth = @handles.length * maxHandleWidth
+
     # unless tabHandle.options.hidden
     #   tabHandle.$().css {marginTop : @handleHeight}
     #   tabHandle.$().animate({marginTop : 0},300)
@@ -209,15 +216,21 @@ class KDTabView extends KDScrollView
 
   # DEFINE CUSTOM or DEFAULT tabHandleContainer
   setTabHandleContainer:(aViewInstance)->
+
     if aViewInstance?
       @tabHandleContainer.destroy() if @tabHandleContainer?
       @tabHandleContainer = aViewInstance
     else
       @tabHandleContainer = new KDView()
+      @tabHandleContainer.tabs = new KDView cssClass: 'kdtabhandle-tabs'
       @appendHandleContainer()
+
     @tabHandleContainer.setClass "kdtabhandlecontainer"
 
   getTabHandleContainer:-> @tabHandleContainer
+
+  setTabHandleMoveNav:->
+    @tabHandleContainer.addSubView new KDTabHandleMoveNav delegate : this
 
   #TRAVERSING PANES/HANDLES
   checkPaneExistenceById:(id)->
@@ -291,6 +304,7 @@ class KDTabView extends KDScrollView
   getVisibleTabs: ->
     return @panes.filter (pane) -> pane.tabHandle.isHidden() is no
 
+
   resizeTabHandles: KD.utils.throttle ->
 
     return if not @getOptions().resizeTabHandles or \
@@ -310,4 +324,5 @@ class KDTabView extends KDScrollView
     possiblePercent = (( 100 - containerMargin ) / visibleHandles.length).toFixed 2
 
     handle.setWidth(possiblePercent, "%") for handle in visibleHandles
+
   , 300

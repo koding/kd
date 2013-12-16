@@ -174,7 +174,8 @@ class KDTabView extends KDScrollView
   #SHOW/HIDE ELEMENTS
   showPane:(pane)->
     return unless pane
-    @lastOpenPaneIndex = @getPaneIndex @getActivePane()
+    activePane = @getActivePane()
+    @lastOpenPaneIndex = @getPaneIndex activePane  if activePane
     @hideAllPanes()
     pane.show()
     index  = @getPaneIndex pane
@@ -264,11 +265,9 @@ class KDTabView extends KDScrollView
   getHandleByIndex:(index)-> @handles[index]
 
   getPaneIndex:(aPane)->
-    return unless aPane
-    result = 0
-    for pane,index in @panes
-      result = index if pane is aPane
-    result
+    throw new Error "no pane provided!"  unless aPane
+
+    @panes.indexOf aPane
 
   #NAVIGATING
   showPaneByIndex:(index)->

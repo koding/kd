@@ -98,7 +98,7 @@ class KDTabHandleView extends KDView
 
     @unsetClass 'first'
     @cloneElement x
-    @$().css opacity: 0.01
+    @$().css opacity: 0
     @updateClonedElementPosition x
     @reorderTabHandles x
 

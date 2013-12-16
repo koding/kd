@@ -9,15 +9,21 @@ class KDTabView extends KDScrollView
     options.sortable             ?= no
     options.hideHandleContainer  ?= no
     options.hideHandleCloseIcons ?= no
+    options.enableMoveTabHandle  ?= no
     options.tabHandleContainer   ?= null
     options.tabHandleClass      or= KDTabHandleView
     options.paneData            or= []
     options.cssClass              = KD.utils.curry "kdtabview", options.cssClass
+
+    # Is there a reason why are we setting those before super? ~ GG
+
     @handles                      = []
     @panes                        = []
     @selectedIndex                = []
     @tabConstructor               = options.tabClass ? KDTabPaneView
     @lastOpenPaneIndex            = 0
+
+    # ---
 
     super options, data
 
@@ -26,6 +32,8 @@ class KDTabView extends KDScrollView
     @blockTabHandleResize = no
 
     @setTabHandleContainer options.tabHandleContainer
+    @setTabHandleMoveNav()  if options.enableMoveTabHandle
+
     @hideHandleCloseIcons() if options.hideHandleCloseIcons
     @hideHandleContainer()  if options.hideHandleContainer
 
@@ -73,11 +81,14 @@ class KDTabView extends KDScrollView
 
       return paneInstance
     else
-      warn "You can't add #{paneInstance.constructor.name if paneInstance?.constructor?.name?} as a pane, use KDTabPaneView instead."
+      {name} = paneInstance?.constructor?
+      warn "You can't add #{name if name} as a pane, use KDTabPaneView instead"
       return false
 
   resortTabHandles: (index, dir) ->
-    return if (index is 0 and dir is 'left') or (index is @handles.length - 1 and dir is 'right') or (index >= @handles.length) or (index < 0)
+    return if (index is 0 and dir is 'left')                    or \
+              (index is @handles.length - 1 and dir is 'right') or \
+              (index >= @handles.length) or (index < 0)
 
     @handles[0].unsetClass 'first'
 
@@ -131,7 +142,12 @@ class KDTabView extends KDScrollView
   appendHandle:(tabHandle)->
     @handleHeight or= @tabHandleContainer.getHeight()
     tabHandle.setDelegate @
-    @tabHandleContainer.addSubView tabHandle
+    @tabHandleContainer.tabs.addSubView tabHandle
+
+    {enableMoveTabHandle, maxHandleWidth} = @getOptions()
+    if enableMoveTabHandle
+      @_tabsWidth = @handles.length * maxHandleWidth
+
     # unless tabHandle.options.hidden
     #   tabHandle.$().css {marginTop : @handleHeight}
     #   tabHandle.$().animate({marginTop : 0},300)
@@ -144,7 +160,9 @@ class KDTabView extends KDScrollView
       handle.setClass "hidden" if handle.getOptions().hidden
       return handle
     else
-      warn "You can't add #{handle.constructor.name if handle?.constructor?.name?} as a pane, use KDTabHandleView instead."
+      {name} = handle?.constructor?
+      warn \
+        "You can't add #{name if name?} as a pane, use KDTabHandleView instead"
 
   removeHandle:->
 
@@ -198,14 +216,21 @@ class KDTabView extends KDScrollView
 
   # DEFINE CUSTOM or DEFAULT tabHandleContainer
   setTabHandleContainer:(aViewInstance)->
+
     if aViewInstance?
       @tabHandleContainer.destroy() if @tabHandleContainer?
       @tabHandleContainer = aViewInstance
     else
       @tabHandleContainer = new KDView()
+      @tabHandleContainer.tabs = new KDView cssClass: 'kdtabhandle-tabs'
       @appendHandleContainer()
+
     @tabHandleContainer.setClass "kdtabhandlecontainer"
+
   getTabHandleContainer:-> @tabHandleContainer
+
+  setTabHandleMoveNav:->
+    @tabHandleContainer.addSubView new KDTabHandleMoveNav delegate : this
 
   #TRAVERSING PANES/HANDLES
   checkPaneExistenceById:(id)->
@@ -279,20 +304,25 @@ class KDTabView extends KDScrollView
   getVisibleTabs: ->
     return @panes.filter (pane) -> pane.tabHandle.isHidden() is no
 
-  resizeTabHandles: KD.utils.throttle ->
-    return if not @getOptions().resizeTabHandles or @_tabHandleContainerHidden or @blockTabHandleResize
 
-    visibleHandles           = []
-    visibleTotalSize         = 0
-    options                  = @getOptions()
-    containerSize            = @tabHandleContainer.$().outerWidth(no) - options.lastTabHandleMargin
-    containerMarginInPercent = 100 * options.lastTabHandleMargin / containerSize
+  resizeTabHandles: KD.utils.throttle ->
+
+    return if not @getOptions().resizeTabHandles or \
+                  @_tabHandleContainerHidden     or @blockTabHandleResize
+
+    visibleHandles   = []
+    visibleTotalSize = 0
+    options          = @getOptions()
+    outerWidth       = @tabHandleContainer.tabs.$().outerWidth no
+    containerSize    = outerWidth - options.lastTabHandleMargin
+    containerMargin  = 100 - (100 * options.lastTabHandleMargin / containerSize)
 
     for handle in @handles when not handle.isHidden()
       visibleHandles.push handle
       visibleTotalSize += handle.$().outerWidth no
 
-    possiblePercent = ((100 - containerMarginInPercent) / visibleHandles.length).toFixed 2
+    possiblePercent = (containerMargin / visibleHandles.length).toFixed 2
 
     handle.setWidth(possiblePercent, "%") for handle in visibleHandles
+
   , 300

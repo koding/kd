@@ -155,19 +155,28 @@ catch e
     options.routes       or= null         # <string> or <Object{slug: string, handler: function}>
     options.styles       or= []           # <Array<string>> list of stylesheets
 
+    wrapHandler = (fn, options) -> ->
+      router = KD.getSingleton 'router'
+      router.setPageTitle? options.navItem.title  if options.navItem.title
+      fn.apply this, arguments
+
     registerRoute = (route, handler)=>
       slug        = if "string" is typeof route then route else route.slug
       route       =
         slug      : slug or '/'
         handler   : handler or route.handler or null
 
-
       if route.slug isnt '/'
 
         {slug, handler} = route
         cb = (router)->
-          handler or= ({params:{name}, query})->
-            router.openSection options.name, name, query
+          handler =
+            if handler
+            then wrapHandler handler, options
+            else
+              ({params:{name}, query})->
+                router.openSection options.name, name, query
+          
           router.addRoute slug, handler
 
         if KD.singletons.router

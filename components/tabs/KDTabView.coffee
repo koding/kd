@@ -313,7 +313,7 @@ class KDTabView extends KDScrollView
     visibleHandles   = []
     visibleTotalSize = 0
     options          = @getOptions()
-    outerWidth       = @tabHandleContainer.$().outerWidth no
+    outerWidth       = @tabHandleContainer.tabs.$().outerWidth no
     containerSize    = outerWidth - options.lastTabHandleMargin
     containerMargin  = 100 - (100 * options.lastTabHandleMargin / containerSize)
 
@@ -321,7 +321,7 @@ class KDTabView extends KDScrollView
       visibleHandles.push handle
       visibleTotalSize += handle.$().outerWidth no
 
-    possiblePercent = (( 100 - containerMargin ) / visibleHandles.length).toFixed 2
+    possiblePercent = (containerMargin / visibleHandles.length).toFixed 2
 
     handle.setWidth(possiblePercent, "%") for handle in visibleHandles
 

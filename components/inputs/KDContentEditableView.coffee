@@ -138,7 +138,7 @@ class KDContentEditableView extends KDView
     @unsetClass "placeholder"
 
     content      = ""
-    defaultValue = @getOptions().default
+    defaultValue = @getOptions().defaultValue
     value        = @getValue()
 
     if @editingMode then content = value or ""

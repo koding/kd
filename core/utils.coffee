@@ -15,6 +15,10 @@ __utils =
 
   dict: Object.create.bind null, null, (Object.create null)
 
+  getNearestElementByTagName: (el, tagName) ->
+    el = el.parentNode  until not el? or @elementHasTag el, tagName
+    return el
+
   elementShow: (el) ->
     el?.classList.remove "hidden"
 
@@ -22,7 +26,7 @@ __utils =
     el?.classList.add "hidden"
 
   elementHasTag: (el, tagName) ->
-    el.tagName.toLowerCase() is tagName.toLowerCase()
+    el.tagName?.toLowerCase() is tagName.toLowerCase()
 
   elementIsVisible: (el) ->
     return false  if el.offsetWidth <= 0 or el.offsetHeight <= 0

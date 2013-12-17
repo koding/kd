@@ -114,16 +114,9 @@ class KDWindowController extends KDController
     # up with duplicate entries in history: e.g. /Activity and /Activity#
     # also so that we don't redirect the browser
     addListener 'click', (e)->
-      nearestLink = do (n = e.target) ->
-        until not n? or n?.nodeName?.toLowerCase() is 'a'
-          n = n.parentNode
-        
-        return n
+      nearestLink = KD.utils.getNearestElementByTagName e.target, 'a'
 
-      isInternalLink = nearestLink?.nodeName.toLowerCase() is 'a' and # html nodenames are uppercase, so lowercase this.
-                       nearestLink.target?.length is 0                # targeted links should work as normal.
-
-      if isInternalLink
+      if nearestLink?.target?.length is 0 # links with a target attribute should work as normal.
         href   = nearestLink.getAttribute "href"
         isHttp = href?.indexOf("http") is 0
         if isHttp

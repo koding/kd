@@ -76,7 +76,11 @@ class KDTabView extends KDScrollView
         @showPane paneInstance
       @emit "PaneAdded", paneInstance
 
-      newTabHandle.$().css maxWidth: @getOptions().maxHandleWidth
+      {minHandleWidth, maxHandleWidth} = @getOptions()
+      newTabHandle.getDomElement().css
+        maxWidth : maxHandleWidth
+        minWidth : minHandleWidth
+
       newTabHandle.on "HandleIndexHasChanged", @bound "resortTabHandles"
 
       return paneInstance

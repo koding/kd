@@ -114,14 +114,20 @@ class KDWindowController extends KDController
     # up with duplicate entries in history: e.g. /Activity and /Activity#
     # also so that we don't redirect the browser
     addListener 'click', (e)->
-      isInternalLink = e.target?.nodeName.toLowerCase() is 'a' and\           # html nodenames are uppercase, so lowercase this.
-                       e.target.target?.length is 0                           # targeted links should work as normal.
+      nearestLink = do (n = e.target) ->
+        until not n? or n?.nodeName?.toLowerCase() is 'a'
+          n = n.parentNode
+        
+        return n
+
+      isInternalLink = nearestLink?.nodeName.toLowerCase() is 'a' and # html nodenames are uppercase, so lowercase this.
+                       nearestLink.target?.length is 0                # targeted links should work as normal.
 
       if isInternalLink
-        href   = e.target.getAttribute "href"
+        href   = nearestLink.getAttribute "href"
         isHttp = href?.indexOf("http") is 0
         if isHttp
-          e.target.target = "_blank"
+          nearestLink.target = "_blank"
         else
           e.preventDefault()
           if href and not /^#/.test href

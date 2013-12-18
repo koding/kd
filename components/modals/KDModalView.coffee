@@ -97,7 +97,7 @@ class KDModalView extends KDView
       @buttons[buttonTitle] = button
       focused = yes  if buttonOptions.focus
 
-    @buttons[defaultFocusTitle].setFocus()  unless focused
+    @buttons[defaultFocusTitle].setFocus()  if not focused and defaultFocusTitle
 
   destroyButtons:->
     button.destroy()  for own _key, button of @buttons

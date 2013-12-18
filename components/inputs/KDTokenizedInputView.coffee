@@ -83,10 +83,13 @@ class KDTokenizedInput extends KDContentEditableView
 
   matchToken: ->
     return  @cancel() unless @tokenInput.parentNode
+    @sanitizeInput()
     token = @tokenInput.textContent.substring @activeRule.prefix.length
     if token
       {dataSource} = @activeRule
       dataSource token, @bound "showMenu"
+
+  sanitizeInput: ->
 
   showMenu:(options, data)->
     @menu?.destroy()

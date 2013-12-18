@@ -26,7 +26,7 @@ __utils =
     el?.classList.add "hidden"
 
   elementHasTag: (el, tagName) ->
-    !!el.tagName?.toLowerCase() is tagName.toLowerCase()
+    Boolean(el.tagName?.toLowerCase() is tagName.toLowerCase())
 
   elementIsVisible: (el) ->
     return false  if el.offsetWidth <= 0 or el.offsetHeight <= 0

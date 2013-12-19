@@ -387,12 +387,6 @@ __utils =
     result = [[], []]
     result[+!fn item].push item for item in list
     result
-
-  xssEncode: (string = "") -> he.escape string
-  
-  htmlEncode: (string = "") -> he.encode string
-  
-  htmlDecode: (string = "") -> he.decode string
 ###
 //     Underscore.js 1.3.1
 //     (c) 2009-2012 Jeremy Ashkenas, DocumentCloud Inc.

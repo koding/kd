@@ -362,7 +362,7 @@ class KDInputView extends KDView
   resize: ->
     return  unless @_clone
     @_clone.appendTo 'body' unless document.body.contains @_clone[0]
-    @_clone.html KD.utils.xssEncode @getValue()
+    @_clone.html Encoder.XSSEncode @getValue()
     @_clone.append document.createElement "br"
 
     height = @_clone.height()

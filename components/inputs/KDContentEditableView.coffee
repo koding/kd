@@ -31,14 +31,14 @@ class KDContentEditableView extends KDView
 
   getValue: ->
     value = @getEditableElement().textContent
-    if value is @getOptions().placeholder then "" else KD.utils.xssEncode value
+    if value is @getOptions().placeholder then "" else Encoder.XSSEncode value
 
   setContent: (content) ->
     if not @editingMode and @getOptions().textExpansion
       content = @utils.applyTextExpansions content, yes
 
     element = @getEditableElement()
-    if content then element.innerHTML = KD.utils.xssEncode content
+    if content then element.innerHTML = Encoder.XSSEncode content
     else if @editingMode then @setPlaceholder()
 
   focus: ->

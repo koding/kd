@@ -73,7 +73,7 @@ class KDWindowController extends KDController
         unless body.classList.contains 'onscroll'
           body.classList.add 'onscroll'
 
-        timer = KD.utils.wait 500, ->
+        timer = KD.utils.wait 200, ->
           body.classList.remove 'onscroll'
     , no
 

@@ -101,19 +101,19 @@ class KDWindowController extends KDController
     # internal links (including "#") should prevent default, so we don't end
     # up with duplicate entries in history: e.g. /Activity and /Activity#
     # also so that we don't redirect the browser
-    addListener 'click', (e)->
-      isInternalLink = e.target?.nodeName.toLowerCase() is 'a' and\           # html nodenames are uppercase, so lowercase this.
-                       e.target.target?.length is 0                           # targeted links should work as normal.
+    (addListener 'click', (e)->
+      nearestLink = KD.utils.getNearestElementByTagName e.target, 'a'
 
-      if isInternalLink
-        href   = e.target.getAttribute "href"
+      if nearestLink?.target?.length is 0 # links with a target attribute should work as normal.
+        href   = nearestLink.getAttribute "href"
         isHttp = href?.indexOf("http") is 0
         if isHttp
-          e.target.target = "_blank"
+          nearestLink.target = "_blank"
         else
           e.preventDefault()
           if href and not /^#/.test href
             KD.getSingleton("router").handleRoute href
+    , no)
 
     unless location.hostname is 'localhost'
       window.addEventListener 'beforeunload', @bound "beforeUnload"

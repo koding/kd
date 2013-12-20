@@ -462,6 +462,11 @@ __utils =
       option.key    = key
       option
 
+  arrayToObject: (list, key) ->
+    dict = {}
+    dict[obj[key]] = obj for obj in list when obj[key]?
+    dict
+
   # The partition function takes a list and predicate fn and returns the pair of lists
   # of elements which do and do not satisfy the predicate, respectively.
   # (stolen from CoffeeScriptRedux)

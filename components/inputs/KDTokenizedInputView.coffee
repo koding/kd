@@ -108,11 +108,11 @@ class KDTokenizedInput extends KDContentEditableView
     @activeRule = null
     @tokenInput = null
 
-  menuItemClicked: (item, tokenViewClass = @getOptions().tokenViewClass) ->
-    @addToken item.data, tokenViewClass
+  menuItemClicked: (item) ->
+    @addToken item.data
     @hideMenu()
 
-  addToken: (item, tokenViewClass) ->
+  addToken: (item, tokenViewClass = @getOptions().tokenViewClass) ->
     {type, prefix, pistachio} = @activeRule
     tokenView = new tokenViewClass {type, prefix, pistachio}, item
 

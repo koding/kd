@@ -213,7 +213,7 @@ __utils =
     # - links are broken due to textexpansions (images too i guess)
     return null unless text
 
-    marked Encoder.htmlDecode(text),
+    marked KD.utils.htmlDecode(text),
       gfm       : true
       pedantic  : false
       sanitize  : true
@@ -461,6 +461,11 @@ __utils =
       option.title ?= key
       option.key    = key
       option
+
+  arrayToObject: (list, key) ->
+    dict = {}
+    dict[obj[key]] = obj for obj in list when obj[key]?
+    dict
 
   # The partition function takes a list and predicate fn and returns the pair of lists
   # of elements which do and do not satisfy the predicate, respectively.

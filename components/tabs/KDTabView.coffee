@@ -183,7 +183,7 @@ class KDTabView extends KDScrollView
     handle.makeActive()
     pane.emit "PaneDidShow"
     @emit "PaneDidShow", pane
-    pane
+    return pane
 
 
   hideAllPanes:->

@@ -74,8 +74,6 @@ catch e
   classes         : {}
   utils           : __utils
   lastFuncCall    : null
-  navItems        : []
-  navItemIndex    : {}
   instancesToBeTested: {}
 
   registerInstance : (anInstance)->

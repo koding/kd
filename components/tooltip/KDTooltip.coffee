@@ -244,7 +244,7 @@ class KDTooltip extends KDView
     unless o.html is no
       @wrapper.updatePartial title
     else
-      @wrapper.updatePartial KD.utils.xssEncode title
+      @wrapper.updatePartial Encoder.htmlEncode title
 
   directionMap = (placement, gravity)->
     if placement in ["top", "bottom"]

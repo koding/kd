@@ -265,7 +265,7 @@ class KDFileUploadThumbItemView extends KDListItemView
 
   partial:(file)->
     imageType = /image.*/
-    fileUrl = if file.type.match imageType then window.URL.createObjectURL file else "./images/icon.file.png"
+    fileUrl = if file.type.match imageType then window.URL.createObjectURL file else "./a/images/icon.file.png"
 
     $ "<img class='thumb' src='#{fileUrl}'/>
        <p class='meta'>

@@ -18,7 +18,7 @@ class JTreeViewController extends KDViewController
   cacheDragHelper = do ->
 
     dragHelper       = document.createElement 'img'
-    dragHelper.src   = '/images/multiple-item-drag-helper.png'
+    dragHelper.src   = '/a/images/multiple-item-drag-helper.png'
     dragHelper.width = 110
 
   constructor:(options = {},data)->

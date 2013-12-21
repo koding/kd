@@ -441,7 +441,12 @@ class JTreeViewController extends KDViewController
 
     return unless nodeView
     if setFocus then @setFocusState()
-    @listControllers[@getNodePId nodeView.getData()].selectItem nodeView, event
+
+    # There is an issue with NFinderTreeController, we sometimes missing
+    # the list of controllers here and calling selectNode for non-existent
+    # listController, FIXME later ~ GG
+    controller = @listControllers[@getNodePId nodeView.getData()]
+    controller.selectItem nodeView, event  if controller
 
   deselectNode:(nodeView, event)->
 

@@ -16,7 +16,7 @@ class KDMultipleChoice extends KDInputView
   #     state
 
   constructor:(options = {}, data)->
-
+    options.disabled      ?= no
     options.size         or= "small"             # a String tiny/small/big
     options.labels       or= ["ON", "OFF"]       # supports multiple labels as string
     options.multiple     ?= no
@@ -32,6 +32,7 @@ class KDMultipleChoice extends KDInputView
 
     @oldValue     = null
     @currentValue = [] if options.multiple
+    @setDisabled options.disabled
 
   setDomElement:(cssClass)->
     {labels, name, defaultValue} = @getOptions()
@@ -60,6 +61,9 @@ class KDMultipleChoice extends KDInputView
       view.$("a[name$='#{label}']").addClass('active')
       view.currentValue.push label
 
+  setDisabled:(disable = yes)->
+    @_disabled = disable
+
   setValue:(label, wCallback = yes)->
     {multiple} = do @getOptions
 
@@ -84,6 +88,8 @@ class KDMultipleChoice extends KDInputView
         do @switchStateChanged
 
   switchStateChanged:->
+    return  if @_disabled
+
     @getCallback().call @, @getValue() if @getCallback()?
 
   fallBackToOldState:->
@@ -96,5 +102,7 @@ class KDMultipleChoice extends KDInputView
     @setValue @oldValue, no
 
   mouseDown:(event)->
+    return  if @_disabled
+
     if $(event.target).is('a')
       @setValue event.target.name

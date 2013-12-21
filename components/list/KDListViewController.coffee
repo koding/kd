@@ -359,9 +359,12 @@ class KDListViewController extends KDViewController
 
       @lazyLoader.spinner.show()
       @emit 'LazyLoadThresholdReached'  if emitWhenReached
+      KD.utils.defer => @scrollView?.stopScrolling = yes
+
 
   hideLazyLoader:->
 
+    KD.utils.wait 300, => @scrollView?.stopScrolling = no
     @showNoItemWidget() if @noItemView and @getOptions().noItemFoundWidget
     if @lazyLoader
       @lazyLoader.spinner.hide()

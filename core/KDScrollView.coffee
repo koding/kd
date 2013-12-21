@@ -10,6 +10,7 @@ class KDScrollView extends KDView
 
     # if @getOptions().ownScrollBars
     #   @_createScrollBars()
+    @stopScrolling = no
     @on 'click', -> KD.getSingleton('windowController').enableScroll()
 
   bindEvents:->
@@ -73,6 +74,7 @@ class KDScrollView extends KDView
     (viewHeight + viewOffsetFromScrollView - @getHeight())/@getHeight()
 
   mouseWheel:(event)->
+    return no  if @stopScrolling
     if $(event.target).attr("data-id") is @getId() and @ownScrollBars
       direction = if event._delta.delta > 0 then "up" else "down"
       @_scrollUponVelocity event._delta.delta,direction

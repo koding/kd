@@ -58,6 +58,8 @@ class KDOnOffSwitch extends KDInputView
     @emit 'SwitchStateChanged', @getValue()
     @getCallback().call @, @getValue() if @getCallback()?
 
+  click: KD.utils.stopDOMEvent
+
   mouseDown:(event)->
     if $(event.target).is('a.on')
       @setValue on

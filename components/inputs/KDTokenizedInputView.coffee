@@ -95,6 +95,8 @@ class KDTokenizedInput extends KDContentEditableView
     @menu?.destroy()
     @blur()
 
+    return  unless data.length
+
     pos       = @tokenInput.getBoundingClientRect()
     options.x = pos.left
     options.y = pos.top + parseInt window.getComputedStyle(@tokenInput).lineHeight, 10
@@ -108,8 +110,8 @@ class KDTokenizedInput extends KDContentEditableView
     @activeRule = null
     @tokenInput = null
 
-  menuItemClicked: (item) ->
-    @addToken item.data
+  menuItemClicked: (item, tokenViewClass) ->
+    @addToken item.data, tokenViewClass
     @hideMenu()
 
   addToken: (item, tokenViewClass = @getOptions().tokenViewClass) ->
@@ -140,7 +142,7 @@ class KDTokenizedInput extends KDContentEditableView
     super
     switch event.which
       when 9, 13, 27, 38, 40 # enter, tab, escape, up, down
-      else
+      else if not event.altKey and event.ctrlKey and event.metaKey
         if @activeRule then @matchToken()
         else @matchPrefix()
 

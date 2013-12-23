@@ -220,21 +220,22 @@ class KDWindowController extends KDController
     Mousetrap.reset()
     @keyView.unsetClass "mousetrap" if @keyView
 
-  setKeyView:(newKeyView)->
-
-    return if newKeyView is @keyView
-    # unless newKeyView
-    # log newKeyView, "newKeyView" if newKeyView
+  setKeyView:(keyView)->
+    console.log keyView
+    keyView?.activateKeyView?()
+    return if keyView is @keyView
+    # unless keyView
+    # log keyView, "keyView" if keyView
 
     @unregisterKeyCombos()
     @oldKeyView = @keyView
-    @keyView    = newKeyView
-    @registerKeyCombos newKeyView
+    @keyView    = keyView
+    @registerKeyCombos keyView
 
-    @constructor.keyViewHistory.push newKeyView
+    @constructor.keyViewHistory.push keyView
 
-    newKeyView?.emit 'KDViewBecameKeyView'
-    @emit 'WindowChangeKeyView', newKeyView
+    keyView?.activateKeyView?()
+    @emit 'WindowChangeKeyView', keyView
 
   setDragView:(dragView)->
 
@@ -269,7 +270,7 @@ class KDWindowController extends KDController
     # log event.type, @keyView.constructor.name, @keyView.getOptions().name
     # if Object.keys(@currentCombos).length > 0
     #   return yes
-    # else
+    # else 
     @emit event.type, event
     @keyView?.handleEvent event
 

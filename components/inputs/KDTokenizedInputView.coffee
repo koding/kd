@@ -142,7 +142,8 @@ class KDTokenizedInput extends KDContentEditableView
     super
     switch event.which
       when 9, 13, 27, 38, 40 # enter, tab, escape, up, down
-      else if not event.altKey and event.ctrlKey and event.metaKey
+      else
+        return if event.altKey or event.ctrlKey or event.metaKey
         if @activeRule then @matchToken()
         else @matchPrefix()
 

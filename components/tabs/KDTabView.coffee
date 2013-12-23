@@ -226,8 +226,7 @@ class KDTabView extends KDScrollView
       @tabHandleContainer.destroy() if @tabHandleContainer?
       @tabHandleContainer = aViewInstance
     else
-      @tabHandleContainer = new KDView()
-      @tabHandleContainer.tabs = new KDView cssClass: 'kdtabhandle-tabs'
+      @tabHandleContainer = new KDTabHandleContainer
       @appendHandleContainer()
 
     @tabHandleContainer.setClass "kdtabhandlecontainer"

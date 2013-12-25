@@ -152,7 +152,7 @@ class KDTokenizedInput extends KDContentEditableView
   cancel: ->
     if @tokenInput.parentNode
       text = document.createTextNode @tokenInput.textContent
-      @getEditableElement().insertBefore text, @tokenInput
+      @tokenInput.parentElement.insertBefore text, @tokenInput
       @tokenInput.nextSibling.remove()
       @tokenInput.remove()
       @utils.selectEnd text

@@ -85,9 +85,11 @@ class KDTokenizedInput extends KDContentEditableView
     return  @cancel() unless @tokenInput.parentNode
     @sanitizeInput()
     token = @tokenInput.textContent.substring @activeRule.prefix.length
-    if token
+    if token.trim()
       {dataSource} = @activeRule
       dataSource token, @bound "showMenu"
+    else if token.length isnt 0
+      @cancel()
 
   sanitizeInput: ->
 

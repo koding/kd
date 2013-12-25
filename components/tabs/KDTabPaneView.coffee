@@ -19,14 +19,17 @@ class KDTabPaneView extends KDView
 
     @setClass "active"
     @unsetClass "kdhiddentab"
+    @parent.getElement().appendChild @getElement()
     @active = yes
     @emit "KDTabPaneActive"
+    KD.utils.defer -> $(window).trigger 'resize'
 
 
   hide:->
 
     @setClass "kdhiddentab"
     @unsetClass "active"
+    @parent.getElement().removeChild @getElement() if @active
     @active = no
     @emit "KDTabPaneInactive"
 

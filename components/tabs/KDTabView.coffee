@@ -140,12 +140,12 @@ class KDTabView extends KDScrollView
     @addSubView @tabHandleContainer
 
   appendPane:(pane)->
-    pane.setDelegate @
+    pane.setDelegate this
     @addSubView pane
 
   appendHandle:(tabHandle)->
     @handleHeight or= @tabHandleContainer.getHeight()
-    tabHandle.setDelegate @
+    tabHandle.setDelegate this
     @tabHandleContainer.tabs.addSubView tabHandle
 
     {enableMoveTabHandle, maxHandleWidth} = @getOptions()

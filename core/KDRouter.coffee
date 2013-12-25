@@ -98,9 +98,6 @@ class KDRouter extends KDObject
   addRoutes:(routes)->
     @addRoute route, listener  for own route, listener of routes
 
-  pushRoute: (path) ->
-    _gaq?.push ['_trackPageview', path]
-
   handleRoute:(userRoute, options={})->
 
     userRoute = userRoute.slice 1  if (userRoute.indexOf '!') is 0
@@ -132,8 +129,6 @@ class KDRouter extends KDObject
       @emit 'AlreadyHere', path
       return
 
-    @pushRoute path
-
     @currentPath = path
 
     if shouldPushState
@@ -151,7 +146,7 @@ class KDRouter extends KDObject
         else @handleNotFound frag.join '/'
 
     routeInfo = {params, query}
-    @emit 'Params', {params, query}
+    @emit 'RouteInfoHandled', {params, query, path}
 
     unless suppressListeners
       listeners = node[listenerKey]

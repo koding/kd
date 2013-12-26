@@ -192,9 +192,9 @@ class KDModalView extends KDView
         @setClass "active"
 
   cancel:->
-    if @getOptions().cancelable
-      @emit 'ModalCancelled'
-      @destroy()
+    return unless @getOptions().cancelable
+    @emit 'ModalCancelled'
+    @destroy()
 
   destroy:->
     $(window).off "keydown.modal"

@@ -19,7 +19,7 @@ class KDModalView extends KDView
 
     options.helpContent  or= null
     options.helpTitle    or= "Need help?"
-    options.disableCancel ?= no
+    options.cancelable    ?= yes
 
     super options, data
 
@@ -192,7 +192,7 @@ class KDModalView extends KDView
         @setClass "active"
 
   cancel:->
-    unless @getOptions().disableCancel
+    if @getOptions().cancelable
       @emit 'ModalCancelled'
       @destroy()
 

@@ -67,7 +67,7 @@ class KDWindowController extends KDController
     document.addEventListener 'scroll', do =>
       timer  = null
       {body} = document
-      (event)=>
+      _.throttle (event)=>
         @emit "ScrollHappened", event
         clearTimeout timer
         unless body.classList.contains 'onscroll'
@@ -75,6 +75,7 @@ class KDWindowController extends KDController
 
         timer = KD.utils.wait 200, ->
           body.classList.remove 'onscroll'
+      , 50
     , no
 
     addListener "dragenter", (event)=>

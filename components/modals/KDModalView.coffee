@@ -19,6 +19,7 @@ class KDModalView extends KDView
 
     options.helpContent  or= null
     options.helpTitle    or= "Need help?"
+    options.disableCancel ?= no
 
     super options, data
 
@@ -100,7 +101,7 @@ class KDModalView extends KDView
     button.destroy()  for own _key, button of @buttons
 
   click:(e)->
-    @destroy() if $(e.target).is(".closeModal")
+    @cancel() if $(e.target).is(".closeModal")
     if $(e.target).is(".showHelp")
       {helpContent} = @getOptions()
       if helpContent
@@ -191,8 +192,9 @@ class KDModalView extends KDView
         @setClass "active"
 
   cancel:->
-    @emit 'ModalCancelled'
-    @destroy()
+    unless @getOptions().disableCancel
+      @emit 'ModalCancelled'
+      @destroy()
 
   destroy:->
     $(window).off "keydown.modal"

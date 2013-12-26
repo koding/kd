@@ -85,9 +85,11 @@ class KDTokenizedInput extends KDContentEditableView
     return  @cancel() unless @tokenInput.parentNode
     @sanitizeInput()
     token = @tokenInput.textContent.substring @activeRule.prefix.length
-    if token
+    if token.trim()
       {dataSource} = @activeRule
       dataSource token, @bound "showMenu"
+    else if token.length isnt 0
+      @cancel()
 
   sanitizeInput: ->
 
@@ -150,7 +152,7 @@ class KDTokenizedInput extends KDContentEditableView
   cancel: ->
     if @tokenInput.parentNode
       text = document.createTextNode @tokenInput.textContent
-      @getEditableElement().insertBefore text, @tokenInput
+      @tokenInput.parentElement.insertBefore text, @tokenInput
       @tokenInput.nextSibling.remove()
       @tokenInput.remove()
       @utils.selectEnd text

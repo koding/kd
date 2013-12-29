@@ -365,7 +365,7 @@ class KDView extends KDObject
     positionOptions.position = "absolute"
     @$().css positionOptions
 
-  getWidth:-> @$().width()
+  getWidth:-> @$().outerWidth no
 
   setWidth:(w, unit = "px")->
     @getElement().style.width = "#{w}#{unit}"

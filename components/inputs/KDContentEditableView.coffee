@@ -79,6 +79,7 @@ class KDContentEditableView extends KDView
       @setPlaceholder()
     else
       @setContent @getValue() if @getOptions().type isnt "html"
+    @emit 'BlurHappened'
 
   click: => @focus() if @editingMode and not @focused
 
@@ -101,7 +102,7 @@ class KDContentEditableView extends KDView
         else @emit "NextTabStop"
       when 13 # Enter key
         if @getOptions().multiline then @appendNewline()
-        else @emit "Enter"
+        else @emit "EnterPressed"
 
     value = @getValue()
     maxLength = @getOptions().validate?.rules?.maxLength or 0

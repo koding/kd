@@ -130,12 +130,13 @@ class KDTokenizedInput extends KDContentEditableView
     @tokenInput.remove()
 
   keyDown: (event) ->
-    super event
     switch event.which
       when 9, 13, 27, 38, 40 # enter, tab, escape, up, down
         if @menu
           @menu.treeController.keyEventHappened event
           @utils.stopDOMEvent event
+      else
+        super event
 
     switch event.which
       when 27 then @cancel() if @tokenInput

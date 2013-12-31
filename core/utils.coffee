@@ -61,6 +61,10 @@ __utils =
     }
     """
 
+  formatIndefiniteArticle: (noun) ->
+    return "an #{noun}"  if noun[0].toLowerCase() in ['a','e','i','o','u']
+    return "a #{noun}"
+
   getSelection:->
     return  window.getSelection()
 

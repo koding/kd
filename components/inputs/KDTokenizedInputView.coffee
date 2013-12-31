@@ -119,13 +119,15 @@ class KDTokenizedInput extends KDContentEditableView
   addToken: (item, tokenViewClass = @getOptions().tokenViewClass) ->
     {type, prefix, pistachio} = @activeRule
     tokenView = new tokenViewClass {type, prefix, pistachio}, item
+    tokenElement = tokenView.getElement()
 
     tokenKey              = "#{tokenView.getId()}-#{tokenView.getKey()}"
     @tokenViews[tokenKey] = tokenView
 
     tokenView.setAttributes "data-key": tokenKey
-    @tokenInput.parentElement.insertBefore tokenView.getElement(), @tokenInput
+    @tokenInput.parentElement.insertBefore tokenElement, @tokenInput
     tokenView.emit "viewAppended"
+    @tokenInput.nextSibling.textContent = "\u00a0"
     @utils.selectText @tokenInput.nextSibling, 1
     @tokenInput.remove()
 

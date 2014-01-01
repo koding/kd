@@ -15,9 +15,7 @@ module.exports = [
   "libs/highlight.pack.js"
   "libs/inflector.js",
   "libs/canvas-loader.js",
-  "libs/mousetrap.js",
-  "libs/mousetrap.js",
-  "libs/mousetrap-global-bind.js",
+  "libs/mousetrap.js"
   "libs/marked.js",
   "libs/jspath.js",
   "libs/hammer.js",

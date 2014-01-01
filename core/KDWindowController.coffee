@@ -228,13 +228,13 @@ class KDWindowController extends KDController
 
     @unregisterKeyCombos()
     @oldKeyView = @keyView
-    @keyView    = keyView
-    @registerKeyCombos keyView
+    @keyView    = newKeyView
+    @registerKeyCombos newKeyView
 
-    @constructor.keyViewHistory.push keyView
+    @constructor.keyViewHistory.push newKeyView
 
-    keyView?.activateKeyView?()
-    @emit 'WindowChangeKeyView', keyView
+    newKeyView?.emit 'KDViewBecameKeyView'
+    @emit 'WindowChangeKeyView', newKeyView
 
   setDragView:(dragView)->
 
@@ -269,7 +269,7 @@ class KDWindowController extends KDController
     # log event.type, @keyView.constructor.name, @keyView.getOptions().name
     # if Object.keys(@currentCombos).length > 0
     #   return yes
-    # else 
+    # else
     @emit event.type, event
     @keyView?.handleEvent event
 

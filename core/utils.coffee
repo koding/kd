@@ -81,8 +81,7 @@ __utils =
     selection.addRange range
 
   selectText:(element, start, end = start)->
-    doc   = document
-    if doc.body.createTextRange
+    if document.body.createTextRange
       range = document.body.createTextRange()
       range.moveToElementText element
       range.select()

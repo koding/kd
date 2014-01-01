@@ -221,7 +221,6 @@ class KDWindowController extends KDController
     @keyView.unsetClass "mousetrap" if @keyView
 
   setKeyView:(keyView)->
-    console.log keyView
     keyView?.activateKeyView?()
     return if keyView is @keyView
     # unless keyView

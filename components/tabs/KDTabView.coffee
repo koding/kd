@@ -113,6 +113,8 @@ class KDTabView extends KDScrollView
 
     @handles[0].setClass 'first'
 
+    @emit 'TabsSorted'
+
   removePane:(pane)->
     pane.emit "KDTabPaneDestroy"
     index = @getPaneIndex pane

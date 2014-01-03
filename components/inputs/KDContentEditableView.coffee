@@ -119,7 +119,7 @@ class KDContentEditableView extends KDView
 
   drop: (event) ->
     event.preventDefault()
-    text = @getClipboardTextNode event.originalEvent.dataTransfer
+    text = event.originalEvent.dataTransfer.getData "text/plain"
     {originalEvent: {clientX, clientY}} = event
 
     if @getValue() is ""

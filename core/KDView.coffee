@@ -622,7 +622,7 @@ class KDView extends KDObject
   mouseWheel:(event)-> yes
 
   mouseDown:(event)->
-    (KD.getSingleton "windowController").unsetKeyView
+    KD.singleton("windowController").unsetKeyView()
     yes
 
   paste:(event)->      yes

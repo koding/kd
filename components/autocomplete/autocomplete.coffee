@@ -3,7 +3,7 @@ class KDAutoComplete extends KDInputView
     @focus()
 
   setDomElement:->
-    @domElement = $ "<div class='kdautocompletewrapper clearfix'><input type='text' class='kdinput text'/></div>"
+    @domElement = $ "<div class='kdautocompletewrapper clearfix'><input type='text' placeholder='#{@getOptions().placeholder}' class='kdinput text'/></div>"
 
   setDomId:->
     @$input().attr "id",@getDomId()

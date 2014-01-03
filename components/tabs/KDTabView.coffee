@@ -184,7 +184,7 @@ class KDTabView extends KDScrollView
     handle = @getHandleByIndex index
     handle.makeActive()
     pane.emit "PaneDidShow"
-    @emit "PaneDidShow", pane
+    @emit "PaneDidShow", pane, index
     return pane
 
 
@@ -258,7 +258,8 @@ class KDTabView extends KDScrollView
       paneInstance = pane if pane.id is id
     paneInstance
 
-  getActivePane:-> @activePane
+  getActivePane: -> @activePane
+  getActivePaneIndex: -> @getPaneIndex @getActivePane()
 
   setActivePane:(@activePane)->
 

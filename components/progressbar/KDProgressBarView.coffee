@@ -14,7 +14,7 @@ class KDProgressBarView extends KDCustomHTMLView
     @createBar()
     @updateBar initial or 1, "%", title
 
-  createBar:(value, label)->
+  createBar:(value, label = @getOptions().title)->
     @addSubView @bar = new KDCustomHTMLView
       cssClass    : "bar"
     @addSubView @spinner = new KDCustomHTMLView
@@ -27,7 +27,7 @@ class KDProgressBarView extends KDCustomHTMLView
       cssClass    : 'light-label'
     @lightLabel.setWidth @getWidth()
 
-  updateBar:(value, unit, label)->
+  updateBar:(value, unit='%', label = @getOptions().title)->
     {determinate} = @getOptions()
     if determinate
       @bar.show()

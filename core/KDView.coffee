@@ -940,7 +940,9 @@ class KDView extends KDObject
 
     KD.getSingleton("windowController").setKeyView this
 
-  unsetKeyView: -> @setKeyView null
+  unsetKeyView: ->
+
+    KD.getSingleton("windowController").setKeyView null
 
   activateKeyView: ->
     @emit? 'KDViewBecameKeyView'

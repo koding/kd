@@ -65,3 +65,5 @@ class KDHitEnterInputView extends KDInputView
       @emit "EnterPerformed"
       @validate()
       no
+    else if event.which is 27 # escape
+      @emit "EscapePerformed"

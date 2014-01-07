@@ -4,7 +4,7 @@ class KDModalView extends KDView
     options.overlay       ?= no            # a Boolean
     options.overlayClick  ?= yes           # a Boolean
     options.height       or= "auto"        # a Number for pixel value or a String e.g. "100px" or "20%" or "auto"
-    options.width         ?= 400           # a Number for pixel value or a String e.g. "100px" or "20%"
+    options.width         ?= 600           # a Number for pixel value or a String e.g. "100px" or "20%"
     options.position     or= {}            # an Object holding top and left values
     options.title        or= null          # a String of text or HTML
     options.subtitle     or= null          # a String of text or HTML

@@ -488,10 +488,8 @@ class KDView extends KDObject
     unless isCustom
       @$('#'+placeholderId).replaceWith child.$()
 
-  render:->
-    if @template?
-      @template.update()
-      return
+  render: (fields) ->
+    @template.update fields  if @template?
     # removes e.g. on actions on status updates such as like and comment
     # as in the backend they trigger 'update'
     # else if 'function' is typeof @partial and data = @getData()

@@ -29,20 +29,20 @@ class KDListItemView extends KDView
 
   dim:->
 
-    @getDomElement().addClass "dimmed"
+    @setClass "dimmed"
 
   undim:->
 
-    @getDomElement().removeClass "dimmed"
+    @unsetClass "dimmed"
 
   highlight:->
 
+    @undim()
     @setClass "selected"
-    @unsetClass "dimmed"
 
   removeHighlight:->
 
+    @undim()
     @unsetClass "selected"
-    @unsetClass "dimmed"
 
   getItemDataId:-> @getData().getId?() or @getData().id or @getData()._id

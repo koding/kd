@@ -60,9 +60,23 @@ class KDWindowController extends KDController
 
     $(window).bind @keyEventsToBeListened.join(' '), @bound "key"
 
-    $(window).bind "resize",(event)=>
+    $(window).bind "resize", (event)=>
       @setWindowProperties event
       @notifyWindowResizeListeners event
+
+    document.addEventListener 'scroll', do =>
+      timer  = null
+      {body} = document
+      _.throttle (event)=>
+        @emit "ScrollHappened", event
+        clearTimeout timer
+        unless body.classList.contains 'onscroll'
+          body.classList.add 'onscroll'
+
+        timer = KD.utils.wait 400, ->
+          body.classList.remove 'onscroll'
+      , 50
+    , no
 
     addListener "dragenter", (event)=>
       unless @dragInAction
@@ -83,11 +97,10 @@ class KDWindowController extends KDController
     layers = @layers
 
     addListener 'mousedown', (e)=>
-      # $('.twipsy').remove() # temporary for beta
+
       lastLayer = layers.last
 
       if lastLayer and $(e.target).closest(lastLayer?.$()).length is 0
-        # log lastLayer, "ReceivedClickElsewhere"
         lastLayer.emit 'ReceivedClickElsewhere', e
         @removeLayer lastLayer
 
@@ -101,19 +114,19 @@ class KDWindowController extends KDController
     # internal links (including "#") should prevent default, so we don't end
     # up with duplicate entries in history: e.g. /Activity and /Activity#
     # also so that we don't redirect the browser
-    addListener 'click', (e)->
-      isInternalLink = e.target?.nodeName.toLowerCase() is 'a' and\           # html nodenames are uppercase, so lowercase this.
-                       e.target.target?.length is 0                           # targeted links should work as normal.
+    (addListener 'click', (e)->
+      nearestLink = KD.utils.getNearestElementByTagName e.target, 'a'
 
-      if isInternalLink
-        href   = e.target.getAttribute "href"
+      if nearestLink?.target?.length is 0 # links with a target attribute should work as normal.
+        href   = nearestLink.getAttribute "href"
         isHttp = href?.indexOf("http") is 0
         if isHttp
-          e.target.target = "_blank"
+          nearestLink.target = "_blank"
         else
           e.preventDefault()
           if href and not /^#/.test href
             KD.getSingleton("router").handleRoute href
+    , no)
 
     unless location.hostname is 'localhost'
       window.addEventListener 'beforeunload', @bound "beforeUnload"
@@ -122,8 +135,8 @@ class KDWindowController extends KDController
       @focusChange event, @isFocused()
 
   addUnloadListener:(key, listener)->
-    listeners = @unloadListeners[key] or= []
-    listeners.push listener
+    @unloadListeners[key] or= []
+    @unloadListeners[key].push listener
 
   clearUnloadListeners: (key)->
     if key
@@ -207,21 +220,21 @@ class KDWindowController extends KDController
     Mousetrap.reset()
     @keyView.unsetClass "mousetrap" if @keyView
 
-  setKeyView:(newKeyView)->
-
-    return if newKeyView is @keyView
-    # unless newKeyView
-    # log newKeyView, "newKeyView" if newKeyView
+  setKeyView:(keyView)->
+    keyView?.activateKeyView?()
+    return if keyView is @keyView
+    # unless keyView
+    # log keyView, "keyView" if keyView
 
     @unregisterKeyCombos()
     @oldKeyView = @keyView
-    @keyView    = newKeyView
-    @registerKeyCombos newKeyView
+    @keyView    = keyView
+    @registerKeyCombos keyView
 
-    @constructor.keyViewHistory.push newKeyView
+    @constructor.keyViewHistory.push keyView
 
-    newKeyView?.emit 'KDViewBecameKeyView'
-    @emit 'WindowChangeKeyView', newKeyView
+    keyView?.activateKeyView?()
+    @emit 'WindowChangeKeyView', keyView
 
   setDragView:(dragView)->
 
@@ -256,7 +269,7 @@ class KDWindowController extends KDController
     # log event.type, @keyView.constructor.name, @keyView.getOptions().name
     # if Object.keys(@currentCombos).length > 0
     #   return yes
-    # else
+    # else 
     @emit event.type, event
     @keyView?.handleEvent event
 

@@ -15,6 +15,39 @@ __utils =
 
   dict: Object.create.bind null, null, (Object.create null)
 
+  getNearestElementByTagName: (el, tagName) ->
+    el = el.parentNode  until not el? or @elementHasTag el, tagName
+    return el
+
+  elementShow: (el) ->
+    el?.classList.remove "hidden"
+
+  elementHide: (el) ->
+    el?.classList.add "hidden"
+
+  elementHasTag: (el, tagName) ->
+    Boolean(el.tagName?.toLowerCase() is tagName.toLowerCase())
+
+  elementIsVisible: (el) ->
+    return false  if el.offsetWidth <= 0 or el.offsetHeight <= 0
+    height = document.documentElement.clientHeight
+    rects = el.getClientRects()
+    onTop = (r) ->
+      x = (r.left + r.right) / 2
+      y = (r.top + r.bottom) / 2
+      document.elementFromPoint(x, y) is el
+
+    i = 0
+    l = rects.length
+
+    while i < l
+      r = rects[i]
+      inViewport = (if r.top > 0 then r.top <= height else (r.bottom > 0 and r.bottom <= height))
+      return true  if inViewport and onTop(r)
+      i++
+
+    return false
+
   formatPlural:(count, noun, showCount = yes)->
     """
     #{
@@ -28,18 +61,70 @@ __utils =
     }
     """
 
-  selectText:(element, selectionStart, selectionEnd)->
-    doc   = document
-    if doc.body.createTextRange
+  formatIndefiniteArticle: (noun) ->
+    return "an #{noun}"  if noun[0].toLowerCase() in ['a','e','i','o','u']
+    return "a #{noun}"
+
+  getSelection:->
+    return  window.getSelection()
+
+  getSelectionRange:->
+    selection = __utils.getSelection()
+    return  selection.getRangeAt 0 if selection.type isnt "None"
+
+  getCursorNode:->
+    return  __utils.getSelectionRange().commonAncestorContainer
+
+  addRange:(range)->
+    selection = window.getSelection()
+    selection.removeAllRanges()
+    selection.addRange range
+
+  selectText:(element, start, end = start)->
+    if document.body.createTextRange
       range = document.body.createTextRange()
       range.moveToElementText element
       range.select()
     else if window.getSelection
       selection = window.getSelection()
       range     = document.createRange()
+
       range.selectNodeContents element
+      range.setStart           element, start if start?
+      range.setEnd             element, end   if end?
+
       selection.removeAllRanges()
       selection.addRange range
+
+  selectEnd:(element, range)->
+    range   or= document.createRange()
+    element or= __utils.getSelection().focusNode
+
+    return  unless element
+
+    range.setStartAfter element
+    range.collapse no
+    __utils.addRange range
+
+  replaceRange:(node, replacement, start, end = start, appendTrailingSpace = yes)->
+    trailingSpace = document.createTextNode "\u00a0"
+
+    range = new Range()
+
+    if start?
+      range.setStart    node, start
+      range.setEnd      node, end
+    else
+      range.selectNode  node
+
+    range.deleteContents()
+
+    range.insertNode replacement
+    __utils.selectEnd replacement, range
+
+    if appendTrailingSpace
+      range.insertNode trailingSpace
+      __utils.selectEnd trailingSpace, range
 
   getCallerChain:(args, depth)->
     {callee:{caller}} = args
@@ -131,7 +216,7 @@ __utils =
     # - links are broken due to textexpansions (images too i guess)
     return null unless text
 
-    marked text,
+    marked Encoder.htmlDecode(text),
       gfm       : true
       pedantic  : false
       sanitize  : true
@@ -373,12 +458,17 @@ __utils =
     arr = (str?.split(delim).map (part) -> do part.trim) ? []
     arr = arr.filter Boolean  if filterEmpty
     return arr
-  
+
   objectToArray: (options)->
     for key, option of options
       option.title ?= key
       option.key    = key
       option
+
+  arrayToObject: (list, key) ->
+    dict = {}
+    dict[obj[key]] = obj for obj in list when obj[key]?
+    dict
 
   # The partition function takes a list and predicate fn and returns the pair of lists
   # of elements which do and do not satisfy the predicate, respectively.

@@ -1,14 +1,10 @@
-#####
-# On Off Switch Class (Old KDRySwitch)
-#####
-
 class KDOnOffSwitch extends KDInputView
   constructor:(options = {}, data)->
 
     options.type           = "switch"
     options.title        or= ""
     options.size         or= "small"        # a String tiny/small/big
-    options.labels       or= ["ON", "OFF"]
+    options.labels       or= ["ON"  , "OFF"]
     options.defaultValue  ?= off
     super options, data
 
@@ -19,7 +15,7 @@ class KDOnOffSwitch extends KDInputView
 
   setDomElement:(cssClass)->
     {title, labels, name} = @getOptions()
-    title       = "<span>#{title}</span>" if title
+    title       = "<span>#{title}</span>" if title isnt ''
     @inputName  = name
     @domElement = $ """
       <div class='kdinput on-off off #{cssClass}'>
@@ -61,6 +57,8 @@ class KDOnOffSwitch extends KDInputView
   switchStateChanged:->
     @emit 'SwitchStateChanged', @getValue()
     @getCallback().call @, @getValue() if @getCallback()?
+
+  click: KD.utils.stopDOMEvent
 
   mouseDown:(event)->
     if $(event.target).is('a.on')

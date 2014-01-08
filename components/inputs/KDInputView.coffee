@@ -13,7 +13,6 @@ class KDInputView extends KDView
     # o.readonly               ?= no            # a Boolean value
     o.selectOptions           or= null          # an Array of Strings
     o.validate                or= null          # an Object of Validation options see KDInputValidator for details
-    o.validationNotifications  ?= yes
     o.hint                    or= null          # a String of HTML
     o.autogrow                 ?= no            # a Boolean
     o.enableTabKey             ?= no            # a Boolean # NOT YET READY needs some work
@@ -28,7 +27,7 @@ class KDInputView extends KDView
 
     options = @getOptions()
 
-    @inputValidationNotifications = {}
+    @validationNotifications = {}
     @valid = yes
     @inputCallback = null
     @setName options.name
@@ -245,7 +244,7 @@ class KDInputView extends KDView
   setValidationResult:(rule, err, showNotification=yes)->
     if err
       @validationResults[rule] = err
-      @showValidationError err if @getOptions().validationNotifications and showNotification
+      @showValidationError err if @getOptions().validate.notifications and showNotification
       @emit "ValidationError", err
       @valid = no
     else
@@ -258,19 +257,41 @@ class KDInputView extends KDView
 
   showValidationError:(message)->
 
-    @inputValidationNotifications[message]?.destroy()
+    @validationNotifications[message]?.destroy()
 
-    {container} = @getOptions('validate')
-    @inputValidationNotifications[message] = notice = new KDNotificationView
-      container : container if container
-      title     : message
-      type      : 'growl'
-      cssClass  : 'mini'
-      duration  : 2500
+    {container, notifications} = @getOption('validate')
+
+    if notifications?.type is 'tooltip'
+
+      if @tooltip
+        str = "- #{message}<br>#{@tooltip.getOption 'title'}"
+
+      @unsetTooltip()
+
+      notifications =
+        cssClass  : notifications.cssClass  or 'input-validation'
+        delegate  : notifications.delegate  or this
+        title     : notifications.title     or str or message
+        placement : notifications.placement or 'right'
+        direction : notifications.direction or 'left'
+        forcePosition : yes
+
+      @validationNotifications[message] = notice = @setTooltip notifications
+
+      notice.show()
+
+    else if notifications
+
+      @validationNotifications[message] = notice = new KDNotificationView
+        container : container if container
+        title     : message
+        type      : 'growl'
+        cssClass  : 'mini'
+        duration  : 2500
 
     notice.on "KDObjectWillBeDestroyed", =>
       message = notice.getOptions().title
-      delete @inputValidationNotifications[message]
+      delete @validationNotifications[message]
 
   clearValidationFeedback:->
 
@@ -340,10 +361,17 @@ class KDInputView extends KDView
           height        : "auto"
           zIndex        : 100000
           width         : $input.width()
-          border        : $input.css 'border'
-          padding       : $input.css 'padding'
+          borderTop     : $input.css 'border-top'
+          borderRight   : $input.css 'border-right'
+          borderBottom  : $input.css 'border-bottom'
+          borderLeft    : $input.css 'border-left'
+          paddingTop    : $input.css 'padding-top'
+          paddingRight  : $input.css 'padding-right'
+          paddingBottom : $input.css 'padding-bottom'
+          paddingLeft   : $input.css 'padding-left'
           wordBreak     : $input.css 'wordBreak'
           fontSize      : $input.css 'fontSize'
+          fontWeight    : $input.css 'fontWeight'
           lineHeight    : $input.css 'lineHeight'
           whiteSpace    : "pre-line"
 

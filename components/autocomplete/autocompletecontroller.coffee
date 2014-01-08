@@ -3,6 +3,7 @@ class KDAutoCompleteController extends KDViewController
     options = $.extend
       view                  : mainView = options.view or new KDAutoComplete
         name                : options.name
+        placeholder         : options.placeholder or ""
         label               : options.label or new KDLabelView
           title             : options.name
       itemClass             : KDAutoCompleteListItemView

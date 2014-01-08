@@ -89,59 +89,19 @@ class KDView extends KDObject
 
     # TO BE IMPLEMENTED
     o.resizable   or= null      # TBDL
-    super o,data
+    super o, data
 
     data?.on? 'update', @bound 'render'
 
-    @setInstanceVariables options
-    @defaultInit options,data
-
-    @setClass 'kddraggable' if o.draggable
-
-    @on 'childAppended', @childAppended.bind this
-
-    @on 'viewAppended', =>
-      @setViewReady()
-      @viewAppended()
-      @childAppended this
-      @parentIsInDom = yes
-      subViews = @getSubViews()
-      # temp fix for KDTreeView
-      # subviews are stored in an object not in an array
-      # hmm not really sth weirder going on...
-
-      fireViewAppended = (child)->
-        unless child.parentIsInDom
-          child.parentIsInDom = yes
-          child.emit 'viewAppended'  unless child.lazy
-
-      if Array.isArray subViews
-        fireViewAppended child for child in subViews
-      else if subViews? and 'object' is typeof subViews
-        fireViewAppended child for own key, child of subViews
-
-      if @getOptions().introId
-        mainController = KD.getSingleton "mainController"
-        mainController.introductionTooltipController.emit "ShowIntroductionTooltip", this
-
-    # development only
-    if location.hostname is "localhost"
-      @on "click", (event)=>
-        return unless event
-        if event.metaKey and event.altKey and event.ctrlKey
-          log @getData()
-          event.stopPropagation?()
-          event.preventDefault?()
-          return false
-        else if event.altKey and (event.metaKey or event.ctrlKey)
-          log this
-          return false
-
-  setInstanceVariables:(options)->
     {@domId, @parent} = options
-    @subViews = []
+    @subViews         = []
 
-  defaultInit:(options,data)->
+    @defaultInit options,data
+    @devHacks()
+
+
+  defaultInit:(options, data)->
+
     @setDomElement options.cssClass
     @setDataId()
     @setDomId options.domId               if options.domId
@@ -149,6 +109,7 @@ class KDView extends KDObject
     @setSize options.size                 if options.size
     @setPosition options.position         if options.position
     @updatePartial options.partial        if options.partial
+    @setClass 'kddraggable'               if options.draggable
 
     @addEventHandlers options
 
@@ -166,6 +127,29 @@ class KDView extends KDObject
     @setDraggable options.draggable  if options.draggable
 
     @bindEvents()
+
+    @on 'childAppended', @childAppended.bind this
+
+    @on 'viewAppended', =>
+      @setViewReady()
+      @viewAppended()
+      @childAppended this
+      @parentIsInDom = yes
+
+      fireViewAppended = (child)->
+        unless child.parentIsInDom
+          child.parentIsInDom = yes
+          child.emit 'viewAppended'  unless child.lazy
+
+      # temp fix for KDTreeView
+      # subviews are stored in an object not in an array
+      # hmm not really sth weirder going on...
+      subViews = @getSubViews()
+      if Array.isArray subViews
+        fireViewAppended child for child in subViews
+      else if subViews? and 'object' is typeof subViews
+        fireViewAppended child for own key, child of subViews
+
 
   getDomId:-> @domElement.attr "id"
 
@@ -301,26 +285,27 @@ class KDView extends KDObject
 # CSS METHODS
 # #
 
-  _helpSetClass = (el, addOrRemove, cssClass)->
+  @setElementClass = (el, addOrRemove, cssClass)->
     el.classList[addOrRemove] cl for cl in cssClass.split(' ') when cl isnt ''
 
   setCss:(property, value)->
-    el = @$()
-    el.css property, value
+
+    @$().css property, value
 
   setStyle:(properties)->
-    el = @$()
-    for own property, value of properties
-      el.css property, value
+
+    @$().css property, value for own property, value of properties
 
   setClass:(cssClass)->
+
     return unless cssClass
-    _helpSetClass @getElement(), "add", cssClass
+    KDView.setElementClass @getElement(), "add", cssClass
     return this
 
   unsetClass:(cssClass)->
+
     return unless cssClass
-    _helpSetClass @getElement(), "remove", cssClass
+    KDView.setElementClass @getElement(), "remove", cssClass
     return this
 
   toggleClass:(cssClass)->
@@ -380,7 +365,7 @@ class KDView extends KDObject
     positionOptions.position = "absolute"
     @$().css positionOptions
 
-  getWidth:-> @$().width()
+  getWidth:-> @$().outerWidth no
 
   setWidth:(w, unit = "px")->
     @getElement().style.width = "#{w}#{unit}"
@@ -517,6 +502,11 @@ class KDView extends KDObject
 # EVENT BINDING/HANDLING
 # #
 
+  addEventHandlers:(options)->
+    for own eventName, cb of options
+      if eventNames.test(eventName) and "function" is typeof cb
+        @on eventName, cb
+
 
   parentDidResize:(parent,event)->
     if @getSubViews()
@@ -632,7 +622,7 @@ class KDView extends KDObject
   mouseWheel:(event)-> yes
 
   mouseDown:(event)->
-    (KD.getSingleton "windowController").setKeyView null
+    @unsetKeyView()
     yes
 
   paste:(event)->      yes
@@ -660,11 +650,6 @@ class KDView extends KDObject
     # no
 
   submit:(event)-> no #propagations leads to window refresh
-
-  addEventHandlers:(options)->
-    for own eventName, cb of options
-      if eventNames.test(eventName) and "function" is typeof cb
-        @on eventName, cb
 
   setEmptyDragState:(moveBacktoInitialPosition = no)->
 
@@ -722,14 +707,25 @@ class KDView extends KDObject
       if options.containment
         dragState.containment = {}
         {view} = options.containment
-        if 'string' is typeof view
-          dragState.containment.viewBounds = @[view].getBounds()
-        dragState.containment.viewBounds or= @parent.getBounds()
-        if 'number' is typeof options.containment.padding
-        then padding = options.containment.padding
-        else padding = 0
-        dragState.containment.padding = \
-            top: padding, right: padding, bottom: padding, left: padding
+
+        bounds = if 'string' is typeof view
+        then @[view].getBounds()
+        else if view instanceof KDView
+        then view.getBounds()
+        else @parent.getBounds()
+
+        dragState.containment.viewBounds = bounds
+
+        padding = top : 0, right : 0, bottom : 0, left : 0
+
+        oPad = options.containment.padding
+        if 'number' is typeof oPad
+        then v = oPad for own p, v of padding
+        else if 'object' is typeof oPad
+        then KD.utils.extend padding, oPad
+
+        dragState.containment.padding = padding
+
 
       # TODO: should move these lines
       dragState.handle      = options.handle
@@ -819,7 +815,7 @@ class KDView extends KDObject
 # #
 
   viewAppended:->
-    { pistachio } = @getOptions()
+    {pistachio} = @getOptions()
     if pistachio and not @template?
       @setTemplate pistachio
       @template.update()
@@ -890,6 +886,10 @@ class KDView extends KDObject
     else
       kallback()
 
+  unsetTooltip:(o = {})->
+    @tooltip?.destroy()
+    delete @tooltip
+
   setTooltip:(o = {})->
 
     placementMap =
@@ -918,8 +918,7 @@ class KDView extends KDObject
     o.delegate  or= this
     o.events    or= ['mouseenter','mouseleave','mousemove']
 
-    @tooltip?.destroy()
-    delete @tooltip
+    @unsetTooltip()
     @tooltip = new KDTooltip o, {}
 
   getTooltip:-> @tooltip
@@ -940,3 +939,24 @@ class KDView extends KDObject
   setKeyView:->
 
     KD.getSingleton("windowController").setKeyView this
+
+  unsetKeyView: ->
+
+    KD.getSingleton("windowController").setKeyView null
+
+  activateKeyView: ->
+    @emit? 'KDViewBecameKeyView'
+
+  # development only
+  devHacks:->
+
+    @on "click", (event)=>
+      return unless event
+      if event.metaKey and event.altKey and event.ctrlKey
+        log @getData()
+        event.stopPropagation?()
+        event.preventDefault?()
+        return false
+      else if event.altKey and (event.metaKey or event.ctrlKey)
+        log this
+        return false

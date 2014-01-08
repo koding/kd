@@ -4,22 +4,22 @@ class KDModalView extends KDView
     options.overlay       ?= no            # a Boolean
     options.overlayClick  ?= yes           # a Boolean
     options.height       or= "auto"        # a Number for pixel value or a String e.g. "100px" or "20%" or "auto"
-    options.width         ?= 400           # a Number for pixel value or a String e.g. "100px" or "20%"
+    options.width         ?= 600           # a Number for pixel value or a String e.g. "100px" or "20%"
     options.position     or= {}            # an Object holding top and left values
     options.title        or= null          # a String of text or HTML
     options.subtitle     or= null          # a String of text or HTML
     options.content      or= null          # a String of text or HTML
-    options.cssClass     or= ""            # a String
     options.buttons      or= null          # an Object of button options
     options.fx            ?= no            # a Boolean
     options.view         or= null          # a KDView instance
-    options.draggable    or= handle : ".kdmodal-title"
+    options.draggable     ?= handle : ".kdmodal-title"
     # TO BE IMPLEMENTED
     options.resizable     ?= no            # a Boolean
     options.appendToDomBody ?= yes
 
     options.helpContent  or= null
     options.helpTitle    or= "Need help?"
+    options.cancelable    ?= yes
 
     super options, data
 
@@ -71,13 +71,11 @@ class KDModalView extends KDView
 
     @domElement = $ """
       <div class='kdmodal #{cssClass}'>
-        <div class='kdmodal-shadow'>
-          <div class='kdmodal-inner'>
-            #{helpButton}
-            <span class='close-icon closeModal' title='Close [ESC]'></span>
-            <div class='kdmodal-title hidden'></div>
-            <div class='kdmodal-content'></div>
-          </div>
+        <div class='kdmodal-inner'>
+          #{helpButton}
+          <span class='close-icon closeModal' title='Close [ESC]'></span>
+          <div class='kdmodal-title hidden'></div>
+          <div class='kdmodal-content'></div>
         </div>
       </div>
     """
@@ -97,13 +95,13 @@ class KDModalView extends KDView
       @buttons[buttonTitle] = button
       focused = yes  if buttonOptions.focus
 
-    @buttons[defaultFocusTitle].setFocus()  unless focused
+    @buttons[defaultFocusTitle]?.setFocus()  if not focused and defaultFocusTitle
 
   destroyButtons:->
     button.destroy()  for own _key, button of @buttons
 
   click:(e)->
-    @destroy() if $(e.target).is(".closeModal")
+    @cancel() if $(e.target).is(".closeModal")
     if $(e.target).is(".showHelp")
       {helpContent} = @getOptions()
       if helpContent
@@ -194,6 +192,7 @@ class KDModalView extends KDView
         @setClass "active"
 
   cancel:->
+    return unless @getOptions().cancelable
     @emit 'ModalCancelled'
     @destroy()
 

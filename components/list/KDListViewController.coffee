@@ -15,6 +15,9 @@ class KDListViewController extends KDViewController
     options.noMoreItemFoundWidget or= null
 
     @itemsOrdered                 = [] unless @itemsOrdered
+    # CtF: this must be fixed: duplicate itemsOrdered and KDListView.items
+    # Object.defineProperty this, "itemsOrdered", get : => @getListView().items
+
     @itemsIndexed                 = {}
     @selectedItems                = []
     @lazyLoader                   = null
@@ -103,8 +106,8 @@ class KDListViewController extends KDViewController
     {noItemFoundWidget} = @getOptions()
     @getListView().addSubView @noItemView = noItemFoundWidget
 
-  showNoItemWidget:-> @noItemView.show() if @itemsOrdered.length is 0
-  hideNoItemWidget:-> @noItemView.hide()
+  showNoItemWidget:-> @noItemView?.show() if @itemsOrdered.length is 0
+  hideNoItemWidget:-> @noItemView?.hide()
 
   # regressed, will put back whenever i'm here again. - SY
   showNoMoreItemWidget:->
@@ -171,7 +174,7 @@ class KDListViewController extends KDViewController
   moveItemToIndex:(item, newIndex)->
 
     newIndex = Math.max(0, Math.min(@itemsOrdered.length-1, newIndex))
-    @itemsOrdered = @getListView().moveItemToIndex item, newIndex
+    @itemsOrdered = @getListView().moveItemToIndex(item, newIndex).slice()
 
   ###
   HANDLING MOUSE EVENTS
@@ -340,23 +343,28 @@ class KDListViewController extends KDViewController
 
     @hideNoItemWidget() if @noItemView and @getOptions().noItemFoundWidget
     unless @lazyLoader
-      @scrollView.addSubView @lazyLoader = new KDCustomHTMLView cssClass : "lazy-loader", partial : "Loading..."
-      @lazyLoader.addSubView @lazyLoader.spinner = new KDLoaderView
-        size          :
-          width       : 16
-        loaderOptions :
-          color       : "#5f5f5f"
-          diameter    : 16
-          density     : 60
-          range       : 0.4
-          speed       : 3
-          FPS         : 24
+      {lazyLoaderOptions} = @getOptions()
+
+      lazyLoaderOptions                or= {}
+      lazyLoaderOptions.itemClass      or= KDCustomHTMLView
+      lazyLoaderOptions.partial         ?= 'Loading...'
+      lazyLoaderOptions.cssClass         = KD.utils.curry 'lazy-loader', lazyLoaderOptions.cssClass
+      lazyLoaderOptions.spinnerOptions or= size : width : 32
+      {itemClass, spinnerOptions}        = lazyLoaderOptions
+      delete lazyLoaderOptions.itemClass
+
+      wrapper     = @scrollView or @getView()
+      wrapper.addSubView @lazyLoader = new itemClass lazyLoaderOptions
+      @lazyLoader.addSubView @lazyLoader.spinner = new KDLoaderView spinnerOptions
 
       @lazyLoader.spinner.show()
       @emit 'LazyLoadThresholdReached'  if emitWhenReached
+      KD.utils.defer => @scrollView?.stopScrolling = yes
+
 
   hideLazyLoader:->
 
+    KD.utils.wait 300, => @scrollView?.stopScrolling = no
     @showNoItemWidget() if @noItemView and @getOptions().noItemFoundWidget
     if @lazyLoader
       @lazyLoader.spinner.hide()

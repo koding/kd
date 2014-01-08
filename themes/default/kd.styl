@@ -8,11 +8,11 @@ kd.styl
 */
 }
 
-body,html
-  size              100%,100%
-
 body.dragInAction
   noTextSelection()
+
+body.onscroll
+  pointer-events    none
 
 /*
 **  KDView STYLES --
@@ -125,9 +125,12 @@ h4.kdheaderview
 /*
 **  KDTabView STYLES
 */
+
 .kdview.kdhiddentab
   abs()
-  left      -10000px!important
+  left              -100% !important
+  top               -100% !important
+  visibility        hidden
 
 .kdtabhandlecontainer
   padding-top       10px
@@ -238,49 +241,6 @@ h4.kdheaderview
 */
 .kdview.kdlistview
   size(auto,auto)
-
-.kdview.listview-wrapper
-  .lazy-loader
-    text-align        center
-    line-height       40px
-    .kdview.kdloader
-      margin          0 0 -4px 4px
-
-.kdlistview-sorter
-  border-bottom       1px solid #eee
-  margin              0 20px 7px 20px
-  line-height         30px
-  size(auto,30px)
-  span.sort-by
-    margin            0 10px 0 0
-    font-style        italic
-    color             #aaa
-    font-size         .9em
-    font-family       serif
-  a
-    font-size         .85em
-    padding           0 10px 0 0
-    margin            0 10px 0 0
-    color             k-orange
-    text-decoration   none
-    border-right      1px solid #ddd
-    &:hover
-      text-decoration   underline
-    &:last-child
-      border-right      none
-
-  a.active
-    color             normal-text
-
-.kdview.kdlistitemview
-  .kdlistitemview-default-content
-    padding 10px
-    color #888
-    font-size .9em
-    background-color rgba(224, 197, 137,.4)
-    b
-      color k-orange
-
 
 /*
 **  KDAutoComplete STYLES
@@ -443,7 +403,7 @@ h4.kdheaderview
       font-size           18px
       size                20px,18px
       bg                  position, -80px -540px
-      sprite()
+      kdfsprite()
       &:hover
         text-shadow       0 1px 0 #444
     &.mini
@@ -453,11 +413,7 @@ h4.kdheaderview
         top               8px
         right             7px
         size              16px,16px
-        bg                position, -82px -542px
         rounded           2px
-        &:hover
-          bg              position, -82px -522px
-          bg              color, white
       .kdnotification-title
         font-size         12px
         line-height       16px
@@ -529,8 +485,8 @@ span.close-tab,.close-icon
   overflow      hidden
   size          20px, 20px
   cursor        pointer
-  bg            position,-60px -220px
-  sprite()
+  bg            position, -60px -220px
+  kdfsprite()
   abs()
   &:hover
     bg          position,-60px -240px
@@ -542,7 +498,7 @@ span.close-btn-x
   top           2px
   overflow      hidden
   size          20px,20px
-  sprite()
+  kdfsprite()
   bg            position,-60px -220px
   &:hover
     cursor      pointer

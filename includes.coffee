@@ -15,7 +15,9 @@ module.exports = [
   "libs/highlight.pack.js"
   "libs/inflector.js",
   "libs/canvas-loader.js",
-  "libs/mousetrap.js"
+  "libs/mousetrap.js",
+  "libs/mousetrap.js",
+  "libs/mousetrap-global-bind.js",
   "libs/marked.js",
   "libs/jspath.js",
   "libs/hammer.js",
@@ -26,6 +28,7 @@ module.exports = [
   # --- Base class ---
   "core/utils.coffee",
   "core/KD.coffee",
+  "core/KD.dom.js",
   "core/KDEventEmitter.coffee",
 
   # # --- Framework ---
@@ -71,6 +74,8 @@ module.exports = [
   "components/tabs/KDTabView.coffee",
   "components/tabs/KDTabPaneView.coffee",
   "components/tabs/KDTabViewWithForms.coffee",
+  "components/tabs/kdtabhandlemovenav.coffee",
+  "components/tabs/kdtabhandlecontainer.coffee",
 
   # menus
   "components/contextmenu/contextmenu.coffee",
@@ -98,9 +103,8 @@ module.exports = [
   "components/inputs/KDMultipleChoice.coffee",
   "components/inputs/KDSelectBox.coffee",
   "components/inputs/KDWmdInput.coffee",
-  "components/inputs/tokenizedmenu.coffee",
-  "components/inputs/tokenizedinput.coffee",
   "components/inputs/KDContentEditableView.coffee",
+  "components/inputs/KDTokenizedInputView.coffee",
 
   # upload
   # "components/upload/KDFileUploadView.coffee",
@@ -163,7 +167,8 @@ module.exports = [
   "init.coffee",
 
   # --- Styles ---
-  "themes/default/style.css",
+  "themes/reset.css",
+  # "themes/normalize.css",
 
   # Style functions ---
   "themes/default/kdfn.styl",
@@ -184,4 +189,6 @@ module.exports = [
   "themes/default/kd.dia.styl",
   "themes/default/kd.slide.styl"
 
+  # helpers should be the last one
+  "themes/helpers.css",
 ]

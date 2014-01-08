@@ -17,10 +17,7 @@ class JTreeItemView extends KDListItemView
     if childClass
       @child = new childClass childOptions, @getData()
 
-  viewAppended:->
-
-    @setTemplate @pistachio()
-    @template.update()
+  viewAppended: JView::viewAppended
 
   pistachio:->
 

@@ -23,7 +23,7 @@ class KDTooltip extends KDView
 
     super options, data
 
-    @visible    = yes
+    @visible    = no
     @parentView = @getDelegate()
     @wrapper    = new KDView cssClass : 'wrapper'
     @arrow      = new KDView cssClass : 'arrow'
@@ -31,7 +31,7 @@ class KDTooltip extends KDView
     if @getOptions().animate then @setClass 'out' else @hide()
 
     @addListeners()
-    @getSingleton("windowController").on "ScrollHappened", @bound "hide"
+    KD.singleton("windowController").on "ScrollHappened", @bound "hide"
 
     @once "viewAppended", =>
       o = @getOptions()
@@ -57,10 +57,14 @@ class KDTooltip extends KDView
 
     super
 
+    @visible = yes
+
   hide: (event)->
+    return unless @visible
     super
     @getDomElement().remove()
-    @getSingleton("windowController").removeLayer this
+    KD.singleton("windowController").removeLayer this
+    @visible = no
 
   update:(o = @getOptions(), view = null)->
     unless view
@@ -131,12 +135,12 @@ class KDTooltip extends KDView
 
     # converts NESW-Values to topbottomleftright and retains them in @getOptions
     @appendToDomBody()
-    @getSingleton("windowController").addLayer this
+    KD.singleton("windowController").addLayer this
     o = @translateCompassDirections o if o.gravity
     o.gravity = null
 
     @setClass 'in' if o.animate
-    @utils.defer => @setPosition o
+    @utils.defer => @setPositions o
 
   getCorrectPositionCoordinates:(o={},positionValues,callback=noop)->
     # values that can/will be used in all the submethods
@@ -156,10 +160,12 @@ class KDTooltip extends KDView
     # check the default values for overlapping boundaries, then
     # recalculate if there are overlaps
 
+    {forcePosition} = @getOptions()
+
     violations = getBoundaryViolations getCoordsFromPlacement(d, placement, direction),\
     d.container.width, d.container.height
 
-    if Object.keys(violations).length > 0 # check for possible alternatives
+    if !forcePosition and Object.keys(violations).length > 0 # check for possible alternatives
       variants = [
         ['top','right']
         ['right','top']
@@ -189,7 +195,7 @@ class KDTooltip extends KDView
     callback correctValues
     return correctValues
 
-  setPosition:(o = @getOptions(),animate = no)->
+  setPositions:(o = @getOptions(),animate = no)->
 
     @setClass 'animate-movement' if animate
 
@@ -215,6 +221,7 @@ class KDTooltip extends KDView
     {coords,placement,direction} = @getCorrectPositionCoordinates o,{placement,direction}
 
     # css classes for arrow positioning
+
     for placement_ in ['top','bottom','left','right']
       if placement is placement_
         @setClass 'placement-'+placement_

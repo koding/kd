@@ -1,4 +1,5 @@
 class KDTabPaneView extends KDView
+
   constructor:(options = {},data)->
 
     options.hiddenHandle ?= no      # a Boolean
@@ -13,28 +14,37 @@ class KDTabPaneView extends KDView
     @on "KDTabPaneActive",        @bound "setMainView"
     @on "KDTabPaneLazyViewAdded", @bound "fireLazyCallback"
 
+
   show:->
-    @unsetClass "kdhiddentab"
+
     @setClass "active"
+    @unsetClass "kdhiddentab"
+    @parent.getElement().appendChild @getElement()
     @active = yes
     @emit "KDTabPaneActive"
+    KD.utils.defer -> $(window).trigger 'resize'
+
 
   hide:->
-    @unsetClass "active"
+
     @setClass "kdhiddentab"
+    @unsetClass "active"
+    @parent.getElement().removeChild @getElement() if @active
     @active = no
     @emit "KDTabPaneInactive"
 
+
   setTitle:(title)->
-    @getDelegate().setPaneTitle @,title
-    # @setOption "name", name
+
+    @getDelegate().setPaneTitle this, title
     @name = title
 
-  getHandle: ->
-    @getDelegate().getHandleByPane @
 
-  hideTabCloseIcon:->
-    @getDelegate().hideCloseIcon @
+  getHandle: -> @getDelegate().getHandleByPane this
+
+
+  hideTabCloseIcon:-> @getDelegate().hideCloseIcon this
+
 
   setMainView:(view)->
 
@@ -55,12 +65,18 @@ class KDTabPaneView extends KDView
     @emit "KDTabPaneLazyViewAdded", this, @mainView
     return @mainView
 
+
   getMainView:-> @mainView
+
+
   destroyMainView:->
+
     @mainView.destroy()
     delete @mainView
 
+
   fireLazyCallback:(pane, view)->
+
     {viewOptions} = @getOptions()
     return  unless viewOptions
     {callback} = viewOptions

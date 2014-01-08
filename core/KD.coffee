@@ -49,14 +49,6 @@ unless window.event?
   catch e
     log "we fail silently!", e
 
-try
-  # warn when the global "event" property is accessed.
-  Object.defineProperty window, "appManager", get:->
-    console.trace()
-    KD.warn "window.appManager is deprecated, use KD.getSingleton(\"appManager\") instead!"
-catch e
-  log "we fail silently!", e
-
 @KD = $.extend (KD), do ->
   create = (constructorName, options, data)->
     konstructor = @classes[constructorName] \
@@ -73,16 +65,8 @@ catch e
   subscriptions   : []
   classes         : {}
   utils           : __utils
-  appClasses      : {}
-  appScripts      : {}
   lastFuncCall    : null
-  navItems        : []
   instancesToBeTested: {}
-
-  socketConnected:->
-    @backendIsConnected = yes
-
-  setApplicationPartials:(@appPartials)->
 
   registerInstance : (anInstance)->
     warn "Instance being overwritten!!", anInstance  if @instances[anInstance.id]
@@ -126,88 +110,9 @@ catch e
       warn "\"#{singletonName}\" singleton doesn't exist!"
       null
 
-  registerAppClass:(fn, options = {})->
-
-    return error "AppClass is missing a name!"  unless options.name
-
-    if KD.appClasses[options.name]
-      return warn "AppClass #{options.name} is already registered or the name is already taken!"
-
-    options.multiple      ?= no           # a Boolean
-    options.background    ?= no           # a Boolean
-    options.hiddenHandle  ?= no           # a Boolean
-    options.openWith     or= "lastActive" # a String "lastActive","forceNew" or "prompt"
-    options.behavior     or= ""           # a String "application", "hideTabs", or ""
-    options.thirdParty    ?= no           # a Boolean
-    options.menu         or= null         # <Array<Object{title: string, eventName: string, shortcut: string}>>
-    options.navItem      or= {}           # <Object{title: string, eventName: string, shortcut: string}>
-
-    options.route        or= {}           # <string> or <Object{slug: string, handler: function}>
-
-    slug                   = if "string" is typeof options.route then options.route else options.route.slug
-    options.route          =
-      slug                 : slug or '/'
-      handler              : options.route.handler or null
-
-    if options.route.slug isnt '/'
-
-      {route}         = options
-      {slug, handler} = route
-
-      cb = (router)->
-        handler or= ({params:{name}, query})->
-          router.openSection options.name, name, query
-        router.addRoute slug, handler
-
-      if KD.singletons.router
-      then @utils.defer -> cb KD.getSingleton('router')
-      else KodingRouter.on 'RouterReady', cb
-
-    if options.navItem?.order
-      @registerNavItem options.navItem
-
-    Object.defineProperty KD.appClasses, options.name,
-      configurable  : yes
-      enumerable    : yes
-      writable      : no
-      value         : { fn, options }
-
-  registerNavItem    : (itemData)-> @navItems.push itemData
-
-  getNavItems        : -> @navItems.sort (a, b)-> a.order - b.order
-
-  unregisterAppClass :(name)-> delete KD.appClasses[name]
-
-  getAppClass        :(name)-> KD.appClasses[name]?.fn or null
-
-  getAppOptions      :(name)-> KD.appClasses[name]?.options or null
-
-  getAppScript       :(name)-> @appScripts[name] or null
-
-  registerAppScript  :(name, script)-> @appScripts[name] = script
-
-  unregisterAppScript:(name)-> delete @appScripts[name]
-
-  resetAppScripts    :-> @appScripts = {}
-
   getAllKDInstances  :-> KD.instances
 
   getKDViewInstanceFromDomElement:(el)-> @instances[el.getAttribute "data-id"]
-
-  enableLogs:do->
-    oldConsole = window.console
-    window.console = {}
-    console[method] = noop  for method in ['log','warn','error','trace','time','timeEnd']
-
-    enableLogs =->
-      window.console = oldConsole
-      KD.log     = log     = if console?.log     then console.log.bind(console)     else noop
-      KD.warn    = warn    = if console?.warn    then console.warn.bind(console)    else noop
-      KD.error   = error   = if console?.error   then console.error.bind(console)   else noop
-      KD.time    = time    = if console?.time    then console.time.bind(console)    else noop
-      KD.timeEnd = timeEnd = if console?.timeEnd then console.timeEnd.bind(console) else noop
-      KD.logsEnabled = yes
-      return "Logs are enabled now."
 
   exportKDFramework:->
     (window[item] = KD.classes[item] for own item of KD.classes)
@@ -220,7 +125,5 @@ catch e
     instance.on 'KDObjectWillBeDestroyed', => delete @instancesToBeTested[key]
 
   getInstanceForTesting:(key)-> @instancesToBeTested[key]
-
-KD.enableLogs() if not KD.config?.suppressLogs
 
 prettyPrint = noop

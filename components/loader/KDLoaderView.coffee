@@ -10,15 +10,15 @@ class KDLoaderView extends KDView
       bind          : o.bind                    or "mouseenter mouseleave"
       showLoader    : o.showLoader              or no
       size          :
-        width       : o.size.width              or 12
-        height      : o.size.height             or 12
+        width       : o.size.width              or 24
+        height      : o.size.height             or 24
       loaderOptions :
         color       : o.loaderOptions.color     or "#000000"   # hex color
-        shape       : o.loaderOptions.shape     or "spiral"    # "spiral", "oval", "square", "rect", "roundRect"
-        diameter    : o.loaderOptions.diameter  or 12          # 10 - 200
-        density     : o.loaderOptions.density   or 30          # 5 - 160
-        range       : o.loaderOptions.range     or 0.4         # 0.1 - 2
-        speed       : o.loaderOptions.speed     or 1.5         # 1 - 10
+        shape       : o.loaderOptions.shape     or "rect"      # "spiral", "oval", "square", "rect", "roundRect"
+        diameter    : o.loaderOptions.diameter  or 20          # 10 - 200
+        density     : o.loaderOptions.density   or 12          # 5 - 160
+        range       : o.loaderOptions.range     or 1           # 0.1 - 2
+        speed       : o.loaderOptions.speed     or 1           # 1 - 10
         FPS         : o.loaderOptions.FPS       or 24          # 1 - 60
 
     options.loaderOptions.diameter = options.size.height = options.size.width
@@ -47,16 +47,12 @@ class KDLoaderView extends KDView
     @canvas.hide() if @canvas
 
   # easter
-  mouseEnter:->
+  # mouseEnter:->
 
-    @canvas.setColor @utils.getRandomHex()
-    @canvas.setSpeed 1
+  #   @canvas.setSpeed 2
+  #   @canvas.setColor @utils.getRandomHex()
 
-  mouseLeave:->
+  # mouseLeave:->
 
-    @canvas.setColor @getOptions().loaderOptions.color
-    @canvas.setSpeed @getOptions().loaderOptions.speed
-
-  mouseMove:->
-
-    @canvas.setColor @utils.getRandomHex()
+  #   @canvas.setColor @getOptions().loaderOptions.color
+  #   @canvas.setSpeed @getOptions().loaderOptions.speed

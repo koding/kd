@@ -12,7 +12,8 @@ label.kdlabel
   color #888
   clear both
 
-input.kdinput.text,textarea.kdinput.text
+input.kdinput.text
+textarea.kdinput.text
   display             block
   border              1px solid #d7d7d7
   outline             none
@@ -31,8 +32,10 @@ input.kdinput.text,textarea.kdinput.text
 
 textarea.kdinput.text
   height              auto
+
 textarea.kdinput.text.monospace
   font-family         mono
+
 .kdinput.hitenterview
   resize              none
   overflow            hidden
@@ -42,6 +45,7 @@ textarea.kdinput.text.monospace
   bg(position,right bottom)
   &.active
     bg(image,url("../images/kd.hitenterview.active.png"))
+
 label.kdlabel
   cursor              default
   &[for]
@@ -52,7 +56,8 @@ label.kdlabel
     text-transform    none
     text-decoration   underline
 
-input.kdinput.text.validation-error,textarea.kdinput.text.validation-error
+input.kdinput.text.validation-error
+textarea.kdinput.text.validation-error
   border-color red
 
 input.kdinput.checkbox
@@ -137,12 +142,12 @@ div.kdselectbox
     top               2px
     right             0
     opacity           .8
-    sprite()
+    kdfsprite()
     bg                position,-60px -280px
 
 
 
-.kd-radio-holder,
+.kd-radio-holder
 .kd-checkbox-holder
   display             block
   line-height         30px
@@ -372,55 +377,23 @@ span.kdinputhint
 
 @css {
 /*
-KDInputView > KDTokenizedInput styles
+KDContentEditableView
 */
 }
+.kdcontenteditableview
+  div
+    size            100%, 100%
+    min-width       1px
 
-.kdtokenizedinput
-  size                      100%, 100%
+@css {
+/*
+KDInputView > KDTokenizedInputView styles
+*/
+}
+.kdtokenizedinputview
+  &:hover
+    .kdcontenteditableview
+      cursor          text
 
-  .kdtokenizedinput-inner-wrapper
-    rel()
-    size                    100%, 100%
-    borderBox()
-
-  .layer
-    size                  100%, 100px
-    padding               5px
-    font-size             12px
-    line-height           16px
-    // color                 #444
-    display               block
-    borderBox()
-
-    &.presentation
-      bg                  color, transparent
-      white-space         pre-wrap
-      z-index             1
-      overflow            hidden
-      &.hide-tokens b
-        hidden()
-      b
-        font-weight       normal
-        vendor            transition, background-color .15s linear
-        bg                color, transparent
-        // &.highlight-tag
-        //   bg              color, gold
-        // &.highlight-user
-        //   bg              color, lightblue
-
-      .caret
-        width             2px
-        height            16px
-        background-color  red
-        position          absolute
-
-    &.input
-      abs()
-      top                 0
-      left                0
-      background-color    transparent
-      color               transparent
-      border              none
-      z-index             2
-
+  .token
+    color             #3aaaab

@@ -13,6 +13,7 @@ class KDInputView extends KDView
     # o.readonly               ?= no            # a Boolean value
     o.selectOptions           or= null          # an Array of Strings
     o.validate                or= null          # an Object of Validation options see KDInputValidator for details
+    o.decorateValidation       ?= yes            # a Boolean value
     o.hint                    or= null          # a String of HTML
     o.autogrow                 ?= no            # a Boolean
     o.enableTabKey             ?= no            # a Boolean # NOT YET READY needs some work
@@ -299,7 +300,7 @@ class KDInputView extends KDView
     @emit "ValidationFeedbackCleared"
 
   giveValidationFeedback:(err)->
-
+    return  unless @getOption "decorateValidation"
     if err
       @setClass "validation-error"
     else

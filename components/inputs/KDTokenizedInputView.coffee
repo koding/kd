@@ -130,7 +130,7 @@ class KDTokenizedInput extends KDContentEditableView
     @tokenInput.nextSibling.textContent = "\u00a0"
     @utils.selectText @tokenInput.nextSibling, 1
     @tokenInput.remove()
-    @emit "TokenAdded", item
+    @emit "TokenAdded", type, item
 
   keyDown: (event) ->
     switch event.which

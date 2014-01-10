@@ -97,7 +97,7 @@ class KDTokenizedInput extends KDContentEditableView
     @menu?.destroy()
     @blur()
 
-    return  unless data.length
+    return  unless @tokenInput and data.length
 
     pos       = @tokenInput.getBoundingClientRect()
     options.x = pos.left

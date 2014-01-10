@@ -46,6 +46,7 @@ class KDTooltip extends KDView
 
       @addSubView @arrow
       @addSubView @wrapper
+      @visible = yes
 
   show:(event)->
 
@@ -76,27 +77,16 @@ class KDTooltip extends KDView
     else
       @setView view
 
+    @visible = yes
 
   addListeners:->
 
     intentTimer = null
     {events}    = @getOptions()
 
-    _show = =>
-      return if intentTimer
-      intentTimer = KD.utils.wait 77, =>
-        intentTimer = null
-        @show()
-
-    _hide = =>
-      return intentTimer = KD.utils.killWait intentTimer if intentTimer
-      KD.utils.wait 77, @bound "hide"
-
     @parentView.bindEvent name for name in events
-
-    @parentView.on 'mouseenter',  _show
-
-    @parentView.on 'mouseleave',  _hide
+    @parentView.on 'mouseenter', @bound "show"
+    @parentView.on 'mouseleave', @bound "hide"
 
     @on 'ReceivedClickElsewhere', @bound "hide"
 
@@ -141,6 +131,8 @@ class KDTooltip extends KDView
 
     @setClass 'in' if o.animate
     @utils.defer => @setPositions o
+
+    @visible = yes
 
   getCorrectPositionCoordinates:(o={},positionValues,callback=noop)->
     # values that can/will be used in all the submethods

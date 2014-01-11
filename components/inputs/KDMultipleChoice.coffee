@@ -80,7 +80,7 @@ class KDMultipleChoice extends KDInputView
       do @switchStateChanged if wCallback
     else
       @$("a").removeClass('active')
-      @$("a[name$='#{label}']").addClass('active')
+      @$("a[name='#{label}']").addClass('active')
 
       @oldValue     = @currentValue
       @currentValue = label

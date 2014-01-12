@@ -82,11 +82,14 @@ class KDTooltip extends KDView
   addListeners:->
     {events} = @getOptions()
 
-    @parentView.bindEvent name for name in events
-    @parentView.on 'mouseenter', @bound "show"
-    @parentView.on 'mouseleave', @bound "hide"
+    _show = @bound "show"
+    _hide = @bound "hide"
 
-    @on 'ReceivedClickElsewhere', @bound "hide"
+    @parentView.bindEvent name for name in events
+    @parentView.on 'mouseenter', _show
+    @parentView.on 'mouseleave', _hide
+
+    @on 'ReceivedClickElsewhere', _hide
 
     @once 'KDObjectWillBeDestroyed', =>
       @parentView.off 'mouseenter',  _show

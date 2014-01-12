@@ -80,9 +80,7 @@ class KDTooltip extends KDView
     @visible = yes
 
   addListeners:->
-
-    intentTimer = null
-    {events}    = @getOptions()
+    {events} = @getOptions()
 
     @parentView.bindEvent name for name in events
     @parentView.on 'mouseenter', @bound "show"

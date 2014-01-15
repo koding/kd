@@ -37,8 +37,10 @@ class KDTabView extends KDScrollView
     @hideHandleCloseIcons() if options.hideHandleCloseIcons
     @hideHandleContainer()  if options.hideHandleContainer
 
-    @on "PaneRemoved",  => @resizeTabHandles()
-    @on "PaneAdded",    => @resizeTabHandles()
+    @on "PaneRemoved", => @resizeTabHandles()
+    @on "PaneAdded", =>
+      @blockTabHandleResize = no
+      @resizeTabHandles()
     @on "PaneDidShow", @bound "setActivePane"
 
     if options.paneData.length > 0

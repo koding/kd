@@ -12,7 +12,7 @@ module.exports = [
 
   ## Helpers
   "libs/date.format.js",
-  "libs/highlight.pack.js"
+  "libs/highlight.pack.js",
   "libs/inflector.js",
   "libs/canvas-loader.js",
   "libs/mousetrap.js",

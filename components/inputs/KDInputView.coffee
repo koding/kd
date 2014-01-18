@@ -167,16 +167,21 @@ class KDInputView extends KDView
       else el.removeAttribute "checked"
     else $el.val value
 
-  _prevVal = null
-
   setCase:(forceCase)->
     cb = =>
+      $el = @getDomElement()
+      el = $el[0]
       val = @getValue()
-      return if val is _prevVal
-      @setValue _prevVal = val
+      return if val is $el.val()
 
-    @on "keyup", cb.bind this
-    @on "blur",  cb.bind this
+      start = el.selectionStart
+      end = el.selectionEnd
+      @setValue val
+      # FIXME: setSelectionRange not supported in IE < 9 - need polyfill
+      el.setSelectionRange(start, end) if el.setSelectionRange
+
+    @on "keyup", cb
+    @on "blur", cb
 
   unsetValidation:-> @setValidation {}
 

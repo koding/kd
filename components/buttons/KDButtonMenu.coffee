@@ -21,13 +21,15 @@ class JButtonMenu extends JContextMenu
     # options       = @getOptions()
     button        = @getDelegate()
     mainHeight    = $(window).height()
+    mainScroll    = $(window).scrollTop()
     buttonHeight  = button.getHeight()
     buttonWidth   = button.getWidth()
     top           = button.getY() + buttonHeight
     menuHeight    = @getHeight()
     menuWidth     = @getWidth()
 
-    ghostCss = if top + menuHeight > mainHeight
+    # Determine if the menu will be off screen or not
+    ghostCss = if top + menuHeight > mainHeight + mainScroll
       top = button.getY() - menuHeight
       @setClass "top-menu"
       top     : "100%"

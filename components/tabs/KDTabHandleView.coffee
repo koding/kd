@@ -2,12 +2,13 @@ class KDTabHandleView extends KDView
 
   constructor: (options = {}, data) ->
 
-    options.hidden   ?= no        # yes or no
-    options.title    ?= "Title"   # a String
-    options.pane     ?= null      # a KDTabPaneView instance
-    options.view     ?= null      # a KDView instance to put in the tab handle
-    options.sortable ?= no        # yes or no
-    options.closable ?= yes       # yes or no
+    options.hidden             ?= no        # yes or no
+    options.title             or= "Title"   # a String
+    options.pane               ?= null      # a KDTabPaneView instance
+    options.view               ?= null      # a KDView instance to put in the tab handle
+    options.sortable           ?= no        # yes or no
+    options.closable           ?= yes       # yes or no
+    options.addTitleAttribute  ?= yes       # yes or no
 
     if options.sortable
       options.draggable  = axis: "x"
@@ -28,11 +29,12 @@ class KDTabHandleView extends KDView
       @getDelegate().showPaneByIndex @index
 
   setDomElement:(cssClass="")->
-    {hidden, closable, tagName, title} = @getOptions()
-    cssClass    = if hidden   then "#{cssClass} hidden" else cssClass
-    closeHandle = if closable then "<span class='close-tab'></span>" else ""
+    {hidden, closable, tagName, title, addTitleAttribute} = @getOptions()
+    cssClass    = if hidden            then "#{cssClass} hidden" else cssClass
+    closeHandle = if closable          then "<span class='close-tab'></span>" else ""
+    title       = if addTitleAttribute then "title='#{title}'" else ""
 
-    @domElement = $ "<#{tagName} title='#{title}' class='kdtabhandle #{cssClass}'>#{closeHandle}</#{tagName}>"
+    @domElement = $ "<#{tagName} #{title} class='kdtabhandle #{cssClass}'>#{closeHandle}</#{tagName}>"
 
   viewAppended:->
     {view} = @getOptions()

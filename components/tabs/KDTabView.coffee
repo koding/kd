@@ -37,18 +37,19 @@ class KDTabView extends KDScrollView
     @hideHandleCloseIcons() if options.hideHandleCloseIcons
     @hideHandleContainer()  if options.hideHandleContainer
 
-    @on "PaneRemoved", => @resizeTabHandles type : "PaneRemoved"
-    @on "PaneAdded", (pane)=> @resizeTabHandles {type : "PaneAdded", pane}
+    @on "PaneRemoved", => @resizeTabHandles()
+    @on "PaneAdded", =>
+      @blockTabHandleResize = no
+      @resizeTabHandles()
     @on "PaneDidShow", @bound "setActivePane"
 
     if options.paneData.length > 0
       @on "viewAppended", => @createPanes options.paneData
 
-    @tabHandleContainer.on "mouseenter", =>
-      @blockTabHandleResize = yes
     @tabHandleContainer.on "mouseleave", =>
-      @blockTabHandleResize = no
-      @resizeTabHandles()
+      if @blockTabHandleResize
+        @blockTabHandleResize = no
+        @resizeTabHandles()
 
   # ADD/REMOVE PANES
   createPanes:(paneData = @getOptions().paneData)->
@@ -77,6 +78,7 @@ class KDTabView extends KDScrollView
       @emit "PaneAdded", paneInstance
 
       {minHandleWidth, maxHandleWidth} = @getOptions()
+
       newTabHandle.getDomElement().css
         maxWidth : maxHandleWidth
         minWidth : minHandleWidth
@@ -217,6 +219,7 @@ class KDTabView extends KDScrollView
   handleClicked:(index,event)->
     pane = @getPaneByIndex index
     if $(event.target).hasClass "close-tab"
+      @blockTabHandleResize = yes
       @removePane pane
       return no
     @showPane pane
@@ -310,24 +313,25 @@ class KDTabView extends KDScrollView
     return @panes.filter (pane) -> pane.tabHandle.isHidden() is no
 
 
-  resizeTabHandles: KD.utils.throttle ->
-
+  resizeTabHandles: ->
     return if not @getOptions().resizeTabHandles or \
                   @_tabHandleContainerHidden     or @blockTabHandleResize
 
+    { lastTabHandleMargin } = @getOptions()
+
     visibleHandles   = []
     visibleTotalSize = 0
-    options          = @getOptions()
-    outerWidth       = @tabHandleContainer.tabs.$().outerWidth no
-    containerSize    = outerWidth - options.lastTabHandleMargin
-    containerMargin  = 100 - (100 * options.lastTabHandleMargin / containerSize)
+    outerWidth       = @tabHandleContainer.tabs.getElement().offsetWidth
+
+    return if outerWidth <= 0
+
+    containerSize    = outerWidth - lastTabHandleMargin
+    containerMargin  = 100 - (100 * lastTabHandleMargin / containerSize)
 
     for handle in @handles when not handle.isHidden()
       visibleHandles.push handle
-      visibleTotalSize += handle.$().outerWidth no
+      visibleTotalSize += handle.getElement().offsetWidth
 
     possiblePercent = (containerMargin / visibleHandles.length).toFixed 2
 
     handle.setWidth(possiblePercent, "%") for handle in visibleHandles
-
-  , 300

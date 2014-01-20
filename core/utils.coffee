@@ -221,7 +221,7 @@ __utils =
       pedantic  : false
       sanitize  : true
       highlight :(text, lang)->
-        if hljs.LANGUAGES[lang]?
+        if hljs.getLanguage lang
         then hljs.highlight(lang,text).value
         else text
 

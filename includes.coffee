@@ -163,6 +163,10 @@ module.exports = [
   # image
   "components/image/KDWebcamView.coffee",
 
+  # counter
+  "components/counter/kdcounterview.coffee",
+  "components/counter/kdcounterdigitview.coffee",
+
   # Framework Init Script
   "init.coffee",
 
@@ -188,6 +192,7 @@ module.exports = [
   "themes/default/kd.tooltip.styl",
   "themes/default/kd.dia.styl",
   "themes/default/kd.slide.styl"
+  "themes/default/kd.counter.styl"
 
   # helpers should be the last one
   "themes/helpers.css",

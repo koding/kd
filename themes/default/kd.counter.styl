@@ -1,0 +1,62 @@
+@import "./kdfn"
+/*
+**  Counter Styles
+*/
+.kd-counter
+  size              auto, auto
+  abs               100px 0 0 100px
+  vendor            transform-style, preserve-3d
+  vendor            perspective, 500px
+  overflow          visible
+  ul
+    position        relative
+    size            50px, 50px
+    margin          0 0 0 3px
+    fl()
+
+    li
+      abs             0px 0 0 0px
+      display         block
+      size            50px, 50px
+      vendor          transform-style, preserve-3d
+
+      span
+        background    #000
+        color         #fff
+        font-size     26px
+        font-weight   bold
+        size          50px, 25px
+        line-height   50px
+        overflow      hidden
+        display       block
+        text-align    center
+        rounded       6px 6px 0 0
+        vendor        backface-visibility, hidden
+
+        &.top
+          gradient    #333 #000
+          vendor      transform-origin-y, 100%
+
+        &.bottom
+          gradient    #333 #000
+          line-height 0
+          rounded     0 0 6px 6px
+          vendor      transform-origin-y, 0
+
+    &.animate li.real span.bottom
+      vendor          animation, flipCounterReal .5s 1 forwards ease
+
+    &.animate li.fake span.top
+      vendor          animation, flipCounterFake .5s 1 forwards ease
+
+@-webkit-keyframes flipCounterReal
+  0%
+    -webkit-transform       rotateX(180deg)
+  100%
+    -webkit-transform       rotateX(0deg)
+
+@-webkit-keyframes flipCounterFake
+  0%
+    -webkit-transform       rotateX(0deg)
+  100%
+    -webkit-transform       rotateX(-180deg)

@@ -128,8 +128,7 @@ class KDWindowController extends KDController
             KD.getSingleton("router").handleRoute href
     , no)
 
-    unless location.hostname is 'localhost'
-      window.addEventListener 'beforeunload', @bound "beforeUnload"
+    window.addEventListener 'beforeunload', @bound "beforeUnload"
 
     document.addEventListener getVisibilityEventName(), (event)=>
       @focusChange event, @isFocused()
@@ -269,7 +268,7 @@ class KDWindowController extends KDController
     # log event.type, @keyView.constructor.name, @keyView.getOptions().name
     # if Object.keys(@currentCombos).length > 0
     #   return yes
-    # else 
+    # else
     @emit event.type, event
     @keyView?.handleEvent event
 

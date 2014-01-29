@@ -438,7 +438,7 @@ __utils =
       error "URL shorten error, returning self as fallback.", status, statusText, responseText
       callback url
 
-  formatBytesToHumanReadable: (bytes) ->
+  formatBytesToHumanReadable: (bytes, fixedAmout = 2) ->
     minus = ''
     if bytes < 0
       minus  = '-'
@@ -452,7 +452,7 @@ __utils =
       ++unitIndex
       break unless bytes >= thresh
 
-    return "#{minus}#{bytes.toFixed 2} #{units[unitIndex]}"
+    return "#{minus}#{bytes.toFixed fixedAmout} #{units[unitIndex]}"
 
   splitTrim: (str, delim = ',', filterEmpty = yes) ->
     arr = (str?.split(delim).map (part) -> do part.trim) ? []

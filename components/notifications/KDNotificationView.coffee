@@ -73,7 +73,7 @@ class KDNotificationView extends KDView
           right : 8
           paddingRight: if @options.content and @options.title then 10 else 25
       when "growl"
-        topMargin = 8
+        topMargin = 63
         for notification,i in sameTypeNotifications
           topMargin += $(notification).outerHeight(no) + 8 if i isnt 0
         styles =

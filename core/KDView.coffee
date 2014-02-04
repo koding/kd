@@ -99,7 +99,6 @@ class KDView extends KDObject
     @defaultInit options,data
     @devHacks()
 
-
   defaultInit:(options, data)->
 
     @setDomElement options.cssClass
@@ -182,6 +181,12 @@ class KDView extends KDObject
 
   setDomId:(id)->
     @domElement.attr "id",id
+
+  setData: (data) ->
+    @data?.off? 'update', @bound 'render'
+    super data
+    @data?.on? 'update', @bound 'render'
+    @render()  if @parentIsInDom
 
   setDataId:->
     @domElement.data "data-id",@getId()

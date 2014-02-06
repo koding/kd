@@ -51,17 +51,7 @@ class KDObject extends KDEventEmitter
 
   registerKDObjectInstance: -> KD.registerInstance @
 
-  setData:(data)->
-
-    @data = data
-    # fixme:
-    # when changing data unfortunately
-    # bound event handlers stop working
-    # because we change the data here.
-    # in a view constructor we do data.on "update"
-    # but here that data is reset/changed and listener becomes obsolete
-    # bc new data isn't being listened
-    data?.emit? 'update'
+  setData:(@data)->
 
   getData:-> @data
 

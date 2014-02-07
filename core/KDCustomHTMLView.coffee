@@ -16,3 +16,6 @@ class KDCustomHTMLView extends KDView
     super
 
     @unsetClass 'kdview'
+
+    el = @getElement()
+    el.removeAttribute 'class'  unless el.classList.length

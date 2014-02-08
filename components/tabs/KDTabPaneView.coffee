@@ -10,6 +10,11 @@ class KDTabPaneView extends KDView
     super options, data
 
     @name = options.name
+    @lastScrollTops =
+      window : 0
+      parent : 0
+      self   : 0
+
 
     @on "KDTabPaneActive",        @bound "setMainView"
     @on "KDTabPaneLazyViewAdded", @bound "fireLazyCallback"
@@ -22,9 +27,19 @@ class KDTabPaneView extends KDView
     @parent.getElement().appendChild @getElement()
     @active = yes
     @emit "KDTabPaneActive"
+    KD.utils.defer =>
+      document.documentElement.scrollTop = @lastScrollTops.window
+      @getElement().scrollTop            = @lastScrollTops.self
+      @parent.getElement().scrollTop     = @lastScrollTops.parent
 
 
   hide:->
+
+    return  unless @active
+
+    @lastScrollTops.window = document.documentElement.scrollTop
+    @lastScrollTops.parent = @parent.getElement().scrollTop
+    @lastScrollTops.self   = @getElement().scrollTop
 
     @setClass "kdhiddentab"
     @unsetClass "active"

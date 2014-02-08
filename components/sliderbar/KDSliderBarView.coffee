@@ -14,15 +14,16 @@ class KDSliderBarView extends KDCustomHTMLView
 
   constructor:(options = {}, data = {})->
 
-    options.cssClass    = KD.utils.curry "sliderbar-container", options.cssClass
-    options.minValue   ?= 0
-    options.maxValue   ?= 100
-    options.interval   ?= no
-    options.drawBar    ?= yes
-    options.showLabels ?= yes
-    options.snap       ?= yes
-    options.snapOnDrag ?= no
-    options.width     or= 300
+    options.cssClass      = KD.utils.curry "sliderbar-container", options.cssClass
+    options.minValue      ?= 0
+    options.maxValue      ?= 100
+    options.interval      ?= no
+    options.drawBar       ?= yes
+    options.showLabels    ?= yes
+    options.snap          ?= yes
+    options.snapOnDrag    ?= no
+    options.width         or= 300
+    options.drawOpposite  ?= no
 
     super options, data
 
@@ -59,6 +60,20 @@ class KDSliderBarView extends KDCustomHTMLView
     @bar.setWidth diff
     @bar.setX "#{left}px"
 
+  drawOppositeBar:->
+    positions = []
+    positions.push handle.getRelativeX() for handle in @handles
+
+    right     = parseInt(positions.last)
+    diff      = @getWidth() - right
+
+    unless @oppositeBar
+      @addSubView @oppositeBar = new KDCustomHTMLView
+        cssClass : "opposite bar"
+
+    @oppositeBar.setWidth diff
+    @oppositeBar.setX "#{right}px"
+
   _createLabel : (value) =>
     {maxValue, minValue, interval, showLabels} = @getOptions()
 
@@ -80,6 +95,7 @@ class KDSliderBarView extends KDCustomHTMLView
   setValue:(value, handle = @handles.first, updateHandle = yes)->
     handle.setValue value  if updateHandle
     @drawBar()  if @getOption('drawBar')
+    @drawOppositeBar() if @getOption('drawOpposite')
     @setLimits()
     @emit "ValueIsChanging", handle.value
     @emit "ValueChanged", handle
@@ -120,5 +136,6 @@ class KDSliderBarView extends KDCustomHTMLView
     @createHandles()
     @setLimits()
     @drawBar()   if @getOption('drawBar')
+    @drawOppositeBar() if @getOption('drawOpposite')
     @addLabels() if @getOption('showLabels')
     @attachEvents()

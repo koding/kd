@@ -9,6 +9,7 @@ class KDDiaJoint extends JView
       warn "Unknown joint type '#{options.type}', falling back to 'left'"
       options.type = 'left'
 
+    options.static  ?= no
     options.size    ?= 10
     options.cssClass = \
       KD.utils.curry "kddia-joint #{options.type}", options.cssClass
@@ -43,7 +44,10 @@ class KDDiaJoint extends JView
     @hasClass 'deleteMode'
 
   showDeleteButton:->
-    @setClass 'deleteMode'
+    @setClass 'deleteMode'  unless @isStatic()
 
   hideDeleteButton:->
     @unsetClass 'deleteMode'
+
+  isStatic:->
+    @getOption 'static'

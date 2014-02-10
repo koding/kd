@@ -15,6 +15,7 @@ class KDDiaObject extends JView
     options.joints ?= ['left', 'right']
     options.jointItemClass ?= KDDiaJoint
     options.allowedConnections or= {}
+    options.staticJoints or= []
 
     super options, data
 
@@ -57,8 +58,9 @@ class KDDiaObject extends JView
       warn "KDDiaObject: Tried to add same joint! Destroying old one. "
       @joints[type].destroy?()
 
-    jointItemClass = @getOption 'jointItemClass'
-    @addSubView joint = new jointItemClass {type}
+    {jointItemClass, staticJoints} = @getOptions()
+    @addSubView joint = new jointItemClass {type, static: type in staticJoints}
+
     @joints[type] = joint
 
   getJointPos:(joint)->

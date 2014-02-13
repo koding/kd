@@ -30,7 +30,7 @@ class KDTabPaneView extends KDView
     KD.utils.defer =>
       document.documentElement.scrollTop = @lastScrollTops.window
       @getElement().scrollTop            = @lastScrollTops.self
-      @parent?.getElement?().scrollTop   = @lastScrollTops.parent
+      @parent?.getElement().scrollTop    = @lastScrollTops.parent
 
 
   hide:->

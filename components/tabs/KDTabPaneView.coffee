@@ -2,10 +2,10 @@ class KDTabPaneView extends KDView
 
   constructor:(options = {},data)->
 
-    options.hiddenHandle ?= no      # a Boolean
-    options.name        or= ""      # a String
-    defaultCssClass       = "kdtabpaneview kdhiddentab #{KD.utils.slugify(options.name.toLowerCase())} clearfix"
-    options.cssClass      = KD.utils.curry defaultCssClass, options.cssClass
+    options.hiddenHandle  ?= no      # a Boolean
+    options.name         or= ""      # a String
+    defaultCssClass        = "kdtabpaneview kdhiddentab #{KD.utils.slugify(options.name.toLowerCase())} clearfix"
+    options.cssClass       = KD.utils.curry defaultCssClass, options.cssClass
 
     super options, data
 
@@ -24,7 +24,10 @@ class KDTabPaneView extends KDView
 
     @setClass "active"
     @unsetClass "kdhiddentab"
-    @parent.getElement().appendChild @getElement()
+
+    if @getOption "detachable"
+      @parent.getElement().appendChild @getElement()
+
     @active = yes
     @emit "KDTabPaneActive"
     KD.utils.defer =>
@@ -43,7 +46,10 @@ class KDTabPaneView extends KDView
 
     @setClass "kdhiddentab"
     @unsetClass "active"
-    @parent.getElement().removeChild @getElement() if @active
+
+    if @active and @getOption "detachable"
+      @parent.getElement().removeChild @getElement()
+
     @active = no
     @emit "KDTabPaneInactive"
 

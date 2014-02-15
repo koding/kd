@@ -10,6 +10,7 @@ class KDTabView extends KDScrollView
     options.hideHandleContainer  ?= no
     options.hideHandleCloseIcons ?= no
     options.enableMoveTabHandle  ?= no
+    options.detachPanes          ?= yes
     options.tabHandleContainer   ?= null
     options.tabHandleClass      or= KDTabHandleView
     options.paneData            or= []

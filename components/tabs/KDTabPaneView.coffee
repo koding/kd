@@ -25,7 +25,7 @@ class KDTabPaneView extends KDView
     @setClass "active"
     @unsetClass "kdhiddentab"
 
-    if @getDelegate().getOption "detachPanes"
+    if @getOption "detachPanes"
       @parent.getElement().appendChild @getElement()
 
     @active = yes
@@ -47,7 +47,7 @@ class KDTabPaneView extends KDView
     @setClass "kdhiddentab"
     @unsetClass "active"
 
-    if @active and @getDelegate().getOption "detachPanes"
+    if @active and @getOption "detachPanes"
       @parent.getElement().removeChild @getElement()
 
     @active = no

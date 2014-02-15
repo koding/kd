@@ -59,7 +59,7 @@ class KDTabView extends KDScrollView
 
   addPane:(paneInstance, shouldShow=yes)->
     if paneInstance instanceof KDTabPaneView
-      paneInstance.setOption "detachPanes", @getOption "detachPanes"
+      paneInstance.setOption "detachable", @getOption "detachPanes"
       @panes.push paneInstance
       {tabHandleClass} = @getOptions()
       paneOptions      = paneInstance.getOptions()

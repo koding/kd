@@ -26,7 +26,6 @@ class KDTooltip extends KDView
     @visible    = no
     @parentView = @getDelegate()
     @wrapper    = new KDView cssClass : 'wrapper'
-    @arrow      = new KDView cssClass : 'arrow'
 
     if @getOptions().animate then @setClass 'out' else @hide()
 
@@ -44,7 +43,6 @@ class KDTooltip extends KDView
 
       @parentView.emit 'TooltipReady'
 
-      @addSubView @arrow
       @addSubView @wrapper
       @visible = yes
 
@@ -62,10 +60,10 @@ class KDTooltip extends KDView
 
   hide: (event)->
     return unless @visible
-    super
-    @getDomElement().remove()
-    KD.singleton("windowController").removeLayer this
-    @visible = no
+    # super
+    # @getDomElement().remove()
+    # KD.singleton("windowController").removeLayer this
+    # @visible = no
 
   update:(o = @getOptions(), view = null)->
     unless view

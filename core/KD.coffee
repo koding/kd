@@ -58,8 +58,6 @@ unless window.event?
   create          : create
   new             : create
 
-  useNewKites     : yes
-
   debugStates     : {}
   instances       : {}
   introInstances  : {}

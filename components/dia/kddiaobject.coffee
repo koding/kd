@@ -71,7 +71,7 @@ class KDDiaObject extends JView
     [p, s, j]  = [@parent.getElement(), @getElement(), joint.getElement()]
     [ x , y  ] = [p.offsetLeft + s.offsetLeft, p.offsetTop + s.offsetTop]
     [ jx, jy ] = [j.offsetLeft, j.offsetTop]
-    [ dx, dy ] = if joint.type in ['left', 'right'] then [10, 2] else [2, 10]
+    [ dx, dy ] = if joint.type in ['left', 'right'] then [10, 4] else [4, 10]
 
     x:x + jx + dx, y: y + jy + dy
 

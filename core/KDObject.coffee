@@ -37,7 +37,12 @@ class KDObject extends KDEventEmitter
     @forwardEvent target, eventName, prefix  for eventName in eventNames
 
   ready:(listener)->
-    if @readyState is READY then @utils.defer listener
+    if Promise?::nodeify
+      new Promise (resolve) =>
+        resolve() if @readyState is READY
+        @once 'ready', resolve
+      .nodeify listener
+    else if @readyState is READY then @utils.defer listener
     else @once 'ready', listener
 
   registerSingleton:KD.registerSingleton

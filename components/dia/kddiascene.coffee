@@ -108,6 +108,7 @@ class KDDiaScene extends JView
     return {dia, joint, container}
 
   highlightLines:(dia=[], update=yes)->
+
     if not Array.isArray dia then dia = [dia]
     @activeDias = dia
     joint.off 'DeleteRequested'      for joint in @activeJoints
@@ -176,12 +177,12 @@ class KDDiaScene extends JView
 
     return yes
 
-  connect:(source, target)->
+  connect:(source, target, update=yes)->
     return if not @allowedToConnect source, target
     # log "Connecting #{source.dia.id} to #{target.dia.id}"
     @emit "ConnectionCreated", source, target
     @connections.push {source, target}
-    @highlightLines target.dia
+    @highlightLines target.dia, update
 
   resetScene:->
     @fakeConnections = []
@@ -278,3 +279,8 @@ class KDDiaScene extends JView
 
   dumpScene:->
     log @containers, @connections
+
+  reset:(update = yes)->
+    @connections     = []
+    @fakeConnections = []
+    @updateScene()  if update

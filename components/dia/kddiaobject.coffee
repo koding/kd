@@ -67,10 +67,12 @@ class KDDiaObject extends JView
     if typeof joint is "string"
       joint = @joints[joint]
     return {x:0, y:0}  unless joint
-    [ x , y  ] = [@parent.getRelativeX() + @getRelativeX(),
-                  @parent.getRelativeY() + @getRelativeY()]
-    [ jx, jy ] = [joint.getRelativeX(), joint.getRelativeY()]
-    [ dx, dy ] = if joint.type in ['left', 'right'] then [10, 2] else [2, 10]
+
+    [p, s, j]  = [@parent.getElement(), @getElement(), joint.getElement()]
+    [ x , y  ] = [p.offsetLeft + s.offsetLeft, p.offsetTop + s.offsetTop]
+    [ jx, jy ] = [j.offsetLeft, j.offsetTop]
+    [ dx, dy ] = if joint.type in ['left', 'right'] then [10, 4] else [4, 10]
+
     x:x + jx + dx, y: y + jy + dy
 
   viewAppended:->

@@ -60,10 +60,10 @@ class KDTooltip extends KDView
 
   hide: (event)->
     return unless @visible
-    # super
-    # @getDomElement().remove()
-    # KD.singleton("windowController").removeLayer this
-    # @visible = no
+    super
+    @getDomElement().remove()
+    KD.singleton("windowController").removeLayer this
+    @visible = no
 
   update:(o = @getOptions(), view = null)->
     unless view

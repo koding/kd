@@ -21,7 +21,8 @@ class KDObject extends KDEventEmitter
     @once 'ready', => @readyState = READY
 
   bound: (method)->
-    throw new Error "@bound: unknown method! #{method}"  unless @[method]?
+    unless 'function' is typeof @[method]
+      throw new Error "bound: unknown method! #{method}"
     boundMethod = "__bound__#{method}"
     boundMethod of this or Object.defineProperty(
       this, boundMethod, value: @[method].bind this

@@ -85,19 +85,6 @@ class KDObject extends KDEventEmitter
     @emit 'KDObjectWillBeDestroyed'
     KD.deleteInstance @id
 
-  inheritanceChain:(options)->
-    #need to detect () to know whether to call as function or get value as parameter
-    methodArray = options.method.split "."
-    options.callback
-    proto = @__proto__
-    chain = @
-    chain = chain[method] for method in methodArray
-    while proto = proto.__proto__
-      newChain = proto
-      newChain = newChain[method] for method in methodArray
-      chain = options.callback chain:chain,newLink:newChain
-    chain
-
   chainNames:(options)->
     options.chain
     options.newLink

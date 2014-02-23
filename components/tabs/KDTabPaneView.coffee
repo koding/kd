@@ -11,9 +11,10 @@ class KDTabPaneView extends KDView
 
     @name = options.name
     @lastScrollTops =
-      window : 0
-      parent : 0
-      self   : 0
+      window        : 0
+      parent        : 0
+      self          : 0
+      body          : 0
 
 
     @on "KDTabPaneActive",        @bound "setMainView"
@@ -31,16 +32,21 @@ class KDTabPaneView extends KDView
     @active = yes
     @emit "KDTabPaneActive"
     KD.utils.defer =>
-      document.documentElement.scrollTop = @lastScrollTops.window
-      @getElement().scrollTop            = @lastScrollTops.self
-      @parent?.getElement().scrollTop    = @lastScrollTops.parent
+      {body, documentElement}         = document
+      documentElement.scrollTop       = @lastScrollTops.window
+      body.scrollTop                  = @lastScrollTops.body
+      @getElement().scrollTop         = @lastScrollTops.self
+      @parent?.getElement().scrollTop = @lastScrollTops.parent
 
 
   hide:->
 
     return  unless @active
 
-    @lastScrollTops.window = document.documentElement.scrollTop
+    {body, documentElement} = document
+
+    @lastScrollTops.window = documentElement.scrollTop
+    @lastScrollTops.body   = body.scrollTop
     @lastScrollTops.parent = @parent.getElement().scrollTop
     @lastScrollTops.self   = @getElement().scrollTop
 

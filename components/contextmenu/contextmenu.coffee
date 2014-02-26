@@ -51,8 +51,8 @@ class JContextMenu extends KDView
 
   childAppended:->
 
-    @positionContextMenu()
     super
+    KD.utils.defer => @positionContextMenu()
 
   addArrow:->
 

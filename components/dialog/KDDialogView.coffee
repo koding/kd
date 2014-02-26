@@ -18,8 +18,12 @@ class KDDialogView extends KDView
     @setTopOffset()
 
   show:->
-    {duration,overlay} = @getOptions()
-    @putOverlay() if overlay
+    {duration} = @getOptions()
+    @overlay   = new KDOverlayView
+    @$overlay  = @overlay.getDomElement()
+
+    @overlay.on "click", => @hide()
+
     @$().slideDown duration
 
   hide:->
@@ -49,16 +53,3 @@ class KDDialogView extends KDView
   setTopOffset:->
     {topOffset} = @getOptions()
     @$().css "top",topOffset
-
-  putOverlay:->
-    {topOffset} = @getOptions()
-    @$overlay = $ "<div/>",
-      class : "kdoverlay"
-      css   :
-        height : @$().parent().height() - topOffset
-        top    : topOffset
-    @$overlay.hide()
-    @$overlay.appendTo @$().parent()
-    @$overlay.fadeIn 200
-    @$overlay.bind "click",()=>
-      @hide()

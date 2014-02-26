@@ -160,14 +160,9 @@ class KDModalView extends KDView
     @setY (winHeight - @getHeight()) / 2 unless @getOptions().position.top
 
   putOverlay:->
-    @$overlay = $ "<div/>",
-      class : "kdoverlay"
-    @$overlay.hide()
-    @$overlay.appendTo "body"
-    @$overlay.fadeIn 200
-    if @getOptions().overlayClick
-      @$overlay.bind "click",()=>
-        @destroy()
+    isRemovable = @getOptions().overlayClick
+    @overlay    = new KDOverlayView { isRemovable }
+    @overlay.once "click", => @destroy()
 
   createButton:(title, buttonOptions)->
     buttonOptions.title    = title

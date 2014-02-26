@@ -477,51 +477,42 @@ __utils =
     result = [[], []]
     result[+!fn item].push item for item in list
     result
-###
-//     Underscore.js 1.3.1
-//     (c) 2009-2012 Jeremy Ashkenas, DocumentCloud Inc.
-//     Underscore is freely distributable under the MIT license.
-//     Portions of Underscore are inspired or borrowed from Prototype,
-//     Oliver Steele's Functional, and John Resig's Micro-Templating.
-//     For all details and documentation:
-//     http://documentcloud.github.com/underscore
-###
+  ###
+  //     Underscore.js 1.3.1
+  //     (c) 2009-2012 Jeremy Ashkenas, DocumentCloud Inc.
+  //     Underscore is freely distributable under the MIT license.
+  //     Portions of Underscore are inspired or borrowed from Prototype,
+  //     Oliver Steele's Functional, and John Resig's Micro-Templating.
+  //     For all details and documentation:
+  //     http://documentcloud.github.com/underscore
+  ###
 
-`
-__utils.throttle = function(func, wait) {
-  var context, args, timeout, throttling, more;
-  var whenDone = __utils.debounce(function(){ more = throttling = false; }, wait);
-  return function() {
-    context = this; args = arguments;
-    var later = function() {
-      timeout = null;
-      if (more) func.apply(context, args);
-      whenDone();
-    };
-    if (!timeout) timeout = setTimeout(later, wait);
-    if (throttling) {
-      more = true;
-    } else {
-      func.apply(context, args);
-    }
-    whenDone();
-    throttling = true;
-  };
-};
+  throttle : (wait, func)->
+    context = args = timeout = throttling = more = null
+    whenDone = KD.utils.debounce wait, -> more = throttling = false
+    ->
+      context = this
+      args = arguments;
+      later = ->
+        timeout = null;
+        if more then func.apply context, args
+        whenDone()
 
-// Returns a function, that, as long as it continues to be invoked, will not
-// be triggered. The function will be called after it stops being called for
-// N milliseconds.
-__utils.debounce = function(func, wait) {
-  var timeout;
-  return function() {
-    var context = this, args = arguments;
-    var later = function() {
-      timeout = null;
-      func.apply(context, args);
-    };
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-  };
-};
-`
+      if !timeout then timeout = setTimeout later, wait
+
+      if throttling then more = yes else func.apply(context, args);
+
+      whenDone()
+      throttling = yes
+
+  debounce : (wait, func)->
+    timeout   = null
+    ->
+      context = this
+      args    = arguments
+      later   = ->
+        timeout = null
+        func.apply context, args
+
+      clearTimeout timeout
+      timeout = setTimeout later, wait

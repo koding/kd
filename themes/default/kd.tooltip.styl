@@ -18,11 +18,12 @@ div.kdtooltip
   &.animate-movement
     vendor                      transition, left 0.15s ease-in \, top 0.15s ease-in // \, opacity 0.1s ease-out
 
-  div.arrow
-    abs()
-    kdfsprite()
-    bg                        color, transparent
+  &:after
+    content                   ""
+    size                      0, 0
+    border                    5px solid transparent
     z-index                   9002
+    abs()
 
   div.wrapper
     borderBox()
@@ -48,69 +49,68 @@ div.kdtooltip
       text-align              right
 
   &.placement-top
-    div.arrow
-      bg                      position, -222px -33px
-      bottom                  14px
-      size                    9px, 5px
+    &:after
+      border-top-color       #fff
+      bottom                 -9px
 
     &.direction-right
-      div.arrow
+      &:after
         left                  5px
     &.direction-left
-      div.arrow
+      &:after
         right                 5px
     &.direction-center
-      div.arrow
-        margin-left           -8px
+      &:after
+        margin-left           -9px
         left                  50%
 
   &.placement-bottom
-    div.arrow
-      bg                      position, -200px -31px
-      top                     -11px
-      size                    12px, 11px
+    &:after
+      border-bottom-color     #fff
+      top                     -9px
+
     &.direction-right
-      div.arrow
+      &:after
         left                  5px
     &.direction-left
-      div.arrow
+      &:after
         right                 5px
     &.direction-center
-      div.arrow
-        margin-left           -8px
+      &:after
+        margin-left           -9px
         left                  50%
 
   &.placement-left
-    div.arrow
-      bg                      position, -200px -58px
-      right                   -5px
-      size                    5px, 13px
+    &:after
+      border-left-color      #fff
+      right                  -9px
+
     &.direction-top
-      div.arrow
+      &:after
         bottom                5px
     &.direction-bottom
-      div.arrow
+      &:after
         top                   5px
     &.direction-center
-      div.arrow
+      &:after
         top                   50%
-        margin-top            -8px
+        margin-top            -5px
 
   &.placement-right
-    div.arrow
-      bg                      position, -220px -58px
-      left                    -6px
-      size                    5px 13px
+    &:after
+      border-right-color      #fff
+      left                    -9px
+
     &.direction-top
-      div.arrow
+      &:after
         bottom                5px
     &.direction-bottom
-      div.arrow
+      &:after
         top                   5px
     &.direction-center
-      div.arrow
+      &:after
         top                   50%
-        margin-top            -8px
+        margin-top            -5px
 
   &.out
     opacity                   0
@@ -124,10 +124,6 @@ div.kdtooltip
     min-width                 20px
     max-width                 300px
     // bg                        color, transparent
-
-    div.arrow
-      bg                      color, transparent
-      opacity                 .5
 
     div.wrapper
       shadow                  0 3px 7px rgba(0, 0, 0, 0.25)
@@ -150,38 +146,38 @@ div.kdtooltip
       font-weight             300
 
     &.placement-right
-      div.arrow
-        bg                    position, -187px -565px
-        left                  -5px
+      &:after
+        border-right-color    rgba(0,0,0,0.65)
+
       &.direction-center
-        div.arrow
+        &:after
           top                 50%
           margin-top          -5px
     &.placement-left
-      div.arrow
-        bg                    position, -147px -562px
-        right                 -5px
+      &:after
+        border-left-color     rgba(0,0,0,0.65)
+
       &.direction-center
-        div.arrow
+        &:after
           top                 50%
-          margin-top          -8px
+          margin-top          -5px
     &.placement-bottom
-      div.arrow
-        bg                    position, -162px -562px
-        top                   -11px
+      &:after
+        border-bottom-color   rgba(0,0,0,0.65)
+
       &.direction-left
         margin-left           10px
       &.direction-center
-        div.arrow
-          margin-left         -6px
+        &:after
+          margin-left         -5px
           left                50%
     &.placement-top
-      div.arrow
-        bg                    position, -125px -569px
-        bottom                -5px
+      &:after
+        border-top-color      rgba(0,0,0,0.65)
+
       &.direction-left
         margin-left           10px
       &.direction-center
-        div.arrow
-          margin-left         -6px
+        &:after
+          margin-left         -5px
           left                50%

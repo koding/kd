@@ -347,7 +347,7 @@ class KDListViewController extends KDViewController
 
       lazyLoaderOptions                or= {}
       lazyLoaderOptions.itemClass      or= KDCustomHTMLView
-      lazyLoaderOptions.partial         ?= 'Loading...'
+      lazyLoaderOptions.partial         ?= ''
       lazyLoaderOptions.cssClass         = KD.utils.curry 'lazy-loader', lazyLoaderOptions.cssClass
       lazyLoaderOptions.spinnerOptions or= size : width : 32
       {itemClass, spinnerOptions}        = lazyLoaderOptions

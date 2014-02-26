@@ -1,17 +1,17 @@
 class KDDialogView extends KDView
-  constructor:(options,data)->
-    defaultOptions =
-      duration      : 200
-      topOffset     : 0
-      overlay       : yes
-      buttons       :
-        Cancel :
-          style     : "clean-red"
-          callback  : =>
-            @hide()
 
-    options = $.extend defaultOptions, options
-    super
+  constructor: (options = {}, data) ->
+
+    options.duration  or= 200
+    options.topOffset or= 0
+    options.offset     ?= yes
+    options.buttons   or=
+      Cancel            :
+        style           : "clean-red"
+        callback        : => @hide()
+
+    super options, data
+
     @setClass "kddialogview"
     @$().hide()
     @setButtons()

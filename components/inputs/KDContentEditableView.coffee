@@ -48,7 +48,7 @@ class KDContentEditableView extends KDView
       when "text" then value = element.textContent
       when "html" then value = element.innerHTML
 
-    if value is placeholder then "" else value.trim()
+    if value is Encoder.htmlDecode(placeholder) then "" else value.trim()
 
   setContent: (content) ->
     {type, textExpansion} = @getOptions()

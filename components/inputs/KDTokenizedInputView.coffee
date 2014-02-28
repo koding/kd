@@ -14,7 +14,7 @@ class KDTokenizedInput extends KDContentEditableView
       value += "\n"  if node.tagName?.toLowerCase() is "div"
       nodeValue = @getValueOfNode node
       value += nodeValue  if nodeValue isnt "\n"
-    if value is @getOptions().placeholder then return ""
+    if value is Encoder.htmlDecode(@getOptions().placeholder) then return ""
     else return value
 
   getValueOfNode: (node) ->

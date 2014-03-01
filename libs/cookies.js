@@ -26,6 +26,7 @@ var Cookies = {
   },
   set: function (sKey, sValue, options) {
     var vEnd, sPath, sDomain, bSecure;
+    options || (options = {});
     vEnd = options.expires != null ? options.expires : options.maxAge;
     sPath = options.path;
     sDomain = options.domain;
@@ -50,6 +51,7 @@ var Cookies = {
   },
   expire: function (sKey, options) {
     var sPath, sDomain;
+    options || (options = {});
     sPath = options.path;
     sDomain = options.domain;
     if (!sKey || !this.hasItem(sKey)) { return false; }

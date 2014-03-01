@@ -40,7 +40,7 @@ class KDAutoCompleteController extends KDViewController
     @getAutoCompletedItemParent()
     @setDefaultValue()
 
-    mainView.on 'keyup', @utils.throttle 300, (@bound "keyUpOnInputView")
+    mainView.on 'keyup', @utils.debounce 300, (@bound "keyUpOnInputView")
     mainView.on 'keydown', (event)=> @keyDownOnInputView event
 
   setDefaultValue:(defaultItems)->

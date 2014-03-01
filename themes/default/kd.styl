@@ -474,6 +474,20 @@ h4.kdheaderview
   &.half-white
     background          rgba(255,255,255,.5)
 
+.kdspotlightview
+  fix()
+  top                   0
+  left                  0
+  z-index               1000
+  .kdoverlay
+    bg                  color, rgba(0, 0, 0, .6)
+    &.main
+      bg                color, rgba(0, 0, 0, 0)
+      background        radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, .6) 60%)
+  &.shadow
+    .main
+      shadow            0 0 20px 40px rgba(0, 0, 0, .6) inset
+      background        transparent
 
 /*
   Global styles

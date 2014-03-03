@@ -87,12 +87,12 @@ class KDButtonView extends KDView
   setLoader:->
     @setClass "w-loader"
     {loader} = @getOptions()
-    loaderSize = @getHeight()
+    loaderSize = @getHeight()/2
     @loader = new KDLoaderView
       size          :
         width       : loader.diameter  ? loaderSize
       loaderOptions :
-        color       : loader.color    or "#222222"
+        color       : loader.color    or "#ffffff"
         shape       : loader.shape    or "spiral"
         diameter    : loader.diameter  ? loaderSize
         density     : loader.density   ? 30
@@ -126,7 +126,7 @@ class KDButtonView extends KDView
   enable:-> @$().attr "disabled", no
 
   focus:-> @$().trigger "focus"
-  
+
   blur:-> @$().trigger "blur"
 
   click:(event)->

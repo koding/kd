@@ -59,15 +59,20 @@ class KDRouter extends KDObject
 
   @handleNotFound =(route)->
     console.trace()
-    log "The route #{route} was not found!"
+    log "The route #{ Encoder.XSSEncode route } was not found!"
 
   getCurrentPath:-> @currentPath
 
   handleNotFound:(route)->
+    message = 
+      if /<|>/.test route
+      then "Invalid route!"
+      else"404 Not found! #{ Encoder.XSSEncode route }"
+
     delete @userRoute
     @clear()
     log "The route #{route} was not found!"
-    new KDNotificationView title: "404 Not found! #{route}"
+    new KDNotificationView title: message
 
   routeWithoutEdgeAtIndex =(route, i)->
     "/#{route.slice(0, i).concat(route.slice i + 1).join '/'}"
@@ -102,7 +107,7 @@ class KDRouter extends KDObject
     _gaq?.push ['_trackPageview', path]
 
   handleRoute:(userRoute, options={})->
-
+    return @handleRoute '/Activity'  if /<|>/.test userRoute
     userRoute = userRoute.slice 1  if (userRoute.indexOf '!') is 0
     @visitedRoutes.push userRoute  if @visitedRoutes.last isnt userRoute
 

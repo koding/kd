@@ -488,6 +488,10 @@ __utils =
   ###
 
   throttle : (wait, func)->
+    # for backwards compatibility
+    if (typeof func) is "number"
+      [wait, func] = [func, wait]
+
     context = args = timeout = throttling = more = null
     whenDone = KD.utils.debounce wait, -> more = throttling = false
     ->
@@ -506,6 +510,9 @@ __utils =
       throttling = yes
 
   debounce : (wait, func)->
+    if (typeof func) is "number"
+      [wait, func] = [func, wait]
+
     timeout   = null
     ->
       context = this

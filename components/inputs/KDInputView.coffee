@@ -66,6 +66,10 @@ class KDInputView extends KDView
         else
           @setValue o.selectOptions[0].value unless o.defaultValue
 
+    if o.autogrow
+      @once "focus", =>
+        @initialHeight = @$().height()  unless @initialHeight
+
   setDomElement:(cssClass = "")->
     name = "name='#{@options.name}'"
     @domElement = switch @getType()
@@ -399,7 +403,10 @@ class KDInputView extends KDView
       border  = parseInt(@_clone.css("borderTopWidth"), 10) + parseInt(@_clone.css("borderBottomWidth"), 10)
       height  = height + border + padding
 
-    @setHeight Math.max @initialHeight, height
+    @setHeight \
+      if @initialHeight
+      then Math.max @initialHeight, height
+      else height
 
   enableTabKey:-> @inputTabKeyEnabled = yes
 
@@ -489,6 +496,3 @@ class KDInputView extends KDView
     else if event.which is 39 and t.value.slice(ss,ss + tabLength) is tab
       event.preventDefault()
       t.selectionStart = t.selectionEnd = ss + tabLength
-
-  viewAppended: ->
-    @initialHeight = @$().height()

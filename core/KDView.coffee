@@ -837,57 +837,12 @@ class KDView extends KDObject
 # HELPER METHODS
 # #
 
-  putOverlay:(options = {})->
-
-    # Will be deprecated soon, will use KDOverlayView
-
-    {isRemovable, cssClass, parent, animated, color} = options
-
-    isRemovable ?= yes
-    cssClass    ?= "transparent"
-    parent      ?= "body"           #body or a KDView instance
-
-    @$overlay = $ "<div />", class : "kdoverlay #{cssClass}#{if animated then " animated" else ''}"
-
-    if color
-      @$overlay.css "background-color" : color
-
-    if "string" is typeof parent
-      @$overlay.appendTo $(parent)
-    else if parent instanceof KDView
-      @__zIndex = parseInt(@$().css("z-index"), 10) or 0
-      @$overlay.css "z-index", @__zIndex + 1
-      @$overlay.appendTo parent.$()
-
-    if animated
-      @utils.defer =>
-        @$overlay.addClass "in"
-      @utils.wait 300, =>
-        @emit "OverlayAdded", this
-    else
-      @emit "OverlayAdded", this
-
-    if isRemovable
-      @$overlay.on "click.overlay", @removeOverlay.bind this
+  putOverlay: (options = {}) ->
+    options.delegate = this
+    @overlay = new KDOverlayView options
 
   removeOverlay:->
-
-    return unless @$overlay
-
-    @emit "OverlayWillBeRemoved"
-    kallback = =>
-      @$overlay.off "click.overlay"
-      @$overlay.remove()
-      delete @__zIndex
-      delete @$overlay
-      @emit "OverlayRemoved", this
-
-    if @$overlay.hasClass "animated"
-      @$overlay.removeClass "in"
-      @utils.wait 300, =>
-        kallback()
-    else
-      kallback()
+    @overlay?.destroy()
 
   unsetTooltip:(o = {})->
     @tooltip?.destroy()

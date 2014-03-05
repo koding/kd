@@ -20,8 +20,8 @@ class KDOverlayView extends KDView
         backgroundColor : options.color
         opacity         : options.opacity
 
-    if options.delegate instanceof KDView
-      options.delegate.addSubView this
+    if options.container instanceof KDView
+      options.container.addSubView this
       @setCss "position", "absolute"
     else if options.appendToDomBody
       @appendToDomBody()

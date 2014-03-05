@@ -66,6 +66,10 @@ class KDInputView extends KDView
         else
           @setValue o.selectOptions[0].value unless o.defaultValue
 
+    if o.autogrow
+      @once "focus", =>
+        @initialHeight = @$().height()  unless @initialHeight
+
   setDomElement:(cssClass = "")->
     name = "name='#{@options.name}'"
     @domElement = switch @getType()
@@ -361,25 +365,25 @@ class KDInputView extends KDView
     @_clone = $ "<div/>", class : "invisible"
 
     @on "focus", =>
-      @utils.defer =>
-        @_clone.appendTo 'body'
-        @_clone.css
-          height        : "auto"
-          zIndex        : 100000
-          width         : $input.width()
-          borderTop     : $input.css 'border-top'
-          borderRight   : $input.css 'border-right'
-          borderBottom  : $input.css 'border-bottom'
-          borderLeft    : $input.css 'border-left'
-          paddingTop    : $input.css 'padding-top'
-          paddingRight  : $input.css 'padding-right'
-          paddingBottom : $input.css 'padding-bottom'
-          paddingLeft   : $input.css 'padding-left'
-          wordBreak     : $input.css 'wordBreak'
-          fontSize      : $input.css 'fontSize'
-          fontWeight    : $input.css 'fontWeight'
-          lineHeight    : $input.css 'lineHeight'
-          whiteSpace    : "pre-line"
+      @_clone.appendTo 'body'
+      @_clone.css
+        height        : "auto"
+        zIndex        : 100000
+        width         : $input.css 'width'
+        boxSizing     : $input.css 'box-sizing'
+        borderTop     : $input.css 'border-top'
+        borderRight   : $input.css 'border-right'
+        borderBottom  : $input.css 'border-bottom'
+        borderLeft    : $input.css 'border-left'
+        paddingTop    : $input.css 'padding-top'
+        paddingRight  : $input.css 'padding-right'
+        paddingBottom : $input.css 'padding-bottom'
+        paddingLeft   : $input.css 'padding-left'
+        wordBreak     : $input.css 'wordBreak'
+        fontSize      : $input.css 'fontSize'
+        fontWeight    : $input.css 'fontWeight'
+        lineHeight    : $input.css 'lineHeight'
+        whiteSpace    : "pre-line"
 
     @on "blur", =>
       @_clone.detach()
@@ -399,7 +403,10 @@ class KDInputView extends KDView
       border  = parseInt(@_clone.css("borderTopWidth"), 10) + parseInt(@_clone.css("borderBottomWidth"), 10)
       height  = height + border + padding
 
-    @setHeight Math.max @initialHeight, height
+    @setHeight \
+      if @initialHeight
+      then Math.max @initialHeight, height
+      else height
 
   enableTabKey:-> @inputTabKeyEnabled = yes
 
@@ -489,6 +496,3 @@ class KDInputView extends KDView
     else if event.which is 39 and t.value.slice(ss,ss + tabLength) is tab
       event.preventDefault()
       t.selectionStart = t.selectionEnd = ss + tabLength
-
-  viewAppended: ->
-    @initialHeight = @$().height()

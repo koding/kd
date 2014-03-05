@@ -12,9 +12,6 @@ class JContextMenu extends KDView
     options.arrow          ?= no
     options.sticky         ?= no
 
-    # TODO: fatihacet - temp hack for onboarding item positioning.
-    options.deferPositioning  ?= no
-
     super options, data
 
     @topMargin  = 0
@@ -54,6 +51,7 @@ class JContextMenu extends KDView
 
   childAppended:->
     super
+    @positionContextMenu()
 
     if @getOption "deferPositioning"
       KD.utils.defer => @positionContextMenu()

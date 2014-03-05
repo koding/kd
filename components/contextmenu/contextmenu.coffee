@@ -50,9 +50,8 @@ class JContextMenu extends KDView
   changeStickyState: (state)-> @sticky = state
 
   childAppended:->
-
     super
-    KD.utils.defer => @positionContextMenu()
+    @positionContextMenu()
 
   addArrow:->
 

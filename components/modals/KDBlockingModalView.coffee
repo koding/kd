@@ -1,25 +1,23 @@
 class KDBlockingModalView extends KDModalView
-  constructor:->
-    super
-    $(window).off "keydown.modal"
+
+  constructor: (options = {}, data) ->
+
+    super options, data
+
+    $(window).off "keydown.modal" # to unbind ESC key
 
   putOverlay:->
-    @$overlay = $ "<div/>",
-      class : "kdoverlay"
-    @$overlay.hide()
-    @$overlay.appendTo "body"
-    @$overlay.fadeIn 200
-    @$overlay.bind "click", => @doBlockingAnimation()
+    @overlay = new KDOverlayView
+      isRemovable: no
+
+    @overlay.on "click", =>
+      @doBlockingAnimation()
 
   doBlockingAnimation:->
-    @unsetClass "blocking-animation"
-    @setClass   "blocking-animation"
-
-    @$overlay.off "click"
+    @setClass "blocking-animation"
 
     KD.utils.wait 200, =>
       @unsetClass "blocking-animation"
-      @$overlay.bind "click", => @doBlockingAnimation()
 
   setDomElement:(cssClass)->
     @domElement = $ """

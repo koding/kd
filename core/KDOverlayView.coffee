@@ -1,49 +1,47 @@
 class KDOverlayView extends KDView
 
-  constructor: (options={}, data)->
+  constructor: (options = {}, data) ->
 
-    {isRemovable, animated, color, transparent, parent, opacity} = options
+    options.isRemovable      ?= yes
+    options.animated         ?= no
+    options.color            ?= no
+    options.transparent      ?= no
+    options.opacity          ?= 0.5
+    options.appendToDomBody  ?= yes
+    options.cssClass          = KD.utils.curry "kdoverlay", options.cssClass
 
-    cssClass =    ["kdoverlay"]
-    cssClass.push  "animated"         if animated
-    cssClass.push  "transparent"      if transparent
-    options.cssClass = cssClass.join " "
-    super
+    super options, data
 
-    isRemovable ?= yes
+    @setClass "animated"    if options.animated
+    @setClass "transparent" if options.transparent
 
-    if color
-      @$().css
-        backgroundColor: color
-        opacity: opacity ? 0.5
+    if options.color
+      @setStyle
+        backgroundColor : options.color
+        opacity         : options.opacity
 
-    if "string" is typeof parent
-      @$().appendTo $(parent)
-    else if parent instanceof KDView
-      @$().appendTo parent.$()
+    if options.container instanceof KDView
+      options.container.addSubView this
+      @setCss "position", "absolute"
+    else if options.appendToDomBody
+      @appendToDomBody()
 
-    if animated
-      @utils.defer =>
-        @$().addClass "in"
+    if options.animated
+      @utils.defer => @setClass "in"
       @utils.wait 300, =>
-        @emit "OverlayAdded", @
+        @emit "OverlayAdded", this
     else
-      @emit "OverlayAdded", @
+      @emit "OverlayAdded", this
 
-    if isRemovable
-      @$().on "click.overlay", @removeOverlay.bind @
+    if options.isRemovable
+      if options.animated
+        @once "click", =>
+          @unsetClass "in"
+          @utils.wait 300, => @remove()
+      else
+        @once "click", => @remove()
 
-  removeOverlay: ->
-
+  remove: ->
     @emit "OverlayWillBeRemoved"
-    callback = =>
-      @$().off "click.overlay"
-      @destroy()
-      @emit "OverlayRemoved", @
-
-    if @$().hasClass "animated"
-      @$().removeClass "in"
-      @utils.wait 300, =>
-        callback()
-    else
-      callback()
+    @destroy()
+    @emit "OverlayRemoved", this

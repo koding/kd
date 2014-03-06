@@ -56,6 +56,9 @@ module.exports = [
   # header
   "components/header/KDHeaderView.coffee",
 
+  # overlay
+  "components/overlay/kdspotlightview.coffee",
+
   # loader
   "components/loader/KDLoaderView.coffee",
 

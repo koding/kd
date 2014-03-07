@@ -24,16 +24,22 @@ class KDListView extends KDView
 
   addItem:(itemData, index, animation)->
 
-    {itemOptions, itemChildClass, itemChildOptions} = @getOptions()
+    {itemChildClass, itemChildOptions} = @getOptions()
 
-    viewOptions = @customizeItemOptions?(itemOptions, itemData) or \
+    if index? and typeof index isnt 'number'
+      itemOptions = index
+      index = null
+    else
+      {itemOptions} = @getOptions()
+
+    itemOptions = @customizeItemOptions?(itemOptions, itemData) or \
                   itemOptions or {}
 
-    viewOptions.delegate   or= this
-    viewOptions.childClass or= itemChildClass
-    viewOptions.childOptions = itemChildOptions
+    itemOptions.delegate     or= this
+    itemOptions.childClass   or= itemChildClass
+    itemOptions.childOptions or= itemChildOptions
 
-    itemInstance = new (viewOptions.itemClass ? @getOptions().itemClass ? KDListItemView) viewOptions, itemData
+    itemInstance = new (@getOptions().itemClass ? KDListItemView) itemOptions, itemData
     @addItemView itemInstance, index, animation
 
     return itemInstance

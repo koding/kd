@@ -28,6 +28,7 @@ class KDListViewController extends KDViewController
       viewOptions                    = options.viewOptions or {}
       viewOptions.lastToFirst      or= options.lastToFirst
       viewOptions.itemClass        or= options.itemClass
+      viewOptions.itemOptions      or= options.itemOptions
       viewOptions.itemChildClass   or= options.itemChildClass
       viewOptions.itemChildOptions or= options.itemChildOptions
 

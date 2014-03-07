@@ -1,9 +1,10 @@
 class KDTabHandleContainer extends KDView
 
   constructor:(options={}, data)->
-    super
 
-    @tabs = new KDView cssClass:'kdtabhandle-tabs'
+    super options, data
 
-  viewAppended:->
-    @addSubView @tabs
+    @tabs = new KDView cssClass:'kdtabhandle-tabs clearfix'
+
+
+  viewAppended:-> @addSubView @tabs

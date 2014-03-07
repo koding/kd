@@ -58,25 +58,30 @@ class KDTabView extends KDScrollView
       @addPane new @tabConstructor paneOptions, null
 
   addPane:(paneInstance, shouldShow=yes)->
+
     if paneInstance instanceof KDTabPaneView
-      paneInstance.setOption "detachable", @getOption "detachPanes"
+
+      { tabHandleClass, sortable, detachPanes } = @getOptions()
+
+      paneInstance.setOption "detachable", detachPanes
       @panes.push paneInstance
-      {tabHandleClass} = @getOptions()
-      paneOptions      = paneInstance.getOptions()
+
+      { name, title, hiddenHandle, tabHandleView, closable, lazy } = paneInstance.getOptions()
 
       @addHandle newTabHandle = new tabHandleClass
         pane      : paneInstance
-        title     : paneOptions.name or paneOptions.title
-        hidden    : paneOptions.hiddenHandle
-        view      : paneOptions.tabHandleView
-        closable  : paneOptions.closable
-        sortable  : @getOptions().sortable
+        title     : name or title
+        hidden    : hiddenHandle
+        cssClass  : KD.utils.slugify name.toLowerCase()
+        view      : tabHandleView
+        closable  : closable
+        sortable  : sortable
         click     : (event)=> @handleMouseDownDefaultAction newTabHandle, event
 
       paneInstance.tabHandle = newTabHandle
       @appendPane paneInstance
-      if shouldShow and not paneInstance.getOption 'lazy'
-        @showPane paneInstance
+      @showPane paneInstance  if shouldShow and not lazy
+
       @emit "PaneAdded", paneInstance
 
       {minHandleWidth, maxHandleWidth} = @getOptions()

@@ -83,6 +83,8 @@ class KDObject extends KDEventEmitter
     @isDestroyed = yes
     @emit 'KDObjectWillBeDestroyed'
     KD.deleteInstance @id
+    # good idea but needs some refactoring
+    # @[prop] = null  for own prop of this
 
   chainNames:(options)->
     options.chain

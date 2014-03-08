@@ -184,8 +184,11 @@ class KDTabView extends KDScrollView
 
   #SHOW/HIDE ELEMENTS
   showPane:(pane)->
+
     return unless pane
     activePane = @getActivePane()
+    return if pane is activePane
+
     @lastOpenPaneIndex = @getPaneIndex activePane  if activePane
     @hideAllPanes()
     pane.show()

@@ -22,33 +22,27 @@ class KDListView extends KDView
     event.preventDefault()
     @emit "KeyDownOnList", event
 
-  _addItemHelper:(itemData, options)->
+  addItem:(itemData, index, animation)->
 
-    {index, animation, viewOptions} = options
     {itemChildClass, itemChildOptions} = @getOptions()
-    viewOptions or= @customizeItemOptions?(options, itemData) or {}
-    viewOptions.delegate = this
-    viewOptions.childClass or= itemChildClass
-    viewOptions.childOptions = itemChildOptions
 
-    itemInstance = new (viewOptions.itemClass ? @getOptions().itemClass ? KDListItemView) viewOptions, itemData
+    if index? and typeof index isnt 'number'
+      itemOptions = index
+      index = null
+    else
+      {itemOptions} = @getOptions()
+
+    itemOptions = @customizeItemOptions?(itemOptions, itemData) or \
+                  itemOptions or {}
+
+    itemOptions.delegate     or= this
+    itemOptions.childClass   or= itemChildClass
+    itemOptions.childOptions or= itemChildOptions
+
+    itemInstance = new (@getOptions().itemClass ? KDListItemView) itemOptions, itemData
     @addItemView itemInstance, index, animation
 
     return itemInstance
-
-  addHiddenItem:(item, index, animation)->
-
-    @_addItemHelper item, {
-      viewOptions :
-        isHidden  : yes
-        cssClass  : 'hidden-item'
-      index
-      animation
-    }
-
-  addItem:(itemData, index, animation)->
-
-    @_addItemHelper itemData, {index, animation}
 
   removeItem:(itemInstance, itemData, index)->
 

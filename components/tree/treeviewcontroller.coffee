@@ -1,4 +1,7 @@
-class JTreeViewController extends KDViewController
+KDViewController = require './../../core/viewcontroller.coffee'
+KDScrollView     = require './../../core/scrollview.coffee'
+
+module.exports = class JTreeViewController extends KDViewController
 
   keyMap = ->
     37 : "left"

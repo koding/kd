@@ -1,9 +1,4 @@
-# utils singleton
-# -------------------------
-#
-# -------------------------
-
-__utils =
+module.exports =
 
   idCounter : 0
 
@@ -69,11 +64,11 @@ __utils =
     return  window.getSelection()
 
   getSelectionRange:->
-    selection = __utils.getSelection()
+    selection = @getSelection()
     return  selection.getRangeAt 0 if selection.type isnt "None"
 
   getCursorNode:->
-    return  __utils.getSelectionRange().commonAncestorContainer
+    return  @getSelectionRange().commonAncestorContainer
 
   addRange:(range)->
     selection = window.getSelection()
@@ -98,13 +93,13 @@ __utils =
 
   selectEnd:(element, range)->
     range   or= document.createRange()
-    element or= __utils.getSelection().focusNode
+    element or= @getSelection().focusNode
 
     return  unless element
 
     range.setStartAfter element
     range.collapse no
-    __utils.addRange range
+    @addRange range
 
   replaceRange:(node, replacement, start, end = start, appendTrailingSpace = yes)->
     trailingSpace = document.createTextNode "\u00a0"
@@ -120,11 +115,11 @@ __utils =
     range.deleteContents()
 
     range.insertNode replacement
-    __utils.selectEnd replacement, range
+    @selectEnd replacement, range
 
     if appendTrailingSpace
       range.insertNode trailingSpace
-      __utils.selectEnd trailingSpace, range
+      @selectEnd trailingSpace, range
 
   getCallerChain:(args, depth)->
     {callee:{caller}} = args
@@ -142,7 +137,7 @@ __utils =
     return if res > min then res else res + min
 
   uniqueId : (prefix)->
-    id = __utils.idCounter++
+    id = @idCounter++
     if prefix? then "#{prefix}#{id}" else id
 
   getRandomRGB :->

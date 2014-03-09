@@ -1,4 +1,6 @@
-class JTreeItemView extends KDListItemView
+KDListItemView = require './../list/listitemview.coffee'
+
+module.exports = class JTreeItemView extends KDListItemView
 
   constructor:(options = {}, data = {})->
 

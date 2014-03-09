@@ -1,4 +1,6 @@
-class KDTimeAgoView extends KDView
+KDView = require './../../core/view.coffee'
+
+module.exports = class KDTimeAgoView extends KDView
 
   @registerStaticEmitter()
 

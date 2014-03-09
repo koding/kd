@@ -1,4 +1,8 @@
-class JContextMenu extends KDView
+KDView                         = require './../../core/view.coffee'
+KDCustomHTMLView               = require './../../core/customhtmlview.coffee'
+JContextMenuTreeViewController = './contextmenutreeviewcontroller.coffee'
+
+module.exports = class JContextMenu extends KDView
 
   constructor:(options = {}, data)->
 

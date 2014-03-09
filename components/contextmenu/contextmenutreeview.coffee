@@ -1,4 +1,6 @@
-class JContextMenuTreeView extends JTreeView
+JTreeView = require './../tree/treeview.coffee'
+
+module.exports = class JContextMenuTreeView extends JTreeView
 
   constructor:(options = {}, data = {})->
 

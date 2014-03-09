@@ -1,4 +1,6 @@
-class KDAutoComplete extends KDInputView
+KDInputView = require './../inputs/inputview.coffee'
+
+module.exports = class KDAutoComplete extends KDInputView
   mouseDown: ->
     @focus()
 

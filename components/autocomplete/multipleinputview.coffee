@@ -1,18 +1,8 @@
-# SIMPLE AUTOCOMPLETE VIEW
-class KDSimpleAutocomplete extends KDAutoComplete
-  addItemToSubmitQueue: (item) ->
-    itemValue = JsPath.getAt item.getData(), @getOptions().itemDataPath
-    @setValue itemValue
+KDSimpleAutocomplete  = require './simpleautocomplete.coffee'
+MultipleInputListView = require './multipleinputlistview.coffee'
+KDInputView           = require './../inputs/inputview.coffee'
 
-  keyUp: (event) ->
-    return if event.keyCode is 13
-    super
-
-  showNoDataFound: ->
-    @dropdown.removeAllItems()
-    @hideDropdown()
-
-class KDMultipleInputView extends KDSimpleAutocomplete
+module.exports = class KDMultipleInputView extends KDSimpleAutocomplete
   constructor: (options) ->
     @_values = []
     options = $.extend {

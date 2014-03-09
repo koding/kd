@@ -1,4 +1,9 @@
-class KDSplitView extends KDView
+KD               = require './../../core/kd.coffee'
+KDView           = require './../../core/view.coffee'
+KDSplitViewPanel = require './splitviewpanel.coffee'
+KDSplitResizer   = require './splitresizer.coffee'
+
+module.exports = class KDSplitView extends KDView
 
   constructor:(options = {},data)->
 
@@ -74,7 +79,7 @@ class KDSplitView extends KDView
     for panel in @panels
       @addSubView panel
       if @getOptions().colored
-        panel.$().css backgroundColor : __utils.getRandomRGB()
+        panel.$().css backgroundColor : KD.utils.getRandomRGB()
 
   _setPanelPositions:->
 
@@ -363,8 +368,8 @@ class KDSplitView extends KDView
     @_calculatePanelBounds()
 
     # COLORIZE PANELS
-    # panelToBeSplitted.$().css backgroundColor : __utils.getRandomRGB()
-    # newPanel.$().css backgroundColor : __utils.getRandomRGB()
+    # panelToBeSplitted.$().css backgroundColor : KD.utils.getRandomRGB()
+    # newPanel.$().css backgroundColor : KD.utils.getRandomRGB()
 
     # RE-ENUMERATE PANELS
     for panel,i in @panels[index+1...@panels.length]

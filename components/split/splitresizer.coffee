@@ -1,4 +1,6 @@
-class KDSplitResizer extends KDView
+KDView = require './../../core/view.coffee'
+
+module.exports = class KDSplitResizer extends KDView
 
   constructor:(options = {}, data)->
 

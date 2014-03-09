@@ -1,4 +1,6 @@
-class KDSplitViewPanel extends KDScrollView
+KDScrollView = require './../../core/scrollview.coffee'
+
+module.exports = class KDSplitViewPanel extends KDScrollView
 
   constructor:(options = {}, data)->
 

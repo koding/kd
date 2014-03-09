@@ -1,4 +1,7 @@
-class JContextMenuItem extends JTreeItemView
+KDView        = require './../../core/view.coffee'
+JTreeItemView = require './../tree/treeitemview.coffee'
+
+module.exports = class JContextMenuItem extends JTreeItemView
 
   constructor:(options = {}, data = {})->
 

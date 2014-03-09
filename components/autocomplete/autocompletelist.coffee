@@ -1,5 +1,6 @@
-#FIXME: Can't these methods be used in the general KDListView? -sah
-class KDAutoCompleteListView extends KDListView
+KDListView = require './../lists/listview.coffee'
+
+module.exports = class KDAutoCompleteListView extends KDListView
   constructor:(options,data)->
     super options,data
     @setClass "kdautocompletelist"

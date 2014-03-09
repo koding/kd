@@ -1,4 +1,6 @@
-class JView extends KDView
+KDView = require './view.coffee'
+
+module.exports = class JView extends KDView
 
   viewAppended:->
     template = @getOptions().pistachio or @pistachio

@@ -1,4 +1,6 @@
-class KDAutoCompleteListItemView extends KDListItemView
+KDListItemView = require './../lists/listitemview.coffee'
+
+module.exports = class KDAutoCompleteListItemView extends KDListItemView
 
   constructor:(options = {}, data)->
 

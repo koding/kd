@@ -1,4 +1,7 @@
-class KDSplitComboView extends KDView
+KDView      = require './../../core/kdview.coffee'
+KDSplitView = require './splitview.coffee'
+
+module.exports = class KDSplitComboView extends KDView
 
   constructor: (options = {}, data) ->
 

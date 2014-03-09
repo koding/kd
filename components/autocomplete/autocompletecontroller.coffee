@@ -1,4 +1,12 @@
-class KDAutoCompleteController extends KDViewController
+KDViewController           = require './../../core/viewcontroller.coffee'
+KDListViewController       = require './../lists/listviewcontroller.coffee'
+KDLabelView                = require './../inputs/labelview.coffee'
+KDNotificationView         = require './../notifications/notificationview.coffee'
+KDAutoComplete             = require './autocomplete.coffee'
+KDAutoCompleteListView     = require './autocompletelist.coffee'
+KDAutoCompleteFetchingItem = require './autocompletefetchingitem.coffee'
+
+module.exports = class KDAutoCompleteController extends KDViewController
   constructor:(options = {},data)->
     options = $.extend
       view                  : mainView = options.view or new KDAutoComplete

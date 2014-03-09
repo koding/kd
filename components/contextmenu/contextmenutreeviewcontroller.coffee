@@ -1,4 +1,7 @@
-class JContextMenuTreeViewController extends JTreeViewController
+KDView              = require './../../core/view.coffee'
+JTreeViewController = require './../tree/treeviewcontroller.coffee'
+
+module.exports = class JContextMenuTreeViewController extends JTreeViewController
 
   ###
   STATIC CONTEXT

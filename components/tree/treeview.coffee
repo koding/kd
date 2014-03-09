@@ -1,4 +1,6 @@
-class JTreeView extends KDListView
+KDListView = require './../list/listview.coffee'
+
+module.exports = class JTreeView extends KDListView
 
   constructor:(options = {},data)->
 

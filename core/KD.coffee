@@ -1,3 +1,5 @@
+utils = require './utils.coffee'
+
 Function::bind or= (context) ->
   if 1 < arguments.length
     args = [].slice.call arguments, 1
@@ -32,7 +34,7 @@ do (arrayProto = Array.prototype, {defineProperty} = Object)->
     defineProperty arrayProto, "first", { get: -> @[0] }
 
 # KD Global
-KD = @KD or {}
+window.KD or= {}
 
 noop  = ->
 
@@ -49,7 +51,7 @@ unless window.event?
   catch e
     log "we fail silently!", e
 
-@KD = $.extend (KD), do ->
+window.KD = $.extend (window.KD), do ->
   create = (constructorName, options, data)->
     konstructor = @classes[constructorName] \
                 ? @classes["KD#{constructorName}"]
@@ -63,7 +65,7 @@ unless window.event?
   singletons      : {}
   subscriptions   : []
   classes         : {}
-  utils           : __utils
+  utils           : utils
   lastFuncCall    : null
   instancesToBeTested: {}
 
@@ -122,3 +124,5 @@ unless window.event?
   getInstanceForTesting:(key)-> @instancesToBeTested[key]
 
 prettyPrint = noop
+
+module.exports = KD

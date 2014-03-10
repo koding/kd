@@ -48,7 +48,6 @@ gulp.task 'coffee', ->
       entryFile += "require '#{file.replace 'src/', ''}'\n"
 
     fs.writeFileSync entryPath, entryFile
-    fs.writeFileSync './build/index.html', fs.readFileSync './src/index.html'
 
     gulp.src(entryPath, { read: false })
       .pipe(browserify
@@ -88,5 +87,6 @@ gulp.task 'watch-styles', ->
 
 gulp.task 'default', ['styles', 'libs', 'coffee', 'watch-styles', 'watch-coffee', 'watch-libs'], ->
 
+  fs.writeFileSync './build/index.html', fs.readFileSync './src/index.html'
   http.createServer(ecstatic {root: "#{__dirname}/build"}).listen(8080)
   gutil.log gutil.colors.blue 'HTTP server ready localhost:8080'

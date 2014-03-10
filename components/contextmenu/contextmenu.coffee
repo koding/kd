@@ -50,13 +50,9 @@ class JContextMenu extends KDView
   changeStickyState: (state)-> @sticky = state
 
   childAppended:->
-    super
-    @positionContextMenu()
 
-    if @getOption "deferPositioning"
-      KD.utils.defer => @positionContextMenu()
-    else
-      @positionContextMenu()
+    super
+    KD.utils.defer => @positionContextMenu()
 
   addArrow:->
 
@@ -75,27 +71,26 @@ class JContextMenu extends KDView
 
     @arrow.$().css switch o.placement
       when "top"
-        rule = top : -7
+        rule = {}
         if o.margin > 0 then rule.left = o.margin else rule.right = -(o.margin)
         rule
       when "bottom"
-        rule = bottom : 0
+        rule = {}
         if o.margin > 0 then rule.left = o.margin else rule.right = -(o.margin)
         rule
       when "right"
-        rule = right : -7
+        rule = {}
         if o.margin > 0 then rule.top = o.margin else rule.bottom = -(o.margin)
         rule
       when "left"
-        rule = left : -11
+        rule = {}
         if o.margin > 0 then rule.top = o.margin else rule.bottom = -(o.margin)
         rule
       else {}
 
     @addSubView @arrow
 
-  positionContextMenu: KD.utils.debounce 10, ->
-
+  positionContextMenu:->
     options     = @getOptions()
     event       = options.event or {}
     mainView    = KD.getSingleton 'mainView'

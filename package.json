@@ -1,0 +1,40 @@
+{
+  "name": "KDFramework",
+  "version": "0.0.1",
+  "description": "An UI Framework built for koding.com",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@git.sj.koding.com:koding/kdframework.git"
+  },
+  "keywords": [
+    "ui",
+    "framework",
+    "coffeescript",
+    "stylus"
+  ],
+  "author": "Sinan Yasar",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.5.5",
+    "gulp-browserify": "^0.5.0",
+    "gulp-coffee": "^1.4.1",
+    "vinyl-source-stream": "^0.1.1",
+    "watchify": "^0.6.1",
+    "gulp-rename": "^1.2.0",
+    "gulp-livereload": "^1.2.0",
+    "gulp-uglify": "^0.2.1",
+    "gulp-ngmin": "^0.1.2",
+    "gulp-stylus": "0.0.14",
+    "string-to-jsify": "^0.2.1",
+    "gulp-minify-css": "^0.3.0",
+    "gulp-util": "^2.2.14",
+    "ecstatic": "^0.4.13",
+    "gulp-concat": "^2.1.7",
+    "recursive-readdir": "0.0.2",
+    "coffee-script": "^1.7.1"
+  }
+}

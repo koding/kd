@@ -95,7 +95,8 @@ class JContextMenu extends KDView
 
     @addSubView @arrow
 
-  positionContextMenu:->
+  positionContextMenu: KD.utils.debounce 10, ->
+
     options     = @getOptions()
     event       = options.event or {}
     mainView    = KD.getSingleton 'mainView'

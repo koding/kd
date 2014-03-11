@@ -35,6 +35,7 @@
     "ecstatic": "^0.4.13",
     "gulp-concat": "^2.1.7",
     "recursive-readdir": "0.0.2",
-    "coffee-script": "^1.7.1"
+    "coffee-script": "^1.7.1",
+    "coffeeify":"0.6.0"
   }
 }

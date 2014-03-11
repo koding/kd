@@ -13,6 +13,7 @@ coffee     = require 'coffee-script'
 source     = require 'vinyl-source-stream'
 ecstatic   = require 'ecstatic'
 readdir    = require 'recursive-readdir'
+{exec}     = require 'child_process'
 
 STYLES_PATH = ['./src/themes/**/*.css','./src/themes/default/**/*.styl']
 ENTRY_PATH  = ['./src/init.coffee']
@@ -41,13 +42,10 @@ gulp.task 'libs', ->
 
 gulp.task 'coffee', ->
 
-  readdir './src', (err, files)->
-    entryPath = './src/entry.coffee'
-    entryFile = ''
-    for file in files when /\.coffee$/.test file
-      entryFile += "require '#{file.replace 'src/', ''}'\n"
-
-    fs.writeFileSync entryPath, entryFile
+  entryPath = './src/entry.coffee'
+  exec "cd ./src;sh exporter.sh > entry.coffee; cd ..", (err)->
+    # Throw here maybe?
+    console.error err  if err?
 
     gulp.src(entryPath, { read: false })
       .pipe(browserify

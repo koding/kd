@@ -202,7 +202,7 @@ class KDModalView extends KDView
       @getDomElement().hide()
       uber()
 
-    @overlay.destroy()
+    @overlay?.destroy()
     @emit 'KDModalViewDestroyed', @
 
   ### STACK HELPERS ###

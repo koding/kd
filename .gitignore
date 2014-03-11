@@ -5,3 +5,5 @@
 /node_modules/
 
 /build/
+
+/src/entry.coffee

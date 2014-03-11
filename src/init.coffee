@@ -5,6 +5,7 @@ KDCustomHTMLView   = require './core/customhtmlview.coffee'
 
 KD.registerSingleton "windowController", new KDWindowController
 console.timeEnd "Framework loaded"
+KD.exportKDFramework()
 
 do ->
 

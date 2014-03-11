@@ -1,13 +1,24 @@
-KDFramework
-------------
+KD
+--
 
-_An UI Framework built for koding.com._
+_a non-document focused UI Framework for web applications._
+
+
+Install gulp:
+
+```bash
+$ npm install gulp -g
+```
+
 
 Build steps:
 
 ```bash
-$ npm install gulp -g
 $ npm i
 $ gulp
 ```
 
+Before building make sure you have these installed:
+
+- [node](http://nodejs.org)
+- [gulp](http://gulpjs.com/)

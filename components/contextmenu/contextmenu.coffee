@@ -50,6 +50,7 @@ class JContextMenu extends KDView
   changeStickyState: (state)-> @sticky = state
 
   childAppended:->
+
     super
     @positionContextMenu()
 
@@ -75,19 +76,19 @@ class JContextMenu extends KDView
 
     @arrow.$().css switch o.placement
       when "top"
-        rule = top : -7
+        rule = {}
         if o.margin > 0 then rule.left = o.margin else rule.right = -(o.margin)
         rule
       when "bottom"
-        rule = bottom : 0
+        rule = {}
         if o.margin > 0 then rule.left = o.margin else rule.right = -(o.margin)
         rule
       when "right"
-        rule = right : -7
+        rule = {}
         if o.margin > 0 then rule.top = o.margin else rule.bottom = -(o.margin)
         rule
       when "left"
-        rule = left : -11
+        rule = {}
         if o.margin > 0 then rule.top = o.margin else rule.bottom = -(o.margin)
         rule
       else {}

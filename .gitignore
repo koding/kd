@@ -1,3 +1,9 @@
 /.DS_Store
 
 *.orig
+
+/node_modules/
+
+/build/
+
+/src/entry.coffee

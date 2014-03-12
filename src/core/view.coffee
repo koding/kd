@@ -1,5 +1,4 @@
 KDObject      = require './object.coffee'
-KDOverlayView = require './../components/overlay/overlayview.coffee'
 KDTooltip     = require './../components/tooltip/tooltip.coffee'
 
 module.exports = class KDView extends KDObject
@@ -847,6 +846,8 @@ module.exports = class KDView extends KDObject
 
   putOverlay: (options = {}) ->
     options.delegate = this
+
+    KDOverlayView = require './../components/overlay/overlayview.coffee'
     @overlay = new KDOverlayView options
 
   removeOverlay:->

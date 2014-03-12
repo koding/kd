@@ -25,7 +25,7 @@ Return URI:
 http://127.0.0.1:1337/?addClass=1&appendChild=1&appendHtml=1&createElement=1&findProprietaryStyle=1&getAncestorByClassName=1&getAncestorByTagName=1&getDescendantsByClassName=1&getDescendantsByTagName=1&getElement=1&getElementParentElement=1&getElementPositionStyles=1&getElementTagName=1&getHtml=1&getInnerSize=1&getOuterSize=1&getPositionRelativeToDocument=1&getPositionRelativeToViewport=1&getStyleComputed=1&getText=3&hasClass=1&isDescendant=1&isInQuery=1&isNodeInNodeList=1&prependHtml=1&query=1&removeChild=1&removeClass=1&setHtml=1&setPosition=1&setSize=1&setText=3&attachBoundListener=1&attachBoundWindowListener=1&attachDocumentListener=1&attachListener=1&attachWindowListener=1&cancelDefault=1&cancelPropagation=1&delegateBoundClassNameListener=1&delegateBoundListener=1&delegateBoundQueryListener=1&delegateListener=1&delegateQueryListener=1&delegateTagNameListener=1&detachBoundListener=1&detachListener=1&detachWindowListener=1&getEventTarget=1&getEventTargetRelated=1&bind=1&getViewportScrollPosition=1&getViewportSize=1&htmlToNodes=1&setInputValue=1&setViewportScrollPosition=1&toArray=1&undelegateListener=1&undelegateQueryListener=1
 */
 
-var KD;
+var KD = {};
 KD.dom = KD.dom || {};
 (function(global) {
 
@@ -1577,4 +1577,6 @@ KD.dom.addClass = addClass;
 
 	globalDocument = html = null;
 
-}(this));
+}(window));
+
+module.exports = KD.dom;

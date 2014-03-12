@@ -1,5 +1,4 @@
-utils = require './utils.coffee'
-
+utils = window.utils = require './utils.coffee'
 
 Function::bind or= (context) ->
   if 1 < arguments.length
@@ -37,7 +36,7 @@ do (arrayProto = Array.prototype, {defineProperty} = Object)->
 # KD Global
 window.KD or= {}
 
-noop  = ->
+noop = window.noop = ->
 
 KD.log   = window.log   = noop
 KD.warn  = window.warn  = noop

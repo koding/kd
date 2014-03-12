@@ -302,3 +302,7 @@ module.exports = class KDWindowController extends KDController
       KD.utils.killWait @resizeNotifiersTimer
       @resizeNotifiersTimer = KD.utils.wait duration, fireResizeHandlers
     else do fireResizeHandlers
+
+do ->
+  KD           = require './kd.coffee'
+  KD.registerSingleton "windowController", new KDWindowController

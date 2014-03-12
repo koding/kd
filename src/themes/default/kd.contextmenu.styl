@@ -1,0 +1,126 @@
+@import "./kdfn"
+
+/*
+**  JContextMenu STYLES
+*/
+.jcontextmenu
+  abs()
+  display                 inline-block
+  height                  auto
+  overflow                visible
+  z-index                 10000
+  cursor                  default
+
+  .context-list-wrapper
+    padding               0
+    overflow              visible
+
+  .kdlistview-contextmenu.default
+    margin                0
+    padding               0
+    size                  auto,auto
+    min-width             150px
+    overflow              visible
+    bg                    color,rgba(255,255,255,.95)
+    shadow                0 7px 15px rgba(0,0,0,.17)
+    rounded               2px
+
+    .kdlistview-contextmenu.default
+      margin-top          -29px
+      rounded             0 2px 2px 0
+      abs()
+      left                100%
+      min-width           160px
+
+      &.left-aligned
+        rounded           2px 0 0 2px
+
+        .kdlistitemview-contextitem.default
+          &:first-of-type
+            rounded       2px 0 0 0
+          &:last-of-type
+            rounded       0 0 0 2px
+
+  .kdlistitemview-contextitem.default
+    font-size         .8em
+    background-color  transparent
+    border-bottom     none
+    padding           8px 10px
+    clear             both
+    color             #444
+    cursor            pointer
+    size              auto,auto
+    min-width         100px
+
+    &.selected
+      color           white
+      text-shadow     0 -1px 0 rgba(0,0,0,0.22)
+      bg              color, selectedBgColor
+      &:hover
+        bg            color, selectedBgColor
+
+    &:hover
+      background      transparent
+
+    &.disabled
+      opacity         .5
+
+    &.has-sub-items
+      span.arrow
+        abs()
+        right               2px
+        top                 10px
+        size                8px,8px
+        border              4px solid transparent
+        border-left-color   #31575f
+        borderBox()
+
+      &.selected
+        span.arrow
+          border-left-color white
+
+      &:first-child
+        rounded             2px 2px 0 0
+      &:last-child
+        rounded             0 0 2px 2px
+      &:hover
+        bg                  color, selectedBgColor
+
+    &:first-of-type
+      rounded               2px 2px 0
+    &:last-of-type
+      rounded               0 0 2px 2px
+
+    &.separator
+      height            0
+      margin            1px 0
+      padding           0
+      border-bottom     1px solid #ddd
+      &:hover
+        border-bottom   1px solid #ddd
+        bg              color,transparent!important
+        bg              image,none!important
+
+  > span.arrow
+    z-index             9002
+    size                0 0
+    border              5px solid transparent
+    abs()
+    &.top
+      border-bottom-color white
+      bottom              100%
+      margin-left         3px
+    &.right
+      border-left-color   white
+      left                100%
+      margin-top          3px
+    &.bottom
+      top                 100%
+      border-top-color    white
+      margin-left         3px
+    &.left
+      right               100%
+      border-right-color  white
+      margin-top          3px
+
+

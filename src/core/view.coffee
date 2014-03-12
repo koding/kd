@@ -1,5 +1,4 @@
 KDObject      = require './object.coffee'
-KDTooltip     = require './../components/tooltip/tooltip.coffee'
 
 module.exports = class KDView extends KDObject
 
@@ -886,7 +885,8 @@ module.exports = class KDView extends KDObject
     o.events    or= ['mouseenter','mouseleave','mousemove']
 
     @unsetTooltip()
-    @tooltip = new KDTooltip o, {}
+    KDTooltip = require './../components/tooltip/tooltip.coffee'
+    @tooltip  = new KDTooltip o, {}
 
   getTooltip:-> @tooltip
 

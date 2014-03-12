@@ -1,4 +1,5 @@
 gulp       = require 'gulp'
+gulpif     = require 'gulp-if'
 gutil      = require 'gulp-util'
 browserify = require 'gulp-browserify'
 rename     = require 'gulp-rename'
@@ -10,6 +11,7 @@ minifyCSS  = require 'gulp-minify-css'
 fs         = require 'fs'
 http       = require 'http'
 coffee     = require 'coffee-script'
+argv       = require('minimist') process.argv
 source     = require 'vinyl-source-stream'
 ecstatic   = require 'ecstatic'
 readdir    = require 'recursive-readdir'
@@ -20,24 +22,33 @@ ENTRY_PATH  = ['./src/init.coffee']
 COFFEE_PATH = ['./src/components/**/*.coffee','./src/core/**/*.coffee','./src/init.coffee']
 LIBS        = require './src/lib.includes.coffee'
 
+buildDir       = argv.outputDir ? 'build'
+version        = if argv.buildVersion then "#{argv.buildVersion}." else ''
+useLiveReload  = !!argv.liveReload
+useUglify      = !!argv.uglify
+useMinify      = !!(argv.minify ? yes)
+
 
 gulp.task 'styles', ->
 
-  gulp.src(STYLES_PATH)
+  stream = gulp.src(STYLES_PATH)
     .pipe(stylus())
-    .pipe(concat 'app.css')
-    .pipe(minifyCSS())
-    .pipe(gulp.dest 'build/css')
-    .pipe(livereload());
+    .pipe(concat "kd.#{version}css")
+    .pipe(gulpif useMinify, minifyCSS())
+    .pipe(gulp.dest "#{buildDir}/css")
+
+  stream.pipe(livereload())  if useLiveReload
 
 
 gulp.task 'libs', ->
 
-  gulp.src(LIBS)
+  stream = gulp.src(LIBS)
+    # .pipe(gulpif useUglify, uglify())
     .pipe(uglify())
-    .pipe(concat 'libs.js')
-    .pipe(gulp.dest 'build/js')
-    .pipe(livereload());
+    .pipe(concat "kd.libs.#{version}js")
+    .pipe(gulp.dest "#{buildDir}/js")
+
+  stream.pipe(livereload())  if useLiveReload
 
 
 gulp.task 'coffee', ->
@@ -47,16 +58,16 @@ gulp.task 'coffee', ->
     # Throw here maybe?
     console.error err  if err?
 
-    gulp.src(entryPath, { read: false })
+    stream = gulp.src(entryPath, { read: false })
       .pipe(browserify
         transform   : ['coffeeify']
         extensions  : ['.coffee']
-        debug       : yes
-      )
-      # .pipe(uglify())
-      .pipe(rename 'main.js')
-      .pipe(gulp.dest 'build/js')
-      .pipe(livereload())
+        debug       : yes )
+      .pipe(gulpif useUglify, uglify())
+      .pipe(rename "kd.#{version}js")
+      .pipe(gulp.dest "#{buildDir}/js")
+
+    stream.pipe(livereload())  if useLiveReload
 
 
 gulp.task 'watch-coffee', ->
@@ -83,8 +94,27 @@ gulp.task 'watch-styles', ->
     gutil.log gutil.colors.magenta "file #{event.path} was #{event.type}"
 
 
-gulp.task 'default', ['styles', 'libs', 'coffee', 'watch-styles', 'watch-coffee', 'watch-libs'], ->
+gulp.task 'live', -> useLiveReload = yes
+
+
+gulp.task 'watch-html', ->
+
+  watcher = gulp.watch ['./src/**/*.html'], ['html']
+
+  watcher.on 'change', (event)->
+    gutil.log gutil.colors.blue "file #{event.path} was #{event.type}"
+
+
+gulp.task 'html', ->
 
   fs.writeFileSync './build/index.html', fs.readFileSync './src/index.html'
+
+
+gulp.task 'default', ['live', 'styles', 'libs', 'coffee', 'html', \
+                      'watch-html', 'watch-styles', 'watch-coffee', 'watch-libs'], ->
+
   http.createServer(ecstatic {root: "#{__dirname}/build"}).listen(8080)
   gutil.log gutil.colors.blue 'HTTP server ready localhost:8080'
+
+
+gulp.task 'compile', ['styles', 'libs', 'coffee']

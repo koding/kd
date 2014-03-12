@@ -2,12 +2,24 @@
 <html>
 <head>
   <title>KDFramework Test Build</title>
+  <link rel="stylesheet" type="text/css" href="css/kd.css">
 </head>
 <body>
-  <script src="js/libs.js"></script>
-  <script src="js/main.js"></script>
+  <script src="js/kd.libs.js"></script>
+  <script src="js/kd.js"></script>
   <script>
-    console.log(KD)
+
+    var button = new KDButtonView({
+      title : "Hello World!",
+      callback : function () {
+        new KDNotificationView({
+          title : "Hello World!!"
+        });
+      }
+    });
+
+    KDView.appendToDOMBody(button);
+
   </script>
 </body>
 </html>

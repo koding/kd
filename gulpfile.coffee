@@ -111,6 +111,8 @@ gulp.task 'html', ->
 
   fs.writeFileSync './build/index.html', fs.readFileSync './src/index.html'
 
+  gulp.src('./src/index.html').pipe(livereload())  if useLiveReload
+
 
 gulp.task 'default', ['live', 'styles', 'libs', 'coffee', 'html', \
                       'watch-html', 'watch-styles', 'watch-coffee', 'watch-libs'], ->

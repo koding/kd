@@ -18,7 +18,7 @@ readdir    = require 'recursive-readdir'
 {exec}     = require 'child_process'
 
 STYLES_PATH = require './src/themes/styl.includes.coffee'
-ENTRY_PATH  = ['./src/init.coffee']
+ENTRY_PATH  = ['./playground/main.coffee']
 COFFEE_PATH = ['./src/components/**/*.coffee','./src/core/**/*.coffee','./src/init.coffee']
 LIBS        = require './src/lib.includes.coffee'
 
@@ -106,13 +106,24 @@ gulp.task 'watch-html', ->
 
 
 gulp.task 'html', ->
+gulp.task 'play', ->
 
   try fs.mkdirSync './build'
+  stream = gulp.src(ENTRY_PATH, { read: false })
+    .pipe(browserify
+      transform   : ['coffeeify']
+      extensions  : ['.coffee']
+      debug       : yes )
+    .pipe(concat "main.js")
+    .pipe(gulp.dest "playground/js")
 
   fs.writeFileSync './build/index.html', fs.readFileSync './src/index.html'
+  stream.pipe(livereload())  if useLiveReload
 
   gulp.src('./src/index.html').pipe(livereload())  if useLiveReload
 
+  if useLiveReload
+    gulp.src('./playground/index.html').pipe(livereload())
 
 gulp.task 'default', ['live', 'styles', 'libs', 'coffee', 'html', \
                       'watch-html', 'watch-styles', 'watch-coffee', 'watch-libs'], ->

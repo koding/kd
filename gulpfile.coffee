@@ -17,7 +17,7 @@ ecstatic   = require 'ecstatic'
 readdir    = require 'recursive-readdir'
 {exec}     = require 'child_process'
 
-STYLES_PATH = ['./src/themes/**/*.css','./src/themes/default/**/*.styl']
+STYLES_PATH = require './src/themes/styl.includes.coffee'
 ENTRY_PATH  = ['./src/init.coffee']
 COFFEE_PATH = ['./src/components/**/*.coffee','./src/core/**/*.coffee','./src/init.coffee']
 LIBS        = require './src/lib.includes.coffee'

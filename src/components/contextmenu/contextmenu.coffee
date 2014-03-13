@@ -1,6 +1,6 @@
 KDView                         = require './../../core/view.coffee'
 KDCustomHTMLView               = require './../../core/customhtmlview.coffee'
-JContextMenuTreeViewController = './contextmenutreeviewcontroller.coffee'
+JContextMenuTreeViewController = require './contextmenutreeviewcontroller.coffee'
 
 module.exports = class JContextMenu extends KDView
 

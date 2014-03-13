@@ -100,21 +100,19 @@ gulp.task 'watch-styles', ->
     gutil.log gutil.colors.magenta "file #{event.path} was #{event.type}"
 
 
-gulp.task 'live', -> useLiveReload = yes
+gulp.task 'watch-playground', ->
 
-
-gulp.task 'watch-html', ->
-
-  watcher = gulp.watch ['./src/**/*.html'], ['html']
+  watcher = gulp.watch [
+    './playground/**/*.coffee'
+    './playground/**/*.html'
+  ], ['play']
 
   watcher.on 'change', (event)->
     gutil.log gutil.colors.blue "file #{event.path} was #{event.type}"
 
 
-gulp.task 'html', ->
 gulp.task 'play', ->
 
-  try fs.mkdirSync './build'
   stream = gulp.src(ENTRY_PATH, { read: false })
     .pipe(browserify
       transform   : ['coffeeify']
@@ -123,19 +121,20 @@ gulp.task 'play', ->
     .pipe(concat "main.js")
     .pipe(gulp.dest "playground/js")
 
-  fs.writeFileSync './build/index.html', fs.readFileSync './src/index.html'
   stream.pipe(livereload())  if useLiveReload
-
-  gulp.src('./src/index.html').pipe(livereload())  if useLiveReload
 
   if useLiveReload
     gulp.src('./playground/index.html').pipe(livereload())
 
-gulp.task 'default', ['live', 'styles', 'libs', 'coffee', 'html', \
-                      'watch-html', 'watch-styles', 'watch-coffee', 'watch-libs'], ->
+gulp.task 'live', ->
 
-  http.createServer(ecstatic {root: "#{__dirname}/build"}).listen(8080)
-  gutil.log gutil.colors.blue 'HTTP server ready localhost:8080'
+  useLiveReload = yes
 
 
 gulp.task 'compile', ['styles', 'libs', 'coffee']
+
+gulp.task 'default', ['live', 'compile', 'play', 'watch-styles',  \
+                      'watch-coffee', 'watch-libs', 'watch-playground'] , ->
+
+  http.createServer(ecstatic {root: "#{__dirname}/playground"}).listen(8080)
+  gutil.log gutil.colors.blue 'HTTP server ready localhost:8080'

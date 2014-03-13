@@ -1,7 +1,7 @@
 {
   "name": "KDFramework",
   "version": "0.0.1",
-  "description": "An UI Framework built for koding.com",
+  "description": "a UI Framework built for koding.com",
   "main": "gulpfile.js",
   "scripts": {
     "test": ""
@@ -16,7 +16,7 @@
     "coffeescript",
     "stylus"
   ],
-  "author": "Sinan Yasar",
+  "author": "Koding, Inc. - Sinan Yasar",
   "license": "MIT",
   "devDependencies": {
     "gulp": "^3.5.5",

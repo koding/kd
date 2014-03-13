@@ -1,7 +1,7 @@
 {
   "name": "KDFramework",
   "version": "0.0.1",
-  "description": "a UI Framework built for koding.com",
+  "description": "a non-document focused UI Framework for web applications.",
   "main": "gulpfile.js",
   "scripts": {
     "test": ""

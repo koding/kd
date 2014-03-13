@@ -33,8 +33,10 @@ gulp.task 'styles', ->
 
   stream = gulp.src(STYLES_PATH)
     .pipe(stylus())
-    .pipe(concat "kd.#{version}css")
+    .pipe(concat "kd.css")
     .pipe(gulpif useMinify, minifyCSS())
+    .pipe(gulp.dest "playground/css")
+    .pipe(rename "kd.#{version}css")
     .pipe(gulp.dest "#{buildDir}/css")
 
   stream.pipe(livereload())  if useLiveReload
@@ -45,7 +47,9 @@ gulp.task 'libs', ->
   stream = gulp.src(LIBS)
     # .pipe(gulpif useUglify, uglify())
     .pipe(uglify())
-    .pipe(concat "kd.libs.#{version}js")
+    .pipe(concat "kd.libs.js")
+    .pipe(gulp.dest "playground/js")
+    .pipe(rename "kd.libs.#{version}js")
     .pipe(gulp.dest "#{buildDir}/js")
 
   stream.pipe(livereload())  if useLiveReload
@@ -64,6 +68,8 @@ gulp.task 'coffee', ->
         extensions  : ['.coffee']
         debug       : yes )
       .pipe(gulpif useUglify, uglify())
+      .pipe(concat "kd.js")
+      .pipe(gulp.dest "playground/js")
       .pipe(rename "kd.#{version}js")
       .pipe(gulp.dest "#{buildDir}/js")
 

@@ -1,7 +1,6 @@
 module.exports = [
 
   "./src/themes/reset.css",
-  # "./src/themes/normalize.css",
 
   # Style functions ---
   "./src/themes/default/kdfn.styl",

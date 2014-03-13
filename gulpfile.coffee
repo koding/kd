@@ -107,6 +107,8 @@ gulp.task 'watch-html', ->
 
 gulp.task 'html', ->
 
+  try fs.mkdirSync './build'
+
   fs.writeFileSync './build/index.html', fs.readFileSync './src/index.html'
 
 

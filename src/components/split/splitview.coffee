@@ -7,26 +7,29 @@ module.exports = class KDSplitView extends KDView
 
   constructor:(options = {},data)->
 
-    options.type      or= "vertical"    # "vertical" or "horizontal"
-    options.resizable  ?= yes           # yes or no
-    options.sizes     or= ["50%","50%"] # an Array of Strings such as ["50%","50%"] or ["500px","150px",null] and null for the available rest area
-    options.minimums  or= null          # an Array of Strings
-    options.maximums  or= null          # an Array of Strings
-    options.views     or= null          # an Array of KDViews
-    options.fixed     or= []            # an Array of Booleans
-    options.duration  or= 200           # a Number in miliseconds
-    options.separator or= null          # a KDView instance or null for default separator
+    options.type      or= "vertical"        # "vertical" or "horizontal"
+    options.resizable  ?= yes               # yes or no
+    options.sizes     or= ['50%','50%']     # an Array of Strings such as ["50%","50%"] or ["500px","150px",null] and null for the available rest area
+    options.minimums  or= [0,0]             # an Array of Strings
+    options.maximums  or= ['100%','100%']   # an Array of Strings
+    options.views     or= null              # an Array of KDViews
+    options.fixed     or= []                # an Array of Booleans
+    options.duration  or= 200               # a Number in miliseconds
+    options.separator or= null              # a KDView instance or null for default separator
     options.colored    ?= no
     options.animated   ?= yes           # a Boolean
     options.type        = options.type.toLowerCase()
+    options.cssClass    = KD.utils.curry "kdsplitview kdsplitview-#{options.type}", options.cssClass
 
     super options,data
 
-    @setClass "kdsplitview kdsplitview-#{@getOptions().type} #{@getOptions().cssClass}"
     @panels       = []
     @panelsBounds = []
     @resizers     = []
     @sizes        = []
+    @minimums     = []
+    @maximums     = []
+    @size         = 0
 
   viewAppended:->
 
@@ -47,19 +50,20 @@ module.exports = class KDSplitView extends KDView
   _createPanels:->
 
     panelCount = @getOptions().sizes.length
-    @panels = (@_createPanel i for i in [0...panelCount])
+    @panels    = [@_createPanel(0), @_createPanel(1)]
 
   _createPanel:(index)->
 
-    {type, fixed, minimums, maximums} = @getOptions()
+    log @sizes[index],"////////"
+    {type, fixed} = @getOptions()
     panel = new KDSplitViewPanel
       cssClass : "kdsplitview-panel panel-#{index}"
       index    : index
       type     : type
-      size     : @_sanitizeSize @sizes[index]
-      fixed    : yes                            if fixed[index]
-      minimum  : @_sanitizeSize minimums[index] if minimums
-      maximum  : @_sanitizeSize maximums[index] if maximums
+      size     : @sizes[index]
+      fixed    : !!fixed[index]
+      minimum  : @minimums[index]
+      maximum  : @maximums[index]
 
     panel.on "KDObjectWillBeDestroyed", => @_panelIsBeingDestroyed panel
     @emit "SplitPanelCreated", panel
@@ -97,9 +101,9 @@ module.exports = class KDSplitView extends KDView
     @sizes        = @sizes.slice(0,index).concat(@sizes.slice(index+1))
     @panelsBounds = @panelsBounds.slice(0,index).concat(@panelsBounds.slice(index+1))
 
-    o.minimums.splice index, 1
-    o.maximums.splice index, 1
-    o.views.splice    index, 1 if o.views[index]?
+    @minimums[index] = 0
+    @maximums[index] = @_getSize()
+    o.views[index]   = null  if o.views[index]?
 
   # CREATE RESIZERS
 
@@ -131,50 +135,55 @@ module.exports = class KDSplitView extends KDView
 
   # HELPERS
   _sanitizeSizes:->
+
     @_setMinsAndMaxs()
-    o             = @getOptions()
-    nullCount     = 0
-    totalOccupied = 0
-    splitSize     = @_getSize()
+    {sizes} = @getOptions()
+    ss      = @_getSize()
+    s       = []
+    s[0]    = @_getLegitPanelSize @_sanitizeSize(sizes[0]), 0
+    s[1]    = @_getLegitPanelSize @_sanitizeSize(sizes[1]), 1
+    st      = s[0] + s[1]
 
-    # newSizes = for size,i in (if @sizes.length > 0 then @sizes else o.sizes)
-    newSizes = for size,i in o.sizes
-      if size is null
-        nullCount++
-        null
-      else
-        panelSize = @_sanitizeSize size
-        @_getLegitPanelSize size,i
-        # check maxs and mins
-        totalOccupied += panelSize
-        panelSize
+    if st > ss
+      s[1] = ss - s[0]
+    else if st < ss
+      if sizes[0] and (not sizes[1] or sizes[1] is 'auto')
+        s[1] = ss - s[0]
+      else if sizes[1] and (not sizes[0] or sizes[0] is 'auto')
+        s[0] = ss - s[1]
 
-    @sizes = for size in newSizes
-      if size is null
-        nullSize = (splitSize - totalOccupied) / nullCount
-        Math.round nullSize
-      else
-        Math.round size
 
-    return @sizes
+    @size  = ss
+    log s, sizes, '-----------'
+    @sizes = s
 
-  _sanitizeSize:(size)->
-    if "number" is typeof size or /px$/.test(size)
-      parseInt size, 10
+
+  _sanitizeSize: (size) ->
+
+    size = if "number" is typeof size then size
+    else if /px$/.test size    then parseInt size, 10
     else if /%$/.test size
-      splitSize = @_getSize()
-      splitSize / 100 * parseInt size, 10
+    then @_getSize() / 100 * parseInt size, 10
+    else @_getSize() / 2
+    size
 
   _setMinsAndMaxs:->
-    @getOptions().minimums ?= []
-    @getOptions().maximums ?= []
-    panelAmount = @getOptions().sizes.length or 2
-    for i in [0...panelAmount]
-      @getOptions().minimums[i] = if @getOptions().minimums[i] then @_sanitizeSize @getOptions().minimums[i] else -1
-      @getOptions().maximums[i] = if @getOptions().maximums[i] then @_sanitizeSize @getOptions().maximums[i] else 99999
+
+    {minimums, maximums} = @getOptions()
+
+    @minimums[0] = @_sanitizeSize minimums[0]
+    @minimums[1] = @_sanitizeSize minimums[1]
+    @maximums[0] = @_sanitizeSize maximums[0]
+    @maximums[1] = @_sanitizeSize maximums[1]
+
 
   _getSize:->
-    if @getOptions().type is "vertical" then @getWidth() else @getHeight()
+
+    if @size then @size
+    else if @getOptions().type is "vertical"
+    then @getWidth()
+    else @getHeight()
+
 
   _setSize:(size)->
     if @getOptions().type is "vertical" then @setWidth size else @setHeight size
@@ -184,14 +193,14 @@ module.exports = class KDSplitView extends KDView
     $parent = @$().parent()
     if type is "vertical" then $parent.width() else $parent.height()
 
-  _getLegitPanelSize:(size,index)->
-    size =
-      if @getOptions().minimums[index] > size
-        @getOptions().minimums[index]
-      else if @getOptions().maximums[index] < size
-        @getOptions().maximums[index]
-      else
-        size
+
+  _getLegitPanelSize: (size, index) ->
+
+    min = @minimums[index] or 0
+    max = @maximums[index] or @_getSize()
+    log min, max, size, Math.min Math.max(min, size), max
+    return Math.min Math.max(min, size), max
+
 
   _resizePanels:->
 

@@ -121,9 +121,8 @@ gulp.task 'play', ->
     .pipe(concat "main.js")
     .pipe(gulp.dest "playground/js")
 
-  stream.pipe(livereload())  if useLiveReload
-
   if useLiveReload
+    stream.pipe(livereload())
     gulp.src('./playground/index.html').pipe(livereload())
 
 gulp.task 'live', ->

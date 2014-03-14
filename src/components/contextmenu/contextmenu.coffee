@@ -7,8 +7,8 @@ module.exports = class JContextMenu extends KDView
   constructor:(options = {}, data)->
 
     options.cssClass        = @utils.curry "jcontextmenu", options.cssClass
-    options.menuMaxWidth  or= 272
-    options.menuMinWidth  or= 172
+    options.menuMaxWidth  or= "auto"
+    options.menuMinWidth  or= "auto"
     options.menuWidth     or= 172
     options.offset        or= {}
     options.offset.left   or= 0

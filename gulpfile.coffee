@@ -18,7 +18,6 @@ readdir    = require 'recursive-readdir'
 {exec}     = require 'child_process'
 
 STYLES_PATH = require './src/themes/styl.includes.coffee'
-ENTRY_PATH  = ['./playground/main.coffee']
 COFFEE_PATH = ['./src/components/**/*.coffee','./src/core/**/*.coffee','./src/init.coffee']
 LIBS        = require './src/lib.includes.coffee'
 
@@ -113,7 +112,7 @@ gulp.task 'watch-playground', ->
 
 gulp.task 'play', ->
 
-  stream = gulp.src(ENTRY_PATH, { read: false })
+  stream = gulp.src(['./playground/main.coffee'], { read: false })
     .pipe(browserify
       transform   : ['coffeeify']
       extensions  : ['.coffee']

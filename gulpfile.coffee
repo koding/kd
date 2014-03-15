@@ -31,26 +31,26 @@ useMinify      = !!(argv.minify ? yes)
 
 gulp.task 'styles', ->
 
-  stream = gulp.src(STYLES_PATH)
-    .pipe(stylus())
-    .pipe(concat "kd.css")
-    .pipe(gulpif useMinify, minifyCSS())
-    .pipe(gulp.dest "playground/css")
-    .pipe(rename "kd.#{version}css")
-    .pipe(gulp.dest "#{buildDir}/css")
+  stream = gulp.src STYLES_PATH
+    .pipe stylus()
+    .pipe concat "kd.css"
+    .pipe gulpif useMinify, minifyCSS()
+    .pipe gulp.dest "playground/css"
+    .pipe rename "kd.#{version}css"
+    .pipe gulp.dest "#{buildDir}/css"
 
-  stream.pipe(livereload())  if useLiveReload
+  stream.pipe livereload()  if useLiveReload
 
 
 gulp.task 'libs', ->
 
-  stream = gulp.src(LIBS)
-    # .pipe(gulpif useUglify, uglify())
-    .pipe(uglify())
-    .pipe(concat "kd.libs.js")
-    .pipe(gulp.dest "playground/js")
-    .pipe(rename "kd.libs.#{version}js")
-    .pipe(gulp.dest "#{buildDir}/js")
+  stream = gulp.src LIBS
+    # .pipe gulpif useUglify, uglify()
+    .pipe uglify()
+    .pipe concat "kd.libs.js"
+    .pipe gulp.dest "playground/js"
+    .pipe rename "kd.libs.#{version}js"
+    .pipe gulp.dest "#{buildDir}/js"
 
   stream.pipe(livereload())  if useLiveReload
 
@@ -62,16 +62,16 @@ gulp.task 'coffee', ->
     # Throw here maybe?
     console.error err  if err?
 
-    stream = gulp.src(entryPath, { read: false })
-      .pipe(browserify
+    stream = gulp.src entryPath, { read: false }
+      .pipe browserify
         transform   : ['coffeeify']
         extensions  : ['.coffee']
-        debug       : yes )
-      .pipe(gulpif useUglify, uglify())
-      .pipe(concat "kd.js")
-      .pipe(gulp.dest "playground/js")
-      .pipe(rename "kd.#{version}js")
-      .pipe(gulp.dest "#{buildDir}/js")
+        debug       : yes
+      .pipe gulpif useUglify, uglify()
+      .pipe concat "kd.js"
+      .pipe gulp.dest "playground/js"
+      .pipe rename "kd.#{version}js"
+      .pipe gulp.dest "#{buildDir}/js"
 
     stream.pipe(livereload())  if useLiveReload
 
@@ -113,17 +113,18 @@ gulp.task 'watch-playground', ->
 
 gulp.task 'play', ->
 
-  stream = gulp.src(ENTRY_PATH, { read: false })
-    .pipe(browserify
+  stream = gulp.src ENTRY_PATH, { read: false }
+    .pipe browserify
       transform   : ['coffeeify']
       extensions  : ['.coffee']
-      debug       : yes )
-    .pipe(concat "main.js")
-    .pipe(gulp.dest "playground/js")
+      debug       : yes
+    .pipe concat "main.js"
+    .pipe gulp.dest "playground/js"
 
   if useLiveReload
     stream.pipe(livereload())
-    gulp.src('./playground/index.html').pipe(livereload())
+    gulp.src './playground/index.html'
+      .pipe livereload()
 
 gulp.task 'live', ->
 
@@ -135,5 +136,6 @@ gulp.task 'compile', ['styles', 'libs', 'coffee']
 gulp.task 'default', ['live', 'compile', 'play', 'watch-styles',  \
                       'watch-coffee', 'watch-libs', 'watch-playground'] , ->
 
-  http.createServer(ecstatic {root: "#{__dirname}/playground"}).listen(8080)
+  http.createServer ecstatic root : "#{__dirname}/playground"
+    .listen(8080)
   gutil.log gutil.colors.blue 'HTTP server ready localhost:8080'

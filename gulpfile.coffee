@@ -103,6 +103,7 @@ gulp.task 'watch-playground', ->
 
   watcher = gulp.watch [
     './playground/**/*.coffee'
+    './playground/**/*.styl'
     './playground/**/*.html'
   ], ['play']
 

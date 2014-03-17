@@ -39,6 +39,6 @@
     "coffeeify": "0.6.0",
     "minimist": "0.0.8",
     "gulp-if": "0.0.5",
-    "gulp-pistachio-compiler": "0.0.2"
+    "gulp-pistachio-compiler": "0.0.3"
   }
 }

@@ -4,19 +4,17 @@ module.exports = class KDSplitViewPanel extends KDScrollView
 
   constructor:(options = {}, data)->
 
-    options.fixed    ?= no
-    options.minimum or= null
-    options.maximum or= null
-    options.view    or= null
+    options.fixed  ?= no
+    options.view  or= null
 
-    super options,data
+    super options, data
 
-    @isVertical = @getOptions().type.toLowerCase() is "vertical"
-    @isFixed    = @getOptions().fixed
+    {type} = @getOptions()
 
-    {@size, @minimum, @maximum} = @options
+    @vertical = type.toLowerCase() is "vertical"
 
-  _getIndex:-> @parent.getPanelIndex @
+    {@fixed, @size, @index} = @getOptions()
+
   _getSize:-> if @vertical then @getWidth() else @getHeight()
 
 

@@ -28,7 +28,7 @@ module.exports = class KDSplitView extends KDView
     @sizes        = []
     @minimums     = []
     @maximums     = []
-    @size         = 0
+    @size               = 0
 
   viewAppended:->
 

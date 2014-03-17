@@ -54,8 +54,8 @@ module.exports = class KDSplitView extends KDView
 
   _createPanel:(index)->
 
-    {fixed} = @getOptions()
-    panel = new KDSplitViewPanel
+    {fixed, panelClass} = @getOptions()
+    panel = new (panelClass or KDSplitViewPanel)
       cssClass : "kdsplitview-panel panel-#{index}"
       index    : index
       type     : @type
@@ -315,7 +315,9 @@ module.exports = class KDSplitView extends KDView
       options.views = [view]
     options.colored = yes
     options.type    = ['vertical','horizontal'][KD.utils.getRandomNumber(2)-1]
-    split           = new KDSplitView options
+
+    {splitClass}    = @getOptions()
+    split           = new (splitClass or KDSplitView) options
 
     @setView split, index
 

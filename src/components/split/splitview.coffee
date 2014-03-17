@@ -17,7 +17,6 @@ module.exports = class KDSplitView extends KDView
     options.duration  or= 200               # a Number in miliseconds
     options.separator or= null              # a KDView instance or null for default separator
     options.colored    ?= no
-    options.animated   ?= yes           # a Boolean
     options.type        = options.type.toLowerCase()
     options.cssClass    = KD.utils.curry "kdsplitview kdsplitview-#{options.type}", options.cssClass
 

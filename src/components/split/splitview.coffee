@@ -299,48 +299,14 @@ module.exports = class KDSplitView extends KDView
     askedPanel._setSize sizes[0]
     affectedPanel._setSize sizes[1]
 
-  removePanel:(index)->
     @panels[1]._setOffset offset
     @resizer._setOffset offset  if @resizer
     @_resizeDidStop()
     @beingResized = no
 
-    l = @panels.length
-    if l is 1
-      warn "this is the only panel left"
-      return no
 
-    panel = @panels[index]
-    panel.destroy()
-
-    if index is 0
-      # log "FIRST ONE"
-      r = @resizers.shift()
-      r.destroy()
-      if res = @resizers[0]
-        res.panel0 = @panels[0]
-        res.panel1 = @panels[1]
-      # nextPanel._setOffset nextPanel._getOffset() - panel._getSize()
-      # nextPanel._setSize   nextPanel._getSize() + panel._getSize()
-
-    else if index is l - 1
-      # log "LAST ONE"
-      r = @resizers.pop()
-      r.destroy()
-      if res = @resizers[l-2]
-        res.panel0 = @panels[l-2]
-        res.panel1 = @panels[l-1]
-
-      # prevPanel = @panels[length - 2]
-      # prevPanel._setSize prevPanel._getSize() + panel._getSize()
   splitPanel:(index, options = {})->
 
-    else
-      # log "ONE IN THE MIDDLE"
-      [r] = @resizers.splice index - 1, 1
-      r.destroy()
-      @resizers[index - 1].panel0 = @panels[index-1]
-      @resizers[index - 1].panel1 = @panels[index]
     view            = @panels[index].subViews.first
     @panels[index].subViews = []
     if view
@@ -353,11 +319,9 @@ module.exports = class KDSplitView extends KDView
 
     @setView split, index
 
-      # prevPanel = @panels[index - 1]
-      # prevPanel._setSize prevPanel._getSize() + panel._getSize()
 
+  removePanel:(index)->
 
-    return yes
 
   setView:(view,index)->
     if index > @panels.length or not view

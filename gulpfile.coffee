@@ -126,10 +126,10 @@ gulp.task 'play', ->
     .pipe gulp.dest "playground/css"
 
   if useLiveReload
-    stream.pipe(livereload())
+    stream.pipe livereload()
+    streamStyl.pipe livereload()
     gulp.src './playground/index.html'
       .pipe livereload()
-    streamStyl.pipe(livereload())
 
 gulp.task 'live', ->
 

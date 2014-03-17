@@ -273,76 +273,28 @@ module.exports = class KDSplitView extends KDView
     @resizePanel newSize, index, callback.bind this, {panel, index}
 
 
-  resizePanel:(value = 0,panelIndex = 0,callback = noop)->
+  resizePanel:(value = 0, index = 0, callback = noop)->
+
+    return  unless @sizes[1]
+    return  if @beingResized
 
     @_resizeDidStart()
 
-    value     = @_sanitizeSize value
-    panel0    = @panels[panelIndex]
-    isReverse = no
+    value         = @_sanitizeSize value
+    value         = @_getSize() if value > @_getSize()
+    askedPanel    = @panels[index]
+    affectedPanel = @panels[index+1%2]
 
-    if panel0.size is value
+    if askedPanel._getSize() is value
       @_resizeDidStop()
       callback()
       return
 
-    # get the secondary panel and resizer which will be resized/positioned accordingly
-    panel1 = unless @panels.length - 1 is panelIndex
-      p1index = panelIndex + 1
-      resizer = @resizers[panelIndex] if @getOptions().resizable
-      @panels[p1index]
-    else
-      isReverse = yes
-      p1index   = panelIndex-1
-      resizer   = @resizers[p1index] if @getOptions().resizable
-      @panels[p1index]
+    @beingResized = yes
 
-    # stop if it's not doable
-
-    # totalActionArea = panel0._getSize() + panel1._getSize() # trying to improve performance here
-    totalActionArea = panel0.size + panel1.size
-
-    return no if value > totalActionArea
-
-    p0size    = @_getLegitPanelSize(value,panelIndex)
-    surplus   = panel0.size - p0size
-    p1newSize = panel1.size + surplus
-    p1size    = @_getLegitPanelSize(p1newSize,p1index)
-
-    raceCounter = 0
-    race = ()=>
-      raceCounter++
-      if raceCounter is 2
-        @_resizeDidStop()
-        callback()
-
-    unless isReverse
-      p1offset = (panel1._getOffset() - surplus)
-      if @getOptions().animated
-        panel0._animateTo p0size,race
-        panel1._animateTo p1size,p1offset,race
-        resizer._animateTo p1offset if resizer
-      else
-        panel0._setSize p0size
-        race()
-        panel1._setSize p1size,
-        panel1._setOffset p1offset
-        race()
-        resizer._setOffset p1offset if resizer
-
-    else
-      p0offset = (panel0._getOffset() + surplus)
-      if @getOptions().animated
-        panel0._animateTo p0size,p0offset,race
-        panel1._animateTo p1size,race
-        resizer._animateTo p0offset if resizer
-      else
-        panel0._setSize p0size
-        panel0._setOffset p0offset
-        race()
-        panel1._setSize p1size
-        race()
-        resizer._setOffset p0offset if resizer
+    value  = @_getLegitPanelSize value, index
+    sizes  = [value, @_getSize() - value]
+    offset = if index then sizes[1] else sizes[0]
 
   splitPanel:(index, options)->
 
@@ -407,8 +359,14 @@ module.exports = class KDSplitView extends KDView
 
     @emit "panelSplitted", newPanel
     return newPanel
+    askedPanel._setSize sizes[0]
+    affectedPanel._setSize sizes[1]
 
   removePanel:(index)->
+    @panels[1]._setOffset offset
+    @resizer._setOffset offset  if @resizer
+    @_resizeDidStop()
+    @beingResized = no
 
     l = @panels.length
     if l is 1

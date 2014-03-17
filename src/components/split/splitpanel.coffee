@@ -15,6 +15,7 @@ module.exports = class KDSplitViewPanel extends KDScrollView
 
     {@fixed, @size, @index} = @getOptions()
 
+
   _getSize:-> if @vertical then @getWidth() else @getHeight()
 
 

@@ -44,11 +44,15 @@ module.exports = class KDSplitViewPanel extends KDScrollView
         @parent._panelReachedMaximum @index
       no
 
+
   _setOffset:(offset)->
-    offset = 0 if offset < 0
-    if @isVertical then @$().css(left : offset) else @$().css(top : offset)
-    @parent.panelsBounds[@_getIndex()] = offset
+
+    offset = Math.max offset, 0
+    if @vertical then @setX offset else @setY offset
+
 
   _getOffset:->
-    if @isVertical then @getRelativeX() else @getRelativeY()
 
+    if @vertical
+    then parseInt @getElement().style.left, 10
+    else parseInt @getElement().style.top, 10

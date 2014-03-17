@@ -17,6 +17,8 @@ ecstatic   = require 'ecstatic'
 readdir    = require 'recursive-readdir'
 {exec}     = require 'child_process'
 
+pistachioCompiler = require 'gulp-pistachio-compiler'
+
 STYLES_PATH = require './src/themes/styl.includes.coffee'
 ENTRY_PATH  = ['./playground/main.coffee']
 COFFEE_PATH = ['./src/components/**/*.coffee','./src/core/**/*.coffee','./src/init.coffee']
@@ -68,6 +70,7 @@ gulp.task 'coffee', ->
         extensions  : ['.coffee']
         debug       : yes
       .pipe gulpif useUglify, uglify()
+      .pipe pistachioCompiler()
       .pipe concat "kd.js"
       .pipe gulp.dest "playground/js"
       .pipe rename "kd.#{version}js"

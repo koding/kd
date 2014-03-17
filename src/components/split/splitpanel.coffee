@@ -17,14 +17,14 @@ module.exports = class KDSplitViewPanel extends KDScrollView
     {@size, @minimum, @maximum} = @options
 
   _getIndex:-> @parent.getPanelIndex @
+  _getSize:-> if @vertical then @getWidth() else @getHeight()
 
-  _getSize:-> if @isVertical then @getWidth() else @getHeight()
 
   _setSize:(size)->
     if @_wouldResize size
       size = 0 if size < 0
-      if @isVertical then @setWidth size else @setHeight size
-      @parent.sizes[@_getIndex()] = @size = size
+      if @vertical then @setWidth size else @setHeight size
+      @parent.sizes[@index] = @size = size
       @parent.emit "PanelDidResize", panel: @
       @emit "PanelDidResize", newSize : size
       size
@@ -32,17 +32,16 @@ module.exports = class KDSplitViewPanel extends KDScrollView
       no
 
   _wouldResize:(size)->
-    @minimum ?= -1
-    @maximum ?= 99999
-    # log size,@minimum,@maximum if @parent.options.domId is "content-area-split-view"
-    if size > @minimum and size < @maximum
-      # log size,@parent.options.domId
-      yes
+    minimum = @parent.minimums[@index] ? 0
+    maximum = @parent.maximums[@index] ? 999999
+
+    if maximum > size > minimum
+    then yes
     else
-      if size < @minimum
-        @parent._panelReachedMinimum @_getIndex()
-      else if size > @maximum
-        @parent._panelReachedMaximum @_getIndex()
+      if size < minimum
+        @parent._panelReachedMinimum @index
+      else if size > maximum
+        @parent._panelReachedMaximum @index
       no
 
   _setOffset:(offset)->

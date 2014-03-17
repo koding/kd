@@ -32,88 +32,96 @@ module.exports = class KDSplitView extends KDView
 
   viewAppended:->
 
-    @_sanitizeSizes()
-
+    @_calculateSizes()
     @_createPanels()
+
     @_putPanels()
+    @_resizePanels()
+
     @_putViews()
 
-    if @getOptions().resizable and @panels.length
-      @_createResizers()
+    @_createResizer()  if @resizable and @panels[1]
 
     @listenWindowResize()
+    @parent?.on "PanelDidResize", KD.utils.debounce 10, @bound '_windowDidResize'
 
-  # CREATE/REMOVE PANELS
+
   _createPanels:->
 
-    panelCount = @getOptions().sizes.length
-    @panels    = [@_createPanel(0), @_createPanel(1)]
+    @_createPanel 0
+    @_createPanel 1 if @sizes[1]?
+
 
   _createPanel:(index)->
 
-    log @sizes[index],"////////"
-    {type, fixed} = @getOptions()
+    {fixed} = @getOptions()
     panel = new KDSplitViewPanel
       cssClass : "kdsplitview-panel panel-#{index}"
       index    : index
-      type     : type
+      type     : @type
       size     : @sizes[index]
       fixed    : !!fixed[index]
-      minimum  : @minimums[index]
-      maximum  : @maximums[index]
 
     panel.on "KDObjectWillBeDestroyed", => @_panelIsBeingDestroyed panel
     @emit "SplitPanelCreated", panel
+    @panels[index] = panel
+
     return panel
 
 
   _putPanels:->
-    for panel in @panels
-      @addSubView panel
-      if @getOptions().colored
-        panel.$().css backgroundColor : KD.utils.getRandomRGB()
+
+    @addSubView @panels[0]
+    @addSubView @panels[1]
+
+    if @getOptions().colored
+      @panels[0].setCss backgroundColor : KD.utils.getRandomRGB()
+      @panels[1].setCss backgroundColor : KD.utils.getRandomRGB()
 
 
+  _resizePanels:-> @resizePanel @sizes[0]
 
 
   _panelIsBeingDestroyed:(panel)->
 
-    index         = @getPanelIndex panel
-    o             = @getOptions()
-    @panels       = @panels.slice(0,index).concat(@panels.slice(index+1))
-    @sizes        = @sizes.slice(0,index).concat(@sizes.slice(index+1))
-    @panelsBounds = @panelsBounds.slice(0,index).concat(@panelsBounds.slice(index+1))
-
-    @minimums[index] = 0
-    @maximums[index] = @_getSize()
-    o.views[index]   = null  if o.views[index]?
-
-  # CREATE RESIZERS
+    {views}              = @getOptions()
+    {index}              = panel
+    @panels[index]       = null
+    @sizes[index]        = null
+    @minimums[index]     = null
+    @maximums[index]     = null
+    views[index]         = null
 
 
+  _createResizer:->
 
-  _createResizer:(index)->
+    {type}   = @getOptions()
+    @resizer = @addSubView new KDSplitResizer
+      cssClass : "kdsplitview-resizer #{type}"
+      type     : @type
+      panel0   : @panels[0]
+      panel1   : @panels[1]
 
-    @addSubView resizer = new KDSplitResizer
-      cssClass : "kdsplitview-resizer #{@getOptions().type}"
-      type     : @getOptions().type
-      panel0   : @panels[index-1]
-      panel1   : @panels[index]
-
-    return resizer
+    @_repositionResizer()
 
 
-  # PUT VIEWS
+  _repositionResizer:-> @resizer._setOffset @sizes[0]
+
+
   _putViews:->
-    @getOptions().views ?= []
-    for view,i in @getOptions().views
-      if view instanceof KDView
-        @setView view,i
 
-  # HELPERS
-  _sanitizeSizes:->
+    {views} = @getOptions()
+
+    return  unless views
+
+    @setView views[0], 0  if views[0]
+    @setView views[1], 1  if views[1]
+
+
+  _calculateSizes:->
 
     @_setMinsAndMaxs()
+
     {sizes} = @getOptions()
     ss      = @_getSize()
     s       = []
@@ -129,20 +137,21 @@ module.exports = class KDSplitView extends KDView
       else if sizes[1] and (not sizes[0] or sizes[0] is 'auto')
         s[0] = ss - s[1]
 
-
     @size  = ss
-    log s, sizes, '-----------'
     @sizes = s
 
 
   _sanitizeSize: (size) ->
 
-    size = if "number" is typeof size then size
-    else if /px$/.test size    then parseInt size, 10
+    return if "number" is typeof size
+      if 1 > size > 0
+      then @_getSize() * size
+      else size
+    else if /px$/.test size then parseInt size, 10
     else if /%$/.test size
     then @_getSize() / 100 * parseInt size, 10
-    else @_getSize() / 2
-    size
+    else null
+
 
   _setMinsAndMaxs:->
 
@@ -157,96 +166,112 @@ module.exports = class KDSplitView extends KDView
   _getSize:->
 
     if @size then @size
-    else if @getOptions().type is "vertical"
+    else if @isVertical()
     then @getWidth()
     else @getHeight()
 
 
   _setSize:(size)->
-    if @getOptions().type is "vertical" then @setWidth size else @setHeight size
+
+    if @isVertical()
+    then @setWidth size
+    else @setHeight size
+
 
   _getParentSize:->
-    type    = @getOptions().type
-    $parent = @$().parent()
-    if type is "vertical" then $parent.width() else $parent.height()
+
+    if @isVertical()
+      if @parent
+      then @parent.getWidth()
+      else window.innerWidth
+    else
+      if @parent
+      then @parent.getHeight()
+      else window.innerHeight
 
 
   _getLegitPanelSize: (size, index) ->
 
     min = @minimums[index] or 0
     max = @maximums[index] or @_getSize()
-    log min, max, size, Math.min Math.max(min, size), max
+
     return Math.min Math.max(min, size), max
 
 
-  _resizePanels:->
+  _windowDidResize: ->
 
-    @_sanitizeSizes()
-
-  _repositionPanels:->
-
-    @_calculatePanelBounds()
-    @_setPanelPositions()
-
-  # EVENT HANDLING
-
-  _windowDidResize:(event)->
-
+    @size = null
     @_setSize @_getParentSize()
+    @_calculateSizes()
     @_resizePanels()
-    @_repositionPanels()
-    @_setPanelPositions()
 
     # find a way to do that for when parent get resized and split reachs a min-width
     # if @getWidth() > @_getParentSize() then @setClass "min-width-reached" else @unsetClass "min-width-reached"
-    if @getOptions().resizable
-      @_repositionResizers()
+    @_repositionResizer()  if @resizable
 
-  mouseUp:(event)->
+  mouseUp: (event) ->
+
     @$().unbind "mousemove.resizeHandle"
     @_resizeDidStop event
 
-  _panelReachedMinimum:(panelIndex)->
-    @panels[panelIndex].emit "PanelReachedMinimum"
-    @emit "PanelReachedMinimum", panel : @panels[panelIndex]
 
-  _panelReachedMaximum:(panelIndex)->
-    @panels[panelIndex].emit "PanelReachedMaximum"
-    @emit "PanelReachedMaximum", panel : @panels[panelIndex]
+  _panelReachedMinimum:(index)->
+
+    panel = @panels[index]
+    panel.emit "PanelReachedMinimum"
+    @emit "PanelReachedMinimum", {panel}
+
+
+  _panelReachedMaximum:(index)->
+
+    panel = @panels[index]
+    panel.emit "PanelReachedMaximum"
+    @emit "PanelReachedMaximum", {panel}
+
 
   _resizeDidStart:(event)->
-    $('body').addClass "resize-in-action"
-    @emit "ResizeDidStart", orgEvent : event
 
-  _resizeDidStop:(event)->
-    @emit "ResizeDidStop", orgEvent : event
-    @utils.wait 300, ->
-      $('body').removeClass "resize-in-action"
+    @emit "ResizeDidStart", event
+    document.body.classList.add "resize-in-action"
 
-  ### PUBLIC METHODS ###
 
-  isVertical:-> @getOptions().type is "vertical"
 
-  getPanelIndex:(panel)->
+  _resizeDidStop: do ->
 
-    for p,i in @panels
-      if p.getId() is panel.getId()
-        return i
+    unsetResizeInAction = KD.utils.throttle 1000, (view)->
+      document.body.classList.remove "resize-in-action"
 
-  hidePanel:(panelIndex,callback = noop)->
+    (event)->
 
-    panel = @panels[panelIndex]
+      s1 = @sizes[0]/@_getSize()
+      s2 = @sizes[1]/@_getSize()
+
+      @setOption 'sizes', [s1, s2]
+      @emit "ResizeDidStop", event
+
+      unsetResizeInAction this
+
+
+  isVertical:-> @type is "vertical"
+
+
+  getPanelIndex: (panel)-> panel.index
+
+
+  hidePanel: (index, callback = noop)->
+
+    panel = @panels[index]
     panel._lastSize = panel._getSize()
-    @resizePanel 0,panelIndex,()=>
-      callback.call @,(panel : panel, index : panelIndex )
+    @resizePanel 0, index, callback.bind this, {panel, index}
 
-  showPanel:(panelIndex,callback = noop)->
 
-    panel = @panels[panelIndex]
-    newSize = panel._lastSize or @getOptions().sizes[panelIndex] or 200
+  showPanel:(index,callback = noop)->
+
+    panel           = @panels[index]
+    newSize         = panel._lastSize or @sizes[index] or 200
     panel._lastSize = null
-    @resizePanel newSize,panelIndex,()->
-      callback.call @,(panel : panel, index : panelIndex )
+    @resizePanel newSize, index, callback.bind this, {panel, index}
+
 
   resizePanel:(value = 0,panelIndex = 0,callback = noop)->
 

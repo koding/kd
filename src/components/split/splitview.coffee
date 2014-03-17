@@ -296,69 +296,6 @@ module.exports = class KDSplitView extends KDView
     sizes  = [value, @_getSize() - value]
     offset = if index then sizes[1] else sizes[0]
 
-  splitPanel:(index, options)->
-
-    newPanelOptions = {}
-    o               = @getOptions()
-    isLastPanel     = if @resizers[index] then no else yes
-
-    # DO PANEL
-
-    # CREATE NEW PANEL
-    panelToBeSplitted = @panels[index]
-    @panels.splice index + 1, 0, newPanel = @_createPanel(index)
-    @sizes.splice index + 1, 0, @sizes[index]/2
-    @sizes[index] = @sizes[index]/2
-
-    # MINS AND MAXS ARE NOT FUNCTIONAL YET ON NEWLY CREATED PANELS
-    # BUT TO AVOID CONFLICTS WE UPDATE THEM HERE
-    o.minimums.splice index + 1, 0, newPanelOptions.minimum
-    o.maximums.splice index + 1, 0, newPanelOptions.maximum
-    o.views.splice index + 1, 0, newPanelOptions.view
-    o.sizes = @sizes
-
-    # MIMIC @addSubView(newPanel)
-    @subViews.push newPanel
-    newPanel.setParent @
-    panelToBeSplitted.$().after newPanel.$()
-    newPanel.emit 'viewAppended'
-
-    # POSITION NEW PANEL
-    newSize = panelToBeSplitted._getSize() / 2
-    panelToBeSplitted._setSize newSize
-    newPanel._setSize newSize
-    newPanel._setOffset panelToBeSplitted._getOffset() + newSize
-    @_calculatePanelBounds()
-
-    # COLORIZE PANELS
-    # panelToBeSplitted.$().css backgroundColor : KD.utils.getRandomRGB()
-    # newPanel.$().css backgroundColor : KD.utils.getRandomRGB()
-
-    # RE-ENUMERATE PANELS
-    for panel,i in @panels[index+1...@panels.length]
-      panel.index = newIndex = index+1+i
-      panel.unsetClass("panel-#{index+i}").setClass("panel-#{newIndex}")
-
-    # DO RESIZER
-    if @getOptions().resizable
-      unless isLastPanel
-        # POSITION OLD RESIZER
-        oldResizer = @resizers[index]
-        oldResizer._setOffset @panelsBounds[index+1]
-        oldResizer.panel0 = panelToBeSplitted
-        oldResizer.panel1 = newPanel
-        # CREATE NEW RESIZER
-        @resizers.splice index+1, 0, newResizer = @_createResizer index+2
-        # POSITION NEW RESIZER
-        newResizer._setOffset @panelsBounds[index+2]
-      else
-        # CREATE NEW RESIZER
-        @resizers.push newResizer = @_createResizer index+1
-        # POSITION NEW RESIZER
-        newResizer._setOffset @panelsBounds[index+1]
-
-    @emit "panelSplitted", newPanel
-    return newPanel
     askedPanel._setSize sizes[0]
     affectedPanel._setSize sizes[1]
 
@@ -396,6 +333,7 @@ module.exports = class KDSplitView extends KDView
 
       # prevPanel = @panels[length - 2]
       # prevPanel._setSize prevPanel._getSize() + panel._getSize()
+  splitPanel:(index, options = {})->
 
     else
       # log "ONE IN THE MIDDLE"
@@ -403,6 +341,17 @@ module.exports = class KDSplitView extends KDView
       r.destroy()
       @resizers[index - 1].panel0 = @panels[index-1]
       @resizers[index - 1].panel1 = @panels[index]
+    view            = @panels[index].subViews.first
+    @panels[index].subViews = []
+    if view
+      view.detach()
+      view.unsetParent()
+      options.views = [view]
+    options.colored = yes
+    options.type    = ['vertical','horizontal'][KD.utils.getRandomNumber(2)-1]
+    split           = new KDSplitView options
+
+    @setView split, index
 
       # prevPanel = @panels[index - 1]
       # prevPanel._setSize prevPanel._getSize() + panel._getSize()

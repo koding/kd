@@ -35,9 +35,7 @@ module.exports = class KDSplitView extends KDView
     @_sanitizeSizes()
 
     @_createPanels()
-    @_calculatePanelBounds()
     @_putPanels()
-    @_setPanelPositions()
     @_putViews()
 
     if @getOptions().resizable and @panels.length
@@ -68,15 +66,6 @@ module.exports = class KDSplitView extends KDView
     @emit "SplitPanelCreated", panel
     return panel
 
-  _calculatePanelBounds:->
-    @panelsBounds = for size,i in @sizes
-      if i is 0
-        0
-      else
-        offset = 0
-        for prevSize in [0...i]
-          offset += @sizes[prevSize]
-        offset
 
   _putPanels:->
     for panel in @panels
@@ -84,13 +73,8 @@ module.exports = class KDSplitView extends KDView
       if @getOptions().colored
         panel.$().css backgroundColor : KD.utils.getRandomRGB()
 
-  _setPanelPositions:->
 
-    for panel,i in @panels
-      panel._setSize @sizes[i]
-      panel._setOffset @panelsBounds[i]
 
-    no
 
   _panelIsBeingDestroyed:(panel)->
 
@@ -106,11 +90,7 @@ module.exports = class KDSplitView extends KDView
 
   # CREATE RESIZERS
 
-  _createResizers:->
 
-    @resizers = for i in [1...@sizes.length]
-      @_createResizer i
-    @_repositionResizers()
 
   _createResizer:(index)->
 
@@ -122,8 +102,6 @@ module.exports = class KDSplitView extends KDView
 
     return resizer
 
-  _repositionResizers:->
-    resizer._setOffset @panelsBounds[i+1] for resizer,i in @resizers
 
   # PUT VIEWS
   _putViews:->
@@ -454,3 +432,10 @@ module.exports = class KDSplitView extends KDView
       warn "Either 'view' or 'index' is missing at KDSplitView::setView!"
       return
     @panels[index].addSubView view
+
+
+  # deprecated methods
+  deprecated = -> warn 'deprecated method invoked'
+  _repositionPanels: deprecated
+  _repositionResizers: deprecated
+  _setPanelPositions: deprecated

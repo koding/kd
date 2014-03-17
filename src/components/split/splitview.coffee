@@ -22,12 +22,12 @@ module.exports = class KDSplitView extends KDView
 
     super options,data
 
-    @panels       = []
-    @panelsBounds = []
-    @resizers     = []
-    @sizes        = []
-    @minimums     = []
-    @maximums     = []
+    {@type, @resizable} = @getOptions()
+    @panels             = []
+    @resizer            = null
+    @sizes              = []
+    @minimums           = []
+    @maximums           = []
     @size               = 0
 
   viewAppended:->

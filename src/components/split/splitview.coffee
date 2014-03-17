@@ -323,10 +323,12 @@ module.exports = class KDSplitView extends KDView
   removePanel:(index)->
 
 
-  setView:(view,index)->
-    if index > @panels.length or not view
-      warn "Either 'view' or 'index' is missing at KDSplitView::setView!"
-      return
+  setView: (view, index) ->
+
+    return warn "view is missing at KDSplitView::setView"   unless view
+    return warn "index is missing at KDSplitView::setView"  if index > @panels.length
+    return warn "index is missing at KDSplitView::setView"  unless view instanceof KDView
+
     @panels[index].addSubView view
 
 

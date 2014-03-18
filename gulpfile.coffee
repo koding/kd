@@ -100,7 +100,7 @@ gulp.task 'test', ->
 
 gulp.task 'play', ->
 
-  stream = gulp.src ENTRY_PATH, { read: false }
+  stream = gulp.src "./playground/main.coffee", { read: false }
     .pipe browserify
       transform   : ['coffeeify']
       extensions  : ['.coffee']

@@ -14,21 +14,59 @@ label.kdlabel
 
 input.kdinput.text
 textarea.kdinput.text
-  display             block
+  size                100%, 44px
+  z-index             1
+  padding             14px
+  color               #3E4F55
+  font-size           16px
+  line-height         17px
+  font-weight         300
+  rounded             6px
+  text-align          left
+  bg                  color, #f4f4f4
   border              1px solid #d7d7d7
   outline             none
-  height              24px
-  line-height         24px
-  padding             0 4px
-  bg                  color,white
-  rounded             4px
-  shadow              0 1px 0 white
   borderBox()
+  rel()
+
+  &.big
+    height            55px
+    padding           19px
+
+  &.medium
+    height            44px
+    padding           14px 14px
+
+  &.small
+    height            24px
+    padding           6px
+    font-size         12px
+    line-height       12px
+
   &:hover
     border            1px solid #aaa
   &:focus
     border            1px solid rgba(125,190,241,1)
     shadow            0 0 3px rgba(125,190,241,.7)
+
+  &.validation-error
+    border            1px solid #F13A18
+
+  &.thin::-webkit-input-placeholder
+    color               #93979a
+    font-weight         300
+  &.thin:-moz-placeholder
+    color               #93979a
+    font-weight         300
+
+  &[readonly=true]
+    opacity             .5
+
+.kdinput:focus
+  &::-webkit-input-placeholder
+    opacity 0.5
+  &:-moz-placeholder
+    opacity 0.5
 
 textarea.kdinput.text
   height              auto
@@ -55,10 +93,6 @@ label.kdlabel
     font-size         11px
     text-transform    none
     text-decoration   underline
-
-input.kdinput.text.validation-error
-textarea.kdinput.text.validation-error
-  border-color red
 
 input.kdinput.checkbox
   &:focus

@@ -22,6 +22,7 @@ pistachioCompiler = require 'gulp-pistachio-compiler'
 STYLES_PATH = require './src/themes/styl.includes.coffee'
 ENTRY_PATH  = ['./playground/main.coffee']
 COFFEE_PATH = ['./src/components/**/*.coffee','./src/core/**/*.coffee','./src/init.coffee']
+LIBS_PATH   = ['./libs/*.js']
 TEST_PATH   = ['./test/**/*.coffee']
 LIBS        = require './src/lib.includes.coffee'
 
@@ -31,6 +32,7 @@ useLiveReload  = !!argv.liveReload
 useUglify      = !!argv.uglify
 useMinify      = !!(argv.minify ? yes)
 
+# Build Tasks
 
 gulp.task 'styles', ->
 
@@ -56,7 +58,7 @@ gulp.task 'libs', ->
     .pipe rename "kd.libs.#{version}js"
     .pipe gulp.dest "#{buildDir}/js"
 
-  stream.pipe(livereload())  if useLiveReload
+  stream.pipe livereload()  if useLiveReload
 
 
 gulp.task 'coffee', ->
@@ -80,7 +82,8 @@ gulp.task 'coffee', ->
 
     stream.pipe livereload()  if useLiveReload
 
-gulp.task 'coffee-test', ->
+
+gulp.task 'test', ->
 
   stream = gulp.src './test/test.coffee', { read: false }
     .pipe browserify
@@ -94,47 +97,6 @@ gulp.task 'coffee-test', ->
     stream.pipe livereload()
     gulp.src './test/index.html'
       .pipe livereload()
-
-gulp.task 'watch-test', ->
-
-  watcher = gulp.watch TEST_PATH, ['coffee-test']
-
-  watcher.on 'change', (event)->
-    gutil.log gutil.colors.cyan "file #{event.path} was #{event.type}"
-
-gulp.task 'watch-coffee', ->
-
-  watcher = gulp.watch COFFEE_PATH, ['coffee']
-
-  watcher.on 'change', (event)->
-    gutil.log gutil.colors.yellow "file #{event.path} was #{event.type}"
-
-
-gulp.task 'watch-libs', ->
-
-  watcher = gulp.watch './libs/*.js', ['libs']
-
-  watcher.on 'change', (event)->
-    gutil.log gutil.colors.yellow "file #{event.path} was #{event.type}"
-
-
-gulp.task 'watch-styles', ->
-
-  watcher = gulp.watch STYLES_PATH, ['styles']
-
-  watcher.on 'change', (event)->
-    gutil.log gutil.colors.magenta "file #{event.path} was #{event.type}"
-
-
-gulp.task 'watch-playground', ->
-
-  watcher = gulp.watch [
-    './playground/**/*.coffee'
-    './playground/**/*.html'
-  ], ['play']
-
-  watcher.on 'change', (event)->
-    gutil.log gutil.colors.blue "file #{event.path} was #{event.type}"
 
 
 gulp.task 'play', ->
@@ -155,15 +117,51 @@ gulp.task 'play', ->
 
 gulp.task 'live', -> useLiveReload = yes
 
-gulp.task 'compile', ['styles', 'libs', 'coffee']
+# Watch Tasks
 
+watchLogger = (color, watcher) ->
+  watcher.on 'change', (event) ->
+    gutil.log gutil.colors[color] "file #{event.path} was #{event.type}"
+
+
+gulp.task 'watch-test', ->
+  watcher = gulp.watch TEST_PATH, ['test']
+  watchLogger 'cyan', watcher
+
+
+gulp.task 'watch-coffee', ->
+  watcher = gulp.watch COFFEE_PATH, ['coffee']
+  watchLogger 'yellow', watcher
+
+
+gulp.task 'watch-libs', ->
+  watcher = gulp.watch LIBS_PATH, ['libs']
+  watchLogger 'yellow', watcher
+
+
+gulp.task 'watch-styles', ->
+  watcher = gulp.watch STYLES_PATH, ['styles']
+  watchLogger 'yellow', watcher
+
+
+gulp.task 'watch-playground', ->
+  watcher = gulp.watch [
+    './playground/**/*.coffee'
+    './playground/**/*.html'
+  ], ['play']
+
+  watchLogger 'blue', watcher
+
+
+# Aggregate Tasks
+
+gulp.task 'compile', ['styles', 'libs', 'coffee', 'test']
 
 defaultTasks = [
-  'live', 'compile', 'coffee-test', 'play',
+  'live', 'compile', 'play',
   'watch-styles', 'watch-coffee', 'watch-libs',
   'watch-playground', 'watch-test'
 ]
-
 
 gulp.task 'default', defaultTasks , ->
 

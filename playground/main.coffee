@@ -1,27 +1,30 @@
+# splitview tests
+
 class Split extends KDSplitView
 
-  constructor:(o={},d)->
-    o.panelClass = Panel
-    super o, d
-
-class Panel extends KDSplitViewPanel
-
-  counter   = 0
+  counter = 0
 
   getNumber = ->
     v = KD.utils.getRandomNumber(2000)
     getNumber()  if v < 500
     return v
 
-  viewAppended: ->
+  constructor:(o={},d)->
 
-    return if counter > 500
+    o.splitClass = Split
 
-    KD.utils.wait getNumber(), =>
-      @parent.splitPanel @index
-      counter++
+    super o, d
+
+    @on "SplitPanelCreated", (panel)=>
+
+      return if counter++ > 50
+
+      KD.utils.wait getNumber(), =>
+        @splitPanel panel.index
+
 
 do ->
+
   r = -> KD.utils.getRandomNumber(100)/100
   view = new KDView
     partial : '<h1>Split Frenzy!!!</h1>'
@@ -32,9 +35,8 @@ do ->
     callback : ->
       @destroy()
       view.updatePartial ""
-      view.addSubView new KDSplitView
+      view.addSubView new Split
         splitClass : Split
-        panelClass : Panel
         type       : 'horizontal'
         colored    : yes
 

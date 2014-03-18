@@ -38,6 +38,10 @@
     "coffee-script": "^1.7.1",
     "coffeeify": "0.6.0",
     "minimist": "0.0.8",
-    "gulp-if": "0.0.5"
+    "gulp-if": "0.0.5",
+    "gulp-pistachio-compiler": "0.0.3",
+    "chai": "~1.9.0",
+    "sinon": "~1.9.0",
+    "mocha": "~1.18.0"
   }
 }

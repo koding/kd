@@ -9,3 +9,5 @@
 /src/entry.coffee
 /playground/js
 /playground/css
+/test/kd.libs.js
+/test/kd.test.js

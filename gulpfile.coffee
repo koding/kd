@@ -17,8 +17,11 @@ ecstatic   = require 'ecstatic'
 readdir    = require 'recursive-readdir'
 {exec}     = require 'child_process'
 
+pistachioCompiler = require 'gulp-pistachio-compiler'
+
 STYLES_PATH = require './src/themes/styl.includes.coffee'
 COFFEE_PATH = ['./src/components/**/*.coffee','./src/core/**/*.coffee','./src/init.coffee']
+TEST_PATH   = ['./test/**/*.coffee']
 LIBS        = require './src/lib.includes.coffee'
 
 buildDir       = argv.outputDir ? 'build'
@@ -48,6 +51,7 @@ gulp.task 'libs', ->
     .pipe uglify()
     .pipe concat "kd.libs.js"
     .pipe gulp.dest "playground/js"
+    .pipe gulp.dest "test"
     .pipe rename "kd.libs.#{version}js"
     .pipe gulp.dest "#{buildDir}/js"
 
@@ -67,6 +71,7 @@ gulp.task 'coffee', ->
         extensions  : ['.coffee']
         debug       : yes
       .pipe gulpif useUglify, uglify()
+      .pipe pistachioCompiler()
       .pipe concat "kd.js"
       .pipe gulp.dest "playground/js"
       .pipe rename "kd.#{version}js"
@@ -74,6 +79,27 @@ gulp.task 'coffee', ->
 
     stream.pipe(livereload())  if useLiveReload
 
+gulp.task 'coffee-test', ->
+
+  stream = gulp.src './test/test.coffee', { read: false }
+    .pipe browserify
+      transform  : ['coffeeify']
+      extensions : ['.coffee']
+      debug      : yes
+    .pipe concat "kd.test.js"
+    .pipe gulp.dest 'test'
+
+  if useLiveReload
+    stream.pipe(livereload())
+    gulp.src './test/index.html'
+      .pipe(livereload())
+
+gulp.task 'watch-test', ->
+
+  watcher = gulp.watch TEST_PATH, ['coffee-test']
+
+  watcher.on 'change', (event)->
+    gutil.log gutil.colors.cyan "file #{event.path} was #{event.type}"
 
 gulp.task 'watch-coffee', ->
 
@@ -139,8 +165,8 @@ gulp.task 'live', ->
 
 gulp.task 'compile', ['styles', 'libs', 'coffee']
 
-gulp.task 'default', ['live', 'compile', 'play', 'watch-styles',  \
-                      'watch-coffee', 'watch-libs', 'watch-playground'] , ->
+gulp.task 'default', ['live', 'compile', 'coffee-test', 'play', 'watch-styles',  \
+                      'watch-coffee', 'watch-libs', 'watch-playground', 'watch-test'] , ->
 
   http.createServer ecstatic root : "#{__dirname}/playground"
     .listen(8080)

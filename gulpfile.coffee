@@ -78,7 +78,7 @@ gulp.task 'coffee', ->
       .pipe rename "kd.#{version}js"
       .pipe gulp.dest "#{buildDir}/js"
 
-    stream.pipe(livereload())  if useLiveReload
+    stream.pipe livereload()  if useLiveReload
 
 gulp.task 'coffee-test', ->
 
@@ -91,9 +91,9 @@ gulp.task 'coffee-test', ->
     .pipe gulp.dest 'test'
 
   if useLiveReload
-    stream.pipe(livereload())
+    stream.pipe livereload()
     gulp.src './test/index.html'
-      .pipe(livereload())
+      .pipe livereload()
 
 gulp.task 'watch-test', ->
 
@@ -148,19 +148,24 @@ gulp.task 'play', ->
     .pipe gulp.dest "playground/js"
 
   if useLiveReload
-    stream.pipe(livereload())
+    stream.pipe livereload()
     gulp.src './playground/index.html'
       .pipe livereload()
 
-gulp.task 'live', ->
 
-  useLiveReload = yes
-
+gulp.task 'live', -> useLiveReload = yes
 
 gulp.task 'compile', ['styles', 'libs', 'coffee']
 
-gulp.task 'default', ['live', 'compile', 'coffee-test', 'play', 'watch-styles',  \
-                      'watch-coffee', 'watch-libs', 'watch-playground', 'watch-test'] , ->
+
+defaultTasks = [
+  'live', 'compile', 'coffee-test', 'play',
+  'watch-styles', 'watch-coffee', 'watch-libs',
+  'watch-playground', 'watch-test'
+]
+
+
+gulp.task 'default', defaultTasks , ->
 
   http.createServer ecstatic root : "#{__dirname}/playground"
     .listen(8080)

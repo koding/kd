@@ -12,6 +12,9 @@
 
 module.exports = class KDEventEmitter
 
+  # FIXME (sb) - this class has no knowledge of @Wildcard (and requiring it
+  # would make a circular dependency). Also, this doesn't appear to be used
+  # anywhere in the framework.
   @registerWildcardEmitter = ->
     source = @Wildcard.prototype
     @::[prop] = val  for own prop, val of source when prop isnt 'constructor'

@@ -15,12 +15,12 @@ class Split extends KDSplitView
 
     super o, d
 
-    @on "SplitPanelCreated", (panel)=>
+    # @on "SplitPanelCreated", (panel)=>
 
-      return if counter++ > 50
+    #   return if counter++ > 50
 
-      KD.utils.wait getNumber(), =>
-        @splitPanel panel.index
+    #   KD.utils.wait getNumber(), =>
+    #     @splitPanel panel.index
 
 
 do ->

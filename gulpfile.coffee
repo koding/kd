@@ -168,3 +168,8 @@ gulp.task 'default', defaultTasks , ->
   http.createServer ecstatic root : "#{__dirname}/playground"
     .listen(8080)
   gutil.log gutil.colors.blue 'HTTP server ready localhost:8080'
+
+
+process.on 'uncaughtException', (e)->
+  gutil.log gutil.colors.red "An error has occured: #{e.name}"
+  console.error e

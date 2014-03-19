@@ -313,8 +313,8 @@ module.exports = class KDSplitView extends KDView
       view.detach()
       view.unsetParent()
       options.views = [view]
-    options.colored = yes
-    options.type    = ['vertical','horizontal'][KD.utils.getRandomNumber(2)-1]
+    # options.colored = yes
+    # options.type    = ['vertical','horizontal'][KD.utils.getRandomNumber(2)-1]
 
     {splitClass}    = @getOptions()
     split           = new (splitClass or KDSplitView) options

@@ -321,6 +321,8 @@ module.exports = class KDSplitView extends KDView
 
     @setView split, index
 
+    return split
+
 
   removePanel:(index)->
 

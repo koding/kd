@@ -1,18 +1,20 @@
 KDView      = require './../../core/view.coffee'
 KDSplitView = require './splitview.coffee'
 
-module.exports = class KDSplitComboView extends KDView
+module.exports = class KDSplitComboView extends KDSplitView
 
   constructor: (options = {}, data) ->
 
     options.cssClass or= "kdsplitcomboview"
+    options.sizes    or= ['100%', 0]
 
     super options, data
 
-    @init options
+    @once "viewAppended", @bound 'init'
+
 
   init: (options) ->
-    @addSubView @createSplitView options.direction, options.sizes, options.views
+    @createSplitView options.direction, options.sizes, options.views
 
   createSplitView: (type, sizes, viewsConfig) ->
     views = []
@@ -23,8 +25,7 @@ module.exports = class KDSplitComboView extends KDView
         views.push @createSplitView options.direction, options.sizes, config.views
       else
         views.push config
-
-    return new KDSplitView { type, sizes, views }
+    @splitPanel 0, { type, sizes, views }
 
 
 # Example Usage

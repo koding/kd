@@ -1,29 +1,39 @@
 gulp       = require 'gulp'
 gulpif     = require 'gulp-if'
 gutil      = require 'gulp-util'
-browserify = require 'gulp-browserify'
+browserify = require 'browserify'
+coffeeify  = require 'coffeeify'
 rename     = require 'gulp-rename'
 uglify     = require 'gulp-uglify'
 stylus     = require 'gulp-stylus'
 livereload = require 'gulp-livereload'
 concat     = require 'gulp-concat'
 minifyCSS  = require 'gulp-minify-css'
+karma      = require 'gulp-karma'
 fs         = require 'fs'
 http       = require 'http'
 coffee     = require 'coffee-script'
 argv       = require('minimist') process.argv
 source     = require 'vinyl-source-stream'
+gulpBuffer = require 'gulp-buffer'
 ecstatic   = require 'ecstatic'
 readdir    = require 'recursive-readdir'
 {exec}     = require 'child_process'
 
 pistachioCompiler = require 'gulp-pistachio-compiler'
 
+gulpBrowserify = (options, bundleOptions) ->
+  options.extensions or= ['.coffee']
+  bundleOptions or= {}
+  b = browserify options
+  b.transform coffeeify
+  b.bundle bundleOptions
+
 STYLES_PATH = require './src/themes/styl.includes.coffee'
 ENTRY_PATH  = ['./playground/main.coffee']
 COFFEE_PATH = ['./src/components/**/*.coffee','./src/core/**/*.coffee','./src/init.coffee']
 LIBS_PATH   = ['./libs/*.js']
-TEST_PATH   = ['./test/**/*.coffee']
+TEST_PATH   = ['./src/**/*.test.coffee']
 LIBS        = require './src/lib.includes.coffee'
 
 buildDir       = argv.outputDir ? 'build'
@@ -31,6 +41,7 @@ version        = if argv.buildVersion then "#{argv.buildVersion}." else ''
 useLiveReload  = !!argv.liveReload
 useUglify      = !!argv.uglify
 useMinify      = !!(argv.minify ? yes)
+
 
 # Build Tasks
 
@@ -68,14 +79,12 @@ gulp.task 'coffee', ->
     # Throw here maybe?
     console.error err  if err?
 
-    stream = gulp.src entryPath, { read: false }
-      .pipe browserify
-        transform   : ['coffeeify']
-        extensions  : ['.coffee']
-        debug       : yes
-      .pipe gulpif useUglify, uglify()
+    stream = gulpBrowserify
+        entries : entryPath
+      .pipe source entryPath
+      .pipe gulpBuffer()
       .pipe pistachioCompiler()
-      .pipe concat "kd.js"
+      .pipe gulpif useUglify, uglify()
       .pipe gulp.dest "playground/js"
       .pipe rename "kd.#{version}js"
       .pipe gulp.dest "#{buildDir}/js"
@@ -83,36 +92,44 @@ gulp.task 'coffee', ->
     stream.pipe livereload()  if useLiveReload
 
 
-gulp.task 'test', ->
-
-  stream = gulp.src './test/test.coffee', { read: false }
-    .pipe browserify
-      transform  : ['coffeeify']
-      extensions : ['.coffee']
-      debug      : yes
-    .pipe concat "kd.test.js"
+gulp.task 'coffee-test', ->
+  stream = gulpBrowserify
+      entries : './test/test.coffee'
+    .pipe source "kd.test.js"
     .pipe gulp.dest 'test'
 
-  if useLiveReload
-    stream.pipe livereload()
-    gulp.src './test/index.html'
-      .pipe livereload()
+
+gulp.task 'karma', ['coffee-test'], ->
+  gulp.src ['./test/kd.*']
+    .pipe karma
+      configFile : 'karma.conf.js'
+      action     : 'watch'
 
 
 gulp.task 'play', ->
 
-  stream = gulp.src ENTRY_PATH, { read: false }
-    .pipe browserify
-      transform   : ['coffeeify']
-      extensions  : ['.coffee']
-      debug       : yes
-    .pipe concat "main.js"
+  stream = gulpBrowserify
+      entries : ENTRY_PATH
+    .pipe source "main.js"
     .pipe gulp.dest "playground/js"
 
   if useLiveReload
     stream.pipe livereload()
     gulp.src './playground/index.html'
       .pipe livereload()
+
+gulp.task 'sauce', ->
+  gulp.src ['./test/kd.*']
+    .pipe karma
+      browsers   : [
+        'sl_firefox_windows'
+        'sl_chrome_windows'
+        'sl_ie_9'
+        'sl_ie_10'
+      ]
+      configFile : 'karma.conf.js'
+      action     : 'run'
+
 
 
 gulp.task 'live', -> useLiveReload = yes
@@ -125,7 +142,7 @@ watchLogger = (color, watcher) ->
 
 
 gulp.task 'watch-test', ->
-  watcher = gulp.watch TEST_PATH, ['test']
+  watcher = gulp.watch TEST_PATH, ['coffee-test']
   watchLogger 'cyan', watcher
 
 
@@ -155,12 +172,12 @@ gulp.task 'watch-playground', ->
 
 # Aggregate Tasks
 
-gulp.task 'compile', ['styles', 'libs', 'coffee', 'test']
+gulp.task 'compile', ['styles', 'libs', 'coffee']
 
 defaultTasks = [
   'live', 'compile', 'play',
-  'watch-styles', 'watch-coffee', 'watch-libs',
-  'watch-playground', 'watch-test'
+  'watch-styles', 'watch-coffee',
+  'watch-libs', 'watch-playground'
 ]
 
 gulp.task 'default', defaultTasks , ->

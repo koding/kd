@@ -24,7 +24,7 @@ module.exports = class KDSplitViewPanel extends KDScrollView
       size = 0 if size < 0
       if @vertical then @setWidth size else @setHeight size
       @parent.sizes[@index] = @size = size
-      @parent.emit "PanelDidResize", panel: @
+      @parent.emit "PanelDidResize", panel : this
       @emit "PanelDidResize", newSize : size
       size
     else
@@ -34,7 +34,7 @@ module.exports = class KDSplitViewPanel extends KDScrollView
     minimum = @parent.minimums[@index] ? 0
     maximum = @parent.maximums[@index] ? 999999
 
-    if maximum > size > minimum
+    if maximum >= size >= minimum
     then yes
     else
       if size < minimum

@@ -9,7 +9,7 @@ describe 'KDButtonBar', ->
   afterEach ->
     @sinon.restore()
 
-  describe 'contructor', ->
+  describe 'constructor', ->
     it 'should instantiate without error', ->
       buttonBar = new KDButtonBar
       assert.ok buttonBar

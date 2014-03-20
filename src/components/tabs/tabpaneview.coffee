@@ -29,7 +29,7 @@ module.exports = class KDTabPaneView extends KDView
     @unsetClass "kdhiddentab"
 
     if @getOption "detachable"
-      @parent.getElement().appendChild @getElement()
+      @parent?.getElement().appendChild @getElement()
 
     @active = yes
     @emit "KDTabPaneActive"
@@ -49,14 +49,14 @@ module.exports = class KDTabPaneView extends KDView
 
     @lastScrollTops.window = documentElement.scrollTop
     @lastScrollTops.body   = body.scrollTop
-    @lastScrollTops.parent = @parent.getElement().scrollTop
+    @lastScrollTops.parent = @parent?.getElement().scrollTop or 0
     @lastScrollTops.self   = @getElement().scrollTop
 
     @setClass "kdhiddentab"
     @unsetClass "active"
 
     if @active and @getOption "detachable"
-      @parent.getElement().removeChild @getElement()
+      @parent?.getElement().removeChild @getElement()
 
     @active = no
     @emit "KDTabPaneInactive"

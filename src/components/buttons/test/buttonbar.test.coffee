@@ -14,9 +14,6 @@ describe 'KDButtonBar', ->
       buttonBar = new KDButtonBar
       assert.ok buttonBar
 
-    it 'should create new buttons supplied as options', ->
-      buttonOptions = [{ foo: 'bar' }]
-
   describe 'createButton', ->
     beforeEach ->
       @buttonBar = new KDButtonBar

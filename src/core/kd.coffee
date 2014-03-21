@@ -1,37 +1,5 @@
 utils = window.utils = require './utils.coffee'
-
-Function::bind or= (context) ->
-  if 1 < arguments.length
-    args = [].slice.call arguments, 1
-    return => @apply context, if arguments.length then args.concat [].slice.call arguments else args
-  => if arguments.length then @apply context, arguments else @call context
-
-Function::swiss = (parent, names...)->
-  for name in names
-    @::[name] = parent::[name]
-  @
-
-# Cross-Browser DOM dependencies
-window.URL                   ?= window.webkitURL                   ? null
-window.BlobBuilder           ?= window.WebKitBlobBuilder           ? window.MozBlobBuilder           ? null
-window.requestFileSystem     ?= window.webkitRequestFileSystem     ? null
-window.requestAnimationFrame ?= window.webkitRequestAnimationFrame ? window.mozRequestAnimationFrame ? null
-
-# FIXME: add to utils.coffee
-String.prototype.capitalize   = ()-> this.charAt(0).toUpperCase() + this.slice(1)
-String.prototype.decapitalize = ()-> this.charAt(0).toLowerCase() + this.slice(1)
-String.prototype.trim         = ()-> this.replace(/^\s+|\s+$/g,"")
-
-# Dict = Object.create.bind null, null, Object.create null
-
-do (arrayProto = Array.prototype, {defineProperty} = Object)->
-  # set up .first and .last getters for Array prototype
-
-  "last" of arrayProto or
-    defineProperty arrayProto, "last", { get: -> @[@length-1] }
-
-  "first" of arrayProto or
-    defineProperty arrayProto, "first", { get: -> @[0] }
+require './support'
 
 # KD Global
 window.KD or= {}
@@ -41,7 +9,6 @@ noop = window.noop = ->
 KD.log   = window.log   = noop
 KD.warn  = window.warn  = noop
 KD.error = window.error = noop
-
 
 unless window.event?
   try
@@ -75,6 +42,9 @@ window.KD = $.extend (window.KD), do ->
 
   unregisterInstance: (anInstanceId)->
     # warn "Instance being unregistered doesn't exist in registry!!", anInstance unless @instances[anInstance.id]
+
+    # FIXME (sb) - delete puts JITs into SLOW mode for that object, forever. We
+    # should consider using _.omit for cases like this
     delete @instances[anInstanceId]
 
   deleteInstance:(anInstanceId)->
@@ -122,7 +92,5 @@ window.KD = $.extend (window.KD), do ->
     instance.on 'KDObjectWillBeDestroyed', => delete @instancesToBeTested[key]
 
   getInstanceForTesting:(key)-> @instancesToBeTested[key]
-
-prettyPrint = noop
 
 module.exports = KD

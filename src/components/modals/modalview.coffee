@@ -167,7 +167,7 @@ module.exports = class KDModalView extends KDView
   putOverlay:->
     isRemovable = @getOptions().overlayClick
     @overlay    = new KDOverlayView { isRemovable }
-    @overlay.once "click", => @destroy()
+    @overlay.once "click", => @destroy()  if isRemovable
 
   createButton:(title, buttonOptions)->
     buttonOptions.title    = title

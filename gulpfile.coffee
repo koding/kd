@@ -41,6 +41,7 @@ version        = if argv.buildVersion then "#{argv.buildVersion}." else ''
 useLiveReload  = !!argv.liveReload
 useUglify      = !!argv.uglify
 useMinify      = !!(argv.minify ? yes)
+karmaAction    = 'watch'
 
 
 # Build Tasks
@@ -103,7 +104,7 @@ gulp.task 'karma', ['coffee-test'], ->
   gulp.src ['./test/kd.*']
     .pipe karma
       configFile : 'karma.conf.js'
-      action     : 'watch'
+      action     : karmaAction
 
 
 gulp.task 'play', ->
@@ -133,6 +134,8 @@ gulp.task 'sauce', ->
 
 
 gulp.task 'live', -> useLiveReload = yes
+
+gulp.task 'run', -> karmaAction = 'run'
 
 # Watch Tasks
 

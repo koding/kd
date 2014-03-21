@@ -25,14 +25,3 @@ describe 'KD core', ->
 
       assert.ok(stub.called)
 
-  xdescribe 'registerInstance', ->
-
-  xdescribe 'unregisterInstance', ->
-
-  xdescribe 'deleteInstance', ->
-
-  xdescribe 'extend', ->
-
-  xdescribe 'registerSingleton', ->
-
-  xdescribe 'getSingleton', ->

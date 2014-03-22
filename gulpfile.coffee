@@ -10,6 +10,7 @@ livereload = require 'gulp-livereload'
 concat     = require 'gulp-concat'
 minifyCSS  = require 'gulp-minify-css'
 karma      = require 'gulp-karma'
+clean      = require 'gulp-clean'
 fs         = require 'fs'
 http       = require 'http'
 coffee     = require 'coffee-script'
@@ -43,6 +44,12 @@ useUglify      = !!argv.uglify
 useMinify      = !!(argv.minify ? yes)
 karmaAction    = 'watch'
 
+gulp.task 'clean', ->
+
+  gulp.src "build"
+    .pipe clean()
+  gulp.src "playground/{js,css}"
+    .pipe clean()
 
 # Build Tasks
 
@@ -175,7 +182,7 @@ gulp.task 'watch-playground', ->
 
 # Aggregate Tasks
 
-gulp.task 'compile', ['styles', 'libs', 'coffee']
+gulp.task 'compile', ['clean', 'styles', 'libs', 'coffee']
 
 defaultTasks = [
   'live', 'compile', 'play',

@@ -93,8 +93,8 @@ gulp.task 'coffee', ->
       .pipe gulpBuffer()
       .pipe pistachioCompiler()
       .pipe gulpif useUglify, uglify()
-      .pipe gulp.dest "playground/js"
       .pipe rename "kd.#{version}js"
+      .pipe gulp.dest "playground/js"
       .pipe gulp.dest "#{buildDir}/js"
 
     stream.pipe livereload()  if useLiveReload

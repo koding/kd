@@ -59,8 +59,8 @@ gulp.task 'styles', ->
     .pipe stylus()
     .pipe concat "kd.css"
     .pipe gulpif useMinify, minifyCSS()
-    .pipe gulp.dest "playground/css"
     .pipe rename "kd.#{version}css"
+    .pipe gulp.dest "playground/css"
     .pipe gulp.dest "#{buildDir}/css"
 
   stream.pipe livereload()  if useLiveReload

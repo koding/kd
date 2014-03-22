@@ -3,7 +3,6 @@ KD
 
 _a non-document focused UI Framework for web applications._
 
-
 Install gulp:
 
 ```bash
@@ -73,3 +72,9 @@ The available browser definitions are configured in the
 `customLaunchers` key in `karma.conf.js` and then
 selected in the 'sauce' task in `gulpfile.coffe`.
 
+
+------------------------
+
+#### Disclaimer
+
+__The framework is not well documented yet and the unit tests are in very early stage, any pull requests in this direction is highly appreciated.__

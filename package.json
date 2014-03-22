@@ -49,6 +49,7 @@
     "gulp-karma": "0.0.4",
     "gulp-buffer": "0.0.2",
     "browserify": "^3.33.0",
-    "karma-sauce-launcher": "^0.2.3"
+    "karma-sauce-launcher": "^0.2.3",
+    "gulp-clean": "^0.2.4"
   }
 }

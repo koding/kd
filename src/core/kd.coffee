@@ -6,9 +6,9 @@ window.KD or= {}
 
 noop = window.noop = ->
 
-KD.log   = window.log   = noop
-KD.warn  = window.warn  = noop
-KD.error = window.error = noop
+KD.log   = window.log   = console.log.bind console
+KD.warn  = window.warn  = console.warn.bind console
+KD.error = window.error = console.error.bind console
 
 unless window.event?
   try

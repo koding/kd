@@ -1,5 +1,5 @@
 KDViewController = require './../../core/viewcontroller.coffee'
-KDScrollView     = require './../../core/scrollview.coffee'
+KDScrollView     = require './../scrollview/scrollview.coffee'
 
 module.exports = class JTreeViewController extends KDViewController
 

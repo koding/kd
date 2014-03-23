@@ -843,6 +843,21 @@ module.exports = class KDView extends KDObject
 # HELPER METHODS
 # #
 
+  observeMutations: ->
+
+    MutationSummary = require './../../libs/mutation-summary.js'
+
+    MutationObserver = window.MutationObserver or window.WebKitMutationObserver or window.MozMutationObserver
+
+    observerSummary = new MutationSummary
+      callback : (rest)=> @emit 'MutationHappened', rest...
+      rootNode : @getElement()
+      queries  : [
+        { all  : true }
+      ]
+
+
+
   putOverlay: (options = {}) ->
     options.delegate = this
 

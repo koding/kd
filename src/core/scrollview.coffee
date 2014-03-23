@@ -1,34 +1,53 @@
-KDView = require './view.coffee'
+require('jquery-mousewheel') $
+KDView = require './../../core/view.coffee'
 
 module.exports = class KDScrollView extends KDView
 
+  DIRECTIONS = ['up', 'right', 'down', 'left']
+
   constructor:(options = {}, data)->
 
-    options.ownScrollBars ?= no
-    options.bind         or= "mouseenter"
-    options.cssClass       = KD.utils.curry "kdscrollview", options.cssClass
+    options.ownScrollBars   ?= no
+    options.naturalScroll   ?= yes
+    options.bind           or= "mouseenter"
+    options.mouseWheelSpeed ?= 3
+    options.cssClass         = KD.utils.curry "kdscrollview", options.cssClass
 
-    super options,data
+    super options, data
 
-    # if @getOptions().ownScrollBars
-    #   @_createScrollBars()
+    { @ownScrollBars } = @getOptions()
+
+    if @ownScrollBars
+      @once 'viewAppended', @bound '_createScrollBars'
+
+
     @stopScrolling = no
     @on 'click', -> KD.getSingleton('windowController').enableScroll()
+
 
   bindEvents:->
 
     #FIXME: mousewheel works in FF, IE??
-    @$().bind "scroll mousewheel",(event, delta, deltaX, deltaY)=>
-      event._delta = {delta,deltaX,deltaY} if delta
+    @$().bind "mousewheel", (event, delta, deltaX, deltaY)=>
+      event._delta = {delta, deltaX, deltaY}  if delta
       @handleEvent event
+
     super
+
 
   hasScrollBars:-> @getScrollHeight() > @getHeight()
 
-  getScrollHeight:-> @$()[0].scrollHeight
-  getScrollWidth:->  @$()[0].scrollWidth
-  getScrollTop:->    @$().scrollTop()
-  getScrollLeft:->   @$().scrollLeft()
+
+  getScrollHeight:-> @getElement().scrollHeight
+  getScrollWidth:->  @getElement().scrollWidth
+  getScrollTop:->    @getElement().scrollTop
+  getScrollLeft:->   @getElement().scrollTop
+
+  setScrollHeight:(val)-> @getElement().scrollHeight = val
+  setScrollWidth:(val)->  @getElement().scrollWidth = val
+  setScrollTop:(val)->    @getElement().scrollTop = val
+  setScrollLeft:(val)->   @getElement().scrollTop = val
+
 
   scrollTo:({top, left, duration},callback)->
     top      or= 0
@@ -40,10 +59,10 @@ module.exports = class KDScrollView extends KDView
         scrollTop  : top
         scrollLeft : left
       , duration
-      , -> callback?()
+      , callback
     else
-      @$().scrollTop top
-      @$().scrollLeft left
+      @setScrollTop top
+      @setScrollLeft left
       callback?()
 
   scrollToSubView:(subView)->
@@ -77,107 +96,66 @@ module.exports = class KDScrollView extends KDView
 
   mouseWheel:(event)->
     return no  if @stopScrolling
-    if $(event.target).attr("data-id") is @getId() and @ownScrollBars
-      direction = if event._delta.delta > 0 then "up" else "down"
-      @_scrollUponVelocity event._delta.delta,direction
-      return no
 
-  # scroll:(event)->
-  #   if @getOptions().ownScrollBars
-  #     scrollOffset = @$().scrollTop()
-  #     @_vTrack.$().css marginTop : scrollOffset
-  #   yes
+    if @ownScrollBars
+      { _delta }         = event
+      { deltaX, deltaY } = _delta
 
-  _scrollUponVelocity:(velocity,direction)->
-    log direction, velocity,@getScrollHeight()
+      factor = event.deltaFactor or @getOptions().mouseWheelSpeed
+      log factor, deltaX * factor, -deltaY * factor
+      # // return true if there was no movement so rest of screen can scroll
+      # return dX == horizontalDragPosition && dY == verticalDragPosition;
+
+    #   direction = if event._delta.delta > 0 then "up" else "down"
+    #   @_scrollUponVelocity event._delta.delta, direction
+    #   return no
+
+  scroll:(event)->
+    log 'scroll'
+    # if @getOptions().ownScrollBars
+    #   scrollOffset = @getScrollTop()
+    #   @_vTrack.$().css marginTop : scrollOffset
+    # yes
+
+  _scrollUponVelocity:(velocity, direction)->
+
     stepInPixels     = velocity * 50
-    actInnerPosition = @$().scrollTop()
+    actInnerPosition = @getScrollTop()
     newInnerPosition = stepInPixels + actInnerPosition
-    log stepInPixels,actInnerPosition,newInnerPosition
+
     @$().scrollTop newInnerPosition
 
   _createScrollBars:->
+
     log "has-own-scrollbars"
+    @observeMutations()
+
+
     @setClass "has-own-scrollbars"
-    @addSubView @_vTrack = new KDView cssClass : 'kdscrolltrack ver',delegate : @
-    # @addSubView @_hTrack = new KDView cssClass : 'kdscrolltrack hor',delegate : @
+
+    @_wrapper = new KDCustomHTMLView
+      cssClass : 'own-scrollbars-wrapper'
+    # log @_wrapper
+    # debugger
+    @$().wrap @_wrapper.$()
+    @_wrapper.emit 'viewAppended'
+
+    @_vTrack = new KDView
+      cssClass : 'kdscrolltrack ver'
+      delegate : this
+
+    @_wrapper.addSubView @_vTrack
+
     @_vTrack.setRandomBG()
-    # @_hTrack.setRandomBG()
 
-    @_vTrack.addSubView @_vThumb = new KDScrollThumb cssClass : 'kdscrollthumb', type : "vertical",delegate : @_vTrack
-    # @_hTrack.addSubView @_hThumb = new KDScrollThumb cssClass : 'kdscrollthumb', type : "horizontal",delegate : @_hTrack
+    @_vTrack.addSubView @_vThumb = new KDScrollThumb
+      cssClass : 'kdscrollthumb'
+      type     : 'vertical'
+      delegate : @_vTrack
+
+    @on 'MutationHappened', @_vThumb.bound '_calculateSize'
     @scrollBarsCreated = yes
-    @ownScrollBars = yes
-
-class KDScrollThumb extends KDView
-  constructor:(options,data)->
-    options = $.extend
-      type      : "vertical"    # "vertical" or "horizontal"
-    ,options
-    super options,data
-
-    @_track = @getDelegate()
-    @_view = @_track.getDelegate()
-
-    @on "viewAppended", @_calculateSize.bind @
-
-    @_view.on "scroll", @bound "_calculatePosition"
-
-  isDraggable:->yes
-
-  dragOptions:->
-    o = @getOptions()
-    dragOptions =
-      drag : @_drag
-    if o.type = "vertical"
-      dragOptions.axis = "y"
-    else
-      dragOptions.axis = "x"
-
-    dragOptions
 
 
-  _drag:->
-    log "dragged"
-
-  _setSize:(size)->
-    o = @getOptions()
-    if o.type = "vertical"
-      @setHeight size
-    else
-      @setWidth size
-
-  _setOffset:(offset)->
-    o = @getOptions()
-    if o.type = "vertical"
-      @$().css "marginTop" : offset
-    else
-      @$().css "marginLeft" : offset
-
-  _calculateSize:->
-    o = @getOptions()
-
-    if o.type = "vertical"
-      @_trackSize = @_view.getHeight()
-      @_scrollSize = @_view.getScrollHeight()
-      @_thumbMargin = @getY() - @_track.getY()
-    else
-      @_scrollSize = @parent.parent.getScrollWidth()
-      @_thumbMargin = @getX() - @_track.getX()
-      @_trackSize = @parent.getWidth()
-
-    log @_trackSize,@_scrollSize
-
-    @_track.hide() if @_trackSize >= @_scrollSize
-
-    @_thumbRatio = @_trackSize / @_scrollSize
-    @_thumbSize = @_trackSize * @_thumbRatio - 2 * @_thumbMargin
-
-    @_setSize @_thumbSize
-
-  _calculatePosition:->
-    viewScrollTop = @_view.$().scrollTop()
-    thumbTopOffset = viewScrollTop * @_thumbRatio + @_thumbMargin
-    @_setOffset thumbTopOffset
 
 

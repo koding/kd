@@ -5,22 +5,30 @@
 */
 
 .kdscrollview
-  overflow      auto
+  overflow          auto
+
+  p
+    margin          10px 0
+
   &.has-own-scrollbars
-    overflow      hidden!important
+    overflow        hidden !important
+
     .kdscrolltrack
       abs()
       right         0
       z-index       1000
+
       &.ver
         top         0
         size        13px,100%
         .kdscrollthumb
           size      7px,auto
           cursor    -webkit-ns-resize
+
       &.hor
         bottom      0
         size        100%,13px
+
         .kdscrollthumb
           size      auto,7px
           cursor    -webkit-we-resize

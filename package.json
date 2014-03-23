@@ -50,6 +50,7 @@
     "gulp-buffer": "0.0.2",
     "browserify": "^3.33.0",
     "karma-sauce-launcher": "^0.2.3",
-    "gulp-clean": "^0.2.4"
+    "gulp-clean": "^0.2.4",
+	"jquery-mousewheel": "^3.1.9"
   }
 }

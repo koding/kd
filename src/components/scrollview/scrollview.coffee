@@ -52,6 +52,8 @@ module.exports = class KDScrollView extends KDView
 
   scroll:(event)->
 
+    return yes  unless @verticalThumb
+
     if @verticalThumb.beingDragged or @horizontalThumb.beingDragged
       return KD.utils.stopDOMEvent event
 

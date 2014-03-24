@@ -7,36 +7,46 @@
 .kdscrollview
   overflow          auto
 
-  p
-    margin          10px 0
-
   &.has-own-scrollbars
     overflow        hidden !important
+    height          100%
 
-    .kdscrolltrack
-      abs()
-      right         0
-      z-index       1000
+.own-scrollbars-wrapper
+  overflow          hidden !important
+  size              100% 100%
+  padding-right     15px
+  padding-bottom    15px
+  borderBox()
+  rel()
 
-      &.ver
-        top         0
-        size        13px,100%
-        .kdscrollthumb
-          size      7px,auto
-          cursor    -webkit-ns-resize
+  > .kdscrollview
+    height          auto
 
-      &.hor
-        bottom      0
-        size        100%,13px
+  .kdscrolltrack
+    right           0
+    z-index         1000
+    padding         0
+    bg              color rgba(0, 0, 0, .1)
+    abs()
 
-        .kdscrollthumb
-          size      auto,7px
-          cursor    -webkit-we-resize
+    &.ver
+      top           0
+      size          15px 100%
+      .kdscrollthumb
+        size        100% auto
+
+    &.hor
+      bottom        0
+      size          100% 15px
 
       .kdscrollthumb
-        margin      3px
-        cursor      move
-        bg          color,rgba(0,0,0,.3)
-        rounded     3px
+        size        auto 100%
+
+    .kdscrollthumb
+      rel()
+      cursor        default
+      bg            color rgba(0, 0, 0, .2)
+      vendor        transition, width .1s ease \,\
+                              height .1s ease
 
 

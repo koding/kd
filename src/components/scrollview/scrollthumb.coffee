@@ -1,70 +1,126 @@
 KDView = require './../../core/view.coffee'
 
 module.exports = class KDScrollThumb extends KDView
-  constructor:(options,data)->
-    options = $.extend
-      type      : "vertical"    # "vertical" or "horizontal"
-    ,options
-    super options,data
 
-    @_track = @getDelegate()
-    @_view = @_track.getDelegate()
+  constructor:(options = {}, data)->
 
-    @on "viewAppended", @_calculateSize.bind @
+    options.type      or= 'vertical'
+    options.draggable  ?=
+      axis        : if options.type is 'vertical' then 'y' else 'x'
+      containment : this
 
-    @_view.on "scroll", @bound "_calculatePosition"
+    super options, data
 
-  isDraggable:->yes
+    {@type, @track} = @getOptions()
+    @view           = @track.getDelegate()
 
-  dragOptions:->
-    o = @getOptions()
-    dragOptions =
-      drag : @_drag
-    if o.type = "vertical"
-      dragOptions.axis = "y"
-    else
-      dragOptions.axis = "x"
+    @on 'viewAppended', @bound 'calculateSize'
+    @on 'DragInAction', @bound 'handleDrag'
+    @view.on 'scroll',  @bound 'calculatePosition'
 
-    dragOptions
+    @listenWindowResize()
 
 
-  _drag:->
-    log "dragged"
+  resetSizes:->
 
-  _setSize:(size)->
-    o = @getOptions()
-    if o.type = "vertical"
-      @setHeight size
-    else
-      @setWidth size
+    @size       = null
+    @trackSize  = null
+    @scrollSize = null
 
-  _setOffset:(offset)->
-    o = @getOptions()
-    if o.type = "vertical"
-      @$().css "marginTop" : offset
-    else
-      @$().css "marginLeft" : offset
 
-  _calculateSize:->
-    o = @getOptions()
+  handleMutation:->
 
-    if o.type = "vertical"
-      @_trackSize = @_view.getHeight()
-      @_scrollSize = @_view.getScrollHeight()
-      @_thumbMargin = @getY() - @_track.getY()
-    else
-      @_scrollSize = @parent.parent.getScrollWidth()
-      @_thumbMargin = @getX() - @_track.getX()
-      @_trackSize = @parent.getWidth()
+    @scrollSize = null
+    @calculateSize()
 
-    # @_track.hide() if @_trackSize >= @_scrollSize
 
-    @_thumbRatio = @_trackSize / @_scrollSize
-    @_thumbSize = @_trackSize * @_thumbRatio - 2 * @_thumbMargin
+  handleDrag:->
 
-    @_setSize @_thumbSize
+    size        = @getSize()
+    offset      = @getOffset()
+    trackSize   = @getTrackSize()
+    availOffset = trackSize - size
+    ratio       = Math.min Math.max(0, offset/availOffset), 1
 
-  _calculatePosition:->
-    viewScrollTop = @_view.$().scrollTop()
-    thumbTopOffset = viewScrollTop * @_thumbRatio + @_thumbMargin
-    @_setOffset thumbTopOffset
+    if @isVertical()
+    then @view.setScrollTop  (@view.getScrollHeight() - trackSize) * ratio
+    else @view.setScrollLeft (@view.getScrollWidth()  - trackSize) * ratio
+
+
+  isVertical:-> @type is 'vertical'
+
+
+  getTrackSize:->
+
+    if @trackSize then @trackSize
+    else if @isVertical()
+    then @track.getHeight()
+    else @track.getWidth()
+
+
+  setSize:(size)->
+
+    if @isVertical()
+    then @setHeight size
+    else @setWidth size
+    @size = size
+
+
+  getSize:->
+
+    if @size then @size
+    else if @isVertical()
+    then @getHeight()
+    else @getWidth()
+
+
+  setOffset:(offset)->
+
+    @setStyle if @isVertical()
+    then top  : offset
+    else left : offset
+
+
+  getOffset:->
+
+    if @isVertical()
+    then @getY() - @track.getY()
+    else @getX() - @track.getX()
+
+  getScrollOffset:->
+
+    if @isVertical()
+    then @view.getScrollTop()
+    else @view.getScrollLeft()
+
+
+  getScrollSize:->
+
+    if @scrollSize then @scrollSize
+    else if @isVertical()
+    then @view.getScrollHeight()
+    else @view.getScrollWidth()
+
+
+  calculateSize:->
+
+    @trackSize  = @getTrackSize()
+    @scrollSize = @getScrollSize()
+
+    log @trackSize, @scrollSize
+
+    if @trackSize >= @scrollSize
+    then @track.hide()
+    else @track.show()
+
+    @setSize @trackSize * @trackSize / @scrollSize
+
+
+  calculatePosition:(event)->
+
+    ratio = @getScrollOffset() / @getScrollSize()
+
+    @setOffset @getTrackSize() * ratio
+
+
+  _windowDidResize:-> @resetSizes()

@@ -1,5 +1,8 @@
 require('jquery-mousewheel') $
-KDView = require './../../core/view.coffee'
+KDView           = require './../../core/view.coffee'
+KDCustomHTMLView = require './../../core/customhtmlview.coffee'
+KDScrollThumb    = require './scrollthumb.coffee'
+KDScrollTrack    = require './scrolltrack.coffee'
 
 module.exports = class KDScrollView extends KDView
 
@@ -10,16 +13,15 @@ module.exports = class KDScrollView extends KDView
     options.ownScrollBars   ?= no
     options.naturalScroll   ?= yes
     options.bind           or= "mouseenter"
+    options.isWrapper       ?= no
     options.mouseWheelSpeed ?= 3
     options.cssClass         = KD.utils.curry "kdscrollview", options.cssClass
 
     super options, data
 
-    { @ownScrollBars } = @getOptions()
+    { @ownScrollBars, @isWrapper } = @getOptions()
 
-    if @ownScrollBars
-      @once 'viewAppended', @bound '_createScrollBars'
-
+    @once 'viewAppended', @bound '_createScrollBars'  if @ownScrollBars
 
     @stopScrolling = no
     @on 'click', -> KD.getSingleton('windowController').enableScroll()
@@ -27,8 +29,7 @@ module.exports = class KDScrollView extends KDView
 
   bindEvents:->
 
-    #FIXME: mousewheel works in FF, IE??
-    @$().bind "mousewheel", (event, delta, deltaX, deltaY)=>
+    @$().bind "mousewheel scroll", (event, delta, deltaX, deltaY)=>
       event._delta = {delta, deltaX, deltaY}  if delta
       @handleEvent event
 
@@ -41,12 +42,18 @@ module.exports = class KDScrollView extends KDView
   getScrollHeight:-> @getElement().scrollHeight
   getScrollWidth:->  @getElement().scrollWidth
   getScrollTop:->    @getElement().scrollTop
-  getScrollLeft:->   @getElement().scrollTop
+  getScrollLeft:->   @getElement().scrollLeft
 
   setScrollHeight:(val)-> @getElement().scrollHeight = val
   setScrollWidth:(val)->  @getElement().scrollWidth = val
   setScrollTop:(val)->    @getElement().scrollTop = val
-  setScrollLeft:(val)->   @getElement().scrollTop = val
+  setScrollLeft:(val)->   @getElement().scrollLeft = val
+
+
+  scroll:(event)->
+
+    if @verticalThumb.beingDragged or @horizontalThumb.beingDragged
+      return KD.utils.stopDOMEvent event
 
 
   scrollTo:({top, left, duration},callback)->
@@ -95,65 +102,109 @@ module.exports = class KDScrollView extends KDView
     (viewHeight + viewOffsetFromScrollView - @getHeight())/@getHeight()
 
   mouseWheel:(event)->
+
     return no  if @stopScrolling
 
     if @ownScrollBars
-      { _delta }         = event
-      { deltaX, deltaY } = _delta
+      {_delta, deltaFactor} = event
 
-      factor = event.deltaFactor or @getOptions().mouseWheelSpeed
-      log factor, deltaX * factor, -deltaY * factor
-      # // return true if there was no movement so rest of screen can scroll
-      # return dX == horizontalDragPosition && dY == verticalDragPosition;
+      return  unless _delta
 
-    #   direction = if event._delta.delta > 0 then "up" else "down"
-    #   @_scrollUponVelocity event._delta.delta, direction
-    #   return no
+      speed = deltaFactor or @getOptions().mouseWheelSpeed
+      x     = _delta.deltaX
+      y     = _delta.deltaY
 
-  scroll:(event)->
-    log 'scroll'
-    # if @getOptions().ownScrollBars
-    #   scrollOffset = @getScrollTop()
-    #   @_vTrack.$().css marginTop : scrollOffset
-    # yes
+      resX  = if x isnt 0 and @getScrollWidth() > @getWidth()
+      then  @_scrollHorizontally {speed, velocity : x}
+      else  no
+      resY  = if y isnt 0 and @getScrollHeight() > @getHeight()
+      then  @_scrollVertically {speed, velocity : y}
+      else  no
 
-  _scrollUponVelocity:(velocity, direction)->
+      stop  = if Math.abs(x) > Math.abs(y) then resX else resY
 
-    stepInPixels     = velocity * 50
-    actInnerPosition = @getScrollTop()
-    newInnerPosition = stepInPixels + actInnerPosition
+      return !stop
 
-    @$().scrollTop newInnerPosition
+
+  _scrollVertically: do ->
+
+    lastPosition = 0
+
+    ({speed, velocity})->
+
+      stepInPixels = velocity * speed
+      actPosition  = @getScrollTop()
+      newPosition  = actPosition - stepInPixels
+      shouldStop   = if velocity > 0
+      then lastPosition > newPosition
+      else lastPosition < newPosition
+
+      @setScrollTop lastPosition = newPosition
+
+      return shouldStop
+
+  _scrollHorizontally: do ->
+
+    lastPosition = 0
+
+    ({speed, velocity})->
+
+      stepInPixels = velocity * speed
+      actPosition  = @getScrollLeft()
+      newPosition  = actPosition + stepInPixels
+      shouldStop   = if velocity < 0
+      then lastPosition >= newPosition
+      else lastPosition <= newPosition
+
+      @setScrollLeft lastPosition = newPosition
+
+      return shouldStop
+
 
   _createScrollBars:->
 
-    log "has-own-scrollbars"
-    @observeMutations()
+    return  if @isWrapper
 
+    log "has-own-scrollbars"
+    {mouseWheelSpeed} = @getOptions()
+    @observeMutations()
 
     @setClass "has-own-scrollbars"
 
-    @_wrapper = new KDCustomHTMLView
-      cssClass : 'own-scrollbars-wrapper'
-    # log @_wrapper
-    # debugger
-    @$().wrap @_wrapper.$()
-    @_wrapper.emit 'viewAppended'
+    @wrapper = new KDCustomHTMLView {
+      isWrapper : yes
+      cssClass  : 'own-scrollbars-wrapper'
+      mouseWheelSpeed
+    }
+    @parent.addSubView @wrapper
+    @detach()
+    @wrapper.attach this
 
-    @_vTrack = new KDView
+    @verticalTrack = new KDScrollTrack
       cssClass : 'kdscrolltrack ver'
       delegate : this
 
-    @_wrapper.addSubView @_vTrack
+    @wrapper.addSubView @verticalTrack
 
-    @_vTrack.setRandomBG()
+    @horizontalTrack = new KDScrollTrack
+      cssClass : 'kdscrolltrack hor'
+      delegate : this
 
-    @_vTrack.addSubView @_vThumb = new KDScrollThumb
+    @wrapper.addSubView @horizontalTrack
+
+    @verticalTrack.addSubView @verticalThumb = new KDScrollThumb
       cssClass : 'kdscrollthumb'
       type     : 'vertical'
-      delegate : @_vTrack
+      track    : @verticalTrack
 
-    @on 'MutationHappened', @_vThumb.bound '_calculateSize'
+    @horizontalTrack.addSubView @horizontalThumb = new KDScrollThumb
+      cssClass : 'kdscrollthumb'
+      type     : 'horizontal'
+      track    : @horizontalTrack
+
+    @on 'MutationHappened', @verticalThumb.bound 'handleMutation'
+    @on 'MutationHappened', @horizontalThumb.bound 'handleMutation'
+
     @scrollBarsCreated = yes
 
 

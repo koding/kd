@@ -403,6 +403,12 @@ module.exports = class KDView extends KDObject
 # ADD/DESTROY VIEW INSTANCES
 # #
 
+  attach:(view) ->
+    @getElement().appendChild view.getElement()
+
+  detach: ->
+    @parent?.getElement().removeChild @getElement()
+
   destroy: ->
 
     # good idea but needs some refactoring see KDObject::destroy
@@ -842,6 +848,21 @@ module.exports = class KDView extends KDObject
 # #
 # HELPER METHODS
 # #
+
+  observeMutations: ->
+
+    MutationSummary = require './../../libs/mutation-summary.js'
+
+    MutationObserver = window.MutationObserver or window.WebKitMutationObserver or window.MozMutationObserver
+
+    observerSummary = new MutationSummary
+      callback : (rest)=> @emit 'MutationHappened', rest...
+      rootNode : @getElement()
+      queries  : [
+        { all  : true }
+      ]
+
+
 
   putOverlay: (options = {}) ->
     options.delegate = this

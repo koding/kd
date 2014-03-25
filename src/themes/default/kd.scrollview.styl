@@ -7,20 +7,22 @@
 .kdscrollview
   overflow          auto
 
-  &.has-own-scrollbars
-    overflow        hidden !important
-    height          100%
 
-.own-scrollbars-wrapper
+.kdcustomscrollview
   overflow          hidden !important
   size              100% 100%
-  padding-right     15px
-  padding-bottom    15px
   borderBox()
   rel()
 
+  &.has-vertical
+    padding-right   15px
+
+  &.has-horizontal
+    padding-bottom  15px
+
   > .kdscrollview
-    height          auto
+    overflow        hidden !important
+    height          100%
 
   .kdscrolltrack
     right           0
@@ -29,13 +31,14 @@
     bg              color rgba(0, 0, 0, .1)
     abs()
 
-    &.ver
+    &.vertical
       top           0
       size          15px 100%
+
       .kdscrollthumb
         size        100% auto
 
-    &.hor
+    &.horizontal
       bottom        0
       size          100% 15px
 

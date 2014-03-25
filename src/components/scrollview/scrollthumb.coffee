@@ -5,14 +5,16 @@ module.exports = class KDScrollThumb extends KDView
   constructor:(options = {}, data)->
 
     options.type      or= 'vertical'
+    options.cssClass    = KD.utils.curry 'kdscrollthumb', options.cssClass
     options.draggable  ?=
-      axis        : if options.type is 'vertical' then 'y' else 'x'
-      containment : this
+      axis              : if options.type is 'vertical' then 'y' else 'x'
+      containment       : this
 
     super options, data
 
     {@type, @track} = @getOptions()
-    @view           = @track.getDelegate()
+
+    @view = @track.getDelegate()
 
     @on 'viewAppended', @bound 'calculateSize'
     @on 'DragInAction', @bound 'handleDrag'

@@ -1,6 +1,6 @@
-JContextMenu = require './../contextmenu/contextmenu.coffee'
+KDContextMenu = require './../contextmenu/contextmenu.coffee'
 
-module.exports = class JButtonMenu extends JContextMenu
+module.exports = class JButtonMenu extends KDContextMenu
 
   constructor:(options = {}, data)->
 

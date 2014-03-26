@@ -44,13 +44,6 @@ useUglify      = !!argv.uglify
 useMinify      = !!(argv.minify ? yes)
 karmaAction    = 'watch'
 
-gulp.task 'clean', ->
-
-  gulp.src "build"
-    .pipe clean()
-  gulp.src "playground/{js,css}"
-    .pipe clean()
-
 # Build Tasks
 
 gulp.task 'styles', ->
@@ -178,6 +171,16 @@ gulp.task 'watch-playground', ->
   ], ['play']
 
   watchLogger 'blue', watcher
+
+
+# Helper Tasks
+
+gulp.task 'clean', ->
+
+  gulp.src ["build","playground/{js,css}"]
+    .pipe clean()
+
+
 
 
 # Aggregate Tasks

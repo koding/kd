@@ -113,10 +113,21 @@ gulp.task 'play', ->
     .pipe source "main.js"
     .pipe gulp.dest "playground/js"
 
+
+  stylStream = gulp.src ['./playground/main.styl']
+    .pipe stylus()
+    .pipe concat "kd.css"
+    .pipe gulpif useMinify, minifyCSS()
+    .pipe rename "main.css"
+    .pipe gulp.dest "playground/css"
+
   if useLiveReload
+    stylStream.pipe livereload()
     stream.pipe livereload()
     gulp.src './playground/index.html'
       .pipe livereload()
+
+
 
 gulp.task 'sauce', ->
   gulp.src ['./test/kd.*']
@@ -167,6 +178,7 @@ gulp.task 'watch-playground', ->
   watcher = gulp.watch [
     './playground/**/*.coffee'
     './playground/**/*.html'
+    './playground/**/*.styl'
   ], ['play']
 
   watchLogger 'blue', watcher

@@ -14,7 +14,7 @@ module.exports = class KDWindowController extends KDController
   @keyViewHistory = []
   superKey        = if navigator.userAgent.indexOf("Mac OS X") is -1 then "ctrl" else "command"
   addListener     = (eventName, listener, capturePhase=yes)->
-    document.body.addEventListener eventName, listener, capturePhase
+    window.addEventListener eventName, listener, capturePhase
 
   # Finding vendor prefixes for visibility
   getVisibilityProperty = ->

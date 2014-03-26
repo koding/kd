@@ -7,8 +7,8 @@ module.exports = class JContextMenu extends KDView
   constructor:(options = {}, data)->
 
     options.cssClass        = @utils.curry "jcontextmenu", options.cssClass
-    options.menuMaxWidth  or= 272
-    options.menuMinWidth  or= 172
+    options.menuMaxWidth  or= "auto"
+    options.menuMinWidth  or= "auto"
     options.menuWidth     or= 172
     options.offset        or= {}
     options.offset.left   or= 0
@@ -108,8 +108,10 @@ module.exports = class JContextMenu extends KDView
     mainHeight  = mainView.getHeight()
     mainWidth   = mainView.getWidth()
 
-    menuHeight  = @getHeight()
-    menuWidth   = @getWidth()
+    { menuWidth, menuHeight, menuMaxWidth, menuMinWidth } = options
+
+    menuHeight ?= @getHeight()
+    menuWidth  ?= @getWidth()
 
     top         = (options.y or event.pageY or 0) + options.offset.top
     left        = (options.x or event.pageX or 0) + options.offset.left
@@ -126,7 +128,6 @@ module.exports = class JContextMenu extends KDView
     @topMargin  = expectedTop  - top
     @leftMargin = expectedLeft - left
 
-    {menuWidth, menuMaxWidth, menuMinWidth} = options
 
     style   =
       width : "#{menuWidth}px"
@@ -134,7 +135,6 @@ module.exports = class JContextMenu extends KDView
       left  : left
 
     if menuMaxWidth
-      style.width    = "auto"
       style.maxWidth = "#{menuMaxWidth}px"
 
     style.minWidth = "#{menuMinWidth}px"  if menuMinWidth

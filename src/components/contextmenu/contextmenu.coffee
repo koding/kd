@@ -2,11 +2,11 @@ KDView                         = require './../../core/view.coffee'
 KDCustomHTMLView               = require './../../core/customhtmlview.coffee'
 JContextMenuTreeViewController = require './contextmenutreeviewcontroller.coffee'
 
-module.exports = class JContextMenu extends KDView
+module.exports = class KDContextMenu extends KDView
 
   constructor:(options = {}, data)->
 
-    options.cssClass        = @utils.curry "jcontextmenu", options.cssClass
+    options.cssClass        = @utils.curry "kdcontextmenu", options.cssClass
     options.menuMaxWidth  or= "auto"
     options.menuMinWidth  or= "auto"
     options.menuWidth     or= 172

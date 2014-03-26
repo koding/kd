@@ -31,7 +31,6 @@ gulpBrowserify = (options, bundleOptions) ->
   b.bundle bundleOptions
 
 STYLES_PATH = require './src/themes/styl.includes.coffee'
-ENTRY_PATH  = ['./playground/main.coffee']
 COFFEE_PATH = ['./src/components/**/*.coffee','./src/core/**/*.coffee','./src/init.coffee']
 LIBS_PATH   = ['./libs/*.js']
 TEST_PATH   = ['./src/**/*.test.coffee']
@@ -110,7 +109,7 @@ gulp.task 'karma', ['coffee-test'], ->
 gulp.task 'play', ->
 
   stream = gulpBrowserify
-      entries : ENTRY_PATH
+      entries : ['./playground/main.coffee']
     .pipe source "main.js"
     .pipe gulp.dest "playground/js"
 

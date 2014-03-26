@@ -53,6 +53,7 @@ module.exports = class KDCustomScrollViewWrapper extends KDScrollView
 
       return shouldStop
 
+
   _scrollHorizontally: do ->
 
     lastPosition = 0
@@ -69,5 +70,3 @@ module.exports = class KDCustomScrollViewWrapper extends KDScrollView
       @setScrollLeft lastPosition = newPosition
 
       return shouldStop
-
-

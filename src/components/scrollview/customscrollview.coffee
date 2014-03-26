@@ -30,26 +30,13 @@ module.exports = class KDCustomScrollView extends KDCustomHTMLView
     @wrapper.on 'ScrollTrackShown',  (type)=> @setClass   "has-#{type}"
     @wrapper.on 'ScrollTrackHidden', (type)=> @unsetClass "has-#{type}"
 
-
-  pistachio:->
-
-    """
-    {{> @wrapper}}
-    {{> @verticalTrack}}
-    {{> @horizontalTrack}}
-    """
-
-
   viewAppended:->
 
-    JView::viewAppended.call this
+    @addSubView @wrapper
+    @addSubView @verticalTrack
+    @addSubView @horizontalTrack
 
     @wrapper.observeMutations()
 
     @wrapper.on 'MutationHappened', @verticalTrack.thumb.bound 'handleMutation'
     @wrapper.on 'MutationHappened', @horizontalTrack.thumb.bound 'handleMutation'
-
-
-
-
-

@@ -217,8 +217,6 @@ module.exports = class KDView extends KDObject
 # #
 # TRAVERSE DOM ELEMENT
 # #
-  Object.defineProperty @::, "$$", get : @::$
-  Object.defineProperty @::, "el", get : @::getElement
 
   getDomElement:-> @domElement
 

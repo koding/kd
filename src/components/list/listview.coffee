@@ -2,35 +2,37 @@ KDView = require './../../core/view.coffee'
 
 module.exports = class KDListView extends KDView
 
-  constructor:(options = {}, data)->
+  constructor: (options = {}, data) ->
 
-    options.type       or= "default"
-    options.lastToFirst ?= no
-    options.cssClass     = if options.cssClass? then "kdlistview kdlistview-#{options.type} #{options.cssClass}" else "kdlistview kdlistview-#{options.type}"
+    options.type        or= "default"
+    options.lastToFirst  ?= no
+    options.cssClass      = if options.cssClass? then "kdlistview kdlistview-#{options.type} #{options.cssClass}" else "kdlistview kdlistview-#{options.type}"
 
-    @items = [] unless @items
+    super options, data
 
-    super options,data
-
-  empty:->
-
-    for item,i in @items
-      item.destroy() if item?
     @items = []
 
-  keyDown:(event)->
 
-    event.stopPropagation()
-    event.preventDefault()
+  empty: ->
+
+    item.destroy()  for item, i in @items when item
+
+    @items = []
+
+
+  keyDown: (event) ->
+
+    KD.utils.stopDOMEvent event
     @emit "KeyDownOnList", event
 
-  addItem:(itemData, index, animation)->
+
+  addItem: (itemData, index) ->
 
     {itemChildClass, itemChildOptions} = @getOptions()
 
-    if index? and typeof index isnt 'number'
+    if index? and 'number' isnt typeof index
       itemOptions = index
-      index = null
+      index       = null
     else
       {itemOptions} = @getOptions()
 
@@ -42,11 +44,12 @@ module.exports = class KDListView extends KDView
     itemOptions.childOptions or= itemChildOptions
 
     itemInstance = new (@getOptions().itemClass ? KDListItemView) itemOptions, itemData
-    @addItemView itemInstance, index, animation
+    @addItemView itemInstance, index
 
     return itemInstance
 
-  removeItem:(itemInstance, itemData, index)->
+
+  removeItem: (itemInstance, itemData, index) ->
 
     if index?
       @emit 'ItemIsBeingDestroyed', { view : @items[index], index : index }
@@ -62,68 +65,77 @@ module.exports = class KDListView extends KDView
           item.destroy()
           return
 
-  removeItemByData:(itemData)->
-    @removeItem null, itemData
 
-  removeItemByIndex:(index)->
-    @removeItem null, null, index
+  removeItemByData: (itemData) -> @removeItem null, itemData
 
-  destroy:(animated = no, animationType = "slideUp", duration = 100)->
 
-    for item in @items
-      # log "destroying listitem", item
-      item.destroy()
-    super()
+  removeItemByIndex: (index) -> @removeItem null, null, index
 
-  addItemView:(itemInstance,index,animation)->
+
+  destroy: ->
+
+    item.destroy() for item in @items
+
+    super
+
+
+  addItemView: (itemInstance, index = 0) ->
+
+    {lastToFirst} = @getOptions()
 
     @emit 'ItemWasAdded', itemInstance, index
+
     if index?
-      actualIndex = if @getOptions().lastToFirst then @items.length - index - 1 else index
+      actualIndex = if lastToFirst then @items.length - index - 1 else index
       @items.splice actualIndex, 0, itemInstance
-      @appendItemAtIndex itemInstance, index, animation
     else
-      @items[if @getOptions().lastToFirst then 'unshift' else 'push'] itemInstance
-      @appendItem itemInstance, animation
-    itemInstance
+      if lastToFirst
+      then @items.unshift itemInstance
+      else @items.push itemInstance
 
-  appendItem:(itemInstance, animation)->
-    itemInstance.setParent @
-    scroll = @doIHaveToScroll()
-    if animation?
-      itemInstance.$().hide()
-      @$()[if @getOptions().lastToFirst then 'prepend' else 'append'] itemInstance.$()
-      itemInstance.$()[animation.type] animation.duration,()=>
-        itemInstance.emit 'introEffectCompleted'
-    else
-      @$()[if @getOptions().lastToFirst then 'prepend' else 'append'] itemInstance.$()
-    if scroll
-      @scrollDown()
-    if @parentIsInDom
-      itemInstance.emit 'viewAppended'
-    null
+    @appendItemAtIndex itemInstance, index
 
-  appendItemAtIndex:(itemInstance,index,animation)->
+    return itemInstance
+
+
+  appendItem: (itemInstance) -> @appendItemAtIndex itemInstance
+
+
+  appendItemAtIndex: (itemInstance, index = 0) ->
 
     itemInstance.setParent @
-    actualIndex = if @getOptions().lastToFirst then @items.length - index - 1 else index
-    if animation?
-      itemInstance.$().hide()
-      @$()[if @getOptions().lastToFirst then 'append' else 'prepend'] itemInstance.$() if index is 0
-      @items[actualIndex-1].$()[if @getOptions().lastToFirst then 'before' else 'after']  itemInstance.$() if index > 0
-      itemInstance.$()[animation.type] animation.duration,()=>
-        itemInstance.emit 'introEffectCompleted'
-    else
-      @$()[if @getOptions().lastToFirst then 'append' else 'prepend'] itemInstance.$() if index is 0
-      @items[actualIndex-1].$()[if @getOptions().lastToFirst then 'before' else 'after']  itemInstance.$() if index > 0
-    if @parentIsInDom
-      itemInstance.emit 'viewAppended'
+
+    scroll        = @doIHaveToScroll()
+    {lastToFirst} = @getOptions()
+    $item         = itemInstance.$()
+
+    if index is 0
+
+      if lastToFirst
+      then @$().prepend $item
+      else @$().append $item
+
+    else if index > 0
+
+      if lastToFirst
+        index = @items.length - index - 2
+        @items[index].$().before $item
+      else
+        index -= 1
+        @items[index].$().after  $item
+
+    @scrollDown() if scroll
+
+    itemInstance.emit 'viewAppended'  if @parentIsInDom
+
     null
+
 
   getItemIndex:(targetItem)->
     for item, index in @items
       return index if item is targetItem
     return -1
+
 
   moveItemToIndex:(item, newIndex)->
 
@@ -147,42 +159,39 @@ module.exports = class KDListView extends KDView
 
     return @items
 
+
   scrollDown: ->
 
     clearTimeout @_scrollDownTimeout
-    @_scrollDownTimeout = setTimeout =>
+
+    @_scrollDownTimeout = KD.utils.wait 50, =>
       scrollView    = @$().closest(".kdscrollview")
       slidingView   = scrollView.find '> .kdview'
+      slidingHeight = slidingView.height()
 
-      # scrollTop         = scrollView.scrollTop()
-      slidingHeight     = slidingView.height()
-      # scrollViewheight  = scrollView.height()
-      # scrollDown        = slidingHeight - scrollViewheight - scrollTop
-      scrollView.animate (scrollTop : slidingHeight), (duration: 200, queue: no)
-    , 50
+      scrollView.animate
+        scrollTop : slidingHeight
+      ,
+        duration  : 200
+        queue     : no
+
 
   doIHaveToScroll: ->
 
-    scrollView = @$().closest(".kdscrollview")
     if @getOptions().autoScroll
-      if scrollView.length and scrollView[0].scrollHeight <= scrollView.height()
-        yes
-      else
-        @isScrollAtBottom()
-    else
-      no
+      scrollView = @$().closest(".kdscrollview")[0]
+      if scrollView.length and scrollView.scrollHeight > scrollView.outerHeight()
+      then yes
+      else @isScrollAtBottom scrollView
+    else no
 
-  isScrollAtBottom: ->
+  isScrollAtBottom: (scrollView) ->
 
-    scrollView        = @$().closest(".kdscrollview")
-    slidingView       = scrollView.find '> .kdview'
+    slidingView       = scrollView.find('> .kdview')[0]
 
-    scrollTop         = scrollView.scrollTop()
-    slidingHeight     = slidingView.height()
-    scrollViewheight  = scrollView.height()
+    scrollTop         = scrollView.scrollTop
+    slidingHeight     = slidingView.clientHeight
+    scrollViewheight  = scrollView.clientHeight
 
-    if slidingHeight - scrollViewheight is scrollTop
-      return yes
-    else
-      return no
+    return slidingHeight - scrollViewheight is scrollTop
 

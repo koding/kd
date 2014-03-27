@@ -71,46 +71,51 @@ module.exports = class KDView extends KDObject
 
   constructor:(options = {},data)->
 
-    o = options
-    o.tagName     or= "div"     # a String of a HTML tag
-    o.domId       or= null      # a String
-    o.cssClass    or= ""        # a String
-    o.parent      or= null      # a KDView Instance
-    o.partial     or= null      # a String of HTML or text
-    o.pistachio   or= null      # a String of Pistachio
-    o.delegate    or= null      # a KDView Instance
-    o.bind        or= ""        # a String of space seperated javascript dom events to be listened on instantiated view
-    o.draggable   or= null      # an Object holding draggable options and/or events !!! NOT HTML5 !!!
-    o.droppable   or= null      # TBDL
-    o.size        or= null      # an Object holding width and height properties
-    o.position    or= null      # an Object holding top/right/bottom/left properties (would force view to be positioned absolutely)
-    o.attributes  or= null      # an Object holding attribute key/value pairs e.g. {href:'#',title:'my picture'}
-    o.prefix      or= ""        # a String
-    o.suffix      or= ""        # a String
-    o.tooltip     or= null      # an Object of kdtooltip options
-
+    options.tagName           or= "div"     # a String of a HTML tag
+    options.domId             or= null      # a String
+    options.cssClass          or= ""        # a String
+    options.parent            or= null      # a KDView Instance
+    options.partial           or= null      # a String of HTML or text
+    options.pistachio         or= null      # a String of Pistachio
+    options.delegate          or= null      # a KDView Instance
+    options.bind              or= ""        # a String of space separated javascript dom events to be listened
+    options.draggable         or= null      # an Object holding draggable options and/or events !!! NOT HTML5 !!!
+    options.size              or= null      # an Object holding width and height properties
+    options.position          or= null      # an Object holding top/right/bottom/left properties (would force view to be positioned absolutely)
+    options.attributes        or= null      # an Object holding attribute key/value pairs e.g. {href:'#',title:'my picture'}
+    options.prefix            or= ""        # a String
+    options.suffix            or= ""        # a String
+    options.tooltip           or= null      # an Object of kdtooltip options
+    options.lazyLoadThreshold  ?= .75
     # TO BE IMPLEMENTED
-    o.resizable   or= null      # TBDL
-    super o, data
+    options.droppable         or= null      # TBDL
+    options.resizable         or= null      # TBDL
 
-    data?.on? 'update', @bound 'render'
+    super options, data
 
+    @getData()?.on? 'update', @bound 'render'
+
+    @defaultInit()
+    @devHacks()
+
+  defaultInit:->
+
+    options           = @getOptions()
     {@domId, @parent} = options
     @subViews         = []
 
-    @defaultInit options,data
-    @devHacks()
+    { cssClass, attributes, size, position
+      partial, draggable, pistachio, pistachioParams
+      lazyLoadThreshold, tooltip, draggable, tagName
+    } = options
 
-  defaultInit:(options, data)->
-
-    @setDomElement options.cssClass
+    @setDomElement cssClass
     @setDataId()
-    @setDomId options.domId               if options.domId
-    @setAttributes options.attributes     if options.attributes
-    @setSize options.size                 if options.size
-    @setPosition options.position         if options.position
-    @updatePartial options.partial        if options.partial
-    @setClass 'kddraggable'               if options.draggable
+    @setDomId @domId          if @domId
+    @setAttributes attributes if attributes
+    @setPosition position     if position
+    @updatePartial partial    if partial
+    @setClass 'kddraggable'   if draggable
 
     @addEventHandlers options
 
@@ -122,10 +127,9 @@ module.exports = class KDView extends KDObject
     #   @setTemplate options.pistachio, options.pistachioParams
     #   @template.update()
 
-    @setLazyLoader options.lazyLoadThreshold  if options.lazyLoadThreshold
-
-    @setTooltip options.tooltip      if options.tooltip
-    @setDraggable options.draggable  if options.draggable
+    @setLazyLoader lazyLoadThreshold  if lazyLoadThreshold
+    @setTooltip tooltip               if tooltip
+    @setDraggable draggable           if draggable
 
     @bindEvents()
 

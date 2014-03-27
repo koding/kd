@@ -911,8 +911,6 @@ module.exports = class KDView extends KDObject
 
   getTooltip:-> @tooltip
 
-  _windowDidResize:->
-
   listenWindowResize:(state=yes)->
 
     if state

@@ -1,5 +1,6 @@
 KDView             = require './../../core/view.coffee'
 KDViewController   = require './../../core/viewcontroller.coffee'
+KDScrollView       = require './../scrollview/scrollview.coffee'
 KDCustomScrollView = require './../scrollview/customscrollview.coffee'
 KDListView         = require './../list/listview.coffee'
 KDLoaderView       = require './../loader/loaderview.coffee'
@@ -8,15 +9,16 @@ module.exports = class KDListViewController extends KDViewController
 
   constructor:(options = {}, data)->
 
-    options.wrapper               ?= yes
-    options.scrollView            ?= yes
-    options.keyNav                ?= no
-    options.multipleSelection     ?= no
-    options.selection             ?= no
-    options.ownScrollBars         ?= no
-    options.startWithLazyLoader   ?= no
+    options.wrapper                ?= yes
+    options.scrollView             ?= yes
+    options.keyNav                 ?= no
+    options.multipleSelection      ?= no
+    options.selection              ?= no
+    options.ownScrollBars          ?= no
+    options.startWithLazyLoader    ?= no
     options.itemChildClass        or= null
     options.itemChildOptions      or= {}
+    options.useCustomScrollView    ?= no
     # rename these options
     options.noItemFoundWidget     or= null
     options.noMoreItemFoundWidget or= null
@@ -42,10 +44,13 @@ module.exports = class KDListViewController extends KDViewController
       @setListView listView = new KDListView viewOptions
 
     if options.scrollView
-      @customScrollView = new KDCustomScrollView
-        lazyLoadThreshold : options.lazyLoadThreshold
-        ownScrollBars     : options.ownScrollBars
-      @scrollView = @customScrollView.wrapper
+      if options.useCustomScrollView
+        @customScrollView = new KDCustomScrollView
+          lazyLoadThreshold : options.lazyLoadThreshold
+        @scrollView = @customScrollView.wrapper
+      else KDScrollView
+        @scrollView = new KDScrollView
+          lazyLoadThreshold : options.lazyLoadThreshold
 
     options.view = if options.wrapper
     then new KDView cssClass : "listview-wrapper"
@@ -76,7 +81,7 @@ module.exports = class KDListViewController extends KDViewController
     {windowController} = KD.singletons
 
     if scrollView
-      mainView.addSubView @customScrollView
+      mainView.addSubView @customScrollView or @scrollView
       @scrollView.addSubView @getListView()
       @showLazyLoader no  if startWithLazyLoader
 

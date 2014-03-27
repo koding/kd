@@ -225,7 +225,6 @@ module.exports = class KDView extends KDObject
   getTagName:-> @options.tagName || 'div'
 
   # shortcut method for @getDomElement()
-
   $:(selector)->
     if selector
     then @getDomElement().find(selector)
@@ -344,30 +343,6 @@ module.exports = class KDView extends KDObject
     @unsetClass 'hidden'
     # @$().show duration
     #@getDomElement()[0].style.display = "block"
-
-  # setSize: do->
-  #   counter = 0
-  #   isPredefinedSize = (size)->
-  #     # we have predefined classes for 0 to 1000px
-  #     return !isNaN(size) and (1000 >= size >= 0)
-
-  #   (sizes)->
-  #     if sizes.width?
-  #       if isPredefinedSize sizes.width
-  #       then @setClass "w#{sizes.width}"
-  #       else @setWidth sizes.width
-
-  #     if sizes.height?
-  #       if isPredefinedSize sizes.height
-  #       then @setClass "h#{sizes.height}"
-  #       else @setHeight  sizes.height
-
-  setSize: (sizes)->
-    if sizes.width?
-      @setWidth sizes.width
-
-    if sizes.height?
-      @setHeight sizes.height
 
   setPosition:->
     positionOptions = @getOptions().position

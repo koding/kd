@@ -22,9 +22,10 @@ module.exports = class KDScrollView extends KDView
 
     super
 
+  hasScrollBars:-> @hasVerticalScrollBars() or @hasHorizontalScrollBars()
 
-  hasScrollBars:-> @getScrollHeight() > @getHeight()
-
+  hasVerticalScrollBars:->   @getScrollHeight() > @getHeight()
+  hasHorizontalScrollBars:-> @getScrollWidth()  > @getWidth()
 
   getScrollHeight:-> @getElement().scrollHeight
   getScrollWidth:->  @getElement().scrollWidth

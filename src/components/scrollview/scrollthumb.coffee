@@ -32,9 +32,9 @@ module.exports = class KDScrollThumb extends KDView
 
   handleMutation:->
 
-    @scrollSize = null
+    @resetSizes()
     @calculateSize()
-
+    @calculatePosition()
 
   handleDrag:->
 
@@ -109,13 +109,12 @@ module.exports = class KDScrollThumb extends KDView
     @trackSize  = @getTrackSize()
     @scrollSize = @getScrollSize()
 
-    log @trackSize, @scrollSize
-
     if @trackSize >= @scrollSize
     then @track.hide()
     else @track.show()
 
-    @setSize @trackSize * @trackSize / @scrollSize
+    size = @trackSize * @trackSize / @scrollSize
+    @setSize size
 
 
   calculatePosition:(event)->
@@ -125,4 +124,6 @@ module.exports = class KDScrollThumb extends KDView
     @setOffset @getTrackSize() * ratio
 
 
-  _windowDidResize:-> @resetSizes()
+  # I assume, this would fire a lot
+  # we may throttle this in case - SY
+  _windowDidResize: -> @handleMutation()

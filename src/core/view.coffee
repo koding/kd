@@ -86,7 +86,7 @@ module.exports = class KDView extends KDObject
     options.prefix            or= ""        # a String
     options.suffix            or= ""        # a String
     options.tooltip           or= null      # an Object of kdtooltip options
-    options.lazyLoadThreshold  ?= .75
+    options.lazyLoadThreshold  ?= no
     # TO BE IMPLEMENTED
     options.droppable         or= null      # TBDL
     options.resizable         or= null      # TBDL
@@ -505,8 +505,13 @@ module.exports = class KDView extends KDObject
       (subView.parentDidResize(parent,event) for subView in @getSubViews())
 
   # if threshold is greater than 1 it is treated as pixel value
-  setLazyLoader:(threshold=.75)->
-    @getOptions().bind += ' scroll' unless /\bscroll\b/.test @getOptions().bind
+  setLazyLoader:(threshold = .75)->
+
+    {bind} = @getOptions()
+
+    unless /scroll/.test bind
+      @getOptions().bind = KD.utils.curry 'scroll', bind
+
     view = this
     @on 'scroll', do ->
       lastRatio = 0

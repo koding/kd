@@ -85,39 +85,41 @@ h4.kdheaderview
 /*
 **  KDSplitView STYLES
 */
-.kdsplitview
-  rel()
-  size        100%,100%
+body.resize-in-action
+  overflow          hidden !important
+
+  .kdsplitview
   .kdsplitview-panel
-    overflow auto
-  >.kdsplitview-resizer
-    left 0
-    top 0
+    overflow        hidden !important
+
+.kdsplitview
+
+  .kdsplitview-panel
+    overflow        auto
     abs()
-    z-index 9999
+
+  >.kdsplitview-resizer
+    left            0
+    top             0
+    z-index         1
+    bg              color transparent
     noTextSelection()
-    &:hover
-      background-color rgba(0,0,0,.2)
+    abs()
+
   &.min-width-reached
     overflow auto
 
 .kdsplitview-vertical
-  >.kdsplitview-panel
-    abs()
-    size(50%,100%)
+
   >.kdsplitview-resizer
-    cursor ew-resize
-    background rgba(0,0,0,.1) url("../images/left.resizer.ver.png") no-repeat 50% 50%
-    size(10px,100%)
+    cursor          ew-resize
+    size            10px 100%
 
 .kdsplitview-horizontal
-  >.kdsplitview-panel
-    abs()
-    size(100%,50%)
+
   >.kdsplitview-resizer
-    cursor ns-resize
-    background rgba(0,0,0,.1) url("../images/left.resizer.hor.png") no-repeat 50% 50%
-    size(100%,10px)
+    cursor          ns-resize
+    size            100% 10px
 
 .resize-in-action
   noTextSelection()

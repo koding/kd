@@ -141,8 +141,8 @@ module.exports =
     if prefix? then "#{prefix}#{id}" else id
 
   getRandomRGB :->
-    {getRandomNumber} = @
-    "rgb(#{getRandomNumber(255)},#{getRandomNumber(255)},#{getRandomNumber(255)})"
+    fn = @getRandomNumber
+    return "rgb(#{fn 255},#{fn 255},#{fn 255})"
 
   getRandomHex : ->
     # hex = (Math.random()*0xFFFFFF<<0).toString(16)

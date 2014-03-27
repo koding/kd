@@ -4,85 +4,54 @@ module.exports = class KDSplitViewPanel extends KDScrollView
 
   constructor:(options = {}, data)->
 
-    options.fixed    ?= no
-    options.minimum or= null
-    options.maximum or= null
-    options.view    or= null
+    options.fixed  ?= no
+    options.view  or= null
 
-    super options,data
+    super options, data
 
-    @isVertical = @getOptions().type.toLowerCase() is "vertical"
-    @isFixed    = @getOptions().fixed
+    {type} = @getOptions()
 
-    {@size, @minimum, @maximum} = @options
+    @vertical = type.toLowerCase() is "vertical"
 
-  _getIndex:-> @parent.getPanelIndex @
+    {@fixed, @size, @index} = @getOptions()
 
-  _getSize:-> if @isVertical then @getWidth() else @getHeight()
+
+  _getSize:-> if @vertical then @getWidth() else @getHeight()
+
 
   _setSize:(size)->
     if @_wouldResize size
       size = 0 if size < 0
-      if @isVertical then @setWidth size else @setHeight size
-      @parent.sizes[@_getIndex()] = @size = size
-      @parent.emit "PanelDidResize", panel: @
+      if @vertical then @setWidth size else @setHeight size
+      @parent.sizes[@index] = @size = size
+      @parent.emit "PanelDidResize", panel : this
       @emit "PanelDidResize", newSize : size
       size
     else
       no
 
   _wouldResize:(size)->
-    @minimum ?= -1
-    @maximum ?= 99999
-    # log size,@minimum,@maximum if @parent.options.domId is "content-area-split-view"
-    if size > @minimum and size < @maximum
-      # log size,@parent.options.domId
-      yes
+    minimum = @parent.minimums[@index] ? 0
+    maximum = @parent.maximums[@index] ? 999999
+
+    if maximum >= size >= minimum
+    then yes
     else
-      if size < @minimum
-        @parent._panelReachedMinimum @_getIndex()
-      else if size > @maximum
-        @parent._panelReachedMaximum @_getIndex()
+      if size < minimum
+        @parent._panelReachedMinimum @index
+      else if size > maximum
+        @parent._panelReachedMaximum @index
       no
 
+
   _setOffset:(offset)->
-    offset = 0 if offset < 0
-    if @isVertical then @$().css(left : offset) else @$().css(top : offset)
-    @parent.panelsBounds[@_getIndex()] = offset
+
+    offset = Math.max offset, 0
+    if @vertical then @setX offset else @setY offset
+
 
   _getOffset:->
-    if @isVertical then @getRelativeX() else @getRelativeY()
 
-  _animateTo:(size, offset, callback)->
-    if "undefined" is typeof callback and "function" is typeof offset then callback = offset
-    callback or= noop
-
-    panel = @
-    d     = panel.parent.options.duration
-    cb    = ->
-      newSize = panel._getSize()
-      panel.parent.sizes[panel.index] = panel.size = newSize
-      panel.parent.emit "PanelDidResize", panel: panel
-      panel.emit "PanelDidResize", newSize : newSize
-      callback.call panel
-
-
-    properties = {}
-    size = 0 if size < 0
-    if panel.isVertical
-      properties.width  = size
-      properties.left   = offset if offset?
-    else
-      properties.height = size
-      properties.top    = offset if offset?
-
-    options =
-      duration : d
-      complete : cb
-      # step     : (newSize)-> panel.parent.emit "PanelIsBeingResized", {
-      #   panel
-      #   newSize
-      # }
-
-    panel.$().stop()
-    panel.$().animate properties,options
+    if @vertical
+    then parseInt @getElement().style.left, 10
+    else parseInt @getElement().style.top, 10

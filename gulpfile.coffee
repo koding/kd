@@ -178,7 +178,6 @@ gulp.task 'watch-playground', ->
   watcher = gulp.watch [
     './playground/**/*.coffee'
     './playground/**/*.html'
-    './playground/**/*.styl'
   ], ['play']
 
   watchLogger 'blue', watcher

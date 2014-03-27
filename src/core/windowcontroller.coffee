@@ -39,7 +39,6 @@ module.exports = class KDWindowController extends KDController
     @focusListeners        = []
 
     @bindEvents()
-    @setWindowProperties()
 
     super options, data
 
@@ -62,9 +61,7 @@ module.exports = class KDWindowController extends KDController
 
     $(window).bind @keyEventsToBeListened.join(' '), @bound "key"
 
-    $(window).bind "resize", (event)=>
-      @setWindowProperties event
-      @notifyWindowResizeListeners event
+    window.addEventListener "resize", @bound 'notifyWindowResizeListeners'
 
     document.addEventListener 'scroll', do =>
       timer  = null
@@ -289,20 +286,11 @@ module.exports = class KDWindowController extends KDController
   unregisterWindowResizeListener:(instance)->
     delete @windowResizeListeners[instance.id]
 
-  setWindowProperties:(event)->
-    @winWidth  = window.innerWidth
-    @winHeight = window.innerHeight
-
-  notifyWindowResizeListeners:(event, throttle = no, duration = 17)->
+  notifyWindowResizeListeners: (event)->
     event or= type : "resize"
-    fireResizeHandlers = =>
-      for own key, instance of @windowResizeListeners when instance._windowDidResize
-        instance._windowDidResize event
-    if throttle
-      KD.utils.killWait @resizeNotifiersTimer
-      @resizeNotifiersTimer = KD.utils.wait duration, fireResizeHandlers
-    else do fireResizeHandlers
+    for own key, inst of @windowResizeListeners when inst._windowDidResize
+      inst._windowDidResize event
 
 do ->
-  KD           = require './kd.coffee'
+  KD = require './kd.coffee'
   KD.registerSingleton "windowController", new KDWindowController

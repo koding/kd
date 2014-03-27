@@ -1,8 +1,8 @@
-KDView           = require './../../core/view.coffee'
-KDViewController = require './../../core/viewcontroller.coffee'
-KDScrollView     = require './../scrollview/scrollview.coffee'
-KDListView       = require './../list/listview.coffee'
-KDLoaderView     = require './../loader/loaderview.coffee'
+KDView             = require './../../core/view.coffee'
+KDViewController   = require './../../core/viewcontroller.coffee'
+KDCustomScrollView = require './../scrollview/customscrollview.coffee'
+KDListView         = require './../list/listview.coffee'
+KDLoaderView       = require './../loader/loaderview.coffee'
 
 module.exports = class KDListViewController extends KDViewController
 
@@ -42,9 +42,10 @@ module.exports = class KDListViewController extends KDViewController
       @setListView listView = new KDListView viewOptions
 
     if options.scrollView
-      @scrollView = new KDScrollView
+      @customScrollView = new KDCustomScrollView
         lazyLoadThreshold : options.lazyLoadThreshold
         ownScrollBars     : options.ownScrollBars
+      @scrollView = @customScrollView.wrapper
 
     options.view = if options.wrapper
     then new KDView cssClass : "listview-wrapper"
@@ -65,21 +66,29 @@ module.exports = class KDListViewController extends KDViewController
     if options.keyNav
       listView.on 'KeyDownOnList', (event)=> @keyDownPerformed listView, event
 
-  loadView:(mainView)->
+  loadView: (mainView) ->
 
-    options = @getOptions()
-    if options.scrollView
-      mainView.addSubView @scrollView
+    { scrollView
+      startWithLazyLoader
+      noItemFoundWidget
+    } = @getOptions()
+
+    {windowController} = KD.singletons
+
+    if scrollView
+      mainView.addSubView @customScrollView
       @scrollView.addSubView @getListView()
-      if options.startWithLazyLoader
-        @showLazyLoader no
+      @showLazyLoader no  if startWithLazyLoader
+
       @scrollView.on 'LazyLoadThresholdReached', @bound "showLazyLoader"
 
-    if options.noItemFoundWidget
-      @putNoItemView()
+    @putNoItemView()  if noItemFoundWidget
 
-    @instantiateListItems(@getData()?.items or [])
-    KD.getSingleton("windowController").on "ReceivedMouseUpElsewhere", (event)=> @mouseUpHappened event
+    @instantiateListItems @getData()?.items or []
+
+    windowController.on "ReceivedMouseUpElsewhere", @bound 'mouseUpHappened'
+
+
 
   instantiateListItems:(items)->
     newItems = for itemData in items

@@ -9,9 +9,12 @@ module.exports = class KDCustomScrollView extends KDCustomHTMLView
 
   constructor:(options = {}, data)->
 
-    options.naturalScroll   ?= yes
-    options.cssClass         = KD.utils.curry 'kdcustomscrollview', options.cssClass
-    options.mouseWheelSpeed ?= 3
+    options.cssClass          = KD.utils.curry 'kdcustomscrollview', options.cssClass
+    options.mouseWheelSpeed  ?= 3
+
+    # we don't need it here but on the actual scrollview
+    {lazyLoadThreshold}       = options
+    options.lazyLoadThreshold = null
 
     super options, data
 
@@ -19,11 +22,13 @@ module.exports = class KDCustomScrollView extends KDCustomHTMLView
 
     @wrapper = new KDCustomScrollViewWrapper {
       tagName  : 'main'
+      lazyLoadThreshold
       mouseWheelSpeed
     }
 
     @verticalTrack   = new KDScrollTrack delegate : @wrapper
     @horizontalTrack = new KDScrollTrack delegate : @wrapper, type : 'horizontal'
+
     @wrapper.verticalThumb   = @verticalTrack.thumb
     @wrapper.horizontalThumb = @horizontalTrack.thumb
 

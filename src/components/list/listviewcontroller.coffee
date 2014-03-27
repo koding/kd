@@ -89,10 +89,9 @@ module.exports = class KDListViewController extends KDViewController
     windowController.on "ReceivedMouseUpElsewhere", @bound 'mouseUpHappened'
 
 
+  instantiateListItems: (items) ->
 
-  instantiateListItems:(items)->
-    newItems = for itemData in items
-      @getListView().addItem itemData
+    newItems = (@getListView().addItem itemData for itemData in items)
 
     @emit "AllItemsAddedToList"
 

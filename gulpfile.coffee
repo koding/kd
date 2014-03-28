@@ -188,8 +188,8 @@ gulp.task 'watch-playground', ->
 
 gulp.task 'clean', ->
 
-  gulp.src ["build","playground/{js,css}"]
-    .pipe clean()
+  gulp.src ["build", "playground/{js,css}"], read : false
+    .pipe clean force : true
 
 
 

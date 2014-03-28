@@ -700,7 +700,10 @@ module.exports = class KDView extends KDObject
       dragState = @dragState
 
       if options.containment
+
         dragState.containment = {}
+        dragState.containment.m = w: @getWidth(), h: @getHeight()
+
         {view} = options.containment
 
         bounds = if 'string' is typeof view
@@ -789,7 +792,7 @@ module.exports = class KDView extends KDObject
       newY = if targetPosY is 'top'  then dragMeta.top  + dragRelPos.y else dragMeta.bottom - dragRelPos.y
 
       if containment
-        m  = w: @getWidth(), h: @getHeight()  # My sizes
+        m  = containment.m                    # My sizes
         p  = containment.viewBounds           # Containment's sizes
         cp = containment.padding              # Containment paddings
         if newX <= cp.left then newX = cp.left

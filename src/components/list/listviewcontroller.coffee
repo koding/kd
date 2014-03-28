@@ -48,7 +48,7 @@ module.exports = class KDListViewController extends KDViewController
         @customScrollView = new KDCustomScrollView
           lazyLoadThreshold : options.lazyLoadThreshold
         @scrollView = @customScrollView.wrapper
-      else KDScrollView
+      else
         @scrollView = new KDScrollView
           lazyLoadThreshold : options.lazyLoadThreshold
 

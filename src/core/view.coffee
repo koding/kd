@@ -410,7 +410,8 @@ module.exports = class KDView extends KDObject
     view.destroy?() for view in @getSubViews().slice()
     return
 
-  addSubView:(subView,selector,shouldPrepend)->
+  addSubView: (subView, selector, shouldPrepend) ->
+
     throw new Error 'no subview was specified' unless subView?
 
     # this is a performance killer

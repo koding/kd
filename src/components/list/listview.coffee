@@ -1,4 +1,5 @@
-KDView = require './../../core/view.coffee'
+KDView           = require './../../core/view.coffee'
+KDCustomHTMLView = require './../../core/customhtmlview.coffee'
 
 module.exports = class KDListView extends KDView
 
@@ -6,11 +7,18 @@ module.exports = class KDListView extends KDView
 
     options.type        or= "default"
     options.lastToFirst  ?= no
+    options.boxed        ?= no
+    options.itemsPerBox  ?= 10
     options.cssClass      = if options.cssClass? then "kdlistview kdlistview-#{options.type} #{options.cssClass}" else "kdlistview kdlistview-#{options.type}"
 
     super options, data
 
     @items = []
+    @boxes = []
+
+    if @getOptions().boxed
+      @on 'viewAppended', =>
+        @parent.on 'scroll', @bound 'handleScroll'
 
 
   empty: ->
@@ -103,41 +111,80 @@ module.exports = class KDListView extends KDView
 
   appendItemAtIndex: (itemInstance, index = 0) ->
 
-    itemInstance.setParent @
 
-    scroll        = @doIHaveToScroll()
-    {lastToFirst} = @getOptions()
-    $item         = itemInstance.$()
+    {
+      lastToFirst
+      boxed
+    } = @getOptions()
+
 
     if index is 0
-
-      if lastToFirst
-      then @$().prepend $item
-      else @$().append $item
+      if boxed
+        @packageItem itemInstance
+      else
+        @addSubView itemInstance, null, lastToFirst
 
     else if index > 0
 
+      item = itemInstance.getElement()
+
       if lastToFirst
         index = @items.length - index - 2
-        @items[index].$().before $item
+        node  = @items[index].getElement()
+        node.parentNode.insertBefore item, node
       else
         index -= 1
-        @items[index].$().after  $item
+        node   = @items[index].getElement()
+        node.parentNode.insertBefore item, node.nextSibling
 
-    @scrollDown() if scroll
-
-    itemInstance.emit 'viewAppended'  if @parentIsInDom
-
-    null
+      itemInstance.emit 'viewAppended'  if @parentIsInDom
 
 
-  getItemIndex:(targetItem)->
+    @scrollDown()  if @doIHaveToScroll()
+
+
+  packageItem: (itemInstance) ->
+
+    {
+      lastToFirst
+      itemsPerBox
+    } = @getOptions()
+
+    operation = if lastToFirst then 'prepend' else 'append'
+    newBox    = =>
+      box = @createBox()
+      box.addSubView itemInstance
+
+    if @boxes.last
+      items = @boxes.last.subViews.filter (item)-> item instanceof KDListItemView
+      if items.length < itemsPerBox
+      then @boxes.last.addSubView itemInstance, null, lastToFirst
+      else newBox()
+    else newBox()
+
+
+  createBox: ->
+
+    @boxes.push box = new KDCustomHTMLView tagName : 'section'
+    @addSubView box
+    return box
+
+
+  handleScroll:->
+
+    log 'scrollaki'
+    log @boxes
+
+
+
+
+  getItemIndex: (targetItem) ->
     for item, index in @items
       return index if item is targetItem
     return -1
 
 
-  moveItemToIndex:(item, newIndex)->
+  moveItemToIndex: (item, newIndex) ->
 
     currentIndex = @getItemIndex item
     if currentIndex < 0

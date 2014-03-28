@@ -22,6 +22,8 @@ module.exports = class KDListViewController extends KDViewController
     # rename these options
     options.noItemFoundWidget     or= null
     options.noMoreItemFoundWidget or= null
+    options.boxed                  ?= no
+    options.itemsPerBox            ?= 10
 
     @itemsOrdered                 = [] unless @itemsOrdered
     # CtF: this must be fixed: duplicate itemsOrdered and KDListView.items
@@ -40,6 +42,8 @@ module.exports = class KDListViewController extends KDViewController
       viewOptions.itemOptions      or= options.itemOptions
       viewOptions.itemChildClass   or= options.itemChildClass
       viewOptions.itemChildOptions or= options.itemChildOptions
+      viewOptions.boxed             ?= options.boxed
+      viewOptions.itemsPerBox       ?= options.itemsPerBox
 
       @setListView listView = new KDListView viewOptions
 

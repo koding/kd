@@ -147,11 +147,12 @@ module.exports = class KDListViewController extends KDViewController
   addItem: (itemData, index) ->
 
 
-  removeItem:(itemInstance, itemData, index)->
+  removeItem: (itemInstance, itemData, index) ->
 
     @getListView().removeItem itemInstance, itemData, index
 
-  registerItem:(view, index)->
+
+  registerItem: (view, index) ->
 
     options = @getOptions()
 
@@ -170,7 +171,7 @@ module.exports = class KDListViewController extends KDViewController
       view.on "mousedown", (event)=> @mouseDownHappenedOnItem view, event
       view.on "mouseenter", (event)=> @mouseEnterHappenedOnItem view, event
 
-  unregisterItem:(itemInfo)->
+  unregisterItem: (itemInfo) ->
 
     @emit "UnregisteringItem", itemInfo
     {index, view} = itemInfo
@@ -179,12 +180,12 @@ module.exports = class KDListViewController extends KDViewController
     if view.getData()?
       delete @itemsIndexed[view.getItemDataId()]
 
-  replaceAllItems:(items)->
+  replaceAllItems: (items) ->
 
     @removeAllItems()
     @instantiateListItems items
 
-  removeAllItems:->
+  removeAllItems: ->
 
     {itemsOrdered}  = @
     @itemsOrdered.length = 0
@@ -195,7 +196,7 @@ module.exports = class KDListViewController extends KDViewController
 
     return itemsOrdered
 
-  moveItemToIndex:(item, newIndex)->
+  moveItemToIndex: (item, newIndex) ->
 
     newIndex = Math.max(0, Math.min(@itemsOrdered.length-1, newIndex))
     @itemsOrdered = @getListView().moveItemToIndex(item, newIndex).slice()
@@ -204,7 +205,7 @@ module.exports = class KDListViewController extends KDViewController
   HANDLING MOUSE EVENTS
   ###
 
-  mouseDownHappenedOnItem:(item, event)->
+  mouseDownHappenedOnItem: (item, event) ->
     KD.getSingleton("windowController").setKeyView @getListView() if @getOptions().keyNav
 
     @lastEvent = event
@@ -221,13 +222,13 @@ module.exports = class KDListViewController extends KDViewController
       @mouseDown = no
       @mouseDownTempItem = null
 
-  mouseUpHappened:(event)->
+  mouseUpHappened: (event) ->
 
     clearTimeout @mouseDownTimer
     @mouseDown = no
     @mouseDownTempItem = null
 
-  mouseEnterHappenedOnItem:(item, event)->
+  mouseEnterHappenedOnItem: (item, event) ->
 
     clearTimeout @mouseDownTimer
     if @mouseDown
@@ -240,7 +241,7 @@ module.exports = class KDListViewController extends KDViewController
   HANDLING KEY EVENTS
   ###
 
-  keyDownPerformed:(mainView, event)->
+  keyDownPerformed: (mainView, event) ->
 
     switch event.which
       when 40, 38
@@ -253,7 +254,7 @@ module.exports = class KDListViewController extends KDViewController
 
   # bad naming because of backwards compatibility i didn't
   # change the method name during refactoring - Sinan 10 May 2012
-  selectItem:(item, event = {})->
+  selectItem: (item, event = {}) ->
 
     return unless item?
 
@@ -278,7 +279,7 @@ module.exports = class KDListViewController extends KDViewController
 
     return @selectedItems
 
-  selectItemBelowOrAbove:(event)->
+  selectItemBelowOrAbove: (event) ->
 
     direction         = if event.which is 40 then "down" else "up"
     addend            = if event.which is 40 then 1 else -1

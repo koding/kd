@@ -144,9 +144,8 @@ module.exports = class KDListViewController extends KDViewController
   ITEM OPERATIONS
   ###
 
-  addItem:(itemData, index, animation)->
+  addItem: (itemData, index) ->
 
-    @getListView().addItem itemData, index, animation
 
   removeItem:(itemInstance, itemData, index)->
 

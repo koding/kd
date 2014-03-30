@@ -146,8 +146,14 @@ module.exports = class KDListViewController extends KDViewController
 
   addItem: (itemData, index) ->
 
+    return unless itemData or index?
+
+    @getListView().addItem itemData, index
+
 
   removeItem: (itemInstance, itemData, index) ->
+
+    return unless itemInstance or itemData or index?
 
     @getListView().removeItem itemInstance, itemData, index
 

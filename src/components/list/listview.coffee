@@ -1,5 +1,5 @@
-KDView           = require './../../core/view.coffee'
-KDCustomHTMLView = require './../../core/customhtmlview.coffee'
+KDView        = require './../../core/view'
+KDListViewBox = require './listviewbox'
 
 module.exports = class KDListView extends KDView
 
@@ -165,15 +165,33 @@ module.exports = class KDListView extends KDView
 
   createBox: ->
 
-    @boxes.push box = new KDCustomHTMLView tagName : 'section'
+    @boxes.push box = new KDListViewBox
     @addSubView box
+    box.on 'HeightChanged', (height) => @updateBoxProps box, height
+    box.on 'BoxIsEmptied', (id)=>
+
+      index = null
+      for b, i in @boxes when b.getId() is id
+        index = i
+        break
+      @boxes.splice(index, 1)[0].destroy()  if index?
+
+
     return box
 
 
+  updateBoxProps: (box, height) ->
+
+    # log @boxes.indexOf(box), height
+
+  # handle vertical and horizontal scrolls separately - SY
   handleScroll:->
 
-    log 'scrollaki'
-    log @boxes
+    # log box.size for box in @boxes
+    # log @parent.fractionOfHeightBelowFold view : @boxes.first
+
+    # log 'scrollaki'
+    # log @boxes
 
 
 

@@ -1,4 +1,4 @@
-KDScrollView         = require './../../core/scrollview.coffee'
+KDScrollView         = require './../scrollview/scrollview.coffee'
 KDTabHandleContainer = require './tabhandlecontainer.coffee'
 KDTabHandleMoveNav   = require './tabhandlemovenav.coffee'
 

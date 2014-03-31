@@ -1,5 +1,5 @@
 KDContentEditableView = require './contenteditableview.coffee'
-JContextMenu          = require './../contextmenu/contextmenu.coffee'
+KDContextMenu         = require './../contextmenu/contextmenu.coffee'
 
 module.exports = class KDTokenizedInput extends KDContentEditableView
   constructor: (options = {}, data) ->
@@ -106,7 +106,7 @@ module.exports = class KDTokenizedInput extends KDContentEditableView
     options.x = pos.left
     options.y = pos.top + parseInt window.getComputedStyle(@tokenInput).lineHeight, 10
 
-    @menu = new JContextMenu options, data
+    @menu = new KDContextMenu options, data
     @menu.on "ContextMenuItemReceivedClick", @bound "menuItemClicked"
 
   hideMenu: ->

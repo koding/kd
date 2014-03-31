@@ -1,6 +1,6 @@
 KDView           = require './../../core/view.coffee'
-KDScrollView     = require './../../core/scrollview.coffee'
 KDViewController = require './../../core/viewcontroller.coffee'
+KDScrollView     = require './../scrollview/scrollview.coffee'
 KDListView       = require './../list/listview.coffee'
 KDLoaderView     = require './../loader/loaderview.coffee'
 
@@ -12,7 +12,8 @@ module.exports = class KDListViewController extends KDViewController
     options.scrollView            ?= yes
     options.keyNav                ?= no
     options.multipleSelection     ?= no
-    options.selection             ?= yes
+    options.selection             ?= no
+    options.ownScrollBars         ?= no
     options.startWithLazyLoader   ?= no
     options.itemChildClass        or= null
     options.itemChildOptions      or= {}

@@ -403,6 +403,12 @@ module.exports = class KDView extends KDObject
 # ADD/DESTROY VIEW INSTANCES
 # #
 
+  attach:(view) ->
+    @getElement().appendChild view.getElement()
+
+  detach: ->
+    @parent?.getElement().removeChild @getElement()
+
   destroy: ->
 
     # good idea but needs some refactoring see KDObject::destroy
@@ -714,7 +720,10 @@ module.exports = class KDView extends KDObject
       dragState = @dragState
 
       if options.containment
+
         dragState.containment = {}
+        dragState.containment.m = w: @getWidth(), h: @getHeight()
+
         {view} = options.containment
 
         bounds = if 'string' is typeof view
@@ -803,7 +812,7 @@ module.exports = class KDView extends KDObject
       newY = if targetPosY is 'top'  then dragMeta.top  + dragRelPos.y else dragMeta.bottom - dragRelPos.y
 
       if containment
-        m  = w: @getWidth(), h: @getHeight()  # My sizes
+        m  = containment.m                    # My sizes
         p  = containment.viewBounds           # Containment's sizes
         cp = containment.padding              # Containment paddings
         if newX <= cp.left then newX = cp.left
@@ -842,6 +851,21 @@ module.exports = class KDView extends KDObject
 # #
 # HELPER METHODS
 # #
+
+  observeMutations: ->
+
+    MutationSummary = require './../../libs/mutation-summary.js'
+
+    MutationObserver = window.MutationObserver or window.WebKitMutationObserver or window.MozMutationObserver
+
+    observerSummary = new MutationSummary
+      callback : (rest)=> @emit 'MutationHappened', rest...
+      rootNode : @getElement()
+      queries  : [
+        { all  : true }
+      ]
+
+
 
   putOverlay: (options = {}) ->
     options.delegate = this

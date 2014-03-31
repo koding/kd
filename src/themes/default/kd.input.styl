@@ -14,21 +14,59 @@ label.kdlabel
 
 input.kdinput.text
 textarea.kdinput.text
-  display             block
+  size                100%, 44px
+  z-index             1
+  padding             14px
+  color               #3E4F55
+  font-size           16px
+  line-height         17px
+  font-weight         300
+  rounded             6px
+  text-align          left
+  bg                  color, #f4f4f4
   border              1px solid #d7d7d7
   outline             none
-  height              24px
-  line-height         24px
-  padding             0 4px
-  bg                  color,white
-  rounded             4px
-  shadow              0 1px 0 white
   borderBox()
+  rel()
+
+  &.big
+    height            55px
+    padding           19px
+
+  &.medium
+    height            44px
+    padding           14px 14px
+
+  &.small
+    height            24px
+    padding           6px
+    font-size         12px
+    line-height       12px
+
   &:hover
     border            1px solid #aaa
   &:focus
     border            1px solid rgba(125,190,241,1)
     shadow            0 0 3px rgba(125,190,241,.7)
+
+  &.validation-error
+    border            1px solid #F13A18
+
+  &::-webkit-input-placeholder
+    color               #93979a
+    font-weight         300
+  &:-moz-placeholder
+    color               #93979a
+    font-weight         300
+
+  &[readonly=true]
+    opacity             .5
+
+.kdinput:focus
+  &::-webkit-input-placeholder
+    opacity 0.5
+  &:-moz-placeholder
+    opacity 0.5
 
 textarea.kdinput.text
   height              auto
@@ -55,10 +93,6 @@ label.kdlabel
     font-size         11px
     text-transform    none
     text-decoration   underline
-
-input.kdinput.text.validation-error
-textarea.kdinput.text.validation-error
-  border-color red
 
 input.kdinput.checkbox
   &:focus
@@ -94,13 +128,18 @@ KDInputView > KDSelectBox styles
 }
 
 div.kdselectbox
-  rel()
+  background          #fff
+  border              1px solid #d7d7d7
+  border-radius       6px
+  height              32px
   z-index             100
   overflow            hidden
   display             inline-block
   vertical-align      middle
   padding             0
   white-space         nowrap
+  rel()
+
   &.focus
     outline           none
 
@@ -116,6 +155,11 @@ div.kdselectbox
     z-index           100
 
   span.title
+    font-size         12px
+    font-weight       200
+    color             #606060
+    line-height       34px
+    padding           0 40px 0 15px
     display           block
     text-decoration   none
     z-index           0
@@ -123,6 +167,11 @@ div.kdselectbox
   span.arrows
     abs()
     z-index           0
+    width             12px
+    height            15px
+    bg                image, url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAPCAYAAADQ4S5JAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyNpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDIxIDc5LjE1NDkxMSwgMjAxMy8xMC8yOS0xMTo0NzoxNiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OEUyMjU2QTM5NkNCMTFFM0I3RTREQTIwRjcxRTYzMjAiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OEUyMjU2QTI5NkNCMTFFM0I3RTREQTIwRjcxRTYzMjAiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChNYWNpbnRvc2gpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6OEM1MDQ4RTU4MjNCMTFFM0IxMTNGNzk5NDUxRUEzRkEiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6OEM1MDQ4RTY4MjNCMTFFM0IxMTNGNzk5NDUxRUEzRkEiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz7ihDfZAAAAb0lEQVR42pSSAQoAIQgETfz36V/rHR4cBWV62UJUtGOxRrVWcPT0WewBBWae9guEBzNPt22ANbsQHswbRAnzDEEJUgpVVPUKoNbaFYD9bZocPABJFJcBQAKSkRKa2OTP7H0NC4ntEUUNctafXgEGAD/kKSLY5c2uAAAAAElFTkSuQmCC')
+    top               9px
+    right             6px
 
 .kd-radio-holder
 .kd-checkbox-holder

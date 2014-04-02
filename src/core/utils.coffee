@@ -454,12 +454,6 @@ module.exports =
     arr = arr.filter Boolean  if filterEmpty
     return arr
 
-  objectToArray: (options)->
-    for key, option of options
-      option.title ?= key
-      option.key    = key
-      option
-
   arrayToObject: (list, key) ->
     dict = {}
     dict[obj[key]] = obj for obj in list when obj[key]?

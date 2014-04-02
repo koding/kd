@@ -17,7 +17,7 @@ module.exports = class KDFormViewWithFields extends KDFormView
 
     {fields,buttons} = @getOptions()
 
-    @createFields @utils.objectToArray fields  if fields
+    @createFields KDFormView.sanitizeFormOptions fields  if fields
 
     if buttons
       @createButtons buttons

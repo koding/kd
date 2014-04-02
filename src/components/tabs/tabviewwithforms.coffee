@@ -17,7 +17,7 @@ module.exports = class KDTabViewWithForms extends KDTabView
     {forms} = @getOptions()
 
     if forms
-      @createTabs forms = @utils.objectToArray forms
+      @createTabs forms = KDFormViewWithFields.sanitizeFormOptions forms
       @showPane @panes[0]
 
     if forms.length is 1

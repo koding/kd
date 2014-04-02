@@ -14,6 +14,11 @@ module.exports = class KDFormView extends KDView
 
     return inputs
 
+  @sanitizeFormOptions = (options) ->
+    for key, option of options
+      option.title ?= key
+      option.key    = key
+      option
 
   ###
   INSTANCE LEVEL

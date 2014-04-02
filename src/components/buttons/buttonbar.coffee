@@ -1,5 +1,6 @@
 KDView = require './../../core/view.coffee'
 KDButtonView = require './buttonview'
+KDFormView = require '../forms/formview.coffee'
 
 module.exports = class KDButtonBar extends KDView
   constructor: (options = {}, data) ->
@@ -11,7 +12,7 @@ module.exports = class KDButtonBar extends KDView
 
     { buttons } = options
 
-    for buttonOptions in @utils.objectToArray buttons
+    for buttonOptions in KDFormView.sanitizeFormOptions buttons
       button = @createButton buttonOptions
       @addSubView button
       @buttons[buttonOptions.key] = button

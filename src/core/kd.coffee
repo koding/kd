@@ -65,7 +65,7 @@ window.KD = $.extend (window.KD), do ->
       else
         error "KD.singletons[\"#{singletonName}\"] singleton exists! if you want to override set override param to true]"
         KD.singletons[singletonName]
-      KDObject.emit "singleton.#{singletonName}.registered"
+      # KDObject.emit "singleton.#{singletonName}.registered"
     else
       # log "singleton registered! KD.singletons[\"#{singletonName}\"]"
       KD.singletons[singletonName] = object

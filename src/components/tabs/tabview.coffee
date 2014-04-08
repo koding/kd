@@ -61,7 +61,7 @@ module.exports = class KDTabView extends KDScrollView
     for paneOptions in paneData
       @addPane new @tabConstructor paneOptions, null
 
-  addPane:(paneInstance, shouldShow=yes)->
+  addPane:(paneInstance, shouldShow = yes)->
 
     if paneInstance instanceof KDTabPaneView
 

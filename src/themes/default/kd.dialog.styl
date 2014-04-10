@@ -4,14 +4,18 @@
 **  KDInput STYLES
 */
 .kdview.kddialogview
+  top                 -100%
+  margin              0 10%
+  z-index             10001
+  bg                  color browser-bg
+  size                80% auto
+  rounded             0 0 5px 5px
+  shadow              0 3px 6px rgba(0,0,0,.5)
+  vendor              transition, top .2s ease
   abs()
-  top             0
-  margin          0 10%
-  z-index         10001
-  bg(color,browser-bg)
-  size(80%,auto)
-  rounded(0,0,5px,5px)
-  shadow(0 3px 6px rgba(0,0,0,.5))
+
+  &.in
+    top               0.0001%
 
   .kdheaderview
     margin-top        10px

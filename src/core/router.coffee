@@ -106,9 +106,6 @@ module.exports = class KDRouter extends KDObject
   addRoutes:(routes)->
     @addRoute route, listener  for own route, listener of routes
 
-  pushRoute: (path) ->
-    _gaq?.push ['_trackPageview', path]
-
   handleRoute:(userRoute, options={})->
     return @handleRoute '/Activity'  if /<|>/.test userRoute
     userRoute = userRoute.slice 1  if (userRoute.indexOf '!') is 0
@@ -139,8 +136,6 @@ module.exports = class KDRouter extends KDObject
     if not suppressListeners and shouldPushState and not replaceState and path is @currentPath
       @emit 'AlreadyHere', path
       return
-
-    @pushRoute path
 
     @currentPath = path
 

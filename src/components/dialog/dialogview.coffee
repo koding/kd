@@ -35,8 +35,6 @@ module.exports = class KDDialogView extends KDView
 
   hide:->
 
-    log 'hiding'
-
     @once 'transitionend', =>
       @overlay.destroy()
       @destroy()

@@ -24,12 +24,11 @@ When rendered, this will display approximately:
 
 KDView inherits from [KDObject][0].
 
-### Methods
+### Constructor 
+[Source](https://github.com/koding/kd/blob/master/src/core/view.coffee#L72)
 
-#### Constructor
 
-[constructor: (options={}, data) 
-->](https://github.com/koding/kd/blob/master/src/core/view.coffee#L72)
+constructor: (options={}, data) ->
 
 - **options**: Optional, object. Supports the following values:
   - **tagName**: Optional, string. The name of the html tag. Default `"div"`

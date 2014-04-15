@@ -24,6 +24,13 @@ When rendered, this will display approximately:
 
 KDView inherits from [KDObject][0].
 
+- [Constructor](#constructor)
+- [addSubView](#addsubview)
+- [getBounds](#getbounds)
+- [hide](#hide)
+- [show](#show)
+- [toggleClass](#toggleclass)
+
 ### Constructor
 
 [Source](https://github.com/koding/kd/blob/master/src/core/view.coffee#L72)

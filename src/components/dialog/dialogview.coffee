@@ -57,8 +57,8 @@ module.exports = class KDDialogView extends KDView
 
     @buttonHolder.addSubView button = new KDButtonView
       title       : title
-      loader      : buttonOptions.loader    if buttonOptions.loader?
-      style       : buttonOptions.style     if buttonOptions.style?
-      callback    : buttonOptions.callback  if buttonOptions.callback?
+      loader      : buttonOptions.loader
+      style       : buttonOptions.style
+      callback    : buttonOptions.callback
 
     @buttons[title] = button

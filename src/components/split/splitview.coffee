@@ -57,9 +57,9 @@ module.exports = class KDSplitView extends KDView
       index    : index
       type     : type
       size     : @_sanitizeSize @sizes[index]
-      fixed    : yes                            if fixed[index]
-      minimum  : @_sanitizeSize minimums[index] if minimums
-      maximum  : @_sanitizeSize maximums[index] if maximums
+      fixed    : fixed[index]?
+      minimum  : if minimums then @_sanitizeSize minimums[index]
+      maximum  : if maximums then @_sanitizeSize maximums[index]
 
     panel.on "KDObjectWillBeDestroyed", => @_panelIsBeingDestroyed panel
     @emit "SplitPanelCreated", panel

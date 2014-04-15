@@ -48,6 +48,8 @@ JView extends [KDView](./kdview.md). Please see that for inherited methods.
 
 ### Constructor
 
+[Source](https://github.com/koding/kd/blob/master/src/core/jview.coffee#L3)
+
 Source for JView constructor is inherited entirely from [KDView](./kdview.md).  
 The only difference is the `pistachio` option.
 
@@ -61,6 +63,8 @@ The only difference is the `pistachio` option.
     - Default: `undefined`
 
 ### pistachio
+
+[Source](https://github.com/koding/kd/blob/master/src/core/jview.coffee#L14)
 
 The `@pistachio` method is intended for you to implement in your class which is 
 extending JView. It's sole purpose is to return a string is pistachio 

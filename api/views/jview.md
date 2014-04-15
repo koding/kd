@@ -26,12 +26,14 @@ If you're looking to create a pistachio view *without* inheriting it, you can
 define a `pistachio` property on the JView option.
 
 ```coffee
-appView.addSubView new JView
+view = new JView
   pistachio: """
   <p>
     This is a JView!
   </p>
   """
+
+appView.addSubView view
 ```
 
 These two are approximately the same. The differences lie in your 

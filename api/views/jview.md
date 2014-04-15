@@ -6,6 +6,9 @@ default template language.
 
 ## Usage
 
+If you're creating your own class and extending JView, you'll want to define a 
+`pistachio` method.
+
 ```coffee
 class Example extends JView
   pistachio: ->
@@ -18,6 +21,21 @@ class Example extends JView
 example = new Example()
 appView.addSubView example
 ```
+
+If you're looking to create a pistachio view *without* inheriting it, you can 
+define a `pistachio` property on the JView option.
+
+```coffee
+appView.addSubView new JView
+  pistachio: """
+  <p>
+    This is a JView!
+  </p>
+  """
+```
+
+These two are approximately the same. The differences lie in your 
+implementation needs.
 
 ## API
 

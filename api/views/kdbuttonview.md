@@ -67,6 +67,15 @@ the `@hideLoader()` method. Easy!
     - Type: object
     - Default: `false`
 
+## showLoader
+
+Show the [KDLoaderView][kdloaderview] on this button, if any. Note that the 
+loader is shown by default when the button is clicked.
+
+## hideLoader
+
+Hide the [KDLoaderView][kdloaderview] on this button, if any.
+
 ## Styling
 
 While not complete, the following list is some handy built in css classes to 
@@ -79,3 +88,5 @@ style your button with.
 - **cupid-green**: A green button.
 - **transparent**: And no surprise, a transparent button.
 
+
+[kdloaderview]: ./kdloaderview.md

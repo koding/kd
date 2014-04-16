@@ -5,6 +5,7 @@
 - [JView](./jview.md)
 - [KDHeaderView](./kdheaderview.md)
 - [KDButtonView](./kdbuttonview.md)
+- [KDButtonGroupView](./kdbuttongroupview.md)
 - [KDListView](./kdlistviewitem.md)
 - [KDListItemView](./kdlistview.md)
 - [KDListViewController](./kdlistviewcontroller.md)

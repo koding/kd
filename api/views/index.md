@@ -8,6 +8,7 @@
 - [KDListView](./kdlistviewitem.md)
 - [KDListItemView](./kdlistview.md)
 - [KDListViewController](./kdlistviewcontroller.md)
+- [KDLoaderView](./kdloaderview.md)
 
 
 

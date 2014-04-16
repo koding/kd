@@ -1,4 +1,3 @@
-
 # KDView
 
 KDView is the base class for all GUI components. 
@@ -9,7 +8,7 @@ KDView is the base class for all GUI components.
 ```coffee
 view = new KDView
   partial:    "I'm a view!"
-  className:  'foo'
+  cssClass:  'foo'
 
 appView.addSubView view
 ```

@@ -90,4 +90,4 @@ Show the loader.
 
 
 [kdview]: ./kdview.md
-[kdbuttonview]: ./kdbuttonview
+[kdbuttonview]: ./kdbuttonview.md

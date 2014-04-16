@@ -3,7 +3,8 @@
 
 - [KDView](./kdview.md)
 - [JView](./jview.md)
-- [KDHeaderView](./kdheaderview)
+- [KDHeaderView](./kdheaderview.md)
+- [KDButtonView](./kdbuttonview.md)
 - [KDListView](./kdlistviewitem.md)
 - [KDListItemView](./kdlistview.md)
 - [KDListViewController](./kdlistviewcontroller.md)

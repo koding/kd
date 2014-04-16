@@ -3,5 +3,3 @@
 
 - KDEventEmitter
 - [KDObject](./kdobject.md)
-- KDView
-- JView

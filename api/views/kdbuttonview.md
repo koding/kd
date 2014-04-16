@@ -52,7 +52,9 @@ the `@hideLoader()` method. Easy!
 
 ## API
 
-## Constructor
+### Constructor
+
+[Source](https://github.com/koding/kd/blob/master/src/components/buttons/buttonview.coffee#L6)
 
 1. **options**:
   - **title**: The title of the button.
@@ -67,14 +69,18 @@ the `@hideLoader()` method. Easy!
     - Type: object
     - Default: `false`
 
-## showLoader
+## hideLoader
+
+[Source](https://github.com/koding/kd/blob/master/src/components/buttons/buttonview.coffee#L121)
+
+Hide the [KDLoaderView][kdloaderview] on this button, if any.
+
+### showLoader
+
+[Source](https://github.com/koding/kd/blob/master/src/components/buttons/buttonview.coffee#L115)
 
 Show the [KDLoaderView][kdloaderview] on this button, if any. Note that the 
 loader is shown by default when the button is clicked.
-
-## hideLoader
-
-Hide the [KDLoaderView][kdloaderview] on this button, if any.
 
 ## Styling
 

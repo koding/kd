@@ -6,6 +6,7 @@
 - [KDHeaderView](./kdheaderview.md)
 - [KDButtonView](./kdbuttonview.md)
 - [KDButtonGroupView](./kdbuttongroupview.md)
+- [KDToggleButton](./kdtogglebutton.md)
 - [KDListView](./kdlistviewitem.md)
 - [KDListItemView](./kdlistview.md)
 - [KDListViewController](./kdlistviewcontroller.md)

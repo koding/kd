@@ -13,6 +13,7 @@
 - [KDListItemView](./kdlistview.md)
 - [KDListViewController](./kdlistviewcontroller.md)
 - [KDLoaderView](./kdloaderview.md)
+- [KDNotificationView](./kdnotificationview.md)
 - [KDToggleButton](./kdtogglebutton.md)
 
 

@@ -8,6 +8,7 @@
 - [KDButtonGroupView](./kdbuttongroupview.md)
 - [KDButtonViewWithMenu](./kdbuttonviewwithmenu.md)
 - [KDHitEnterInputView](./kdhitenterinputview.md)
+- [KDInputView](./kdinputview.md)
 - [KDListView](./kdlistviewitem.md)
 - [KDListItemView](./kdlistview.md)
 - [KDListViewController](./kdlistviewcontroller.md)

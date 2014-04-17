@@ -25,9 +25,9 @@ If you're interested in contributing to the documentation, head on over to
 
 
 [0]: https://koding.com
-[1]: ./api/index
-[2]: ./getting-started/index
-[3]: ./examples/index
+[1]: ./api
+[2]: ./getting-started
+[3]: ./examples
 [4]: ./useful-tools
 [5]: https://github.com/koding/kdfdocs
-[6]: ./using-devtools/index
+[6]: ./using-devtools

@@ -52,6 +52,8 @@ the `@hideLoader()` method. Easy!
 
 ## API
 
+KDButtonView extends [KDView][kdview], please see that for inherited methods.
+
 ### Constructor
 
 [Source](https://github.com/koding/kd/blob/master/src/components/buttons/buttonview.coffee#L6)
@@ -95,4 +97,7 @@ style your button with.
 - **transparent**: And no surprise, a transparent button.
 
 
+
+
+[kdview]: ./kdview.md
 [kdloaderview]: ./kdloaderview.md

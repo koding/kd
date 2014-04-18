@@ -304,5 +304,5 @@ module.exports = class KDWindowController extends KDController
     else do fireResizeHandlers
 
 do ->
-  KD           = require './kd.coffee'
+  KD = require './kd.coffee'
   KD.registerSingleton "windowController", new KDWindowController

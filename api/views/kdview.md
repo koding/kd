@@ -36,6 +36,7 @@ KDView inherits from [KDObject][kdobject]. Please see that for additional
 inherited methods.
 
 ### [Constructor](https://github.com/koding/kd/blob/master/src/core/view.coffee#L72)
+> [constructor](#constructor): (options={}, data) ->
 
 #### Args
 
@@ -87,6 +88,7 @@ specified.
     - Default: `null`
 
 ### [addSubView](https://github.com/koding/kd/blob/master/src/core/view.coffee#L439)
+> [addSubView](#addsubview): ([subView][kdview]) -> [subView][kdview]
 
 `addSubView` adds another [KDView](./kdview.md) to this KDView instance.
 
@@ -102,6 +104,7 @@ specified.
   - Default: false
 
 ### [getBounds](https://github.com/koding/kd/blob/master/src/core/view.coffee#L325)
+> [getBounds](#getbounds): -> boundsObject
 
 Get the bounds of this object.
 
@@ -122,15 +125,18 @@ Example:
 ```
 
 ### [hide](https://github.com/koding/kd/blob/master/src/core/view.coffee#L336)
+> [hide](#hide): -> this
 
 Hide this view by applying the `hidden` css class to it.
 
 ### [show](https://github.com/koding/kd/blob/master/src/core/view.coffee#L341)
+> [show](#show): -> this
 
 If this class is hidden, show this view by removing the `hidden` css class from 
 it.
 
 ### [toggleClass](https://github.com/koding/kd/blob/master/src/core/view.coffee#L318)
+> [toggleClass](#toggleclass): -> this
 
 Toggle the css class on the element.
 

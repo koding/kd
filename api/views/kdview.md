@@ -20,15 +20,15 @@ When rendered, this will display approximately:
 ```
 
 
-## Index
+## API Index
 
 > class KDView extends [KDObject][kdobject]
->   - [constructor](#constructor): (options={}, data) ->
->   - [addSubView](#addsubview): ([subView][kdview]) -> [subView][kdview]
->   - [getBounds](#getbounds): -> boundsObject
->   - [hide](#hide): -> this
->   - [show](#show): -> this
->   - [toggleClass](#toggleclass): -> this
+> - [constructor](#constructor): (options={}, data) ->
+> - [addSubView](#addsubview): ([subView][kdview]) -> [subView][kdview]
+> - [getBounds](#getbounds): -> boundsObject
+> - [hide](#hide): -> this
+> - [show](#show): -> this
+> - [toggleClass](#toggleclass): -> this
 
 ## Class
 

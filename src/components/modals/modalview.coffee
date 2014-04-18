@@ -150,9 +150,9 @@ module.exports = class KDModalView extends KDView
       newRules = {}
       height = $(window).height()
       width  = $(window).width()
-      newRules.top  = if top?  then top  else height/2 - @getHeight()/2
-      newRules.left = if left? then left else width/2  - @modalWidth/2
-      newRules.left = width - @modalWidth - right - 20 if right #20 is the padding FIX
+      newRules.top  = Math.round(if top?  then top  else height/2 - @getHeight()/2)
+      newRules.left = Math.round(if left? then left else width/2  - @modalWidth/2)
+      newRules.left = Math.round(width - @modalWidth - right - 20) if right #20 is the padding FIX
       newRules.opacity = 1
       @$().css newRules
 
@@ -162,7 +162,7 @@ module.exports = class KDModalView extends KDView
     @$('.kdmodal-content').css
       maxHeight: winHeight - 120
       overflow : "auto"
-    @setY (winHeight - @getHeight()) / 2 unless @getOptions().position.top
+    @setY Math.round((winHeight - @getHeight()) / 2)  unless @getOptions().position.top
 
   putOverlay:->
     isRemovable = @getOptions().overlayClick

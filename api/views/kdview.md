@@ -19,20 +19,23 @@ When rendered, this will display approximately:
 <div class="foo">I'm a view!</div>
 ```
 
-## API
 
-KDView inherits from [KDObject][0].
+## Index
 
-- [Constructor](#constructor)
-- [addSubView](#addsubview)
-- [getBounds](#getbounds)
-- [hide](#hide)
-- [show](#show)
-- [toggleClass](#toggleclass)
+> class KDView extends [KDObject][kdobject]
+>   - [constructor](#constructor): (options={}, data) ->
+>   - [addSubView](#addsubview): ([subView][kdview]) -> [subView][kdview]
+>   - [getBounds](#getbounds): -> boundsObject
+>   - [hide](#hide): -> this
+>   - [show](#show): -> this
+>   - [toggleClass](#toggleclass): -> this
 
-### Constructor
+## Class
 
-[Source](https://github.com/koding/kd/blob/master/src/core/view.coffee#L72)
+KDView inherits from [KDObject][kdobject]. Please see that for additional 
+inherited methods.
+
+### [Constructor](https://github.com/koding/kd/blob/master/src/core/view.coffee#L72)
 
 #### Args
 
@@ -83,9 +86,7 @@ specified.
     - Type: object
     - Default: `null`
 
-### addSubView
-
-[Source](https://github.com/koding/kd/blob/master/src/core/view.coffee#L439)
+### [addSubView](https://github.com/koding/kd/blob/master/src/core/view.coffee#L439)
 
 `addSubView` adds another [KDView](./kdview.md) to this KDView instance.
 
@@ -100,9 +101,7 @@ specified.
   - Type: truthy
   - Default: false
 
-### getBounds
-
-[Source](https://github.com/koding/kd/blob/master/src/core/view.coffee#L325)
+### [getBounds](https://github.com/koding/kd/blob/master/src/core/view.coffee#L325)
 
 Get the bounds of this object.
 
@@ -122,26 +121,21 @@ Example:
 }
 ```
 
-### hide
-
-[Source](https://github.com/koding/kd/blob/master/src/core/view.coffee#L336)
+### [hide](https://github.com/koding/kd/blob/master/src/core/view.coffee#L336)
 
 Hide this view by applying the `hidden` css class to it.
 
-### show
-
-[Source](https://github.com/koding/kd/blob/master/src/core/view.coffee#L341)
+### [show](https://github.com/koding/kd/blob/master/src/core/view.coffee#L341)
 
 If this class is hidden, show this view by removing the `hidden` css class from 
 it.
 
-### toggleClass
-
-[Source](https://github.com/koding/kd/blob/master/src/core/view.coffee#L318)
+### [toggleClass](https://github.com/koding/kd/blob/master/src/core/view.coffee#L318)
 
 Toggle the css class on the element.
 
 
 
 
-[0]: ../core/kdobject.md
+[kdobject]: ../core/kdobject.md
+[kdview]: ./

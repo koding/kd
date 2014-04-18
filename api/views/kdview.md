@@ -106,7 +106,7 @@ specified.
 ### [getBounds](https://github.com/koding/kd/blob/master/src/core/view.coffee#L325)
 > [getBounds](#getbounds): -> boundsObject
 
-Get the bounds of this object.
+Get the bounds of this view.
 
 #### Returns
 

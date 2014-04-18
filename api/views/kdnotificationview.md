@@ -64,14 +64,17 @@ combo will change to `"Friendly neighbor"`. Finally, after another 3 seconds
 attached family"`. This final message will last for another 6 seconds, until 
 the total notification time of 12 seconds has elapsed.
 
-## API
+## API Index
+
+> class KDNotificationView extends [KDView][kdview]
+> - [constructor](#constructor): (options={}, data) ->
+
+## Class
 
 KDNotificationView extends [KDView][kdview]. Please see that for inherited 
 methods and options.
 
-### Constructor
-
-[Source](https://github.com/koding/kd/blob/master/src/components/notifications/notificationview.coffee#L5)
+### [Constructor](https://github.com/koding/kd/blob/master/src/components/notifications/notificationview.coffee#L5)
 
 1. **options**:
     - Type: object

@@ -29,6 +29,8 @@ your text field, a notification pops up with the string that the user wrote.
 > - [disableEnterKey](#disableenterkey): ->
 > - [enableEnterKey](#enableenterkey): ->
 
+## Class
+
 KDHitEnterInputView extends [KDInputView][kdinputview]. Please see that for 
 inherited methods and options.
 

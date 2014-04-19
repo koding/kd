@@ -75,6 +75,7 @@ KDNotificationView extends [KDView][kdview]. Please see that for inherited
 methods and options.
 
 ### [Constructor](https://github.com/koding/kd/blob/master/src/components/notifications/notificationview.coffee#L5)
+> - [constructor](#constructor): (options={}, data) ->
 
 #### Args
 

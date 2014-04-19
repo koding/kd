@@ -78,33 +78,34 @@ methods and options.
 
 1. **options**:
     - Type: object
-    - **type**: The visual appearance type of this notification.
+    - Default: `{}`
+    - **options.type**: The visual appearance type of this notification.
       - Type: string
       - Default: `""` (The fallback option)
       - Options: `"tray"`, `"growl"`, `"mini"`, `"sticky"`, `""`
-    - **title**: The title of the notification.
+    - **options.title**: The title of the notification.
       - Type: string
       - Default: `null`
-    - **content**: The body message of the notification.
+    - **options.content**: The body message of the notification.
       - Type: string
       - Default: `""`
-    - **duration**: The duration that the timer will be displayed, in 
+    - **options.duration**: The duration that the timer will be displayed, in 
       milliseconds.
       - Type: number
       - Default: `1500`
-    - **showTimer**: Whether or not to show the time left, in seconds.
+    - **options.showTimer**: Whether or not to show the time left, in seconds.
       - Type: boolean
       - Default: `false`
-    - **closeManually**: Display a close button for the user to close the 
-      timer.
+    - **options.closeManually**: Display a close button for the user to close 
+      the timer.
       - Type: boolean
       - Default: `false`
-    - **loader**: An object of options to be passed to a 
+    - **options.loader**: An object of options to be passed to a 
       [KDLoaderView][kdloaderview] instance.
       - Type: [KDLoaderView][kdloaderview]
       - Default: `undefined`
-    - **followUps**: A list of objects containing a `duration`, `title`, and/or 
-      `content` values.
+    - **options.followUps**: A list of objects containing a `duration`, 
+      `title`, and/or `content` values.
       - Type: list
       - Default: `undefined`
       - Example: `[{title: 'Bar', duration: 1000}, {title: 'Baz', duration: 

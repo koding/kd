@@ -79,6 +79,9 @@ methods and options.
 1. **options**:
     - Type: object
     - Default: `{}`
+
+    The following keys are supported.
+
     - **options.type**: The visual appearance type of this notification.
       - Type: string
       - Default: `""` (The fallback option)

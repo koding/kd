@@ -22,35 +22,41 @@ appView.addSubView view
 In this example we create an input text view. When the user presses enter in 
 your text field, a notification pops up with the string that the user wrote.
 
-## API
+## API Index
+
+> class KDHitEnterInputView extends [KDInputView][kdinputview]
+> - [constructor](#constructor): (options={}, data) ->
+> - [disableEnterKey](#disableenterkey): ->
+> - [enableEnterKey](#enableenterkey): ->
 
 KDHitEnterInputView extends [KDInputView][kdinputview]. Please see that for 
 inherited methods and options.
 
-### Constructor
-
-[Source](https://github.com/koding/kd/blob/master/src/components/input/hitenterinputview.coffee#L11)
+### [Constructor](https://github.com/koding/kd/blob/master/src/components/input/hitenterinputview.coffee#L11)
+> [constructor](#constructor): (options={}, data) ->
 
 1. **options**:
   - Type: object
-  - **type**: The type of this input field. Useful values are `"textarea"` and 
-    `"text"`.
+  - Default: `{}`
+
+  The following keys are supported.
+
+  - **options.type**: The type of this input field. Useful values are 
+    `"textarea"` and `"text"`.
     - Type: string
     - Default: `"textarea"`
-  - **callback**: A function, called when the user presses enter within the 
-    input field.
+  - **options.callback**: A function, called when the user presses enter within 
+    the input field.
     - Type: function
     - Default: `null`
 
-### disableEnterKey
-
-[Source](https://github.com/koding/kd/blob/master/src/components/input/hitenterinputview.coffee#L42)
+### [disableEnterKey](https://github.com/koding/kd/blob/master/src/components/input/hitenterinputview.coffee#L42)
+> [disableEnterKey](#disableenterkey): ->
 
 Disable the callback on enter key.
 
-### enableEnterKey
-
-[Source](https://github.com/koding/kd/blob/master/src/components/input/hitenterinputview.coffee#L36)
+### [enableEnterKey](https://github.com/koding/kd/blob/master/src/components/input/hitenterinputview.coffee#L36)
+> [enableEnterKey](#enableenterkey): ->
 
 Enable the callback on enter key.
 

@@ -33,18 +33,25 @@ button being created.
 `KDButtonGroupView` will take these button objects, and create instances of 
 [KDButtonView][kdbuttonview] for each one.
 
-## API
+## API Index
+
+> class KDButtonGroupView extends [KDView][kdview]
+> - [constructor](#constructor): (options={}, data) ->
+
+## Class
 
 KDbuttonView inherits from [KDView][kdview]. Please see that for inherited 
 methods.
 
-### Constructor
-
-[Source](https://github.com/koding/kd/blob/master/src/components/buttons/buttongroupview.coffee#L3)
+### [Constructor](https://github.com/koding/kd/blob/master/src/components/buttons/buttongroupview.coffee#L3)
 
 1. **options**:
   - Type: object
-  - **buttons**: An object containing settings for the 
+  - Default: `{}`
+
+  The following keys are supported.
+
+  - **options.buttons**: An object containing settings for the 
     [KDButtonViews][kdbuttonview] that KDButtonGroupView will create. Each key 
 is the title of a button to be created, and the value is yet another object 
 that will be given as options to the [KDButtonView][kdbuttonview].

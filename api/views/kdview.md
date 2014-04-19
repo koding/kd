@@ -42,46 +42,46 @@ inherited methods.
 
 1. **options**:
   - Type: object
-  - **tagName**: The name of the html tag.
+  - Default: `{}`
+
+  The following keys are supported.
+
+  - **options.tagName**: The name of the html tag.
     - Type: string
     - Default: `"div"`
-  - **domId**: The HTML ID of the element.
+  - **options.domId**: The HTML ID of the element.
     - Type:   string
     - Default: `null`
-  - **cssClass**: The class string for the html element.  
+  - **options.cssClass**: The class string for the html element.  
     - Type: string
     - Default: `""`
-  - **parent**: The parent view for this view.
-    - Type: [KDView](./kdview.md)
+  - **options.parent**: The parent view for this view.
+    - Type: [KDView][kdview]
     - Default: `null`
-  - **partial**: The contents of this HTML element, such as `"Hello"` or 
-    `"<h1>Hello!"`.
+  - **options.partial**: The contents of this HTML element, such as `"Hello"` 
+    or `"<h1>Hello!"`.
     - Type: string
     - Default: `null`
-  - **pistachio**: A string of pistachio to add to the contents of this HTML 
-    element.
+  - **options.pistachio**: A string of pistachio to add to the contents of this 
+    HTML element.
     - Type: string
     - Default: `null`
-  - **delegate**: TODO
-  - **bind**: TODO
-  - **draggable**: TODO
-  - **droppable**: TODO
-  - **size**: An object with `width` and `height` properties representing the 
-    size of this view, in pixels.
+  - **options.size**: An object with `width` and `height` properties 
+    representing the size of this view, in pixels.
     - Type: object
     - Default: `null` 
     - Example: `{width: 10, height: 10}`
-  - **position**: An object with top/right/bottom/left properties representing 
-    the css top/right/bottom/left offset properties.
+  - **options.position**: An object with top/right/bottom/left properties 
+    representing the css top/right/bottom/left offset properties.
     - Type: object
     - Default: `null`
     - Example: `{top: 5, left: 5}`
-  - **attributes**: The HTML attributes for this view. These can be custom, or 
-    standard attributes such as `href` or `src`.
+  - **options.attributes**: The HTML attributes for this view. These can be 
+    custom, or standard attributes such as `href` or `src`.
     - Type: object
     - Default: `null`
     - Example: `{href:"https://koding.com"}`
-  - **tooltip**: Options that will be passed to the 
+  - **options.tooltip**: Options that will be passed to the 
     [KDTooltip](./kdtooltip.md), which is internally created if options are 
 specified.
     - Type: object

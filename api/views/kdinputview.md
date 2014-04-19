@@ -22,82 +22,91 @@ Create a simple text input view, with a placeholder. When the `keyup` event is
 fired, we check what the key is. If the keyCode is `13` *(An Enter key)*, we 
 create a notification with the value of the field.
 
-## API
+## API Index
+
+> class KDInputView extends [KDView][kdview]
+> - [constructor](#constructor): (options={}, data) ->
+> - [getValue](#getvalue): ->
+> - [makeDisabled](#makedisabled): ->
+> - [makeEnabled](#makeenabled): ->
+> - [setValue](#setvalue): (value) ->
+
+## Class
 
 KDInputView extends [KDView][kdview]. Please see that for inherited methods and 
 options.
 
-### Constructor
-
-[Source](https://github.com/koding/kd/blob/master/src/components/input/inputview.coffee#L6)
+### [Constructor](https://github.com/koding/kd/blob/master/src/components/input/inputview.coffee#L6)
+> [constructor](#constructor): (options={}, data) ->
 
 1. **options**:
   - Type: object
-  - **type**: The type of this input. All html input types are supported. It 
-    should be noted that `"textarea"` and `"select"` do not create `<input>` 
-elements, but rather they create `<textarea>` and `<select>` respectively.
+  - Default: `{}`
+
+  The following keys are supported.
+
+  - **options.type**: The type of this input. All html input types are 
+    supported.  It should be noted that `"textarea"` and `"select"` do not 
+create `<input>` elements, but rather they create `<textarea>` and `<select>` 
+respectively.
     - Type: string
     - Default: `"text"`
     - Options: `"text"`, `"password"`, `"hidden"`, `"checkbox"`, `"range"`, 
       `"textarea"`, `"select"`
-  - **name**: The `name="foo"` attribute of this `<input>` element.
+  - **options.name**: The `name="foo"` attribute of this `<input>` element.
     - Type: string
     - Default: `""`
-  - **label**: The label instance for this input field.
+  - **options.label**: The label instance for this input field.
     - Type: [KDLabelView][kdlabelview]
     - Default: `null`
-  - **defaultValue**: The default value for this instance.
+  - **options.defaultValue**: The default value for this instance.
     - Type: string
     - Default: `""`
-  - **placeholder**: The HTML5 placeholder for this input.
+  - **options.placeholder**: The HTML5 placeholder for this input.
     - Type: string
     - Default: `""`
-  - **disabled**: Whether or not this input is disabled.
+  - **options.disabled**: Whether or not this input is disabled.
     - Type: boolean
     - Default: `false`
-  - **selectOptions**: If this input is of the type `"select"`, this list 
-    populates the select options.
+  - **options.selectOptions**: If this input is of the type `"select"`, this 
+    list populates the select options.
     - Type: list
     - Default: `null`
-  - **validate**: An object containing validation options, which are passed to 
-    the [KDInputValidator][kdinputvalidator] for this input. Note that the 
-validator is created internally, you do not need to create it.
+  - **options.validate**: An object containing validation options, which are 
+    passed to the [KDInputValidator][kdinputvalidator] for this input. Note 
+that the validator is created internally, you do not need to create it.
     - Type: object
     - Default: `null`
-  - **autogrow**: If the input type can grow, such as a `textarea`, this will 
-    cause the input to grow to the content size, rather than scroll.
+  - **options.autogrow**: If the input type can grow, such as a `textarea`, 
+    this will cause the input to grow to the content size, rather than scroll.
     - Type: boolean
     - Default: `false`
-  - **bind**: A string of event names, separated by a space.
+  - **options.bind**: A string of event names, separated by a space.
     - Type: string
     - Default: `" blur change focus"`
-  - **forceCase**: Force either uppercase, or lowercase for this field type. If 
-    `null`, case is not enforced.
+  - **options.forceCase**: Force either uppercase, or lowercase for this field 
+    type. If `null`, case is not enforced.
     - Type: string
     - Default: `null`
     - Options: `"uppercase"`, `"lowercase"`, `null`
 
-### getValue
-
-[Source](https://github.com/koding/kd/blob/master/src/components/input/inputview.coffee#L155)
+### [getValue](https://github.com/koding/kd/blob/master/src/components/input/inputview.coffee#L155)
+> [getValue](#getvalue): -> value
 
 Get the value of this input field.
 
-### makeDisabled
-
-[Source](https://github.com/koding/kd/blob/master/src/components/input/inputview.coffee#L149)
+### [makeDisabled](https://github.com/koding/kd/blob/master/src/components/input/inputview.coffee#L149)
+> [makeDisabled](#makedisabled): ->
 
 Disable this input field.
 
-### makeEnabled
-
-[Source](https://github.com/koding/kd/blob/master/src/components/input/inputview.coffee#L152)
+### [makeEnabled](https://github.com/koding/kd/blob/master/src/components/input/inputview.coffee#L152)
+> [makeEnabled](#makeenabled): ->
 
 Enable this input field.
 
-### setValue
-
-[Source](https://github.com/koding/kd/blob/master/src/components/input/inputview.coffee#L168)
+### [setValue](https://github.com/koding/kd/blob/master/src/components/input/inputview.coffee#L168)
+> [setValue](#setvalue): (value) ->
 
 Set the value of this input field.
 

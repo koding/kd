@@ -36,26 +36,34 @@ callback when the button is pressed.
 Next, we have a `menu` object. Each key in this object is the name of a menu 
 item. Each object within, supports a callback keyword.
 
-## API
+## API Index
+
+> class KDButtonViewWithMenu extends [KDButtonView][kdbuttonview]
+> - [constructor](#constructor): (options={}, data) ->
+
+## Class
 
 KDButtonViewWithMenu extends [KDButtonView][kdbuttonview], please see that for 
 inherited methods.
 
-### Constructor
-
-[Source](https://github.com/koding/kd/blob/master/src/components/buttons/buttonviewwithmenu.coffee#L3)
+### [Constructor](https://github.com/koding/kd/blob/master/src/components/buttons/buttonviewwithmenu.coffee#L3)
 
 1. **options**:
   - Type: object
-  - **title**: The title of this button
+  - Default: `{}`
+
+  The following keys are supported.
+
+  - **options.title**: The title of this button
     - Type: string
     - Default: `""`
-  - **callback**: The callback function called when the button is pressed.
+  - **options.callback**: The callback function called when the button is 
+    pressed.
     - Type: function
     - Default: `function(){}`
-  - **menu**: An object containing menu items and callbacks. Each key is the 
-    menu item name, and the value of the key is an object with a callback 
-key/value pair.
+  - **options.menu**: An object containing menu items and callbacks. Each key 
+    is the menu item name, and the value of the key is an object with a 
+callback key/value pair.
     - Type: object
     - Example: `{"Menu Item Name":{callback: ->}}`
 

@@ -22,12 +22,22 @@ appView.addSubView header
 ```
 
 Pretty simple eh? We just called the `addItemView` method and gave it an 
-instance of a [KDView](./kdview.md).
+instance of a [KDView][kdview].
 
 Additionally, to demonstrate the index adding, we added the `"Item 0"` view 
 second, with an index of `0`.
 
-## API
+## API Index
 
-KDListView extends [KDView](./kdview.md). Please see that for inherited 
-methods.
+> class KDListView extends [KDView][kdview]
+> - [constructor](#constructor): (options={}, data) ->
+
+## Class
+
+KDListView extends [KDView][kdview]. Please see that for inherited methods.
+
+
+
+
+
+[kdview]: ./kdview.md

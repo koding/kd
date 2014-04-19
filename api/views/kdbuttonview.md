@@ -50,36 +50,45 @@ The end result of these changes is that when our button is clicked, it starts
 the loader *(with the options we define)*. When we want to turn it off, we call 
 the `@hideLoader()` method. Easy!
 
-## API
+## API Index
+
+> class KDButtonView extends [KDView][kdview]
+> - [constructor](#constructor): (options={}, data) ->
+> - [hideLoader](#hideloader): ->
+> - [showLoader](#showloader): ->
+
+## Class 
 
 KDButtonView extends [KDView][kdview], please see that for inherited methods.
 
-### Constructor
-
-[Source](https://github.com/koding/kd/blob/master/src/components/buttons/buttonview.coffee#L6)
+### [Constructor](https://github.com/koding/kd/blob/master/src/components/buttons/buttonview.coffee#L6)
+> [constructor](#constructor): (options={}, data) ->
 
 1. **options**:
-  - **title**: The title of the button.
+  - Type: object
+  - Default: `{}`
+
+  The following keys are supported.
+
+  - **options.title**: The title of the button.
     - Type: string
     - Default: `""`
-  - **callback**: The function to be called when the button is pressed.
+  - **options.callback**: The function to be called when the button is pressed.
     - Type: function
     - Default: `function(){}`
-  - **loader**: The options to use for a loader on this button. If false, this 
-    button will not use a loader by default. See 
+  - **options.loader**: The options to use for a loader on this button. If 
+    false, this button will not use a loader by default. See 
 [KDLoaderView](./kdloaderview.md) for the supported options.
     - Type: object
     - Default: `false`
 
-## hideLoader
-
-[Source](https://github.com/koding/kd/blob/master/src/components/buttons/buttonview.coffee#L121)
+## [hideLoader](https://github.com/koding/kd/blob/master/src/components/buttons/buttonview.coffee#L121)
+> [hideLoader](#hideloader): ->
 
 Hide the [KDLoaderView][kdloaderview] on this button, if any.
 
-### showLoader
-
-[Source](https://github.com/koding/kd/blob/master/src/components/buttons/buttonview.coffee#L115)
+### [showLoader](https://github.com/koding/kd/blob/master/src/components/buttons/buttonview.coffee#L115)
+> [showLoader](#showloader): ->
 
 Show the [KDLoaderView][kdloaderview] on this button, if any. Note that the 
 loader is shown by default when the button is clicked.

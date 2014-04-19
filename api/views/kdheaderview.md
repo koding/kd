@@ -1,7 +1,7 @@
 
 # KDHeaderView
 
-KDHeaderView is a basic [KDView](./kdview.md) to implement the 
+KDHeaderView is a basic [KDView][kdview] to implement the 
 `<h1>`/`<h2>`/`<h3>`/etc DOM elements.
 
 ## Usage
@@ -14,32 +14,40 @@ header = new KDHeaderView
 appView.addSubView header
 ```
 
-## API
+## API Index
 
-KDHeaderView extends [KDView](./kdview.md). Please see that for inherited 
-methods.
+> class KDHeaderView extends [KDView][kdview]
+> - [constructor](#constructor): (options={}, data) ->
+> - [updateTitle](#updatetitle): (newTitle) ->
 
-### Constructor
+## Class
 
-[Source](https://github.com/koding/kd/blob/master/src/components/header/headerview.coffee#L2)
+KDHeaderView extends [KDView][kdview]. Please see that for inherited methods.
+
+### [Constructor](https://github.com/koding/kd/blob/master/src/components/header/headerview.coffee#L2)
+> [constructor](#constructor): (options={}, data) ->
 
 #### Args
 
 1. **options**:
   - Type: object
-  - **title**: The contents for your header view.
+  - Default: `{}`
+
+  The following keys are supported.
+  
+  - **options.title**: The contents for your header view.
     - Type: string
     - Default: `undefined`
-  - **type**: The level of your `H` element, represented in three options: 
-    `"big"`, `"medium"`, `"small"` which translates to `"h1"`, `"h2"`, `"h3"`,
+  - **options.type**: The level of your `H` element, represented in three 
+    options: `"big"`, `"medium"`, `"small"` which translates to `"h1"`, `"h2"`, 
+`"h3"`,
     respectively.
     - Type: string
     - Default: `"default"`
     - Example: `{type: "big"}`
 
-### updateTitle
-
-[Source](https://github.com/koding/kd/blob/master/src/components/header/headerview.coffee#L14)
+### [updateTitle](https://github.com/koding/kd/blob/master/src/components/header/headerview.coffee#L14)
+> [updateTitle](#updatetitle): (newTitle) ->
 
 Update the title for this header option. This can be used after you have 
 already set the title, to change it to another title.
@@ -50,3 +58,7 @@ already set the title, to change it to another title.
   - Type: string
   - Default: `undefined`
 
+
+
+
+[kdview]: ./kdview.md

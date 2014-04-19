@@ -76,6 +76,8 @@ methods and options.
 
 ### [Constructor](https://github.com/koding/kd/blob/master/src/components/notifications/notificationview.coffee#L5)
 
+#### Args
+
 1. **options**:
     - Type: object
     - Default: `{}`

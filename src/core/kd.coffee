@@ -56,7 +56,7 @@ window.KD = $.extend (window.KD), do ->
       if @[key] then throw new Error "#{key} is already registered"
       else @[key] = val
 
-  registerSingleton:(singletonName,object,override = no)->
+  registerSingleton:(singletonName, object, override = no)->
     if (existingSingleton = KD.singletons[singletonName])?
       if override
         warn "singleton overriden! KD.singletons[\"#{singletonName}\"]"

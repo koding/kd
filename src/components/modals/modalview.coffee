@@ -158,11 +158,9 @@ module.exports = class KDModalView extends KDView
 
   _windowDidResize:->
     @setPositions()
-    {winHeight} = KD.getSingleton('windowController')
-    @$('.kdmodal-content').css
-      maxHeight: winHeight - 120
-      overflow : "auto"
-    @setY Math.round((winHeight - @getHeight()) / 2)  unless @getOptions().position.top
+    {innerHeight} = window
+    @$('.kdmodal-content').css maxHeight : innerHeight - 120
+    @setY Math.round((innerHeight - @getHeight()) / 2)  unless @getOptions().position.top
 
   putOverlay:->
     isRemovable = @getOptions().overlayClick

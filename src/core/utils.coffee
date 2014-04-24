@@ -220,6 +220,31 @@ module.exports =
         then hljs.highlight(lang,text).value
         else text
 
+  enterFullscreen: do ->
+
+    # Find the right method, call on correct element
+    launchFullscreen = (element) ->
+
+      if element.requestFullscreen            then element.requestFullscreen()
+      else if element.mozRequestFullScreen    then element.mozRequestFullScreen()
+      else if element.webkitRequestFullscreen then element.webkitRequestFullscreen()
+      else if element.msRequestFullscreen     then element.msRequestFullscreen()
+
+    (element = document.documentElement) ->
+      # Launch fullscreen for browsers that support it!
+      launchFullscreen element
+
+  exitFullscreen: ->
+
+    if document.exitFullscreen            then document.exitFullscreen()
+    else if document.mozCancelFullScreen  then document.mozCancelFullScreen()
+    else if document.webkitExitFullscreen then document.webkitExitFullscreen()
+
+  isFullscreen: ->
+
+    return document.fullscreenElement or document.mozFullScreenElement or document.webkitIsFullScreen
+
+
   createExternalLink: (href) ->
     tag = document.createElement "a"
     tag.href = if href.indexOf("http") > -1 then href else "http://#{href}"

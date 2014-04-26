@@ -1,0 +1,263 @@
+@import '../../../src/themes/default/kdfn.styl'
+
+.main-view
+  font-family               'Open Sans', 'sans-serif'
+
+section.home-section
+footer
+  position                  relative
+  overflow                  visible
+  background                #fff
+  z-index                   3
+
+  h2
+  h3
+    border                  none
+    overflow                visible
+
+  .inner-wrapper
+    max-width               1290px
+    padding                 0 45px
+    margin                  0px auto
+    overflow                visible
+    borderBox()
+
+  &.intro
+    padding                 49px 0 98px 0
+    background              #333
+    text-align              center
+    height                  auto
+    z-index                 2
+    fix()
+
+    nav
+      text-align            center
+
+      a
+        color               #979797
+        font-size           14px
+        display             inline-block
+        line-height         36px
+        noTextDeco()
+
+        &~a
+          margin            0 0 0 9px
+
+        &#fork-us
+          border            2px solid #525252
+          rounded           6px
+          padding           0 25px 0 0
+          font-weight       600
+          margin-left       23px
+
+          &:before
+            content         ''
+            display         block
+            size            19px, 16px
+            bg              image, url('../src/img/fork.svg')
+            bg              position, center center
+            bg              repeat, no-repeat
+            bg              size, 19px 16px
+            margin          10px 14px 0
+            fl()
+
+    figure.logo
+      size                  188px 148px
+      background            url('../src/img/logo.svg') no-repeat center
+      background-size       contain
+      margin                81px auto 30px
+
+    h2
+      text-align            center
+      font-weight           300
+      margin                0 0 93px 0
+
+      span
+        font-size           36px
+        color               #fff
+        font-weight         300
+
+    .download-button
+      display               inline-block
+      height                60px
+      line-height           60px
+      background            #ff5a27
+      rounded               30px
+      font-size             20px
+      color                 #effee5
+      padding               0 0 0 27px
+      overflow              hidden
+      noTextDeco()
+
+      &:after
+        content             ''
+        display             block
+        size                72px, 60px
+        bg                  color, #c3431c
+        bg                  image, url('../src/img/cloud.svg')
+        bg                  position, 16px 18px
+        bg                  repeat, no-repeat
+        bg                  size, 32px 24px
+        margin-left         27px
+        fr()
+
+
+
+  &.features
+    margin-top              630px
+    shadow                  0 -12px 38px rgba(0,0,0, .75)
+
+    &:before
+      content               ''
+      display               block
+      size                  50%, 12px
+      background            #fff
+      abs                   -12px 0 0 50%
+      vendor                transform, skewX(-45deg)
+      margin-left           6px
+
+    &:after
+      content               ''
+      display               block
+      size                  50%, 12px
+      background            #fff
+      abs                   -12px 0 0 0px
+      vendor                transform, skewX(45deg)
+      margin-left           -6px
+
+    .inner-wrapper
+      vertical-align        top
+      padding               102px 45px 82px
+      border-bottom         2px solid #f6f6f6
+
+    .feature
+      display               inline-block
+      width                 33%
+      padding               0 55px 0 0
+      color                 #555
+      borderBox()
+
+      figure
+        background-size     contain
+
+        &.chrome
+          margin            7px 0 68px 0
+          background        url('../src/img/chrome.svg') no-repeat center
+          size              54px, 46px
+
+        &.king
+          margin            10px 0 67px 0
+          background        url('../src/img/king.svg') no-repeat center
+          size              54px, 45px
+
+        &.box
+          margin            0 0 68px 0
+          background        url('../src/img/box.svg') no-repeat center
+          size              47px, 54px
+
+      h3
+        font-size           16px
+        font-weight         700
+
+      p
+        font-size           16px
+        line-height         22px
+        letter-spacing      0.02em
+        padding             23px 0
+
+  &.examples
+    margin-bottom           163px
+
+    .inner-wrapper
+      padding               69px 45px 72px
+
+    h2
+      font-size             30px
+      font-weight           600
+      color                 #464646
+
+    h3
+      font-size             22px
+      font-weight           300
+      color                 #6b6b6b
+      margin                8px 0 0
+
+    .kdtabview
+      width                 66%
+      margin                60px 0 74px
+
+      .kdtabhandlecontainer
+        bg                  color, transparent
+        border              none
+        height              36px
+        overflow            visible
+
+        .kdtabhandle-tabs
+          overflow          visible
+
+        .kdtabhandle
+          height            36px
+          line-height       36px
+          rounded           4px 4px 0 0
+          border            1px solid #dadada
+          border-bottom     none
+          margin-right      3px
+          padding           0 24px
+          color             #c1c1c1
+          font-size         14px
+
+          &.active
+            border-color    #cacaca
+            color           #757575
+            shadow          0 1px 0 #fff
+
+      pre.kdtabpaneview
+        rounded             0 4px 4px 4px
+        border              1px solid #cacaca
+        padding             20px
+        borderBox()
+
+        &:before
+        &:after
+          display           none
+
+        code
+          font-family       'Courier New','Courier',monospace, sans-serif
+          width             auto
+          borderBox()
+
+    .go-to-doc
+      font-size             22px
+      color                 #6b6b6b
+
+      a
+        color               inherit
+
+footer
+  size                      100%, 163px
+  background                #333333
+  bottom                    0px
+  left                      0px
+  z-index                   1
+  fix()
+
+  .about-kd
+    padding                 58px 0 0 0
+    font-size               16px
+    color                   #858585
+    font-weight             300
+    line-height             24px
+    fl()
+
+  nav
+    line-height             163px
+    fr()
+
+    a
+      color                 #858585
+      font-weight           300
+      font-size             16px
+      display               inline-block
+      line-height           36px
+      margin-left           16px
+      noTextDeco()

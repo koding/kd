@@ -3,10 +3,20 @@
 .main-view
   font-family               'Open Sans', 'sans-serif'
 
-section.home-section
 footer
+section.home-section
   position                  relative
   overflow                  visible
+
+  .inner-wrapper
+    max-width               1290px
+    padding                 0 45px
+    margin                  0px auto
+    overflow                visible
+    border-top              1px solid transparent
+    borderBox()
+
+section.home-section
   background                #fff
   z-index                   3
 
@@ -15,23 +25,26 @@ footer
     border                  none
     overflow                visible
 
-  .inner-wrapper
-    max-width               1290px
-    padding                 0 45px
-    margin                  0px auto
-    overflow                visible
-    borderBox()
-
   &.intro
-    padding                 49px 0 98px 0
+    padding                 49px 0 148px 0
     background              #333
     text-align              center
     height                  auto
     z-index                 2
+    shadow                  0 0 0 rgba(0,0,0,.4)
+    -webkit-transition      -webkit-box-shadow .4s ease
+    -moz-transition         -moz-box-shadow .4s ease
     fix()
 
     nav
-      text-align            center
+      abs                   0 50% 0 0
+      vendor                transform, translateX(50%)
+      width                 auto
+      -webkit-transition    -webkit-transform .3s ease \,
+                            right .3s ease
+
+      -moz-transition       -moz-transform .3s ease \,
+                            right .3s ease
 
       a
         color               #979797
@@ -49,6 +62,10 @@ footer
           padding           0 25px 0 0
           font-weight       600
           margin-left       23px
+          width             216px
+          white-space       nowrap
+          vendor            transition, color .2s .1s ease \,
+                                        width .2s .1s ease
 
           &:before
             content         ''
@@ -65,12 +82,16 @@ footer
       size                  188px 148px
       background            url('../src/img/logo.svg') no-repeat center
       background-size       contain
-      margin                81px auto 30px
+      abs                   123px 0 0 50%
+      margin-left           -94px
+      vendor                transition, width .3s ease \,
+                                        height .3s ease \,
+                                        top .3s ease \,
+                                        left .3s ease
 
     h2
       text-align            center
-      font-weight           300
-      margin                0 0 93px 0
+      margin                314px 0 93px 0
 
       span
         font-size           36px
@@ -87,6 +108,16 @@ footer
       color                 #effee5
       padding               0 0 0 27px
       overflow              hidden
+      abs                   412px 50% 0 0
+      width                 354px
+      margin                0 -177px 0 0
+      vendor                transition, width .3s ease \,
+                                        height .3s ease \,
+                                        top .3s ease \,
+                                        right .3s ease \,
+                                        margin .3s ease \,
+                                        font-size .3s ease \,
+                                        border-radius .3s ease
       noTextDeco()
 
       &:after
@@ -101,8 +132,6 @@ footer
         margin-left         27px
         fr()
 
-
-
   &.features
     margin-top              630px
     shadow                  0 -12px 38px rgba(0,0,0, .75)
@@ -115,6 +144,10 @@ footer
       abs                   -12px 0 0 50%
       vendor                transform, skewX(-45deg)
       margin-left           6px
+      -webkit-transition    -webkit-transform .3s .2s ease \,
+                            margin-left .3s .2s ease
+      -moz-transition       -moz-transform .3s .2s ease \,
+                            margin-left .3s .2s ease
 
     &:after
       content               ''
@@ -124,6 +157,10 @@ footer
       abs                   -12px 0 0 0px
       vendor                transform, skewX(45deg)
       margin-left           -6px
+      -webkit-transition    -webkit-transform .3s .2s ease \,
+                            margin-left .3s .2s ease
+      -moz-transition       -moz-transform .3s .2s ease \,
+                            margin-left .3s .2s ease
 
     .inner-wrapper
       vertical-align        top
@@ -199,21 +236,20 @@ footer
           height            36px
           line-height       36px
           rounded           4px 4px 0 0
-          border            1px solid #dadada
-          border-bottom     none
           margin-right      3px
+          border            none
           padding           0 24px
-          color             #c1c1c1
+          color             #858585
           font-size         14px
+          background        #ececec
 
           &.active
-            border-color    #cacaca
-            color           #757575
-            shadow          0 1px 0 #fff
+            background      #333
+            color           #f1f1f1
 
       pre.kdtabpaneview
         rounded             0 4px 4px 4px
-        border              1px solid #cacaca
+        background          #333
         padding             20px
         borderBox()
 
@@ -224,6 +260,7 @@ footer
         code
           font-family       'Courier New','Courier',monospace, sans-serif
           width             auto
+          background        transparent
           borderBox()
 
     .go-to-doc
@@ -261,3 +298,47 @@ footer
       line-height           36px
       margin-left           16px
       noTextDeco()
+
+.main-view.collapse-header
+  section.intro
+    height                    43px
+    padding-bottom            55px
+    z-index                   6
+    overflow                  hidden
+    shadow                    0 3px 16px rgba(0,0,0,.4)
+    fix()
+
+    figure.logo
+      size                    64px 50px
+      left                    139px
+      top                     -4px
+
+    nav
+      right                   354px
+      vendor                  transform, translateX(0)
+
+      a#fork-us
+        width                 24px
+        color                 transparent
+
+    .download-button
+      abs                     0px 45px 0 0
+      height                  40px
+      line-height             40px
+      font-size               16px
+      rounded                 4px
+      width                   258px
+      margin                  0
+
+      &:after
+        size                  49px, 40px
+        bg                    position, 8px 8px
+
+  section.features
+    &:before
+      vendor                  transform, skewX(0deg)
+      margin-left             0px
+
+    &:after
+      vendor                  transform, skewX(0deg)
+      margin-left             0px

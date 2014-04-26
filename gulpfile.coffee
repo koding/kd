@@ -163,7 +163,7 @@ gulp.task 'docs-coffee', ['docs-exec'], ->
 
 gulp.task 'docs-styles', ['docs-exec'],->
 
-  gulp.src ['./playground/main.styl']
+  gulp.src ['./docs/src/styl/main.styl']
     .pipe stylus()
     .pipe gulpif useMinify, minifyCSS()
     .pipe rename 'main.css'

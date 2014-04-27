@@ -28,9 +28,13 @@ module.exports = class MainView extends KDView
         <a href='#' id='fork-us'>FORK US ON GITHUB</a>
         """
 
-    innerWrapper.addSubView new KDCustomHTMLView
+    innerWrapper.addSubView @logo = new KDCustomHTMLView
       tagName   : 'figure'
       cssClass  : 'logo'
+
+    innerWrapper.addSubView new KDCustomHTMLView
+      tagName   : 'figure'
+      cssClass  : 'logo small'
 
     innerWrapper.addSubView new KDHeaderView
       type      : 'medium'
@@ -216,15 +220,49 @@ module.exports = class MainView extends KDView
     @createExamplesSection()
     @createFooter()
 
-    KD.singletons.windowController.on 'ScrollHappened', =>
-      scrollPosition = window.scrollY
 
-      if (scrollPosition >= 469) and not @headerCollapsed
+    KD.singletons.windowController.on 'ScrollHappened', @bound '_windowDidResize'
 
-        @setClass 'collapse-header'
-        @headerCollapsed = yes
 
-      else if (scrollPosition <= 469) and @headerCollapsed
+  _windowDidResize: ->
+    # # logoAttributes
+    # la = [
+    #   width  : 188
+    #   height : 148
+    #   top    : 123
+    #   left   : 50
+    # ,
+    #   width  : 64
+    #   height : 50
+    #   top    : -4
+    #   left   : 0
+    # ]
 
-        @unsetClass 'collapse-header'
-        @headerCollapsed = no
+    # animationEndY = 475
+
+    # KD.utils.throttle 50, ->
+
+    # scrollTop = Math.min document.body.scrollTop, animationEndY
+
+    # ratio = scrollTop / animationEndY
+
+    # # log ratio
+
+    # @logo.setStyle
+
+    #   width      : la.first.width  - (la.first.width  - la.last.width)  * ratio
+    #   height     : la.first.height - (la.first.height - la.last.height) * ratio
+    #   top        : la.first.top    - (la.first.top    - la.last.top)    * ratio
+    #   left       : "#{la.first.left - (la.first.left - la.last.left) * ratio}%"
+    #   marginLeft : ((la.first.width / 2) - (la.first.width * ratio)) * -1
+
+    scrollPosition = window.scrollY
+    if (scrollPosition >= 520) and not @headerCollapsed
+
+      @setClass 'collapse-header'
+      @headerCollapsed = yes
+
+    else if (scrollPosition <= 520) and @headerCollapsed
+
+      @unsetClass 'collapse-header'
+      @headerCollapsed = no

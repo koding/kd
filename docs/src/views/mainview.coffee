@@ -96,6 +96,7 @@ module.exports = class MainView extends KDView
       tagName     : 'section'
 
     @examplesSection.addSubView innerWrapper = new KDView
+    KD.singletons.windowController.on 'ScrollHappened', @bound 'handleScroll'
       cssClass  : 'inner-wrapper'
 
     innerWrapper.addSubView new KDHeaderView

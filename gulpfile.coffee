@@ -300,7 +300,7 @@ gulp.task 'default', defaultTasks , ->
   log 'blue', 'localhost:8080/docs'
 
 
-# process.on 'uncaughtException', (err)->
+process.on 'uncaughtException', (err)->
 
-#   log 'red', "An error has occured: #{err.name}"
-#   console.error err
+  log 'red', "An error has occured: #{err.name}"
+  console.error err

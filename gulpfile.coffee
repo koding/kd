@@ -14,12 +14,10 @@ clean      = require 'gulp-clean'
 Q          = require 'q'
 fs         = require 'fs'
 http       = require 'http'
-coffee     = require 'coffee-script'
 argv       = require('minimist') process.argv
 source     = require 'vinyl-source-stream'
 gulpBuffer = require 'gulp-buffer'
 ecstatic   = require 'ecstatic'
-readdir    = require 'recursive-readdir'
 {exec}     = require 'child_process'
 
 pistachioCompiler = require 'gulp-pistachio-compiler'

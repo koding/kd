@@ -190,8 +190,7 @@ module.exports = class MainView extends KDView
 
     innerWrapper.addSubView new KDCustomHTMLView
       cssClass        : 'go-to-doc'
-      partial         : 'Unbelieveable huh? Continue and you’ll see your
-                         mothers <a href="http://docs.kd.io">private parts and such.</a>'
+      partial         : 'Unbelieveable huh? Continue and you’ll see the other <a href="http://docs.kd.io">parts and such.</a>'
 
   createFooter : ->
     @addSubView @footer = new KDCustomHTMLView

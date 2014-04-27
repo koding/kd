@@ -292,12 +292,12 @@ else if buildPlay
 
 gulp.task 'default', defaultTasks , ->
 
-  http.createServer ecstatic root : "#{__dirname}"
+  http.createServer ecstatic
+      root        : "#{__dirname}/#{buildDir}"
+      handleError : no
     .listen 8080
 
-  log 'blue', 'HTTP server ready'
-  log 'blue', 'localhost:8080/playground'
-  log 'blue', 'localhost:8080/docs'
+  log 'green', "HTTP server for #{buildDir} is ready at localhost:8080"
 
 
 process.on 'uncaughtException', (err)->

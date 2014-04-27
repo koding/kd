@@ -35,10 +35,8 @@ module.exports = class KDTabPaneView extends KDView
     @emit "KDTabPaneActive"
     KD.utils.defer =>
       {body, documentElement}         = document
-      documentElement.scrollTop       = @lastScrollTops.window
-      body.scrollTop                  = @lastScrollTops.body
       @getElement().scrollTop         = @lastScrollTops.self
-      @parent?.getElement().scrollTop = @lastScrollTops.parent
+      documentElement.scrollTop       = @lastScrollTops.window
 
 
   hide:->
@@ -47,8 +45,6 @@ module.exports = class KDTabPaneView extends KDView
 
     {body, documentElement} = document
 
-    @lastScrollTops.window = documentElement.scrollTop
-    @lastScrollTops.body   = body.scrollTop
     @lastScrollTops.parent = @parent?.getElement().scrollTop or 0
     @lastScrollTops.self   = @getElement().scrollTop
 

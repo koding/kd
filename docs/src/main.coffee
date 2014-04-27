@@ -213,12 +213,27 @@ class MainView
             <a href='#'>Contact</a>
           """
 
-
     viewAppended : ->
       @createIntroSection()
       @createFeaturesSection()
       @createExamplesSection()
       @createFooter()
+
+      KD.singletons.windowController.on 'ScrollHappened', =>
+        scrollPosition = window.scrollY
+
+        if (scrollPosition >= 469) and not @headerCollapsed
+
+          @setClass 'collapse-header'
+          @headerCollapsed = yes
+
+        else if (scrollPosition <= 469) and @headerCollapsed
+
+          @unsetClass 'collapse-header'
+          @headerCollapsed = no
+
+
+
 
 
   @getInstance :->

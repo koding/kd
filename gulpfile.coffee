@@ -19,8 +19,7 @@ source     = require 'vinyl-source-stream'
 gulpBuffer = require 'gulp-buffer'
 ecstatic   = require 'ecstatic'
 {exec}     = require 'child_process'
-
-pistachioCompiler = require 'gulp-pistachio-compiler'
+pistachio  = require 'gulp-pistachio-compiler'
 
 STYLES_PATH   = require './src/themes/styl.includes.coffee'
 COFFEE_PATH   = ['./src/components/**/*.coffee','./src/core/**/*.coffee','./src/init.coffee']
@@ -63,7 +62,7 @@ gulp.task 'styles', ->
 
   gulp.src STYLES_PATH
     .pipe stylus()
-    .pipe concat "kd.css"
+    .pipe concat 'kd.css'
     .pipe gulpif useMinify, minifyCSS()
     .pipe rename "kd.#{version}css"
     .pipe gulp.dest "#{buildDir}/css"
@@ -77,7 +76,7 @@ gulp.task 'libs', ->
     .pipe uglify()
     .pipe concat 'tmp'
     .pipe rename "kd.libs.#{version}js"
-    .pipe gulp.dest "test"
+    .pipe gulp.dest 'test'
     .pipe gulp.dest "#{buildDir}/js"
     .pipe gulpif useLiveReload, livereload()
 
@@ -100,7 +99,7 @@ gulp.task 'coffee', ['export'], ->
       entries : entryPath
     .pipe source entryPath
     .pipe gulpBuffer()
-    .pipe pistachioCompiler()
+    .pipe pistachio()
     .pipe gulpif useUglify, uglify()
     .pipe rename "kd.#{version}js"
     .pipe gulp.dest "#{buildDir}/js"

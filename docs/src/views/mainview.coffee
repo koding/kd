@@ -20,6 +20,12 @@ module.exports = class MainView extends KDView
 
     @footer = new FooterView
 
+    @download = new KDCustomHTMLView
+      tagName   : 'a'
+      partial   : 'DOWNLOAD THE THING'
+      cssClass  : 'download-button'
+      attributes: href : '#'
+
   viewAppended : ->
 
     JView::viewAppended.call this
@@ -36,6 +42,15 @@ module.exports = class MainView extends KDView
 
     """
     {{> this.header}}
+
+    <section class='intro home-section'>
+      <div class='inner-wrapper'>
+        <figure class='logo'></figure>
+        <h2><span>A framework to change your drinking habits.</span></h2>
+        {{> this.download}}
+      </div>
+    </section>
+
     <section class='features home-section'>
       <div class='inner-wrapper'>
         <article class='feature'>

@@ -1,4 +1,4 @@
-TopNavigation  = require './topnavigation'
+HeaderView     = require './HeaderView'
 SideNavigation = require './sidenavigation'
 ContentView    = require './contentview'
 
@@ -11,7 +11,7 @@ module.exports = class PageView extends JView
 
     super options
 
-    @topNav  = new TopNavigation
+    @topNav  = new HeaderView
     @sideNav = new SideNavigation
     @content = new ContentView
 
@@ -19,7 +19,9 @@ module.exports = class PageView extends JView
   pistachio: ->
 
     """
-    {{> @topNav}}
-    {{> @sideNav}}
-    {{> @content}}
+    {{> this.topNav}}
+    <div class='inner-wrapper guide-page clearfix'>
+      {{> this.sideNav}}
+      {{> this.content}}
+    </div>
     """

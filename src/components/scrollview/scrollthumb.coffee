@@ -109,8 +109,6 @@ module.exports = class KDScrollThumb extends KDView
     @trackSize  = @getTrackSize()
     @scrollSize = @getScrollSize()
 
-    log @trackSize, @scrollSize
-
     if @trackSize >= @scrollSize
     then @track.hide()
     else @track.show()

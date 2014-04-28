@@ -68,15 +68,6 @@ module.exports = class KDWindowController extends KDController
       {body} = document
       _.throttle (event)=>
         @emit "ScrollHappened", event
-        # commented out to see the current performance
-        # w/o pointer-events hack
-
-        # clearTimeout timer
-        # unless body.classList.contains 'onscroll'
-        #   body.classList.add 'onscroll'
-
-        # timer = KD.utils.wait 400, ->
-        #   body.classList.remove 'onscroll'
       , 50
     , no
 

@@ -269,27 +269,27 @@ gulp.task 'clean-play', ->
 
 gulp.task 'compile', ['clean', 'styles', 'libs', 'coffee']
 
-defaultTasks = [
-  'live', 'compile', 'clean'
-  'watch-styles', 'watch-coffee', 'watch-libs'
-]
+defaultTasks = ['compile', 'clean', 'watch-styles', 'watch-coffee', 'watch-libs']
 
 if buildDocs
   buildDir     = 'docs'
-  defaultTasks = defaultTasks.concat ['docs', 'watch-docs']
+  defaultTasks = defaultTasks.concat ['live', 'docs', 'watch-docs']
 else if buildPlay
   buildDir     = 'playground'
-  defaultTasks = defaultTasks.concat ['play', 'watch-playground']
+  defaultTasks = defaultTasks.concat ['live', 'play', 'watch-playground']
 
 
 gulp.task 'default', defaultTasks , ->
 
-  http.createServer ecstatic
-      root        : "#{__dirname}/#{buildDir}"
-      handleError : no
-    .listen 8080
+  if useLiveReload
+    http.createServer ecstatic
+        root        : "#{__dirname}/#{buildDir}"
+        handleError : no
+      .listen 8080
 
-  log 'green', "HTTP server for #{buildDir} is ready at localhost:8080"
+    log 'green', "HTTP server for #{buildDir} is ready at localhost:8080"
+  else
+    log 'green', 'All done!'
 
 
 process.on 'uncaughtException', (err)->

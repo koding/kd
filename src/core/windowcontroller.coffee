@@ -59,7 +59,8 @@ module.exports = class KDWindowController extends KDController
 
   bindEvents:->
 
-    $(window).bind @keyEventsToBeListened.join(' '), @bound "key"
+    for eventName in @keyEventsToBeListened
+      addEventListener eventName, @bound 'key'
 
     addEventListener 'resize', @bound 'notifyWindowResizeListeners'
 

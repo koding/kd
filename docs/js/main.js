@@ -59,21 +59,21 @@ module.exports = HeaderView = (function(_super) {
     if (options == null) {
       options = {};
     }
-    options.cssClass = 'intro home-section';
-    options.tagName = 'section';
+    options.cssClass = 'main-header';
+    options.tagName = 'header';
     HeaderView.__super__.constructor.call(this, options);
     this.download = new KDCustomHTMLView({
       tagName: 'a',
-      partial: 'DOWNLOAD THE THING',
       cssClass: 'download-button',
       attributes: {
-        href: '#'
+        href: '#',
+        title: 'Download'
       }
     });
   }
 
   HeaderView.prototype.pistachio = function() {
-    return "<div class='inner-wrapper'>\n  <nav>\n    <a href='/About'>ABOUT</a>\n    <a href='/Guide/Getting+started'>GUIDE</a>\n    <a href='/API'>API</a>\n    <a href='https://koding.com'>COMMUNITY</a>\n    <a href='/Build'>BUILD</a>\n    <a href='http://github.com/koding/kd' id='fork-us' target='_blank'>FORK US ON GITHUB</a>\n  </nav>\n  <figure class='logo'></figure>\n  <figure class='logo small'></figure>\n  <h2><span>A framework to change your drinking habits.</span></h2>\n  {{> this.download}}\n</div>";
+    return "<div class='inner-wrapper'>\n  <figure class='logo small'></figure>\n  <nav>\n    <a href='/About'>ABOUT</a>\n    <a href='/Guide/Getting+started'>GUIDE</a>\n    <a href='/API'>API</a>\n    <a href='https://koding.com'>COMMUNITY</a>\n    <a href='/Build'>BUILD</a>\n    <a href='http://github.com/koding/kd' id='fork-us' title='Fork us on Github' target='_blank'>FORK US ON GITHUB</a>\n    {{> this.download}}\n  </nav>\n</div>";
   };
 
   return HeaderView;
@@ -107,6 +107,14 @@ module.exports = MainView = (function(_super) {
       tagName: 'section'
     });
     this.footer = new FooterView;
+    this.download = new KDCustomHTMLView({
+      tagName: 'a',
+      partial: 'DOWNLOAD THE THING',
+      cssClass: 'download-button',
+      attributes: {
+        href: '#'
+      }
+    });
   }
 
   MainView.prototype.viewAppended = function() {
@@ -118,7 +126,7 @@ module.exports = MainView = (function(_super) {
   MainView.prototype.showPage = function() {};
 
   MainView.prototype.pistachio = function() {
-    return "{{> this.header}}\n<section class='features home-section'>\n  <div class='inner-wrapper'>\n    <article class='feature'>\n      <figure class='chrome'></figure>\n      <h3>FROM KODING</h3>\n      <p>\n        That's the shizzle metus my shizz, luctizzle et, tristique izzle,\n        dope at, nulla. Donec pharetra, nisi shut the shizzle up facilisizzle\n        malesuada, neque justo its fo rizzle dope, mollizzle sheezy\n        tellivizzle erat izzle phat.\n      </p>\n    </article>\n\n    <article class='feature'>\n      <figure class='king'></figure>\n      <h3>LIKE A FKIN BOSS</h3>\n      <p>\n        That's the shizzle metus my shizz, luctizzle et, tristique izzle,\n        dope at, nulla. Donec pharetra, nisi shut the shizzle up facilisizzle\n        malesuada, neque justo its fo rizzle dope, mollizzle sheezy\n        tellivizzle erat izzle phat.\n      </p>\n    </article>\n\n    <article class='feature'>\n      <figure class='box'></figure>\n      <h3>OUT OF THE BOX</h3>\n      <p>\n        That's the shizzle metus my shizz, luctizzle et, tristique izzle,\n        dope at, nulla. Donec pharetra, nisi shut the shizzle up facilisizzle\n        malesuada, neque justo its fo rizzle dope, mollizzle sheezy\n        tellivizzle erat izzle phat.\n      </p>\n    </article>\n  </div>\n</section>\n{{> this.examples}}\n{{> this.footer}}";
+    return "{{> this.header}}\n\n<section class='intro home-section'>\n  <div class='inner-wrapper'>\n    <figure class='logo'></figure>\n    <h2><span>A framework to change your drinking habits.</span></h2>\n    {{> this.download}}\n  </div>\n</section>\n\n<section class='features home-section'>\n  <div class='inner-wrapper'>\n    <article class='feature'>\n      <figure class='chrome'></figure>\n      <h3>FROM KODING</h3>\n      <p>\n        That's the shizzle metus my shizz, luctizzle et, tristique izzle,\n        dope at, nulla. Donec pharetra, nisi shut the shizzle up facilisizzle\n        malesuada, neque justo its fo rizzle dope, mollizzle sheezy\n        tellivizzle erat izzle phat.\n      </p>\n    </article>\n\n    <article class='feature'>\n      <figure class='king'></figure>\n      <h3>LIKE A FKIN BOSS</h3>\n      <p>\n        That's the shizzle metus my shizz, luctizzle et, tristique izzle,\n        dope at, nulla. Donec pharetra, nisi shut the shizzle up facilisizzle\n        malesuada, neque justo its fo rizzle dope, mollizzle sheezy\n        tellivizzle erat izzle phat.\n      </p>\n    </article>\n\n    <article class='feature'>\n      <figure class='box'></figure>\n      <h3>OUT OF THE BOX</h3>\n      <p>\n        That's the shizzle metus my shizz, luctizzle et, tristique izzle,\n        dope at, nulla. Donec pharetra, nisi shut the shizzle up facilisizzle\n        malesuada, neque justo its fo rizzle dope, mollizzle sheezy\n        tellivizzle erat izzle phat.\n      </p>\n    </article>\n  </div>\n</section>\n{{> this.examples}}\n{{> this.footer}}";
   };
 
   MainView.prototype.createExamples = function() {

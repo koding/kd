@@ -10103,14 +10103,15 @@ module.exports = KDNotificationView = (function(_super) {
   };
 
   KDNotificationView.prototype.notificationSetPositions = function() {
-    var bottomMargin, i, notification, sameTypeNotifications, styles, topMargin, winHeight, winWidth, _i, _j, _len, _len1, _ref;
+    var bottomMargin, i, notification, sameTypeNotifications, styles, topMargin, winHeight, winWidth, _i, _j, _len, _len1;
     this.setClass(this.notificationType);
     sameTypeNotifications = $("body").find(".kdnotification." + this.notificationType);
     if (this.getOptions().container) {
       winHeight = this.getOptions().container.getHeight();
       winWidth = this.getOptions().container.getWidth();
     } else {
-      _ref = KD.getSingleton('windowController'), winWidth = _ref.winWidth, winHeight = _ref.winHeight;
+      winWidth = window.innerWidth;
+      winHeight = window.innerHeight;
     }
     switch (this.notificationType) {
       case "tray":
@@ -10701,6 +10702,8 @@ KDScrollTrack = require('./scrolltrack');
 KDCustomScrollViewWrapper = require('./customscrollviewinner');
 
 module.exports = KDCustomScrollView = (function(_super) {
+  var intent;
+
   __extends(KDCustomScrollView, _super);
 
   function KDCustomScrollView(options, data) {
@@ -10708,8 +10711,8 @@ module.exports = KDCustomScrollView = (function(_super) {
     if (options == null) {
       options = {};
     }
-    if (options.naturalScroll == null) {
-      options.naturalScroll = true;
+    if (options.bind == null) {
+      options.bind = 'mouseenter mouseleave';
     }
     options.cssClass = KD.utils.curry('kdcustomscrollview', options.cssClass);
     if (options.mouseWheelSpeed == null) {
@@ -10740,6 +10743,8 @@ module.exports = KDCustomScrollView = (function(_super) {
         return _this.unsetClass("has-" + type);
       };
     })(this));
+    this.on('mouseenter', this.bound('showTracks'));
+    this.on('mouseleave', this.bound('hideTracks'));
   }
 
   KDCustomScrollView.prototype.viewAppended = function() {
@@ -10749,6 +10754,25 @@ module.exports = KDCustomScrollView = (function(_super) {
     this.wrapper.observeMutations();
     this.wrapper.on('MutationHappened', this.verticalTrack.thumb.bound('handleMutation'));
     return this.wrapper.on('MutationHappened', this.horizontalTrack.thumb.bound('handleMutation'));
+  };
+
+  intent = null;
+
+  KDCustomScrollView.prototype.hideTracks = function() {
+    return intent = KD.utils.wait(1000, (function(_this) {
+      return function() {
+        _this.verticalTrack.setClass('out');
+        return _this.horizontalTrack.setClass('out');
+      };
+    })(this));
+  };
+
+  KDCustomScrollView.prototype.showTracks = function() {
+    if (intent) {
+      KD.utils.killWait(intent);
+    }
+    this.verticalTrack.unsetClass('out');
+    return this.horizontalTrack.unsetClass('out');
   };
 
   return KDCustomScrollView;
@@ -12949,20 +12973,18 @@ module.exports = KDTabPaneView = (function(_super) {
     this.emit("KDTabPaneActive");
     return KD.utils.defer((function(_this) {
       return function() {
-        var body, documentElement;
-        body = document.body, documentElement = document.documentElement;
+        var _ref1;
         _this.getElement().scrollTop = _this.lastScrollTops.self;
-        return documentElement.scrollTop = _this.lastScrollTops.window;
+        return (_ref1 = _this.parent) != null ? _ref1.getElement().scrollTop = _this.lastScrollTops.parent : void 0;
       };
     })(this));
   };
 
   KDTabPaneView.prototype.hide = function() {
-    var body, documentElement, _ref, _ref1;
+    var _ref, _ref1;
     if (!this.active) {
       return;
     }
-    body = document.body, documentElement = document.documentElement;
     this.lastScrollTops.parent = ((_ref = this.parent) != null ? _ref.getElement().scrollTop : void 0) || 0;
     this.lastScrollTops.self = this.getElement().scrollTop;
     this.setClass("kdhiddentab");
@@ -20449,7 +20471,6 @@ module.exports = KDWindowController = (function(_super) {
     this.unloadListeners = {};
     this.focusListeners = [];
     this.bindEvents();
-    this.setWindowProperties();
     KDWindowController.__super__.constructor.call(this, options, data);
   }
 
@@ -20473,14 +20494,13 @@ module.exports = KDWindowController = (function(_super) {
   };
 
   KDWindowController.prototype.bindEvents = function() {
-    var layers;
-    $(window).bind(this.keyEventsToBeListened.join(' '), this.bound("key"));
-    $(window).bind("resize", (function(_this) {
-      return function(event) {
-        _this.setWindowProperties(event);
-        return _this.notifyWindowResizeListeners(event);
-      };
-    })(this));
+    var eventName, layers, _i, _len, _ref;
+    _ref = this.keyEventsToBeListened;
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      eventName = _ref[_i];
+      addEventListener(eventName, this.bound('key'));
+    }
+    addEventListener('resize', this.bound('notifyWindowResizeListeners'));
     document.addEventListener('scroll', (function(_this) {
       return function() {
         var body, timer;
@@ -20501,8 +20521,8 @@ module.exports = KDWindowController = (function(_super) {
     })(this));
     addListener("dragleave", (function(_this) {
       return function(event) {
-        var _ref, _ref1;
-        if (!((0 < (_ref = event.clientX) && _ref < _this.winWidth) && (0 < (_ref1 = event.clientY) && _ref1 < _this.winHeight))) {
+        var _ref1, _ref2;
+        if (!((0 < (_ref1 = event.clientX) && _ref1 < _this.winWidth) && (0 < (_ref2 = event.clientY) && _ref2 < _this.winHeight))) {
           _this.emit('DragExitOnWindow', event);
           return _this.setDragInAction(false);
         }
@@ -20542,9 +20562,9 @@ module.exports = KDWindowController = (function(_super) {
       };
     })(this));
     addListener('click', function(e) {
-      var href, isHttp, nearestLink, _ref;
+      var href, isHttp, nearestLink, _ref1;
       nearestLink = KD.utils.getNearestElementByTagName(e.target, 'a');
-      if ((nearestLink != null ? (_ref = nearestLink.target) != null ? _ref.length : void 0 : void 0) === 0) {
+      if ((nearestLink != null ? (_ref1 = nearestLink.target) != null ? _ref1.length : void 0 : void 0) === 0) {
         href = nearestLink.getAttribute("href");
         isHttp = (href != null ? href.indexOf("http") : void 0) === 0;
         if (isHttp) {

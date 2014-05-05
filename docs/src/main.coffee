@@ -9,8 +9,6 @@ do ->
 
   handleRoute = ({params : {page, section}, query}) ->
 
-    log page, section, query
-
     mainView.showPage page, section
 
   # add the routes

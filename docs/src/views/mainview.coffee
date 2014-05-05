@@ -21,10 +21,11 @@ module.exports = class MainView extends KDView
     @footer = new FooterView
 
     @download = new KDCustomHTMLView
-      tagName   : 'a'
-      partial   : 'DOWNLOAD THE THING'
-      cssClass  : 'download-button'
-      attributes: href : '#'
+      tagName    : 'a'
+      partial    : 'DOWNLOAD THE THING'
+      cssClass   : 'download-button'
+      attributes :
+        href     : 'http://github.com/koding/kd'
 
   viewAppended : ->
 
@@ -36,6 +37,10 @@ module.exports = class MainView extends KDView
 
 
   showPage: ->
+
+    new KDNotificationView
+      type  : 'growl'
+      title : 'Coming soon...'
 
 
   pistachio: ->
@@ -57,10 +62,7 @@ module.exports = class MainView extends KDView
           <figure class='chrome'></figure>
           <h3>FROM KODING</h3>
           <p>
-            That's the shizzle metus my shizz, luctizzle et, tristique izzle,
-            dope at, nulla. Donec pharetra, nisi shut the shizzle up facilisizzle
-            malesuada, neque justo its fo rizzle dope, mollizzle sheezy
-            tellivizzle erat izzle phat.
+            coming soon...
           </p>
         </article>
 
@@ -68,10 +70,7 @@ module.exports = class MainView extends KDView
           <figure class='king'></figure>
           <h3>LIKE A FKIN BOSS</h3>
           <p>
-            That's the shizzle metus my shizz, luctizzle et, tristique izzle,
-            dope at, nulla. Donec pharetra, nisi shut the shizzle up facilisizzle
-            malesuada, neque justo its fo rizzle dope, mollizzle sheezy
-            tellivizzle erat izzle phat.
+            coming soon...
           </p>
         </article>
 
@@ -79,10 +78,7 @@ module.exports = class MainView extends KDView
           <figure class='box'></figure>
           <h3>OUT OF THE BOX</h3>
           <p>
-            That's the shizzle metus my shizz, luctizzle et, tristique izzle,
-            dope at, nulla. Donec pharetra, nisi shut the shizzle up facilisizzle
-            malesuada, neque justo its fo rizzle dope, mollizzle sheezy
-            tellivizzle erat izzle phat.
+            coming soon...
           </p>
         </article>
       </div>
@@ -108,73 +104,58 @@ module.exports = class MainView extends KDView
       hideHandleCloseIcons : yes
 
     exampleTabs.addPane new KDTabPaneView
-      name    : 'avatar.js'
+      name    : 'soon-1'
       tagName : 'pre'
       view    : new KDView
         tagName : 'code'
         partial :
           """
-          @addSubView @examplesSection = new KDView
-            cssClass    : 'examples home-section'
-            tagName     : 'section'
-
-          @examplesSection.addSubView innerWrapper = new KDView
-            cssClass  : 'inner-wrapper'
-
-          innerWrapper.addSubView new KDHeaderView
-            type      : 'medium'
-            title     : 'Let’s talk about the reality'
-
-          innerWrapper.addSubView new KDHeaderView
-            type      : 'small'
-            title     : 'What you can do, what you can not do, samples baby'
+          @addSubView @comingSoonView = new KDView
+            cssClass : 'coming-soon'
+            tagName  : 'section'
+            click    : ->
+              new KDNotificationView
+                title : 'Coming soon...'
+                type  : 'tray'
           """
 
     exampleTabs.addPane (new KDTabPaneView
-      name    : 'blob.js'
+      name    : 'soon-2'
       tagName : 'pre'
       view    : new KDView
         tagName : 'code'
         partial :
           """
-          @addSubView @examplesSection = new KDView
-            cssClass    : 'examples home-section'
-            tagName     : 'section'
+          @comingSoonView = new KDView
+            cssClass : 'coming-soon'
+            tagName  : 'section'
+            click    : ->
 
-          @examplesSection.addSubView innerWrapper = new KDView
-            cssClass  : 'inner-wrapper'
+          @comingSoonView.appendToDomBody()
 
-          innerWrapper.addSubView new KDHeaderView
-            type      : 'medium'
-            title     : 'Let’s talk about the reality'
-
-          innerWrapper.addSubView new KDHeaderView
-            type      : 'small'
-            title     : 'What you can do, what you can not do, samples baby'
+          @comingSoonView.on 'click', ->
+            new KDNotificationView
+              title : 'Coming soon...'
+              type  : 'tray'
           """
     ), false
 
     exampleTabs.addPane (new KDTabPaneView
-      name    : 'hjob.js'
+      name    : 'soon-3'
       tagName : 'pre'
       view    : new KDView
         tagName : 'code'
         partial :
           """
-          @addSubView @examplesSection = new KDView
-            cssClass    : 'examples home-section'
-            tagName     : 'section'
+          @comingSoonController = new KDController
 
-          @examplesSection.addSubView innerWrapper = new KDView
-            cssClass  : 'inner-wrapper'
+          @comingSoonController.fetchSomeData (err, data)->
 
-          innerWrapper.addSubView new KDHeaderView
-            type      : 'medium'
-            title     : 'Let’s talk about the reality'
+            return console.log err  if err
 
-          innerWrapper.addSubView new KDHeaderView
-            type      : 'small'
-            title     : 'What you can do, what you can not do, samples baby'
+            new KDNotificationView
+              title : 'Some data is fetched, but this is still coming soon...'
+              type  : 'tray'
           """
     ), false
 

@@ -11,7 +11,7 @@ module.exports = class FooterView extends JView
 
     """
     <div class='inner-wrapper'>
-      <p class='about-kd'>KD is free and open-source! <br> by Koding with love <3</p>
+      <p class='about-kd'>KD is free and open-source! <br> by Koding with <i><3</i></p>
       <nav>
         <a href='#'>Terms</a>
         <a href='#'>Legal</a>

@@ -59,24 +59,16 @@ module.exports = class KDWindowController extends KDController
 
   bindEvents:->
 
-    $(window).bind @keyEventsToBeListened.join(' '), @bound "key"
+    for eventName in @keyEventsToBeListened
+      addEventListener eventName, @bound 'key'
 
-    window.addEventListener "resize", @bound 'notifyWindowResizeListeners'
+    addEventListener 'resize', @bound 'notifyWindowResizeListeners'
 
     document.addEventListener 'scroll', do =>
       timer  = null
       {body} = document
       _.throttle (event)=>
         @emit "ScrollHappened", event
-        # commented out to see the current performance
-        # w/o pointer-events hack
-
-        # clearTimeout timer
-        # unless body.classList.contains 'onscroll'
-        #   body.classList.add 'onscroll'
-
-        # timer = KD.utils.wait 400, ->
-        #   body.classList.remove 'onscroll'
       , 50
     , no
 

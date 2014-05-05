@@ -22,6 +22,23 @@ Before building make sure you have these installed:
 - [node](http://nodejs.org)
 - [gulp](http://gulpjs.com/)
 
+#### Build the documentation website or create a playground
+
+Documentation website is under `/docs` folder, it is a great example to check how a site can be put together with KD.
+
+You can build & run it by doing:
+
+```bash
+$ gulp --docs
+```
+
+or you can create playground to fiddle with the components with this:
+
+```bash
+$ gulp --play
+```
+
+
 #### Test Runner
 
 KD uses [karma](http://karma-runner.github.io) for automatically running

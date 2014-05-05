@@ -296,7 +296,7 @@ module.exports = class KDInputView extends KDView
     else if notifications
 
       @validationNotifications[message] = notice = new KDNotificationView
-        container : container if container
+        container : container
         title     : message
         type      : 'growl'
         cssClass  : 'mini'

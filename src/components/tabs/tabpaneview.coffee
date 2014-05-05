@@ -33,10 +33,8 @@ module.exports = class KDTabPaneView extends KDView
 
     @active = yes
     @emit "KDTabPaneActive"
+
     KD.utils.defer =>
-      {body, documentElement}         = document
-      documentElement.scrollTop       = @lastScrollTops.window
-      body.scrollTop                  = @lastScrollTops.body
       @getElement().scrollTop         = @lastScrollTops.self
       @parent?.getElement().scrollTop = @lastScrollTops.parent
 
@@ -45,10 +43,6 @@ module.exports = class KDTabPaneView extends KDView
 
     return  unless @active
 
-    {body, documentElement} = document
-
-    @lastScrollTops.window = documentElement.scrollTop
-    @lastScrollTops.body   = body.scrollTop
     @lastScrollTops.parent = @parent?.getElement().scrollTop or 0
     @lastScrollTops.self   = @getElement().scrollTop
 

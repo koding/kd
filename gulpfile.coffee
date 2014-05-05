@@ -11,17 +11,28 @@ concat     = require 'gulp-concat'
 minifyCSS  = require 'gulp-minify-css'
 karma      = require 'gulp-karma'
 clean      = require 'gulp-clean'
+Q          = require 'q'
 fs         = require 'fs'
 http       = require 'http'
-coffee     = require 'coffee-script'
 argv       = require('minimist') process.argv
 source     = require 'vinyl-source-stream'
 gulpBuffer = require 'gulp-buffer'
 ecstatic   = require 'ecstatic'
-readdir    = require 'recursive-readdir'
 {exec}     = require 'child_process'
+pistachio  = require 'gulp-pistachio-compiler'
 
-pistachioCompiler = require 'gulp-pistachio-compiler'
+STYLES_PATH   = require './src/themes/styl.includes.coffee'
+COFFEE_PATH   = ['./src/components/**/*.coffee','./src/core/**/*.coffee','./src/init.coffee']
+LIBS_PATH     = ['./libs/*.js']
+TEST_PATH     = ['./src/**/*.test.coffee']
+LIBS          = require './src/lib.includes.coffee'
+
+# Helpers
+
+checkParam = (param) -> !(param in ['0', 0, no, 'false', 'no', 'off', '', undefined, null])
+
+log = (color, message) ->
+  gutil.log gutil.colors[color] message
 
 gulpBrowserify = (options, bundleOptions) ->
   options.extensions or= ['.coffee']
@@ -30,69 +41,142 @@ gulpBrowserify = (options, bundleOptions) ->
   b.transform coffeeify
   b.bundle bundleOptions
 
-STYLES_PATH = require './src/themes/styl.includes.coffee'
-COFFEE_PATH = ['./src/components/**/*.coffee','./src/core/**/*.coffee','./src/init.coffee']
-LIBS_PATH   = ['./libs/*.js']
-TEST_PATH   = ['./src/**/*.test.coffee']
-LIBS        = require './src/lib.includes.coffee'
+watchLogger = (color, watcher) ->
+  server = livereload()  if useLiveReload
+  watcher.on 'change', (event) ->
+    log color, "file #{event.path} was #{event.type}"
+    server?.changed event.path
 
-buildDir       = argv.outputDir ? 'build'
-version        = if argv.buildVersion then "#{argv.buildVersion}." else ''
-useLiveReload  = !!argv.liveReload
-useUglify      = !!argv.uglify
-useMinify      = !!(argv.minify ? yes)
-karmaAction    = 'watch'
+createServer  = no
+buildDir      = argv.outputDir ? 'build'
+version       = if argv.buildVersion then "#{argv.buildVersion}." else ''
+useLiveReload = checkParam argv.liveReload
+useUglify     = checkParam argv.uglify
+useMinify     = checkParam argv.minify
+karmaAction   = 'watch'
+buildDocs     = checkParam argv.docs
+buildPlay     = checkParam argv.play
+
 
 # Build Tasks
 
+
 gulp.task 'styles', ->
 
-  stream = gulp.src STYLES_PATH
+  gulp.src STYLES_PATH
     .pipe stylus()
-    .pipe concat "kd.css"
+    .pipe concat 'kd.css'
     .pipe gulpif useMinify, minifyCSS()
     .pipe rename "kd.#{version}css"
-    .pipe gulp.dest "playground/css"
     .pipe gulp.dest "#{buildDir}/css"
-
-  stream.pipe livereload()  if useLiveReload
 
 
 gulp.task 'libs', ->
 
-  stream = gulp.src LIBS
+  gulp.src LIBS
     # .pipe gulpif useUglify, uglify()
     .pipe uglify()
-    .pipe concat "kd.libs.js"
-    .pipe gulp.dest "playground/js"
-    .pipe gulp.dest "test"
+    .pipe concat 'tmp'
     .pipe rename "kd.libs.#{version}js"
+    .pipe gulp.dest 'test'
     .pipe gulp.dest "#{buildDir}/js"
 
-  stream.pipe livereload()  if useLiveReload
+
+gulp.task 'export', ->
+
+  deferred = Q.defer()
+  exec "cd ./src;sh exporter.sh > entry.coffee; cd ..", (err)->
+    return deferred.reject err  if err
+    deferred.resolve()
+
+  return deferred.promise
 
 
-gulp.task 'coffee', ->
+gulp.task 'coffee', ['export'], ->
 
   entryPath = './src/entry.coffee'
-  exec "cd ./src;sh exporter.sh > entry.coffee; cd ..", (err)->
-    # Throw here maybe?
-    console.error err  if err?
 
-    stream = gulpBrowserify
-        entries : entryPath
-      .pipe source entryPath
-      .pipe gulpBuffer()
-      .pipe pistachioCompiler()
-      .pipe gulpif useUglify, uglify()
-      .pipe rename "kd.#{version}js"
-      .pipe gulp.dest "playground/js"
-      .pipe gulp.dest "#{buildDir}/js"
+  gulpBrowserify
+      entries : entryPath
+    .pipe source entryPath
+    .pipe gulpBuffer()
+    .pipe pistachio()
+    .pipe gulpif useUglify, uglify()
+    .pipe rename "kd.#{version}js"
+    .pipe gulp.dest "#{buildDir}/js"
 
-    stream.pipe livereload()  if useLiveReload
 
+# Build Playground
+
+gulp.task 'play-styles', ['clean-play'], ->
+
+  gulp.src ['./playground/main.styl']
+    .pipe stylus()
+    .pipe concat "kd.css"
+    .pipe gulpif useMinify, minifyCSS()
+    .pipe rename "main.css"
+    .pipe gulp.dest "playground/css"
+
+
+gulp.task 'play-html', ->
+
+  gulp.src './playground/index.html'
+    .pipe gulpif useLiveReload, livereload()
+
+
+gulp.task 'play-coffee', ['clean-play'], ->
+
+  gulpBrowserify
+      entries : ['./playground/main.coffee']
+    .pipe source "main.js"
+    .pipe gulp.dest "playground/js"
+
+
+gulp.task 'play', ['clean-play', 'play-html', 'play-styles', 'play-coffee'], ->
+
+
+# Build docs
+
+gulp.task 'docs-exec', ->
+
+  deferred = Q.defer()
+  exec "cd docs;mkdir js;mkdir css;cd ..", (err) ->
+    return deferred.reject err  if err
+    deferred.resolve()
+
+  return deferred.promise
+
+
+gulp.task 'docs-coffee', ['docs-exec'], ->
+
+  gulpBrowserify
+      entries : ['./docs/src/main.coffee']
+    .pipe source 'main.js'
+    .pipe gulp.dest 'docs/js'
+
+
+gulp.task 'docs-styles', ['docs-exec'],->
+
+  gulp.src ['./docs/src/styl/main.styl']
+    .pipe stylus()
+    .pipe gulpif useMinify, minifyCSS()
+    .pipe rename 'main.css'
+    .pipe gulp.dest 'docs/css'
+
+
+gulp.task 'docs-html', ->
+
+  gulp.src './docs/index.html'
+    .pipe gulpif useLiveReload, livereload()
+
+
+gulp.task 'docs', ['docs-exec', 'docs-html', 'docs-coffee', 'docs-styles']
+
+
+# Build test suite
 
 gulp.task 'coffee-test', ->
+
   stream = gulpBrowserify
       entries : './test/test.coffee'
     .pipe source "kd.test.js"
@@ -100,33 +184,11 @@ gulp.task 'coffee-test', ->
 
 
 gulp.task 'karma', ['coffee-test'], ->
+
   gulp.src ['./test/kd.*']
     .pipe karma
       configFile : 'karma.conf.js'
       action     : karmaAction
-
-
-gulp.task 'play', ->
-
-  stream = gulpBrowserify
-      entries : ['./playground/main.coffee']
-    .pipe source "main.js"
-    .pipe gulp.dest "playground/js"
-
-
-  stylStream = gulp.src ['./playground/main.styl']
-    .pipe stylus()
-    .pipe concat "kd.css"
-    .pipe gulpif useMinify, minifyCSS()
-    .pipe rename "main.css"
-    .pipe gulp.dest "playground/css"
-
-  if useLiveReload
-    stylStream.pipe livereload()
-    stream.pipe livereload()
-    gulp.src './playground/index.html'
-      .pipe livereload()
-
 
 
 gulp.task 'sauce', ->
@@ -143,73 +205,93 @@ gulp.task 'sauce', ->
 
 
 
-gulp.task 'live', -> useLiveReload = yes
-
-gulp.task 'run', -> karmaAction = 'run'
-
 # Watch Tasks
 
-watchLogger = (color, watcher) ->
-  watcher.on 'change', (event) ->
-    gutil.log gutil.colors[color] "file #{event.path} was #{event.type}"
-
-
 gulp.task 'watch-test', ->
-  watcher = gulp.watch TEST_PATH, ['coffee-test']
-  watchLogger 'cyan', watcher
+
+  watchLogger 'cyan', gulp.watch TEST_PATH, ['coffee-test']
 
 
 gulp.task 'watch-coffee', ->
-  watcher = gulp.watch COFFEE_PATH, ['coffee']
-  watchLogger 'yellow', watcher
+
+  watchLogger 'yellow', gulp.watch COFFEE_PATH, ['coffee']
 
 
 gulp.task 'watch-libs', ->
-  watcher = gulp.watch LIBS_PATH, ['libs']
-  watchLogger 'yellow', watcher
+
+  watchLogger 'yellow', gulp.watch LIBS_PATH, ['libs']
 
 
 gulp.task 'watch-styles', ->
-  watcher = gulp.watch STYLES_PATH, ['styles']
-  watchLogger 'yellow', watcher
+
+  watchLogger 'yellow', gulp.watch STYLES_PATH, ['styles']
 
 
 gulp.task 'watch-playground', ->
-  watcher = gulp.watch [
+
+  watchLogger 'blue', gulp.watch [
     './playground/**/*.coffee'
     './playground/**/*.html'
   ], ['play']
 
-  watchLogger 'blue', watcher
+
+gulp.task 'watch-docs', ->
+
+  watchLogger 'blue', gulp.watch [
+    './docs/src/**/*.coffee'
+    './docs/src/**/*.styl'
+    './docs/*.html'
+  ], ['docs']
 
 
 # Helper Tasks
 
+gulp.task 'live', -> useLiveReload = yes
+
+
+gulp.task 'run', -> karmaAction = 'run'
+
+
 gulp.task 'clean', ->
 
-  gulp.src ["build","playground/{js,css}"]
-    .pipe clean()
+  gulp.src ['build'], read : no
+    .pipe clean force : yes
 
 
+gulp.task 'clean-play', ->
+
+  gulp.src ['playground/{css/js}'], read : no
+    .pipe clean force : yes
 
 
 # Aggregate Tasks
 
 gulp.task 'compile', ['clean', 'styles', 'libs', 'coffee']
 
-defaultTasks = [
-  'live', 'compile', 'play',
-  'watch-styles', 'watch-coffee',
-  'watch-libs', 'watch-playground'
-]
+defaultTasks = ['compile', 'clean', 'watch-styles', 'watch-coffee', 'watch-libs']
+
+if buildDocs
+  buildDir     = 'docs'
+  defaultTasks = defaultTasks.concat ['live', 'docs', 'watch-docs']
+else if buildPlay
+  buildDir     = 'playground'
+  defaultTasks = defaultTasks.concat ['live', 'play', 'watch-playground']
+
 
 gulp.task 'default', defaultTasks , ->
 
-  http.createServer ecstatic root : "#{__dirname}/playground"
-    .listen(8080)
-  gutil.log gutil.colors.blue 'HTTP server ready localhost:8080'
+  if useLiveReload
+    http.createServer ecstatic
+        root        : "#{__dirname}/#{buildDir}"
+        handleError : no
+      .listen 8080
+
+    log 'green', "HTTP server for #{buildDir} is ready at localhost:8080"
+  else
+    log 'green', 'All done!'
 
 
-process.on 'uncaughtException', (e)->
-  gutil.log gutil.colors.red "An error has occured: #{e.name}"
-  console.error e
+process.on 'uncaughtException', (err)->
+
+  log 'red', "An error has occured: #{err.name}"
+  console.error err

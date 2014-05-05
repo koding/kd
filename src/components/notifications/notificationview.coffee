@@ -64,7 +64,8 @@ module.exports = class KDNotificationView extends KDView
       winHeight = @getOptions().container.getHeight()
       winWidth  = @getOptions().container.getWidth()
     else
-      {winWidth, winHeight} = KD.getSingleton('windowController')
+      winWidth  = window.innerWidth
+      winHeight = window.innerHeight
 
     switch @notificationType
       when "tray"

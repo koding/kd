@@ -7,9 +7,9 @@ KDCustomScrollViewWrapper = require './customscrollviewinner'
 
 module.exports = class KDCustomScrollView extends KDCustomHTMLView
 
-  constructor:(options = {}, data)->
+  constructor: (options = {}, data) ->
 
-    options.naturalScroll   ?= yes
+    options.bind            ?= 'mouseenter mouseleave'
     options.cssClass         = KD.utils.curry 'kdcustomscrollview', options.cssClass
     options.mouseWheelSpeed ?= 3
 
@@ -30,7 +30,11 @@ module.exports = class KDCustomScrollView extends KDCustomHTMLView
     @wrapper.on 'ScrollTrackShown',  (type)=> @setClass   "has-#{type}"
     @wrapper.on 'ScrollTrackHidden', (type)=> @unsetClass "has-#{type}"
 
-  viewAppended:->
+    @on 'mouseenter', @bound 'showTracks'
+    @on 'mouseleave', @bound 'hideTracks'
+
+
+  viewAppended: ->
 
     @addSubView @wrapper
     @addSubView @verticalTrack
@@ -40,3 +44,19 @@ module.exports = class KDCustomScrollView extends KDCustomHTMLView
 
     @wrapper.on 'MutationHappened', @verticalTrack.thumb.bound 'handleMutation'
     @wrapper.on 'MutationHappened', @horizontalTrack.thumb.bound 'handleMutation'
+
+  intent = null
+
+  hideTracks: ->
+
+    intent = KD.utils.wait 1000, =>
+      @verticalTrack.setClass 'out'
+      @horizontalTrack.setClass 'out'
+
+
+  showTracks: ->
+
+    KD.utils.killWait intent  if intent
+
+    @verticalTrack.unsetClass 'out'
+    @horizontalTrack.unsetClass 'out'

@@ -378,6 +378,11 @@ footer.kdview .about-kd {
   display: block;
   float: left;
 }
+footer.kdview .about-kd i {
+  font-style: normal;
+  color: #ff5a27;
+  font-family: monospace;
+}
 footer.kdview nav {
   line-height: 163px;
   display: block;

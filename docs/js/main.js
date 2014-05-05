@@ -11,7 +11,6 @@ MainView = require('./views/mainview');
   handleRoute = function(_arg) {
     var page, query, section, _ref1;
     (_ref1 = _arg.params, page = _ref1.page, section = _ref1.section), query = _arg.query;
-    log(page, section, query);
     return mainView.showPage(page, section);
   };
   router.addRoutes({
@@ -39,7 +38,7 @@ module.exports = FooterView = (function(_super) {
   }
 
   FooterView.prototype.pistachio = function() {
-    return "<div class='inner-wrapper'>\n  <p class='about-kd'>KD is free and open-source! <br> by Koding with love <3</p>\n  <nav>\n    <a href='#'>Terms</a>\n    <a href='#'>Legal</a>\n    <a href='#'>Blog</a>\n    <a href='#'>Contact</a>\n  </nav>\n</div>";
+    return "<div class='inner-wrapper'>\n  <p class='about-kd'>KD is free and open-source! <br> by Koding with <i><3</i></p>\n  <nav>\n    <a href='#'>Terms</a>\n    <a href='#'>Legal</a>\n    <a href='#'>Blog</a>\n    <a href='#'>Contact</a>\n  </nav>\n</div>";
   };
 
   return FooterView;
@@ -112,7 +111,7 @@ module.exports = MainView = (function(_super) {
       partial: 'DOWNLOAD THE THING',
       cssClass: 'download-button',
       attributes: {
-        href: '#'
+        href: 'http://github.com/koding/kd'
       }
     });
   }
@@ -123,10 +122,15 @@ module.exports = MainView = (function(_super) {
     return KD.singletons.windowController.on('ScrollHappened', this.bound('handleScroll'));
   };
 
-  MainView.prototype.showPage = function() {};
+  MainView.prototype.showPage = function() {
+    return new KDNotificationView({
+      type: 'growl',
+      title: 'Coming soon...'
+    });
+  };
 
   MainView.prototype.pistachio = function() {
-    return "{{> this.header}}\n\n<section class='intro home-section'>\n  <div class='inner-wrapper'>\n    <figure class='logo'></figure>\n    <h2><span>A framework to change your drinking habits.</span></h2>\n    {{> this.download}}\n  </div>\n</section>\n\n<section class='features home-section'>\n  <div class='inner-wrapper'>\n    <article class='feature'>\n      <figure class='chrome'></figure>\n      <h3>FROM KODING</h3>\n      <p>\n        That's the shizzle metus my shizz, luctizzle et, tristique izzle,\n        dope at, nulla. Donec pharetra, nisi shut the shizzle up facilisizzle\n        malesuada, neque justo its fo rizzle dope, mollizzle sheezy\n        tellivizzle erat izzle phat.\n      </p>\n    </article>\n\n    <article class='feature'>\n      <figure class='king'></figure>\n      <h3>LIKE A FKIN BOSS</h3>\n      <p>\n        That's the shizzle metus my shizz, luctizzle et, tristique izzle,\n        dope at, nulla. Donec pharetra, nisi shut the shizzle up facilisizzle\n        malesuada, neque justo its fo rizzle dope, mollizzle sheezy\n        tellivizzle erat izzle phat.\n      </p>\n    </article>\n\n    <article class='feature'>\n      <figure class='box'></figure>\n      <h3>OUT OF THE BOX</h3>\n      <p>\n        That's the shizzle metus my shizz, luctizzle et, tristique izzle,\n        dope at, nulla. Donec pharetra, nisi shut the shizzle up facilisizzle\n        malesuada, neque justo its fo rizzle dope, mollizzle sheezy\n        tellivizzle erat izzle phat.\n      </p>\n    </article>\n  </div>\n</section>\n{{> this.examples}}\n{{> this.footer}}";
+    return "{{> this.header}}\n\n<section class='intro home-section'>\n  <div class='inner-wrapper'>\n    <figure class='logo'></figure>\n    <h2><span>A framework to change your drinking habits.</span></h2>\n    {{> this.download}}\n  </div>\n</section>\n\n<section class='features home-section'>\n  <div class='inner-wrapper'>\n    <article class='feature'>\n      <figure class='chrome'></figure>\n      <h3>FROM KODING</h3>\n      <p>\n        coming soon...\n      </p>\n    </article>\n\n    <article class='feature'>\n      <figure class='king'></figure>\n      <h3>LIKE A FKIN BOSS</h3>\n      <p>\n        coming soon...\n      </p>\n    </article>\n\n    <article class='feature'>\n      <figure class='box'></figure>\n      <h3>OUT OF THE BOX</h3>\n      <p>\n        coming soon...\n      </p>\n    </article>\n  </div>\n</section>\n{{> this.examples}}\n{{> this.footer}}";
   };
 
   MainView.prototype.createExamples = function() {
@@ -146,27 +150,27 @@ module.exports = MainView = (function(_super) {
       hideHandleCloseIcons: true
     }));
     exampleTabs.addPane(new KDTabPaneView({
-      name: 'avatar.js',
+      name: 'soon-1',
       tagName: 'pre',
       view: new KDView({
         tagName: 'code',
-        partial: "@addSubView @examplesSection = new KDView\n  cssClass    : 'examples home-section'\n  tagName     : 'section'\n\n@examplesSection.addSubView innerWrapper = new KDView\n  cssClass  : 'inner-wrapper'\n\ninnerWrapper.addSubView new KDHeaderView\n  type      : 'medium'\n  title     : 'Let’s talk about the reality'\n\ninnerWrapper.addSubView new KDHeaderView\n  type      : 'small'\n  title     : 'What you can do, what you can not do, samples baby'"
+        partial: "@addSubView @comingSoonView = new KDView\n  cssClass : 'coming-soon'\n  tagName  : 'section'\n  click    : ->\n    new KDNotificationView\n      title : 'Coming soon...'\n      type  : 'tray'"
       })
     }));
     exampleTabs.addPane(new KDTabPaneView({
-      name: 'blob.js',
+      name: 'soon-2',
       tagName: 'pre',
       view: new KDView({
         tagName: 'code',
-        partial: "@addSubView @examplesSection = new KDView\n  cssClass    : 'examples home-section'\n  tagName     : 'section'\n\n@examplesSection.addSubView innerWrapper = new KDView\n  cssClass  : 'inner-wrapper'\n\ninnerWrapper.addSubView new KDHeaderView\n  type      : 'medium'\n  title     : 'Let’s talk about the reality'\n\ninnerWrapper.addSubView new KDHeaderView\n  type      : 'small'\n  title     : 'What you can do, what you can not do, samples baby'"
+        partial: "@comingSoonView = new KDView\n  cssClass : 'coming-soon'\n  tagName  : 'section'\n  click    : ->\n\n@comingSoonView.appendToDomBody()\n\n@comingSoonView.on 'click', ->\n  new KDNotificationView\n    title : 'Coming soon...'\n    type  : 'tray'"
       })
     }), false);
     exampleTabs.addPane(new KDTabPaneView({
-      name: 'hjob.js',
+      name: 'soon-3',
       tagName: 'pre',
       view: new KDView({
         tagName: 'code',
-        partial: "@addSubView @examplesSection = new KDView\n  cssClass    : 'examples home-section'\n  tagName     : 'section'\n\n@examplesSection.addSubView innerWrapper = new KDView\n  cssClass  : 'inner-wrapper'\n\ninnerWrapper.addSubView new KDHeaderView\n  type      : 'medium'\n  title     : 'Let’s talk about the reality'\n\ninnerWrapper.addSubView new KDHeaderView\n  type      : 'small'\n  title     : 'What you can do, what you can not do, samples baby'"
+        partial: "@comingSoonController = new KDController\n\n@comingSoonController.fetchSomeData (err, data)->\n\n  return console.log err  if err\n\n  new KDNotificationView\n    title : 'Some data is fetched, but this is still coming soon...'\n    type  : 'tray'"
       })
     }), false);
     hljs.configure({

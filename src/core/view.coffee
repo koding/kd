@@ -433,7 +433,7 @@ module.exports = class KDView extends KDObject
       else @append subView, selector
     # else log "lazy view", subView
 
-    subView.on "ViewResized", => subView.parentDidResize()
+    subView.on "ViewResized", -> subView.parentDidResize()
 
     @template.addSymbol subView  if @template?
 

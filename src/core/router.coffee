@@ -7,6 +7,8 @@ module.exports = class KDRouter extends KDObject
 
   listenerKey = 'ಠ_ಠ'
 
+  @registerStaticEmitter()
+
   createObjectRef =(obj)->
     return unless obj?.bongo_? and obj.getId?
     constructorName   : obj.bongo_?.constructorName
@@ -17,11 +19,16 @@ module.exports = class KDRouter extends KDObject
     else KD.remote.cacheable objRef.constructorName, objRef.id, callback
 
   constructor:(routes)->
+
     super()
+
     @tree          = {} # this is the tree for quick lookups
     @routes        = {} # this is the flat namespace containing all routes
     @visitedRoutes = []
     @addRoutes routes  if routes
+
+    KD.utils.defer => KDRouter.emit 'RouterIsReady', this
+
 
   listen:->
     # this handles the case that the url is an "old-style" hash fragment hack.
@@ -81,8 +88,6 @@ module.exports = class KDRouter extends KDObject
     "/#{route.slice(0, i).concat(route.slice i + 1).join '/'}"
 
   addRoute:(route, listener)->
-
-    # log "route added ---->", route
 
     @routes[route] = listener
     node = @tree

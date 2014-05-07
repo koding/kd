@@ -32,7 +32,7 @@ second, with an index of `0`.
 > class KDListView extends [KDView][kdview]
 > - [constructor](#constructor): (options={}, data) ->
 
-## Class
+## [Class](https://github.com/koding/kd/blob/master/src/components/list/listview.coffee#L3)
 
 KDListView extends [KDView][kdview]. Please see that for inherited methods.
 

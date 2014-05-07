@@ -41,7 +41,7 @@ item. Each object within, supports a callback keyword.
 > class KDButtonViewWithMenu extends [KDButtonView][kdbuttonview]
 > - [constructor](#constructor): (options={}, data) ->
 
-## Class
+## [Class](https://github.com/koding/kd/blob/master/src/components/buttons/buttonviewwithmenu.coffee#L3)
 
 KDButtonViewWithMenu extends [KDButtonView][kdbuttonview], please see that for 
 inherited methods.

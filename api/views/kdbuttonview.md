@@ -57,7 +57,7 @@ the `@hideLoader()` method. Easy!
 > - [hideLoader](#hideloader): ->
 > - [showLoader](#showloader): ->
 
-## Class 
+## [Class](https://github.com/koding/kd/blob/master/src/components/buttons/buttonview.coffee#L4)
 
 KDButtonView extends [KDView][kdview], please see that for inherited methods.
 

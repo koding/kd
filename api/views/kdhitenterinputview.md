@@ -29,12 +29,12 @@ your text field, a notification pops up with the string that the user wrote.
 > - [disableEnterKey](#disableenterkey): ->
 > - [enableEnterKey](#enableenterkey): ->
 
-## Class
+## [Class](https://github.com/koding/kd/blob/master/src/components/input/hitenterinputview.coffee#L11)
 
 KDHitEnterInputView extends [KDInputView][kdinputview]. Please see that for 
 inherited methods and options.
 
-### [Constructor](https://github.com/koding/kd/blob/master/src/components/input/hitenterinputview.coffee#L11)
+### [Constructor](https://github.com/koding/kd/blob/master/src/components/input/hitenterinputview.coffee#L13)
 > [constructor](#constructor): (options={}, data) ->
 
 1. **options**:

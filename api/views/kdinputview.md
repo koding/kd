@@ -31,7 +31,7 @@ create a notification with the value of the field.
 > - [makeEnabled](#makeenabled): ->
 > - [setValue](#setvalue): (value) ->
 
-## Class
+## [Class](https://github.com/koding/kd/blob/master/src/components/input/inputview.coffee#L4)
 
 KDInputView extends [KDView][kdview]. Please see that for inherited methods and 
 options.

@@ -45,7 +45,7 @@ implementation needs.
 > - [constructor](#constructor): (options={}, data) ->
 > - [pistachio](#pistachio): -> "some pistachio"
 
-## Class
+## [Class](https://github.com/koding/kd/blob/master/src/core/jview.coffee#L3)
 
 JView extends [KDView](./kdview.md). Please see that for inherited methods.
 

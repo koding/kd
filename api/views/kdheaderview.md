@@ -20,11 +20,11 @@ appView.addSubView header
 > - [constructor](#constructor): (options={}, data) ->
 > - [updateTitle](#updatetitle): (newTitle) ->
 
-## Class
+## [Class](https://github.com/koding/kd/blob/master/src/components/header/headerview.coffee#L3)
 
 KDHeaderView extends [KDView][kdview]. Please see that for inherited methods.
 
-### [Constructor](https://github.com/koding/kd/blob/master/src/components/header/headerview.coffee#L2)
+### [Constructor](https://github.com/koding/kd/blob/master/src/components/header/headerview.coffee#L4)
 > [constructor](#constructor): (options={}, data) ->
 
 #### Args

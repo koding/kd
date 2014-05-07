@@ -38,12 +38,12 @@ button being created.
 > class KDButtonGroupView extends [KDView][kdview]
 > - [constructor](#constructor): (options={}, data) ->
 
-## Class
+## [Class](https://github.com/koding/kd/blob/master/src/components/buttons/buttongroupview.coffee#L3)
 
 KDbuttonView inherits from [KDView][kdview]. Please see that for inherited 
 methods.
 
-### [Constructor](https://github.com/koding/kd/blob/master/src/components/buttons/buttongroupview.coffee#L3)
+### [Constructor](https://github.com/koding/kd/blob/master/src/components/buttons/buttongroupview.coffee#L5)
 
 1. **options**:
   - Type: object

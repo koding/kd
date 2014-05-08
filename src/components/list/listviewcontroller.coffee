@@ -87,11 +87,10 @@ module.exports = class KDListViewController extends KDViewController
     if scrollView
       mainView.addSubView @customScrollView or @scrollView
       @scrollView.addSubView @getListView()
-      @showLazyLoader no  if startWithLazyLoader
-
       @scrollView.on 'LazyLoadThresholdReached', @bound "showLazyLoader"
 
-    @putNoItemView()  if noItemFoundWidget
+    @showLazyLoader no  if startWithLazyLoader
+    @putNoItemView()    if noItemFoundWidget
 
     @instantiateListItems @getData()?.items or []
 
@@ -384,7 +383,7 @@ module.exports = class KDListViewController extends KDViewController
       {itemClass, spinnerOptions}        = lazyLoaderOptions
       delete lazyLoaderOptions.itemClass
 
-      wrapper     = @scrollView or @getView()
+      wrapper = @scrollView or @getView()
       wrapper.addSubView @lazyLoader = new itemClass lazyLoaderOptions
       @lazyLoader.addSubView @lazyLoader.spinner = new KDLoaderView spinnerOptions
 

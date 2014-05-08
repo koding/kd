@@ -18,13 +18,22 @@ appView.addSubView view
 
 Creates a red spiral loader, that shows once it's added to another view.
 
-## API
+
+## API Index
+
+> class KDLoaderView extends [KDView][kdview]
+> - [constructor](#constructor): (options={}, data) ->
+> - [hide](#hide): ->
+> - [show](#show): ->
+
+## [Class](https://github.com/koding/kd/blob/master/src/components/loader/loaderview.coffee#L3)
 
 KDLoaderView extends [KDView][kdview]. Please see that for inherited methods.
 
-### Constructor
+### [Constructor](https://github.com/koding/kd/blob/master/src/components/loader/loaderview.coffee#L5)
+> - [constructor](#constructor): (options={}, data) ->
 
-[Source](https://github.com/koding/kd/blob/master/src/components/loader/loaderview.coffee#L3)
+#### Args
 
 1 **options**:
   - Type: object
@@ -74,15 +83,13 @@ KDLoaderView extends [KDView][kdview]. Please see that for inherited methods.
       - Range: `1` through `60`
       - Default: 24
 
-### hide
-
-[Source](https://github.com/koding/kd/blob/master/src/components/loader/loaderview.coffee#L45)
+### [hide](https://github.com/koding/kd/blob/master/src/components/loader/loaderview.coffee#L45)
+> - [hide](#hide): ->
 
 Hide the loader.
 
-### show
-
-[Source](https://github.com/koding/kd/blob/master/src/components/loader/loaderview.coffee#L39)
+### [show](https://github.com/koding/kd/blob/master/src/components/loader/loaderview.coffee#L39)
+> - [show](#show): ->
 
 Show the loader.
 

@@ -69,7 +69,7 @@ the total notification time of 12 seconds has elapsed.
 > class KDNotificationView extends [KDView][kdview]
 > - [constructor](#constructor): (options={}, data) ->
 
-## Class
+## [Class](https://github.com/koding/kd/blob/master/src/components/notifications/notificationview.coffee#L5)
 
 KDNotificationView extends [KDView][kdview]. Please see that for inherited 
 methods and options.

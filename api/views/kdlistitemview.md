@@ -25,7 +25,9 @@ appView.addSubView header
 As you can see, we implemented a class `CustomListView` that extended the 
 `partial` method and returned a string that we wanted to use.
 
-## API
+## API Index
+
+> class KDListItemView extends [KDView][kdview]
 
 KDListItemView extends [KDView](./kdview.md). Please see that for inherited 
 methods.

@@ -7,8 +7,15 @@ automatically adding useful settings to your ListView.
 
 ## Usage
 
-## API
+## API Index
 
-KDListViewController extends [KDController](../core/kdcontroller.md). Please 
-see that for inherited methods.
+> class KDListViewController extends [KDController][kdcontroller]
 
+## [Class](https://github.com/koding/kd/blob/master/src/components/list/listviewcontroller.coffee#L7)
+
+KDListViewController extends [KDController][kdcontroller]. Please see that for 
+inherited methods.
+
+
+
+[kdcontroller]: ../core/kdcontroller.md

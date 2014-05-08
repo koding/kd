@@ -24,14 +24,19 @@ which *(`title` and `callback`)* are required.
 In this example, when a user clicks out ToggleButton, we use the method 
 [toggleState](#togglestate) to cycle through the states of the view.
 
-## API
+## API Index
+
+> class KDToggleButton extends [KDButtonView][kdbuttonview]
+> - [constructor](#constructor): (options={}, data) ->
+> - [setState](#setstate): (name) ->
+> - [toggleState](#toggleState): ->
+
+## [Class](https://github.com/koding/kd/blob/master/src/components/buttons/togglebutton.coffee#L3)
 
 KDToggleButton extends [KDButtonView][kdbuttonview], please see that for 
 inherited methods.
 
-### Constructor
-
-[Source](https://github.com/koding/kd/blob/master/src/components/buttons/togglebutton.coffee#L5)
+### [Constructor](https://github.com/koding/kd/blob/master/src/components/buttons/togglebutton.coffee#L5)
 
 #### Args
 
@@ -48,9 +53,8 @@ inherited methods.
     - Example: `[{title: 'State 1', callback: ->}, {title: 'State 2', callback: 
       ->}]`
 
-### setState
-
-[Source](https://github.com/koding/kd/blob/master/src/components/buttons/togglebutton.coffee#L40)
+### [setState](https://github.com/koding/kd/blob/master/src/components/buttons/togglebutton.coffee#L40)
+> - [setState](#setstate): (name) ->
 
 Set the active state for this button.
 
@@ -59,9 +63,8 @@ Set the active state for this button.
 1. **name**: The name of the state to set to.
   - Type: string
 
-### toggleState
-
-[Source](https://github.com/koding/kd/blob/master/src/components/buttons/togglebutton.coffee#L49)
+### [toggleState](https://github.com/koding/kd/blob/master/src/components/buttons/togglebutton.coffee#L49)
+> - [toggleState](#toggleState): ->
 
 Cycle through the states of this button. Note that this supports any number of 
 states, not just two as the name implies.

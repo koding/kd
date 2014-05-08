@@ -30,7 +30,7 @@ When rendered, this will display approximately:
 > - [show](#show): -> this
 > - [toggleClass](#toggleclass): -> this
 
-## Class
+## [Class](https://github.com/koding/kd/blob/master/src/core/view.coffee#L3)
 
 KDView inherits from [KDObject][kdobject]. Please see that for additional 
 inherited methods.

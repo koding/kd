@@ -16,8 +16,12 @@ it. We're not assigning it to a variable, or adding it as a subview. This
 because unlike many other views, KDNotificationView doesn't *need* to be added 
 to another view.  This is because it pops up over the UI.
 
-So, if you run this, you will immediately see a notification popup. This seems 
-a little too easy though, so lets make it a bit more complex.
+So, if you run this, you will immediately see a notification popup which will 
+look something like this:
+
+![Notification Image](./img-kdnotification-01.png)
+
+This seems a little too easy though, so lets make it a bit more complex.
 
 ```coffee
 new KDNotificationView

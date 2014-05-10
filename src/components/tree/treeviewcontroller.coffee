@@ -42,6 +42,7 @@ module.exports = class JTreeViewController extends KDViewController
     o.putDepthInfo               ?= yes
     o.addOrphansToRoot           ?= yes
     o.dragdrop                   ?= no
+    o.listsCollapsible           ?= yes
 
     super o, data
 
@@ -482,6 +483,7 @@ module.exports = class JTreeViewController extends KDViewController
     @listControllers[@getNodeId nodeData]?.getView().expand()
 
   collapse:(nodeView)->
+    return unless @getOption 'listsCollapsible'
 
     nodeData = nodeView.getData()
     @listControllers[@getNodeId nodeData]?.getView().collapse =>

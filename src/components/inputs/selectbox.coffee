@@ -73,7 +73,9 @@ module.exports = class KDSelectBox extends KDInputView
     # escapedDefault = value.replace /\//g, '\\/'
     @_$title.text @_$select.find("option[value=\"#{value}\"]").text()
 
-  removeSelectOptions:-> @_$select.find("option").remove()
+  removeSelectOptions:->
+    @_$select.find("optgroup").remove()
+    @_$select.find("option").remove()
 
   change:->
     @_$title.text @_$select.find("option[value=\"#{@getValue()}\"]").text()

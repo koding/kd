@@ -1,4 +1,0 @@
-
-# Contributors
-
-- Your name here!

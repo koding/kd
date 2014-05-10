@@ -1,22 +1,64 @@
 @import '../../../src/themes/default/kdfn.styl'
 
-.main-view
+body
   font-family               'Open Sans', 'sans-serif'
 
-footer
-header.main-header
 section.home-section
   position                  relative
   overflow                  visible
 
-  .inner-wrapper
-    rel()
-    max-width               1290px
-    padding                 0 45px
-    margin                  0px auto
+
+.inner-wrapper
+  rel()
+  max-width                 1290px
+  padding                   0 45px
+  margin                    0px auto
+  overflow                  visible
+  border-top                1px solid transparent
+  borderBox()
+
+
+.kdtabview
+  .kdtabhandlecontainer
+    bg                      color, transparent
+    border                  none
+    height                  36px
     overflow                visible
-    border-top              1px solid transparent
+
+    .kdtabhandle-tabs
+      overflow              visible
+
+    .kdtabhandle
+      height                36px
+      line-height           36px
+      rounded               4px 4px 0 0
+      margin-right          3px
+      border                none
+      padding               0 24px
+      color                 #858585
+      font-size             14px
+      background            #ececec
+
+      &.active
+        background          #333
+        color               #f1f1f1
+
+  pre.kdtabpaneview
+    rounded                 0 4px 4px 4px
+    background              #333
+    padding                 20px
     borderBox()
+
+    &:before
+    &:after
+      display               none
+
+    code
+      font-family           'Courier New','Courier',monospace, sans-serif
+      width                 auto
+      background            transparent
+      borderBox()
+
 
 header.main-header
   bg                        color, #333
@@ -30,15 +72,14 @@ header.main-header
   fix()
 
   figure.logo
-    size                  64px 50px
-    abs                   23px 0 0 30%
-    background            url('../src/img/logo.svg') no-repeat center
-    background-size       contain
-    opacity               0
-    margin-left           45px
-    vendor                transition, left .3s ease \,\
-                                      opacity .3s ease
-
+    size                    64px 50px
+    abs                     23px 0 0 30%
+    background              url('../src/img/logo.svg') no-repeat center
+    background-size         contain
+    opacity                 0
+    margin-left             45px
+    vendor                  transition, left .3s ease \,\
+                                        opacity .3s ease
 
   nav
     abs                     29px 50% 0 0
@@ -107,6 +148,27 @@ header.main-header
         &:hover
           bg                color, rgba(255, 255, 255, .07)
           vendor            animation, downloadIcon .4s 1 ease
+
+
+.main-view.collapse-header
+.page-view
+  .main-header
+    shadow                  0 4px 12px rgba(0, 0, 0, .3)
+
+    .download-button
+      opacity               1
+
+    figure.logo
+      left                  0%
+      opacity               1
+
+    nav
+      right                 98px
+      vendor                transform, translateX(0)
+
+      a#fork-us
+        width               24px
+        color               transparent
 
 
 section.home-section
@@ -254,52 +316,13 @@ section.home-section
       width                 66%
       margin                60px 0 74px
 
-      .kdtabhandlecontainer
-        bg                  color, transparent
-        border              none
-        height              36px
-        overflow            visible
-
-        .kdtabhandle-tabs
-          overflow          visible
-
-        .kdtabhandle
-          height            36px
-          line-height       36px
-          rounded           4px 4px 0 0
-          margin-right      3px
-          border            none
-          padding           0 24px
-          color             #858585
-          font-size         14px
-          background        #ececec
-
-          &.active
-            background      #333
-            color           #f1f1f1
-
-      pre.kdtabpaneview
-        rounded             0 4px 4px 4px
-        background          #333
-        padding             20px
-        borderBox()
-
-        &:before
-        &:after
-          display           none
-
-        code
-          font-family       'Courier New','Courier',monospace, sans-serif
-          width             auto
-          background        transparent
-          borderBox()
-
     .go-to-doc
       font-size             22px
       color                 #6b6b6b
 
       a
         color               inherit
+
 
 footer.kdview
   size                      100%, 163px
@@ -330,24 +353,120 @@ footer.kdview
       margin-left           16px
       noTextDeco()
 
-.main-view.collapse-header
-  .main-header
-    shadow                  0 4px 12px rgba(0, 0, 0, .3)
 
-    .download-button
-      opacity               1
+.guide-page.inner-wrapper
+  padding-top               146px
 
-    figure.logo
-      left                  0%
-      opacity               1
 
-    nav
-      right                 98px
-      vendor                transform, translateX(0)
+aside.main-sidebar
+  size                      252px, auto
+  borderBox()
+  fl()
 
-      a#fork-us
-        width               24px
-        color               transparent
+  ul.kdlistview
+    margin-bottom           24px
+
+    .arrow
+      hidden()
+
+    >li
+      cursor               pointer
+
+    >li.has-sub-items
+      display               block
+      font-size             16px
+      font-weight           700
+      color                 #555
+      line-height           17px
+      margin                0 0 20px 0
+      padding               0 0 0 10px
+      border-left           4px solid transparent
+      borderBox()
+
+      &.expanded
+        border-left-color   #ff5a27
+
+    li:not(.has-sub-items)
+      display               block
+      font-size             14px
+      color                 #777
+      height                24px
+      line-height           24px
+      margin                2px 0 0 14px
+      padding               0 0 0 12px
+      noTextDeco()
+      borderBox()
+
+      &.selected
+        background          #eeeeee
+        rounded             3px
+
+  .nav-main-item
+    margin-bottom           24px
+
+    >span
+      display               block
+      font-size             16px
+      font-weight           700
+      color                 #555555
+      line-height           17px
+      margin                0 0 20px 0
+      padding               0 0 0 10px
+      cursor                pointer
+      border-left           4px solid transparent
+      borderBox()
+
+    a.nav-sub-item
+      display               block
+      font-size             14px
+      color                 #777777
+      height                24px
+      line-height           24px
+      margin                2px 0 0 14px
+      padding               0 0 0 12px
+      display               none
+      noTextDeco()
+      borderBox()
+
+    &.active
+      >span
+        border-left-color   #ff5a27
+
+      a.nav-sub-item
+        display             block
+
+        &.active
+          background        #eee
+          rounded           3px
+
+
+section.content-section
+  size                      auto, auto
+  margin-left               252px
+  borderBox()
+
+  article
+    section
+      padding               0 0 42px 40px
+      borderBox()
+
+    h3
+      color                 #555555
+      font-size             18px
+      font-weight           600
+      margin                0 0 22px 0
+
+    p
+      line-height           22px
+      letter-spacing        .025em
+      color                 #555555
+      margin                0 0 24px 0
+
+      &:last-of-type
+        margin-bottom       0
+
+        &+.kdtabview
+          margin-top        22px
 
 
 @keyframes downloadIcon

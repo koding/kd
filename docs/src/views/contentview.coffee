@@ -98,17 +98,17 @@ module.exports = class ContentView extends KDView
         <section>
           <h3>KD Framework Guidelines</h3>
           <p>
-          Welcome to the Ember.js guides! This documentation will take you from
-          total beginner to Ember expert. It is designed to start from the basics,
+          Welcome to the KD guides! This documentation will take you from
+          total beginner to KD expert. It is designed to start from the basics,
           and slowly increase to more sophisticated concepts until you know
           everything there is to know about building awesome web applications.
           </p>
 
           <p>
           To help you get started, we've also made a 30-minute screencast that
-          will guide you through building a full-featured Ember.js
-          application:Welcome to the Ember.js guides! This documentation will
-          take you from total beginner to Ember expert. It is designed to start
+          will guide you through building a full-featured KD
+          application:Welcome to the KD guides! This documentation will
+          take you from total beginner to KD expert. It is designed to start
           from the basics, and slowly increase to more sophisticated concepts
           until you know everything there is to know about building awesome web
           applications.
@@ -123,8 +123,8 @@ module.exports = class ContentView extends KDView
         <section>
           <h3>So how should I, how could I. Would I?</h3>
           <p>
-          Welcome to the Ember.js guides! This documentation will take you from
-          total beginner to Ember expert. It is designed to start from the
+          Welcome to the KD guides! This documentation will take you from
+          total beginner to KD expert. It is designed to start from the
           basics, and slowly increase to applications.
           </p>
 
@@ -134,8 +134,8 @@ module.exports = class ContentView extends KDView
         <section>
           <h3>So how should I, how could I. Would I?</h3>
           <p>
-          Welcome to the Ember.js guides! This documentation will take you from
-          total beginner to Ember expert. It is designed to start from the
+          Welcome to the KD guides! This documentation will take you from
+          total beginner to KD expert. It is designed to start from the
           basics, and slowly increase to applications.
           </p>
 

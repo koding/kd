@@ -170,7 +170,50 @@ gulp.task 'docs-html', ->
     .pipe gulpif useLiveReload, livereload()
 
 
-gulp.task 'docs', ['docs-exec', 'docs-html', 'docs-coffee', 'docs-styles']
+# sitemap task
+
+# this creates a simple two level sitemap
+# for the files under ./docs/contents
+#
+# e.g.
+# ./docs/contents/getting.started/readme.md
+# ./docs/contents/getting.started/sample.md
+# ./docs/contents/more.examples/readme.md
+# ./docs/contents/more.examples/sample.md
+#
+# becomes
+#
+# KD.sitemap = {
+#   'getting.started' : ['readme.md', 'sample.md']
+#   'more.examples'   : ['readme.md', 'sample.md']
+# }
+
+gulp.task 'docs-sitemap', ->
+
+  find     = require 'findit'
+  folder   = "#{__dirname}/docs/contents/"
+  finder   = find folder
+  tree     = {}
+  trimBase = (dir) -> dir.replace folder, ''
+
+  finder.on 'directory', (dir, stat, stop) ->
+    dir = trimBase dir
+    return  if /\//.test dir
+    tree[dir] = []  if dir
+
+  finder.on 'file', (file, stat) ->
+    file = trimBase file
+    return  unless /\//.test file
+    [parent, file] = file.split '/'
+    tree[parent].push file  if file
+
+  finder.on 'end', ->
+    content = "(function(){window.KD||(window.KD={});KD.sitemap=#{JSON.stringify tree}})()"
+    fs.writeFileSync "#{__dirname}/docs/js/kd.sitemap.js", content
+
+
+gulp.task 'docs', ['docs-exec', 'docs-html', 'docs-sitemap',
+                   'docs-coffee', 'docs-styles']
 
 
 # Build test suite

@@ -17,7 +17,7 @@ http       = require 'http'
 argv       = require('minimist') process.argv
 source     = require 'vinyl-source-stream'
 gulpBuffer = require 'gulp-buffer'
-ecstatic   = require 'ecstatic'
+express    = require 'express'
 {exec}     = require 'child_process'
 pistachio  = require 'gulp-pistachio-compiler'
 
@@ -247,6 +247,31 @@ gulp.task 'sauce', ->
       action     : 'run'
 
 
+# build webserver
+
+gulp.task 'webserver', ['compile'], ->
+
+  deferred = Q.defer()
+  express = require 'express'
+  app     = express()
+  buildDir = '/docs'
+
+  app.use express.static "#{__dirname}/#{buildDir}"
+
+  app.get '*', (req, res) ->
+    {url}            = req
+    redirectTo = "/#!#{url}"
+
+    res.header 'Location', redirectTo
+    res.send 301
+
+  app.listen 3000
+
+  deferred.resolve()
+
+  log 'green', "HTTP server for #{buildDir} is ready at localhost:3000"
+  return deferred.promise
+
 
 # Watch Tasks
 
@@ -316,24 +341,16 @@ defaultTasks = ['compile', 'clean', 'watch-styles', 'watch-coffee', 'watch-libs'
 
 if buildDocs
   buildDir     = 'docs'
-  defaultTasks = defaultTasks.concat ['live', 'docs', 'watch-docs']
+  defaultTasks = defaultTasks.concat ['live', 'docs', 'watch-docs', 'webserver']
 else if buildPlay
   buildDir     = 'playground'
-  defaultTasks = defaultTasks.concat ['live', 'play', 'watch-playground']
+  defaultTasks = defaultTasks.concat ['live', 'play', 'watch-playground', 'webserver']
 
 
-gulp.task 'default', defaultTasks , ->
+gulp.task 'default', defaultTasks , -> log 'green', 'All done!'
 
-  if useLiveReload
-    http.createServer ecstatic
-        root        : "#{__dirname}/#{buildDir}"
-        handleError : no
-      .listen 8080
 
-    log 'green', "HTTP server for #{buildDir} is ready at localhost:8080"
-  else
-    log 'green', 'All done!'
-
+# error handling
 
 process.on 'uncaughtException', (err)->
 

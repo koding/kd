@@ -59,9 +59,10 @@ module.exports = class KDWindowController extends KDController
 
   bindEvents:->
 
-    $(window).bind @keyEventsToBeListened.join(' '), @bound "key"
+    for eventName in @keyEventsToBeListened
+      addEventListener eventName, @bound 'key'
 
-    window.addEventListener "resize", @bound 'notifyWindowResizeListeners'
+    addEventListener 'resize', @bound 'notifyWindowResizeListeners'
 
     document.addEventListener 'scroll', do =>
       timer  = null

@@ -27,16 +27,9 @@ LIBS_PATH     = ['./libs/*.js']
 TEST_PATH     = ['./src/**/*.test.coffee']
 LIBS          = require './src/lib.includes.coffee'
 
-buildDir      = argv.outputDir ? 'build'
-version       = if argv.buildVersion then "#{argv.buildVersion}." else ''
-useLiveReload = !!argv.liveReload
-useUglify     = !!argv.uglify
-useMinify     = !!(argv.minify ? yes)
-karmaAction   = 'watch'
-buildDocs     = !!argv.docs
-buildPlay     = !!argv.play
-
 # Helpers
+
+checkParam = (param) -> !(param in ['0', 0, no, 'false', 'no', 'off', '', undefined, null])
 
 log = (color, message) ->
   gutil.log gutil.colors[color] message
@@ -49,10 +42,20 @@ gulpBrowserify = (options, bundleOptions) ->
   b.bundle bundleOptions
 
 watchLogger = (color, watcher) ->
+  server = livereload()  if useLiveReload
   watcher.on 'change', (event) ->
     log color, "file #{event.path} was #{event.type}"
+    server?.changed event.path
 
-liveReload = (stream)-> stream.pipe livereload()  if useLiveReload
+createServer  = no
+buildDir      = argv.outputDir ? 'build'
+version       = if argv.buildVersion then "#{argv.buildVersion}." else ''
+useLiveReload = checkParam argv.liveReload
+useUglify     = checkParam argv.uglify
+useMinify     = checkParam argv.minify
+karmaAction   = 'watch'
+buildDocs     = checkParam argv.docs
+buildPlay     = checkParam argv.play
 
 
 # Build Tasks
@@ -66,7 +69,6 @@ gulp.task 'styles', ->
     .pipe gulpif useMinify, minifyCSS()
     .pipe rename "kd.#{version}css"
     .pipe gulp.dest "#{buildDir}/css"
-    .pipe gulpif useLiveReload, livereload()
 
 
 gulp.task 'libs', ->
@@ -78,7 +80,6 @@ gulp.task 'libs', ->
     .pipe rename "kd.libs.#{version}js"
     .pipe gulp.dest 'test'
     .pipe gulp.dest "#{buildDir}/js"
-    .pipe gulpif useLiveReload, livereload()
 
 
 gulp.task 'export', ->
@@ -103,7 +104,6 @@ gulp.task 'coffee', ['export'], ->
     .pipe gulpif useUglify, uglify()
     .pipe rename "kd.#{version}js"
     .pipe gulp.dest "#{buildDir}/js"
-    .pipe gulpif useLiveReload, livereload()
 
 
 # Build Playground
@@ -116,7 +116,6 @@ gulp.task 'play-styles', ['clean-play'], ->
     .pipe gulpif useMinify, minifyCSS()
     .pipe rename "main.css"
     .pipe gulp.dest "playground/css"
-    .pipe gulpif useLiveReload, livereload()
 
 
 gulp.task 'play-html', ->
@@ -131,7 +130,6 @@ gulp.task 'play-coffee', ['clean-play'], ->
       entries : ['./playground/main.coffee']
     .pipe source "main.js"
     .pipe gulp.dest "playground/js"
-    .pipe gulpif useLiveReload, livereload()
 
 
 gulp.task 'play', ['clean-play', 'play-html', 'play-styles', 'play-coffee'], ->
@@ -155,7 +153,6 @@ gulp.task 'docs-coffee', ['docs-exec'], ->
       entries : ['./docs/src/main.coffee']
     .pipe source 'main.js'
     .pipe gulp.dest 'docs/js'
-    .pipe gulpif useLiveReload, livereload()
 
 
 gulp.task 'docs-styles', ['docs-exec'],->
@@ -165,7 +162,6 @@ gulp.task 'docs-styles', ['docs-exec'],->
     .pipe gulpif useMinify, minifyCSS()
     .pipe rename 'main.css'
     .pipe gulp.dest 'docs/css'
-    .pipe gulpif useLiveReload, livereload()
 
 
 gulp.task 'docs-html', ->
@@ -185,7 +181,6 @@ gulp.task 'coffee-test', ->
       entries : './test/test.coffee'
     .pipe source "kd.test.js"
     .pipe gulp.dest 'test'
-    .pipe gulpif useLiveReload, livereload()
 
 
 gulp.task 'karma', ['coffee-test'], ->
@@ -273,27 +268,27 @@ gulp.task 'clean-play', ->
 
 gulp.task 'compile', ['clean', 'styles', 'libs', 'coffee']
 
-defaultTasks = [
-  'live', 'compile', 'clean'
-  'watch-styles', 'watch-coffee', 'watch-libs'
-]
+defaultTasks = ['compile', 'clean', 'watch-styles', 'watch-coffee', 'watch-libs']
 
 if buildDocs
   buildDir     = 'docs'
-  defaultTasks = defaultTasks.concat ['docs', 'watch-docs']
+  defaultTasks = defaultTasks.concat ['live', 'docs', 'watch-docs']
 else if buildPlay
   buildDir     = 'playground'
-  defaultTasks = defaultTasks.concat ['play', 'watch-playground']
+  defaultTasks = defaultTasks.concat ['live', 'play', 'watch-playground']
 
 
 gulp.task 'default', defaultTasks , ->
 
-  http.createServer ecstatic
-      root        : "#{__dirname}/#{buildDir}"
-      handleError : no
-    .listen 8080
+  if useLiveReload
+    http.createServer ecstatic
+        root        : "#{__dirname}/#{buildDir}"
+        handleError : no
+      .listen 8080
 
-  log 'green', "HTTP server for #{buildDir} is ready at localhost:8080"
+    log 'green', "HTTP server for #{buildDir} is ready at localhost:8080"
+  else
+    log 'green', 'All done!'
 
 
 process.on 'uncaughtException', (err)->

@@ -17,7 +17,7 @@ http       = require 'http'
 argv       = require('minimist') process.argv
 source     = require 'vinyl-source-stream'
 gulpBuffer = require 'gulp-buffer'
-ecstatic   = require 'ecstatic'
+express    = require 'express'
 {exec}     = require 'child_process'
 pistachio  = require 'gulp-pistachio-compiler'
 
@@ -170,7 +170,50 @@ gulp.task 'docs-html', ->
     .pipe gulpif useLiveReload, livereload()
 
 
-gulp.task 'docs', ['docs-exec', 'docs-html', 'docs-coffee', 'docs-styles']
+# sitemap task
+
+# this creates a simple two level sitemap
+# for the files under ./docs/contents
+#
+# e.g.
+# ./docs/contents/getting.started/readme.md
+# ./docs/contents/getting.started/sample.md
+# ./docs/contents/more.examples/readme.md
+# ./docs/contents/more.examples/sample.md
+#
+# becomes
+#
+# KD.sitemap = {
+#   'getting.started' : ['readme.md', 'sample.md']
+#   'more.examples'   : ['readme.md', 'sample.md']
+# }
+
+gulp.task 'docs-sitemap', ->
+
+  find     = require 'findit'
+  folder   = "#{__dirname}/docs/contents/"
+  finder   = find folder
+  tree     = {}
+  trimBase = (dir) -> dir.replace folder, ''
+
+  finder.on 'directory', (dir, stat, stop) ->
+    dir = trimBase dir
+    return  if /\//.test dir
+    tree[dir] = []  if dir
+
+  finder.on 'file', (file, stat) ->
+    file = trimBase file
+    return  unless /\//.test file
+    [parent, file] = file.split '/'
+    tree[parent].push file  if file
+
+  finder.on 'end', ->
+    content = "(function(){window.KD||(window.KD={});KD.sitemap=#{JSON.stringify tree}})()"
+    fs.writeFileSync "#{__dirname}/docs/js/kd.sitemap.js", content
+
+
+gulp.task 'docs', ['docs-exec', 'docs-html', 'docs-sitemap',
+                   'docs-coffee', 'docs-styles']
 
 
 # Build test suite
@@ -203,6 +246,31 @@ gulp.task 'sauce', ->
       configFile : 'karma.conf.js'
       action     : 'run'
 
+
+# build webserver
+
+gulp.task 'webserver', ['compile'], ->
+
+  deferred = Q.defer()
+  express = require 'express'
+  app     = express()
+  buildDir = '/docs'
+
+  app.use express.static "#{__dirname}/#{buildDir}"
+
+  app.get '*', (req, res) ->
+    {url}            = req
+    redirectTo = "/#!#{url}"
+
+    res.header 'Location', redirectTo
+    res.send 301
+
+  app.listen 3000
+
+  deferred.resolve()
+
+  log 'green', "HTTP server for #{buildDir} is ready at localhost:3000"
+  return deferred.promise
 
 
 # Watch Tasks
@@ -272,24 +340,16 @@ defaultTasks = ['compile', 'clean', 'watch-styles', 'watch-coffee', 'watch-libs'
 
 if buildDocs
   buildDir     = 'docs'
-  defaultTasks = defaultTasks.concat ['live', 'docs', 'watch-docs']
+  defaultTasks = defaultTasks.concat ['live', 'docs', 'watch-docs', 'webserver']
 else if buildPlay
   buildDir     = 'playground'
-  defaultTasks = defaultTasks.concat ['live', 'play', 'watch-playground']
+  defaultTasks = defaultTasks.concat ['live', 'play', 'watch-playground', 'webserver']
 
 
-gulp.task 'default', defaultTasks , ->
+gulp.task 'default', defaultTasks , -> log 'green', 'All done!'
 
-  if useLiveReload
-    http.createServer ecstatic
-        root        : "#{__dirname}/#{buildDir}"
-        handleError : no
-      .listen 8080
 
-    log 'green', "HTTP server for #{buildDir} is ready at localhost:8080"
-  else
-    log 'green', 'All done!'
-
+# error handling
 
 process.on 'uncaughtException', (err)->
 

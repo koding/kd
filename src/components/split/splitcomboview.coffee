@@ -12,9 +12,9 @@ module.exports = class KDSplitComboView extends KDSplitView
 
     @once "viewAppended", @bound 'init'
 
-
-  init: (options) ->
-    @createSplitView options.direction, options.sizes, options.views
+  init: ->
+    options = @getOptions()
+    @addSubView @createSplitView options.direction, options.sizes, options.views
 
   createSplitView: (type, sizes, viewsConfig) ->
     views = []
@@ -25,7 +25,8 @@ module.exports = class KDSplitComboView extends KDSplitView
         views.push @createSplitView options.direction, options.sizes, config.views
       else
         views.push config
-    @splitPanel 0, { type, sizes, views }
+
+    return new KDSplitView { type, sizes, views }
 
 
 # Example Usage

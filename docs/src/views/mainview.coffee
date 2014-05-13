@@ -1,5 +1,6 @@
 HeaderView = require './headerview'
 FooterView = require './footerview'
+PageView   = require './pageview'
 
 module.exports = class MainView extends KDView
 
@@ -36,7 +37,10 @@ module.exports = class MainView extends KDView
 
 
   showPage: ->
+    @hide()
 
+    page = new PageView
+    page.appendToDomBody()
 
   pistachio: ->
 

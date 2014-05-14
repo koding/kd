@@ -130,13 +130,7 @@ gulp.task 'play', ['clean-play', 'play-html', 'play-styles', 'play-coffee'], ->
 # Build docs
 
 gulp.task 'docs-exec', ->
-
-  deferred = Q.defer()
-  exec "cd docs;mkdir js;mkdir css;cd ..", (err) ->
-    return deferred.reject err  if err
-    deferred.resolve()
-
-  return deferred.promise
+  exec "cd docs;mkdir js;mkdir css;cd .."
 
 
 gulp.task 'docs-coffee', ['docs-exec'], ->
@@ -242,8 +236,6 @@ gulp.task 'sauce', ->
 # build webserver
 
 gulp.task 'webserver', ['compile'], ->
-
-  deferred = Q.defer()
   express = require 'express'
   app     = express()
   buildDir = '/docs'
@@ -259,10 +251,8 @@ gulp.task 'webserver', ['compile'], ->
 
   app.listen 3000
 
-  deferred.resolve()
-
   log 'green', "HTTP server for #{buildDir} is ready at localhost:3000"
-  return deferred.promise
+  return
 
 
 # Watch Tasks

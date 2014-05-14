@@ -47,8 +47,8 @@
     "karma-sauce-launcher": "^0.2.3",
     "gulp-clean": "^0.2.4",
     "jquery-mousewheel": "^3.1.9",
-    "q": "^1.0.1",
     "findit": "^1.2.0",
-    "express": "^4.1.2"
+    "express": "^4.1.2",
+    "bluebird": "^1.2.4"
   }
 }

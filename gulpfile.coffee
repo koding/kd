@@ -11,14 +11,14 @@ concat     = require 'gulp-concat'
 minifyCSS  = require 'gulp-minify-css'
 karma      = require 'gulp-karma'
 clean      = require 'gulp-clean'
-Q          = require 'q'
 fs         = require 'fs'
 http       = require 'http'
 argv       = require('minimist') process.argv
 source     = require 'vinyl-source-stream'
 gulpBuffer = require 'gulp-buffer'
 express    = require 'express'
-{exec}     = require 'child_process'
+Promise    = require 'bluebird'
+exec       = Promise.promisify (require 'child_process').exec
 pistachio  = require 'gulp-pistachio-compiler'
 
 STYLES_PATH   = require './src/themes/styl.includes.coffee'
@@ -81,16 +81,8 @@ gulp.task 'libs', ->
     .pipe gulp.dest 'test'
     .pipe gulp.dest "#{buildDir}/js"
 
-
 gulp.task 'export', ->
-
-  deferred = Q.defer()
-  exec "cd ./src;sh exporter.sh > entry.coffee; cd ..", (err)->
-    return deferred.reject err  if err
-    deferred.resolve()
-
-  return deferred.promise
-
+  exec "cd ./src;sh exporter.sh > entry.coffee; cd .."
 
 gulp.task 'coffee', ['export'], ->
 

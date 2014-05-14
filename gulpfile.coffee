@@ -19,7 +19,6 @@ gulpBuffer = require 'gulp-buffer'
 express    = require 'express'
 Promise    = require 'bluebird'
 exec       = Promise.promisify (require 'child_process').exec
-pistachio  = require 'gulp-pistachio-compiler'
 
 STYLES_PATH   = require './src/themes/styl.includes.coffee'
 COFFEE_PATH   = ['./src/components/**/*.coffee','./src/core/**/*.coffee','./src/init.coffee']
@@ -92,7 +91,6 @@ gulp.task 'coffee', ['export'], ->
       entries : entryPath
     .pipe source entryPath
     .pipe gulpBuffer()
-    .pipe pistachio()
     .pipe gulpif useUglify, uglify()
     .pipe rename "kd.#{version}js"
     .pipe gulp.dest "#{buildDir}/js"

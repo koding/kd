@@ -27,9 +27,7 @@ module.exports = class JContextMenuItem extends JTreeItemView
         @setClass "disabled"
 
   viewAppended:->
-    unless @customView
-      @setTemplate @pistachio()
-      @template.update()
+    super()  unless @customView
 
   mouseDown:-> yes
 

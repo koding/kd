@@ -275,7 +275,7 @@ module.exports = class KDSplitView extends KDView
 
   resizePanel:(value = 0, index = 0, callback = noop)->
 
-    return  unless @sizes[1]
+    return  unless @sizes[1]?
     return  if @beingResized
 
     @_resizeDidStart()

@@ -283,7 +283,7 @@ module.exports = class KDSplitView extends KDView
     value         = @_sanitizeSize value
     value         = @_getSize() if value > @_getSize()
     askedPanel    = @panels[index]
-    affectedPanel = @panels[index+1%2]
+    affectedPanel = @panels[(index + 1) % 2]
 
     if askedPanel._getSize() is value
       @_resizeDidStop()

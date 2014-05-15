@@ -1,6 +1,6 @@
-KDViewController = require './../../core/viewcontroller.coffee'
-KDScrollView     = require './../scrollview/scrollview.coffee'
-
+KDViewController     = require './../../core/viewcontroller.coffee'
+KDScrollView         = require './../scrollview/scrollview.coffee'
+KDListViewController = require './../list/listviewcontroller.coffee'
 module.exports = class JTreeViewController extends KDViewController
 
   keyMap = ->

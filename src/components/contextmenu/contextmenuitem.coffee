@@ -20,7 +20,6 @@ module.exports = class JContextMenuItem extends JTreeItemView
         @setClass data.cssClass
 
       if data.type is "customView"
-        @setTemplate ""
         @addCustomView data
 
       if data.disabled

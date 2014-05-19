@@ -304,6 +304,18 @@ module.exports = class KDSplitView extends KDView
     @_resizeDidStop()
     @beingResized = no
 
+  merge: ->
+    {views} = @getOptions()
+    @getOptions().views = []
+
+    views.forEach (view, i) =>
+      return  unless view
+      view.detach()
+      view.unsetParent()
+      @panels[i].subViews = []
+
+    @emit "SplitIsBeingMerged", views
+    @destroy()
 
   removePanel:(index)->
 

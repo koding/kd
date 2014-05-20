@@ -65,7 +65,7 @@ module.exports = class KDTabHandleView extends KDView
 
     {pane}   = @getOptions()
     tabView  = pane.getDelegate()
-    holder   = tabView.tabHandleContainer
+    holder   = tabView.tabHandleContainer.tabs
     @$cloned = @$().clone()
     holder.$().append @$cloned
     @$cloned.css marginLeft: -(tabView.handles.length - @index) * @getWidth()

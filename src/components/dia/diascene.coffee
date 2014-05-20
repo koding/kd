@@ -1,7 +1,7 @@
-JView            = require './../../core/jview.coffee'
+KDView           = require './../../core/view.coffee'
 KDCustomHTMLView = require './../../core/customhtmlview.coffee'
 
-module.exports = class KDDiaScene extends JView
+module.exports = class KDDiaScene extends KDView
 
   constructor:(options = {}, data)->
 

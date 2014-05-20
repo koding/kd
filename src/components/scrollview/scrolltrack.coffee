@@ -1,6 +1,6 @@
-JView = require './../../core/jview'
+KDView = require './../../core/view'
 
-module.exports = class KDScrollTrack extends JView
+module.exports = class KDScrollTrack extends KDView
 
   constructor:(options = {}, data)->
 
@@ -17,7 +17,9 @@ module.exports = class KDScrollTrack extends JView
       track    : this
 
 
-  pistachio: -> "{{> @thumb}}"
+  viewAppended: ->
+    super()
+    @addSubView @thumb
 
 
   show:->

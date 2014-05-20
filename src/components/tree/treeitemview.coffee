@@ -19,14 +19,14 @@ module.exports = class JTreeItemView extends KDListItemView
     if childClass
       @child = new childClass childOptions, @getData()
 
-  viewAppendeed:->
+  viewAppended:->
 
     if @getOptions().childClass
       @addSubView @child
     else
       @updatePartial """
         <span class='arrow'></span>
-        #{ title }
+        #{ @getData().title }
         """
 
   toggle:(callback)->

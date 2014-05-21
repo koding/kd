@@ -1,5 +1,4 @@
 KDListItemView = require './../list/listitemview.coffee'
-JView          = require './../../core/jview.coffee'
 
 module.exports = class JTreeItemView extends KDListItemView
 
@@ -20,17 +19,15 @@ module.exports = class JTreeItemView extends KDListItemView
     if childClass
       @child = new childClass childOptions, @getData()
 
-  viewAppended: JView::viewAppended
-
-  pistachio:->
+  viewAppended:->
 
     if @getOptions().childClass
-      "{{> @child}}"
+      @addSubView @child
     else
-      """
-      <span class='arrow'></span>
-      {{#(title)}}
-      """
+      @updatePartial """
+        <span class='arrow'></span>
+        #{ @getData().title }
+        """
 
   toggle:(callback)->
 

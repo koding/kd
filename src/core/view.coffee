@@ -76,7 +76,6 @@ module.exports = class KDView extends KDObject
     options.cssClass          or= ""        # a String
     options.parent            or= null      # a KDView Instance
     options.partial           or= null      # a String of HTML or text
-    options.pistachio         or= null      # a String of Pistachio
     options.delegate          or= null      # a KDView Instance
     options.bind              or= ""        # a String of space separated javascript dom events to be listened
     options.draggable         or= null      # an Object holding draggable options and/or events !!! NOT HTML5 !!!
@@ -118,14 +117,6 @@ module.exports = class KDView extends KDObject
     @setClass 'kddraggable'   if draggable
 
     @addEventHandlers options
-
-    # TODO: I commented this out because it was firing before viewAppended
-    #       I implemented the equivalent feature in JView, and I'm hoping
-    #       sometime soon we can merge JView into KDView.  C.T.
-    #
-    # if options.pistachio
-    #   @setTemplate options.pistachio, options.pistachioParams
-    #   @template.update()
 
     @setLazyLoader lazyLoadThreshold  if lazyLoadThreshold
     @setTooltip tooltip               if tooltip
@@ -453,16 +444,6 @@ module.exports = class KDView extends KDObject
     if @items?
       subViews = subViews.concat [].slice.call @items
     subViews
-
-  setTemplate:(tmpl, params)->
-    params ?= @getOptions()?.pistachioParams
-    options = if params? then {params}
-    @template = new Pistachio this, tmpl, options
-    @updatePartial @template.html
-    @template.embedSubViews()
-
-  pistachio: (tmpl) ->
-    "#{@options.prefix}#{tmpl}#{@options.suffix}"  if tmpl
 
   setParent:(parent)->
     if @parent? then error 'View already has a parent', this, @parent
@@ -813,10 +794,6 @@ module.exports = class KDView extends KDObject
 # #
 
   viewAppended:->
-    {pistachio} = @getOptions()
-    if pistachio and not @template?
-      @setTemplate pistachio
-      @template.update()
 
   childAppended:(child)->
     # bubbling childAppended event

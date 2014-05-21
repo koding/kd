@@ -1,5 +1,7 @@
-KDView              = require './../../core/view.coffee'
-JTreeViewController = require './../tree/treeviewcontroller.coffee'
+KDView               = require './../../core/view.coffee'
+JTreeViewController  = require './../tree/treeviewcontroller.coffee'
+JContextMenuItem     = require './contextmenuitem.coffee'
+JContextMenuTreeView = require './contextmenutreeview.coffee'
 
 module.exports = class JContextMenuTreeViewController extends JTreeViewController
 

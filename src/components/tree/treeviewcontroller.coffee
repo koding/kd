@@ -24,7 +24,7 @@ module.exports = class JTreeViewController extends KDViewController
     dragHelper.src   = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAG4AAAAYCAMAAAAs/jgVAAAA0lBMVEX///+It9YAAAD///8AAACIt9aIt9aIt9aIt9aIt9aIt9YAAAD///+It9aIt9aIt9aIt9aIt9aIt9aIt9bT09OIt9aIt9aIt9b///+It9bv9fr+/v79/f2QvNn4+PioyuHA2enP4u/09PS41Obf7PTn8ff6+vr29vb3+vygxd78/Pz19fX7+/vs7OzY2NjR0dGwz+Tv7+/T09Pz8/PX19fQ0NCYwdvx8fHLy8vq6urZ2dnX5/H5+fny8vLOzs739/fPz8/W1tbu7u7w8PDH3ezd3d0P0SzzAAAAGHRSTlMAACZqGJkG2/k2rkZV4bG0V9gDaYBabJYxtX/TAAACLElEQVR4Xu3V127bMBQG4NT1SOw4s0kP59Ce3iN7tu//Sj2i0iiKE8AB7Juiv0SIFAR9OAQJ7mwy/9NsvElz61yDA4cEgGWQZA0Evm0xyAFAYkVMr/nCtU8PjsnGcnxw2n7lGMsSnmSMAX9slNxRh2w4naMXjrGEByzgCWPsqtdE7qT7ARDrOuCqL4LdE8tlyCCHWMZmjw3kWuSDuJ5V4K9iKl7BWl7LcgHnXOLFecAHV8jtkU841wqrHGbhreHtWS6QN5nMbiR2BjPkfhaAoh7QEQVfKFqMkNMAoEAp3wNwC05FQGNbXQwAeuEX7z2DXVP0NIAv6uUhl8gslFKGmUzkbIBcx3L4/XUUC+q+crYg5NDSkTBaRIpo33J2qj1NYhCeL2IwRFMBC6Lqy8VWJ8MwxSuUQTgpuN2SI0Tbf6xyKETKaAVFKs4OlWc/Kt4ZX5NadgvuPrxPp+E0xWc4mX2Bi4FgKi6ytVQcESZafMAtnWWKDdnhBLlOnYshJteW+2Vqk0ko8qOSG1FCDJKjihMuIXS0Mpnj6e341sE2HTuWa9U5YgCM5eJyqUQeYCHIxRRAl5ygoIUP4FVcOdSUeAbv16WSPz/l+WWePz3nl/PhpxthjV22zkZo9i4e7i7u5tgeLn4P7TbfDme3+f4PJ0wdZ+o4aegs5wXX7m6D67aRe18ecpizPtlw+mf2RHhfnuWwwPPDDYr9w/PyAFo9z7d8vGJ5399kf+cfyh+807YxJJdmLQAAAABJRU5ErkJggg=="
     dragHelper.width = 110
 
-  constructor:(options = {},data)->
+  constructor:(options = {}, data = [])->
 
     o = options
     o.view                      or= (new KDScrollView cssClass : "jtreeview-wrapper")
@@ -33,8 +33,8 @@ module.exports = class JTreeViewController extends KDViewController
     o.listViewClass             or= JTreeView
     o.itemChildClass            or= null
     o.itemChildOptions          or= {}
-    o.nodeIdPath                or= "id"
-    o.nodeParentIdPath          or= "parentId"
+    o.nodeIdPath                or= 'id'
+    o.nodeParentIdPath          or= 'parentId'
     o.contextMenu                ?= no
     o.multipleSelection          ?= no
     o.addListsCollapsed          ?= no
@@ -109,7 +109,7 @@ module.exports = class JTreeViewController extends KDViewController
     @nodes[@getNodeId nodeData] = {}
 
     if options.putDepthInfo
-      if @nodes[nodeData[pIdPath]]
+      if @nodes[nodeData[pIdPath]]?.getData
         nodeData.depth = @nodes[nodeData[pIdPath]].getData().depth + 1
       else
         nodeData.depth = 0

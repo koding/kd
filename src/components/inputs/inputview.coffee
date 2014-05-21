@@ -378,6 +378,8 @@ module.exports = class KDInputView extends KDView
         borderRight   : $input.css 'border-right'
         borderBottom  : $input.css 'border-bottom'
         borderLeft    : $input.css 'border-left'
+        minHeight     : $input.css 'minHeight'
+        maxHeight     : $input.css 'maxHeight'
         paddingTop    : $input.css 'padding-top'
         paddingRight  : $input.css 'padding-right'
         paddingBottom : $input.css 'padding-bottom'

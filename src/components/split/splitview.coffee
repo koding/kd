@@ -262,16 +262,45 @@ module.exports = class KDSplitView extends KDView
 
     panel = @panels[index]
     panel._lastSize = panel._getSize()
-    @resizePanel 0, index, callback.bind this, {panel, index}
 
+    if panel.isFloating
+      panel.setCss "width", 0
+      callback { panel, index }
+    else
+      @resizePanel 0, index, callback.bind this, { panel, index }
 
-  showPanel:(index,callback = noop)->
+  showPanel: (index, callback = noop) ->
 
     panel           = @panels[index]
     newSize         = panel._lastSize or @sizes[index] or 200
     panel._lastSize = null
-    @resizePanel newSize, index, callback.bind this, {panel, index}
 
+    if panel.isFloating
+      panel.setCss 'width', newSize
+      left = panel.getRelativeX()
+      panel.setCss 'left', left - newSize  if left > 0
+      KD.getSingleton('windowController').addLayer panel
+      panel.once 'ReceivedClickElsewhere', =>
+        @hidePanel index
+
+      callback { panel, index }
+    else
+      @resizePanel newSize, index, callback.bind this, { panel, index }
+
+  setFloatingPanel: (index) ->
+    panel = @panels[index]
+    panel.setClass   'floating'
+    panel.isFloating = yes
+    panel._lastSize  = panel._getSize()
+    @resizePanel 0, index
+    @emit 'PanelSetToFloating', panel
+
+  unsetFloatingPanel: (index) ->
+    panel = @panels[index]
+    delete panel.isFloating
+    panel.unsetClass 'floating'
+    @showPanel index
+    @emit 'PanelSetToNormal', panel
 
   resizePanel:(value = 0, index = 0, callback = noop)->
 

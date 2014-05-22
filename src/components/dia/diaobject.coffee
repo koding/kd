@@ -28,6 +28,12 @@ module.exports = class KDDiaObject extends KDView
 
     @on "KDObjectWillBeDestroyed", => @emit 'RemoveMyConnections'
 
+    @once 'viewAppended', =>
+      @addJoint joint for joint in @getOption 'joints'
+      @parent.on 'UnhighlightDias', =>
+        @unsetClass 'highlight'
+        joint.hideDeleteButton()  for key, joint of @joints
+
   mouseDown:(e)->
     @emit "DiaObjectClicked"
     @_mouseDown = yes
@@ -76,14 +82,6 @@ module.exports = class KDDiaObject extends KDView
     [ dx, dy ] = if joint.type in ['left', 'right'] then [10, 4] else [4, 10]
 
     x:x + jx + dx, y: y + jy + dy
-
-  viewAppended:->
-    super
-
-    @addJoint joint for joint in @getOption 'joints'
-    @parent.on 'UnhighlightDias', =>
-      @unsetClass 'highlight'
-      joint.hideDeleteButton()  for key, joint of @joints
 
   getDiaId:->
     @domElement.attr "dia-id"

@@ -410,6 +410,7 @@ module.exports = class KDView extends KDObject
 
   detach: ->
     @parent?.getElement().removeChild @getElement()
+    @orphanize()
     @unsetParent()
 
 

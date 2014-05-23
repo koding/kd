@@ -402,9 +402,11 @@ module.exports = class KDView extends KDObject
 # #
 # ADD/DESTROY VIEW INSTANCES
 # #
-  attach:(view) ->
+  attach: (view) ->
     @getElement().appendChild view.getElement()
     view.setParent this
+    @subViews.push view
+
 
   detach: ->
     @parent?.getElement().removeChild @getElement()

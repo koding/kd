@@ -80,7 +80,7 @@ module.exports = class KDTabView extends KDScrollView
         view       : tabHandleView
         closable   : closable
         sortable   : sortable
-        click      : (event)=> @handleMouseDownDefaultAction newTabHandle, event
+        click      : (event) => @handleClicked event, newTabHandle
 
       @addHandle newTabHandle
 
@@ -140,6 +140,8 @@ module.exports = class KDTabView extends KDScrollView
     @handles.splice index, 1
 
     if shouldDetach
+      @panes   = @panes.filter   (p)-> p isnt pane
+      @handles = @handles.filter (h)-> h isnt handle
       pane.detach()
       handle.detach()
     else
@@ -240,12 +242,16 @@ module.exports = class KDTabView extends KDScrollView
       @handleClicked index, event
 
   # DEFAULT ACTIONS
-  handleClicked:(index,event)->
-    pane = @getPaneByIndex index
-    if $(event.target).hasClass "close-tab"
+  handleClicked: (event, handle) ->
+
+    {pane} = handle.getOptions()
+
+    # fixme: make close icon a kdview and check the view instead.
+    if $(event.target).hasClass 'close-tab'
       @blockTabHandleResize = yes
       @removePane pane
       return no
+
     @showPane pane
 
   # DEFINE CUSTOM or DEFAULT tabHandleContainer

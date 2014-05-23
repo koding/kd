@@ -173,5 +173,5 @@ module.exports = class KDWebcamView extends KDView
 
   viewAppended: ->
     super()
-    [@button, @save, @retake, @video, @picture].forEach @bound 'addSubView'
+    @addSubView view for view in [@button, @save, @retake, @video, @picture]
 

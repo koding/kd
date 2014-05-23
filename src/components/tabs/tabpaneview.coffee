@@ -94,7 +94,7 @@ module.exports = class KDTabPaneView extends KDView
   destroyMainView:->
 
     @mainView.destroy()
-    delete @mainView
+    @mainView = null
 
 
   fireLazyCallback:(pane, view)->

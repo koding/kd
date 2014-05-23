@@ -128,22 +128,29 @@ module.exports = class KDTabView extends KDScrollView
 
     @emit 'TabsSorted'
 
-  removePane:(pane)->
+  removePane:(pane, shouldDetach = no)->
     pane.emit "KDTabPaneDestroy"
     index = @getPaneIndex pane
     isActivePane = @getActivePane() is pane
     @panes.splice index, 1
-    pane.destroy()
     handle = @getHandleByIndex index
     @handles.splice index, 1
-    handle.destroy()
+
+    if shouldDetach
+      pane.detach()
+      handle.detach()
+    else
+      pane.destroy()
+      handle.destroy()
+
     if isActivePane
       if prevPane = @getPaneByIndex @lastOpenPaneIndex
         @showPane prevPane
       else if firstPane = @getPaneByIndex 0
         @showPane firstPane
 
-    @emit "PaneRemoved"
+    @emit "PaneRemoved", { pane, handle }
+    return { pane, handle }
 
   removePaneByName:(name)->
     for pane in @panes

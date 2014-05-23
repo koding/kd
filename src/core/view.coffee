@@ -412,6 +412,14 @@ module.exports = class KDView extends KDObject
     @parent?.getElement().removeChild @getElement()
     @unsetParent()
 
+
+  orphanize: ->
+
+    if @parent?.subViews and (index = @parent.subViews.indexOf @) >= 0
+      @parent.subViews.splice index, 1
+      @unsetParent()
+
+
   destroy: ->
 
     # good idea but needs some refactoring see KDObject::destroy
@@ -421,10 +429,7 @@ module.exports = class KDView extends KDObject
     @destroySubViews()  if @getSubViews().length > 0
 
     # instance drops itself from its parent's subviews array
-
-    if @parent?.subViews and (index = @parent.subViews.indexOf @) >= 0
-      @parent.subViews.splice index, 1
-      @unsetParent()
+    @orphanize()
 
     # instance removes itself from DOM
     @getDomElement().remove()

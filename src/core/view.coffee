@@ -404,9 +404,11 @@ module.exports = class KDView extends KDObject
 # #
   attach:(view) ->
     @getElement().appendChild view.getElement()
+    view.setParent this
 
   detach: ->
     @parent?.getElement().removeChild @getElement()
+    @unsetParent()
 
   destroy: ->
 

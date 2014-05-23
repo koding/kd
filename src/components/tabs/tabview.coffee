@@ -72,18 +72,21 @@ module.exports = class KDTabView extends KDScrollView
 
       { name, title, hiddenHandle, tabHandleView, closable, lazy } = paneInstance.getOptions()
 
-      @addHandle newTabHandle = new tabHandleClass
-        pane      : paneInstance
-        title     : name or title
-        hidden    : hiddenHandle
-        cssClass  : KD.utils.slugify name.toLowerCase()
-        view      : tabHandleView
-        closable  : closable
-        sortable  : sortable
-        click     : (event)=> @handleMouseDownDefaultAction newTabHandle, event
+      newTabHandle = paneInstance.tabHandle or new tabHandleClass
+        pane       : paneInstance
+        title      : name or title
+        hidden     : hiddenHandle
+        cssClass   : KD.utils.slugify name.toLowerCase()
+        view       : tabHandleView
+        closable   : closable
+        sortable   : sortable
+        click      : (event)=> @handleMouseDownDefaultAction newTabHandle, event
+
+      @addHandle newTabHandle
 
       paneInstance.tabHandle = newTabHandle
       @appendPane paneInstance
+
       @showPane paneInstance  if shouldShow and not lazy
 
       @emit "PaneAdded", paneInstance

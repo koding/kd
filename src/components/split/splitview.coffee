@@ -287,12 +287,12 @@ module.exports = class KDSplitView extends KDView
     else
       @resizePanel newSize, index, callback.bind this, { panel, index }
 
-  setFloatingPanel: (index) ->
+  setFloatingPanel: (index, size = 0) ->
     panel = @panels[index]
     panel.setClass   'floating'
     panel.isFloating = yes
     panel._lastSize  = panel._getSize()
-    @resizePanel 0, index
+    @resizePanel size, index
     @emit 'PanelSetToFloating', panel
 
   unsetFloatingPanel: (index) ->

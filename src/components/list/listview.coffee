@@ -60,16 +60,16 @@ module.exports = class KDListView extends KDView
   removeItem: (itemInstance, itemData, index) ->
 
     if index?
-      @emit 'ItemIsBeingDestroyed', { view : @items[index], index : index }
-      item = @items.splice index,1
+      @emit 'ItemIsBeingDestroyed', { view : @items[index], index }
+      item = @items.splice index, 1
       item[0].destroy()
       return
     else
       # fix it w/ indexOf
-      for item,i in @items
+      for item, i in @items
         if itemInstance is item or itemData is item.getData()
           @emit 'ItemIsBeingDestroyed', { view : item, index : i }
-          @items.splice i,1
+          @items.splice i, 1
           item.destroy()
           return
 

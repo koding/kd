@@ -4,7 +4,7 @@ class ListItem extends KDListItemView
   partial : ->
 
     {randomIndex, id} = @getData()
-    "#{id} numarali itemim ulan indexim de #{randomIndex or 'yok'}!!"
+    "#{id} numarali itemim ulan indexim de #{randomIndex or 'yok'}!!<br><br>"
 
 
 mainView = new KDView
@@ -22,6 +22,8 @@ mainView.addSubView new KDButtonView
     if listController.itemsOrdered.length > 3
       randomIndex = KD.utils.getRandomNumber listController.itemsOrdered.length
     listController.addItem {title : Date.now(), id : ++id, randomIndex}, randomIndex
+    log listController.itemsOrdered.map (item) -> item.data.id
+
 
 mainView.addSubView listController.getView()
 

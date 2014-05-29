@@ -236,7 +236,6 @@ gulp.task 'sauce', ->
 gulp.task 'webserver', ['compile'], ->
   express = require 'express'
   app     = express()
-  buildDir = '/docs'
 
   app.use express.static "#{__dirname}/#{buildDir}"
 

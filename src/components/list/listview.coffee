@@ -120,16 +120,15 @@ module.exports = class KDListView extends KDView
 
     if index is 0
       if boxed
-        @packageItem itemInstance
-      else
-        @addSubView itemInstance, null, lastToFirst
+      then @packageItem itemInstance
+      else @addSubView itemInstance, null, lastToFirst
 
     else if index > 0
 
       item = itemInstance.getElement()
 
       if lastToFirst
-        index = @items.length - index - 2
+        index = @items.length - index - 1
         node  = @items[index].getElement()
         node.parentNode.insertBefore item, node
       else
@@ -151,7 +150,8 @@ module.exports = class KDListView extends KDView
     } = @getOptions()
 
     operation = if lastToFirst then 'prepend' else 'append'
-    newBox    = =>
+
+    newBox = =>
       box = @createBox()
       box.addSubView itemInstance
 
@@ -166,7 +166,7 @@ module.exports = class KDListView extends KDView
   createBox: ->
 
     @boxes.push box = new KDListViewBox
-    @addSubView box
+    @addSubView box, null, @getOptions().lastToFirst
     box.on 'HeightChanged', (height) => @updateBoxProps box, height
     box.on 'BoxIsEmptied', (id)=>
 

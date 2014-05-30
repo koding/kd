@@ -32,7 +32,7 @@ module.exports = class KDTooltip extends KDView
     if @getOptions().animate then @setClass 'out' else @hide()
 
     @addListeners()
-    KD.singleton("windowController").on "ScrollHappened", @bound "hide"
+    KD.singletons["windowController"].on "ScrollHappened", @bound "hide"
 
     @once "viewAppended", =>
       o = @getOptions()
@@ -64,7 +64,7 @@ module.exports = class KDTooltip extends KDView
     return unless @visible
     super
     @getDomElement().remove()
-    KD.singleton("windowController").removeLayer this
+    KD.singletons["windowController"].removeLayer this
     @visible = no
 
   update:(o = @getOptions(), view = null)->
@@ -126,7 +126,7 @@ module.exports = class KDTooltip extends KDView
 
     # converts NESW-Values to topbottomleftright and retains them in @getOptions
     @appendToDomBody()
-    KD.singleton("windowController").addLayer this
+    KD.singletons["windowController"].addLayer this
     o = @translateCompassDirections o if o.gravity
     o.gravity = null
 

@@ -22,7 +22,7 @@ module.exports   = class KDTemplateView extends KDCustomHTMLView
     stylesEl           = document.createElement 'style'
     stylesEl.innerHTML = styles
 
-    window.markupEl    = parser.parseFromString markup, 'text/html'
+    markupEl    = parser.parseFromString markup, 'text/html'
 
     content.appendChild stylesEl
 

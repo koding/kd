@@ -87,56 +87,60 @@ module.exports = class KDListView extends KDView
     super
 
 
-  addItemView: (itemInstance, index = 0) ->
+  addItemView: (itemInstance, index) ->
 
     {lastToFirst} = @getOptions()
 
-    @emit 'ItemWasAdded', itemInstance, index
 
-    if index?
-      actualIndex = if lastToFirst then @items.length - index - 1 else index
-      @items.splice actualIndex, 0, itemInstance
-    else
+    unless index
+
+      index = 0
+
       if lastToFirst
       then @items.unshift itemInstance
       else @items.push itemInstance
 
-    @appendItemAtIndex itemInstance, index
+    else
+
+      @items.splice index, 0, itemInstance
+
+
+    @emit 'ItemWasAdded', itemInstance, index
+    @insertItemAtIndex itemInstance, index
 
     return itemInstance
 
 
-  appendItem: (itemInstance) -> @appendItemAtIndex itemInstance
+  appendItem: (itemInstance) -> @insertItemAtIndex itemInstance
 
 
-  appendItemAtIndex: (itemInstance, index = 0) ->
+  insertItemAtIndex: (itemInstance, index) ->
 
+    {boxed} = @getOptions()
 
-    {
-      lastToFirst
-      boxed
-    } = @getOptions()
+    if index <= 0
 
-
-    if index is 0
       if boxed
       then @packageItem itemInstance
       else @addSubView itemInstance, null, lastToFirst
 
     else if index > 0
 
-      item = itemInstance.getElement()
+      shouldBeLastItem = index >= @items.length - 1
+      item             = itemInstance.getElement()
 
-      if lastToFirst
-        index = @items.length - index - 1
-        node  = @items[index].getElement()
-        node.parentNode.insertBefore item, node
+      unless shouldBeLastItem
+        neighborItem = @items[index + 1].getElement()
+        neighborItem.parentNode.insertBefore item, neighborItem
+        itemInstance.emit 'viewAppended'  if @parentIsInDom
       else
-        index -= 1
-        node   = @items[index].getElement()
-        node.parentNode.insertBefore item, node.nextSibling
+        @addSubView itemInstance, null, !lastToFirst
 
-      itemInstance.emit 'viewAppended'  if @parentIsInDom
+
+
+
+
+
 
 
     @scrollDown()  if @doIHaveToScroll()

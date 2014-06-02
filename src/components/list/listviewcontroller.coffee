@@ -22,7 +22,6 @@ module.exports = class KDListViewController extends KDViewController
     # rename these options
     options.noItemFoundWidget     or= null
     options.noMoreItemFoundWidget or= null
-    options.boxed                  ?= no
 
     @itemsOrdered                 = [] unless @itemsOrdered
     # CtF: this must be fixed: duplicate itemsOrdered and KDListView.items
@@ -156,24 +155,38 @@ module.exports = class KDListViewController extends KDViewController
     @getListView().removeItem itemInstance, itemData, index
 
 
-  registerItem: (view, index) ->
+  registerItem: (itemInstance, index) ->
 
-    options = @getOptions()
+    {lastToFirst} = @getOptions()
 
-    if index?
-      actualIndex = if @getOptions().lastToFirst then @getListView().items.length - index - 1 else index
-      @itemsOrdered.splice(actualIndex, 0, view)
+    # this is a copy/paste
+    # we should remove itemsOrdered altogether
+    # and it will be fixed with that refactor
+    # see CtF's comment above
+    unless index
+
+      index = 0
+
+      if lastToFirst
+      then @itemsOrdered.unshift itemInstance
+      else @itemsOrdered.push itemInstance
+
     else
-      @itemsOrdered[if @getOptions().lastToFirst then 'unshift' else 'push'] view
-    if view.getData()?
-      @itemsIndexed[view.getItemDataId()] = view
 
-    if options.selection
-      view.on 'click', (event)=> @selectItem view, event
+      @itemsOrdered.splice index, 0, itemInstance
 
-    if options.keyNav or options.multipleSelection
-      view.on "mousedown", (event)=> @mouseDownHappenedOnItem view, event
-      view.on "mouseenter", (event)=> @mouseEnterHappenedOnItem view, event
+
+    @itemsIndexed[id] = itemInstance  if id = itemInstance.getItemDataId()?
+
+
+    {selection, keyNav, multipleSelection} = @getOptions()
+
+    if selection
+      itemInstance.on 'click', (event)=> @selectItem itemInstance, event
+
+    if keyNav or multipleSelection
+      itemInstance.on 'mousedown',  (event) => @mouseDownHappenedOnItem itemInstance, event
+      itemInstance.on 'mouseenter', (event) => @mouseEnterHappenedOnItem itemInstance, event
 
   unregisterItem: (itemInfo) ->
 

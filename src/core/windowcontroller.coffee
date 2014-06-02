@@ -13,18 +13,8 @@ module.exports = class KDWindowController extends KDController
 
   @keyViewHistory = []
   superKey        = if navigator.userAgent.indexOf("Mac OS X") is -1 then "ctrl" else "command"
-  addListener     = (eventName, listener, capturePhase=yes)->
+  addListener     = (eventName, listener, capturePhase = yes) ->
     window.addEventListener eventName, listener, capturePhase
-
-  # Finding vendor prefixes for visibility
-  getVisibilityProperty = ->
-    prefixes = ["webkit", "moz", "o"]
-    return "hidden" if `"hidden" in document`
-    return "#{prefix}Hidden" for prefix in prefixes when `prefix + "Hidden" in document`
-    return ""
-
-  getVisibilityEventName = ->
-    return "#{getVisibilityProperty().replace(/[Hh]idden/, '')}visibilitychange"
 
   constructor:(options,data)->
 
@@ -122,20 +112,21 @@ module.exports = class KDWindowController extends KDController
             KD.getSingleton("router").handleRoute href
     , no)
 
-    window.addEventListener 'beforeunload', @bound "beforeUnload"
+    addListener 'beforeunload', @bound 'beforeUnload'
 
-    document.addEventListener getVisibilityEventName(), (event)=>
-      @focusChange event, @isFocused()
+    window.onfocus = (event) => @focusChange event, yes
+    window.onblur  = (event) => @focusChange event, no
 
   addUnloadListener:(key, listener)->
     @unloadListeners[key] or= []
     @unloadListeners[key].push listener
 
   clearUnloadListeners: (key)->
+
     if key
-      @unloadListeners[key] = []
-    else
-      @unloadListeners = {}
+    then @unloadListeners[key] = []
+    else @unloadListeners = {}
+
 
   isFocused: -> !Boolean document[getVisibilityProperty()]
 
@@ -143,24 +134,28 @@ module.exports = class KDWindowController extends KDController
 
   focusChange: (event, state)->
 
-    return unless event
+    return  unless event
+
     listener state, event for listener in @focusListeners
+
 
   beforeUnload:(event)->
 
-    return unless event
+    return  unless event
 
     # all the listeners make their checks if it is safe or not to reload the page
     # they either return true or false if any of them returns false we intercept reload
 
     for own key, listeners of @unloadListeners
-      for listener in listeners
-        if listener() is off
-          message = unless key is "window" then " on #{key}" else ""
-          return "Please make sure that you saved all your work#{message}."
+      for listener in listeners when listener() is off
+        message = unless key is 'window' then " on #{key}" else ''
+        return "Please make sure that you saved all your work#{message}."
+
 
   setDragInAction:(@dragInAction = no)->
-    $('body')[if @dragInAction then "addClass" else "removeClass"] "dragInAction"
+
+    document.body.classList[if @dragInAction then 'add' else 'remove'] 'dragInAction'
+
 
   setMainView:(@mainView)->
 

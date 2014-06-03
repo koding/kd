@@ -15,6 +15,7 @@ module.exports = class KDKeyboardListener
 
   listen: ->
     Mousetrap.reset()
+    KDKeyboardListener.currentListener = this
 
     cs = {}
     ks = Object.keys @maps
@@ -25,6 +26,10 @@ module.exports = class KDKeyboardListener
       return if combo of cs  # only bind the first combo we find
 
       cs[combo] = yes
-      Mousetrap.bind combo, fn
+      Mousetrap.bindGlobal combo, fn
 
     return this
+
+  reset: ->
+    Mousetrap.reset()
+    KDKeyboardListener.currentListener = null

@@ -155,27 +155,7 @@ module.exports = class KDListViewController extends KDViewController
 
   registerItem: (itemInstance, index) ->
 
-    {lastToFirst} = @getOptions()
-
-    # this is a copy/paste
-    # we should remove itemsOrdered altogether
-    # and it will be fixed with that refactor
-    # see CtF's comment above
-    unless index
-
-      index = 0
-
-      if lastToFirst
-      then @itemsOrdered.unshift itemInstance
-      else @itemsOrdered.push itemInstance
-
-    else
-
-      @itemsOrdered.splice index, 0, itemInstance
-
-
     @itemsIndexed[id] = itemInstance  if id = itemInstance.getItemDataId()?
-
 
     {selection, keyNav, multipleSelection} = @getOptions()
 

@@ -23,7 +23,9 @@ module.exports = class KDListViewController extends KDViewController
     options.noItemFoundWidget     or= null
     options.noMoreItemFoundWidget or= null
 
-    Object.defineProperty this, "itemsOrdered", get : => @getListView().items
+    Object.defineProperty this, "itemsOrdered", get : =>
+      warn "KDListViewController::itemsOrdered is deprecated."
+      @getListView().items
 
     @itemsIndexed                 = {}
     @selectedItems                = []

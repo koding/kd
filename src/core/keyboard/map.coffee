@@ -1,4 +1,4 @@
-module.exports = class KeyboardMap
+module.exports = class KDKeyboardMap
 
   constructor: (options) ->
     { @priority } = options  if options?

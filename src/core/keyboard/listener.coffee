@@ -1,4 +1,4 @@
-module.exports = class KeyboardListener
+module.exports = class KDKeyboardListener
 
   constructor: ->
     @maps = {}

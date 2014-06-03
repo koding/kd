@@ -1,6 +1,7 @@
 module.exports = class KeyboardMap
 
-  constructor: ({ @priority }) ->
+  constructor: (options) ->
+    { @priority } = options  if options?
     @combos = {}
 
   addCombo: (combo, fn) ->

@@ -23,9 +23,7 @@ module.exports = class KDListViewController extends KDViewController
     options.noItemFoundWidget     or= null
     options.noMoreItemFoundWidget or= null
 
-    @itemsOrdered                 = [] unless @itemsOrdered
-    # CtF: this must be fixed: duplicate itemsOrdered and KDListView.items
-    # Object.defineProperty this, "itemsOrdered", get : => @getListView().items
+    Object.defineProperty this, "itemsOrdered", get : => @getListView().items
 
     @itemsIndexed                 = {}
     @selectedItems                = []

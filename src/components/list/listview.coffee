@@ -92,15 +92,12 @@ module.exports = class KDListView extends KDView
 
     {lastToFirst} = @getOptions()
 
-
-    unless index
-
-      index = 0
-
+    unless index?
       if lastToFirst
       then @items.unshift itemInstance
       else @items.push itemInstance
 
+      index = if lastToFirst then 0 else @items.length - 1
     else
 
       @items.splice index, 0, itemInstance
@@ -120,13 +117,14 @@ module.exports = class KDListView extends KDView
     {boxed, lastToFirst} = @getOptions()
 
     if index <= 0
+      index = if boxed and lastToFirst then undefined else 0
 
-      if boxed
-      then @packageItem itemInstance
-      else @addSubView itemInstance, null, lastToFirst
+    if index >= @items.length - 1
+      index = if boxed and not lastToFirst then undefined else @items.length - 1
 
-    else if index > 0
-
+    if boxed and not index?
+      @packageItem itemInstance
+    else
       shouldBeLastItem = index >= @items.length - 1
       item             = itemInstance.getElement()
 
@@ -135,14 +133,7 @@ module.exports = class KDListView extends KDView
         neighborItem.parentNode.insertBefore item, neighborItem
         itemInstance.emit 'viewAppended'  if @parentIsInDom
       else
-        @addSubView itemInstance, null, !lastToFirst
-
-
-
-
-
-
-
+        @addSubView itemInstance, null
 
     @scrollDown()  if @doIHaveToScroll()
 

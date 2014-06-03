@@ -116,7 +116,7 @@ module.exports = class KDListView extends KDView
 
   insertItemAtIndex: (itemInstance, index) ->
 
-    {boxed} = @getOptions()
+    {boxed, lastToFirst} = @getOptions()
 
     if index <= 0
 

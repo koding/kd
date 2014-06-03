@@ -65,9 +65,10 @@ module.exports = class KDListView extends KDView
       item[0].destroy()
       return
     else
+      {dataPath} = @getOptions()
       # fix it w/ indexOf
       for item, i in @items
-        if itemInstance is item or itemData is item.getData()
+        if itemInstance is item or itemData[dataPath] is item.getData()?[dataPath]
           @emit 'ItemIsBeingDestroyed', { view : item, index : i }
           @items.splice i, 1
           item.destroy()

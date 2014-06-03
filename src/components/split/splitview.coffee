@@ -5,20 +5,21 @@ KDSplitResizer   = require './splitresizer.coffee'
 
 module.exports = class KDSplitView extends KDView
 
-  constructor:(options = {},data)->
+  constructor: (options = {}, data) ->
 
-    options.type      or= "vertical"         # "vertical" or "horizontal"
-    options.resizable  ?= yes                # yes or no
-    options.sizes     or= [.5, .5]           # an Array of Strings such as ["50%","50%"] or ["500px","150px",null] and null for the available rest area
-    options.minimums  or= [0, 0]             # an Array of Strings
-    options.maximums  or= ['100%', '100%']   # an Array of Strings
-    options.views     or= []                 # an Array of KDViews
-    options.fixed     or= []                 # an Array of Booleans
-    options.duration  or= 200                # a Number in miliseconds
-    options.separator or= null               # a KDView instance or null for default separator
-    options.colored    ?= no                 # a Boolean
-    options.type        = options.type.toLowerCase()
-    options.cssClass    = KD.utils.curry "kdsplitview kdsplitview-#{options.type}", options.cssClass
+    options.type             or= "vertical"       # "vertical" or "horizontal"
+    options.resizable         ?= yes              # yes or no
+    options.sizes            or= [.5, .5]         # an Array of Strings such as ["50%","50%"] or ["500px","150px",null] and null for the available rest area
+    options.minimums         or= [0, 0]           # an Array of Strings
+    options.maximums         or= ['100%', '100%'] # an Array of Strings
+    options.views            or= []               # an Array of KDViews
+    options.fixed            or= []               # an Array of Booleans
+    options.duration         or= 200              # a Number in miliseconds
+    options.separator        or= null             # a KDView instance or null for default separator
+    options.colored           ?= no               # a Boolean
+    options.resizeHandleSize or= 2                # a Number
+    options.type               = options.type.toLowerCase()
+    options.cssClass           = KD.utils.curry "kdsplitview kdsplitview-#{options.type}", options.cssClass
 
     super options,data
 
@@ -95,12 +96,13 @@ module.exports = class KDSplitView extends KDView
 
   _createResizer:->
 
-    {type}   = @getOptions()
-    @resizer = @addSubView new KDSplitResizer
-      cssClass : "kdsplitview-resizer #{type}"
-      type     : @type
-      panel0   : @panels[0]
-      panel1   : @panels[1]
+    {type, resizeHandleSize} = @getOptions()
+    @resizer     = @addSubView new KDSplitResizer
+      cssClass   : "kdsplitview-resizer #{type}"
+      type       : @type
+      panel0     : @panels[0]
+      panel1     : @panels[1]
+      handleSize : resizeHandleSize
 
     @_repositionResizer()
 

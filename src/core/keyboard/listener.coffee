@@ -26,20 +26,10 @@ module.exports = class KDKeyboardListener
 
     Mousetrap.reset()
     KDKeyboardListener.currentListener = this
-
-    seen = {}
-
-    Object.keys @maps
-      .sort (a, b) -> b - a # descending priority
-      .map (k) => @maps[k] # values
-      .forEach (ms) -> ms.forEach (m) ->
-        m.eachCombo (combo, options = { global: yes }, listener) ->
-          return if seen[combo] # only bind the first combo we find
-
-          seen[combo] = yes
-          method = if options.global then 'bindGlobal' else 'bind'
-          Mousetrap[method] combo, listener
-
+    @triageComboMaps().forEach (m) ->
+      m.eachCombo (combo, options = { global: yes }, listener) ->
+        method = if options.global then 'bindGlobal' else 'bind'
+        Mousetrap[method] combo, listener
     @isListening = yes
     return this
 
@@ -50,6 +40,16 @@ module.exports = class KDKeyboardListener
     @isListening = no
     KDKeyboardListener.currentListener = null
     return this
+
+  triageComboMaps: ->
+    seen = {}
+    Object.keys @maps
+      .sort (a, b) -> b - a # descending priority
+      .map (k) => @maps[k]
+      .filter (combo) -> not seen[combo]  # only bind the first combo we find
+      .reduce (a, b) ->
+        a.concat b  # flatten
+      , []
 
   @current = ->
     return @currentListener  if @currentListener?

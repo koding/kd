@@ -202,12 +202,12 @@ module.exports = class KDWindowController extends KDController
   registerKeyCombos:(view)->
     combos = @viewHasKeyCombos view
     if combos?
-      @keyViewMap = new KDKeyboardMap { combos }
-      KDKeyboardListener.current().addComboMap @keyViewMap
+      @comboMap = new KDKeyboardMap { combos }
+      KDKeyboardListener.current().addComboMap @comboMap
 
   unregisterKeyCombos:->
     @currentCombos = {}
-    KDKeyboardListener.current().removeComboMap @keyViewMap
+    KDKeyboardListener.current().removeComboMap @comboMap
     @keyView.unsetClass "mousetrap" if @keyView
 
   setKeyView:(keyView)->

@@ -24,8 +24,7 @@ module.exports = class KDKeyboardListener
   listen: ->
     return this  if @isListening
 
-    Mousetrap.reset()
-    KDKeyboardListener.currentListener = this
+    KDKeyboardListener.currentListener?.reset()
 
     seen = {}
     @triageComboMaps().forEach (m) ->
@@ -34,6 +33,8 @@ module.exports = class KDKeyboardListener
         seen[combo] = yes
         method = if options.global then 'bindGlobal' else 'bind'
         Mousetrap[method] combo, listener
+
+    KDKeyboardListener.currentListener = this
     @isListening = yes
     return this
 

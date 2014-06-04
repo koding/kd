@@ -44,6 +44,8 @@ module.exports = class KDKeyboardListener
     return this
 
   reset: ->
+    return unless @isListening
+
     Mousetrap.reset()
     @isListening = no
     KDKeyboardListener.currentListener = null

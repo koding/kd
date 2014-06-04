@@ -28,17 +28,17 @@ module.exports = class KDKeyboardListener
     KDKeyboardListener.currentListener = this
 
     seen = {}
-    ks = Object.keys @maps
+
+    Object.keys @maps
       .sort (a, b) -> b - a # descending priority
-      .map (k) => @maps[k]
+      .map (k) => @maps[k] # values
+      .forEach (ms) -> ms.forEach (m) ->
+        m.eachCombo (combo, options = { global: yes }, listener) ->
+          return if seen[combo] # only bind the first combo we find
 
-    ks.forEach (ms) -> ms.forEach (m) ->
-      m.eachCombo (combo, options = { global: yes }, listener) ->
-        return if seen[combo] # only bind the first combo we find
-
-        seen[combo] = yes
-        method = if options.global then 'bindGlobal' else 'bind'
-        Mousetrap[method] combo, listener
+          seen[combo] = yes
+          method = if options.global then 'bindGlobal' else 'bind'
+          Mousetrap[method] combo, listener
 
     @isListening = yes
     return this

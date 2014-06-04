@@ -7,8 +7,9 @@ module.exports = class KDKeyboardListener
   makeUpdater = (fn) -> ->
     { isListening } = this
     @reset()  if isListening
-    fn.apply this, arguments
+    retVal = fn.apply this, arguments
     @listen()  if isListening
+    return retVal
 
   addMap: makeUpdater (map, priority) ->
     m = @maps[priority ? map.priority ? 0] ?= []

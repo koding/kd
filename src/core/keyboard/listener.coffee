@@ -46,7 +46,9 @@ module.exports = class KDKeyboardListener
     Object.keys @maps
       .sort (a, b) -> b - a # descending priority
       .map (k) => @maps[k]
-      .filter (combo) -> not seen[combo]  # only bind the first combo we find
+      .filter (combo) ->
+        return no  if seen[combo]  # only bind the first combo we find
+        seen[combo] = yes
       .reduce (a, b) ->
         a.concat b  # flatten
       , []

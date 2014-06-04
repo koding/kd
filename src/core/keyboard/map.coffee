@@ -1,11 +1,12 @@
 module.exports = class KDKeyboardMap
 
   constructor: (options) ->
-    { @priority, map } = options  if options?
     @combos = {}
 
-    if map?
-      @addCombo combo, null, listener  for own combo, listener of map
+    { @priority, combos } = options  if options?
+
+    if combos?
+      @addCombo combo, null, listener  for own combo, listener of combos
 
   addCombo: (combo, options, listener) ->
     [listener, options] = [options, listener]  unless listener?

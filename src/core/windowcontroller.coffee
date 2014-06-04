@@ -202,7 +202,7 @@ module.exports = class KDWindowController extends KDController
   registerKeyCombos:(view)->
     combos = @viewHasKeyCombos view
     if combos?
-      @keyViewMap = new KDKeyboardMap map: combos
+      @keyViewMap = new KDKeyboardMap { combos }
       KDKeyboardListener.current().addMap @keyViewMap
 
   unregisterKeyCombos:->

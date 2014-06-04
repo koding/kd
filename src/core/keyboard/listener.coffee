@@ -44,14 +44,16 @@ module.exports = class KDKeyboardListener
   triageComboMaps: ->
     seen = {}
     Object.keys @maps
+      # prioritize by key:
       .sort (a, b) -> b - a # descending priority
+      # map back to value:
       .map (k) => @maps[k]
+      .reduce((a, b) ->
+        a.concat b # flatten
+      , [])
       .filter (combo) ->
         return no  if seen[combo] # only bind the first combo we find
         seen[combo] = yes
-      .reduce (a, b) ->
-        a.concat b # flatten
-      , []
 
   @current = ->
     return @currentListener  if @currentListener?

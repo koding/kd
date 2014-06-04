@@ -21,6 +21,7 @@ module.exports = class KDKeyboardListener
     return this
 
   listen: ->
+    Mousetrap.reset()
     KDKeyboardListener.currentListener = this
 
     seen = {}

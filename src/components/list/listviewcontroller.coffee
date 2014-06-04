@@ -111,7 +111,9 @@ module.exports = class KDListViewController extends KDViewController
 
   getItemsOrdered:-> @itemsOrdered
 
-  getItemCount:-> @itemsOrdered.length
+  getListItems: -> @getListView().items
+
+  getItemCount:-> @getListItems().length
 
   setListView:(listView)-> @listView = listView
 
@@ -128,7 +130,7 @@ module.exports = class KDListViewController extends KDViewController
     {noItemFoundWidget} = @getOptions()
     @getListView().addSubView @noItemView = noItemFoundWidget
 
-  showNoItemWidget:-> @noItemView?.show() if @itemsOrdered.length is 0
+  showNoItemWidget:-> @noItemView?.show() if @getListItems().length is 0
   hideNoItemWidget:-> @noItemView?.hide()
 
   # regressed, will put back whenever i'm here again. - SY
@@ -175,7 +177,7 @@ module.exports = class KDListViewController extends KDViewController
     @emit "UnregisteringItem", itemInfo
     {index, view} = itemInfo
     actualIndex = if @getOptions().lastToFirst then @getListView().items.length - index - 1 else index
-    @itemsOrdered.splice actualIndex, 1
+    @getListItems().splice actualIndex, 1
     if view.getData()?
       delete @itemsIndexed[view.getItemDataId()]
 
@@ -185,20 +187,17 @@ module.exports = class KDListViewController extends KDViewController
     @instantiateListItems items
 
   removeAllItems: ->
-
-    {itemsOrdered}  = @
-    @itemsOrdered.length = 0
     @itemsIndexed = {}
 
     listView = @getListView()
     listView.empty() if listView.items.length
 
-    return itemsOrdered
+    return @getListItems()
 
   moveItemToIndex: (item, newIndex) ->
 
-    newIndex = Math.max(0, Math.min(@itemsOrdered.length-1, newIndex))
-    @itemsOrdered = @getListView().moveItemToIndex(item, newIndex).slice()
+    newIndex = Math.max(0, Math.min(@getListItems().length-1, newIndex))
+    @getListView().moveItemToIndex(item, newIndex).slice()
 
   ###
   HANDLING MOUSE EVENTS
@@ -283,35 +282,41 @@ module.exports = class KDListViewController extends KDViewController
     direction         = if event.which is 40 then "down" else "up"
     addend            = if event.which is 40 then 1 else -1
 
-    selectedIndex     = @itemsOrdered.indexOf @selectedItems[0]
-    lastSelectedIndex = @itemsOrdered.indexOf @selectedItems[@selectedItems.length - 1]
+    items = @getListItems()
 
-    if @itemsOrdered[selectedIndex + addend]
+    selectedIndex     = items.indexOf @selectedItems[0]
+    lastSelectedIndex = items.indexOf @selectedItems[@selectedItems.length - 1]
+
+    if items[selectedIndex + addend]
       unless event.metaKey or event.ctrlKey or event.shiftKey
         # navigate normally if meta key is NOT pressed
-        @selectItem @itemsOrdered[selectedIndex + addend]
+        @selectItem items[selectedIndex + addend]
       else
         # take extra actions if meta key is pressed
-        if @selectedItems.indexOf(@itemsOrdered[lastSelectedIndex + addend]) isnt -1
+        if @selectedItems.indexOf(items[lastSelectedIndex + addend]) isnt -1
           # to be deselected item is in @selectedItems
-          if @itemsOrdered[lastSelectedIndex]
-            @deselectSingleItem @itemsOrdered[lastSelectedIndex]
+          if items[lastSelectedIndex]
+            @deselectSingleItem items[lastSelectedIndex]
         else
           # to be deselected item is NOT in @selectedItems
-          if @itemsOrdered[lastSelectedIndex + addend ]
-            @selectSingleItem @itemsOrdered[lastSelectedIndex + addend ]
+          if items[lastSelectedIndex + addend ]
+            @selectSingleItem items[lastSelectedIndex + addend ]
 
   selectNextItem:(item, event)->
 
+    items = @getListItems()
+
     [item] = @selectedItems unless item
-    selectedIndex = @itemsOrdered.indexOf item
-    @selectItem @itemsOrdered[selectedIndex + 1]
+    selectedIndex = items.indexOf item
+    @selectItem items[selectedIndex + 1]
 
   selectPrevItem:(item, event)->
 
+    items = @getListItems()
+
     [item] = @selectedItems unless item
-    selectedIndex = @itemsOrdered.indexOf item
-    @selectItem @itemsOrdered[selectedIndex + -1]
+    selectedIndex = items.indexOf item
+    @selectItem items[selectedIndex + -1]
 
 
   deselectAllItems:->
@@ -324,30 +329,37 @@ module.exports = class KDListViewController extends KDViewController
 
   deselectSingleItem:(item)->
     item.removeHighlight()
+
+    items = @getListItems()
+
     @selectedItems.splice @selectedItems.indexOf(item), 1
-    if item is @itemsOrdered[@itemsOrdered.length-1]
+    if item is items[items.length-1]
       @getListView().unsetClass "last-item-selected"
     @itemDeselectionPerformed [item]
 
   selectSingleItem:(item)->
 
+    items = @getListItems()
+
     if item.getOption("selectable") and !(item in @selectedItems)
       item.highlight()
       @selectedItems.push item
-      if item is @itemsOrdered[@itemsOrdered.length-1]
+      if item is items[items.length-1]
         @getListView().setClass "last-item-selected"
       @itemSelectionPerformed()
 
   selectAllItems:->
 
-    @selectSingleItem item for item in @itemsOrdered
+    @selectSingleItem item for item in @getListItems()
 
 
   selectItemsByRange:(item1, item2)->
 
-    indicesToBeSliced = [@itemsOrdered.indexOf(item1), @itemsOrdered.indexOf(item2)]
+    items = @getListItems()
+
+    indicesToBeSliced = [items.indexOf(item1), items.indexOf(item2)]
     indicesToBeSliced.sort (a, b)-> a - b
-    itemsToBeSelected = @itemsOrdered.slice indicesToBeSliced[0], indicesToBeSliced[1] + 1
+    itemsToBeSelected = items.slice indicesToBeSliced[0], indicesToBeSliced[1] + 1
     @selectSingleItem item for item in itemsToBeSelected
     @itemSelectionPerformed()
 

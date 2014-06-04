@@ -22,7 +22,7 @@ module.exports = class KDKeyboardListener
     return this
 
   listen: ->
-    return if @isListening
+    return this  if @isListening
 
     Mousetrap.reset()
     KDKeyboardListener.currentListener = this
@@ -34,7 +34,7 @@ module.exports = class KDKeyboardListener
     return this
 
   reset: ->
-    return unless @isListening
+    return this  unless @isListening
 
     Mousetrap.reset()
     @isListening = no

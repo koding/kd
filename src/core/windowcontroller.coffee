@@ -206,7 +206,6 @@ module.exports = class KDWindowController extends KDController
       KDKeyboardListener.current().addComboMap @comboMap
 
   unregisterKeyCombos:->
-    @currentCombos = {}
     KDKeyboardListener.current().removeComboMap @comboMap
     @keyView.unsetClass "mousetrap" if @keyView
 

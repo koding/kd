@@ -11,14 +11,14 @@ module.exports = class KDKeyboardListener
     @listen()  if isListening
     return retVal
 
-  addComboMap: makeUpdater (map, priority) ->
-    m = @maps[priority ? map.priority ? 0] ?= []
-    m.push map
+  addComboMap: makeUpdater (comboMap, priority) ->
+    m = @maps[priority ? comboMap.priority ? 0] ?= []
+    m.push comboMap
     return this
 
-  removeComboMap: makeUpdater (map) ->
+  removeComboMap: makeUpdater (comboMap) ->
     for own priority, ms of @maps
-      @maps[priority] = ms.filter (m) -> m isnt map
+      @maps[priority] = ms.filter (m) -> m isnt comboMap
     return this
 
   listen: ->

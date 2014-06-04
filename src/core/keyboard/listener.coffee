@@ -50,6 +50,8 @@ module.exports = class KDKeyboardListener
     return this
 
   @current = ->
-    @currentListener ?= new this
+    return @currentListener  if @currentListener?
+
+    @currentListener = new this
     @currentListener.listen()
     return @currentListener

@@ -22,11 +22,13 @@ module.exports = class KDKeyboardListener
       .sort (a, b) -> b - a # descending priority
       .map (k) => @maps[k]
 
-    ks.forEach (ms) -> ms.forEach (m) -> m.forEach (combo, fn) ->
-      return if combo of cs  # only bind the first combo we find
+    ks.forEach (ms) -> ms.forEach (m) ->
+      m.eachCombo (combo, options = { global: yes }, listener) ->
+        return if combo of cs  # only bind the first combo we find
 
-      cs[combo] = yes
-      Mousetrap.bindGlobal combo, fn
+        cs[combo] = yes
+        method = if options.global then 'bindGlobal' else 'bind'
+        Mousetrap[method] combo, listener
 
     return this
 

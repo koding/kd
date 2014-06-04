@@ -4,14 +4,16 @@ module.exports = class KDKeyboardMap
     { @priority } = options  if options?
     @combos = {}
 
-  addCombo: (combo, fn) ->
-    @combos[combo] = fn
+  addCombo: (combo, options, listener) ->
+    [listener, options] = [options, listener]  unless listener?
+    @combos[combo] = { listener, options }
     return this
 
   removeCombo: (combo) ->
     @combos[combo] = null
     return this
 
-  forEach: (fn, thisArg) ->
-    fn.call thisArg, combo, listener  for own combo, listener of @combos
+  eachCombo: (fn, thisArg) ->
+    for own combo, { options, listener } of @combos
+      fn.call thisArg, combo, options, listener
     return

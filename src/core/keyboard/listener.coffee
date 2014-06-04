@@ -11,17 +11,19 @@ module.exports = class KDKeyboardListener
     @listen()  if isListening
     return retVal
 
-  addMap: makeUpdater (map, priority) ->
+  addComboMap: makeUpdater (map, priority) ->
     m = @maps[priority ? map.priority ? 0] ?= []
     m.push map
     return this
 
-  removeMap: makeUpdater (map) ->
+  removeComboMap: makeUpdater (map) ->
     for own priority, ms of @maps
       @maps[priority] = ms.filter (m) -> m isnt map
     return this
 
   listen: ->
+    return if @isListening
+
     Mousetrap.reset()
     KDKeyboardListener.currentListener = this
 
@@ -32,7 +34,7 @@ module.exports = class KDKeyboardListener
 
     ks.forEach (ms) -> ms.forEach (m) ->
       m.eachCombo (combo, options = { global: yes }, listener) ->
-        return if combo of seen # only bind the first combo we find
+        return if seen[combo] # only bind the first combo we find
 
         seen[combo] = yes
         method = if options.global then 'bindGlobal' else 'bind'
@@ -45,10 +47,9 @@ module.exports = class KDKeyboardListener
     Mousetrap.reset()
     @isListening = no
     KDKeyboardListener.currentListener = null
+    return this
 
   @current = ->
-    return @currentListener  if @currentListener
-
-    @currentListener = new this
+    @currentListener ?= new this
     @currentListener.listen()
     return @currentListener

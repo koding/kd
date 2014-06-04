@@ -157,7 +157,9 @@ module.exports = class KDListViewController extends KDViewController
 
   registerItem: (itemInstance, index) ->
 
-    @itemsIndexed[id] = itemInstance  if id = itemInstance.getItemDataId()?
+    if itemInstance.getItemDataId()?
+      id = itemInstance.getItemDataId()
+      @itemsIndexed[id] = itemInstance
 
     {selection, keyNav, multipleSelection} = @getOptions()
 

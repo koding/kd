@@ -47,4 +47,4 @@ module.exports = class KDListItemView extends KDView
     @undim()
     @unsetClass "selected"
 
-  getItemDataId:-> @getData().getId?() or @getData().id or @getData()._id
+  getItemDataId:-> id = @getData().getId?() or @getData().id or @getData()._id

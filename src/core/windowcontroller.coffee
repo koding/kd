@@ -27,6 +27,7 @@ module.exports = class KDWindowController extends KDController
     @layers                = []
     @unloadListeners       = {}
     @focusListeners        = []
+    @focused               = yes
 
     @bindEvents()
 
@@ -128,13 +129,15 @@ module.exports = class KDWindowController extends KDController
     else @unloadListeners = {}
 
 
-  isFocused: -> !Boolean document[getVisibilityProperty()]
+  isFocused: -> @focused
 
   addFocusListener: (listener)-> @focusListeners.push listener
 
   focusChange: (event, state)->
 
     return  unless event
+
+    @focused = state
 
     listener state, event for listener in @focusListeners
 

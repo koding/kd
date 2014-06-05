@@ -200,17 +200,13 @@ module.exports = class KDWindowController extends KDController
     return if Object.keys(combos).length > 0 then combos else no
 
   registerKeyCombos:(view)->
-
-    if combos = @viewHasKeyCombos view
-      view.setClass "mousetrap"
-      @currentCombos = superizeCombos combos
-      for own combo, cb of @currentCombos
-        Mousetrap.bind combo, cb, 'keydown'
+    combos = @viewHasKeyCombos view
+    if combos?
+      @comboMap = new KDKeyboardMap { combos }
+      KDKeyboardListener.current().addComboMap @comboMap
 
   unregisterKeyCombos:->
-
-    @currentCombos = {}
-    Mousetrap.reset()
+    KDKeyboardListener.current().removeComboMap @comboMap
     @keyView.unsetClass "mousetrap" if @keyView
 
   setKeyView:(keyView)->

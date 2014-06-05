@@ -27,12 +27,11 @@ module.exports = class KDKeyboardListener
     KDKeyboardListener.currentListener?.reset()
 
     seen = {}
-    @triageComboMaps().forEach (m) ->
-      m.eachCombo (combo, options = { global: yes }, listener) ->
-        return  if seen[combo]
-        seen[combo] = yes
-        method = if options.global then 'bindGlobal' else 'bind'
-        Mousetrap[method] combo, listener
+    @combos (combo, options = { global: yes }, listener) ->
+      return  if seen[combo]
+      seen[combo] = yes
+      method = if options.global then 'bindGlobal' else 'bind'
+      Mousetrap[method] combo, listener
 
     KDKeyboardListener.currentListener = this
     @isListening = yes
@@ -46,7 +45,7 @@ module.exports = class KDKeyboardListener
     KDKeyboardListener.currentListener = null
     return this
 
-  triageComboMaps: ->
+  getCombos: ->
     Object.keys @maps
       # prioritize by key:
       .sort (a, b) -> b - a # descending priority
@@ -56,6 +55,10 @@ module.exports = class KDKeyboardListener
       .reduce (a, b) ->
         a.concat b
       , []
+
+  combos: (fn) ->
+    @getCombos().forEach (m) -> m.eachCombo fn
+    return this
 
   isActive: ->
     @isListening and this is KDKeyboardListener.currentListener

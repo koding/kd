@@ -12,7 +12,7 @@ The keyboard listener is responsible for listening to keyboard combinations, and
 
 ### new KDKeyboardListener
 
-Instantiate a new KDKeyboardMap instance. There are no parameters.
+Instantiate a new KDKeyboardListener instance. There are no parameters.
 
 ### l.addComboMap(comboMap[, priority])
 
@@ -20,7 +20,7 @@ Add a combo map to the triage at a given priority. If you don't provide a priori
 
 ### l.removeComboMap(comboMap)
 
-Remove a combo from the triage.
+Remove a combo map from the triage.
 
 ### l.listen()
 
@@ -52,7 +52,7 @@ Where:
 
 Is the keyboard listener active?
 
-### KDKeyboardMap.current()
+### KDKeyboardListener.current()
 
 Returns the current keyboard listener, if any, otherwise returns a temporary one.
 
@@ -76,7 +76,7 @@ Adds a combo to the map.  It will overwrite any preexisting same combo.  Options
 
 `global` - Default true.  When false, key combinations will not be listened to while an input element is selected.
 
-### m.removeCombo(combo: string)
+### m.removeCombo(combo)
 
 Removes a combo from the map.
 

@@ -1,6 +1,6 @@
-JView = require './../../core/jview.coffee'
+KDView = require './../../core/view.coffee'
 
-module.exports = class KDSlidePageView extends JView
+module.exports = class KDSlidePageView extends KDView
 
   constructor:(options={}, data)->
     options.cssClass = KD.utils.curry 'kd-page', options.cssClass

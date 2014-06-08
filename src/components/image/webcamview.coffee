@@ -1,9 +1,8 @@
 KDView           = require './../../core/view.coffee'
-JView            = require './../../core/jview.coffee'
 KDCustomHTMLView = require './../../core/customhtmlview.coffee'
 KDButtonView     = require './../buttons/buttonview.coffee'
 
-module.exports = class KDWebcamView extends JView
+module.exports = class KDWebcamView extends KDView
 
   constructor: (options={}, data)->
 
@@ -172,11 +171,7 @@ module.exports = class KDWebcamView extends JView
     @context.drawImage video, 0, 0, video.clientWidth, video.clientHeight
     @emit "snap", picture.toDataURL(), picture
 
-  pistachio: ->
-    """
-    {{> @button}}
-    {{> @save}}
-    {{> @retake}}
-    {{> @video}}
-    {{> @picture}}
-    """
+  viewAppended: ->
+    super()
+    @addSubView view for view in [@button, @save, @retake, @video, @picture]
+

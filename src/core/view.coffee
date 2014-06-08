@@ -77,7 +77,6 @@ module.exports = class KDView extends KDObject
     o.cssClass    or= ""        # a String
     o.parent      or= null      # a KDView Instance
     o.partial     or= null      # a String of HTML or text
-    o.pistachio   or= null      # a String of Pistachio
     o.delegate    or= null      # a KDView Instance
     o.bind        or= ""        # a String of space seperated javascript dom events to be listened on instantiated view
     o.draggable   or= null      # an Object holding draggable options and/or events !!! NOT HTML5 !!!
@@ -113,14 +112,6 @@ module.exports = class KDView extends KDObject
     @setClass 'kddraggable'               if options.draggable
 
     @addEventHandlers options
-
-    # TODO: I commented this out because it was firing before viewAppended
-    #       I implemented the equivalent feature in JView, and I'm hoping
-    #       sometime soon we can merge JView into KDView.  C.T.
-    #
-    # if options.pistachio
-    #   @setTemplate options.pistachio, options.pistachioParams
-    #   @template.update()
 
     @setLazyLoader options.lazyLoadThreshold  if options.lazyLoadThreshold
 
@@ -488,16 +479,6 @@ module.exports = class KDView extends KDObject
       subViews = subViews.concat [].slice.call @items
     subViews
 
-  setTemplate:(tmpl, params)->
-    params ?= @getOptions()?.pistachioParams
-    options = if params? then {params}
-    @template = new Pistachio this, tmpl, options
-    @updatePartial @template.html
-    @template.embedSubViews()
-
-  pistachio: (tmpl) ->
-    "#{@options.prefix}#{tmpl}#{@options.suffix}"  if tmpl
-
   setParent:(parent)->
     if @parent? then error 'View already has a parent', this, @parent
     else
@@ -842,10 +823,6 @@ module.exports = class KDView extends KDObject
 # #
 
   viewAppended:->
-    {pistachio} = @getOptions()
-    if pistachio and not @template?
-      @setTemplate pistachio
-      @template.update()
 
   childAppended:(child)->
     # bubbling childAppended event

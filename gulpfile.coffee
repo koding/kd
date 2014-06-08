@@ -11,15 +11,14 @@ concat     = require 'gulp-concat'
 minifyCSS  = require 'gulp-minify-css'
 karma      = require 'gulp-karma'
 clean      = require 'gulp-clean'
-Q          = require 'q'
 fs         = require 'fs'
 http       = require 'http'
 argv       = require('minimist') process.argv
 source     = require 'vinyl-source-stream'
 gulpBuffer = require 'gulp-buffer'
 express    = require 'express'
-{exec}     = require 'child_process'
-pistachio  = require 'gulp-pistachio-compiler'
+Promise    = require 'bluebird'
+exec       = Promise.promisify (require 'child_process').exec
 
 STYLES_PATH   = require './src/themes/styl.includes.coffee'
 COFFEE_PATH   = ['./src/components/**/*.coffee','./src/core/**/*.coffee','./src/init.coffee']
@@ -81,16 +80,8 @@ gulp.task 'libs', ->
     .pipe gulp.dest 'test'
     .pipe gulp.dest "#{buildDir}/js"
 
-
 gulp.task 'export', ->
-
-  deferred = Q.defer()
-  exec "cd ./src;sh exporter.sh > entry.coffee; cd ..", (err)->
-    return deferred.reject err  if err
-    deferred.resolve()
-
-  return deferred.promise
-
+  exec "cd ./src;sh exporter.sh > entry.coffee; cd .."
 
 gulp.task 'coffee', ['export'], ->
 
@@ -100,7 +91,6 @@ gulp.task 'coffee', ['export'], ->
       entries : entryPath
     .pipe source entryPath
     .pipe gulpBuffer()
-    .pipe pistachio()
     .pipe gulpif useUglify, uglify()
     .pipe rename "kd.#{version}js"
     .pipe gulp.dest "#{buildDir}/js"
@@ -138,13 +128,7 @@ gulp.task 'play', ['clean-play', 'play-html', 'play-styles', 'play-coffee'], ->
 # Build docs
 
 gulp.task 'docs-exec', ->
-
-  deferred = Q.defer()
-  exec "cd docs;mkdir js;mkdir css;cd ..", (err) ->
-    return deferred.reject err  if err
-    deferred.resolve()
-
-  return deferred.promise
+  exec "cd docs;mkdir js;mkdir css;cd .."
 
 
 gulp.task 'docs-coffee', ['docs-exec'], ->
@@ -250,11 +234,8 @@ gulp.task 'sauce', ->
 # build webserver
 
 gulp.task 'webserver', ['compile'], ->
-
-  deferred = Q.defer()
   express = require 'express'
   app     = express()
-  buildDir = '/docs'
 
   app.use express.static "#{__dirname}/#{buildDir}"
 
@@ -267,10 +248,8 @@ gulp.task 'webserver', ['compile'], ->
 
   app.listen 3000
 
-  deferred.resolve()
-
   log 'green', "HTTP server for #{buildDir} is ready at localhost:3000"
-  return deferred.promise
+  return
 
 
 # Watch Tasks

@@ -1,6 +1,6 @@
-JView = require './../../core/jview.coffee'
+KDView = require './../../core/view.coffee'
 
-module.exports = class KDDiaContainer extends JView
+module.exports = class KDDiaContainer extends KDView
 
   constructor:(options = {}, data)->
     options.cssClass = KD.utils.curry 'kddia-container', options.cssClass

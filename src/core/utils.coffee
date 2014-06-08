@@ -206,19 +206,18 @@ module.exports =
     s = t
     s
 
-  applyMarkdown: (text)->
-    # problems with markdown so far:
-    # - links are broken due to textexpansions (images too i guess)
+  applyMarkdown: (text, options = {})->
     return null unless text
 
-    marked Encoder.htmlDecode(text),
-      gfm       : true
-      pedantic  : false
-      sanitize  : true
-      highlight :(text, lang)->
-        if hljs.getLanguage lang
-        then hljs.highlight(lang,text).value
-        else text
+    options.gfm       ?= true
+    options.pedantic  ?= false
+    options.sanitize  ?= true
+    options.highlight ?= (text, lang) ->
+      if hljs.getLanguage lang
+      then hljs.highlight(lang,text).value
+      else text
+
+    marked Encoder.htmlDecode(text), options
 
   enterFullscreen: do ->
 

@@ -15,6 +15,28 @@ module.exports = class KDSplitViewPanel extends KDScrollView
 
     {@fixed, @size, @index} = @getOptions()
 
+  splitPanel: (options = {}) ->
+    if @subViews.first instanceof KDSplitView
+      return warn "this panel is already splitted"
+
+    view      = @subViews.first
+    index     = @parent.panels.indexOf this
+    @subViews = []
+
+    if view
+      view.detach()
+      view.unsetParent()
+      options.views = [view]
+
+    options.colored = yes
+    # options.type    = ['vertical','horizontal'][KD.utils.getRandomNumber(2)-1]
+
+    {splitClass} = @parent.getOptions()
+    split        = new (splitClass or KDSplitView) options
+
+    @parent.setView split, index
+
+    return split
 
   _getSize:-> if @vertical then @getWidth() else @getHeight()
 

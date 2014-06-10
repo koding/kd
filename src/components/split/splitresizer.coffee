@@ -2,7 +2,9 @@ KDView = require './../../core/view.coffee'
 
 module.exports = class KDSplitResizer extends KDView
 
-  constructor:(options = {}, data)->
+  constructor: (options = {}, data) ->
+
+    options.handleSize or= 2
 
     @isVertical = options.type.toLowerCase() is "vertical"
 
@@ -19,8 +21,9 @@ module.exports = class KDSplitResizer extends KDView
     @on "DragStarted",  @dragStarted
 
   _setOffset:(offset)->
-    offset = 0 if offset < 0
-    if @isVertical then @$().css left : offset-5 else @$().css top : offset-5
+    offset    = 0 if offset < 0
+    newOffset = offset - @getOption('handleSize')
+    if @isVertical then @$().css left : newOffset else @$().css top : newOffset
 
   _getOffset:(offset)->
     if @isVertical then @getRelativeX() else @getRelativeY()

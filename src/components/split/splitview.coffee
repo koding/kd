@@ -5,20 +5,21 @@ KDSplitResizer   = require './splitresizer.coffee'
 
 module.exports = class KDSplitView extends KDView
 
-  constructor:(options = {},data)->
+  constructor: (options = {}, data) ->
 
-    options.type      or= "vertical"         # "vertical" or "horizontal"
-    options.resizable  ?= yes                # yes or no
-    options.sizes     or= [.5, .5]           # an Array of Strings such as ["50%","50%"] or ["500px","150px",null] and null for the available rest area
-    options.minimums  or= [0, 0]             # an Array of Strings
-    options.maximums  or= ['100%', '100%']   # an Array of Strings
-    options.views     or= []                 # an Array of KDViews
-    options.fixed     or= []                 # an Array of Booleans
-    options.duration  or= 200                # a Number in miliseconds
-    options.separator or= null               # a KDView instance or null for default separator
-    options.colored    ?= no                 # a Boolean
-    options.type        = options.type.toLowerCase()
-    options.cssClass    = KD.utils.curry "kdsplitview kdsplitview-#{options.type}", options.cssClass
+    options.type             or= "vertical"       # "vertical" or "horizontal"
+    options.resizable         ?= yes              # yes or no
+    options.sizes            or= [.5, .5]         # an Array of Strings such as ["50%","50%"] or ["500px","150px",null] and null for the available rest area
+    options.minimums         or= [0, 0]           # an Array of Strings
+    options.maximums         or= ['100%', '100%'] # an Array of Strings
+    options.views            or= []               # an Array of KDViews
+    options.fixed            or= []               # an Array of Booleans
+    options.duration         or= 200              # a Number in miliseconds
+    options.separator        or= null             # a KDView instance or null for default separator
+    options.colored           ?= no               # a Boolean
+    options.resizeHandleSize or= 2                # a Number
+    options.type               = options.type.toLowerCase()
+    options.cssClass           = KD.utils.curry "kdsplitview kdsplitview-#{options.type}", options.cssClass
 
     super options,data
 
@@ -95,12 +96,13 @@ module.exports = class KDSplitView extends KDView
 
   _createResizer:->
 
-    {type}   = @getOptions()
-    @resizer = @addSubView new KDSplitResizer
-      cssClass : "kdsplitview-resizer #{type}"
-      type     : @type
-      panel0   : @panels[0]
-      panel1   : @panels[1]
+    {type, resizeHandleSize} = @getOptions()
+    @resizer     = @addSubView new KDSplitResizer
+      cssClass   : "kdsplitview-resizer #{type}"
+      type       : @type
+      panel0     : @panels[0]
+      panel1     : @panels[1]
+      handleSize : resizeHandleSize
 
     @_repositionResizer()
 
@@ -262,20 +264,49 @@ module.exports = class KDSplitView extends KDView
 
     panel = @panels[index]
     panel._lastSize = panel._getSize()
-    @resizePanel 0, index, callback.bind this, {panel, index}
 
+    if panel.isFloating
+      panel.setCss "width", 0
+      callback { panel, index }
+    else
+      @resizePanel 0, index, callback.bind this, { panel, index }
 
-  showPanel:(index,callback = noop)->
+  showPanel: (index, callback = noop) ->
 
     panel           = @panels[index]
     newSize         = panel._lastSize or @sizes[index] or 200
     panel._lastSize = null
-    @resizePanel newSize, index, callback.bind this, {panel, index}
 
+    if panel.isFloating
+      panel.setCss 'width', newSize
+      left = panel.getRelativeX()
+      panel.setCss 'left', left - newSize  if left > 0
+      KD.getSingleton('windowController').addLayer panel
+      panel.once 'ReceivedClickElsewhere', =>
+        @hidePanel index
+
+      callback { panel, index }
+    else
+      @resizePanel newSize, index, callback.bind this, { panel, index }
+
+  setFloatingPanel: (index, size = 0) ->
+    panel = @panels[index]
+    panel.setClass   'floating'
+    panel.isFloating = yes
+    panel._lastSize  = panel._getSize()
+    @resizePanel size, index
+    @emit 'PanelSetToFloating', panel
+
+  unsetFloatingPanel: (index) ->
+    panel = @panels[index]
+    delete panel.isFloating
+    panel.unsetClass 'floating'
+    @showPanel index
+    @emit 'PanelSetToNormal', panel
 
   resizePanel:(value = 0, index = 0, callback = noop)->
 
-    return  unless @sizes[1]
+    return  unless @sizes[1]?
     return  if @beingResized
 
     @_resizeDidStart()
@@ -283,7 +314,7 @@ module.exports = class KDSplitView extends KDView
     value         = @_sanitizeSize value
     value         = @_getSize() if value > @_getSize()
     askedPanel    = @panels[index]
-    affectedPanel = @panels[index+1%2]
+    affectedPanel = @panels[(index + 1) % 2]
 
     if askedPanel._getSize() is value
       @_resizeDidStop()
@@ -304,25 +335,18 @@ module.exports = class KDSplitView extends KDView
     @_resizeDidStop()
     @beingResized = no
 
+  merge: ->
+    {views} = @getOptions()
+    @getOptions().views = []
 
-  splitPanel:(index, options = {})->
-
-    view            = @panels[index].subViews.first
-    @panels[index].subViews = []
-    if view
+    views.forEach (view, i) =>
+      return  unless view
       view.detach()
       view.unsetParent()
-      options.views = [view]
-    # options.colored = yes
-    # options.type    = ['vertical','horizontal'][KD.utils.getRandomNumber(2)-1]
+      @panels[i].subViews = []
 
-    {splitClass}    = @getOptions()
-    split           = new (splitClass or KDSplitView) options
-
-    @setView split, index
-
-    return split
-
+    @emit "SplitIsBeingMerged", views
+    @destroy()
 
   removePanel:(index)->
 

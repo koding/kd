@@ -308,11 +308,14 @@ module.exports = class KDView extends KDObject
     return this
 
   toggleClass:(cssClass)->
-    @$().toggleClass cssClass
+
+    if @hasClass cssClass
+    then @unsetClass cssClass
+    else @setClass cssClass
+
     return this
 
-  hasClass:(cssClass)->
-    @getElement().classList.contains cssClass
+  hasClass:(cssClass)-> @getElement().classList.contains cssClass
 
   getBounds:->
     #return false unless @viewDidAppend

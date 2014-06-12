@@ -162,10 +162,17 @@ module.exports = class KDModalView extends KDView
     @$('.kdmodal-content').css maxHeight : innerHeight - 120
     @setY Math.round((innerHeight - @getHeight()) / 2)  unless @getOptions().position.top
 
-  putOverlay:->
-    isRemovable = @getOptions().overlayClick
-    @overlay    = new KDOverlayView { isRemovable }
-    @overlay.once "click", @bound "destroy"  if isRemovable
+
+  putOverlay: ->
+
+    {overlayOptions, overlayClick} = @getOptions()
+    overlayOptions                ?= {}
+    overlayOptions.isRemovable    ?= overlayClick
+
+    @overlay = new KDOverlayView overlayOptions
+
+    @overlay.once 'click', @bound 'destroy'  if overlayClick
+
 
   createButton:(title, buttonOptions)->
     buttonOptions.title    = title

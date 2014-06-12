@@ -107,19 +107,19 @@ module.exports = class KDListViewController extends KDViewController
   HELPERS
   ###
 
-  itemForId:(id)-> @itemsIndexed[id]
+  itemForId: (id) -> @itemsIndexed[id]
 
-  getItemsOrdered:-> @itemsOrdered
+  getItemsOrdered: -> @itemsOrdered
 
   getListItems: -> @getListView().items
 
-  getItemCount:-> @getListItems().length
+  getItemCount: -> @getListItems().length
 
-  setListView:(listView)-> @listView = listView
+  setListView: (listView) -> @listView = listView
 
-  getListView:-> @listView
+  getListView: -> @listView
 
-  forEachItemByIndex:(ids, callback)->
+  forEachItemByIndex: (ids, callback) ->
     [callback, ids] = [ids, callback]  unless callback
     ids = [ids]  unless Array.isArray ids
     ids.forEach (id)=>

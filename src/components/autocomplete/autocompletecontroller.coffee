@@ -203,12 +203,17 @@ module.exports = class KDAutoCompleteController extends KDViewController
 
     @hideDropdown()
 
-  getAutoCompletedItemParent:->
+
+  getAutoCompletedItemParent: ->
+
     {outputWrapper} = @getOptions()
-    if outputWrapper instanceof KDView
-      @itemWrapper = outputWrapper
-    else
-      @itemWrapper = @getView()
+
+    @itemWrapper = if outputWrapper instanceof KDView
+    then outputWrapper
+    else @getView()
+
+    return @itemWrapper
+
 
   isItemAlreadySelected:(data)->
     {itemDataPath,customCompare,isCaseSensitive} = @getOptions()

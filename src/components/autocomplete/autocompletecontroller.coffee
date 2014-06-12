@@ -372,11 +372,16 @@ module.exports = class KDAutoCompleteController extends KDViewController
       else
         @dropdown.getListView().addItemView view
 
-  getNoItemFoundView:(suggestion) ->
+  getNoItemFoundView: (suggestion) ->
+
     {nothingFoundItemClass} = @getOptions()
+
     view = new nothingFoundItemClass
-      delegate: @dropdown.getListView()
-      userInput: suggestion or @getView().getValue()
+      delegate  : @dropdown.getListView()
+      userInput : suggestion or @getView().getValue()
+    , {}
+
+    return view
 
   showNoDataFound: ->
     noItemFoundView = @getNoItemFoundView()

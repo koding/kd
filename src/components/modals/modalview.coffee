@@ -6,6 +6,7 @@ KDModalViewStack = require './modalviewstack.coffee'
 module.exports = class KDModalView extends KDView
 
   constructor:(options = {}, data)->
+
     options.overlay       ?= no            # a Boolean
     options.overlayClick  ?= yes           # a Boolean
     options.height       or= "auto"        # a Number for pixel value or a String e.g. "100px" or "20%" or "auto"

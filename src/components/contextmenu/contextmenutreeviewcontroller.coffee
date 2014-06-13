@@ -133,7 +133,7 @@ module.exports = class JContextMenuTreeViewController extends JTreeViewControlle
     contextMenu = @getDelegate()
     if nodeData.callback and "function" is typeof nodeData.callback
       nodeData.callback.call contextMenu, nodeView, event
-    contextMenu.emit "ContextMenuItemReceivedClick", nodeView
+    contextMenu.emit "ContextMenuItemReceivedClick", nodeView, event
     event.stopPropagation()
     no
 

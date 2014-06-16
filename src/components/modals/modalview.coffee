@@ -210,7 +210,7 @@ module.exports = class KDModalView extends KDView
       uber()
 
     @overlay?.destroy()
-    @emit 'KDModalViewDestroyed', @
+    @emit 'KDModalViewDestroyed', this
 
   ### STACK HELPERS ###
 

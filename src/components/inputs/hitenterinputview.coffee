@@ -64,6 +64,7 @@ module.exports = class KDHitEnterInputView extends KDInputView
 
   keyDown:(event)->
     if event.which is 13 and (event.altKey or event.shiftKey) isnt true and @enterKeyEnabled
+      event.preventDefault()
       @emit "EnterPerformed"
       @validate()
       no

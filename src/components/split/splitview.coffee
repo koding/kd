@@ -214,7 +214,6 @@ module.exports = class KDSplitView extends KDView
   mouseUp: (event) ->
 
     @$().unbind "mousemove.resizeHandle"
-    @_resizeDidStop event
 
 
   _panelReachedMinimum:(index)->

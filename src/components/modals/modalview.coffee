@@ -86,9 +86,9 @@ module.exports = class KDModalView extends KDView
       </div>
     """
 
-  addSubView:(view, selector = ".kdmodal-content")->
+  addSubView:(view, selector = ".kdmodal-content", shouldPrepend = no)->
     selector = null if @$(selector).length is 0
-    super view, selector
+    super view, selector, shouldPrepend
 
   setButtons:(buttonDataSet, destroyExists = no)->
     @buttons or= {}

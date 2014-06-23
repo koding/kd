@@ -115,7 +115,7 @@ module.exports = class KDButtonView extends KDView
   showLoader:->
     {icon, iconOnly} = @getOptions()
     @setClass "loading"
-    @loader.show()
+    @loader?.show()
     @hideIcon() if icon and not iconOnly
 
   hideLoader:->

@@ -113,15 +113,23 @@ module.exports = class KDButtonView extends KDView
     @loader.hide()
 
   showLoader:->
+    
+    unless @loader
+      return warn 'KDButtonView::showLoader is called where no loader is set'
+    
     {icon, iconOnly} = @getOptions()
     @setClass "loading"
     @loader.show()
     @hideIcon() if icon and not iconOnly
 
   hideLoader:->
+    
+    unless @loader
+      return warn 'KDButtonView::hideLoader is called where no loader is set'
+
     {icon, iconOnly} = @getOptions()
     @unsetClass "loading"
-    @loader?.hide()
+    @loader.hide()
     @showIcon() if icon and not iconOnly
 
   disable:-> @$().attr "disabled", yes

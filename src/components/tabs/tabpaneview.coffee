@@ -34,17 +34,14 @@ module.exports = class KDTabPaneView extends KDView
     @active = yes
     @emit "KDTabPaneActive"
 
-    KD.utils.defer =>
-      @getElement().scrollTop         = @lastScrollTops.self
-      @parent?.getElement().scrollTop = @lastScrollTops.parent
+    @applyScrollTops()
 
 
   hide:->
 
     return  unless @active
 
-    @lastScrollTops.parent = @parent?.getElement().scrollTop or 0
-    @lastScrollTops.self   = @getElement().scrollTop
+    @setScrollTops()
 
     @setClass "kdhiddentab"
     @unsetClass "active"
@@ -54,6 +51,20 @@ module.exports = class KDTabPaneView extends KDView
 
     @active = no
     @emit "KDTabPaneInactive"
+
+
+
+  setScrollTops: ->
+
+    @lastScrollTops.parent = @parent?.getElement().scrollTop or 0
+    @lastScrollTops.self   = @getElement().scrollTop
+
+
+  applyScrollTops: ->
+
+    KD.utils.defer =>
+      @getElement().scrollTop         = @lastScrollTops.self
+      @parent?.getElement().scrollTop = @lastScrollTops.parent
 
 
   setTitle:(title)->

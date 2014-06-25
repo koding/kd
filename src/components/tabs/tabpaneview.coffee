@@ -13,14 +13,12 @@ module.exports = class KDTabPaneView extends KDView
 
     @name = options.name
     @lastScrollTops =
-      window        : 0
       parent        : 0
       self          : 0
-      body          : 0
 
 
-    @on "KDTabPaneActive",        @bound "setMainView"
-    @on "KDTabPaneLazyViewAdded", @bound "fireLazyCallback"
+    @on 'KDTabPaneActive',        @bound 'setMainView'
+    @on 'KDTabPaneLazyViewAdded', @bound 'fireLazyCallback'
 
 
   show:->

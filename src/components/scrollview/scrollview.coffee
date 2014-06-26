@@ -16,7 +16,7 @@ module.exports = class KDScrollView extends KDView
 
   bindEvents:->
 
-    @$().bind "mousewheel scroll", (event, delta, deltaX, deltaY)=>
+    @$().bind 'mousewheel scroll', (event, delta, deltaX, deltaY)=>
       event._delta = {delta, deltaX, deltaY}  if delta
       @handleEvent event
 

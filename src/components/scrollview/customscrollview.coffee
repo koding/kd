@@ -14,10 +14,11 @@ module.exports = class KDCustomScrollView extends KDCustomHTMLView
 
     super options, data
 
-    {mouseWheelSpeed} = @getOptions()
+    {mouseWheelSpeed, lazyLoadThreshold} = @getOptions()
 
     @wrapper = new KDCustomScrollViewWrapper {
       tagName  : 'main'
+      lazyLoadThreshold
       mouseWheelSpeed
     }
 

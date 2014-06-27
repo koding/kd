@@ -3,7 +3,7 @@ KDView = require './../../core/view.coffee'
 ###
 # # KDHeaderView
 #
-# KDHeaderView is a basic [KDView][kdview] to implement the
+# KDHeaderView is a basic KDView to implement the
 # `<h1>`/`<h2>`/`<h3>`/etc DOM elements.
 #
 # ## Usage

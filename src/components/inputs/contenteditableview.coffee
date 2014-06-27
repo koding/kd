@@ -65,7 +65,7 @@ module.exports = class KDContentEditableView extends KDView
 
   focus: ->
     @unsetPlaceholder() if @getValue().length is 0
-    @getEditableDomElement().trigger "focus" unless @focused
+    @getEditableDomElement().trigger "focus"
 
     windowController = KD.getSingleton "windowController"
     windowController.addLayer this

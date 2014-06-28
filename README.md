@@ -69,7 +69,7 @@ $ open test/index.html
 
 #### Running tests on Saucelabs
 
-You can also run tests remotely on [SauceLabs](http://saucelabs.com)
+You can also run tests remotely on [SauceLabs](https://saucelabs.com)
 browsers.
 
 First, expose your saucelabs username and access key as environment

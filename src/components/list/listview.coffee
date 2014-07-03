@@ -60,7 +60,7 @@ module.exports = class KDListView extends KDView
   removeItem: (itemInstance, itemData, index) ->
 
     if index?
-      @emit 'ItemIsBeingDestroyed', { view : @items[index], index }
+      @emit 'ItemWasRemoved', @items[index], index
       item = @items.splice index, 1
       item[0].destroy()
       return
@@ -70,7 +70,7 @@ module.exports = class KDListView extends KDView
       for item, i in @items
         if itemInstance.getId() is item.getId() or \
            itemData?[dataPath] is item.getData()?[dataPath]
-          @emit 'ItemIsBeingDestroyed', { view : item, index : i }
+          @emit 'ItemWasRemoved', item, i
           @items.splice i, 1
           item.destroy()
           return

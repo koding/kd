@@ -62,11 +62,14 @@ module.exports = class KDListViewController extends KDViewController
 
     {noItemFoundWidget} = @getOptions()
 
-    listView.on 'ItemWasAdded', (view, index)=>
+    listView.on 'ItemWasAdded', (view, index) =>
+
       @registerItem view, index
       @hideNoItemWidget()  if noItemFoundWidget
 
-    listView.on 'ItemIsBeingDestroyed', (itemInfo)=>
+
+    listView.on 'ItemWasRemoved', (view, index) =>
+
       @unregisterItem itemInfo
       @showNoItemWidget()  if noItemFoundWidget
 
@@ -172,9 +175,9 @@ module.exports = class KDListViewController extends KDViewController
       itemInstance.on 'mousedown',  (event) => @mouseDownHappenedOnItem itemInstance, event
       itemInstance.on 'mouseenter', (event) => @mouseEnterHappenedOnItem itemInstance, event
 
-  unregisterItem: (itemInfo) ->
+  unregisterItem: (itemInstance, index) ->
 
-    @emit "UnregisteringItem", itemInfo
+    @emit "UnregisteringItem", {view, index}
     {index, view} = itemInfo
     actualIndex = if @getOptions().lastToFirst then @getListView().items.length - index - 1 else index
     @getListItems().splice actualIndex, 1

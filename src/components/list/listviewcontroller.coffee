@@ -70,11 +70,12 @@ module.exports = class KDListViewController extends KDViewController
 
     listView.on 'ItemWasRemoved', (view, index) =>
 
-      @unregisterItem itemInfo
+      @unregisterItem view, index
       @showNoItemWidget()  if noItemFoundWidget
 
     if options.keyNav
-      listView.on 'KeyDownOnList', (event)=> @keyDownPerformed listView, event
+      listView.on 'KeyDownOnList', (event) => @keyDownPerformed listView, event
+
 
   loadView: (mainView) ->
 
@@ -177,12 +178,11 @@ module.exports = class KDListViewController extends KDViewController
 
   unregisterItem: (itemInstance, index) ->
 
-    @emit "UnregisteringItem", {view, index}
-    {index, view} = itemInfo
-    actualIndex = if @getOptions().lastToFirst then @getListView().items.length - index - 1 else index
+    @emit 'UnregisteringItem', itemInstance, index
+    actualIndex = if @getOptions().lastToFirst then @getItemCount() - index - 1 else index
     @getListItems().splice actualIndex, 1
-    if view.getData()?
-      delete @itemsIndexed[view.getItemDataId()]
+    if itemInstance.getData()?
+      delete @itemsIndexed[itemInstance.getItemDataId()]
 
   replaceAllItems: (items) ->
 

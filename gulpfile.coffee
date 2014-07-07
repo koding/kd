@@ -55,7 +55,7 @@ useMinify     = checkParam argv.minify
 karmaAction   = 'watch'
 buildDocs     = checkParam argv.docs
 buildPlay     = checkParam argv.play
-theme         = if checkParam argv.theme then argv.theme else no
+theme         = checkParam argv.theme
 
 
 # Build Tasks
@@ -63,9 +63,11 @@ theme         = if checkParam argv.theme then argv.theme else no
 
 gulp.task 'styles', ->
 
-  # FIXME: put real theme build support here
-  unless theme
-    STYLES_PATH = require './src/themes/reset.includes.coffee'
+  if theme
+    resetStyles = require './src/themes/reset.includes.coffee'
+    # FIXME: require & put real theme styl files array here
+    themeStyles = []
+    STYLES_PATH = themeStyles.concat resetStyles
 
   gulp.src STYLES_PATH
     .pipe stylus()

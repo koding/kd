@@ -22,7 +22,7 @@ module.exports = class KDListViewController extends KDViewController
     # rename these options
     options.noItemFoundWidget     or= null
     options.noMoreItemFoundWidget or= null
-    options.lastToFirst            ?= yes
+    options.lastToFirst            ?= no
 
     Object.defineProperty this, "itemsOrdered", get : =>
       warn "KDListViewController::itemsOrdered is deprecated."
@@ -179,7 +179,7 @@ module.exports = class KDListViewController extends KDViewController
   unregisterItem: (itemInstance, index) ->
 
     @emit 'UnregisteringItem', itemInstance, index
-    actualIndex = if @getOptions().lastToFirst then index else @getItemCount() - index - 1
+    actualIndex = if @getOptions().lastToFirst then @getItemCount() - index - 1 else index
 
     @getListItems().splice actualIndex, 1
     if itemInstance.getData()?

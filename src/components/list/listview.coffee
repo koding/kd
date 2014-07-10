@@ -58,30 +58,24 @@ module.exports = class KDListView extends KDView
 
 
   removeItem: (itemInstance, itemData, index) ->
-
-    if index?
-      @emit 'ItemWasRemoved', @items[index], index
-      [item] = @items.splice index, 1
+    destroy = (item, i) =>
+      @emit 'ItemWasRemoved', item, i
       item.destroy()
       return yes
-    else
-      {dataPath} = @getOptions()
 
-      destroy = (item, index) =>
-        @emit 'ItemWasRemoved', item, i
-        @items.splice i, 1
-        item.destroy()
-        return yes
+    if index
+      return no  unless @items[index]
+      return destroy @items[index], index
 
-      for item, i in @items
-        if itemInstance
-          if itemInstance.getId() is item.getId()
-            destroy item, i
-            break
-        else if itemData
-          if itemData?[dataPath] is item.getData()?[dataPath]
-            destroy item, i
-            break
+    {dataPath} = @getOptions()
+
+    for item, i in @items
+      if itemInstance
+        if itemInstance.getId() is @items[i].getId()
+          return destroy @items[i], i
+      else if itemData
+        if itemData[dataPath] and @items[i].getData()[dataPath] and itemData[dataPath] is @items[i].getData()[dataPath]
+          return destroy @items[i], i
 
 
   removeItemByData: (itemData) -> @removeItem null, itemData

@@ -66,15 +66,15 @@ KDLoaderView = require './../loader/loaderview.coffee'
 module.exports = class KDButtonView extends KDView
 
   ###*
-  * Options supports the following keys:
-  * - **options.title**: The title of the button.
-  * - **options.callback**: The function to be called when the button is pressed.
-  * - **options.loader**: The options to use for a loader on this button. If
-  *   false, this button will not use a loader by default. See
-  *   [KDLoaderView](./kdloaderview.md) for the supported options.
-  *
-  * @param {Object} options
-  * @param {Object} data
+   * Options supports the following keys:
+   * - **options.title**: The title of the button.
+   * - **options.callback**: The function to be called when the button is pressed.
+   * - **options.loader**: The options to use for a loader on this button. If
+   *   false, this button will not use a loader by default. See
+   *   [KDLoaderView](./kdloaderview.md) for the supported options.
+   *
+   * @param {Object} options
+   * @param {Object} data
   ###
   constructor:(options = {}, data)->
 

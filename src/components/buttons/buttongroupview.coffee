@@ -38,20 +38,14 @@ KDView = require './../../core/view.coffee'
 module.exports = class KDButtonGroupView extends KDView
 
   ###*
-   * 1. **options**:
-   *   - Type: object
-   *   - Default: `{}`
-   *
-   *   The following keys are supported.
-   *
    * Options supports the following keys:
    * - **options.buttons**: An object containing settings for the
-   *   KDButtonViews][kdbuttonview] that KDButtonGroupView will create. Each key
-   * is the title of a button to be created, and the value is yet another object
-   * that will be given as options to the [KDButtonView][kdbuttonview].
-   *     - Type: object
+   *  KDButtonViews that KDButtonGroupView will create. Each key is the
+   *  title of a button to be created, and the value is yet another object
+   *  that will be given as options to the KDButtonView.
    *
    * @param {Object} options
+   * @param {Object} data
   ###
   constructor:(options = {},data)->
 

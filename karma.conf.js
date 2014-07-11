@@ -15,7 +15,8 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'test/kd.libs.js'
+      'test/kd.libs.js',
+      'test/kd.test.js'
     ],
 
     sauceLabs: {

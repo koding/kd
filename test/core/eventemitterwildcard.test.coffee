@@ -1,5 +1,5 @@
 {assert} = require('chai')
-KDEventEmitterWildcard = require('../eventemitterwildcard')
+KDEventEmitterWildcard = require('../../src/core/eventemitterwildcard')
 
 describe 'KDEventEmitterWildcard', ->
 

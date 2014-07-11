@@ -1,13 +1,13 @@
 {assert} = require 'chai'
-KDRouter = require '../router'
+KDController = require '../../src/core/controller'
 
-describe 'KDRouter', ->
+describe 'KDController', ->
 
   it 'exists', ->
-    assert.ok(KDRouter)
+    assert.ok(KDController)
 
   describe 'constructor', ->
 
     it 'should instantiate without error', ->
-      router = new KDRouter
+      router = new KDController
       assert.ok(router)

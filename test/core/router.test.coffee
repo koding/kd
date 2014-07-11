@@ -1,13 +1,13 @@
 {assert} = require 'chai'
-KDCustomhtmlview = require '../customhtmlview'
+KDRouter = require '../../src/core/router'
 
-describe 'KDCustomhtmlview', ->
+describe 'KDRouter', ->
 
   it 'exists', ->
-    assert.ok(KDCustomhtmlview)
+    assert.ok(KDRouter)
 
   describe 'constructor', ->
 
     it 'should instantiate without error', ->
-      router = new KDCustomhtmlview
+      router = new KDRouter
       assert.ok(router)

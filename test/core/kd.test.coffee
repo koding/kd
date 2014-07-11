@@ -1,6 +1,6 @@
 {assert} = require('chai')
 sinon = require('sinon')
-kd = require('../kd')
+kd = require('../../src/core/kd')
 
 describe 'KD core', ->
 

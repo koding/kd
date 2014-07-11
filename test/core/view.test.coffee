@@ -1,5 +1,5 @@
 {assert} = require('chai')
-KDView = require('../view')
+KDView = require('../../src/core/view')
 
 describe 'KDView', ->
 

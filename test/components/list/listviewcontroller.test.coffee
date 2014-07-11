@@ -1,7 +1,7 @@
 {assert, expect} = require 'chai'
 sinon = require 'sinon'
-KDListViewController = require '../listviewcontroller'
-KDListView = require '../listview'
+KDListViewController = require '../../../src/components/list/listviewcontroller.coffee'
+KDListView = require '../../../src/components/list/listview.coffee'
 
 describe 'KDListViewController', ->
   beforeEach -> @sinon = sinon.sandbox.create()

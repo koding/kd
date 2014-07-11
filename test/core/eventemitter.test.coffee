@@ -1,5 +1,5 @@
 {assert} = require('chai')
-KDEventEmitter = require('../eventemitter')
+KDEventEmitter = require('../../src/core/eventemitter')
 
 describe 'KDEventEmitter', ->
 

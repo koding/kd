@@ -23,7 +23,7 @@ exec       = Promise.promisify (require 'child_process').exec
 STYLES_PATH   = require './src/themes/styl.includes.coffee'
 COFFEE_PATH   = ['./src/components/**/*.coffee','./src/core/**/*.coffee','./src/init.coffee']
 LIBS_PATH     = ['./libs/*.js']
-TEST_PATH     = ['./src/**/*.test.coffee']
+TEST_PATH     = ['./test/**/*.test.coffee']
 LIBS          = require './src/lib.includes.coffee'
 
 # Helpers

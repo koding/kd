@@ -1,5 +1,5 @@
 {assert} = require 'chai'
-KDViewController = require '../viewcontroller'
+KDViewController = require '../../src/core/viewcontroller'
 
 describe 'KDViewController', ->
 

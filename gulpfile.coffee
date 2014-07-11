@@ -217,16 +217,37 @@ gulp.task 'coffee-test', ->
     .pipe gulp.dest 'test'
 
 
+testFiles = [
+  './test/kd.libs.js'
+  './test/kd.test.js'
+]
+
 gulp.task 'karma', ['coffee-test'], ->
 
-  gulp.src ['./test/kd.*']
+  gulp.src testFiles
     .pipe karma
       configFile : 'karma.conf.js'
       action     : karmaAction
 
+gulp.task 'karma-headless', ['coffee-test'], ->
+
+  return gulp.src testFiles
+    .pipe karma
+      configFile : 'karma.conf.js'
+      action     : 'watch'
+      browsers   : ['PhantomJS']
+
+gulp.task 'karma-travis', ['coffee-test'], ->
+
+  return gulp.src testFiles
+    .pipe karma
+      configFile : 'karma.conf.js'
+      action     : 'run'
+      browsers   : ['PhantomJS']
+      reporters  : ['dots']
 
 gulp.task 'sauce', ->
-  gulp.src ['./test/kd.*']
+  gulp.src testFiles
     .pipe karma
       browsers   : [
         'sl_firefox_windows'

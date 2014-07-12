@@ -1,5 +1,5 @@
 {assert} = require 'chai'
-KDUtils = require '../utils'
+KDUtils = require '../../src/core/utils'
 
 describe 'KDUtils', ->
 

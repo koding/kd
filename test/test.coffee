@@ -1,2 +1,4 @@
-require('../src/core/test')
-require('../src/components/buttons/test')
+require('./phantomjs_polyfill')
+require('./core')
+require('./components/buttons')
+require('./components/list')

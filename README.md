@@ -1,7 +1,5 @@
-KD
+KD [![Build Status](http://img.shields.io/travis/koding/kd/master.listview.svg?style=flat)](https://travis-ci.org/koding/kd)
 --
-
-[![Build Status](http://img.shields.io/travis/koding/kd/master.listview.svg?style=flat)](https://travis-ci.org/koding/kd)
 
 _a non-document focused UI Framework for web applications._
 

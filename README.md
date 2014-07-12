@@ -1,6 +1,5 @@
-KD [![Build Status](http://img.shields.io/travis/koding/kd/master.listview.svg?style=flat)](https://travis-ci.org/koding/kd)
+KD [![Build Status](https://img.shields.io/travis/koding/kd/master.listview.svg?style=flat)](https://travis-ci.org/koding/kd) [![Coverage Status](https://img.shields.io/coveralls/koding/kd.svg?style=flat)](https://coveralls.io/r/koding/kd)
 --
-
 _a non-document focused UI Framework for web applications._
 
 Install gulp:

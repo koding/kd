@@ -1,4 +1,4 @@
-KD [![Build Status](https://img.shields.io/travis/koding/kd/master.listview.svg?style=flat)](https://travis-ci.org/koding/kd) [![Coverage Status](https://img.shields.io/coveralls/koding/kd.svg?style=flat)](https://coveralls.io/r/koding/kd)
+KD [![Build Status](https://img.shields.io/travis/koding/kd/master.listview.svg?style=flat)](https://travis-ci.org/koding/kd) [![Dependency Status](https://img.shields.io/david/dev/koding/kd.svg?style=flat)](https://david-dm.org/koding/kd#info=devDependencies)
 --
 _a non-document focused UI Framework for web applications._
 

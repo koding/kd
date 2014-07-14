@@ -1,8 +1,8 @@
 KDButtonView = require './buttonview.coffee'
 
 ###*
- * A KDButtonView that has a state of on or off, which can be
- * toggled.
+ * KDToggleButton is a KDButtonView that has a state of on or off, which can
+ * be toggled.
  *
  * ## Usage
  *

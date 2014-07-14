@@ -71,7 +71,7 @@ module.exports = class KDButtonView extends KDView
    * - **options.callback**: The function to be called when the button is pressed.
    * - **options.loader**: The options to use for a loader on this button. If
    *   false, this button will not use a loader by default. See
-   *   [KDLoaderView](./kdloaderview.md) for the supported options.
+   *   KDLoaderView for the supported options.
    *
    * @param {Object} options
    * @param {Object} data

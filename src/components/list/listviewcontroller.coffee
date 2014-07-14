@@ -379,34 +379,39 @@ module.exports = class KDListViewController extends KDViewController
   LAZY LOADER
   ###
 
+  createLazyLoader: ->
+
+    {lazyLoaderOptions} = @getOptions()
+
+    lazyLoaderOptions                or= {}
+    lazyLoaderOptions.itemClass      or= KDCustomHTMLView
+    lazyLoaderOptions.partial         ?= ''
+    lazyLoaderOptions.cssClass         = KD.utils.curry 'lazy-loader', lazyLoaderOptions.cssClass
+    lazyLoaderOptions.spinnerOptions or= size : width : 32
+    {itemClass, spinnerOptions}        = lazyLoaderOptions
+    delete lazyLoaderOptions.itemClass
+
+    wrapper = @scrollView or @getView()
+    wrapper.addSubView @lazyLoader = new itemClass lazyLoaderOptions
+    @lazyLoader.addSubView @lazyLoader.spinner = new KDLoaderView spinnerOptions
+
+
   showLazyLoader:(emitWhenReached = yes)->
 
-    @hideNoItemWidget() if @noItemView and @getOptions().noItemFoundWidget
-    unless @lazyLoader
-      {lazyLoaderOptions} = @getOptions()
+    @hideNoItemWidget()  if @noItemView and @getOptions().noItemFoundWidget
 
-      lazyLoaderOptions                or= {}
-      lazyLoaderOptions.itemClass      or= KDCustomHTMLView
-      lazyLoaderOptions.partial         ?= ''
-      lazyLoaderOptions.cssClass         = KD.utils.curry 'lazy-loader', lazyLoaderOptions.cssClass
-      lazyLoaderOptions.spinnerOptions or= size : width : 32
-      {itemClass, spinnerOptions}        = lazyLoaderOptions
-      delete lazyLoaderOptions.itemClass
+    @createLazyLoader()  unless @lazyLoader
 
-      wrapper = @scrollView or @getView()
-      wrapper.addSubView @lazyLoader = new itemClass lazyLoaderOptions
-      @lazyLoader.addSubView @lazyLoader.spinner = new KDLoaderView spinnerOptions
-
-      @lazyLoader.spinner.show()
-      @emit 'LazyLoadThresholdReached'  if emitWhenReached
-      KD.utils.defer => @scrollView?.stopScrolling = yes
+    @lazyLoader.show()
+    @lazyLoader.spinner.show()
+    @emit 'LazyLoadThresholdReached'  if emitWhenReached
+    KD.utils.defer => @scrollView?.stopScrolling = yes
 
 
   hideLazyLoader:->
 
     KD.utils.wait 300, => @scrollView?.stopScrolling = no
     @showNoItemWidget() if @noItemView and @getOptions().noItemFoundWidget
-    if @lazyLoader
-      @lazyLoader.spinner.hide()
-      @lazyLoader.destroy()
-      @lazyLoader = null
+
+    @lazyLoader.spinner.hide()
+    @lazyLoader.hide()

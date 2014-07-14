@@ -25,12 +25,12 @@ module.exports = class KDScrollTrack extends KDView
 
   show:->
 
-    @getDelegate().emit "ScrollTrackShown", @type
+    @getDelegate().emit 'ScrollTrackShown', @type
     @unsetClass 'invisible'
 
 
   hide:->
 
-    @getDelegate().emit "ScrollTrackHidden", @type
+    @getDelegate().emit 'ScrollTrackHidden', @type
     @setClass 'invisible'
 

@@ -1,4 +1,5 @@
 KDView = require './../../core/view'
+KDScrollThumb = require './scrollthumb.coffee'
 
 module.exports = class KDScrollTrack extends KDView
 

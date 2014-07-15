@@ -20,7 +20,7 @@ KDView = require './../../core/view.coffee'
  * appView.addSubView header
  * ```
  *
- * As you can see, we implemented a class `CustomListView` that extended the 
+ * As you can see, we implemented a class `CustomListView` that extended the
  * `partial` method and returned a string that we wanted to use.
 ###
 module.exports = class KDListItemView extends KDView

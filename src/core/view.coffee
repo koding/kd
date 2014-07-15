@@ -1,5 +1,25 @@
 KDObject      = require './object.coffee'
 
+###*
+ * KDView is the base class for all GUI components.
+ *
+ *
+ * ## Usage
+ *
+ * ```coffee
+ * view = new KDView
+ *   partial:    "I'm a view!"
+ *   cssClass:  'foo'
+ *
+ * appView.addSubView view
+ * ```
+ *
+ * When rendered, this will display approximately:
+ *
+ * ```html
+ * <div class="foo">I'm a view!</div>
+ * ```
+###
 module.exports = class KDView extends KDObject
 
 # #
@@ -69,6 +89,37 @@ module.exports = class KDView extends KDObject
 # INSTANCE LEVEL
 # #
 
+  ###*
+   * Options supports the following keys.
+   * - **options.tagName**: The name of the html tag. Defaults to `"div"`
+   * - **options.domId**: The HTML ID of the element. `null`
+   * - **options.cssClass**: The class string for the html element.
+   * - **options.parent**: The parent KDView for this view.
+   * - **options.partial**: The contents of this HTML element, such as `"Hello"`
+   *   or `"<h1>Hello!</h1>"`.
+   * - **options.pistachio**: A string of pistachio to add to the contents of this
+   *   HTML element.
+   * - **options.size**: An object with `width` and `height` properties
+   *   representing the size of this view, in pixels. Example:
+   *   ```
+   *   {width: 10, height: 10}
+   *   ```
+   * - **options.position**: An object with top/right/bottom/left properties
+   *   representing the css top/right/bottom/left offset properties. Example:
+   *   ```
+   *   {top: 5, left: 5}
+   *   ```
+   * - **options.attributes**: The HTML attributes for this view. These can be
+   *   custom, or standard attributes such as `href` or `src`. Example:
+   *   ```
+   *   {href:"https://koding.com"}
+   *   ```
+   * - **options.tooltip**: Options that will be passed to the KDTooltip, which is
+   *   internally created if options are specified.
+   *
+   * @param {Object} options
+   * @param {Object} data
+  ###
   constructor:(options = {},data)->
 
     o = options
@@ -306,6 +357,9 @@ module.exports = class KDView extends KDObject
     KDView.setElementClass @getElement(), "remove", cssClass
     return this
 
+  ###*
+   * Toggle the css class on the element.
+  ###
   toggleClass:(cssClass)->
     @$().toggleClass cssClass
     return this
@@ -313,6 +367,24 @@ module.exports = class KDView extends KDObject
   hasClass:(cssClass)->
     @getElement().classList.contains cssClass
 
+  ###*
+   * Get the bounds of this view.
+   * ## Returns
+   *
+   * An object containing the x, y, width, height, and name of the view.
+   *
+   * Example:
+   *
+   * ```coffee
+   * {
+   *   x: 10
+   *   y: 10
+   *   w: 50
+   *   h: 50
+   *   n: "HelloWorldView"
+   * }
+   * ```
+  ###
   getBounds:->
     #return false unless @viewDidAppend
     bounds =
@@ -324,11 +396,18 @@ module.exports = class KDView extends KDObject
 
   setRandomBG:->@getDomElement().css "background-color", KD.utils.getRandomRGB()
 
+  ###*
+   * Hide this view by applying the `hidden` css class to it.
+  ###
   hide:(duration)->
     @setClass 'hidden'
     # @$().hide duration
     #@getDomElement()[0].style.display = "none"
 
+  ###*
+   * If this class is hidden, show this view by removing the `hidden` css
+   * class from it.
+  ###
   show:(duration)->
     @unsetClass 'hidden'
     # @$().show duration
@@ -427,6 +506,13 @@ module.exports = class KDView extends KDObject
     view.destroy?() for view in @getSubViews().slice()
     return
 
+  ###*
+   * Add another KDView to this KDView instance.
+   *
+   * @param {KDView} subView The view to add to this instance.
+   * @param {Object} selector
+   * @param {Boolean} shouldPrepend Should the view being added be prepended, or appended, to this view's list of children.
+  ###
   addSubView:(subView,selector,shouldPrepend)->
     throw new Error 'no subview was specified' unless subView?
 

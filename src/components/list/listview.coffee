@@ -9,7 +9,7 @@ KDView = require './../../core/view.coffee'
  *
  * Like any other view, we create the instance and add it to another view. In this
  * case, `appView`. The key here is that after adding our ListView, we have to add
- * items to our list. We do this with the [addItemView](#additemview) method. Lets
+ * items to our list. We do this with the addItemView method. Lets
  * see what that looks like.
  *
  * ```coffee
@@ -22,7 +22,7 @@ KDView = require './../../core/view.coffee'
  * ```
  *
  * Pretty simple eh? We just called the `addItemView` method and gave it an
- * instance of a [KDView][kdview].
+ * instance of a KDView.
  *
  * Additionally, to demonstrate the index adding, we added the `"Item 0"` view
  * second, with an index of `0`.

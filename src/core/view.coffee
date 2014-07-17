@@ -317,14 +317,13 @@ module.exports = class KDView extends KDObject
 
   hasClass:(cssClass)-> @getElement().classList.contains cssClass
 
-  getBounds:->
-    #return false unless @viewDidAppend
-    bounds =
-      x : @getX()
-      y : @getY()
-      w : @getWidth()
-      h : @getHeight()
-      n : @constructor.name
+  getBounds: ->
+
+    x : @getX()
+    y : @getY()
+    w : @getWidth()
+    h : @getHeight()
+    n : @constructor.name
 
   setRandomBG:->@getDomElement().css "background-color", KD.utils.getRandomRGB()
 
@@ -358,8 +357,8 @@ module.exports = class KDView extends KDObject
 
   setX:(x)-> @$().css left : x
   setY:(y)-> @$().css top : y
-  getX:-> @$().offset().left
-  getY:-> @$().offset().top
+  getX:-> @getElement().getBoundingClientRect().left
+  getY:-> @getElement().getBoundingClientRect().top
   getRelativeX:-> @$().position().left
   getRelativeY:-> @$().position().top
 

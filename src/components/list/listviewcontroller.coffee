@@ -102,9 +102,9 @@ module.exports = class KDListViewController extends KDViewController
 
   instantiateListItems: (items) ->
 
-    newItems = (@getListView().addItem itemData for itemData in items)
+    newItems = (@addItem itemData for itemData in items)
 
-    @emit "AllItemsAddedToList"
+    @emit 'AllItemsAddedToList'
 
     return newItems
 

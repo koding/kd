@@ -98,7 +98,6 @@ module.exports = class KDView extends KDObject
     @subViews         = []
 
     @defaultInit options,data
-    @devHacks()
 
   defaultInit:(options, data)->
 
@@ -910,17 +909,3 @@ module.exports = class KDView extends KDObject
 
   activateKeyView: ->
     @emit? 'KDViewBecameKeyView'
-
-  # development only
-  devHacks:->
-
-    @on "click", (event)=>
-      return unless event
-      if event.metaKey and event.altKey and event.ctrlKey
-        log @getData()
-        event.stopPropagation?()
-        event.preventDefault?()
-        return false
-      else if event.altKey and (event.metaKey or event.ctrlKey)
-        log this
-        return false

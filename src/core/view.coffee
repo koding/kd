@@ -892,20 +892,15 @@ module.exports = class KDView extends KDObject
 
   _windowDidResize:->
 
-  listenWindowResize:(state=yes)->
+  listenWindowResize: (state = yes) ->
 
     if state
-      KD.getSingleton('windowController').registerWindowResizeListener this
-    else
-      KD.getSingleton('windowController').unregisterWindowResizeListener this
+    then KD.singletons.windowController.registerWindowResizeListener this
+    else KD.singletons.windowController.unregisterWindowResizeListener this
 
-  setKeyView:->
 
-    KD.getSingleton("windowController").setKeyView this
+  setKeyView: -> KD.singletons.windowController.setKeyView this
 
-  unsetKeyView: ->
+  unsetKeyView: -> KD.singletons.windowController.setKeyView null
 
-    KD.getSingleton("windowController").setKeyView null
-
-  activateKeyView: ->
-    @emit? 'KDViewBecameKeyView'
+  activateKeyView: -> @emit? 'KDViewBecameKeyView'

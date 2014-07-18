@@ -183,11 +183,11 @@ module.exports = class KDSplitView extends KDView
   _getParentSize:->
 
     if @isVertical()
-      if @parent
+      if @parent and @parent.isInDom()
       then @parent.getWidth()
       else window.innerWidth
     else
-      if @parent
+      if @parent and @parent.isInDom()
       then @parent.getHeight()
       else window.innerHeight
 

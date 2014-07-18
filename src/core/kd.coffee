@@ -79,8 +79,6 @@ window.KD = $.extend (window.KD), do ->
 
   getAllKDInstances  :-> KD.instances
 
-  getKDViewInstanceFromDomElement:(el)-> @instances[el.getAttribute "data-id"]
-
   exportKDFramework:->
     (window[item] = KD.classes[item] for own item of KD.classes)
     KD.exportKDFramework = -> "Already exported."

@@ -95,7 +95,6 @@ module.exports = class KDView extends KDObject
     data?.on? 'update', @bound 'render'
 
     @defaultInit()
-    @devHacks()
 
   defaultInit:->
 
@@ -885,38 +884,17 @@ module.exports = class KDView extends KDObject
 
   getTooltip:-> @tooltip
 
-  listenWindowResize:(state=yes)->
+  _windowDidResize:->
+
+  listenWindowResize: (state = yes) ->
 
     if state
-      KD.getSingleton('windowController').registerWindowResizeListener this
-    else
-      KD.getSingleton('windowController').unregisterWindowResizeListener this
+    then KD.singletons.windowController.registerWindowResizeListener this
+    else KD.singletons.windowController.unregisterWindowResizeListener this
 
-  notifyResizeListeners:->
 
-    KD.getSingleton('windowController').notifyWindowResizeListeners()
+  setKeyView: -> KD.singletons.windowController.setKeyView this
 
-  setKeyView:->
+  unsetKeyView: -> KD.singletons.windowController.setKeyView null
 
-    KD.getSingleton("windowController").setKeyView this
-
-  unsetKeyView: ->
-
-    KD.getSingleton("windowController").setKeyView null
-
-  activateKeyView: ->
-    @emit? 'KDViewBecameKeyView'
-
-  # development only
-  devHacks:->
-
-    @on "click", (event)=>
-      return unless event
-      if event.metaKey and event.altKey and event.ctrlKey
-        log @getData()
-        event.stopPropagation?()
-        event.preventDefault?()
-        return false
-      else if event.altKey and (event.metaKey or event.ctrlKey)
-        log this
-        return false
+  activateKeyView: -> @emit? 'KDViewBecameKeyView'

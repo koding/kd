@@ -900,10 +900,6 @@ module.exports = class KDView extends KDObject
     else
       KD.getSingleton('windowController').unregisterWindowResizeListener this
 
-  notifyResizeListeners:->
-
-    KD.getSingleton('windowController').notifyWindowResizeListeners()
-
   setKeyView:->
 
     KD.getSingleton("windowController").setKeyView this

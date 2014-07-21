@@ -1,5 +1,6 @@
 KDView             = require './../../core/view.coffee'
 KDViewController   = require './../../core/viewcontroller.coffee'
+KDCustomHTMLView   = require './../../core/customhtmlview.coffee'
 KDScrollView       = require './../scrollview/scrollview.coffee'
 KDCustomScrollView = require './../scrollview/customscrollview.coffee'
 KDListView         = require './../list/listview.coffee'

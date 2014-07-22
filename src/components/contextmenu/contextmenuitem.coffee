@@ -6,7 +6,7 @@ module.exports = class JContextMenuItem extends JTreeItemView
   constructor:(options = {}, data = {})->
 
     options.type       = "contextitem"
-    options.cssClass or= "default"
+    options.cssClass or= "default #{KD.utils.slugify data.title}"
 
     super options, data
 

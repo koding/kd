@@ -50,7 +50,7 @@ module.exports = class KDAutoComplete extends KDInputView
     @dropdownPrefix = ""
     @dropdown = null
 
-  setPlaceHolder:(value)->
+  setPlaceholder:(value)->
     @$input()[0].setAttribute "placeholder", value
 
   setFocus:->

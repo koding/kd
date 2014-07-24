@@ -38,7 +38,7 @@ module.exports = class KDInputView extends KDView
     @setLabel()
     @setCallback()
     @setDefaultValue options.defaultValue
-    @setPlaceHolder options.placeholder
+    @setPlaceholder options.placeholder
     @makeDisabled() if options.disabled
     if options.selectOptions? and 'function' isnt typeof options.selectOptions
       @setSelectOptions options.selectOptions
@@ -141,7 +141,7 @@ module.exports = class KDInputView extends KDView
 
   getDefaultValue:-> @inputDefaultValue
 
-  setPlaceHolder:(value)->
+  setPlaceholder:(value)->
     if @$().is("input") or @$().is("textarea")
       @$().attr "placeholder",value
       @options.placeholder = value

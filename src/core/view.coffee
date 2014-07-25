@@ -314,7 +314,10 @@ module.exports = class KDView extends KDObject
 
     return this
 
-  hasClass:(cssClass)-> @getElement().classList.contains cssClass
+  hasClass:(cssClass)->
+
+    return no  unless cssClass
+    @getElement().classList.contains cssClass
 
   getBounds: ->
 

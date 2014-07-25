@@ -74,7 +74,7 @@ module.exports = class KDEventEmitter.Wildcard extends KDEventEmitter
 
     @emit 'newListener', eventName, listener
 
-    edges = eventName.split '.'
+    edges = eventName.split @_delim
 
     node = @_e
 

@@ -227,6 +227,17 @@ module.exports = class KDModalView extends KDView
     @overlay?.destroy()
     @emit 'KDModalViewDestroyed', this
 
+
+  hide: ->
+    @overlay?.hide()
+    super
+
+
+  show: ->
+    @overlay?.show()
+    super
+
+
   ### STACK HELPERS ###
 
   @createStack: (options) ->

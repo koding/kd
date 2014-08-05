@@ -113,6 +113,15 @@ module.exports = class KDListViewController extends KDViewController
   HELPERS
   ###
 
+  # get the index depending on the
+  # conditions. e.g `options.lastToFirst`
+  # This method can be overriden by subclasses
+  # to change the item order and get necessary index.
+  getIndex: (index) ->
+    return if @getOptions().lastToFirst
+    then @getItemCount() - index - 1
+    else index
+
   itemForId: (id) -> @itemsIndexed[id]
 
   getItemsOrdered: -> @itemsOrdered
@@ -180,7 +189,7 @@ module.exports = class KDListViewController extends KDViewController
   unregisterItem: (itemInstance, index) ->
 
     @emit 'UnregisteringItem', itemInstance, index
-    actualIndex = if @getOptions().lastToFirst then @getItemCount() - index - 1 else index
+    actualIndex = @getIndex index
 
     @getListItems().splice actualIndex, 1
     if itemInstance.getData()?

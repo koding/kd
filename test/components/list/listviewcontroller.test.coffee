@@ -144,6 +144,33 @@ describe 'KDListViewController', ->
 
         assert viewController.emit.calledWith 'AllItemsAddedToList'
 
+  describe 'getIndex', ->
+
+    realItemCountFn = KDListViewController::getItemCount
+
+    before -> KDListViewController::getItemCount = -> 10
+    after  -> KDListViewController::getItemCount = realItemCountFn
+
+    context 'when it is last to first', ->
+
+      it 'returns from bottom', ->
+        listViewStub = sinon.createStubInstance KDListView
+        viewController = new KDListViewController { view: listViewStub, lastToFirst: yes }
+
+        expected = viewController.getIndex 2
+
+        assert.equal expected, 7
+
+    context 'when it is not last to first', ->
+
+      it 'returns from top', ->
+        listViewStub = sinon.createStubInstance KDListView
+        viewController = new KDListViewController { view: listViewStub, lastToFirst: no }
+
+        expected = viewController.getIndex 2
+
+        assert.equal expected, 2
+
 
   describe 'putNoItemView', ->
 

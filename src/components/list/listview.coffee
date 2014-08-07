@@ -61,6 +61,7 @@ module.exports = class KDListView extends KDView
     destroy = (item, i) =>
       @emit 'ItemWasRemoved', item, i
       item.destroy()
+      @items.splice i, 1
       return yes
 
     if index

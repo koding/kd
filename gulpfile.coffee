@@ -11,6 +11,7 @@ concat     = require 'gulp-concat'
 minifyCSS  = require 'gulp-minify-css'
 karma      = require 'gulp-karma'
 clean      = require 'gulp-clean'
+markdox    = require 'gulp-markdox'
 fs         = require 'fs'
 http       = require 'http'
 argv       = require('minimist') process.argv
@@ -310,6 +311,17 @@ gulp.task 'clean-play', ->
 
   gulp.src ['playground/{css/js}'], read : no
     .pipe clean force : yes
+
+
+# Use markdox to output markdown files for the API Documentation.
+gulp.task 'markdox', ->
+  gulp.src [
+      'src/core/**/*.coffee',
+      'src/components/**/*.coffee',
+      'src/views/**/*.coffee']
+    .pipe markdox()
+    .pipe rename extname: '.md'
+    .pipe gulp.dest 'apidocs'
 
 
 # Aggregate Tasks

@@ -98,7 +98,7 @@ gulp.task 'coffee', ['export'], ->
       entries : entryPath
     .pipe source entryPath
     .pipe gulpBuffer()
-    .pipe gulpif useUglify, uglify()
+    .pipe gulpif useUglify, uglify(mangle : no)
     .pipe rename "kd.#{version}js"
     .pipe gulp.dest "#{buildDir}/js"
 

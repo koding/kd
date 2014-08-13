@@ -316,12 +316,12 @@ gulp.task 'clean-play', ->
 # Use markdox to output markdown files for the API Documentation.
 gulp.task 'markdox', ->
   gulp.src [
-      'src/core/**/*.coffee',
-      'src/components/**/*.coffee',
-      'src/views/**/*.coffee']
+      'src/**/core/**/*.coffee'
+      'src/**/components/**/*.coffee'
+      ]
     .pipe markdox()
     .pipe rename extname: '.md'
-    .pipe gulp.dest 'apidocs'
+    .pipe gulp.dest 'docs/api'
 
 
 # Aggregate Tasks

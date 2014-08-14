@@ -229,23 +229,6 @@ gulp.task 'karma', ['coffee-test'], ->
       configFile : 'karma.conf.js'
       action     : karmaAction
 
-gulp.task 'karma-headless', ['coffee-test'], ->
-
-  return gulp.src testFiles
-    .pipe karma
-      configFile : 'karma.conf.js'
-      action     : 'watch'
-      browsers   : ['PhantomJS']
-
-gulp.task 'karma-travis', ['coffee-test'], ->
-
-  return gulp.src testFiles
-    .pipe karma
-      configFile : 'karma.conf.js'
-      action     : 'run'
-      browsers   : ['PhantomJS']
-      reporters  : ['dots']
-
 gulp.task 'sauce', ->
   gulp.src testFiles
     .pipe karma

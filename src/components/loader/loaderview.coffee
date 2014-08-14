@@ -34,6 +34,9 @@ module.exports = class KDLoaderView extends KDView
     for own option, value of loaderOptions
       @canvas["set#{option.capitalize()}"] value
 
+    {height} = @getOption 'size'
+    @setCss 'line-height', if height then height + 'px' else 'initial'
+
     @show()  if showLoader
 
   show:->

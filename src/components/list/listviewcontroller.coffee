@@ -189,9 +189,7 @@ module.exports = class KDListViewController extends KDViewController
   unregisterItem: (itemInstance, index) ->
 
     @emit 'UnregisteringItem', itemInstance, index
-    actualIndex = @getIndex index
 
-    @getListItems().splice actualIndex, 1
     if itemInstance.getData()?
       delete @itemsIndexed[itemInstance.getItemDataId()]
 

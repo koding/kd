@@ -8,17 +8,17 @@ describe 'KDUtils', ->
 
   # Preparation function for simulating
   # a text selection.
-  selectDummyElement = ->
+  selectDummyElement = (innerText = 'dummy data') ->
     text             = document.createElement 'div'
-    text.innerHTML   = 'dummy data'
+    text.innerHTML   = innerText
     selection        = window.getSelection()
     range            = document.createRange()
 
     document.body.appendChild text
 
-    range.selectNodeContents(text)
+    range.selectNodeContents text
     selection.removeAllRanges()
-    selection.addRange(range)
+    selection.addRange range
 
     return text
 
@@ -165,28 +165,10 @@ describe 'KDUtils', ->
 
 
     it 'returns selection range', ->
-      element = selectDummyElement()
+      element = selectDummyElement 'awesome'
       range   = utils.getSelectionRange()
 
-      assert.ok range
-
-      ###
-      #
-      # dummy data
-      # ^
-      # startOffset = 0
-      #
-      ###
-      assert.equal range.startOffset, 0
-
-      ###
-      #
-      # dummy data
-      #           ^
-      #           endOffset = 10
-      #
-      ###
-      assert.equal range.endOffset,   10
+      assert.equal range.toString(), 'awesome'
 
 
   describe 'getCursorNode', ->

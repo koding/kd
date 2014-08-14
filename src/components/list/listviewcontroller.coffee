@@ -4,8 +4,16 @@ KDScrollView     = require './../scrollview/scrollview.coffee'
 KDListView       = require './../list/listview.coffee'
 KDLoaderView     = require './../loader/loaderview.coffee'
 
+###*
+ * KDListViewController is a KDController for KDListView. Think of it like
+ * a convenience class, automatically adding useful settings to your ListView.
+###
 module.exports = class KDListViewController extends KDViewController
 
+  ###*
+   * @param {Object} options
+   * @param {Object} data
+  ###
   constructor:(options = {}, data)->
 
     options.wrapper               ?= yes

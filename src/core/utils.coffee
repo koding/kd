@@ -509,15 +509,15 @@ module.exports =
     whenDone = KD.utils.debounce wait, -> more = throttling = false
     ->
       context = this
-      args = arguments;
+      args = arguments
       later = ->
-        timeout = null;
+        timeout = null
         if more then func.apply context, args
         whenDone()
 
       if !timeout then timeout = setTimeout later, wait
 
-      if throttling then more = yes else func.apply(context, args);
+      if throttling then more = yes else func.apply(context, args)
 
       whenDone()
       throttling = yes

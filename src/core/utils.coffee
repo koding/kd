@@ -536,3 +536,14 @@ module.exports =
 
       clearTimeout timeout
       timeout = setTimeout later, wait
+
+  relativeOffset: (child, parent) ->
+    x = 0; y = 0
+    node = child
+    while node
+      x += node.offsetLeft
+      y += node.offsetTop
+      break if node is parent
+      node = node.parentNode
+      throw new Error "Not a descendant!" unless node?
+    [x, y]

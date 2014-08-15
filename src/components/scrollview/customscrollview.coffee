@@ -1,5 +1,3 @@
-require('jquery-mousewheel') $
-
 KDCustomHTMLView          = require './../../core/customhtmlview'
 KDScrollTrack             = require './scrolltrack'
 KDCustomScrollViewWrapper = require './customscrollviewinner'
@@ -16,10 +14,15 @@ module.exports = class KDCustomScrollView extends KDCustomHTMLView
 
     {mouseWheelSpeed, lazyLoadThreshold} = @getOptions()
 
+    @listenWindowResize()  if options.offscreenIndicatorClassName?
+
     @wrapper = new KDCustomScrollViewWrapper {
       tagName  : 'main'
       lazyLoadThreshold
       mouseWheelSpeed
+      scroll:
+        if options.offscreenIndicatorClassName?
+        then @bound 'updateOffscreenIndicators'
     }
 
     @verticalTrack   = new KDScrollTrack delegate : @wrapper
@@ -33,6 +36,30 @@ module.exports = class KDCustomScrollView extends KDCustomHTMLView
     @on 'mouseenter', @bound 'showTracks'
     @on 'mouseleave', @bound 'hideTracks'
 
+  _windowDidResize: ->
+    @updateOffscreenIndicators()
+
+  updateOffscreenIndicators: ->
+    wrapperEl = @wrapper.getElement()
+    { offscreenIndicatorClassName } = @getOptions()
+    { above, below } = [].slice.call(
+      wrapperEl.getElementsByClassName(offscreenIndicatorClassName))
+        .reduce (memo, child) ->
+          [_, y] = KD.utils.relativeOffset child, wrapperEl
+          if y < wrapperEl.scrollTop
+            memo.above.push child
+          else if y > wrapperEl.scrollTop + wrapperEl.offsetHeight
+            memo.below.push child
+          return memo
+        , { above: [], below: [] }
+    if above.length > 0
+      @emit 'OffscreenItemsAbove', above
+    else
+      @emit 'NoOffscreenItemsAbove'
+    if below.length > 0
+      @emit 'OffscreenItemsBelow', below
+    else
+      @emit 'NoOffscreenItemsBelow'
 
   viewAppended: ->
 

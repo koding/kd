@@ -282,9 +282,10 @@ describe 'KDListViewController', ->
         itemView = new KDListItemView {}, {id: 1}
         viewController = new KDListViewController { multipleSelection: on }
 
-        viewController.registerItem itemView
-
+        sinon.spy viewController, 'emit'
         viewController.unregisterItem itemView, 0
+
+        assert.ok viewController.emit.calledWith 'UnregisteringItem'
 
         assert.isDefined viewController._e['UnregisteringItem']
 

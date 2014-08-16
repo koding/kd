@@ -282,47 +282,12 @@ describe 'KDListViewController', ->
         itemView = new KDListItemView {}, {id: 1}
         viewController = new KDListViewController { multipleSelection: on }
 
-        viewController.registerItem itemView
-
+        sinon.spy viewController, 'emit'
         viewController.unregisterItem itemView, 0
 
+        assert.ok viewController.emit.calledWith 'UnregisteringItem'
+
         assert.isDefined viewController._e['UnregisteringItem']
-
-
-    context 'when it is lastToFirst', ->
-
-      it 'removes item from view list', ->
-
-        viewController = new KDListViewController
-          itemClass    : KDListItemView
-          lastToFirst  : yes
-
-        for i in [0...5]
-          viewController.addItem {title: Date.now(), id: i}, i
-
-        item = viewController.getListItems()[1]
-        viewController.unregisterItem item, 1
-
-        itemViews = viewController.getListItems().map (item) -> item.data.id
-        assert.ok _.isEqual itemViews, [0, 1, 2, 4]
-
-    context 'when it is not lastToFirst', ->
-
-      it 'removes item from view list', ->
-
-        viewController = new KDListViewController
-          itemClass    : KDListItemView
-          lastToFirst  : no
-
-        for i in [0...5]
-          viewController.addItem {title: Date.now(), id: i}, i
-
-        item = viewController.getListItems()[1]
-        viewController.unregisterItem item, 1
-
-        itemViews = viewController.getListItems().map (item) -> item.data.id
-
-        assert.deepEqual itemViews, [0, 2, 3, 4]
 
     context 'if there is data on the instance', ->
 

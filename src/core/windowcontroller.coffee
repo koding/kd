@@ -167,7 +167,7 @@ module.exports = class KDWindowController extends KDController
   revertKeyView:(view)->
 
     unless view
-      warn "you must pass the view as a param, which doesn't want to be keyview anymore!"
+      warn 'view, which shouldn\'t be the keyview anymore, must be passed as a parameter!'
       return
 
     if view is @keyView and @keyView isnt @oldKeyView

@@ -84,7 +84,7 @@ module.exports = class KDTabView extends KDScrollView
       view       : tabHandleView
       closable   : closable
       sortable   : sortable
-      click      : (event) ->
+      mousedown  : (event) ->
         {pane} = @getOptions()
         tabView = pane.getDelegate()
         tabView.handleClicked event, this

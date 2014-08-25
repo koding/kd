@@ -6,7 +6,8 @@ module.exports = class KDTabPaneView extends KDView
 
     options.hiddenHandle  ?= no      # a Boolean
     options.name         or= ""      # a String
-    defaultCssClass        = "kdtabpaneview kdhiddentab #{KD.utils.slugify(options.name.toLowerCase())} clearfix"
+    options.detachable    ?= yes
+    defaultCssClass        = "kdtabpaneview kdhiddentab #{KD.utils.slugify options.name.toLowerCase()} clearfix"
     options.cssClass       = KD.utils.curry defaultCssClass, options.cssClass
 
     super options, data
@@ -23,14 +24,14 @@ module.exports = class KDTabPaneView extends KDView
 
   show:->
 
-    @setClass "active"
-    @unsetClass "kdhiddentab"
-
-    if @getOption "detachable"
+    if @getOption 'detachable'
       @parent?.getElement().appendChild @getElement()
 
+    @unsetClass 'kdhiddentab'
+    @setClass 'active'
+
     @active = yes
-    @emit "KDTabPaneActive"
+    @emit 'KDTabPaneActive'
 
     @applyScrollTops()
 
@@ -41,15 +42,14 @@ module.exports = class KDTabPaneView extends KDView
 
     @setScrollTops()
 
-    @setClass "kdhiddentab"
-    @unsetClass "active"
+    @unsetClass 'active'
+    @setClass 'kdhiddentab'
 
-    if @active and @getOption "detachable"
+    if @getOption 'detachable'
       @parent?.getElement().removeChild @getElement()
 
     @active = no
-    @emit "KDTabPaneInactive"
-
+    @emit 'KDTabPaneInactive'
 
 
   setScrollTops: ->

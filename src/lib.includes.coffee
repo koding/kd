@@ -13,6 +13,5 @@ module.exports = [
   "./libs/canvas-loader.js"
   "./libs/mousetrap.js"
   "./libs/mousetrap-global-bind.js"
-  "./libs/jspath.js"
 
 ]

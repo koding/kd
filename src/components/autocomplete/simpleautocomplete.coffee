@@ -1,3 +1,4 @@
+JsPath         = require './../../../libs/jspath.js'
 KDAutoComplete = require './autocomplete.coffee'
 
 module.exports = class KDSimpleAutocomplete extends KDAutoComplete

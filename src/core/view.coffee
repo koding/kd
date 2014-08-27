@@ -827,7 +827,7 @@ module.exports = class KDView extends KDObject
 
   observeMutations: ->
 
-    MutationSummary = require './../../libs/mutation-summary.js'
+    return  unless MutationSummary
 
     MutationObserver = window.MutationObserver or window.WebKitMutationObserver or window.MozMutationObserver
 

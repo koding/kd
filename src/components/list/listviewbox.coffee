@@ -1,3 +1,4 @@
+MutationSummary  = require '../../../libs/mutation-summary.js'
 KDCustomHTMLView = require '../../core/customhtmlview'
 
 module.exports = class KDListViewBox extends KDCustomHTMLView

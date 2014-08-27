@@ -20,6 +20,7 @@ express    = require 'express'
 Promise    = require 'bluebird'
 exec       = Promise.promisify (require 'child_process').exec
 
+ENTRY_PATH    = argv.entryPath ? './src/entry.coffee'
 STYLES_PATH   = require './src/themes/styl.includes.coffee'
 COFFEE_PATH   = ['./src/components/**/*.coffee','./src/core/**/*.coffee','./src/init.coffee']
 LIBS_PATH     = ['./libs/*.js']
@@ -92,11 +93,9 @@ gulp.task 'export', ->
 
 gulp.task 'coffee', ['export'], ->
 
-  entryPath = './src/entry.coffee'
-
   gulpBrowserify
-      entries : entryPath
-    .pipe source entryPath
+      entries : ENTRY_PATH
+    .pipe source ENTRY_PATH
     .pipe gulpBuffer()
     .pipe gulpif useUglify, uglify(mangle : no)
     .pipe rename "kd.#{version}js"

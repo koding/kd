@@ -1,3 +1,6 @@
+require './../../../libs/mousetrap.js'
+require './../../../libs/mousetrap-global-bind.js'
+
 module.exports = class KDKeyboardListener
 
   constructor: ->

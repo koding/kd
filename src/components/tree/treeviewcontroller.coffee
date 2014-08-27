@@ -495,7 +495,7 @@ module.exports = class JTreeViewController extends KDViewController
   # THESE 3 METHODS BELOW SHOULD BE REFACTORRED MAKES THE UI HORRIBLY SLUGGISH ON DND - Sinan 07/2012
 
   showDragOverFeedback: do ->
-    _.throttle (nodeView, event)->
+    KD.utils.throttle (nodeView, event)->
 
       # log "show", nodeView.getData().name
       nodeData = nodeView.getData()
@@ -510,7 +510,7 @@ module.exports = class JTreeViewController extends KDViewController
     , 100
 
   clearDragOverFeedback: do ->
-    _.throttle (nodeView, event)->
+    KD.utils.throttle (nodeView, event)->
 
       # log "clear", nodeView.getData().name
       nodeData = nodeView.getData()

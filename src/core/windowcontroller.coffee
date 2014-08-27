@@ -58,7 +58,7 @@ module.exports = class KDWindowController extends KDController
     document.addEventListener 'scroll', do =>
       timer  = null
       {body} = document
-      _.throttle (event)=>
+      KD.utils.throttle (event)=>
         @emit "ScrollHappened", event
       , 50
     , no

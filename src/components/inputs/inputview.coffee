@@ -264,9 +264,9 @@ module.exports = class KDInputView extends KDView
       @validationResults[rule] = null
       # if there is any true on validation results' values then is not valid
 
-      @valid = not _.values(@validationResults)
-                    .map((result)-> Boolean result)
-                    .indexOf(true) > -1
+      @valid = not (v for own k, v of @validationResults)
+                   .map((result)-> Boolean result)
+                   .indexOf(true) > -1
 
   showValidationError:(message)->
 

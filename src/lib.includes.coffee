@@ -5,6 +5,6 @@ module.exports = [
   "./libs/encode.js"
 
   ## JQuery
-  "./libs/jquery-1.9.1.js"
+  "./libs/jquery-2.1.1.js"
 
 ]

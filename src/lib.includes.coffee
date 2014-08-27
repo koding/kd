@@ -14,6 +14,5 @@ module.exports = [
   "./libs/mousetrap.js"
   "./libs/mousetrap-global-bind.js"
   "./libs/jspath.js"
-  "./libs/hammer.js"
 
 ]

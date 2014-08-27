@@ -1,3 +1,4 @@
+require './../../../libs/canvas-loader.js'
 KDView = require './../../core/view.coffee'
 
 module.exports = class KDLoaderView extends KDView

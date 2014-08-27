@@ -10,6 +10,5 @@ module.exports = [
 
   ## Helpers
   "./libs/inflector.js"
-  "./libs/canvas-loader.js"
 
 ]

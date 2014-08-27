@@ -7,7 +7,6 @@ module.exports = [
   ## JQuery
   "./libs/jquery-1.9.1.js"
   "./libs/underscore-min.1.3.js"
-  "./libs/jquery-timeago.js"
 
   ## Helpers
   "./libs/inflector.js"

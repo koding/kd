@@ -1,3 +1,5 @@
+Inflector = require './../../libs/inflector.js'
+
 module.exports =
 
   idCounter : 0
@@ -206,18 +208,6 @@ module.exports =
     s = t
     s
 
-  applyMarkdown: (text, options = {})->
-    return null unless text
-
-    options.gfm       ?= true
-    options.pedantic  ?= false
-    options.sanitize  ?= true
-    options.highlight ?= (text, lang) ->
-      if hljs.getLanguage lang
-      then hljs.highlight(lang,text).value
-      else text
-
-    marked Encoder.htmlDecode(text), options
 
   enterFullscreen: do ->
 

@@ -8,7 +8,4 @@ module.exports = [
   "./libs/jquery-1.9.1.js"
   "./libs/underscore-min.1.3.js"
 
-  ## Helpers
-  "./libs/inflector.js"
-
 ]

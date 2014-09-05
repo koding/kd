@@ -1,4 +1,4 @@
-JsPath = require './../../../libs/jspath.js'
+{JsPath} = require './../../../libs/jspath.js'
 KDView = require './../../core/view.coffee'
 
 module.exports = class KDFormView extends KDView

@@ -4,6 +4,7 @@ KDListViewController = require '../../../src/components/list/listviewcontroller.
 KDListView           = require '../../../src/components/list/listview.coffee'
 KDListItemView       = require '../../../src/components/list/listitemview.coffee'
 KDView               = require '../../../src/core/view.coffee'
+_                    = require '../../../libs/underscore-min.1.3.js'
 
 describe 'KDListViewController', ->
 

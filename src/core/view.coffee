@@ -881,6 +881,7 @@ module.exports = class KDView extends KDObject
     o.fallback  or= o.title
     o.view      or= null
     o.sticky     ?= no
+    o.permanent  ?= no
     o.delegate  or= this
     o.events    or= ['mouseenter','mouseleave','mousemove']
 

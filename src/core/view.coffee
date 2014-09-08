@@ -849,9 +849,12 @@ module.exports = class KDView extends KDObject
   removeOverlay:->
     @overlay?.destroy()
 
-  unsetTooltip:(o = {})->
+
+  unsetTooltip: ->
+
     @tooltip?.destroy()
-    delete @tooltip
+    @tooltip = null
+
 
   setTooltip:(o = {})->
 

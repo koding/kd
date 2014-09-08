@@ -95,9 +95,7 @@ module.exports = class KDFormView extends KDView
 
   submit:(event)->
 
-    if event
-      event.stopPropagation()
-      event.preventDefault()
+    KD.utils.stopDOMEvent event
 
     form                = this
     inputs              = KDFormView.findChildInputs form

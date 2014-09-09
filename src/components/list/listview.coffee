@@ -196,10 +196,7 @@ module.exports = class KDListView extends KDView
 
 
 
-  getItemIndex: (targetItem) ->
-    for item, index in @items
-      return index if item is targetItem
-    return -1
+  getItemIndex: (targetItem) -> @items.indexOf item
 
 
   moveItemToIndex: (item, newIndex) ->

@@ -1,8 +1,22 @@
-module.exports = class HeaderView extends JView
+module.exports = class HeaderView extends KDView
 
   constructor : (options = {}) ->
     options.cssClass = 'main-header'
     options.tagName  = 'header'
+    options.partial  =
+      """
+      <div class='inner-wrapper'>
+        <figure class='logo small'></figure>
+        <nav>
+          <a class='hidden' href='/About'>ABOUT</a>
+          <a class='hidden' href='/Guide/Getting+started'>GUIDE</a>
+          <a class='hidden' href='/API'>API</a>
+          <a class='hidden' href='https://koding.com'>COMMUNITY</a>
+          <a class='hidden' href='/Build'>BUILD</a>
+          <a href='http://github.com/koding/kd' id='fork-us' title='Fork us on Github' target='_blank'>FORK US ON GITHUB</a>
+        </nav>
+      </div>
+      """
 
     super options
 
@@ -14,19 +28,4 @@ module.exports = class HeaderView extends JView
         title   : 'Download'
 
 
-  pistachio: ->
-
-    """
-    <div class='inner-wrapper'>
-      <figure class='logo small'></figure>
-      <nav>
-        <a href='/About'>ABOUT</a>
-        <a href='/Guide/Getting+started'>GUIDE</a>
-        <a href='/API'>API</a>
-        <a href='https://koding.com'>COMMUNITY</a>
-        <a href='/Build'>BUILD</a>
-        <a href='http://github.com/koding/kd' id='fork-us' title='Fork us on Github' target='_blank'>FORK US ON GITHUB</a>
-        {{> this.download}}
-      </nav>
-    </div>
-    """
+    @once 'viewAppended', => @addSubView @download, 'nav'

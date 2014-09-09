@@ -1,96 +1,95 @@
 module.exports = class ContentView extends KDView
+
   constructor : (options = {}) ->
     options.tagName  = 'section'
     options.cssClass = 'content-section'
 
     super options
 
-  getExampleTabView: ->
-    exampleTabs = new KDTabView
-      hideHandleCloseIcons : yes
+  # getExampleTabView: ->
+  #   exampleTabs = new KDTabView
+  #     hideHandleCloseIcons : yes
 
-    exampleTabs.addPane new KDTabPaneView
-      name    : 'avatar.js'
-      tagName : 'pre'
-      view    : new KDView
-        tagName : 'code'
-        partial :
-          """
-          @addSubView @examplesSection = new KDView
-            cssClass    : 'examples home-section'
-            tagName     : 'section'
+  #   exampleTabs.addPane new KDTabPaneView
+  #     name    : 'avatar.js'
+  #     tagName : 'pre'
+  #     view    : new KDView
+  #       tagName : 'code'
+  #       partial :
+  #         """
+  #         @addSubView @examplesSection = new KDView
+  #           cssClass    : 'examples home-section'
+  #           tagName     : 'section'
 
-          @examplesSection.addSubView innerWrapper = new KDView
-            cssClass  : 'inner-wrapper'
+  #         @examplesSection.addSubView innerWrapper = new KDView
+  #           cssClass  : 'inner-wrapper'
 
-          innerWrapper.addSubView new KDHeaderView
-            type      : 'medium'
-            title     : 'Let’s talk about the reality'
+  #         innerWrapper.addSubView new KDHeaderView
+  #           type      : 'medium'
+  #           title     : 'Let’s talk about the reality'
 
-          innerWrapper.addSubView new KDHeaderView
-            type      : 'small'
-            title     : 'What you can do, what you can not do, samples baby'
-          """
+  #         innerWrapper.addSubView new KDHeaderView
+  #           type      : 'small'
+  #           title     : 'What you can do, what you can not do, samples baby'
+  #         """
 
-    exampleTabs.addPane (new KDTabPaneView
-      name    : 'blob.js'
-      tagName : 'pre'
-      view    : new KDView
-        tagName : 'code'
-        partial :
-          """
-          @addSubView @examplesSection = new KDView
-            cssClass    : 'examples home-section'
-            tagName     : 'section'
+  #   exampleTabs.addPane (new KDTabPaneView
+  #     name    : 'blob.js'
+  #     tagName : 'pre'
+  #     view    : new KDView
+  #       tagName : 'code'
+  #       partial :
+  #         """
+  #         @addSubView @examplesSection = new KDView
+  #           cssClass    : 'examples home-section'
+  #           tagName     : 'section'
 
-          @examplesSection.addSubView innerWrapper = new KDView
-            cssClass  : 'inner-wrapper'
+  #         @examplesSection.addSubView innerWrapper = new KDView
+  #           cssClass  : 'inner-wrapper'
 
-          innerWrapper.addSubView new KDHeaderView
-            type      : 'medium'
-            title     : 'Let’s talk about the reality'
+  #         innerWrapper.addSubView new KDHeaderView
+  #           type      : 'medium'
+  #           title     : 'Let’s talk about the reality'
 
-          innerWrapper.addSubView new KDHeaderView
-            type      : 'small'
-            title     : 'What you can do, what you can not do, samples baby'
-          """
-    ), false
+  #         innerWrapper.addSubView new KDHeaderView
+  #           type      : 'small'
+  #           title     : 'What you can do, what you can not do, samples baby'
+  #         """
+  #   ), false
 
-    exampleTabs.addPane (new KDTabPaneView
-      name    : 'hjob.js'
-      tagName : 'pre'
-      view    : new KDView
-        tagName : 'code'
-        partial :
-          """
-          @addSubView @examplesSection = new KDView
-            cssClass    : 'examples home-section'
-            tagName     : 'section'
+  #   exampleTabs.addPane (new KDTabPaneView
+  #     name    : 'hjob.js'
+  #     tagName : 'pre'
+  #     view    : new KDView
+  #       tagName : 'code'
+  #       partial :
+  #         """
+  #         @addSubView @examplesSection = new KDView
+  #           cssClass    : 'examples home-section'
+  #           tagName     : 'section'
 
-          @examplesSection.addSubView innerWrapper = new KDView
-            cssClass  : 'inner-wrapper'
+  #         @examplesSection.addSubView innerWrapper = new KDView
+  #           cssClass  : 'inner-wrapper'
 
-          innerWrapper.addSubView new KDHeaderView
-            type      : 'medium'
-            title     : 'Let’s talk about the reality'
+  #         innerWrapper.addSubView new KDHeaderView
+  #           type      : 'medium'
+  #           title     : 'Let’s talk about the reality'
 
-          innerWrapper.addSubView new KDHeaderView
-            type      : 'small'
-            title     : 'What you can do, what you can not do, samples baby'
-          """
-    ), false
+  #         innerWrapper.addSubView new KDHeaderView
+  #           type      : 'small'
+  #           title     : 'What you can do, what you can not do, samples baby'
+  #         """
+  #   ), false
 
-    hljs.configure
-      languages : ['coffeescript']
+  #   hljs.configure
+  #     languages : ['coffeescript']
 
-    hljs.highlightBlock exampleTabs.getActivePane().mainView.getDomElement()[0]
+  #   hljs.highlightBlock exampleTabs.getActivePane().mainView.getDomElement()[0]
 
-    exampleTabs.on 'PaneDidShow', (pane) ->
-      hljs.highlightBlock pane.mainView.getDomElement()[0]
+  #   exampleTabs.on 'PaneDidShow', (pane) ->
+  #     hljs.highlightBlock pane.mainView.getDomElement()[0]
 
-    return exampleTabs
-
-  viewAppended : JView::viewAppended
+  #   return exampleTabs
 
   pistachio : ->
     """
@@ -128,7 +127,6 @@ module.exports = class ContentView extends KDView
           basics, and slowly increase to applications.
           </p>
 
-          {{> this.getExampleTabView() }}
         </section>
 
         <section>
@@ -139,7 +137,6 @@ module.exports = class ContentView extends KDView
           basics, and slowly increase to applications.
           </p>
 
-          {{> this.getExampleTabView() }}
         </section>
 
       </article>

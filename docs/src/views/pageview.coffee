@@ -2,12 +2,13 @@ HeaderView     = require './HeaderView'
 SideNavigation = require './sidenavigation'
 ContentView    = require './contentview'
 
-module.exports = class PageView extends JView
+module.exports = class PageView extends KDView
 
   constructor: (options = {}) ->
 
     options.cssClass = 'page-view'
     options.tagName  = 'main'
+    options.partial  = '<div class=\'inner-wrapper guide-page clearfix\'></div>'
 
     super options
 
@@ -16,12 +17,8 @@ module.exports = class PageView extends JView
     @content = new ContentView
 
 
-  pistachio: ->
+  viewAppended: ->
 
-    """
-    {{> this.topNav}}
-    <div class='inner-wrapper guide-page clearfix'>
-      {{> this.sideNav}}
-      {{> this.content}}
-    </div>
-    """
+    @addSubView @topNav, null, yes
+    @addSubView @sideNav
+    @addSubView @content

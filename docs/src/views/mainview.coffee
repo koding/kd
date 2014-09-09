@@ -28,14 +28,6 @@ module.exports = class MainView extends KDView
       attributes :
         href     : 'http://github.com/koding/kd'
 
-  viewAppended : ->
-
-    JView::viewAppended.call this
-
-    @createExamples()
-
-    KD.singletons.windowController.on 'ScrollHappened', @bound 'handleScroll'
-
 
   showPage: ->
     @hide()
@@ -44,20 +36,30 @@ module.exports = class MainView extends KDView
     page.appendToDomBody()
 
 
-  pistachio: ->
+  viewAppended : ->
+
+    @addSubView @header
+    @setPartial @partial()
+    # @addSubView @examples
+    # @addSubView @footer
+    # @addSubView @download, '.intro .inner-wrapper'
+
+    @createExamples()
+
+    KD.singletons.windowController.on 'ScrollHappened', @bound 'handleScroll'
+
+
+  partial: ->
 
     """
-    {{> this.header}}
-
     <section class='intro home-section'>
       <div class='inner-wrapper'>
         <figure class='logo'></figure>
-        <h2><span>A framework to change your drinking habits.</span></h2>
-        {{> this.download}}
+        <h2><span>A UI framework for the modern web, soon to be here.</span></h2>
       </div>
     </section>
 
-    <section class='features home-section'>
+    <section class='features home-section hidden'>
       <div class='inner-wrapper'>
         <article class='feature'>
           <figure class='chrome'></figure>
@@ -84,8 +86,6 @@ module.exports = class MainView extends KDView
         </article>
       </div>
     </section>
-    {{> this.examples}}
-    {{> this.footer}}
     """
 
   createExamples: ->

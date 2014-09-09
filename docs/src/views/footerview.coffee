@@ -1,4 +1,4 @@
-module.exports = class FooterView extends JView
+module.exports = class FooterView extends KDView
 
   constructor : (options = {}) ->
 
@@ -6,8 +6,12 @@ module.exports = class FooterView extends JView
 
     super options
 
+  viewAppended: ->
 
-  pistachio: ->
+    @setPartial @partial()
+
+
+  partial: ->
 
     """
     <div class='inner-wrapper'>

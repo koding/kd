@@ -1,4 +1,3776 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+/*
+* Copyright (c) 2011 Róbert Pataki
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+*
+* ----------------------------------------------------------------------------------------
+*
+* Check out my GitHub:	http://github.com/heartcode/
+* Send me an email:		heartcode@robertpataki.com
+* Follow me on Twitter:	http://twitter.com/#iHeartcode
+* Blog:					http://heartcode.robertpataki.com
+*/
+
+/**
+* CanvasLoader uses the HTML5 canvas element in modern browsers and VML in IE6/7/8 to create and animate the most popular preloader shapes (oval, spiral, rectangle, square and rounded rectangle).<br/><br/>
+* It is important to note that CanvasLoader doesn't show up and starts rendering automatically on instantiation. To start rendering and display the loader use the <code>show()</code> method.
+* @module CanvasLoader
+**/
+(function (window) {
+	"use strict";
+	/**
+	* CanvasLoader is a JavaScript UI library that draws and animates circular preloaders using the Canvas HTML object.<br/><br/>
+	* A CanvasLoader instance creates two canvas elements which are placed into a placeholder div (the id of the div has to be passed in the constructor). The second canvas is invisible and used for caching purposes only.<br/><br/>
+	* If no id is passed in the constructor, the canvas objects are paced in the document directly.
+	* @class CanvasLoader
+	* @constructor
+	* @param id {String} The id of the placeholder div
+	* @param opt {Object} Optional parameters<br/><br/>
+	* <strong>Possible values of optional parameters:</strong><br/>
+	* <ul>
+	* <li><strong>id (String):</strong> The id of the CanvasLoader instance</li>
+	* <li><strong>safeVML (Boolean):</strong> If set to true, the amount of CanvasLoader shapes are limited in VML mode. It prevents CPU overkilling when rendering loaders with high density. The default value is true.</li>
+	**/
+	var CanvasLoader = function (parentElm, opt) {
+		if (typeof(opt) == "undefined") { opt = {}; }
+		this.init(parentElm, opt);
+	}, p = CanvasLoader.prototype, engine, engines = ["canvas", "vml"], shapes = ["oval", "spiral", "square", "rect", "roundRect"], cRX = /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/, ie8 = navigator.appVersion.indexOf("MSIE") !== -1 && parseFloat(navigator.appVersion.split("MSIE")[1]) === 8 ? true : false, canSup = !!document.createElement('canvas').getContext, safeDensity = 40, safeVML = true,
+	/**
+	* Creates a new element with the tag and applies the passed properties on it
+	* @method addEl
+	* @protected
+	* @param tag {String} The tag to be created
+	* @param par {String} The DOM element the new element will be appended to
+	* @param opt {Object} Additional properties passed to the new DOM element
+	* @return {Object} The DOM element
+	*/
+		addEl = function (tag, par, opt) {
+			var el = document.createElement(tag), n;
+			for (n in opt) { el[n] = opt[n]; }
+			if(typeof(par) !== "undefined") {
+				par.appendChild(el);
+			}
+			return el;
+		},
+	/**
+	* Sets the css properties on the element
+	* @method setCSS
+	* @protected
+	* @param el {Object} The DOM element to be styled
+	* @param opt {Object} The style properties
+	* @return {Object} The DOM element
+	*/
+		setCSS = function (el, opt) {
+			for (var n in opt) { el.style[n] = opt[n]; }
+			return el;
+		},
+	/**
+	* Sets the attributes on the element
+	* @method setAttr
+	* @protected
+	* @param el {Object} The DOM element to add the attributes to
+	* @param opt {Object} The attributes
+	* @return {Object} The DOM element
+	*/
+		setAttr = function (el, opt) {
+			for (var n in opt) { el.setAttribute(n, opt[n]); }
+			return el;
+		},
+	/**
+	* Transforms the cache canvas before drawing
+	* @method transCon
+	* @protected
+	* @param	x {Object} The canvas context to be transformed
+	* @param	x {Number} x translation
+	* @param	y {Number} y translation
+	* @param	r {Number} Rotation radians
+	*/
+		transCon = function(c, x, y, r) {
+			c.save();
+			c.translate(x, y);
+			c.rotate(r);
+			c.translate(-x, -y);
+			c.beginPath();
+		};
+	/**
+	* Initialization method
+	* @method init
+	* @protected
+	* @param id {String} The id of the placeholder div, where the loader will be nested into
+	* @param opt {Object} Optional parameters<br/><br/>
+	* <strong>Possible values of optional parameters:</strong><br/>
+	* <ul>
+	* <li><strong>id (String):</strong> The id of the CanvasLoader instance</li>
+	* <li><strong>safeVML (Boolean):</strong> If set to true, the amount of CanvasLoader shapes are limited in VML mode. It prevents CPU overkilling when rendering loaders with high density. The default value is true.</li>
+	**/
+	p.init = function (parentElm, opt) {
+
+		if (typeof(opt.safeVML) === "boolean") { safeVML = opt.safeVML; }
+
+		/*
+		* Find the containing div by id
+		* If the container element cannot be found we use the document body itself
+		*/
+		try {
+			// Look for the parent element
+			if (parentElm !== undefined) {
+				this.mum = parentElm;
+			} else {
+				this.mum = document.body;
+			}
+		} catch (error) {
+			this.mum = document.body;
+		}
+		// Creates the parent div of the loader instance
+		opt.id = typeof (opt.id) !== "undefined" ? opt.id : "canvasLoader";
+		this.cont = addEl("span", this.mum, {id: opt.id});
+		this.cont.setAttribute("class","canvas-loader");
+		if (canSup) {
+		// For browsers with Canvas support...
+			engine = engines[0];
+			// Create the canvas element
+			this.can = addEl("canvas", this.cont);
+			this.con = this.can.getContext("2d");
+			// Create the cache canvas element
+			this.cCan = setCSS(addEl("canvas", this.cont), { display: "none" });
+			this.cCon = this.cCan.getContext("2d");
+		} else {
+		// For browsers without Canvas support...
+			engine = engines[1];
+			// Adds the VML stylesheet
+			if (typeof (CanvasLoader.vmlSheet) === "undefined") {
+				document.getElementsByTagName("head")[0].appendChild(addEl("style"));
+				CanvasLoader.vmlSheet = document.styleSheets[document.styleSheets.length - 1];
+				var a = ["group", "oval", "roundrect", "fill"], n;
+				for (n in a) { CanvasLoader.vmlSheet.addRule(a[n], "behavior:url(#default#VML); position:absolute;"); }
+			}
+			this.vml = addEl("group", this.cont);
+		}
+		// Set the RGB color object
+		this.setColor(this.color);
+		// Draws the shapes on the canvas
+		this.draw();
+		//Hides the preloader
+		setCSS(this.cont, {display: "none"});
+	};
+/////////////////////////////////////////////////////////////////////////////////////////////
+// Property declarations
+	/**
+	* The div we place the canvas object into
+	* @property cont
+	* @protected
+	* @type Object
+	**/
+	p.cont = {};
+	/**
+	* The div we draw the shapes into
+	* @property can
+	* @protected
+	* @type Object
+	**/
+	p.can = {};
+	/**
+	* The canvas context
+	* @property con
+	* @protected
+	* @type Object
+	**/
+	p.con = {};
+	/**
+	* The canvas we use for caching
+	* @property cCan
+	* @protected
+	* @type Object
+	**/
+	p.cCan = {};
+	/**
+	* The context of the cache canvas
+	* @property cCon
+	* @protected
+	* @type Object
+	**/
+	p.cCon = {};
+	/**
+	* Adds a timer for the rendering
+	* @property timer
+	* @protected
+	* @type Boolean
+	**/
+	p.timer = {};
+	/**
+	* The active shape id for rendering
+	* @property activeId
+	* @protected
+	* @type Number
+	**/
+	p.activeId = 0;
+	/**
+	* The diameter of the loader
+	* @property diameter
+	* @protected
+	* @type Number
+	* @default 40
+	**/
+	p.diameter = 40;
+	/**
+	* Sets the diameter of the loader
+	* @method setDiameter
+	* @public
+	* @param diameter {Number} The default value is 40
+	**/
+	p.setDiameter = function (diameter) { this.diameter = Math.round(Math.abs(diameter)); this.redraw(); };
+	/**
+	* Returns the diameter of the loader.
+	* @method getDiameter
+	* @public
+	* @return {Number}
+	**/
+	p.getDiameter = function () { return this.diameter; };
+	/**
+	* The color of the loader shapes in RGB
+	* @property cRGB
+	* @protected
+	* @type Object
+	**/
+	p.cRGB = {};
+	/**
+	* The color of the loader shapes in HEX
+	* @property color
+	* @protected
+	* @type String
+	* @default "#000000"
+	**/
+	p.color = "#000000";
+	/**
+	* Sets hexadecimal color of the loader
+	* @method setColor
+	* @public
+	* @param color {String} The default value is '#000000'
+	**/
+	p.setColor = function (color) { this.color = cRX.test(color) ? color : "#000000"; this.cRGB = this.getRGB(this.color); this.redraw(); };
+	/**
+	* Returns the loader color in a hexadecimal form
+	* @method getColor
+	* @public
+	* @return {String}
+	**/
+	p.getColor = function () { return this.color; };
+	/**
+	* The type of the loader shapes
+	* @property shape
+	* @protected
+	* @type String
+	* @default "oval"
+	**/
+	p.shape = shapes[0];
+	/**
+	* Sets the type of the loader shapes.<br/>
+	* <br/><b>The acceptable values are:</b>
+	* <ul>
+	* <li>'oval'</li>
+	* <li>'spiral'</li>
+	* <li>'square'</li>
+	* <li>'rect'</li>
+	* <li>'roundRect'</li>
+	* </ul>
+	* @method setShape
+	* @public
+	* @param shape {String} The default value is 'oval'
+	**/
+	p.setShape = function (shape) {
+		var n;
+		for (n in shapes) {
+			if (shape === shapes[n]) { this.shape = shape; this.redraw(); break; }
+		}
+	};
+	/**
+	* Returns the type of the loader shapes
+	* @method getShape
+	* @public
+	* @return {String}
+	**/
+	p.getShape = function () { return this.shape; };
+	/**
+	* The number of shapes drawn on the loader canvas
+	* @property density
+	* @protected
+	* @type Number
+	* @default 40
+	**/
+	p.density = 40;
+	/**
+	* Sets the number of shapes drawn on the loader canvas
+	* @method setDensity
+	* @public
+	* @param density {Number} The default value is 40
+	**/
+	p.setDensity = function (density) {
+		if (safeVML && engine === engines[1]) {
+			this.density = Math.round(Math.abs(density)) <= safeDensity ? Math.round(Math.abs(density)) : safeDensity;
+		} else {
+			this.density = Math.round(Math.abs(density));
+		}
+		if (this.density > 360) { this.density = 360; }
+		this.activeId = 0;
+		this.redraw();
+	};
+	/**
+	* Returns the number of shapes drawn on the loader canvas
+	* @method getDensity
+	* @public
+	* @return {Number}
+	**/
+	p.getDensity = function () { return this.density; };
+	/**
+	* The amount of the modified shapes in percent.
+	* @property range
+	* @protected
+	* @type Number
+	**/
+	p.range = 1.3;
+	/**
+	* Sets the amount of the modified shapes in percent.<br/>
+	* With this value the user can set what range of the shapes should be scaled and/or faded. The shapes that are out of this range will be scaled and/or faded with a minimum amount only.<br/>
+	* This minimum amount is 0.1 which means every shape which is out of the range is scaled and/or faded to 10% of the original values.<br/>
+	* The visually acceptable range value should be between 0.4 and 1.5.
+	* @method setRange
+	* @public
+	* @param range {Number} The default value is 1.3
+	**/
+	p.setRange = function (range) { this.range = Math.abs(range); this.redraw(); };
+	/**
+	* Returns the modified shape range in percent
+	* @method getRange
+	* @public
+	* @return {Number}
+	**/
+	p.getRange = function () { return this.range; };
+	/**
+	* The speed of the loader animation
+	* @property speed
+	* @protected
+	* @type Number
+	**/
+	p.speed = 2;
+	/**
+	* Sets the speed of the loader animation.<br/>
+	* This value tells the loader how many shapes to skip by each tick.<br/>
+	* Using the right combination of the <code>setFPS</code> and the <code>setSpeed</code> methods allows the users to optimize the CPU usage of the loader whilst keeping the animation on a visually pleasing level.
+	* @method setSpeed
+	* @public
+	* @param speed {Number} The default value is 2
+	**/
+	p.setSpeed = function (speed) { this.speed = Math.round(Math.abs(speed)); };
+	/**
+	* Returns the speed of the loader animation
+	* @method getSpeed
+	* @public
+	* @return {Number}
+	**/
+	p.getSpeed = function () { return this.speed; };
+	/**
+	* The FPS value of the loader animation rendering
+	* @property fps
+	* @protected
+	* @type Number
+	**/
+	p.fps = 24;
+	/**
+	* Sets the rendering frequency.<br/>
+	* This value tells the loader how many times to refresh and modify the canvas in 1 second.<br/>
+	* Using the right combination of the <code>setSpeed</code> and the <code>setFPS</code> methods allows the users to optimize the CPU usage of the loader whilst keeping the animation on a visually pleasing level.
+	* @method setFPS
+	* @public
+	* @param fps {Number} The default value is 24
+	**/
+	p.setFPS = function (fps) { this.fps = Math.round(Math.abs(fps)); this.reset(); };
+	/**
+	* Returns the fps of the loader
+	* @method getFPS
+	* @public
+	* @return {Number}
+	**/
+	p.getFPS = function () { return this.fps; };
+// End of Property declarations
+/////////////////////////////////////////////////////////////////////////////////////////////
+	/**
+	* Return the RGB values of the passed color
+	* @method getRGB
+	* @protected
+	* @param color {String} The HEX color value to be converted to RGB
+	*/
+	p.getRGB = function (c) {
+		c = c.charAt(0) === "#" ? c.substring(1, 7) : c;
+		return {r: parseInt(c.substring(0, 2), 16), g: parseInt(c.substring(2, 4), 16), b: parseInt(c.substring(4, 6), 16) };
+	};
+	/**
+	* Draw the shapes on the canvas
+	* @method draw
+	* @protected
+	*/
+	p.draw = function () {
+		var i = 0, size, w, h, x, y, ang, rads, rad, de = this.density, animBits = Math.round(de * this.range), bitMod, minBitMod = 0, s, g, sh, f, d = 1000, arc = 0, c = this.cCon, di = this.diameter, e = 0.47;
+		if (engine === engines[0]) {
+			c.clearRect(0, 0, d, d);
+			setAttr(this.can, {width: di, height: di});
+			setAttr(this.cCan, {width: di, height: di});
+			while (i < de) {
+				bitMod = i <= animBits ? 1 - ((1 - minBitMod) / animBits * i) : bitMod = minBitMod;
+				ang = 270 - 360 / de * i;
+				rads = ang / 180 * Math.PI;
+				c.fillStyle = "rgba(" + this.cRGB.r + "," + this.cRGB.g + "," + this.cRGB.b + "," + bitMod.toString() + ")";
+				switch (this.shape) {
+				case shapes[0]:
+				case shapes[1]:
+					size = di * 0.07;
+					x = di * e + Math.cos(rads) * (di * e - size) - di * e;
+					y = di * e + Math.sin(rads) * (di * e - size) - di * e;
+					c.beginPath();
+					if (this.shape === shapes[1]) { c.arc(di * 0.5 + x, di * 0.5 + y, size * bitMod, 0, Math.PI * 2, false); } else { c.arc(di * 0.5 + x, di * 0.5 + y, size, 0, Math.PI * 2, false); }
+					break;
+				case shapes[2]:
+					size = di * 0.12;
+					x = Math.cos(rads) * (di * e - size) + di * 0.5;
+					y = Math.sin(rads) * (di * e - size) + di * 0.5;
+					transCon(c, x, y, rads);
+					c.fillRect(x, y - size * 0.5, size, size);
+					break;
+				case shapes[3]:
+				case shapes[4]:
+					w = di * 0.3;
+					h = w * 0.27;
+					x = Math.cos(rads) * (h + (di - h) * 0.13) + di * 0.5;
+					y = Math.sin(rads) * (h + (di - h) * 0.13) + di * 0.5;
+					transCon(c, x, y, rads);
+					if(this.shape === shapes[3]) {
+						c.fillRect(x, y - h * 0.5, w, h);
+					} else {
+						rad = h * 0.55;
+						c.moveTo(x + rad, y - h * 0.5);
+						c.lineTo(x + w - rad, y - h * 0.5);
+						c.quadraticCurveTo(x + w, y - h * 0.5, x + w, y - h * 0.5 + rad);
+						c.lineTo(x + w, y - h * 0.5 + h - rad);
+						c.quadraticCurveTo(x + w, y - h * 0.5 + h, x + w - rad, y - h * 0.5 + h);
+						c.lineTo(x + rad, y - h * 0.5 + h);
+						c.quadraticCurveTo(x, y - h * 0.5 + h, x, y - h * 0.5 + h - rad);
+						c.lineTo(x, y - h * 0.5 + rad);
+						c.quadraticCurveTo(x, y - h * 0.5, x + rad, y - h * 0.5);
+					}
+					break;
+				}
+				c.closePath();
+				c.fill();
+				c.restore();
+				++i;
+			}
+		} else {
+			setCSS(this.cont, {width: di, height: di});
+			setCSS(this.vml, {width: di, height: di});
+			switch (this.shape) {
+			case shapes[0]:
+			case shapes[1]:
+				sh = "oval";
+				size = d * 0.14;
+				break;
+			case shapes[2]:
+				sh = "roundrect";
+				size = d * 0.12;
+				break;
+			case shapes[3]:
+			case shapes[4]:
+				sh = "roundrect";
+				size = d * 0.3;
+				break;
+			}
+			w = h = size;
+			x = d * 0.5 - h;
+			y = -h * 0.5;
+			while (i < de) {
+				bitMod = i <= animBits ? 1 - ((1 - minBitMod) / animBits * i) : bitMod = minBitMod;
+				ang = 270 - 360 / de * i;
+				switch (this.shape) {
+				case shapes[1]:
+					w = h = size * bitMod;
+					x = d * 0.5 - size * 0.5 - size * bitMod * 0.5;
+					y = (size - size * bitMod) * 0.5;
+					break;
+				case shapes[0]:
+				case shapes[2]:
+					if (ie8) {
+						y = 0;
+						if(this.shape === shapes[2]) {
+							x = d * 0.5 -h * 0.5;
+						}
+					}
+					break;
+				case shapes[3]:
+				case shapes[4]:
+					w = size * 0.95;
+					h = w * 0.28;
+					if (ie8) {
+						x = 0;
+						y = d * 0.5 - h * 0.5;
+					} else {
+						x = d * 0.5 - w;
+						y = -h * 0.5;
+					}
+					arc = this.shape === shapes[4] ? 0.6 : 0;
+					break;
+				}
+				g = setAttr(setCSS(addEl("group", this.vml), {width: d, height: d, rotation: ang}), {coordsize: d + "," + d, coordorigin: -d * 0.5 + "," + (-d * 0.5)});
+				s = setCSS(addEl(sh, g, {stroked: false, arcSize: arc}), { width: w, height: h, top: y, left: x});
+				f = addEl("fill", s, {color: this.color, opacity: bitMod});
+				++i;
+			}
+		}
+		this.tick(true);
+	};
+	/**
+	* Cleans the canvas
+	* @method clean
+	* @protected
+	*/
+	p.clean = function () {
+		if (engine === engines[0]) {
+			this.con.clearRect(0, 0, 1000, 1000);
+		} else {
+			var v = this.vml;
+			if (v.hasChildNodes()) {
+				while (v.childNodes.length >= 1) {
+					v.removeChild(v.firstChild);
+				}
+			}
+		}
+	};
+	/**
+	* Redraws the canvas
+	* @method redraw
+	* @protected
+	*/
+	p.redraw = function () {
+			this.clean();
+			this.draw();
+	};
+	/**
+		* Resets the timer
+		* @method reset
+		* @protected
+		*/
+		p.reset = function () {
+			if (typeof (this.timer) === "number") {
+				this.hide();
+				this.show();
+			}
+		};
+	/**
+	* Renders the loader animation
+	* @method tick
+	* @protected
+	*/
+	p.tick = function (init) {
+		var c = this.con, di = this.diameter;
+		if (!init) { this.activeId += 360 / this.density * this.speed; }
+		if (engine === engines[0]) {
+			c.clearRect(0, 0, di, di);
+			transCon(c, di * 0.5, di * 0.5, this.activeId / 180 * Math.PI);
+			c.drawImage(this.cCan, 0, 0, di, di);
+			c.restore();
+		} else {
+			if (this.activeId >= 360) { this.activeId -= 360; }
+			setCSS(this.vml, {rotation:this.activeId});
+		}
+	};
+	/**
+	* Shows the rendering of the loader animation
+	* @method show
+	* @public
+	*/
+	p.show = function () {
+		if (typeof (this.timer) !== "number") {
+			var t = this;
+			this.timer = self.setInterval(function () { t.tick(); }, Math.round(1000 / this.fps));
+			setCSS(this.cont, {display: "block"});
+		}
+	};
+	/**
+	* Stops the rendering of the loader animation and hides the loader
+	* @method hide
+	* @public
+	*/
+	p.hide = function () {
+		if (typeof (this.timer) === "number") {
+			clearInterval(this.timer);
+			delete this.timer;
+			setCSS(this.cont, {display: "none"});
+		}
+	};
+	/**
+	* Removes the CanvasLoader instance and all its references
+	* @method kill
+	* @public
+	*/
+	p.kill = function () {
+		var c = this.cont;
+		if (typeof (this.timer) === "number") { this.hide(); }
+		if (engine === engines[0]) {
+			c.removeChild(this.can);
+			c.removeChild(this.cCan);
+		} else {
+			c.removeChild(this.vml);
+		}
+		var n;
+		for (n in this) { delete this[n]; }
+	};
+	window.CanvasLoader = CanvasLoader;
+}(window));
+},{}],2:[function(require,module,exports){
+/*! Hammer.JS - v1.0.5 - 2013-04-07
+ * http://eightmedia.github.com/hammer.js
+ *
+ * Copyright (c) 2013 Jorik Tangelder <j.tangelder@gmail.com>;
+ * Licensed under the MIT license */
+
+(function(window, undefined) {
+    'use strict';
+
+/**
+ * Hammer
+ * use this to create instances
+ * @param   {HTMLElement}   element
+ * @param   {Object}        options
+ * @returns {Hammer.Instance}
+ * @constructor
+ */
+var Hammer = function(element, options) {
+    return new Hammer.Instance(element, options || {});
+};
+
+// default settings
+Hammer.defaults = {
+    // add styles and attributes to the element to prevent the browser from doing
+    // its native behavior. this doesnt prevent the scrolling, but cancels
+    // the contextmenu, tap highlighting etc
+    // set to false to disable this
+    stop_browser_behavior: {
+		// this also triggers onselectstart=false for IE
+        userSelect: 'none',
+		// this makes the element blocking in IE10 >, you could experiment with the value
+		// see for more options this issue; https://github.com/EightMedia/hammer.js/issues/241
+        touchAction: 'none',
+		touchCallout: 'none',
+        contentZooming: 'none',
+        userDrag: 'none',
+        tapHighlightColor: 'rgba(0,0,0,0)'
+    }
+
+    // more settings are defined per gesture at gestures.js
+};
+
+// detect touchevents
+Hammer.HAS_POINTEREVENTS = navigator.pointerEnabled || navigator.msPointerEnabled;
+Hammer.HAS_TOUCHEVENTS = ('ontouchstart' in window);
+
+// dont use mouseevents on mobile devices
+Hammer.MOBILE_REGEX = /mobile|tablet|ip(ad|hone|od)|android/i;
+Hammer.NO_MOUSEEVENTS = Hammer.HAS_TOUCHEVENTS && navigator.userAgent.match(Hammer.MOBILE_REGEX);
+
+// eventtypes per touchevent (start, move, end)
+// are filled by Hammer.event.determineEventTypes on setup
+Hammer.EVENT_TYPES = {};
+
+// direction defines
+Hammer.DIRECTION_DOWN = 'down';
+Hammer.DIRECTION_LEFT = 'left';
+Hammer.DIRECTION_UP = 'up';
+Hammer.DIRECTION_RIGHT = 'right';
+
+// pointer type
+Hammer.POINTER_MOUSE = 'mouse';
+Hammer.POINTER_TOUCH = 'touch';
+Hammer.POINTER_PEN = 'pen';
+
+// touch event defines
+Hammer.EVENT_START = 'start';
+Hammer.EVENT_MOVE = 'move';
+Hammer.EVENT_END = 'end';
+
+// hammer document where the base events are added at
+Hammer.DOCUMENT = document;
+
+// plugins namespace
+Hammer.plugins = {};
+
+// if the window events are set...
+Hammer.READY = false;
+
+/**
+ * setup events to detect gestures on the document
+ */
+function setup() {
+    if(Hammer.READY) {
+        return;
+    }
+
+    // find what eventtypes we add listeners to
+    Hammer.event.determineEventTypes();
+
+    // Register all gestures inside Hammer.gestures
+    for(var name in Hammer.gestures) {
+        if(Hammer.gestures.hasOwnProperty(name)) {
+            Hammer.detection.register(Hammer.gestures[name]);
+        }
+    }
+
+    // Add touch events on the document
+    Hammer.event.onTouch(Hammer.DOCUMENT, Hammer.EVENT_MOVE, Hammer.detection.detect);
+    Hammer.event.onTouch(Hammer.DOCUMENT, Hammer.EVENT_END, Hammer.detection.detect);
+
+    // Hammer is ready...!
+    Hammer.READY = true;
+}
+
+/**
+ * create new hammer instance
+ * all methods should return the instance itself, so it is chainable.
+ * @param   {HTMLElement}       element
+ * @param   {Object}            [options={}]
+ * @returns {Hammer.Instance}
+ * @constructor
+ */
+Hammer.Instance = function(element, options) {
+    var self = this;
+
+    // setup HammerJS window events and register all gestures
+    // this also sets up the default options
+    setup();
+
+    this.element = element;
+
+    // start/stop detection option
+    this.enabled = true;
+
+    // merge options
+    this.options = Hammer.utils.extend(
+        Hammer.utils.extend({}, Hammer.defaults),
+        options || {});
+
+    // add some css to the element to prevent the browser from doing its native behavoir
+    if(this.options.stop_browser_behavior) {
+        Hammer.utils.stopDefaultBrowserBehavior(this.element, this.options.stop_browser_behavior);
+    }
+
+    // start detection on touchstart
+    Hammer.event.onTouch(element, Hammer.EVENT_START, function(ev) {
+        if(self.enabled) {
+            Hammer.detection.startDetect(self, ev);
+        }
+    });
+
+    // return instance
+    return this;
+};
+
+
+Hammer.Instance.prototype = {
+    /**
+     * bind events to the instance
+     * @param   {String}      gesture
+     * @param   {Function}    handler
+     * @returns {Hammer.Instance}
+     */
+    on: function onEvent(gesture, handler){
+        var gestures = gesture.split(' ');
+        for(var t=0; t<gestures.length; t++) {
+            this.element.addEventListener(gestures[t], handler, false);
+        }
+        return this;
+    },
+
+
+    /**
+     * unbind events to the instance
+     * @param   {String}      gesture
+     * @param   {Function}    handler
+     * @returns {Hammer.Instance}
+     */
+    off: function offEvent(gesture, handler){
+        var gestures = gesture.split(' ');
+        for(var t=0; t<gestures.length; t++) {
+            this.element.removeEventListener(gestures[t], handler, false);
+        }
+        return this;
+    },
+
+
+    /**
+     * trigger gesture event
+     * @param   {String}      gesture
+     * @param   {Object}      eventData
+     * @returns {Hammer.Instance}
+     */
+    trigger: function triggerEvent(gesture, eventData){
+        // create DOM event
+        var event = Hammer.DOCUMENT.createEvent('Event');
+		event.initEvent(gesture, true, true);
+		event.gesture = eventData;
+
+        // trigger on the target if it is in the instance element,
+        // this is for event delegation tricks
+        var element = this.element;
+        if(Hammer.utils.hasParent(eventData.target, element)) {
+            element = eventData.target;
+        }
+
+        element.dispatchEvent(event);
+        return this;
+    },
+
+
+    /**
+     * enable of disable hammer.js detection
+     * @param   {Boolean}   state
+     * @returns {Hammer.Instance}
+     */
+    enable: function enable(state) {
+        this.enabled = state;
+        return this;
+    }
+};
+
+/**
+ * this holds the last move event,
+ * used to fix empty touchend issue
+ * see the onTouch event for an explanation
+ * @type {Object}
+ */
+var last_move_event = null;
+
+
+/**
+ * when the mouse is hold down, this is true
+ * @type {Boolean}
+ */
+var enable_detect = false;
+
+
+/**
+ * when touch events have been fired, this is true
+ * @type {Boolean}
+ */
+var touch_triggered = false;
+
+
+Hammer.event = {
+    /**
+     * simple addEventListener
+     * @param   {HTMLElement}   element
+     * @param   {String}        type
+     * @param   {Function}      handler
+     */
+    bindDom: function(element, type, handler) {
+        var types = type.split(' ');
+        for(var t=0; t<types.length; t++) {
+            element.addEventListener(types[t], handler, false);
+        }
+    },
+
+
+    /**
+     * touch events with mouse fallback
+     * @param   {HTMLElement}   element
+     * @param   {String}        eventType        like Hammer.EVENT_MOVE
+     * @param   {Function}      handler
+     */
+    onTouch: function onTouch(element, eventType, handler) {
+		var self = this;
+
+        this.bindDom(element, Hammer.EVENT_TYPES[eventType], function bindDomOnTouch(ev) {
+            var sourceEventType = ev.type.toLowerCase();
+
+            // onmouseup, but when touchend has been fired we do nothing.
+            // this is for touchdevices which also fire a mouseup on touchend
+            if(sourceEventType.match(/mouse/) && touch_triggered) {
+                return;
+            }
+
+            // mousebutton must be down or a touch event
+            else if( sourceEventType.match(/touch/) ||   // touch events are always on screen
+                sourceEventType.match(/pointerdown/) || // pointerevents touch
+                (sourceEventType.match(/mouse/) && ev.which === 1)   // mouse is pressed
+            ){
+                enable_detect = true;
+            }
+
+            // we are in a touch event, set the touch triggered bool to true,
+            // this for the conflicts that may occur on ios and android
+            if(sourceEventType.match(/touch|pointer/)) {
+                touch_triggered = true;
+            }
+
+            // count the total touches on the screen
+            var count_touches = 0;
+
+            // when touch has been triggered in this detection session
+            // and we are now handling a mouse event, we stop that to prevent conflicts
+            if(enable_detect) {
+                // update pointerevent
+                if(Hammer.HAS_POINTEREVENTS && eventType != Hammer.EVENT_END) {
+                    count_touches = Hammer.PointerEvent.updatePointer(eventType, ev);
+                }
+                // touch
+                else if(sourceEventType.match(/touch/)) {
+                    count_touches = ev.touches.length;
+                }
+                // mouse
+                else if(!touch_triggered) {
+                    count_touches = sourceEventType.match(/up/) ? 0 : 1;
+                }
+
+                // if we are in a end event, but when we remove one touch and
+                // we still have enough, set eventType to move
+                if(count_touches > 0 && eventType == Hammer.EVENT_END) {
+                    eventType = Hammer.EVENT_MOVE;
+                }
+                // no touches, force the end event
+                else if(!count_touches) {
+                    eventType = Hammer.EVENT_END;
+                }
+
+                // because touchend has no touches, and we often want to use these in our gestures,
+                // we send the last move event as our eventData in touchend
+                if(!count_touches && last_move_event !== null) {
+                    ev = last_move_event;
+                }
+                // store the last move event
+                else {
+                    last_move_event = ev;
+                }
+
+                // trigger the handler
+                handler.call(Hammer.detection, self.collectEventData(element, eventType, ev));
+
+                // remove pointerevent from list
+                if(Hammer.HAS_POINTEREVENTS && eventType == Hammer.EVENT_END) {
+                    count_touches = Hammer.PointerEvent.updatePointer(eventType, ev);
+                }
+            }
+
+            //debug(sourceEventType +" "+ eventType);
+
+            // on the end we reset everything
+            if(!count_touches) {
+                last_move_event = null;
+                enable_detect = false;
+                touch_triggered = false;
+                Hammer.PointerEvent.reset();
+            }
+        });
+    },
+
+
+    /**
+     * we have different events for each device/browser
+     * determine what we need and set them in the Hammer.EVENT_TYPES constant
+     */
+    determineEventTypes: function determineEventTypes() {
+        // determine the eventtype we want to set
+        var types;
+
+        // pointerEvents magic
+        if(Hammer.HAS_POINTEREVENTS) {
+            types = Hammer.PointerEvent.getEvents();
+        }
+        // on Android, iOS, blackberry, windows mobile we dont want any mouseevents
+        else if(Hammer.NO_MOUSEEVENTS) {
+            types = [
+                'touchstart',
+                'touchmove',
+                'touchend touchcancel'];
+        }
+        // for non pointer events browsers and mixed browsers,
+        // like chrome on windows8 touch laptop
+        else {
+            types = [
+                'touchstart mousedown',
+                'touchmove mousemove',
+                'touchend touchcancel mouseup'];
+        }
+
+        Hammer.EVENT_TYPES[Hammer.EVENT_START]  = types[0];
+        Hammer.EVENT_TYPES[Hammer.EVENT_MOVE]   = types[1];
+        Hammer.EVENT_TYPES[Hammer.EVENT_END]    = types[2];
+    },
+
+
+    /**
+     * create touchlist depending on the event
+     * @param   {Object}    ev
+     * @param   {String}    eventType   used by the fakemultitouch plugin
+     */
+    getTouchList: function getTouchList(ev/*, eventType*/) {
+        // get the fake pointerEvent touchlist
+        if(Hammer.HAS_POINTEREVENTS) {
+            return Hammer.PointerEvent.getTouchList();
+        }
+        // get the touchlist
+        else if(ev.touches) {
+            return ev.touches;
+        }
+        // make fake touchlist from mouse position
+        else {
+            return [{
+                identifier: 1,
+                pageX: ev.pageX,
+                pageY: ev.pageY,
+                target: ev.target
+            }];
+        }
+    },
+
+
+    /**
+     * collect event data for Hammer js
+     * @param   {HTMLElement}   element
+     * @param   {String}        eventType        like Hammer.EVENT_MOVE
+     * @param   {Object}        eventData
+     */
+    collectEventData: function collectEventData(element, eventType, ev) {
+        var touches = this.getTouchList(ev, eventType);
+
+        // find out pointerType
+        var pointerType = Hammer.POINTER_TOUCH;
+        if(ev.type.match(/mouse/) || Hammer.PointerEvent.matchType(Hammer.POINTER_MOUSE, ev)) {
+            pointerType = Hammer.POINTER_MOUSE;
+        }
+
+        return {
+            center      : Hammer.utils.getCenter(touches),
+            timeStamp   : new Date().getTime(),
+            target      : ev.target,
+            touches     : touches,
+            eventType   : eventType,
+            pointerType : pointerType,
+            srcEvent    : ev,
+
+            /**
+             * prevent the browser default actions
+             * mostly used to disable scrolling of the browser
+             */
+            preventDefault: function() {
+                if(this.srcEvent.preventManipulation) {
+                    this.srcEvent.preventManipulation();
+                }
+
+                if(this.srcEvent.preventDefault) {
+                    this.srcEvent.preventDefault();
+                }
+            },
+
+            /**
+             * stop bubbling the event up to its parents
+             */
+            stopPropagation: function() {
+                this.srcEvent.stopPropagation();
+            },
+
+            /**
+             * immediately stop gesture detection
+             * might be useful after a swipe was detected
+             * @return {*}
+             */
+            stopDetect: function() {
+                return Hammer.detection.stopDetect();
+            }
+        };
+    }
+};
+
+Hammer.PointerEvent = {
+    /**
+     * holds all pointers
+     * @type {Object}
+     */
+    pointers: {},
+
+    /**
+     * get a list of pointers
+     * @returns {Array}     touchlist
+     */
+    getTouchList: function() {
+        var self = this;
+        var touchlist = [];
+
+        // we can use forEach since pointerEvents only is in IE10
+        Object.keys(self.pointers).sort().forEach(function(id) {
+            touchlist.push(self.pointers[id]);
+        });
+        return touchlist;
+    },
+
+    /**
+     * update the position of a pointer
+     * @param   {String}   type             Hammer.EVENT_END
+     * @param   {Object}   pointerEvent
+     */
+    updatePointer: function(type, pointerEvent) {
+        if(type == Hammer.EVENT_END) {
+            this.pointers = {};
+        }
+        else {
+            pointerEvent.identifier = pointerEvent.pointerId;
+            this.pointers[pointerEvent.pointerId] = pointerEvent;
+        }
+
+        return Object.keys(this.pointers).length;
+    },
+
+    /**
+     * check if ev matches pointertype
+     * @param   {String}        pointerType     Hammer.POINTER_MOUSE
+     * @param   {PointerEvent}  ev
+     */
+    matchType: function(pointerType, ev) {
+        if(!ev.pointerType) {
+            return false;
+        }
+
+        var types = {};
+        types[Hammer.POINTER_MOUSE] = (ev.pointerType == ev.MSPOINTER_TYPE_MOUSE || ev.pointerType == Hammer.POINTER_MOUSE);
+        types[Hammer.POINTER_TOUCH] = (ev.pointerType == ev.MSPOINTER_TYPE_TOUCH || ev.pointerType == Hammer.POINTER_TOUCH);
+        types[Hammer.POINTER_PEN] = (ev.pointerType == ev.MSPOINTER_TYPE_PEN || ev.pointerType == Hammer.POINTER_PEN);
+        return types[pointerType];
+    },
+
+
+    /**
+     * get events
+     */
+    getEvents: function() {
+        return [
+            'pointerdown MSPointerDown',
+            'pointermove MSPointerMove',
+            'pointerup pointercancel MSPointerUp MSPointerCancel'
+        ];
+    },
+
+    /**
+     * reset the list
+     */
+    reset: function() {
+        this.pointers = {};
+    }
+};
+
+
+Hammer.utils = {
+    /**
+     * extend method,
+     * also used for cloning when dest is an empty object
+     * @param   {Object}    dest
+     * @param   {Object}    src
+	 * @parm	{Boolean}	merge		do a merge
+     * @returns {Object}    dest
+     */
+    extend: function extend(dest, src, merge) {
+        for (var key in src) {
+			if(dest[key] !== undefined && merge) {
+				continue;
+			}
+            dest[key] = src[key];
+        }
+        return dest;
+    },
+
+
+    /**
+     * find if a node is in the given parent
+     * used for event delegation tricks
+     * @param   {HTMLElement}   node
+     * @param   {HTMLElement}   parent
+     * @returns {boolean}       has_parent
+     */
+    hasParent: function(node, parent) {
+        while(node){
+            if(node == parent) {
+                return true;
+            }
+            node = node.parentNode;
+        }
+        return false;
+    },
+
+
+    /**
+     * get the center of all the touches
+     * @param   {Array}     touches
+     * @returns {Object}    center
+     */
+    getCenter: function getCenter(touches) {
+        var valuesX = [], valuesY = [];
+
+        for(var t= 0,len=touches.length; t<len; t++) {
+            valuesX.push(touches[t].pageX);
+            valuesY.push(touches[t].pageY);
+        }
+
+        return {
+            pageX: ((Math.min.apply(Math, valuesX) + Math.max.apply(Math, valuesX)) / 2),
+            pageY: ((Math.min.apply(Math, valuesY) + Math.max.apply(Math, valuesY)) / 2)
+        };
+    },
+
+
+    /**
+     * calculate the velocity between two points
+     * @param   {Number}    delta_time
+     * @param   {Number}    delta_x
+     * @param   {Number}    delta_y
+     * @returns {Object}    velocity
+     */
+    getVelocity: function getVelocity(delta_time, delta_x, delta_y) {
+        return {
+            x: Math.abs(delta_x / delta_time) || 0,
+            y: Math.abs(delta_y / delta_time) || 0
+        };
+    },
+
+
+    /**
+     * calculate the angle between two coordinates
+     * @param   {Touch}     touch1
+     * @param   {Touch}     touch2
+     * @returns {Number}    angle
+     */
+    getAngle: function getAngle(touch1, touch2) {
+        var y = touch2.pageY - touch1.pageY,
+            x = touch2.pageX - touch1.pageX;
+        return Math.atan2(y, x) * 180 / Math.PI;
+    },
+
+
+    /**
+     * angle to direction define
+     * @param   {Touch}     touch1
+     * @param   {Touch}     touch2
+     * @returns {String}    direction constant, like Hammer.DIRECTION_LEFT
+     */
+    getDirection: function getDirection(touch1, touch2) {
+        var x = Math.abs(touch1.pageX - touch2.pageX),
+            y = Math.abs(touch1.pageY - touch2.pageY);
+
+        if(x >= y) {
+            return touch1.pageX - touch2.pageX > 0 ? Hammer.DIRECTION_LEFT : Hammer.DIRECTION_RIGHT;
+        }
+        else {
+            return touch1.pageY - touch2.pageY > 0 ? Hammer.DIRECTION_UP : Hammer.DIRECTION_DOWN;
+        }
+    },
+
+
+    /**
+     * calculate the distance between two touches
+     * @param   {Touch}     touch1
+     * @param   {Touch}     touch2
+     * @returns {Number}    distance
+     */
+    getDistance: function getDistance(touch1, touch2) {
+        var x = touch2.pageX - touch1.pageX,
+            y = touch2.pageY - touch1.pageY;
+        return Math.sqrt((x*x) + (y*y));
+    },
+
+
+    /**
+     * calculate the scale factor between two touchLists (fingers)
+     * no scale is 1, and goes down to 0 when pinched together, and bigger when pinched out
+     * @param   {Array}     start
+     * @param   {Array}     end
+     * @returns {Number}    scale
+     */
+    getScale: function getScale(start, end) {
+        // need two fingers...
+        if(start.length >= 2 && end.length >= 2) {
+            return this.getDistance(end[0], end[1]) /
+                this.getDistance(start[0], start[1]);
+        }
+        return 1;
+    },
+
+
+    /**
+     * calculate the rotation degrees between two touchLists (fingers)
+     * @param   {Array}     start
+     * @param   {Array}     end
+     * @returns {Number}    rotation
+     */
+    getRotation: function getRotation(start, end) {
+        // need two fingers
+        if(start.length >= 2 && end.length >= 2) {
+            return this.getAngle(end[1], end[0]) -
+                this.getAngle(start[1], start[0]);
+        }
+        return 0;
+    },
+
+
+    /**
+     * boolean if the direction is vertical
+     * @param    {String}    direction
+     * @returns  {Boolean}   is_vertical
+     */
+    isVertical: function isVertical(direction) {
+        return (direction == Hammer.DIRECTION_UP || direction == Hammer.DIRECTION_DOWN);
+    },
+
+
+    /**
+     * stop browser default behavior with css props
+     * @param   {HtmlElement}   element
+     * @param   {Object}        css_props
+     */
+    stopDefaultBrowserBehavior: function stopDefaultBrowserBehavior(element, css_props) {
+        var prop,
+            vendors = ['webkit','khtml','moz','ms','o',''];
+
+        if(!css_props || !element.style) {
+            return;
+        }
+
+        // with css properties for modern browsers
+        for(var i = 0; i < vendors.length; i++) {
+            for(var p in css_props) {
+                if(css_props.hasOwnProperty(p)) {
+                    prop = p;
+
+                    // vender prefix at the property
+                    if(vendors[i]) {
+                        prop = vendors[i] + prop.substring(0, 1).toUpperCase() + prop.substring(1);
+                    }
+
+                    // set the style
+                    element.style[prop] = css_props[p];
+                }
+            }
+        }
+
+        // also the disable onselectstart
+        if(css_props.userSelect == 'none') {
+            element.onselectstart = function() {
+                return false;
+            };
+        }
+    }
+};
+
+Hammer.detection = {
+    // contains all registred Hammer.gestures in the correct order
+    gestures: [],
+
+    // data of the current Hammer.gesture detection session
+    current: null,
+
+    // the previous Hammer.gesture session data
+    // is a full clone of the previous gesture.current object
+    previous: null,
+
+    // when this becomes true, no gestures are fired
+    stopped: false,
+
+
+    /**
+     * start Hammer.gesture detection
+     * @param   {Hammer.Instance}   inst
+     * @param   {Object}            eventData
+     */
+    startDetect: function startDetect(inst, eventData) {
+        // already busy with a Hammer.gesture detection on an element
+        if(this.current) {
+            return;
+        }
+
+        this.stopped = false;
+
+        this.current = {
+            inst        : inst, // reference to HammerInstance we're working for
+            startEvent  : Hammer.utils.extend({}, eventData), // start eventData for distances, timing etc
+            lastEvent   : false, // last eventData
+            name        : '' // current gesture we're in/detected, can be 'tap', 'hold' etc
+        };
+
+        this.detect(eventData);
+    },
+
+
+    /**
+     * Hammer.gesture detection
+     * @param   {Object}    eventData
+     * @param   {Object}    eventData
+     */
+    detect: function detect(eventData) {
+        if(!this.current || this.stopped) {
+            return;
+        }
+
+        // extend event data with calculations about scale, distance etc
+        eventData = this.extendEventData(eventData);
+
+        // instance options
+        var inst_options = this.current.inst.options;
+
+        // call Hammer.gesture handlers
+        for(var g=0,len=this.gestures.length; g<len; g++) {
+            var gesture = this.gestures[g];
+
+            // only when the instance options have enabled this gesture
+            if(!this.stopped && inst_options[gesture.name] !== false) {
+                // if a handler returns false, we stop with the detection
+                if(gesture.handler.call(gesture, eventData, this.current.inst) === false) {
+                    this.stopDetect();
+                    break;
+                }
+            }
+        }
+
+        // store as previous event event
+        if(this.current) {
+            this.current.lastEvent = eventData;
+        }
+
+        // endevent, but not the last touch, so dont stop
+        if(eventData.eventType == Hammer.EVENT_END && !eventData.touches.length-1) {
+            this.stopDetect();
+        }
+
+        return eventData;
+    },
+
+
+    /**
+     * clear the Hammer.gesture vars
+     * this is called on endDetect, but can also be used when a final Hammer.gesture has been detected
+     * to stop other Hammer.gestures from being fired
+     */
+    stopDetect: function stopDetect() {
+        // clone current data to the store as the previous gesture
+        // used for the double tap gesture, since this is an other gesture detect session
+        this.previous = Hammer.utils.extend({}, this.current);
+
+        // reset the current
+        this.current = null;
+
+        // stopped!
+        this.stopped = true;
+    },
+
+
+    /**
+     * extend eventData for Hammer.gestures
+     * @param   {Object}   ev
+     * @returns {Object}   ev
+     */
+    extendEventData: function extendEventData(ev) {
+        var startEv = this.current.startEvent;
+
+        // if the touches change, set the new touches over the startEvent touches
+        // this because touchevents don't have all the touches on touchstart, or the
+        // user must place his fingers at the EXACT same time on the screen, which is not realistic
+        // but, sometimes it happens that both fingers are touching at the EXACT same time
+        if(startEv && (ev.touches.length != startEv.touches.length || ev.touches === startEv.touches)) {
+            // extend 1 level deep to get the touchlist with the touch objects
+            startEv.touches = [];
+            for(var i=0,len=ev.touches.length; i<len; i++) {
+                startEv.touches.push(Hammer.utils.extend({}, ev.touches[i]));
+            }
+        }
+
+        var delta_time = ev.timeStamp - startEv.timeStamp,
+            delta_x = ev.center.pageX - startEv.center.pageX,
+            delta_y = ev.center.pageY - startEv.center.pageY,
+            velocity = Hammer.utils.getVelocity(delta_time, delta_x, delta_y);
+
+        Hammer.utils.extend(ev, {
+            deltaTime   : delta_time,
+
+            deltaX      : delta_x,
+            deltaY      : delta_y,
+
+            velocityX   : velocity.x,
+            velocityY   : velocity.y,
+
+            distance    : Hammer.utils.getDistance(startEv.center, ev.center),
+            angle       : Hammer.utils.getAngle(startEv.center, ev.center),
+            direction   : Hammer.utils.getDirection(startEv.center, ev.center),
+
+            scale       : Hammer.utils.getScale(startEv.touches, ev.touches),
+            rotation    : Hammer.utils.getRotation(startEv.touches, ev.touches),
+
+            startEvent  : startEv
+        });
+
+        return ev;
+    },
+
+
+    /**
+     * register new gesture
+     * @param   {Object}    gesture object, see gestures.js for documentation
+     * @returns {Array}     gestures
+     */
+    register: function register(gesture) {
+        // add an enable gesture options if there is no given
+        var options = gesture.defaults || {};
+        if(options[gesture.name] === undefined) {
+            options[gesture.name] = true;
+        }
+
+        // extend Hammer default options with the Hammer.gesture options
+        Hammer.utils.extend(Hammer.defaults, options, true);
+
+        // set its index
+        gesture.index = gesture.index || 1000;
+
+        // add Hammer.gesture to the list
+        this.gestures.push(gesture);
+
+        // sort the list by index
+        this.gestures.sort(function(a, b) {
+            if (a.index < b.index) {
+                return -1;
+            }
+            if (a.index > b.index) {
+                return 1;
+            }
+            return 0;
+        });
+
+        return this.gestures;
+    }
+};
+
+
+Hammer.gestures = Hammer.gestures || {};
+
+/**
+ * Custom gestures
+ * ==============================
+ *
+ * Gesture object
+ * --------------------
+ * The object structure of a gesture:
+ *
+ * { name: 'mygesture',
+ *   index: 1337,
+ *   defaults: {
+ *     mygesture_option: true
+ *   }
+ *   handler: function(type, ev, inst) {
+ *     // trigger gesture event
+ *     inst.trigger(this.name, ev);
+ *   }
+ * }
+
+ * @param   {String}    name
+ * this should be the name of the gesture, lowercase
+ * it is also being used to disable/enable the gesture per instance config.
+ *
+ * @param   {Number}    [index=1000]
+ * the index of the gesture, where it is going to be in the stack of gestures detection
+ * like when you build an gesture that depends on the drag gesture, it is a good
+ * idea to place it after the index of the drag gesture.
+ *
+ * @param   {Object}    [defaults={}]
+ * the default settings of the gesture. these are added to the instance settings,
+ * and can be overruled per instance. you can also add the name of the gesture,
+ * but this is also added by default (and set to true).
+ *
+ * @param   {Function}  handler
+ * this handles the gesture detection of your custom gesture and receives the
+ * following arguments:
+ *
+ *      @param  {Object}    eventData
+ *      event data containing the following properties:
+ *          timeStamp   {Number}        time the event occurred
+ *          target      {HTMLElement}   target element
+ *          touches     {Array}         touches (fingers, pointers, mouse) on the screen
+ *          pointerType {String}        kind of pointer that was used. matches Hammer.POINTER_MOUSE|TOUCH
+ *          center      {Object}        center position of the touches. contains pageX and pageY
+ *          deltaTime   {Number}        the total time of the touches in the screen
+ *          deltaX      {Number}        the delta on x axis we haved moved
+ *          deltaY      {Number}        the delta on y axis we haved moved
+ *          velocityX   {Number}        the velocity on the x
+ *          velocityY   {Number}        the velocity on y
+ *          angle       {Number}        the angle we are moving
+ *          direction   {String}        the direction we are moving. matches Hammer.DIRECTION_UP|DOWN|LEFT|RIGHT
+ *          distance    {Number}        the distance we haved moved
+ *          scale       {Number}        scaling of the touches, needs 2 touches
+ *          rotation    {Number}        rotation of the touches, needs 2 touches *
+ *          eventType   {String}        matches Hammer.EVENT_START|MOVE|END
+ *          srcEvent    {Object}        the source event, like TouchStart or MouseDown *
+ *          startEvent  {Object}        contains the same properties as above,
+ *                                      but from the first touch. this is used to calculate
+ *                                      distances, deltaTime, scaling etc
+ *
+ *      @param  {Hammer.Instance}    inst
+ *      the instance we are doing the detection for. you can get the options from
+ *      the inst.options object and trigger the gesture event by calling inst.trigger
+ *
+ *
+ * Handle gestures
+ * --------------------
+ * inside the handler you can get/set Hammer.detection.current. This is the current
+ * detection session. It has the following properties
+ *      @param  {String}    name
+ *      contains the name of the gesture we have detected. it has not a real function,
+ *      only to check in other gestures if something is detected.
+ *      like in the drag gesture we set it to 'drag' and in the swipe gesture we can
+ *      check if the current gesture is 'drag' by accessing Hammer.detection.current.name
+ *
+ *      @readonly
+ *      @param  {Hammer.Instance}    inst
+ *      the instance we do the detection for
+ *
+ *      @readonly
+ *      @param  {Object}    startEvent
+ *      contains the properties of the first gesture detection in this session.
+ *      Used for calculations about timing, distance, etc.
+ *
+ *      @readonly
+ *      @param  {Object}    lastEvent
+ *      contains all the properties of the last gesture detect in this session.
+ *
+ * after the gesture detection session has been completed (user has released the screen)
+ * the Hammer.detection.current object is copied into Hammer.detection.previous,
+ * this is usefull for gestures like doubletap, where you need to know if the
+ * previous gesture was a tap
+ *
+ * options that have been set by the instance can be received by calling inst.options
+ *
+ * You can trigger a gesture event by calling inst.trigger("mygesture", event).
+ * The first param is the name of your gesture, the second the event argument
+ *
+ *
+ * Register gestures
+ * --------------------
+ * When an gesture is added to the Hammer.gestures object, it is auto registered
+ * at the setup of the first Hammer instance. You can also call Hammer.detection.register
+ * manually and pass your gesture object as a param
+ *
+ */
+
+/**
+ * Hold
+ * Touch stays at the same place for x time
+ * @events  hold
+ */
+Hammer.gestures.Hold = {
+    name: 'hold',
+    index: 10,
+    defaults: {
+        hold_timeout	: 500,
+        hold_threshold	: 1
+    },
+    timer: null,
+    handler: function holdGesture(ev, inst) {
+        switch(ev.eventType) {
+            case Hammer.EVENT_START:
+                // clear any running timers
+                clearTimeout(this.timer);
+
+                // set the gesture so we can check in the timeout if it still is
+                Hammer.detection.current.name = this.name;
+
+                // set timer and if after the timeout it still is hold,
+                // we trigger the hold event
+                this.timer = setTimeout(function() {
+                    if(Hammer.detection.current.name == 'hold') {
+                        inst.trigger('hold', ev);
+                    }
+                }, inst.options.hold_timeout);
+                break;
+
+            // when you move or end we clear the timer
+            case Hammer.EVENT_MOVE:
+                if(ev.distance > inst.options.hold_threshold) {
+                    clearTimeout(this.timer);
+                }
+                break;
+
+            case Hammer.EVENT_END:
+                clearTimeout(this.timer);
+                break;
+        }
+    }
+};
+
+
+/**
+ * Tap/DoubleTap
+ * Quick touch at a place or double at the same place
+ * @events  tap, doubletap
+ */
+Hammer.gestures.Tap = {
+    name: 'tap',
+    index: 100,
+    defaults: {
+        tap_max_touchtime	: 250,
+        tap_max_distance	: 10,
+		tap_always			: true,
+        doubletap_distance	: 20,
+        doubletap_interval	: 300
+    },
+    handler: function tapGesture(ev, inst) {
+        if(ev.eventType == Hammer.EVENT_END) {
+            // previous gesture, for the double tap since these are two different gesture detections
+            var prev = Hammer.detection.previous,
+				did_doubletap = false;
+
+            // when the touchtime is higher then the max touch time
+            // or when the moving distance is too much
+            if(ev.deltaTime > inst.options.tap_max_touchtime ||
+                ev.distance > inst.options.tap_max_distance) {
+                return;
+            }
+
+            // check if double tap
+            if(prev && prev.name == 'tap' &&
+                (ev.timeStamp - prev.lastEvent.timeStamp) < inst.options.doubletap_interval &&
+                ev.distance < inst.options.doubletap_distance) {
+				inst.trigger('doubletap', ev);
+				did_doubletap = true;
+            }
+
+			// do a single tap
+			if(!did_doubletap || inst.options.tap_always) {
+				Hammer.detection.current.name = 'tap';
+				inst.trigger(Hammer.detection.current.name, ev);
+			}
+        }
+    }
+};
+
+
+/**
+ * Swipe
+ * triggers swipe events when the end velocity is above the threshold
+ * @events  swipe, swipeleft, swiperight, swipeup, swipedown
+ */
+Hammer.gestures.Swipe = {
+    name: 'swipe',
+    index: 40,
+    defaults: {
+        // set 0 for unlimited, but this can conflict with transform
+        swipe_max_touches  : 1,
+        swipe_velocity     : 0.7
+    },
+    handler: function swipeGesture(ev, inst) {
+        if(ev.eventType == Hammer.EVENT_END) {
+            // max touches
+            if(inst.options.swipe_max_touches > 0 &&
+                ev.touches.length > inst.options.swipe_max_touches) {
+                return;
+            }
+
+            // when the distance we moved is too small we skip this gesture
+            // or we can be already in dragging
+            if(ev.velocityX > inst.options.swipe_velocity ||
+                ev.velocityY > inst.options.swipe_velocity) {
+                // trigger swipe events
+                inst.trigger(this.name, ev);
+                inst.trigger(this.name + ev.direction, ev);
+            }
+        }
+    }
+};
+
+
+/**
+ * Drag
+ * Move with x fingers (default 1) around on the page. Blocking the scrolling when
+ * moving left and right is a good practice. When all the drag events are blocking
+ * you disable scrolling on that area.
+ * @events  drag, drapleft, dragright, dragup, dragdown
+ */
+Hammer.gestures.Drag = {
+    name: 'drag',
+    index: 50,
+    defaults: {
+        drag_min_distance : 10,
+        // set 0 for unlimited, but this can conflict with transform
+        drag_max_touches  : 1,
+        // prevent default browser behavior when dragging occurs
+        // be careful with it, it makes the element a blocking element
+        // when you are using the drag gesture, it is a good practice to set this true
+        drag_block_horizontal   : false,
+        drag_block_vertical     : false,
+        // drag_lock_to_axis keeps the drag gesture on the axis that it started on,
+        // It disallows vertical directions if the initial direction was horizontal, and vice versa.
+        drag_lock_to_axis       : false,
+        // drag lock only kicks in when distance > drag_lock_min_distance
+        // This way, locking occurs only when the distance has become large enough to reliably determine the direction
+        drag_lock_min_distance : 25
+    },
+    triggered: false,
+    handler: function dragGesture(ev, inst) {
+        // current gesture isnt drag, but dragged is true
+        // this means an other gesture is busy. now call dragend
+        if(Hammer.detection.current.name != this.name && this.triggered) {
+            inst.trigger(this.name +'end', ev);
+            this.triggered = false;
+            return;
+        }
+
+        // max touches
+        if(inst.options.drag_max_touches > 0 &&
+            ev.touches.length > inst.options.drag_max_touches) {
+            return;
+        }
+
+        switch(ev.eventType) {
+            case Hammer.EVENT_START:
+                this.triggered = false;
+                break;
+
+            case Hammer.EVENT_MOVE:
+                // when the distance we moved is too small we skip this gesture
+                // or we can be already in dragging
+                if(ev.distance < inst.options.drag_min_distance &&
+                    Hammer.detection.current.name != this.name) {
+                    return;
+                }
+
+                // we are dragging!
+                Hammer.detection.current.name = this.name;
+
+                // lock drag to axis?
+                if(Hammer.detection.current.lastEvent.drag_locked_to_axis || (inst.options.drag_lock_to_axis && inst.options.drag_lock_min_distance<=ev.distance)) {
+                    ev.drag_locked_to_axis = true;
+                }
+                var last_direction = Hammer.detection.current.lastEvent.direction;
+                if(ev.drag_locked_to_axis && last_direction !== ev.direction) {
+                    // keep direction on the axis that the drag gesture started on
+                    if(Hammer.utils.isVertical(last_direction)) {
+                        ev.direction = (ev.deltaY < 0) ? Hammer.DIRECTION_UP : Hammer.DIRECTION_DOWN;
+                    }
+                    else {
+                        ev.direction = (ev.deltaX < 0) ? Hammer.DIRECTION_LEFT : Hammer.DIRECTION_RIGHT;
+                    }
+                }
+
+                // first time, trigger dragstart event
+                if(!this.triggered) {
+                    inst.trigger(this.name +'start', ev);
+                    this.triggered = true;
+                }
+
+                // trigger normal event
+                inst.trigger(this.name, ev);
+
+                // direction event, like dragdown
+                inst.trigger(this.name + ev.direction, ev);
+
+                // block the browser events
+                if( (inst.options.drag_block_vertical && Hammer.utils.isVertical(ev.direction)) ||
+                    (inst.options.drag_block_horizontal && !Hammer.utils.isVertical(ev.direction))) {
+                    ev.preventDefault();
+                }
+                break;
+
+            case Hammer.EVENT_END:
+                // trigger dragend
+                if(this.triggered) {
+                    inst.trigger(this.name +'end', ev);
+                }
+
+                this.triggered = false;
+                break;
+        }
+    }
+};
+
+
+/**
+ * Transform
+ * User want to scale or rotate with 2 fingers
+ * @events  transform, pinch, pinchin, pinchout, rotate
+ */
+Hammer.gestures.Transform = {
+    name: 'transform',
+    index: 45,
+    defaults: {
+        // factor, no scale is 1, zoomin is to 0 and zoomout until higher then 1
+        transform_min_scale     : 0.01,
+        // rotation in degrees
+        transform_min_rotation  : 1,
+        // prevent default browser behavior when two touches are on the screen
+        // but it makes the element a blocking element
+        // when you are using the transform gesture, it is a good practice to set this true
+        transform_always_block  : false
+    },
+    triggered: false,
+    handler: function transformGesture(ev, inst) {
+        // current gesture isnt drag, but dragged is true
+        // this means an other gesture is busy. now call dragend
+        if(Hammer.detection.current.name != this.name && this.triggered) {
+            inst.trigger(this.name +'end', ev);
+            this.triggered = false;
+            return;
+        }
+
+        // atleast multitouch
+        if(ev.touches.length < 2) {
+            return;
+        }
+
+        // prevent default when two fingers are on the screen
+        if(inst.options.transform_always_block) {
+            ev.preventDefault();
+        }
+
+        switch(ev.eventType) {
+            case Hammer.EVENT_START:
+                this.triggered = false;
+                break;
+
+            case Hammer.EVENT_MOVE:
+                var scale_threshold = Math.abs(1-ev.scale);
+                var rotation_threshold = Math.abs(ev.rotation);
+
+                // when the distance we moved is too small we skip this gesture
+                // or we can be already in dragging
+                if(scale_threshold < inst.options.transform_min_scale &&
+                    rotation_threshold < inst.options.transform_min_rotation) {
+                    return;
+                }
+
+                // we are transforming!
+                Hammer.detection.current.name = this.name;
+
+                // first time, trigger dragstart event
+                if(!this.triggered) {
+                    inst.trigger(this.name +'start', ev);
+                    this.triggered = true;
+                }
+
+                inst.trigger(this.name, ev); // basic transform event
+
+                // trigger rotate event
+                if(rotation_threshold > inst.options.transform_min_rotation) {
+                    inst.trigger('rotate', ev);
+                }
+
+                // trigger pinch event
+                if(scale_threshold > inst.options.transform_min_scale) {
+                    inst.trigger('pinch', ev);
+                    inst.trigger('pinch'+ ((ev.scale < 1) ? 'in' : 'out'), ev);
+                }
+                break;
+
+            case Hammer.EVENT_END:
+                // trigger dragend
+                if(this.triggered) {
+                    inst.trigger(this.name +'end', ev);
+                }
+
+                this.triggered = false;
+                break;
+        }
+    }
+};
+
+
+/**
+ * Touch
+ * Called as first, tells the user has touched the screen
+ * @events  touch
+ */
+Hammer.gestures.Touch = {
+    name: 'touch',
+    index: -Infinity,
+    defaults: {
+        // call preventDefault at touchstart, and makes the element blocking by
+        // disabling the scrolling of the page, but it improves gestures like
+        // transforming and dragging.
+        // be careful with using this, it can be very annoying for users to be stuck
+        // on the page
+        prevent_default: false,
+
+        // disable mouse events, so only touch (or pen!) input triggers events
+        prevent_mouseevents: false
+    },
+    handler: function touchGesture(ev, inst) {
+        if(inst.options.prevent_mouseevents && ev.pointerType == Hammer.POINTER_MOUSE) {
+            ev.stopDetect();
+            return;
+        }
+
+        if(inst.options.prevent_default) {
+            ev.preventDefault();
+        }
+
+        if(ev.eventType ==  Hammer.EVENT_START) {
+            inst.trigger(this.name, ev);
+        }
+    }
+};
+
+
+/**
+ * Release
+ * Called as last, tells the user has released the screen
+ * @events  release
+ */
+Hammer.gestures.Release = {
+    name: 'release',
+    index: Infinity,
+    handler: function releaseGesture(ev, inst) {
+        if(ev.eventType ==  Hammer.EVENT_END) {
+            inst.trigger(this.name, ev);
+        }
+    }
+};
+
+// node export
+if(typeof module === 'object' && typeof module.exports === 'object'){
+    module.exports = Hammer;
+}
+// just window export
+else {
+    window.Hammer = Hammer;
+
+    // requireJS module definition
+    if(typeof window.define === 'function' && window.define.amd) {
+        window.define('hammer', [], function() {
+            return Hammer;
+        });
+    }
+}
+})(this);
+},{}],3:[function(require,module,exports){
+var Inflector;
+
+module.exports = Inflector = (function() {
+  var inflection;
+  var __slice = Array.prototype.slice;
+  /*
+  Copyright (c) 2010 Ryan Schuft (ryan.schuft@gmail.com)
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  THE SOFTWARE.
+  */
+
+  /*
+    This code is based in part on the work done in Ruby to support
+    infection as part of Ruby on Rails in the ActiveSupport's Inflector
+    and Inflections classes.  It was initally ported to Javascript by
+    Ryan Schuft (ryan.schuft@gmail.com) in 2007.
+
+    The code is available at http://code.google.com/p/inflection-js/
+
+    The basic usage is:
+      1. Include this script on your web page.
+      2. Call functions on any String object in Javascript
+
+    Currently implemented functions:
+
+      String.pluralize(plural) == String
+        renders a singular English language noun into its plural form
+        normal results can be overridden by passing in an alternative
+
+      String.singularize(singular) == String
+        renders a plural English language noun into its singular form
+        normal results can be overridden by passing in an alterative
+
+      String.camelize(lowFirstLetter) == String
+        renders a lower case underscored word into camel case
+        the first letter of the result will be upper case unless you pass true
+        also translates "/" into "::" (underscore does the opposite)
+
+      String.underscore() == String
+        renders a camel cased word into words seperated by underscores
+        also translates "::" back into "/" (camelize does the opposite)
+
+      String.humanize(lowFirstLetter) == String
+        renders a lower case and underscored word into human readable form
+        defaults to making the first letter capitalized unless you pass true
+
+      String.capitalize() == String
+        renders all characters to lower case and then makes the first upper
+
+      String.dasherize() == String
+        renders all underbars and spaces as dashes
+
+      String.titleize() == String
+        renders words into title casing (as for book titles)
+
+      String.demodulize() == String
+        renders class names that are prepended by modules into just the class
+
+      String.tableize() == String
+        renders camel cased singular words into their underscored plural form
+
+      String.classify() == String
+        renders an underscored plural word into its camel cased singular form
+
+      String.foreign_key(dropIdUbar) == String
+        renders a class name (camel cased singular noun) into a foreign key
+        defaults to seperating the class from the id with an underbar unless
+        you pass true
+
+      String.ordinalize() == String
+        renders all numbers found in the string into their sequence like "22nd"
+  */
+
+  var InflectionJS;
+
+  /*
+    This sets up some constants for later use
+    This should use the window namespace variable if available
+  */
+  InflectionJS = {
+      /*
+        This is a list of nouns that use the same form for both singular and plural.
+        This list should remain entirely in lower case to correctly match Strings.
+      */
+      uncountable_words: [
+          'equipment', 'information', 'rice', 'money', 'species', 'series',
+          'fish', 'sheep', 'moose', 'deer', 'news'
+      ],
+
+      /*
+        These rules translate from the singular form of a noun to its plural form.
+      */
+      plural_rules: [
+          [new RegExp('(m)an$', 'gi'),                 '$1en'],
+          [new RegExp('(pe)rson$', 'gi'),              '$1ople'],
+          [new RegExp('(child)$', 'gi'),               '$1ren'],
+          [new RegExp('^(ox)$', 'gi'),                 '$1en'],
+          [new RegExp('(ax|test)is$', 'gi'),           '$1es'],
+          [new RegExp('(octop|vir)us$', 'gi'),         '$1i'],
+          [new RegExp('(alias|status|by)$', 'gi'),     '$1es'],
+          [new RegExp('(bu)s$', 'gi'),                 '$1ses'],
+          [new RegExp('(buffal|tomat|potat)o$', 'gi'), '$1oes'],
+          [new RegExp('([ti])um$', 'gi'),              '$1a'],
+          [new RegExp('sis$', 'gi'),                   'ses'],
+          [new RegExp('(?:([^f])fe|([lr])f)$', 'gi'),  '$1$2ves'],
+          [new RegExp('(hive)$', 'gi'),                '$1s'],
+          [new RegExp('([^aeiouy]|qu)y$', 'gi'),       '$1ies'],
+          [new RegExp('(x|ch|ss|sh)$', 'gi'),          '$1es'],
+          [new RegExp('(matr|vert|ind)ix|ex$', 'gi'),  '$1ices'],
+          [new RegExp('([m|l])ouse$', 'gi'),           '$1ice'],
+          [new RegExp('(quiz)$', 'gi'),                '$1zes'],
+          [new RegExp('s$', 'gi'),                     's'],
+          [new RegExp('$', 'gi'),                      's']
+      ],
+
+      /*
+        These rules translate from the plural form of a noun to its singular form.
+      */
+      singular_rules: [
+          [new RegExp('(m)en$', 'gi'),                                                       '$1an'],
+          [new RegExp('(pe)ople$', 'gi'),                                                    '$1rson'],
+          [new RegExp('(child)ren$', 'gi'),                                                  '$1'],
+          [new RegExp('([ti])a$', 'gi'),                                                     '$1um'],
+          [new RegExp('((a)naly|(b)a|(d)iagno|(p)arenthe|(p)rogno|(s)ynop|(t)he)ses$','gi'), '$1$2sis'],
+          [new RegExp('(hive)s$', 'gi'),                                                     '$1'],
+          [new RegExp('(tive)s$', 'gi'),                                                     '$1'],
+          [new RegExp('(curve)s$', 'gi'),                                                    '$1'],
+          [new RegExp('([lr])ves$', 'gi'),                                                   '$1f'],
+          [new RegExp('([^fo])ves$', 'gi'),                                                  '$1fe'],
+          [new RegExp('([^aeiouy]|qu)ies$', 'gi'),                                           '$1y'],
+          [new RegExp('(s)eries$', 'gi'),                                                    '$1eries'],
+          [new RegExp('(m)ovies$', 'gi'),                                                    '$1ovie'],
+          [new RegExp('(x|ch|ss|sh)es$', 'gi'),                                              '$1'],
+          [new RegExp('([m|l])ice$', 'gi'),                                                  '$1ouse'],
+          [new RegExp('(bus)es$', 'gi'),                                                     '$1'],
+          [new RegExp('(o)es$', 'gi'),                                                       '$1'],
+          [new RegExp('(shoe)s$', 'gi'),                                                     '$1'],
+          [new RegExp('(cris|ax|test)es$', 'gi'),                                            '$1is'],
+          [new RegExp('(octop|vir)i$', 'gi'),                                                '$1us'],
+          [new RegExp('(alias|status)es$', 'gi'),                                            '$1'],
+          [new RegExp('^(ox)en', 'gi'),                                                      '$1'],
+          [new RegExp('(vert|ind)ices$', 'gi'),                                              '$1ex'],
+          [new RegExp('(matr)ices$', 'gi'),                                                  '$1ix'],
+          [new RegExp('(quiz)zes$', 'gi'),                                                   '$1'],
+          [new RegExp('s$', 'gi'),                                                           '']
+      ],
+
+      /*
+        This is a list of words that should not be capitalized for title case
+      */
+      non_titlecased_words: [
+          'and', 'or', 'nor', 'a', 'an', 'the', 'so', 'but', 'to', 'of', 'at',
+          'by', 'from', 'into', 'on', 'onto', 'off', 'out', 'in', 'over',
+          'with', 'for'
+      ],
+
+      /*
+        These are regular expressions used for converting between String formats
+      */
+      id_suffix: new RegExp('(_ids|_id)$', 'g'),
+      underbar: new RegExp('_', 'g'),
+      space_or_underbar: new RegExp('[\ _]', 'g'),
+      uppercase: new RegExp('([A-Z])', 'g'),
+      underbar_prefix: new RegExp('^_'),
+
+      /*
+        This is a helper method that applies rules based replacement to a String
+        Signature:
+          InflectionJS.apply_rules(str, rules, skip, override) == String
+        Arguments:
+          str - String - String to modify and return based on the passed rules
+          rules - Array: [RegExp, String] - Regexp to match paired with String to use for replacement
+          skip - Array: [String] - Strings to skip if they match
+          override - String (optional) - String to return as though this method succeeded (used to conform to APIs)
+        Returns:
+          String - passed String modified by passed rules
+        Examples:
+          InflectionJS.apply_rules("cows", InflectionJs.singular_rules) === 'cow'
+      */
+      apply_rules: function(str, rules, skip, override) {
+          if (override) {
+              str = override;
+          }
+          else {
+              var ignore = (skip.indexOf(str.toLowerCase()) > -1);
+              if (!ignore) {
+                  for (var x = 0; x < rules.length; x++) {
+                      if (str.match(rules[x][0])) {
+                          str = str.replace(rules[x][0], rules[x][1]);
+                          break;
+                      }
+                  }
+              }
+          }
+          return str;
+      }
+  };
+
+  /*
+    This function adds plurilization support to every String object
+      Signature:
+        String.pluralize(plural) == String
+      Arguments:
+        plural - String (optional) - overrides normal output with said String
+      Returns:
+        String - singular English language nouns are returned in plural form
+      Examples:
+        "person".pluralize() == "people"
+        "octopus".pluralize() == "octopi"
+        "Hat".pluralize() == "Hats"
+        "person".pluralize("guys") == "guys"
+  */
+  InflectionJS.pluralize = function(string, plural) {
+      return this.apply_rules(
+      string,
+      this.plural_rules,
+      this.uncountable_words,
+      plural
+      );
+  };
+
+  /*
+   This function adds singularization support to every String object
+   Signature:
+   String.singularize(singular) == String
+   Arguments:
+   singular - String (optional) - overrides normal output with said String
+   Returns:
+   String - plural English language nouns are returned in singular form
+   Examples:
+   "people".singularize() == "person"
+   "octopi".singularize() == "octopus"
+   "Hats".singularize() == "Hat"
+   "guys".singularize("person") == "person"
+   */
+  InflectionJS.singularize = function(string, singular) {
+      return this.apply_rules(
+      string,
+      this.singular_rules,
+      this.uncountable_words,
+      singular
+      );
+  };
+
+  /*
+   This function adds camelization support to every String object
+   Signature:
+   String.camelize(lowFirstLetter) == String
+   Arguments:
+   lowFirstLetter - boolean (optional) - default is to capitalize the first
+   letter of the results... passing true will lowercase it
+   Returns:
+   String - lower case underscored words will be returned in camel case
+   additionally '/' is translated to '::'
+   Examples:
+   "message_properties".camelize() == "MessageProperties"
+   "message_properties".camelize(true) == "messageProperties"
+   */
+  InflectionJS.camelize = function(string, lowFirstLetter, dontLowercaseBefore) {
+      if (!dontLowercaseBefore) {
+        string = string.toLowerCase();
+      }
+      var str_path = string.split('/');
+      for (var i = 0; i < str_path.length; i++) {
+          var str_arr = str_path[i].split('_');
+          var initX = ((lowFirstLetter && i + 1 === str_path.length) ? (1) : (0));
+          for (var x = initX; x < str_arr.length; x++) {
+              str_arr[x] = str_arr[x].charAt(0).toUpperCase() + str_arr[x].substring(1);
+          }
+          str_path[i] = str_arr.join('');
+      }
+      string = str_path.join('::');
+      return string;
+  };
+
+  /*
+   This function adds underscore support to every String object
+   Signature:
+   String.underscore() == String
+   Arguments:
+   N/A
+   Returns:
+   String - camel cased words are returned as lower cased and underscored
+   additionally '::' is translated to '/'
+   Examples:
+   "MessageProperties".camelize() == "message_properties"
+   "messageProperties".underscore() == "message_properties"
+   */
+  InflectionJS.underscore = function(string) {
+      var str_path = string.split('::');
+      for (var i = 0; i < str_path.length; i++) {
+          str_path[i] = str_path[i].replace(this.uppercase, '_$1');
+          str_path[i] = str_path[i].replace(this.underbar_prefix, '');
+      }
+      string = str_path.join('/').toLowerCase();
+      return string;
+  };
+
+  /*
+   This function adds humanize support to every String object
+   Signature:
+   String.humanize(lowFirstLetter) == String
+   Arguments:
+   lowFirstLetter - boolean (optional) - default is to capitalize the first
+   letter of the results... passing true will lowercase it
+   Returns:
+   String - lower case underscored words will be returned in humanized form
+   Examples:
+   "message_properties".humanize() == "Message properties"
+   "message_properties".humanize(true) == "message properties"
+   */
+  InflectionJS.humanize = function(string, lowFirstLetter) {
+      string = string.toLowerCase();
+      string = string.replace(this.id_suffix, '');
+      string = string.replace(this.underbar, ' ');
+      if (!lowFirstLetter) {
+          string = this.capitalize(string);
+      }
+      return string;
+  };
+
+  /*
+   This function adds capitalization support to every String object
+   Signature:
+   String.capitalize() == String
+   Arguments:
+   N/A
+   Returns:
+   String - all characters will be lower case and the first will be upper
+   Examples:
+   "message_properties".capitalize() == "Message_properties"
+   "message properties".capitalize() == "Message properties"
+   */
+  InflectionJS.capitalize = function(string, dontLowercaseFirst) {
+      if (!dontLowercaseFirst) {
+          string = string.toLowerCase();
+      }
+      string = string.substring(0, 1).toUpperCase() + string.substring(1);
+      return string;
+  };
+
+  /*
+   This function adds decapitalization support to every String object
+   Signature:
+   String.decapitalize() == String
+   Arguments:
+   N/A
+   Returns:
+   String - all characters will be lower case and the first will be upper
+   Examples:
+   "Message_properties".capitalize() == "message_properties"
+   "Message properties".capitalize() == "message properties"
+   */
+  InflectionJS.decapitalize = function(string) {
+      string = string.substring(0, 1).toLowerCase() + string.substring(1);
+      return string;
+  };
+
+  /*
+   This function adds dasherization support to every String object
+   Signature:
+   String.dasherize() == String
+   Arguments:
+   N/A
+   Returns:
+   String - replaces all spaces or underbars with dashes
+   Examples:
+   "message_properties".capitalize() == "message-properties"
+   "Message Properties".capitalize() == "Message-Properties"
+   */
+  InflectionJS.dasherize = function(string) {
+      string = string.replace(this.space_or_underbar, '-');
+      return string;
+  };
+
+  /*
+    This function adds titleize support to every String object
+      Signature:
+        String.titleize() == String
+      Arguments:
+        N/A
+      Returns:
+        String - capitalizes words as you would for a book title
+      Examples:
+        "message_properties".titleize() == "Message Properties"
+        "message properties to keep".titleize() == "Message Properties to Keep"
+  */
+  InflectionJS.titleize = function(string) {
+      string = string.toLowerCase();
+      string = string.replace(this.underbar, ' ');
+      var str_arr = string.split(' ');
+      for (var x = 0; x < str_arr.length; x++) {
+          var d = str_arr[x].split('-');
+          for (var i = 0; i < d.length; i++) {
+              if (this.non_titlecased_words.indexOf(d[i].toLowerCase()) < 0) {
+                  d[i] = this.capitalize(d[i]);
+              }
+          }
+          str_arr[x] = d.join('-');
+      }
+      string = str_arr.join(' ');
+      string = string.substring(0, 1).toUpperCase() + string.substring(1);
+      return string;
+  };
+
+  /*
+    This function adds demodulize support to every String object
+      Signature:
+        String.demodulize() == String
+      Arguments:
+        N/A
+      Returns:
+        String - removes module names leaving only class names (Ruby style)
+      Examples:
+        "Message::Bus::Properties".demodulize() == "Properties"
+  */
+  InflectionJS.demodulize = function(string) {
+      var str_arr = string.split('::');
+      string = str_arr[str_arr.length - 1];
+      return string;
+  };
+
+  /*
+    This function adds tableize support to every String object
+      Signature:
+        String.tableize() == String
+      Arguments:
+        N/A
+      Returns:
+        String - renders camel cased words into their underscored plural form
+      Examples:
+        "MessageBusProperty".tableize() == "message_bus_properties"
+  */
+  InflectionJS.tableize = function(string) {
+      string = this.pluralize(this.underscore(string));
+      return string;
+  };
+
+  /*
+    This function adds classification support to every String object
+      Signature:
+        String.classify() == String
+      Arguments:
+        N/A
+      Returns:
+        String - underscored plural nouns become the camel cased singular form
+      Examples:
+        "message_bus_properties".classify() == "MessageBusProperty"
+  */
+  InflectionJS.classify = function(string) {
+      string = this.singularize(this.camelize(string));
+      return string;
+  };
+
+  /*
+    This function adds foreign key support to every String object
+      Signature:
+        String.foreign_key(dropIdUbar) == String
+      Arguments:
+        dropIdUbar - boolean (optional) - default is to seperate id with an
+          underbar at the end of the class name, you can pass true to skip it
+      Returns:
+        String - camel cased singular class names become underscored with id
+      Examples:
+        "MessageBusProperty".foreign_key() == "message_bus_property_id"
+        "MessageBusProperty".foreign_key(true) == "message_bus_propertyid"
+  */
+  InflectionJS.foreign_key = function(string, dropIdUbar) {
+      string = this.underscore(this.demodulize(string)) + ((dropIdUbar) ? ('') : ('_')) + 'id';
+      return string;
+  };
+
+  /*
+    This function adds ordinalize support to every String object
+      Signature:
+        String.ordinalize() == String
+      Arguments:
+        N/A
+      Returns:
+        String - renders all found numbers their sequence like "22nd"
+      Examples:
+        "the 1 pitch".ordinalize() == "the 1st pitch"
+  */
+  InflectionJS.ordinalize = function(string) {
+      var str_arr = string.split(' ');
+      for (var x = 0; x < str_arr.length; x++) {
+          var i = parseInt(str_arr[x]);
+          if (i === NaN) {
+              var ltd = str_arr[x].substring(str_arr[x].length - 2);
+              var ld = str_arr[x].substring(str_arr[x].length - 1);
+              var suf = "th";
+              if (ltd != "11" && ltd != "12" && ltd != "13") {
+                  if (ld === "1") {
+                      suf = "st";
+                  }
+                  else if (ld === "2") {
+                      suf = "nd";
+                  }
+                  else if (ld === "3") {
+                      suf = "rd";
+                  }
+              }
+              str_arr[x] += suf;
+          }
+      }
+      string = str_arr.join(' ');
+      return string;
+  };
+
+  inflection = InflectionJS;
+
+  Object.keys(inflection).forEach(function(key) {
+    Inflector[key] = inflection[key];
+    return Inflector.prototype[key] = function() {
+      this.value = Inflector[key].apply(Inflector, [this.value].concat(__slice.call(arguments)));
+      return this;
+    };
+  });
+
+  function Inflector(value) {
+    if (!(this instanceof Inflector)) {
+      return new Inflector(value);
+    } else {
+      this.value = value;
+    }
+  }
+
+  Inflector.prototype.tap = function(callback) {
+    callback(this.value);
+    return this;
+  };
+
+  Inflector.prototype.inspect = function() {
+    return this + '';
+  };
+
+  Inflector.prototype.toString = function() {
+    return this.value;
+  };
+
+  Inflector.prototype.valueOf = function() {
+    return this.value;
+  };
+
+  return Inflector;
+
+})();
+
+},{}],4:[function(require,module,exports){
+(function() {
+  var JsPath,
+    __slice = Array.prototype.slice;
+
+  this.JsPath = (function() {
+    var primTypes,
+      _this = this;
+
+    primTypes = /^(string|number|boolean)$/;
+
+    /*
+      @constructor.
+      @signature: new JsPath(path, val)
+      @param: path - a dot-notation style "path" to identify a
+        nested JS object.
+      @description: Initialize a new js object with the provided
+        path.  I've never actually used this constructor for any-
+        thing, and it is here for the sake of "comprehensiveness"
+        at this time, although I am incredulous as to it's overall
+        usefulness.
+    */
+
+    function JsPath(path, val) {
+      return JsPath.setAt({}, path, val || {});
+    }
+
+    ['forEach', 'indexOf', 'join', 'pop', 'reverse', 'shift', 'sort', 'splice', 'unshift', 'push'].forEach(function(method) {
+      return JsPath[method + 'At'] = function() {
+        var obj, path, rest, target;
+        obj = arguments[0], path = arguments[1], rest = 3 <= arguments.length ? __slice.call(arguments, 2) : [];
+        target = JsPath.getAt(obj, path);
+        if ('function' === typeof (target != null ? target[method] : void 0)) {
+          return target[method].apply(target, rest);
+        } else {
+          throw new Error("Does not implement method " + method + " at " + path);
+        }
+      };
+    });
+
+    /*
+      @method. property of the constructor.
+      @signature: JsPath.getAt(ref, path)
+      @param: ref - the object to traverse.
+      @param: path - a dot-notation style "path" to identify a
+        nested JS object.
+      @return: the object that can be found inside ref at the path
+        described by the second parameter or undefined if the path
+        is not valid.
+    */
+
+    JsPath.getAt = function(ref, path) {
+      var prop;
+      if ('function' === typeof path.split) {
+        path = path.split('.');
+      } else {
+        path = path.slice();
+      }
+      while ((ref != null) && (prop = path.shift())) {
+        ref = ref[prop];
+      }
+      return ref;
+    };
+
+    /*
+      @method. property of the constructor.
+      @signature: JsPath.getAt(ref, path)
+      @param: obj - the object to extend.
+      @param: path - a dot-notation style "path" to identify a
+        nested JS object.
+      @param: val - the value to assign to the path of the obj.
+      @return: the object that was extended.
+      @description: set a property to the path provided by the
+        second parameter with the value provided by the third
+        parameter.
+    */
+
+    JsPath.setAt = function(obj, path, val) {
+      var component, last, prev, ref;
+      if ('function' === typeof path.split) {
+        path = path.split('.');
+      } else {
+        path = path.slice();
+      }
+      last = path.pop();
+      prev = [];
+      ref = obj;
+      while (component = path.shift()) {
+        if (primTypes.test(typeof ref[component])) {
+          throw new Error("" + (prev.concat(component).join('.')) + " is\nprimitive, and cannot be extended.");
+        }
+        ref = ref[component] || (ref[component] = {});
+        prev.push(component);
+      }
+      ref[last] = val;
+      return obj;
+    };
+
+    JsPath.assureAt = function(ref, path, initializer) {
+      var obj;
+      if (obj = this.getAt(ref, path)) {
+        return obj;
+      } else {
+        this.setAt(ref, path, initializer);
+        return initializer;
+      }
+    };
+
+    /*
+      @method. property of the constructor.
+      @signature: JsPath.deleteAt(ref, path)
+      @param: obj - the object to extend.
+      @param: path - a dot-notation style "path" to identify a
+        nested JS object to dereference.
+      @return: boolean success.
+      @description: deletes the reference specified by the last
+        unit of the path from the object specified by other
+        components of the path, belonging to the provided object.
+    */
+
+    JsPath.deleteAt = function(ref, path) {
+      var component, last, prev;
+      if ('function' === typeof path.split) {
+        path = path.split('.');
+      } else {
+        path = path.slice();
+      }
+      prev = [];
+      last = path.pop();
+      while (component = path.shift()) {
+        if (primTypes.test(typeof ref[component])) {
+          throw new Error("" + (prev.concat(component).join('.')) + " is\nprimitive; cannot drill any deeper.");
+        }
+        if (!(ref = ref[component])) return false;
+        prev.push(component);
+      }
+      return delete ref[last];
+    };
+
+    return JsPath;
+
+  }).call(this);
+
+  /*
+  Footnotes:
+    1 - if there's no .split() method, assume it's already an array
+  */
+
+}).call(this);
+
+},{}],5:[function(require,module,exports){
+/**
+ * adds a bindGlobal method to Mousetrap that allows you to
+ * bind specific keyboard shortcuts that will still work
+ * inside a text input field
+ *
+ * usage:
+ * Mousetrap.bindGlobal('ctrl+s', _saveChanges);
+ */
+/* global Mousetrap:true */
+Mousetrap = (function(Mousetrap) {
+    var _globalCallbacks = {},
+        _originalStopCallback = Mousetrap.stopCallback;
+
+    Mousetrap.stopCallback = function(e, element, combo, sequence) {
+        if (_globalCallbacks[combo] || _globalCallbacks[sequence]) {
+            return false;
+        }
+
+        return _originalStopCallback(e, element, combo);
+    };
+
+    Mousetrap.bindGlobal = function(keys, callback, action) {
+        Mousetrap.bind(keys, callback, action);
+
+        if (keys instanceof Array) {
+            for (var i = 0; i < keys.length; i++) {
+                _globalCallbacks[keys[i]] = true;
+            }
+            return;
+        }
+
+        _globalCallbacks[keys] = true;
+    };
+
+    return Mousetrap;
+}) (Mousetrap);
+
+},{}],6:[function(require,module,exports){
+/*global define:false */
+/**
+ * Copyright 2013 Craig Campbell
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * Mousetrap is a simple keyboard shortcut library for Javascript with
+ * no external dependencies
+ *
+ * @version 1.4.6
+ * @url craig.is/killing/mice
+ */
+(function(window, document, undefined) {
+
+    /**
+     * mapping of special keycodes to their corresponding keys
+     *
+     * everything in this dictionary cannot use keypress events
+     * so it has to be here to map to the correct keycodes for
+     * keyup/keydown events
+     *
+     * @type {Object}
+     */
+    var _MAP = {
+            8: 'backspace',
+            9: 'tab',
+            13: 'enter',
+            16: 'shift',
+            17: 'ctrl',
+            18: 'alt',
+            20: 'capslock',
+            27: 'esc',
+            32: 'space',
+            33: 'pageup',
+            34: 'pagedown',
+            35: 'end',
+            36: 'home',
+            37: 'left',
+            38: 'up',
+            39: 'right',
+            40: 'down',
+            45: 'ins',
+            46: 'del',
+            91: 'meta',
+            93: 'meta',
+            224: 'meta'
+        },
+
+        /**
+         * mapping for special characters so they can support
+         *
+         * this dictionary is only used incase you want to bind a
+         * keyup or keydown event to one of these keys
+         *
+         * @type {Object}
+         */
+        _KEYCODE_MAP = {
+            106: '*',
+            107: '+',
+            109: '-',
+            110: '.',
+            111 : '/',
+            186: ';',
+            187: '=',
+            188: ',',
+            189: '-',
+            190: '.',
+            191: '/',
+            192: '`',
+            219: '[',
+            220: '\\',
+            221: ']',
+            222: '\''
+        },
+
+        /**
+         * this is a mapping of keys that require shift on a US keypad
+         * back to the non shift equivelents
+         *
+         * this is so you can use keyup events with these keys
+         *
+         * note that this will only work reliably on US keyboards
+         *
+         * @type {Object}
+         */
+        _SHIFT_MAP = {
+            '~': '`',
+            '!': '1',
+            '@': '2',
+            '#': '3',
+            '$': '4',
+            '%': '5',
+            '^': '6',
+            '&': '7',
+            '*': '8',
+            '(': '9',
+            ')': '0',
+            '_': '-',
+            '+': '=',
+            ':': ';',
+            '\"': '\'',
+            '<': ',',
+            '>': '.',
+            '?': '/',
+            '|': '\\'
+        },
+
+        /**
+         * this is a list of special strings you can use to map
+         * to modifier keys when you specify your keyboard shortcuts
+         *
+         * @type {Object}
+         */
+        _SPECIAL_ALIASES = {
+            'option': 'alt',
+            'command': 'meta',
+            'return': 'enter',
+            'escape': 'esc',
+            'mod': /Mac|iPod|iPhone|iPad/.test(navigator.platform) ? 'meta' : 'ctrl'
+        },
+
+        /**
+         * variable to store the flipped version of _MAP from above
+         * needed to check if we should use keypress or not when no action
+         * is specified
+         *
+         * @type {Object|undefined}
+         */
+        _REVERSE_MAP,
+
+        /**
+         * a list of all the callbacks setup via Mousetrap.bind()
+         *
+         * @type {Object}
+         */
+        _callbacks = {},
+
+        /**
+         * direct map of string combinations to callbacks used for trigger()
+         *
+         * @type {Object}
+         */
+        _directMap = {},
+
+        /**
+         * keeps track of what level each sequence is at since multiple
+         * sequences can start out with the same sequence
+         *
+         * @type {Object}
+         */
+        _sequenceLevels = {},
+
+        /**
+         * variable to store the setTimeout call
+         *
+         * @type {null|number}
+         */
+        _resetTimer,
+
+        /**
+         * temporary state where we will ignore the next keyup
+         *
+         * @type {boolean|string}
+         */
+        _ignoreNextKeyup = false,
+
+        /**
+         * temporary state where we will ignore the next keypress
+         *
+         * @type {boolean}
+         */
+        _ignoreNextKeypress = false,
+
+        /**
+         * are we currently inside of a sequence?
+         * type of action ("keyup" or "keydown" or "keypress") or false
+         *
+         * @type {boolean|string}
+         */
+        _nextExpectedAction = false;
+
+    /**
+     * loop through the f keys, f1 to f19 and add them to the map
+     * programatically
+     */
+    for (var i = 1; i < 20; ++i) {
+        _MAP[111 + i] = 'f' + i;
+    }
+
+    /**
+     * loop through to map numbers on the numeric keypad
+     */
+    for (i = 0; i <= 9; ++i) {
+        _MAP[i + 96] = i;
+    }
+
+    /**
+     * cross browser add event method
+     *
+     * @param {Element|HTMLDocument} object
+     * @param {string} type
+     * @param {Function} callback
+     * @returns void
+     */
+    function _addEvent(object, type, callback) {
+        if (object.addEventListener) {
+            object.addEventListener(type, callback, false);
+            return;
+        }
+
+        object.attachEvent('on' + type, callback);
+    }
+
+    /**
+     * takes the event and returns the key character
+     *
+     * @param {Event} e
+     * @return {string}
+     */
+    function _characterFromEvent(e) {
+
+        // for keypress events we should return the character as is
+        if (e.type == 'keypress') {
+            var character = String.fromCharCode(e.which);
+
+            // if the shift key is not pressed then it is safe to assume
+            // that we want the character to be lowercase.  this means if
+            // you accidentally have caps lock on then your key bindings
+            // will continue to work
+            //
+            // the only side effect that might not be desired is if you
+            // bind something like 'A' cause you want to trigger an
+            // event when capital A is pressed caps lock will no longer
+            // trigger the event.  shift+a will though.
+            if (!e.shiftKey) {
+                character = character.toLowerCase();
+            }
+
+            return character;
+        }
+
+        // for non keypress events the special maps are needed
+        if (_MAP[e.which]) {
+            return _MAP[e.which];
+        }
+
+        if (_KEYCODE_MAP[e.which]) {
+            return _KEYCODE_MAP[e.which];
+        }
+
+        // if it is not in the special map
+
+        // with keydown and keyup events the character seems to always
+        // come in as an uppercase character whether you are pressing shift
+        // or not.  we should make sure it is always lowercase for comparisons
+        return String.fromCharCode(e.which).toLowerCase();
+    }
+
+    /**
+     * checks if two arrays are equal
+     *
+     * @param {Array} modifiers1
+     * @param {Array} modifiers2
+     * @returns {boolean}
+     */
+    function _modifiersMatch(modifiers1, modifiers2) {
+        return modifiers1.sort().join(',') === modifiers2.sort().join(',');
+    }
+
+    /**
+     * resets all sequence counters except for the ones passed in
+     *
+     * @param {Object} doNotReset
+     * @returns void
+     */
+    function _resetSequences(doNotReset) {
+        doNotReset = doNotReset || {};
+
+        var activeSequences = false,
+            key;
+
+        for (key in _sequenceLevels) {
+            if (doNotReset[key]) {
+                activeSequences = true;
+                continue;
+            }
+            _sequenceLevels[key] = 0;
+        }
+
+        if (!activeSequences) {
+            _nextExpectedAction = false;
+        }
+    }
+
+    /**
+     * finds all callbacks that match based on the keycode, modifiers,
+     * and action
+     *
+     * @param {string} character
+     * @param {Array} modifiers
+     * @param {Event|Object} e
+     * @param {string=} sequenceName - name of the sequence we are looking for
+     * @param {string=} combination
+     * @param {number=} level
+     * @returns {Array}
+     */
+    function _getMatches(character, modifiers, e, sequenceName, combination, level) {
+        var i,
+            callback,
+            matches = [],
+            action = e.type;
+
+        // if there are no events related to this keycode
+        if (!_callbacks[character]) {
+            return [];
+        }
+
+        // if a modifier key is coming up on its own we should allow it
+        if (action == 'keyup' && _isModifier(character)) {
+            modifiers = [character];
+        }
+
+        // loop through all callbacks for the key that was pressed
+        // and see if any of them match
+        for (i = 0; i < _callbacks[character].length; ++i) {
+            callback = _callbacks[character][i];
+
+            // if a sequence name is not specified, but this is a sequence at
+            // the wrong level then move onto the next match
+            if (!sequenceName && callback.seq && _sequenceLevels[callback.seq] != callback.level) {
+                continue;
+            }
+
+            // if the action we are looking for doesn't match the action we got
+            // then we should keep going
+            if (action != callback.action) {
+                continue;
+            }
+
+            // if this is a keypress event and the meta key and control key
+            // are not pressed that means that we need to only look at the
+            // character, otherwise check the modifiers as well
+            //
+            // chrome will not fire a keypress if meta or control is down
+            // safari will fire a keypress if meta or meta+shift is down
+            // firefox will fire a keypress if meta or control is down
+            if ((action == 'keypress' && !e.metaKey && !e.ctrlKey) || _modifiersMatch(modifiers, callback.modifiers)) {
+
+                // when you bind a combination or sequence a second time it
+                // should overwrite the first one.  if a sequenceName or
+                // combination is specified in this call it does just that
+                //
+                // @todo make deleting its own method?
+                var deleteCombo = !sequenceName && callback.combo == combination;
+                var deleteSequence = sequenceName && callback.seq == sequenceName && callback.level == level;
+                if (deleteCombo || deleteSequence) {
+                    _callbacks[character].splice(i, 1);
+                }
+
+                matches.push(callback);
+            }
+        }
+
+        return matches;
+    }
+
+    /**
+     * takes a key event and figures out what the modifiers are
+     *
+     * @param {Event} e
+     * @returns {Array}
+     */
+    function _eventModifiers(e) {
+        var modifiers = [];
+
+        if (e.shiftKey) {
+            modifiers.push('shift');
+        }
+
+        if (e.altKey) {
+            modifiers.push('alt');
+        }
+
+        if (e.ctrlKey) {
+            modifiers.push('ctrl');
+        }
+
+        if (e.metaKey) {
+            modifiers.push('meta');
+        }
+
+        return modifiers;
+    }
+
+    /**
+     * prevents default for this event
+     *
+     * @param {Event} e
+     * @returns void
+     */
+    function _preventDefault(e) {
+        if (e.preventDefault) {
+            e.preventDefault();
+            return;
+        }
+
+        e.returnValue = false;
+    }
+
+    /**
+     * stops propogation for this event
+     *
+     * @param {Event} e
+     * @returns void
+     */
+    function _stopPropagation(e) {
+        if (e.stopPropagation) {
+            e.stopPropagation();
+            return;
+        }
+
+        e.cancelBubble = true;
+    }
+
+    /**
+     * actually calls the callback function
+     *
+     * if your callback function returns false this will use the jquery
+     * convention - prevent default and stop propogation on the event
+     *
+     * @param {Function} callback
+     * @param {Event} e
+     * @returns void
+     */
+    function _fireCallback(callback, e, combo, sequence) {
+        // if this event should not happen stop here
+        if (Mousetrap.stopCallback(e, e.target || e.srcElement, combo, sequence)) {
+            return;
+        }
+
+        if (callback(e, combo) === false) {
+            _preventDefault(e);
+            _stopPropagation(e);
+        }
+    }
+
+    /**
+     * handles a character key event
+     *
+     * @param {string} character
+     * @param {Array} modifiers
+     * @param {Event} e
+     * @returns void
+     */
+    function _handleKey(character, modifiers, e) {
+        var callbacks = _getMatches(character, modifiers, e),
+            i,
+            doNotReset = {},
+            maxLevel = 0,
+            processedSequenceCallback = false;
+
+        // Calculate the maxLevel for sequences so we can only execute the longest callback sequence
+        for (i = 0; i < callbacks.length; ++i) {
+            if (callbacks[i].seq) {
+                maxLevel = Math.max(maxLevel, callbacks[i].level);
+            }
+        }
+
+        // loop through matching callbacks for this key event
+        for (i = 0; i < callbacks.length; ++i) {
+
+            // fire for all sequence callbacks
+            // this is because if for example you have multiple sequences
+            // bound such as "g i" and "g t" they both need to fire the
+            // callback for matching g cause otherwise you can only ever
+            // match the first one
+            if (callbacks[i].seq) {
+
+                // only fire callbacks for the maxLevel to prevent
+                // subsequences from also firing
+                //
+                // for example 'a option b' should not cause 'option b' to fire
+                // even though 'option b' is part of the other sequence
+                //
+                // any sequences that do not match here will be discarded
+                // below by the _resetSequences call
+                if (callbacks[i].level != maxLevel) {
+                    continue;
+                }
+
+                processedSequenceCallback = true;
+
+                // keep a list of which sequences were matches for later
+                doNotReset[callbacks[i].seq] = 1;
+                _fireCallback(callbacks[i].callback, e, callbacks[i].combo, callbacks[i].seq);
+                continue;
+            }
+
+            // if there were no sequence matches but we are still here
+            // that means this is a regular match so we should fire that
+            if (!processedSequenceCallback) {
+                _fireCallback(callbacks[i].callback, e, callbacks[i].combo);
+            }
+        }
+
+        // if the key you pressed matches the type of sequence without
+        // being a modifier (ie "keyup" or "keypress") then we should
+        // reset all sequences that were not matched by this event
+        //
+        // this is so, for example, if you have the sequence "h a t" and you
+        // type "h e a r t" it does not match.  in this case the "e" will
+        // cause the sequence to reset
+        //
+        // modifier keys are ignored because you can have a sequence
+        // that contains modifiers such as "enter ctrl+space" and in most
+        // cases the modifier key will be pressed before the next key
+        //
+        // also if you have a sequence such as "ctrl+b a" then pressing the
+        // "b" key will trigger a "keypress" and a "keydown"
+        //
+        // the "keydown" is expected when there is a modifier, but the
+        // "keypress" ends up matching the _nextExpectedAction since it occurs
+        // after and that causes the sequence to reset
+        //
+        // we ignore keypresses in a sequence that directly follow a keydown
+        // for the same character
+        var ignoreThisKeypress = e.type == 'keypress' && _ignoreNextKeypress;
+        if (e.type == _nextExpectedAction && !_isModifier(character) && !ignoreThisKeypress) {
+            _resetSequences(doNotReset);
+        }
+
+        _ignoreNextKeypress = processedSequenceCallback && e.type == 'keydown';
+    }
+
+    /**
+     * handles a keydown event
+     *
+     * @param {Event} e
+     * @returns void
+     */
+    function _handleKeyEvent(e) {
+
+        // normalize e.which for key events
+        // @see http://stackoverflow.com/questions/4285627/javascript-keycode-vs-charcode-utter-confusion
+        if (typeof e.which !== 'number') {
+            e.which = e.keyCode;
+        }
+
+        var character = _characterFromEvent(e);
+
+        // no character found then stop
+        if (!character) {
+            return;
+        }
+
+        // need to use === for the character check because the character can be 0
+        if (e.type == 'keyup' && _ignoreNextKeyup === character) {
+            _ignoreNextKeyup = false;
+            return;
+        }
+
+        Mousetrap.handleKey(character, _eventModifiers(e), e);
+    }
+
+    /**
+     * determines if the keycode specified is a modifier key or not
+     *
+     * @param {string} key
+     * @returns {boolean}
+     */
+    function _isModifier(key) {
+        return key == 'shift' || key == 'ctrl' || key == 'alt' || key == 'meta';
+    }
+
+    /**
+     * called to set a 1 second timeout on the specified sequence
+     *
+     * this is so after each key press in the sequence you have 1 second
+     * to press the next key before you have to start over
+     *
+     * @returns void
+     */
+    function _resetSequenceTimer() {
+        clearTimeout(_resetTimer);
+        _resetTimer = setTimeout(_resetSequences, 1000);
+    }
+
+    /**
+     * reverses the map lookup so that we can look for specific keys
+     * to see what can and can't use keypress
+     *
+     * @return {Object}
+     */
+    function _getReverseMap() {
+        if (!_REVERSE_MAP) {
+            _REVERSE_MAP = {};
+            for (var key in _MAP) {
+
+                // pull out the numeric keypad from here cause keypress should
+                // be able to detect the keys from the character
+                if (key > 95 && key < 112) {
+                    continue;
+                }
+
+                if (_MAP.hasOwnProperty(key)) {
+                    _REVERSE_MAP[_MAP[key]] = key;
+                }
+            }
+        }
+        return _REVERSE_MAP;
+    }
+
+    /**
+     * picks the best action based on the key combination
+     *
+     * @param {string} key - character for key
+     * @param {Array} modifiers
+     * @param {string=} action passed in
+     */
+    function _pickBestAction(key, modifiers, action) {
+
+        // if no action was picked in we should try to pick the one
+        // that we think would work best for this key
+        if (!action) {
+            action = _getReverseMap()[key] ? 'keydown' : 'keypress';
+        }
+
+        // modifier keys don't work as expected with keypress,
+        // switch to keydown
+        if (action == 'keypress' && modifiers.length) {
+            action = 'keydown';
+        }
+
+        return action;
+    }
+
+    /**
+     * binds a key sequence to an event
+     *
+     * @param {string} combo - combo specified in bind call
+     * @param {Array} keys
+     * @param {Function} callback
+     * @param {string=} action
+     * @returns void
+     */
+    function _bindSequence(combo, keys, callback, action) {
+
+        // start off by adding a sequence level record for this combination
+        // and setting the level to 0
+        _sequenceLevels[combo] = 0;
+
+        /**
+         * callback to increase the sequence level for this sequence and reset
+         * all other sequences that were active
+         *
+         * @param {string} nextAction
+         * @returns {Function}
+         */
+        function _increaseSequence(nextAction) {
+            return function() {
+                _nextExpectedAction = nextAction;
+                ++_sequenceLevels[combo];
+                _resetSequenceTimer();
+            };
+        }
+
+        /**
+         * wraps the specified callback inside of another function in order
+         * to reset all sequence counters as soon as this sequence is done
+         *
+         * @param {Event} e
+         * @returns void
+         */
+        function _callbackAndReset(e) {
+            _fireCallback(callback, e, combo);
+
+            // we should ignore the next key up if the action is key down
+            // or keypress.  this is so if you finish a sequence and
+            // release the key the final key will not trigger a keyup
+            if (action !== 'keyup') {
+                _ignoreNextKeyup = _characterFromEvent(e);
+            }
+
+            // weird race condition if a sequence ends with the key
+            // another sequence begins with
+            setTimeout(_resetSequences, 10);
+        }
+
+        // loop through keys one at a time and bind the appropriate callback
+        // function.  for any key leading up to the final one it should
+        // increase the sequence. after the final, it should reset all sequences
+        //
+        // if an action is specified in the original bind call then that will
+        // be used throughout.  otherwise we will pass the action that the
+        // next key in the sequence should match.  this allows a sequence
+        // to mix and match keypress and keydown events depending on which
+        // ones are better suited to the key provided
+        for (var i = 0; i < keys.length; ++i) {
+            var isFinal = i + 1 === keys.length;
+            var wrappedCallback = isFinal ? _callbackAndReset : _increaseSequence(action || _getKeyInfo(keys[i + 1]).action);
+            _bindSingle(keys[i], wrappedCallback, action, combo, i);
+        }
+    }
+
+    /**
+     * Converts from a string key combination to an array
+     *
+     * @param  {string} combination like "command+shift+l"
+     * @return {Array}
+     */
+    function _keysFromString(combination) {
+        if (combination === '+') {
+            return ['+'];
+        }
+
+        return combination.split('+');
+    }
+
+    /**
+     * Gets info for a specific key combination
+     *
+     * @param  {string} combination key combination ("command+s" or "a" or "*")
+     * @param  {string=} action
+     * @returns {Object}
+     */
+    function _getKeyInfo(combination, action) {
+        var keys,
+            key,
+            i,
+            modifiers = [];
+
+        // take the keys from this pattern and figure out what the actual
+        // pattern is all about
+        keys = _keysFromString(combination);
+
+        for (i = 0; i < keys.length; ++i) {
+            key = keys[i];
+
+            // normalize key names
+            if (_SPECIAL_ALIASES[key]) {
+                key = _SPECIAL_ALIASES[key];
+            }
+
+            // if this is not a keypress event then we should
+            // be smart about using shift keys
+            // this will only work for US keyboards however
+            if (action && action != 'keypress' && _SHIFT_MAP[key]) {
+                key = _SHIFT_MAP[key];
+                modifiers.push('shift');
+            }
+
+            // if this key is a modifier then add it to the list of modifiers
+            if (_isModifier(key)) {
+                modifiers.push(key);
+            }
+        }
+
+        // depending on what the key combination is
+        // we will try to pick the best event for it
+        action = _pickBestAction(key, modifiers, action);
+
+        return {
+            key: key,
+            modifiers: modifiers,
+            action: action
+        };
+    }
+
+    /**
+     * binds a single keyboard combination
+     *
+     * @param {string} combination
+     * @param {Function} callback
+     * @param {string=} action
+     * @param {string=} sequenceName - name of sequence if part of sequence
+     * @param {number=} level - what part of the sequence the command is
+     * @returns void
+     */
+    function _bindSingle(combination, callback, action, sequenceName, level) {
+
+        // store a direct mapped reference for use with Mousetrap.trigger
+        _directMap[combination + ':' + action] = callback;
+
+        // make sure multiple spaces in a row become a single space
+        combination = combination.replace(/\s+/g, ' ');
+
+        var sequence = combination.split(' '),
+            info;
+
+        // if this pattern is a sequence of keys then run through this method
+        // to reprocess each pattern one key at a time
+        if (sequence.length > 1) {
+            _bindSequence(combination, sequence, callback, action);
+            return;
+        }
+
+        info = _getKeyInfo(combination, action);
+
+        // make sure to initialize array if this is the first time
+        // a callback is added for this key
+        _callbacks[info.key] = _callbacks[info.key] || [];
+
+        // remove an existing match if there is one
+        _getMatches(info.key, info.modifiers, {type: info.action}, sequenceName, combination, level);
+
+        // add this call back to the array
+        // if it is a sequence put it at the beginning
+        // if not put it at the end
+        //
+        // this is important because the way these are processed expects
+        // the sequence ones to come first
+        _callbacks[info.key][sequenceName ? 'unshift' : 'push']({
+            callback: callback,
+            modifiers: info.modifiers,
+            action: info.action,
+            seq: sequenceName,
+            level: level,
+            combo: combination
+        });
+    }
+
+    /**
+     * binds multiple combinations to the same callback
+     *
+     * @param {Array} combinations
+     * @param {Function} callback
+     * @param {string|undefined} action
+     * @returns void
+     */
+    function _bindMultiple(combinations, callback, action) {
+        for (var i = 0; i < combinations.length; ++i) {
+            _bindSingle(combinations[i], callback, action);
+        }
+    }
+
+    // start!
+    _addEvent(document, 'keypress', _handleKeyEvent);
+    _addEvent(document, 'keydown', _handleKeyEvent);
+    _addEvent(document, 'keyup', _handleKeyEvent);
+
+    var Mousetrap = {
+        bindings: function () { return _callbacks; },
+        /**
+         * binds an event to mousetrap
+         *
+         * can be a single key, a combination of keys separated with +,
+         * an array of keys, or a sequence of keys separated by spaces
+         *
+         * be sure to list the modifier keys first to make sure that the
+         * correct key ends up getting bound (the last key in the pattern)
+         *
+         * @param {string|Array} keys
+         * @param {Function} callback
+         * @param {string=} action - 'keypress', 'keydown', or 'keyup'
+         * @returns void
+         */
+        bind: function(keys, callback, action) {
+            keys = keys instanceof Array ? keys : [keys];
+            _bindMultiple(keys, callback, action);
+            return this;
+        },
+
+        /**
+         * unbinds an event to mousetrap
+         *
+         * the unbinding sets the callback function of the specified key combo
+         * to an empty function and deletes the corresponding key in the
+         * _directMap dict.
+         *
+         * TODO: actually remove this from the _callbacks dictionary instead
+         * of binding an empty function
+         *
+         * the keycombo+action has to be exactly the same as
+         * it was defined in the bind method
+         *
+         * @param {string|Array} keys
+         * @param {string} action
+         * @returns void
+         */
+        unbind: function(keys, action) {
+            return Mousetrap.bind(keys, function() {}, action);
+        },
+
+        /**
+         * triggers an event that has already been bound
+         *
+         * @param {string} keys
+         * @param {string=} action
+         * @returns void
+         */
+        trigger: function(keys, action) {
+            if (_directMap[keys + ':' + action]) {
+                _directMap[keys + ':' + action]({}, keys);
+            }
+            return this;
+        },
+
+        /**
+         * resets the library back to its initial state.  this is useful
+         * if you want to clear out the current keyboard shortcuts and bind
+         * new ones - for example if you switch to another page
+         *
+         * @returns void
+         */
+        reset: function() {
+            _callbacks = {};
+            _directMap = {};
+            return this;
+        },
+
+       /**
+        * should we stop this event before firing off callbacks
+        *
+        * @param {Event} e
+        * @param {Element} element
+        * @return {boolean}
+        */
+        stopCallback: function(e, element) {
+            var tagName = element.tagName.toUpperCase();
+            
+            // if the element has the class "mousetrap" then no need to stop
+            if ((' ' + element.className + ' ').indexOf(' mousetrap ') > -1) {
+                return false;
+            }
+
+            // stop for input, select, and textarea
+            return tagName == 'INPUT' || tagName == 'SELECT' || tagName == 'TEXTAREA' || element.isContentEditable;
+        },
+
+        /**
+         * exposes _handleKey publicly so it can be overwritten by extensions
+         */
+        handleKey: _handleKey
+    };
+
+    // expose mousetrap to the global object
+    window.Mousetrap = Mousetrap;
+
+    // expose mousetrap as an AMD module
+    if (typeof define === 'function' && define.amd) {
+        define(Mousetrap);
+    }
+}) (window, document);
+
+},{}],7:[function(require,module,exports){
 // Copyright 2011 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -1667,11 +5439,11 @@ var MutationSummary = (function () {
 
 module.exports = MutationSummary
 
-},{}],2:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 /*! Copyright (c) 2013 Brandon Aaron (http://brandon.aaron.sh)
  * Licensed under the MIT License (LICENSE.txt).
  *
- * Version: 3.1.11
+ * Version: 3.1.12
  *
  * Requires: jQuery 1.2.2+
  */
@@ -1702,7 +5474,7 @@ module.exports = MutationSummary
     }
 
     var special = $.event.special.mousewheel = {
-        version: '3.1.11',
+        version: '3.1.12',
 
         setup: function() {
             if ( this.addEventListener ) {
@@ -1731,11 +5503,12 @@ module.exports = MutationSummary
         },
 
         getLineHeight: function(elem) {
-            var $parent = $(elem)['offsetParent' in $.fn ? 'offsetParent' : 'parent']();
+            var $elem = $(elem),
+                $parent = $elem['offsetParent' in $.fn ? 'offsetParent' : 'parent']();
             if (!$parent.length) {
                 $parent = $('body');
             }
-            return parseInt($parent.css('fontSize'), 10);
+            return parseInt($parent.css('fontSize'), 10) || parseInt($elem.css('fontSize'), 10) || 16;
         },
 
         getPageHeight: function(elem) {
@@ -1889,7 +5662,7 @@ module.exports = MutationSummary
 
 }));
 
-},{}],3:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 var KDAutoComplete, KDInputView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -1965,7 +5738,7 @@ module.exports = KDAutoComplete = (function(_super) {
     return this.dropdown = null;
   };
 
-  KDAutoComplete.prototype.setPlaceHolder = function(value) {
+  KDAutoComplete.prototype.setPlaceholder = function(value) {
     return this.$input()[0].setAttribute("placeholder", value);
   };
 
@@ -1984,11 +5757,15 @@ module.exports = KDAutoComplete = (function(_super) {
 })(KDInputView);
 
 
-},{"./../inputs/inputview.coffee":46}],4:[function(require,module,exports){
-var KDAutoComplete, KDAutoCompleteController, KDAutoCompleteFetchingItem, KDAutoCompleteListView, KDLabelView, KDListViewController, KDNotificationView, KDViewController,
+},{"./../inputs/inputview.coffee":52}],10:[function(require,module,exports){
+var Inflector, JsPath, KDAutoComplete, KDAutoCompleteController, KDAutoCompleteFetchingItem, KDAutoCompleteListView, KDLabelView, KDListViewController, KDNotificationView, KDViewController,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   __slice = [].slice;
+
+JsPath = require('./../../../libs/jspath.js').JsPath;
+
+Inflector = require('./../../../libs/inflector.js');
 
 KDViewController = require('./../../core/viewcontroller.coffee');
 
@@ -2241,11 +6018,8 @@ module.exports = KDAutoCompleteController = (function(_super) {
   KDAutoCompleteController.prototype.getAutoCompletedItemParent = function() {
     var outputWrapper;
     outputWrapper = this.getOptions().outputWrapper;
-    if (outputWrapper instanceof KDView) {
-      return this.itemWrapper = outputWrapper;
-    } else {
-      return this.itemWrapper = this.getView();
-    }
+    this.itemWrapper = outputWrapper instanceof KDView ? outputWrapper : this.getView();
+    return this.itemWrapper;
   };
 
   KDAutoCompleteController.prototype.isItemAlreadySelected = function(data) {
@@ -2460,10 +6234,11 @@ module.exports = KDAutoCompleteController = (function(_super) {
   KDAutoCompleteController.prototype.getNoItemFoundView = function(suggestion) {
     var nothingFoundItemClass, view;
     nothingFoundItemClass = this.getOptions().nothingFoundItemClass;
-    return view = new nothingFoundItemClass({
+    view = new nothingFoundItemClass({
       delegate: this.dropdown.getListView(),
       userInput: suggestion || this.getView().getValue()
-    });
+    }, {});
+    return view;
   };
 
   KDAutoCompleteController.prototype.showNoDataFound = function() {
@@ -2484,7 +6259,7 @@ module.exports = KDAutoCompleteController = (function(_super) {
 })(KDViewController);
 
 
-},{"./../../core/viewcontroller.coffee":108,"./../inputs/labelview.coffee":47,"./../list/listviewcontroller.coffee":55,"./../notifications/notificationview.coffee":61,"./autocomplete.coffee":3,"./autocompletefetchingitem.coffee":6,"./autocompletelist.coffee":7}],5:[function(require,module,exports){
+},{"./../../../libs/inflector.js":3,"./../../../libs/jspath.js":4,"./../../core/viewcontroller.coffee":116,"./../inputs/labelview.coffee":53,"./../list/listviewcontroller.coffee":62,"./../notifications/notificationview.coffee":68,"./autocomplete.coffee":9,"./autocompletefetchingitem.coffee":12,"./autocompletelist.coffee":13}],11:[function(require,module,exports){
 var KDAutoCompletedItem, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -2522,7 +6297,7 @@ module.exports = KDAutoCompletedItem = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":107}],6:[function(require,module,exports){
+},{"./../../core/view.coffee":115}],12:[function(require,module,exports){
 var KDAutoCompleteFetchingItem, KDAutocompleteUnselecteableItem,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -2549,7 +6324,7 @@ module.exports = KDAutoCompleteFetchingItem = (function(_super) {
 })(KDAutocompleteUnselecteableItem);
 
 
-},{"./autocompleteunselecteableitem.coffee":10}],7:[function(require,module,exports){
+},{"./autocompleteunselecteableitem.coffee":16}],13:[function(require,module,exports){
 var KDAutoCompleteListView, KDListView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -2614,7 +6389,7 @@ module.exports = KDAutoCompleteListView = (function(_super) {
 })(KDListView);
 
 
-},{"./../list/listview.coffee":54}],8:[function(require,module,exports){
+},{"./../list/listview.coffee":60}],14:[function(require,module,exports){
 var KDAutoCompleteListItemView, KDListItemView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -2678,7 +6453,7 @@ module.exports = KDAutoCompleteListItemView = (function(_super) {
 })(KDListItemView);
 
 
-},{"./../list/listitemview.coffee":53}],9:[function(require,module,exports){
+},{"./../list/listitemview.coffee":59}],15:[function(require,module,exports){
 var KDAutoCompleteNothingFoundItem, KDAutocompleteUnselecteableItem,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -2693,7 +6468,7 @@ module.exports = KDAutoCompleteNothingFoundItem = (function(_super) {
       options = {};
     }
     options.cssClass = this.utils.curry("kdautocompletelistitem no-result", options.cssClass);
-    KDAutoCompleteNothingFoundItem.__super__.constructor.apply(this, arguments);
+    KDAutoCompleteNothingFoundItem.__super__.constructor.call(this, options, data);
   }
 
   KDAutoCompleteNothingFoundItem.prototype.partial = function(data) {
@@ -2705,7 +6480,7 @@ module.exports = KDAutoCompleteNothingFoundItem = (function(_super) {
 })(KDAutocompleteUnselecteableItem);
 
 
-},{"./autocompleteunselecteableitem.coffee":10}],10:[function(require,module,exports){
+},{"./autocompleteunselecteableitem.coffee":16}],16:[function(require,module,exports){
 var KDAutocompleteUnselecteableItem, KDListItemView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -2742,7 +6517,7 @@ module.exports = KDAutocompleteUnselecteableItem = (function(_super) {
 })(KDListItemView);
 
 
-},{"./../list/listitemview.coffee":53}],11:[function(require,module,exports){
+},{"./../list/listitemview.coffee":59}],17:[function(require,module,exports){
 var KDListView, MultipleInputListView, MultipleListItemView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -2785,7 +6560,7 @@ module.exports = MultipleInputListView = (function(_super) {
 })(KDListView);
 
 
-},{"./../list/listview.coffee":54,"./multiplelistitemview.coffee":13}],12:[function(require,module,exports){
+},{"./../list/listview.coffee":60,"./multiplelistitemview.coffee":19}],18:[function(require,module,exports){
 var KDInputView, KDMultipleInputView, KDSimpleAutocomplete, MultipleInputListView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -2915,7 +6690,7 @@ module.exports = KDMultipleInputView = (function(_super) {
 })(KDSimpleAutocomplete);
 
 
-},{"./../inputs/inputview.coffee":46,"./multipleinputlistview.coffee":11,"./simpleautocomplete.coffee":16}],13:[function(require,module,exports){
+},{"./../inputs/inputview.coffee":52,"./multipleinputlistview.coffee":17,"./simpleautocomplete.coffee":22}],19:[function(require,module,exports){
 var KDListItemView, MultipleListItemView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -2948,7 +6723,7 @@ module.exports = MultipleListItemView = (function(_super) {
 })(KDListItemView);
 
 
-},{"./../list/listitemview.coffee":53}],14:[function(require,module,exports){
+},{"./../list/listitemview.coffee":59}],20:[function(require,module,exports){
 var KDMultipleInputView, NoAutocompleteInputView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -2983,7 +6758,7 @@ module.exports = NoAutocompleteInputView = (function(_super) {
 })(KDMultipleInputView);
 
 
-},{"./multipleinputview.coffee":12}],15:[function(require,module,exports){
+},{"./multipleinputview.coffee":18}],21:[function(require,module,exports){
 var KDView, NoAutocompleteMultipleListView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -3039,10 +6814,12 @@ module.exports = NoAutocompleteMultipleListView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":107}],16:[function(require,module,exports){
-var KDAutoComplete, KDSimpleAutocomplete,
+},{"./../../core/view.coffee":115}],22:[function(require,module,exports){
+var JsPath, KDAutoComplete, KDSimpleAutocomplete,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+JsPath = require('./../../../libs/jspath.js').JsPath;
 
 KDAutoComplete = require('./autocomplete.coffee');
 
@@ -3076,7 +6853,7 @@ module.exports = KDSimpleAutocomplete = (function(_super) {
 })(KDAutoComplete);
 
 
-},{"./autocomplete.coffee":3}],17:[function(require,module,exports){
+},{"./../../../libs/jspath.js":4,"./autocomplete.coffee":9}],23:[function(require,module,exports){
 var KDButtonBar, KDButtonView, KDFormView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -3124,7 +6901,7 @@ module.exports = KDButtonBar = (function(_super) {
 })(KDView);
 
 
-},{"../forms/formview.coffee":34,"./../../core/view.coffee":107,"./buttonview":20}],18:[function(require,module,exports){
+},{"../forms/formview.coffee":40,"./../../core/view.coffee":115,"./buttonview":26}],24:[function(require,module,exports){
 var KDButtonGroupView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -3183,7 +6960,7 @@ module.exports = KDButtonGroupView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":107}],19:[function(require,module,exports){
+},{"./../../core/view.coffee":115}],25:[function(require,module,exports){
 var JButtonMenu, KDContextMenu,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -3227,7 +7004,7 @@ module.exports = JButtonMenu = (function(_super) {
     };
     this.$(".chevron-ghost-wrapper").css(ghostCss);
     return this.$().css({
-      top: top,
+      top: top + mainScroll,
       left: button.getX() + buttonWidth - menuWidth
     });
   });
@@ -3237,7 +7014,7 @@ module.exports = JButtonMenu = (function(_super) {
 })(KDContextMenu);
 
 
-},{"./../contextmenu/contextmenu.coffee":23}],20:[function(require,module,exports){
+},{"./../contextmenu/contextmenu.coffee":29}],26:[function(require,module,exports){
 var KDButtonView, KDLoaderView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -3246,8 +7023,85 @@ KDView = require('./../../core/view.coffee');
 
 KDLoaderView = require('./../loader/loaderview.coffee');
 
+
+/**
+ * KDButtonView implements a `<button>` DOM element, with the ability to subscribe
+ * to click events.
+ *
+ * ## Usage
+ *
+ * ```coffee
+ * view = new KDButtonView
+ *   title: 'Click me!'
+ *   cssClass: 'cupid-green'
+ *   callback: ->
+ *     alert 'I got clicked!'
+ *
+ * appView.addSubView view
+ * ```
+ *
+ * This example will render a green button, with the text `"Click me!"`. When the
+ * button is pressed by the user, an alert will pop up with the message `"I got
+ * clicked!"`
+ *
+ * While this example is fine for an immediate action, what if we wanted our
+ * button to load a project? For that, we tell the button to use a
+ * [KDLoaderView](./kdloaderview.md). Lets see how this looks.
+ *
+ * ```coffee
+ * view = new KDButtonView
+ *   title: 'Take a long time.'
+ *   cssClass: 'clean-red'
+ *   loader: {}
+ *   callback: ->
+ *     longTimeDone = =>
+ *       @hideLoader()
+ *     setTimeout longTimeDone, 2000
+ *
+ * appView.addSubView view
+ * ```
+ *
+ * In this example, a couple things are different. First, we define a loader
+ * object. This is an object full of options that are passed to a
+ * [KDLoaderView](./kdloaderview.md) instance. You'll note that we don't actually
+ * define any options, but the empty object will cause a loader to be used with
+ * the default options.
+ *
+ * Secondly, in our callback we turn the loader off with the
+ * [hideLoader](#hideloader) method, after a `setTimeout` of 2000.
+ *
+ * The end result of these changes is that when our button is clicked, it starts
+ * the loader *(with the options we define)*. When we want to turn it off, we call
+ * the `@hideLoader()` method. Easy!
+ *
+ * ## Styling
+ *
+ * While not complete, the following list contains some useful built-in
+ * css classes to style your button with.
+ *
+ * - **small-gray**: A small, gray button.
+ * - **small-blue**: A small, blue button.
+ * - **clean-gray**: A clean gray button, the default button style.
+ * - **clean-red**: A clean red button.
+ * - **cupid-green**: A green button.
+ * - **transparent**: And no surprise, a transparent button.
+ */
+
 module.exports = KDButtonView = (function(_super) {
   __extends(KDButtonView, _super);
+
+
+  /**
+   * Options supports the following keys:
+   * - **options.title**: The title of the button.
+   * - **options.callback**: The function to be called when the button is pressed.
+   * - **options.loader**: The options to use for a loader on this button. If
+   *   false, this button will not use a loader by default. See
+   *   KDLoaderView for the supported options.
+   *
+   * @param {Object} options
+   * @param {Object} data
+   */
 
   function KDButtonView(options, data) {
     if (options == null) {
@@ -3388,11 +7242,23 @@ module.exports = KDButtonView = (function(_super) {
       marginTop: -(loader.diameter / 2),
       marginLeft: -(loader.diameter / 2)
     });
-    return this.loader.hide();
+    this.loader.hide();
+    if (loader.show) {
+      return this.showLoader();
+    }
   };
+
+
+  /**
+   * Show the KDLoaderView on this button, if any. Note that the loader is
+   * shown by default when the button is clicked.
+   */
 
   KDButtonView.prototype.showLoader = function() {
     var icon, iconOnly, _ref;
+    if (!this.loader) {
+      return warn('KDButtonView::showLoader is called where no loader is set');
+    }
     _ref = this.getOptions(), icon = _ref.icon, iconOnly = _ref.iconOnly;
     this.setClass("loading");
     this.loader.show();
@@ -3401,13 +7267,19 @@ module.exports = KDButtonView = (function(_super) {
     }
   };
 
+
+  /**
+   * Hide the KDLoaderView on this button, if any.
+   */
+
   KDButtonView.prototype.hideLoader = function() {
-    var icon, iconOnly, _ref, _ref1;
+    var icon, iconOnly, _ref;
+    if (!this.loader) {
+      return warn('KDButtonView::hideLoader is called where no loader is set');
+    }
     _ref = this.getOptions(), icon = _ref.icon, iconOnly = _ref.iconOnly;
     this.unsetClass("loading");
-    if ((_ref1 = this.loader) != null) {
-      _ref1.hide();
-    }
+    this.loader.hide();
     if (icon && !iconOnly) {
       return this.showIcon();
     }
@@ -3453,7 +7325,7 @@ module.exports = KDButtonView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":107,"./../loader/loaderview.coffee":56}],21:[function(require,module,exports){
+},{"./../../core/view.coffee":115,"./../loader/loaderview.coffee":63}],27:[function(require,module,exports){
 var KDButtonView, KDButtonViewWithMenu,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -3512,7 +7384,7 @@ module.exports = KDButtonViewWithMenu = (function(_super) {
       if ("function" === typeof o.menu) {
         return o.menu();
       } else {
-        if (o.menu instanceof Array) {
+        if (Array.isArray(o.menu)) {
           menuArrayToObj = {};
           _ref = o.menu;
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -3574,7 +7446,7 @@ module.exports = KDButtonViewWithMenu = (function(_super) {
 })(KDButtonView);
 
 
-},{"./buttonview.coffee":20}],22:[function(require,module,exports){
+},{"./buttonview.coffee":26}],28:[function(require,module,exports){
 var KDButtonView, KDToggleButton,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -3660,7 +7532,7 @@ module.exports = KDToggleButton = (function(_super) {
 })(KDButtonView);
 
 
-},{"./buttonview.coffee":20}],23:[function(require,module,exports){
+},{"./buttonview.coffee":26}],29:[function(require,module,exports){
 var JContextMenuTreeViewController, KDContextMenu, KDCustomHTMLView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -3871,7 +7743,7 @@ module.exports = KDContextMenu = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/customhtmlview.coffee":97,"./../../core/view.coffee":107,"./contextmenutreeviewcontroller.coffee":26}],24:[function(require,module,exports){
+},{"./../../core/customhtmlview.coffee":104,"./../../core/view.coffee":115,"./contextmenutreeviewcontroller.coffee":32}],30:[function(require,module,exports){
 var JContextMenuItem, JTreeItemView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -3891,7 +7763,7 @@ module.exports = JContextMenuItem = (function(_super) {
       data = {};
     }
     options.type = "contextitem";
-    options.cssClass || (options.cssClass = "default");
+    options.cssClass || (options.cssClass = "default " + (KD.utils.slugify(data.title)));
     JContextMenuItem.__super__.constructor.call(this, options, data);
     this.unsetClass("jtreeitem");
     if (data) {
@@ -3902,7 +7774,6 @@ module.exports = JContextMenuItem = (function(_super) {
         this.setClass(data.cssClass);
       }
       if (data.type === "customView") {
-        this.setTemplate("");
         this.addCustomView(data);
       }
       if (data.disabled) {
@@ -3913,8 +7784,7 @@ module.exports = JContextMenuItem = (function(_super) {
 
   JContextMenuItem.prototype.viewAppended = function() {
     if (!this.customView) {
-      this.setTemplate(this.pistachio());
-      return this.template.update();
+      return JContextMenuItem.__super__.viewAppended.call(this);
     }
   };
 
@@ -3935,7 +7805,7 @@ module.exports = JContextMenuItem = (function(_super) {
 })(JTreeItemView);
 
 
-},{"./../../core/view.coffee":107,"./../tree/treeitemview.coffee":86}],25:[function(require,module,exports){
+},{"./../../core/view.coffee":115,"./../tree/treeitemview.coffee":93}],31:[function(require,module,exports){
 var JContextMenuTreeView, JTreeView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -3966,14 +7836,18 @@ module.exports = JContextMenuTreeView = (function(_super) {
 })(JTreeView);
 
 
-},{"./../tree/treeview.coffee":87}],26:[function(require,module,exports){
-var JContextMenuTreeViewController, JTreeViewController, KDView,
+},{"./../tree/treeview.coffee":94}],32:[function(require,module,exports){
+var JContextMenuItem, JContextMenuTreeView, JContextMenuTreeViewController, JTreeViewController, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 KDView = require('./../../core/view.coffee');
 
 JTreeViewController = require('./../tree/treeviewcontroller.coffee');
+
+JContextMenuItem = require('./contextmenuitem.coffee');
+
+JContextMenuTreeView = require('./contextmenutreeview.coffee');
 
 module.exports = JContextMenuTreeViewController = (function(_super) {
 
@@ -4166,7 +8040,7 @@ module.exports = JContextMenuTreeViewController = (function(_super) {
     if (nodeData.callback && "function" === typeof nodeData.callback) {
       nodeData.callback.call(contextMenu, nodeView, event);
     }
-    contextMenu.emit("ContextMenuItemReceivedClick", nodeView);
+    contextMenu.emit("ContextMenuItemReceivedClick", nodeView, event);
     event.stopPropagation();
     return false;
   };
@@ -4235,7 +8109,7 @@ module.exports = JContextMenuTreeViewController = (function(_super) {
 })(JTreeViewController);
 
 
-},{"./../../core/view.coffee":107,"./../tree/treeviewcontroller.coffee":88}],27:[function(require,module,exports){
+},{"./../../core/view.coffee":115,"./../tree/treeviewcontroller.coffee":95,"./contextmenuitem.coffee":30,"./contextmenutreeview.coffee":31}],33:[function(require,module,exports){
 var KDCounterDigitView, KDCustomHTMLView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -4295,7 +8169,7 @@ module.exports = KDCounterDigitView = (function(_super) {
 })(KDCustomHTMLView);
 
 
-},{"./../../core/customhtmlview.coffee":97}],28:[function(require,module,exports){
+},{"./../../core/customhtmlview.coffee":104}],34:[function(require,module,exports){
 var KDCounterDigitView, KDCounterView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -4394,12 +8268,12 @@ module.exports = KDCounterView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":107,"./counterdigitview.coffee":27}],29:[function(require,module,exports){
-var JView, KDDiaContainer,
+},{"./../../core/view.coffee":115,"./counterdigitview.coffee":33}],35:[function(require,module,exports){
+var KDDiaContainer, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-JView = require('./../../core/jview.coffee');
+KDView = require('./../../core/view.coffee');
 
 module.exports = KDDiaContainer = (function(_super) {
   __extends(KDDiaContainer, _super);
@@ -4503,16 +8377,16 @@ module.exports = KDDiaContainer = (function(_super) {
 
   return KDDiaContainer;
 
-})(JView);
+})(KDView);
 
 
-},{"./../../core/jview.coffee":100}],30:[function(require,module,exports){
-var JView, KDDiaJoint,
+},{"./../../core/view.coffee":115}],36:[function(require,module,exports){
+var KDDiaJoint, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
-JView = require('./../../core/jview.coffee');
+KDView = require('./../../core/view.coffee');
 
 module.exports = KDDiaJoint = (function(_super) {
   var types;
@@ -4593,16 +8467,16 @@ module.exports = KDDiaJoint = (function(_super) {
 
   return KDDiaJoint;
 
-})(JView);
+})(KDView);
 
 
-},{"./../../core/jview.coffee":100}],31:[function(require,module,exports){
-var JView, KDDiaObject,
+},{"./../../core/view.coffee":115}],37:[function(require,module,exports){
+var KDDiaObject, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
-JView = require('./../../core/jview.coffee');
+KDView = require('./../../core/view.coffee');
 
 module.exports = KDDiaObject = (function(_super) {
   __extends(KDDiaObject, _super);
@@ -4642,6 +8516,27 @@ module.exports = KDDiaObject = (function(_super) {
     this.on("KDObjectWillBeDestroyed", (function(_this) {
       return function() {
         return _this.emit('RemoveMyConnections');
+      };
+    })(this));
+    this.once('viewAppended', (function(_this) {
+      return function() {
+        var joint, _i, _len, _ref;
+        _ref = _this.getOption('joints');
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          joint = _ref[_i];
+          _this.addJoint(joint);
+        }
+        return _this.parent.on('UnhighlightDias', function() {
+          var key, _ref1, _results;
+          _this.unsetClass('highlight');
+          _ref1 = _this.joints;
+          _results = [];
+          for (key in _ref1) {
+            joint = _ref1[key];
+            _results.push(joint.hideDeleteButton());
+          }
+          return _results;
+        });
       };
     })(this));
   }
@@ -4722,45 +8617,22 @@ module.exports = KDDiaObject = (function(_super) {
     };
   };
 
-  KDDiaObject.prototype.viewAppended = function() {
-    var joint, _i, _len, _ref;
-    KDDiaObject.__super__.viewAppended.apply(this, arguments);
-    _ref = this.getOption('joints');
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      joint = _ref[_i];
-      this.addJoint(joint);
-    }
-    return this.parent.on('UnhighlightDias', (function(_this) {
-      return function() {
-        var key, _ref1, _results;
-        _this.unsetClass('highlight');
-        _ref1 = _this.joints;
-        _results = [];
-        for (key in _ref1) {
-          joint = _ref1[key];
-          _results.push(joint.hideDeleteButton());
-        }
-        return _results;
-      };
-    })(this));
-  };
-
   KDDiaObject.prototype.getDiaId = function() {
     return this.domElement.attr("dia-id");
   };
 
   return KDDiaObject;
 
-})(JView);
+})(KDView);
 
 
-},{"./../../core/jview.coffee":100}],32:[function(require,module,exports){
-var JView, KDCustomHTMLView, KDDiaScene,
+},{"./../../core/view.coffee":115}],38:[function(require,module,exports){
+var KDCustomHTMLView, KDDiaScene, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
-JView = require('./../../core/jview.coffee');
+KDView = require('./../../core/view.coffee');
 
 KDCustomHTMLView = require('./../../core/customhtmlview.coffee');
 
@@ -5229,10 +9101,10 @@ module.exports = KDDiaScene = (function(_super) {
 
   return KDDiaScene;
 
-})(JView);
+})(KDView);
 
 
-},{"./../../core/customhtmlview.coffee":97,"./../../core/jview.coffee":100}],33:[function(require,module,exports){
+},{"./../../core/customhtmlview.coffee":104,"./../../core/view.coffee":115}],39:[function(require,module,exports){
 var KDButtonView, KDDialogView, KDOverlayView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -5326,11 +9198,13 @@ module.exports = KDDialogView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":107,"./../buttons/buttonview.coffee":20,"./../overlay/overlayview.coffee":62}],34:[function(require,module,exports){
-var KDFormView, KDView,
+},{"./../../core/view.coffee":115,"./../buttons/buttonview.coffee":26,"./../overlay/overlayview.coffee":69}],40:[function(require,module,exports){
+var JsPath, KDFormView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   __slice = [].slice;
+
+JsPath = require('./../../../libs/jspath.js').JsPath;
 
 KDView = require('./../../core/view.coffee');
 
@@ -5484,10 +9358,7 @@ module.exports = KDFormView = (function(_super) {
 
   KDFormView.prototype.submit = function(event) {
     var form, formData, inputs, toBeValidatedInputs, validInputs, validationCount;
-    if (event) {
-      event.stopPropagation();
-      event.preventDefault();
-    }
+    KD.utils.stopDOMEvent(event);
     form = this;
     inputs = KDFormView.findChildInputs(form);
     validationCount = 0;
@@ -5555,7 +9426,7 @@ module.exports = KDFormView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":107}],35:[function(require,module,exports){
+},{"./../../../libs/jspath.js":4,"./../../core/view.coffee":115}],41:[function(require,module,exports){
 var KDButtonBar, KDCustomHTMLView, KDFormView, KDFormViewWithFields, KDLabelView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -5678,15 +9549,45 @@ module.exports = KDFormViewWithFields = (function(_super) {
 })(KDFormView);
 
 
-},{"./../../core/customhtmlview.coffee":97,"./../../core/view.coffee":107,"./../buttons/buttonbar.coffee":17,"./../inputs/labelview.coffee":47,"./formview.coffee":34}],36:[function(require,module,exports){
+},{"./../../core/customhtmlview.coffee":104,"./../../core/view.coffee":115,"./../buttons/buttonbar.coffee":23,"./../inputs/labelview.coffee":53,"./formview.coffee":40}],42:[function(require,module,exports){
 var KDHeaderView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 KDView = require('./../../core/view.coffee');
 
+
+/**
+ * # KDHeaderView
+ *
+ * KDHeaderView is a basic KDView to implement the
+ * `<h1>`/`<h2>`/`<h3>`/etc DOM elements.
+ *
+ * ## Usage
+ *
+ * ```coffee
+ * header = new KDHeaderView
+ *   title: 'Header title!'
+ *   type: 'big'
+ *
+ * appView.addSubView header
+ * ```
+ */
+
 module.exports = KDHeaderView = (function(_super) {
   __extends(KDHeaderView, _super);
+
+
+  /**
+   * Options supports the following keys:
+   * - **options.title**: The contents for your header view.
+   * - **options.type**: The level of your `H` element, represented in three
+   *  options: `"big"`, `"medium"`, `"small"` which translates to `"h1"`,
+   *  `"h2"`, ` "h3"` respectively.
+   *
+   * @param {Object} options
+   * @param {Object} data
+   */
 
   function KDHeaderView(options, data) {
     var _ref;
@@ -5702,9 +9603,24 @@ module.exports = KDHeaderView = (function(_super) {
     }
   }
 
+
+  /**
+   * Set the title of this heaer element.
+   *
+   * @param {String} title The title you want to set your header to
+   */
+
   KDHeaderView.prototype.setTitle = function(title) {
     return this.getDomElement().append("<span>" + title + "</span>");
   };
+
+
+  /**
+   * Update the title for this header option. This can be used after you have
+   * already set the title, to change it to another title.
+   *
+   * @param {String} title The title you want to update your header to
+   */
 
   KDHeaderView.prototype.updateTitle = function(title) {
     return this.$().find('span').html(title);
@@ -5736,14 +9652,12 @@ module.exports = KDHeaderView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":107}],37:[function(require,module,exports){
-var JView, KDButtonView, KDCustomHTMLView, KDView, KDWebcamView,
+},{"./../../core/view.coffee":115}],43:[function(require,module,exports){
+var KDButtonView, KDCustomHTMLView, KDView, KDWebcamView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 KDView = require('./../../core/view.coffee');
-
-JView = require('./../../core/jview.coffee');
 
 KDCustomHTMLView = require('./../../core/customhtmlview.coffee');
 
@@ -5984,16 +9898,24 @@ module.exports = KDWebcamView = (function(_super) {
     return this.emit("snap", picture.toDataURL(), picture);
   };
 
-  KDWebcamView.prototype.pistachio = function() {
-    return "{{> this.button}}\n{{> this.save}}\n{{> this.retake}}\n{{> this.video}}\n{{> this.picture}}";
+  KDWebcamView.prototype.viewAppended = function() {
+    var view, _i, _len, _ref, _results;
+    KDWebcamView.__super__.viewAppended.call(this);
+    _ref = [this.button, this.save, this.retake, this.video, this.picture];
+    _results = [];
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      view = _ref[_i];
+      _results.push(this.addSubView(view));
+    }
+    return _results;
   };
 
   return KDWebcamView;
 
-})(JView);
+})(KDView);
 
 
-},{"./../../core/customhtmlview.coffee":97,"./../../core/jview.coffee":100,"./../../core/view.coffee":107,"./../buttons/buttonview.coffee":20}],38:[function(require,module,exports){
+},{"./../../core/customhtmlview.coffee":104,"./../../core/view.coffee":115,"./../buttons/buttonview.coffee":26}],44:[function(require,module,exports){
 var KDCheckBox, KDInputView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -6023,7 +9945,7 @@ module.exports = KDCheckBox = (function(_super) {
 })(KDInputView);
 
 
-},{"./inputview.coffee":46}],39:[function(require,module,exports){
+},{"./inputview.coffee":52}],45:[function(require,module,exports){
 var KDContentEditableView, KDNotificationView, KDView,
   __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   __hasProp = {}.hasOwnProperty,
@@ -6143,9 +10065,7 @@ module.exports = KDContentEditableView = (function(_super) {
     if (this.getValue().length === 0) {
       this.unsetPlaceholder();
     }
-    if (!this.focused) {
-      this.getEditableDomElement().trigger("focus");
-    }
+    this.getEditableDomElement().trigger("focus");
     windowController = KD.getSingleton("windowController");
     windowController.addLayer(this);
     if (!this.focused) {
@@ -6321,7 +10241,7 @@ module.exports = KDContentEditableView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":107,"./../notifications/notificationview.coffee":61}],40:[function(require,module,exports){
+},{"./../../core/view.coffee":115,"./../notifications/notificationview.coffee":68}],46:[function(require,module,exports){
 var KDDelimitedInputView, KDInputView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -6391,7 +10311,7 @@ module.exports = KDDelimitedInputView = (function(_super) {
 })(KDInputView);
 
 
-},{"./inputview.coffee":46}],41:[function(require,module,exports){
+},{"./inputview.coffee":52}],47:[function(require,module,exports){
 
 /*
 todo:
@@ -6492,6 +10412,7 @@ module.exports = KDHitEnterInputView = (function(_super) {
 
   KDHitEnterInputView.prototype.keyDown = function(event) {
     if (event.which === 13 && (event.altKey || event.shiftKey) !== true && this.enterKeyEnabled) {
+      event.preventDefault();
       this.emit("EnterPerformed");
       this.validate();
       return false;
@@ -6505,7 +10426,7 @@ module.exports = KDHitEnterInputView = (function(_super) {
 })(KDInputView);
 
 
-},{"./inputview.coffee":46}],42:[function(require,module,exports){
+},{"./inputview.coffee":52}],48:[function(require,module,exports){
 var KDInputCheckboxGroup, KDInputRadioGroup,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -6570,7 +10491,7 @@ module.exports = KDInputCheckboxGroup = (function(_super) {
 })(KDInputRadioGroup);
 
 
-},{"./inputradiogroup.coffee":43}],43:[function(require,module,exports){
+},{"./inputradiogroup.coffee":49}],49:[function(require,module,exports){
 var KDInputRadioGroup, KDInputView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -6688,7 +10609,7 @@ module.exports = KDInputRadioGroup = (function(_super) {
 })(KDInputView);
 
 
-},{"./inputview.coffee":46}],44:[function(require,module,exports){
+},{"./inputview.coffee":52}],50:[function(require,module,exports){
 var KDInputSwitch, KDInputView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -6820,7 +10741,7 @@ module.exports = KDInputSwitch = (function(_super) {
 })(KDInputView);
 
 
-},{"./inputview.coffee":46}],45:[function(require,module,exports){
+},{"./inputview.coffee":52}],51:[function(require,module,exports){
 var KDInputValidator;
 
 module.exports = KDInputValidator = (function() {
@@ -7015,7 +10936,7 @@ Credits
  */
 
 
-},{}],46:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 var KDInputValidator, KDInputView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -7025,8 +10946,66 @@ KDView = require('./../../core/view.coffee');
 
 KDInputValidator = require('./inputvalidator.coffee');
 
+
+/**
+ * The base input field view. Similar to the classic `<input type="foo">`
+ * element, but with additional options such as validation.
+ *
+ * ## Usage
+ *
+ * ```coffee
+ * view = new KDInputView
+ *   placeholder: 'Type something here for an inspiring message!'
+ *
+ * view.on 'keyup', (e) ->
+ *   if e.keyCode is 13 #13==Enter
+ *     new KDNotificationView
+ *       content: "You said #{e.target.value}!"
+ *
+ * appView.addSubView view
+ * ```
+ *
+ * Create a simple text input view, with a placeholder. When the `keyup`
+ * event is fired, we check what the key is. If the keyCode is `13`
+ * *(An Enter key)*, we create a notification with the value of the field.
+ */
+
 module.exports = KDInputView = (function(_super) {
   __extends(KDInputView, _super);
+
+
+  /**
+   * Options supports the following keys.
+   * - **options.type**: The type of this input. All html input types are
+   *   supported. It should be noted that `"textarea"` and `"select"` do not
+   *   create `<input>` elements, but rather they create `<textarea>` and
+   *   `<select>` respectively.
+   *
+   *   Supports the options `"text"`, `"password"`, `"hidden"`, `"checkbox"`,
+   *   `"range"`, `"textarea"`, and `"select"`.
+   * - **options.name**: The `name="foo"` attribute of this `<input>` element.
+   * - **options.label**: The label instance for this input field.
+   * - **options.defaultValue**: The default value for this instance.
+   * - **options.placeholder**: The HTML5 placeholder for this input.
+   * - **options.disabled**: Whether or not this input is disabled. Defaults to
+   *   `false`
+   * - **options.selectOptions**: If this input is of the type `"select"`, this
+   *   list populates the select options. Defaults to `null`
+   * - **options.validate**: An object containing validation options, which are
+   *   passed to the KDInputValidator for this input. Note that the validator is
+   *   created internally, you do not need to create it. Defaults to `null`
+   * - **options.autogrow**: If the input type can grow, such as a `textarea`,
+   *   this will cause the input to grow to the content size, rather than scroll.
+   *   Defaults to `false`
+   * - **options.bind**: A string of event names, separated by a space. Defaults
+   *   to `" blur change focus"`
+   * - **options.forceCase**: Force either uppercase, or lowercase for this field
+   *   type. If `null`, case is not enforced. Supports the options: `"uppercase"`,
+   *   `"lowercase"`, `null`
+   *
+   * @param {Object} options
+   * @param {Object} data
+   */
 
   function KDInputView(o, data) {
     var options;
@@ -7070,7 +11049,7 @@ module.exports = KDInputView = (function(_super) {
     this.setLabel();
     this.setCallback();
     this.setDefaultValue(options.defaultValue);
-    this.setPlaceHolder(options.placeholder);
+    this.setPlaceholder(options.placeholder);
     if (options.disabled) {
       this.makeDisabled();
     }
@@ -7258,20 +11237,35 @@ module.exports = KDInputView = (function(_super) {
     return this.inputDefaultValue;
   };
 
-  KDInputView.prototype.setPlaceHolder = function(value) {
+  KDInputView.prototype.setPlaceholder = function(value) {
     if (this.$().is("input") || this.$().is("textarea")) {
       this.$().attr("placeholder", value);
       return this.options.placeholder = value;
     }
   };
 
+
+  /**
+   * Disable this input field.
+   */
+
   KDInputView.prototype.makeDisabled = function() {
     return this.getDomElement().attr("disabled", "disabled");
   };
 
+
+  /**
+   * Enable this input field.
+   */
+
   KDInputView.prototype.makeEnabled = function() {
     return this.getDomElement().removeAttr("disabled");
   };
+
+
+  /**
+   * Get the value of this input field.
+   */
 
   KDInputView.prototype.getValue = function() {
     var forceCase, value;
@@ -7286,6 +11280,11 @@ module.exports = KDInputView = (function(_super) {
     }
     return value;
   };
+
+
+  /**
+   * Set the value of this input field.
+   */
 
   KDInputView.prototype.setValue = function(value) {
     var $el, el, _ref;
@@ -7426,6 +11425,7 @@ module.exports = KDInputView = (function(_super) {
   };
 
   KDInputView.prototype.setValidationResult = function(rule, err, showNotification) {
+    var k, v;
     if (showNotification == null) {
       showNotification = true;
     }
@@ -7438,7 +11438,17 @@ module.exports = KDInputView = (function(_super) {
       return this.valid = false;
     } else {
       this.validationResults[rule] = null;
-      return this.valid = !_.values(this.validationResults).map(function(result) {
+      return this.valid = !((function() {
+        var _ref, _results;
+        _ref = this.validationResults;
+        _results = [];
+        for (k in _ref) {
+          if (!__hasProp.call(_ref, k)) continue;
+          v = _ref[k];
+          _results.push(v);
+        }
+        return _results;
+      }).call(this)).map(function(result) {
         return Boolean(result);
       }).indexOf(true) > -1;
     }
@@ -7562,6 +11572,8 @@ module.exports = KDInputView = (function(_super) {
           borderRight: $input.css('border-right'),
           borderBottom: $input.css('border-bottom'),
           borderLeft: $input.css('border-left'),
+          minHeight: $input.css('minHeight'),
+          maxHeight: $input.css('maxHeight'),
           paddingTop: $input.css('padding-top'),
           paddingRight: $input.css('padding-right'),
           paddingBottom: $input.css('padding-bottom'),
@@ -7689,7 +11701,7 @@ module.exports = KDInputView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":107,"./inputvalidator.coffee":45}],47:[function(require,module,exports){
+},{"./../../core/view.coffee":115,"./inputvalidator.coffee":51}],53:[function(require,module,exports){
 var KDLabelView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -7728,7 +11740,7 @@ module.exports = KDLabelView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":107}],48:[function(require,module,exports){
+},{"./../../core/view.coffee":115}],54:[function(require,module,exports){
 var KDInputView, KDMultipleChoice,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -7888,7 +11900,7 @@ module.exports = KDMultipleChoice = (function(_super) {
 })(KDInputView);
 
 
-},{"./inputview.coffee":46}],49:[function(require,module,exports){
+},{"./inputview.coffee":52}],55:[function(require,module,exports){
 var KDInputView, KDOnOffSwitch,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -8006,7 +12018,7 @@ module.exports = KDOnOffSwitch = (function(_super) {
 })(KDInputView);
 
 
-},{"./inputview.coffee":46}],50:[function(require,module,exports){
+},{"./inputview.coffee":52}],56:[function(require,module,exports){
 var KDInputView, KDSelectBox,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -8112,6 +12124,7 @@ module.exports = KDSelectBox = (function(_super) {
   };
 
   KDSelectBox.prototype.removeSelectOptions = function() {
+    this._$select.find("optgroup").remove();
     return this._$select.find("option").remove();
   };
 
@@ -8132,7 +12145,7 @@ module.exports = KDSelectBox = (function(_super) {
 })(KDInputView);
 
 
-},{"./inputview.coffee":46}],51:[function(require,module,exports){
+},{"./inputview.coffee":52}],57:[function(require,module,exports){
 var KDContentEditableView, KDContextMenu, KDTokenizedInput,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -8312,7 +12325,6 @@ module.exports = KDTokenizedInput = (function(_super) {
     if ((_ref = this.menu) != null) {
       _ref.destroy();
     }
-    this.blur();
     if (!(this.tokenInput && data.length)) {
       return;
     }
@@ -8444,7 +12456,7 @@ module.exports = KDTokenizedInput = (function(_super) {
 })(KDContentEditableView);
 
 
-},{"./../contextmenu/contextmenu.coffee":23,"./contenteditableview.coffee":39}],52:[function(require,module,exports){
+},{"./../contextmenu/contextmenu.coffee":29,"./contenteditableview.coffee":45}],58:[function(require,module,exports){
 var KDInputView, KDWmdInput,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -8479,7 +12491,7 @@ module.exports = KDWmdInput = (function(_super) {
 })(KDInputView);
 
 
-},{"./inputview.coffee":46}],53:[function(require,module,exports){
+},{"./inputview.coffee":52}],59:[function(require,module,exports){
 var KDListItemView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -8539,8 +12551,9 @@ module.exports = KDListItemView = (function(_super) {
   };
 
   KDListItemView.prototype.getItemDataId = function() {
-    var _base;
-    return (typeof (_base = this.getData()).getId === "function" ? _base.getId() : void 0) || this.getData().id || this.getData()._id;
+    var data, id;
+    data = this.getData();
+    return id = (typeof data.getId === "function" ? data.getId() : void 0) ? data.getId() : data.id != null ? data.id : data._id != null ? data._id : void 0;
   };
 
   return KDListItemView;
@@ -8548,12 +12561,14 @@ module.exports = KDListItemView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":107}],54:[function(require,module,exports){
-var KDListView, KDView,
+},{"./../../core/view.coffee":115}],60:[function(require,module,exports){
+var KDListView, KDListViewBox, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-KDView = require('./../../core/view.coffee');
+KDView = require('./../../core/view');
+
+KDListViewBox = require('./listviewbox');
 
 module.exports = KDListView = (function(_super) {
   __extends(KDListView, _super);
@@ -8566,11 +12581,23 @@ module.exports = KDListView = (function(_super) {
     if (options.lastToFirst == null) {
       options.lastToFirst = false;
     }
-    options.cssClass = options.cssClass != null ? "kdlistview kdlistview-" + options.type + " " + options.cssClass : "kdlistview kdlistview-" + options.type;
-    if (!this.items) {
-      this.items = [];
+    if (options.boxed == null) {
+      options.boxed = false;
     }
+    if (options.itemsPerBox == null) {
+      options.itemsPerBox = 10;
+    }
+    options.cssClass = options.cssClass != null ? "kdlistview kdlistview-" + options.type + " " + options.cssClass : "kdlistview kdlistview-" + options.type;
     KDListView.__super__.constructor.call(this, options, data);
+    this.items = [];
+    this.boxes = [];
+    if (this.getOptions().boxed) {
+      this.on('viewAppended', (function(_this) {
+        return function() {
+          return _this.parent.on('scroll', _this.bound('handleScroll'));
+        };
+      })(this));
+    }
   }
 
   KDListView.prototype.empty = function() {
@@ -8578,7 +12605,7 @@ module.exports = KDListView = (function(_super) {
     _ref = this.items;
     for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
       item = _ref[i];
-      if (item != null) {
+      if (item) {
         item.destroy();
       }
     }
@@ -8586,15 +12613,14 @@ module.exports = KDListView = (function(_super) {
   };
 
   KDListView.prototype.keyDown = function(event) {
-    event.stopPropagation();
-    event.preventDefault();
+    KD.utils.stopDOMEvent(event);
     return this.emit("KeyDownOnList", event);
   };
 
-  KDListView.prototype.addItem = function(itemData, index, animation) {
+  KDListView.prototype.addItem = function(itemData, index) {
     var itemChildClass, itemChildOptions, itemInstance, itemOptions, _ref, _ref1;
     _ref = this.getOptions(), itemChildClass = _ref.itemChildClass, itemChildOptions = _ref.itemChildOptions;
-    if ((index != null) && typeof index !== 'number') {
+    if ((index != null) && 'number' !== typeof index) {
       itemOptions = index;
       index = null;
     } else {
@@ -8605,31 +12631,37 @@ module.exports = KDListView = (function(_super) {
     itemOptions.childClass || (itemOptions.childClass = itemChildClass);
     itemOptions.childOptions || (itemOptions.childOptions = itemChildOptions);
     itemInstance = new ((_ref1 = this.getOptions().itemClass) != null ? _ref1 : KDListItemView)(itemOptions, itemData);
-    this.addItemView(itemInstance, index, animation);
+    this.addItemView(itemInstance, index);
     return itemInstance;
   };
 
   KDListView.prototype.removeItem = function(itemInstance, itemData, index) {
-    var i, item, _i, _len, _ref;
-    if (index != null) {
-      this.emit('ItemIsBeingDestroyed', {
-        view: this.items[index],
-        index: index
-      });
-      item = this.items.splice(index, 1);
-      item[0].destroy();
-    } else {
-      _ref = this.items;
-      for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
-        item = _ref[i];
-        if (itemInstance === item || itemData === item.getData()) {
-          this.emit('ItemIsBeingDestroyed', {
-            view: item,
-            index: i
-          });
-          this.items.splice(i, 1);
-          item.destroy();
-          return;
+    var dataPath, destroy, i, item, _i, _len, _ref;
+    destroy = (function(_this) {
+      return function(item, i) {
+        _this.emit('ItemWasRemoved', item, i);
+        item.destroy();
+        _this.items.splice(i, 1);
+        return true;
+      };
+    })(this);
+    if (index) {
+      if (!this.items[index]) {
+        return false;
+      }
+      return destroy(this.items[index], index);
+    }
+    dataPath = this.getOptions().dataPath;
+    _ref = this.items;
+    for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
+      item = _ref[i];
+      if (itemInstance) {
+        if (itemInstance.getId() === this.items[i].getId()) {
+          return destroy(this.items[i], i);
+        }
+      } else if (itemData) {
+        if (itemData[dataPath] && this.items[i].getData()[dataPath] && itemData[dataPath] === this.items[i].getData()[dataPath]) {
+          return destroy(this.items[i], i);
         }
       }
     }
@@ -8643,104 +12675,128 @@ module.exports = KDListView = (function(_super) {
     return this.removeItem(null, null, index);
   };
 
-  KDListView.prototype.destroy = function(animated, animationType, duration) {
+  KDListView.prototype.destroy = function() {
     var item, _i, _len, _ref;
-    if (animated == null) {
-      animated = false;
-    }
-    if (animationType == null) {
-      animationType = "slideUp";
-    }
-    if (duration == null) {
-      duration = 100;
-    }
     _ref = this.items;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       item = _ref[_i];
       item.destroy();
     }
-    return KDListView.__super__.destroy.call(this);
+    return KDListView.__super__.destroy.apply(this, arguments);
   };
 
-  KDListView.prototype.addItemView = function(itemInstance, index, animation) {
-    var actualIndex;
-    this.emit('ItemWasAdded', itemInstance, index);
-    if (index != null) {
-      actualIndex = this.getOptions().lastToFirst ? this.items.length - index - 1 : index;
-      this.items.splice(actualIndex, 0, itemInstance);
-      this.appendItemAtIndex(itemInstance, index, animation);
+  KDListView.prototype.addItemView = function(itemInstance, index) {
+    var lastToFirst;
+    lastToFirst = this.getOptions().lastToFirst;
+    if (index == null) {
+      if (lastToFirst) {
+        this.items.unshift(itemInstance);
+      } else {
+        this.items.push(itemInstance);
+      }
+      index = lastToFirst ? 0 : this.items.length - 1;
     } else {
-      this.items[this.getOptions().lastToFirst ? 'unshift' : 'push'](itemInstance);
-      this.appendItem(itemInstance, animation);
+      this.items.splice(index, 0, itemInstance);
     }
+    this.emit('ItemWasAdded', itemInstance, index);
+    this.insertItemAtIndex(itemInstance, index);
     return itemInstance;
   };
 
-  KDListView.prototype.appendItem = function(itemInstance, animation) {
-    var scroll;
-    itemInstance.setParent(this);
-    scroll = this.doIHaveToScroll();
-    if (animation != null) {
-      itemInstance.$().hide();
-      this.$()[this.getOptions().lastToFirst ? 'prepend' : 'append'](itemInstance.$());
-      itemInstance.$()[animation.type](animation.duration, (function(_this) {
-        return function() {
-          return itemInstance.emit('introEffectCompleted');
-        };
-      })(this));
-    } else {
-      this.$()[this.getOptions().lastToFirst ? 'prepend' : 'append'](itemInstance.$());
-    }
-    if (scroll) {
-      this.scrollDown();
-    }
-    if (this.parentIsInDom) {
-      itemInstance.emit('viewAppended');
-    }
-    return null;
+  KDListView.prototype.appendItem = function(itemInstance) {
+    return this.insertItemAtIndex(itemInstance);
   };
 
-  KDListView.prototype.appendItemAtIndex = function(itemInstance, index, animation) {
-    var actualIndex;
-    itemInstance.setParent(this);
-    actualIndex = this.getOptions().lastToFirst ? this.items.length - index - 1 : index;
-    if (animation != null) {
-      itemInstance.$().hide();
-      if (index === 0) {
-        this.$()[this.getOptions().lastToFirst ? 'append' : 'prepend'](itemInstance.$());
-      }
-      if (index > 0) {
-        this.items[actualIndex - 1].$()[this.getOptions().lastToFirst ? 'before' : 'after'](itemInstance.$());
-      }
-      itemInstance.$()[animation.type](animation.duration, (function(_this) {
-        return function() {
-          return itemInstance.emit('introEffectCompleted');
-        };
-      })(this));
+  KDListView.prototype.insertItemAtIndex = function(itemInstance, index) {
+    var boxed, item, lastToFirst, neighborItem, shouldBeLastItem, _ref;
+    _ref = this.getOptions(), boxed = _ref.boxed, lastToFirst = _ref.lastToFirst;
+    if (index <= 0) {
+      index = boxed && lastToFirst ? void 0 : 0;
+    }
+    if (index >= this.items.length - 1) {
+      index = boxed && !lastToFirst ? void 0 : this.items.length - 1;
+    }
+    if (boxed && (index == null)) {
+      this.packageItem(itemInstance);
     } else {
-      if (index === 0) {
-        this.$()[this.getOptions().lastToFirst ? 'append' : 'prepend'](itemInstance.$());
-      }
-      if (index > 0) {
-        this.items[actualIndex - 1].$()[this.getOptions().lastToFirst ? 'before' : 'after'](itemInstance.$());
+      shouldBeLastItem = index >= this.items.length - 1;
+      item = itemInstance.getElement();
+      if (!shouldBeLastItem) {
+        neighborItem = this.items[index + 1].getElement();
+        neighborItem.parentNode.insertBefore(item, neighborItem);
+        if (this.parentIsInDom) {
+          itemInstance.emit('viewAppended');
+        }
+      } else {
+        this.addSubView(itemInstance, null);
       }
     }
-    if (this.parentIsInDom) {
-      itemInstance.emit('viewAppended');
+    if (this.doIHaveToScroll()) {
+      return this.scrollDown();
     }
-    return null;
   };
 
-  KDListView.prototype.getItemIndex = function(targetItem) {
-    var index, item, _i, _len, _ref;
-    _ref = this.items;
-    for (index = _i = 0, _len = _ref.length; _i < _len; index = ++_i) {
-      item = _ref[index];
-      if (item === targetItem) {
-        return index;
+  KDListView.prototype.packageItem = function(itemInstance) {
+    var items, itemsPerBox, lastToFirst, newBox, operation, _ref;
+    _ref = this.getOptions(), lastToFirst = _ref.lastToFirst, itemsPerBox = _ref.itemsPerBox;
+    operation = lastToFirst ? 'prepend' : 'append';
+    newBox = (function(_this) {
+      return function() {
+        var box;
+        box = _this.createBox();
+        return box.addSubView(itemInstance);
+      };
+    })(this);
+    if (this.boxes.last) {
+      items = this.boxes.last.subViews.filter(function(item) {
+        return item instanceof KDListItemView;
+      });
+      if (items.length < itemsPerBox) {
+        return this.boxes.last.addSubView(itemInstance, null, lastToFirst);
+      } else {
+        return newBox();
       }
+    } else {
+      return newBox();
     }
-    return -1;
+  };
+
+  KDListView.prototype.createBox = function() {
+    var box;
+    this.boxes.push(box = new KDListViewBox);
+    this.addSubView(box, null, this.getOptions().lastToFirst);
+    box.on('HeightChanged', (function(_this) {
+      return function(height) {
+        return _this.updateBoxProps(box, height);
+      };
+    })(this));
+    box.on('BoxIsEmptied', (function(_this) {
+      return function(id) {
+        var b, i, index, _i, _len, _ref;
+        index = null;
+        _ref = _this.boxes;
+        for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
+          b = _ref[i];
+          if (!(b.getId() === id)) {
+            continue;
+          }
+          index = i;
+          break;
+        }
+        if (index != null) {
+          return _this.boxes.splice(index, 1)[0].destroy();
+        }
+      };
+    })(this));
+    return box;
+  };
+
+  KDListView.prototype.updateBoxProps = function(box, height) {};
+
+  KDListView.prototype.handleScroll = function() {};
+
+  KDListView.prototype.getItemIndex = function(item) {
+    return this.items.indexOf(item);
   };
 
   KDListView.prototype.moveItemToIndex = function(item, newIndex) {
@@ -8766,7 +12822,7 @@ module.exports = KDListView = (function(_super) {
 
   KDListView.prototype.scrollDown = function() {
     clearTimeout(this._scrollDownTimeout);
-    return this._scrollDownTimeout = setTimeout((function(_this) {
+    return this._scrollDownTimeout = KD.utils.wait(50, (function(_this) {
       return function() {
         var scrollView, slidingHeight, slidingView;
         scrollView = _this.$().closest(".kdscrollview");
@@ -8779,35 +12835,30 @@ module.exports = KDListView = (function(_super) {
           queue: false
         });
       };
-    })(this), 50);
+    })(this));
   };
 
   KDListView.prototype.doIHaveToScroll = function() {
     var scrollView;
-    scrollView = this.$().closest(".kdscrollview");
     if (this.getOptions().autoScroll) {
-      if (scrollView.length && scrollView[0].scrollHeight <= scrollView.height()) {
+      scrollView = this.$().closest(".kdscrollview")[0];
+      if (scrollView.length && scrollView.scrollHeight > scrollView.outerHeight()) {
         return true;
       } else {
-        return this.isScrollAtBottom();
+        return this.isScrollAtBottom(scrollView);
       }
     } else {
       return false;
     }
   };
 
-  KDListView.prototype.isScrollAtBottom = function() {
-    var scrollTop, scrollView, scrollViewheight, slidingHeight, slidingView;
-    scrollView = this.$().closest(".kdscrollview");
-    slidingView = scrollView.find('> .kdview');
-    scrollTop = scrollView.scrollTop();
-    slidingHeight = slidingView.height();
-    scrollViewheight = scrollView.height();
-    if (slidingHeight - scrollViewheight === scrollTop) {
-      return true;
-    } else {
-      return false;
-    }
+  KDListView.prototype.isScrollAtBottom = function(scrollView) {
+    var scrollTop, scrollViewheight, slidingHeight, slidingView;
+    slidingView = scrollView.find('> .kdview')[0];
+    scrollTop = scrollView.scrollTop;
+    slidingHeight = slidingView.clientHeight;
+    scrollViewheight = scrollView.clientHeight;
+    return slidingHeight - scrollViewheight === scrollTop;
   };
 
   return KDListView;
@@ -8815,8 +12866,42 @@ module.exports = KDListView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":107}],55:[function(require,module,exports){
-var KDListView, KDListViewController, KDLoaderView, KDScrollView, KDView, KDViewController,
+},{"./../../core/view":115,"./listviewbox":61}],61:[function(require,module,exports){
+var KDCustomHTMLView, KDListViewBox,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+window.MutationSummary = require('../../../libs/mutation-summary.js');
+
+KDCustomHTMLView = require('../../core/customhtmlview');
+
+module.exports = KDListViewBox = (function(_super) {
+  __extends(KDListViewBox, _super);
+
+  function KDListViewBox(options) {
+    if (options == null) {
+      options = {};
+    }
+    options.tagName = 'section';
+    KDListViewBox.__super__.constructor.call(this, options);
+    this.observeMutations();
+    this.on('MutationHappened', this.bound('updateProps'));
+  }
+
+  KDListViewBox.prototype.updateProps = function() {
+    if (this.subViews.length === 0) {
+      this.emit('BoxIsEmptied', this.getId());
+    }
+    return this.emit('HeightChanged', this.getElement().clientHeight);
+  };
+
+  return KDListViewBox;
+
+})(KDCustomHTMLView);
+
+
+},{"../../../libs/mutation-summary.js":7,"../../core/customhtmlview":104}],62:[function(require,module,exports){
+var KDCustomHTMLView, KDCustomScrollView, KDListView, KDListViewController, KDLoaderView, KDScrollView, KDView, KDViewController,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
@@ -8825,7 +12910,11 @@ KDView = require('./../../core/view.coffee');
 
 KDViewController = require('./../../core/viewcontroller.coffee');
 
+KDCustomHTMLView = require('./../../core/customhtmlview.coffee');
+
 KDScrollView = require('./../scrollview/scrollview.coffee');
+
+KDCustomScrollView = require('./../scrollview/customscrollview.coffee');
 
 KDListView = require('./../list/listview.coffee');
 
@@ -8862,11 +12951,22 @@ module.exports = KDListViewController = (function(_super) {
     }
     options.itemChildClass || (options.itemChildClass = null);
     options.itemChildOptions || (options.itemChildOptions = {});
+    if (options.useCustomScrollView == null) {
+      options.useCustomScrollView = false;
+    }
     options.noItemFoundWidget || (options.noItemFoundWidget = null);
     options.noMoreItemFoundWidget || (options.noMoreItemFoundWidget = null);
-    if (!this.itemsOrdered) {
-      this.itemsOrdered = [];
+    if (options.lastToFirst == null) {
+      options.lastToFirst = false;
     }
+    Object.defineProperty(this, "itemsOrdered", {
+      get: (function(_this) {
+        return function() {
+          warn("KDListViewController::itemsOrdered is deprecated.");
+          return _this.getListView().items;
+        };
+      })(this)
+    });
     this.itemsIndexed = {};
     this.selectedItems = [];
     this.lazyLoader = null;
@@ -8879,13 +12979,25 @@ module.exports = KDListViewController = (function(_super) {
       viewOptions.itemOptions || (viewOptions.itemOptions = options.itemOptions);
       viewOptions.itemChildClass || (viewOptions.itemChildClass = options.itemChildClass);
       viewOptions.itemChildOptions || (viewOptions.itemChildOptions = options.itemChildOptions);
+      if (viewOptions.boxed == null) {
+        viewOptions.boxed = options.boxed;
+      }
+      if (viewOptions.itemsPerBox == null) {
+        viewOptions.itemsPerBox = options.itemsPerBox;
+      }
       this.setListView(listView = new KDListView(viewOptions));
     }
     if (options.scrollView) {
-      this.scrollView = new KDScrollView({
-        lazyLoadThreshold: options.lazyLoadThreshold,
-        ownScrollBars: options.ownScrollBars
-      });
+      if (options.useCustomScrollView) {
+        this.customScrollView = new KDCustomScrollView({
+          lazyLoadThreshold: options.lazyLoadThreshold
+        });
+        this.scrollView = this.customScrollView.wrapper;
+      } else {
+        this.scrollView = new KDScrollView({
+          lazyLoadThreshold: options.lazyLoadThreshold
+        });
+      }
     }
     options.view = options.wrapper ? new KDView({
       cssClass: "listview-wrapper"
@@ -8900,9 +13012,9 @@ module.exports = KDListViewController = (function(_super) {
         }
       };
     })(this));
-    listView.on('ItemIsBeingDestroyed', (function(_this) {
-      return function(itemInfo) {
-        _this.unregisterItem(itemInfo);
+    listView.on('ItemWasRemoved', (function(_this) {
+      return function(view, index) {
+        _this.unregisterItem(view, index);
         if (noItemFoundWidget) {
           return _this.showNoItemWidget();
         }
@@ -8918,25 +13030,22 @@ module.exports = KDListViewController = (function(_super) {
   }
 
   KDListViewController.prototype.loadView = function(mainView) {
-    var options, _ref;
-    options = this.getOptions();
-    if (options.scrollView) {
-      mainView.addSubView(this.scrollView);
+    var noItemFoundWidget, scrollView, startWithLazyLoader, windowController, _ref, _ref1;
+    _ref = this.getOptions(), scrollView = _ref.scrollView, startWithLazyLoader = _ref.startWithLazyLoader, noItemFoundWidget = _ref.noItemFoundWidget;
+    windowController = KD.singletons.windowController;
+    if (scrollView) {
+      mainView.addSubView(this.customScrollView || this.scrollView);
       this.scrollView.addSubView(this.getListView());
-      if (options.startWithLazyLoader) {
-        this.showLazyLoader(false);
-      }
       this.scrollView.on('LazyLoadThresholdReached', this.bound("showLazyLoader"));
     }
-    if (options.noItemFoundWidget) {
+    if (startWithLazyLoader) {
+      this.showLazyLoader(false);
+    }
+    if (noItemFoundWidget) {
       this.putNoItemView();
     }
-    this.instantiateListItems(((_ref = this.getData()) != null ? _ref.items : void 0) || []);
-    return KD.getSingleton("windowController").on("ReceivedMouseUpElsewhere", (function(_this) {
-      return function(event) {
-        return _this.mouseUpHappened(event);
-      };
-    })(this));
+    this.instantiateListItems(((_ref1 = this.getData()) != null ? _ref1.items : void 0) || []);
+    return windowController.on("ReceivedMouseUpElsewhere", this.bound('mouseUpHappened'));
   };
 
   KDListViewController.prototype.instantiateListItems = function(items) {
@@ -8946,11 +13055,11 @@ module.exports = KDListViewController = (function(_super) {
       _results = [];
       for (_i = 0, _len = items.length; _i < _len; _i++) {
         itemData = items[_i];
-        _results.push(this.getListView().addItem(itemData));
+        _results.push(this.addItem(itemData));
       }
       return _results;
     }).call(this);
-    this.emit("AllItemsAddedToList");
+    this.emit('AllItemsAddedToList');
     return newItems;
   };
 
@@ -8958,6 +13067,14 @@ module.exports = KDListViewController = (function(_super) {
   /*
   HELPERS
    */
+
+  KDListViewController.prototype.getIndex = function(index) {
+    if (this.getOptions().lastToFirst) {
+      return this.getItemCount() - index - 1;
+    } else {
+      return index;
+    }
+  };
 
   KDListViewController.prototype.itemForId = function(id) {
     return this.itemsIndexed[id];
@@ -8967,8 +13084,12 @@ module.exports = KDListViewController = (function(_super) {
     return this.itemsOrdered;
   };
 
+  KDListViewController.prototype.getListItems = function() {
+    return this.getListView().items;
+  };
+
   KDListViewController.prototype.getItemCount = function() {
-    return this.itemsOrdered.length;
+    return this.getListItems().length;
   };
 
   KDListViewController.prototype.setListView = function(listView) {
@@ -9006,7 +13127,7 @@ module.exports = KDListViewController = (function(_super) {
 
   KDListViewController.prototype.showNoItemWidget = function() {
     var _ref;
-    if (this.itemsOrdered.length === 0) {
+    if (this.getListItems().length === 0) {
       return (_ref = this.noItemView) != null ? _ref.show() : void 0;
     }
   };
@@ -9029,55 +13150,52 @@ module.exports = KDListViewController = (function(_super) {
   ITEM OPERATIONS
    */
 
-  KDListViewController.prototype.addItem = function(itemData, index, animation) {
-    return this.getListView().addItem(itemData, index, animation);
+  KDListViewController.prototype.addItem = function(itemData, index) {
+    if (!(itemData || (index != null))) {
+      return;
+    }
+    return this.getListView().addItem(itemData, index);
   };
 
   KDListViewController.prototype.removeItem = function(itemInstance, itemData, index) {
+    if (!(itemInstance || itemData || (index != null))) {
+      return;
+    }
     return this.getListView().removeItem(itemInstance, itemData, index);
   };
 
-  KDListViewController.prototype.registerItem = function(view, index) {
-    var actualIndex, options;
-    options = this.getOptions();
-    if (index != null) {
-      actualIndex = this.getOptions().lastToFirst ? this.getListView().items.length - index - 1 : index;
-      this.itemsOrdered.splice(actualIndex, 0, view);
-    } else {
-      this.itemsOrdered[this.getOptions().lastToFirst ? 'unshift' : 'push'](view);
+  KDListViewController.prototype.registerItem = function(itemInstance, index) {
+    var id, keyNav, multipleSelection, selection, _ref;
+    if (itemInstance.getItemDataId() != null) {
+      id = itemInstance.getItemDataId();
+      this.itemsIndexed[id] = itemInstance;
     }
-    if (view.getData() != null) {
-      this.itemsIndexed[view.getItemDataId()] = view;
-    }
-    if (options.selection) {
-      view.on('click', (function(_this) {
+    _ref = this.getOptions(), selection = _ref.selection, keyNav = _ref.keyNav, multipleSelection = _ref.multipleSelection;
+    if (selection) {
+      itemInstance.on('click', (function(_this) {
         return function(event) {
-          return _this.selectItem(view, event);
+          return _this.selectItem(itemInstance, event);
         };
       })(this));
     }
-    if (options.keyNav || options.multipleSelection) {
-      view.on("mousedown", (function(_this) {
+    if (keyNav || multipleSelection) {
+      itemInstance.on('mousedown', (function(_this) {
         return function(event) {
-          return _this.mouseDownHappenedOnItem(view, event);
+          return _this.mouseDownHappenedOnItem(itemInstance, event);
         };
       })(this));
-      return view.on("mouseenter", (function(_this) {
+      return itemInstance.on('mouseenter', (function(_this) {
         return function(event) {
-          return _this.mouseEnterHappenedOnItem(view, event);
+          return _this.mouseEnterHappenedOnItem(itemInstance, event);
         };
       })(this));
     }
   };
 
-  KDListViewController.prototype.unregisterItem = function(itemInfo) {
-    var actualIndex, index, view;
-    this.emit("UnregisteringItem", itemInfo);
-    index = itemInfo.index, view = itemInfo.view;
-    actualIndex = this.getOptions().lastToFirst ? this.getListView().items.length - index - 1 : index;
-    this.itemsOrdered.splice(actualIndex, 1);
-    if (view.getData() != null) {
-      return delete this.itemsIndexed[view.getItemDataId()];
+  KDListViewController.prototype.unregisterItem = function(itemInstance, index) {
+    this.emit('UnregisteringItem', itemInstance, index);
+    if (itemInstance.getData() != null) {
+      return delete this.itemsIndexed[itemInstance.getItemDataId()];
     }
   };
 
@@ -9087,20 +13205,18 @@ module.exports = KDListViewController = (function(_super) {
   };
 
   KDListViewController.prototype.removeAllItems = function() {
-    var itemsOrdered, listView;
-    itemsOrdered = this.itemsOrdered;
-    this.itemsOrdered.length = 0;
+    var listView;
     this.itemsIndexed = {};
     listView = this.getListView();
     if (listView.items.length) {
       listView.empty();
     }
-    return itemsOrdered;
+    return this.getListItems();
   };
 
   KDListViewController.prototype.moveItemToIndex = function(item, newIndex) {
-    newIndex = Math.max(0, Math.min(this.itemsOrdered.length - 1, newIndex));
-    return this.itemsOrdered = this.getListView().moveItemToIndex(item, newIndex).slice();
+    newIndex = Math.max(0, Math.min(this.getListItems().length - 1, newIndex));
+    return this.getListView().moveItemToIndex(item, newIndex).slice();
   };
 
 
@@ -9197,22 +13313,23 @@ module.exports = KDListViewController = (function(_super) {
   };
 
   KDListViewController.prototype.selectItemBelowOrAbove = function(event) {
-    var addend, direction, lastSelectedIndex, selectedIndex;
+    var addend, direction, items, lastSelectedIndex, selectedIndex;
     direction = event.which === 40 ? "down" : "up";
     addend = event.which === 40 ? 1 : -1;
-    selectedIndex = this.itemsOrdered.indexOf(this.selectedItems[0]);
-    lastSelectedIndex = this.itemsOrdered.indexOf(this.selectedItems[this.selectedItems.length - 1]);
-    if (this.itemsOrdered[selectedIndex + addend]) {
+    items = this.getListItems();
+    selectedIndex = items.indexOf(this.selectedItems[0]);
+    lastSelectedIndex = items.indexOf(this.selectedItems[this.selectedItems.length - 1]);
+    if (items[selectedIndex + addend]) {
       if (!(event.metaKey || event.ctrlKey || event.shiftKey)) {
-        return this.selectItem(this.itemsOrdered[selectedIndex + addend]);
+        return this.selectItem(items[selectedIndex + addend]);
       } else {
-        if (this.selectedItems.indexOf(this.itemsOrdered[lastSelectedIndex + addend]) !== -1) {
-          if (this.itemsOrdered[lastSelectedIndex]) {
-            return this.deselectSingleItem(this.itemsOrdered[lastSelectedIndex]);
+        if (this.selectedItems.indexOf(items[lastSelectedIndex + addend]) !== -1) {
+          if (items[lastSelectedIndex]) {
+            return this.deselectSingleItem(items[lastSelectedIndex]);
           }
         } else {
-          if (this.itemsOrdered[lastSelectedIndex + addend]) {
-            return this.selectSingleItem(this.itemsOrdered[lastSelectedIndex + addend]);
+          if (items[lastSelectedIndex + addend]) {
+            return this.selectSingleItem(items[lastSelectedIndex + addend]);
           }
         }
       }
@@ -9220,21 +13337,23 @@ module.exports = KDListViewController = (function(_super) {
   };
 
   KDListViewController.prototype.selectNextItem = function(item, event) {
-    var selectedIndex;
+    var items, selectedIndex;
+    items = this.getListItems();
     if (!item) {
       item = this.selectedItems[0];
     }
-    selectedIndex = this.itemsOrdered.indexOf(item);
-    return this.selectItem(this.itemsOrdered[selectedIndex + 1]);
+    selectedIndex = items.indexOf(item);
+    return this.selectItem(items[selectedIndex + 1]);
   };
 
   KDListViewController.prototype.selectPrevItem = function(item, event) {
-    var selectedIndex;
+    var items, selectedIndex;
+    items = this.getListItems();
     if (!item) {
       item = this.selectedItems[0];
     }
-    selectedIndex = this.itemsOrdered.indexOf(item);
-    return this.selectItem(this.itemsOrdered[selectedIndex + -1]);
+    selectedIndex = items.indexOf(item);
+    return this.selectItem(items[selectedIndex + -1]);
   };
 
   KDListViewController.prototype.deselectAllItems = function() {
@@ -9253,19 +13372,23 @@ module.exports = KDListViewController = (function(_super) {
   };
 
   KDListViewController.prototype.deselectSingleItem = function(item) {
+    var items;
     item.removeHighlight();
+    items = this.getListItems();
     this.selectedItems.splice(this.selectedItems.indexOf(item), 1);
-    if (item === this.itemsOrdered[this.itemsOrdered.length - 1]) {
+    if (item === items[items.length - 1]) {
       this.getListView().unsetClass("last-item-selected");
     }
     return this.itemDeselectionPerformed([item]);
   };
 
   KDListViewController.prototype.selectSingleItem = function(item) {
+    var items;
+    items = this.getListItems();
     if (item.getOption("selectable") && !(__indexOf.call(this.selectedItems, item) >= 0)) {
       item.highlight();
       this.selectedItems.push(item);
-      if (item === this.itemsOrdered[this.itemsOrdered.length - 1]) {
+      if (item === items[items.length - 1]) {
         this.getListView().setClass("last-item-selected");
       }
       return this.itemSelectionPerformed();
@@ -9274,7 +13397,7 @@ module.exports = KDListViewController = (function(_super) {
 
   KDListViewController.prototype.selectAllItems = function() {
     var item, _i, _len, _ref, _results;
-    _ref = this.itemsOrdered;
+    _ref = this.getListItems();
     _results = [];
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       item = _ref[_i];
@@ -9284,12 +13407,13 @@ module.exports = KDListViewController = (function(_super) {
   };
 
   KDListViewController.prototype.selectItemsByRange = function(item1, item2) {
-    var indicesToBeSliced, item, itemsToBeSelected, _i, _len;
-    indicesToBeSliced = [this.itemsOrdered.indexOf(item1), this.itemsOrdered.indexOf(item2)];
+    var indicesToBeSliced, item, items, itemsToBeSelected, _i, _len;
+    items = this.getListItems();
+    indicesToBeSliced = [items.indexOf(item1), items.indexOf(item2)];
     indicesToBeSliced.sort(function(a, b) {
       return a - b;
     });
-    itemsToBeSelected = this.itemsOrdered.slice(indicesToBeSliced[0], indicesToBeSliced[1] + 1);
+    itemsToBeSelected = items.slice(indicesToBeSliced[0], indicesToBeSliced[1] + 1);
     for (_i = 0, _len = itemsToBeSelected.length; _i < _len; _i++) {
       item = itemsToBeSelected[_i];
       this.selectSingleItem(item);
@@ -9316,8 +13440,28 @@ module.exports = KDListViewController = (function(_super) {
   LAZY LOADER
    */
 
-  KDListViewController.prototype.showLazyLoader = function(emitWhenReached) {
+  KDListViewController.prototype.createLazyLoader = function() {
     var itemClass, lazyLoaderOptions, spinnerOptions, wrapper;
+    lazyLoaderOptions = this.getOptions().lazyLoaderOptions;
+    lazyLoaderOptions || (lazyLoaderOptions = {});
+    lazyLoaderOptions.itemClass || (lazyLoaderOptions.itemClass = KDCustomHTMLView);
+    if (lazyLoaderOptions.partial == null) {
+      lazyLoaderOptions.partial = '';
+    }
+    lazyLoaderOptions.cssClass = KD.utils.curry('lazy-loader', lazyLoaderOptions.cssClass);
+    lazyLoaderOptions.spinnerOptions || (lazyLoaderOptions.spinnerOptions = {
+      size: {
+        width: 32
+      }
+    });
+    itemClass = lazyLoaderOptions.itemClass, spinnerOptions = lazyLoaderOptions.spinnerOptions;
+    delete lazyLoaderOptions.itemClass;
+    wrapper = this.scrollView || this.getView();
+    wrapper.addSubView(this.lazyLoader = new itemClass(lazyLoaderOptions));
+    return this.lazyLoader.addSubView(this.lazyLoader.spinner = new KDLoaderView(spinnerOptions));
+  };
+
+  KDListViewController.prototype.showLazyLoader = function(emitWhenReached) {
     if (emitWhenReached == null) {
       emitWhenReached = true;
     }
@@ -9325,34 +13469,19 @@ module.exports = KDListViewController = (function(_super) {
       this.hideNoItemWidget();
     }
     if (!this.lazyLoader) {
-      lazyLoaderOptions = this.getOptions().lazyLoaderOptions;
-      lazyLoaderOptions || (lazyLoaderOptions = {});
-      lazyLoaderOptions.itemClass || (lazyLoaderOptions.itemClass = KDCustomHTMLView);
-      if (lazyLoaderOptions.partial == null) {
-        lazyLoaderOptions.partial = '';
-      }
-      lazyLoaderOptions.cssClass = KD.utils.curry('lazy-loader', lazyLoaderOptions.cssClass);
-      lazyLoaderOptions.spinnerOptions || (lazyLoaderOptions.spinnerOptions = {
-        size: {
-          width: 32
-        }
-      });
-      itemClass = lazyLoaderOptions.itemClass, spinnerOptions = lazyLoaderOptions.spinnerOptions;
-      delete lazyLoaderOptions.itemClass;
-      wrapper = this.scrollView || this.getView();
-      wrapper.addSubView(this.lazyLoader = new itemClass(lazyLoaderOptions));
-      this.lazyLoader.addSubView(this.lazyLoader.spinner = new KDLoaderView(spinnerOptions));
-      this.lazyLoader.spinner.show();
-      if (emitWhenReached) {
-        this.emit('LazyLoadThresholdReached');
-      }
-      return KD.utils.defer((function(_this) {
-        return function() {
-          var _ref;
-          return (_ref = _this.scrollView) != null ? _ref.stopScrolling = true : void 0;
-        };
-      })(this));
+      this.createLazyLoader();
     }
+    this.lazyLoader.show();
+    this.lazyLoader.spinner.show();
+    if (emitWhenReached) {
+      this.emit('LazyLoadThresholdReached');
+    }
+    return KD.utils.defer((function(_this) {
+      return function() {
+        var _ref;
+        return (_ref = _this.scrollView) != null ? _ref.stopScrolling = true : void 0;
+      };
+    })(this));
   };
 
   KDListViewController.prototype.hideLazyLoader = function() {
@@ -9365,11 +13494,8 @@ module.exports = KDListViewController = (function(_super) {
     if (this.noItemView && this.getOptions().noItemFoundWidget) {
       this.showNoItemWidget();
     }
-    if (this.lazyLoader) {
-      this.lazyLoader.spinner.hide();
-      this.lazyLoader.destroy();
-      return this.lazyLoader = null;
-    }
+    this.lazyLoader.spinner.hide();
+    return this.lazyLoader.hide();
   };
 
   return KDListViewController;
@@ -9377,10 +13503,12 @@ module.exports = KDListViewController = (function(_super) {
 })(KDViewController);
 
 
-},{"./../../core/view.coffee":107,"./../../core/viewcontroller.coffee":108,"./../list/listview.coffee":54,"./../loader/loaderview.coffee":56,"./../scrollview/scrollview.coffee":69}],56:[function(require,module,exports){
+},{"./../../core/customhtmlview.coffee":104,"./../../core/view.coffee":115,"./../../core/viewcontroller.coffee":116,"./../list/listview.coffee":60,"./../loader/loaderview.coffee":63,"./../scrollview/customscrollview.coffee":72,"./../scrollview/scrollview.coffee":76}],63:[function(require,module,exports){
 var KDLoaderView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+require('./../../../libs/canvas-loader.js');
 
 KDView = require('./../../core/view.coffee');
 
@@ -9416,7 +13544,7 @@ module.exports = KDLoaderView = (function(_super) {
   }
 
   KDLoaderView.prototype.viewAppended = function() {
-    var loaderOptions, option, showLoader, value, _ref;
+    var height, loaderOptions, option, showLoader, value, _ref;
     this.canvas = new CanvasLoader(this.getElement(), {
       id: "cl_" + this.id
     });
@@ -9426,6 +13554,8 @@ module.exports = KDLoaderView = (function(_super) {
       value = loaderOptions[option];
       this.canvas["set" + (option.capitalize())](value);
     }
+    height = this.getOption('size').height;
+    this.setCss('line-height', height ? height + 'px' : 'initial');
     if (showLoader) {
       return this.show();
     }
@@ -9452,7 +13582,7 @@ module.exports = KDLoaderView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":107}],57:[function(require,module,exports){
+},{"./../../../libs/canvas-loader.js":1,"./../../core/view.coffee":115}],64:[function(require,module,exports){
 var KDBlockingModalView, KDModalView, KDOverlayView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -9503,7 +13633,7 @@ module.exports = KDBlockingModalView = (function(_super) {
 })(KDModalView);
 
 
-},{"./../overlay/overlayview.coffee":62,"./modalview.coffee":58}],58:[function(require,module,exports){
+},{"./../overlay/overlayview.coffee":69,"./modalview.coffee":65}],65:[function(require,module,exports){
 var KDButtonView, KDModalView, KDModalViewStack, KDOverlayView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -9545,7 +13675,7 @@ module.exports = KDModalView = (function(_super) {
     options.view || (options.view = null);
     if (options.draggable == null) {
       options.draggable = {
-        handle: ".kdmodal-title"
+        handle: '.kdmodal-title'
       };
     }
     if (options.resizable == null) {
@@ -9629,14 +13759,17 @@ module.exports = KDModalView = (function(_super) {
     return this.domElement = $("<div class='kdmodal " + cssClass + "'>\n  <div class='kdmodal-inner'>\n    " + helpButton + "\n    <span class='close-icon closeModal' title='Close [ESC]'></span>\n    <div class='kdmodal-title hidden'></div>\n    <div class='kdmodal-content'></div>\n  </div>\n</div>");
   };
 
-  KDModalView.prototype.addSubView = function(view, selector) {
+  KDModalView.prototype.addSubView = function(view, selector, shouldPrepend) {
     if (selector == null) {
       selector = ".kdmodal-content";
+    }
+    if (shouldPrepend == null) {
+      shouldPrepend = false;
     }
     if (this.$(selector).length === 0) {
       selector = null;
     }
-    return KDModalView.__super__.addSubView.call(this, view, selector);
+    return KDModalView.__super__.addSubView.call(this, view, selector, shouldPrepend);
   };
 
   KDModalView.prototype.setButtons = function(buttonDataSet, destroyExists) {
@@ -9754,13 +13887,17 @@ module.exports = KDModalView = (function(_super) {
   };
 
   KDModalView.prototype.putOverlay = function() {
-    var isRemovable;
-    isRemovable = this.getOptions().overlayClick;
-    this.overlay = new KDOverlayView({
-      isRemovable: isRemovable
-    });
-    if (isRemovable) {
-      return this.overlay.once("click", this.bound("destroy"));
+    var overlayClick, overlayOptions, _ref;
+    _ref = this.getOptions(), overlayOptions = _ref.overlayOptions, overlayClick = _ref.overlayClick;
+    if (overlayOptions == null) {
+      overlayOptions = {};
+    }
+    if (overlayOptions.isRemovable == null) {
+      overlayOptions.isRemovable = overlayClick;
+    }
+    this.overlay = new KDOverlayView(overlayOptions);
+    if (overlayClick) {
+      return this.overlay.once('click', this.bound('destroy'));
     }
   };
 
@@ -9817,6 +13954,22 @@ module.exports = KDModalView = (function(_super) {
       _ref.destroy();
     }
     return this.emit('KDModalViewDestroyed', this);
+  };
+
+  KDModalView.prototype.hide = function() {
+    var _ref;
+    if ((_ref = this.overlay) != null) {
+      _ref.hide();
+    }
+    return KDModalView.__super__.hide.apply(this, arguments);
+  };
+
+  KDModalView.prototype.show = function() {
+    var _ref;
+    if ((_ref = this.overlay) != null) {
+      _ref.show();
+    }
+    return KDModalView.__super__.show.apply(this, arguments);
   };
 
 
@@ -9879,7 +14032,7 @@ module.exports = KDModalView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":107,"./../buttons/buttonview.coffee":20,"./../overlay/overlayview.coffee":62,"./modalviewstack.coffee":59}],59:[function(require,module,exports){
+},{"./../../core/view.coffee":115,"./../buttons/buttonview.coffee":26,"./../overlay/overlayview.coffee":69,"./modalviewstack.coffee":66}],66:[function(require,module,exports){
 var KDModalViewStack, KDObject,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -9955,7 +14108,7 @@ module.exports = KDModalViewStack = (function(_super) {
 })(KDObject);
 
 
-},{"./../../core/object.coffee":103}],60:[function(require,module,exports){
+},{"./../../core/object.coffee":111}],67:[function(require,module,exports){
 var KDModalView, KDModalViewWithForms, KDTabViewWithForms,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -10009,7 +14162,7 @@ module.exports = KDModalViewWithForms = (function(_super) {
 })(KDModalView);
 
 
-},{"./../tabs/tabviewwithforms":83,"./modalview.coffee":58}],61:[function(require,module,exports){
+},{"./../tabs/tabviewwithforms":90,"./modalview.coffee":65}],68:[function(require,module,exports){
 var KDLoaderView, KDNotificationView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -10383,7 +14536,7 @@ module.exports = KDNotificationView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":107,"./../loader/loaderview.coffee":56}],62:[function(require,module,exports){
+},{"./../../core/view.coffee":115,"./../loader/loaderview.coffee":63}],69:[function(require,module,exports){
 var KDOverlayView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -10480,7 +14633,7 @@ module.exports = KDOverlayView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":107}],63:[function(require,module,exports){
+},{"./../../core/view.coffee":115}],70:[function(require,module,exports){
 var KDSpotlightView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -10605,7 +14758,7 @@ module.exports = KDSpotlightView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":107}],64:[function(require,module,exports){
+},{"./../../core/view.coffee":115}],71:[function(require,module,exports){
 var KDCustomHTMLView, KDProgressBarView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -10686,14 +14839,12 @@ module.exports = KDProgressBarView = (function(_super) {
 })(KDCustomHTMLView);
 
 
-},{"./../../core/customhtmlview.coffee":97}],65:[function(require,module,exports){
-var JView, KDCustomHTMLView, KDCustomScrollView, KDCustomScrollViewWrapper, KDScrollTrack,
+},{"./../../core/customhtmlview.coffee":104}],72:[function(require,module,exports){
+var KDCustomHTMLView, KDCustomScrollView, KDCustomScrollViewWrapper, KDScrollTrack,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-require('jquery-mousewheel')($);
-
-JView = require('./../../core/jview');
+window.MutationSummary = require('./../../../libs/mutation-summary.js');
 
 KDCustomHTMLView = require('./../../core/customhtmlview');
 
@@ -10707,7 +14858,7 @@ module.exports = KDCustomScrollView = (function(_super) {
   __extends(KDCustomScrollView, _super);
 
   function KDCustomScrollView(options, data) {
-    var mouseWheelSpeed;
+    var lazyLoadThreshold, mouseWheelSpeed, _ref;
     if (options == null) {
       options = {};
     }
@@ -10719,10 +14870,15 @@ module.exports = KDCustomScrollView = (function(_super) {
       options.mouseWheelSpeed = 3;
     }
     KDCustomScrollView.__super__.constructor.call(this, options, data);
-    mouseWheelSpeed = this.getOptions().mouseWheelSpeed;
+    _ref = this.getOptions(), mouseWheelSpeed = _ref.mouseWheelSpeed, lazyLoadThreshold = _ref.lazyLoadThreshold;
+    if (options.offscreenIndicatorClassName != null) {
+      this.listenWindowResize();
+    }
     this.wrapper = new KDCustomScrollViewWrapper({
       tagName: 'main',
-      mouseWheelSpeed: mouseWheelSpeed
+      lazyLoadThreshold: lazyLoadThreshold,
+      mouseWheelSpeed: mouseWheelSpeed,
+      scroll: options.offscreenIndicatorClassName != null ? this.bound('updateOffscreenIndicators') : void 0
     });
     this.verticalTrack = new KDScrollTrack({
       delegate: this.wrapper
@@ -10746,6 +14902,39 @@ module.exports = KDCustomScrollView = (function(_super) {
     this.on('mouseenter', this.bound('showTracks'));
     this.on('mouseleave', this.bound('hideTracks'));
   }
+
+  KDCustomScrollView.prototype._windowDidResize = function() {
+    return this.updateOffscreenIndicators();
+  };
+
+  KDCustomScrollView.prototype.updateOffscreenIndicators = function() {
+    var above, below, offscreenIndicatorClassName, wrapperEl, _ref;
+    wrapperEl = this.wrapper.getElement();
+    offscreenIndicatorClassName = this.getOptions().offscreenIndicatorClassName;
+    _ref = [].slice.call(wrapperEl.getElementsByClassName(offscreenIndicatorClassName)).reduce(function(memo, child) {
+      var y, _, _ref;
+      _ref = KD.utils.relativeOffset(child, wrapperEl), _ = _ref[0], y = _ref[1];
+      if (y < wrapperEl.scrollTop) {
+        memo.above.push(child);
+      } else if (y > wrapperEl.scrollTop + wrapperEl.offsetHeight) {
+        memo.below.push(child);
+      }
+      return memo;
+    }, {
+      above: [],
+      below: []
+    }), above = _ref.above, below = _ref.below;
+    if (above.length > 0) {
+      this.emit('OffscreenItemsAbove', above);
+    } else {
+      this.emit('NoOffscreenItemsAbove');
+    }
+    if (below.length > 0) {
+      return this.emit('OffscreenItemsBelow', below);
+    } else {
+      return this.emit('NoOffscreenItemsBelow');
+    }
+  };
 
   KDCustomScrollView.prototype.viewAppended = function() {
     this.addSubView(this.wrapper);
@@ -10780,7 +14969,7 @@ module.exports = KDCustomScrollView = (function(_super) {
 })(KDCustomHTMLView);
 
 
-},{"./../../core/customhtmlview":97,"./../../core/jview":100,"./customscrollviewinner":66,"./scrolltrack":68,"jquery-mousewheel":2}],66:[function(require,module,exports){
+},{"./../../../libs/mutation-summary.js":7,"./../../core/customhtmlview":104,"./customscrollviewinner":73,"./scrolltrack":75}],73:[function(require,module,exports){
 var KDCustomHTMLView, KDCustomScrollViewWrapper, KDScrollThumb, KDScrollTrack, KDScrollView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -10865,7 +15054,7 @@ module.exports = KDCustomScrollViewWrapper = (function(_super) {
 })(KDScrollView);
 
 
-},{"./../../core/customhtmlview":97,"./scrollthumb":67,"./scrolltrack":68,"./scrollview":69,"jquery-mousewheel":2}],67:[function(require,module,exports){
+},{"./../../core/customhtmlview":104,"./scrollthumb":74,"./scrolltrack":75,"./scrollview":76,"jquery-mousewheel":8}],74:[function(require,module,exports){
 var KDScrollThumb, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -10904,8 +15093,9 @@ module.exports = KDScrollThumb = (function(_super) {
   };
 
   KDScrollThumb.prototype.handleMutation = function() {
-    this.scrollSize = null;
-    return this.calculateSize();
+    this.resetSizes();
+    this.calculateSize();
+    return this.calculatePosition();
   };
 
   KDScrollThumb.prototype.handleDrag = function() {
@@ -10990,6 +15180,7 @@ module.exports = KDScrollThumb = (function(_super) {
   };
 
   KDScrollThumb.prototype.calculateSize = function() {
+    var size;
     this.trackSize = this.getTrackSize();
     this.scrollSize = this.getScrollSize();
     if (this.trackSize >= this.scrollSize) {
@@ -10997,7 +15188,8 @@ module.exports = KDScrollThumb = (function(_super) {
     } else {
       this.track.show();
     }
-    return this.setSize(this.trackSize * this.trackSize / this.scrollSize);
+    size = this.trackSize * this.trackSize / this.scrollSize;
+    return this.setSize(size);
   };
 
   KDScrollThumb.prototype.calculatePosition = function(event) {
@@ -11007,7 +15199,7 @@ module.exports = KDScrollThumb = (function(_super) {
   };
 
   KDScrollThumb.prototype._windowDidResize = function() {
-    return this.resetSizes();
+    return this.handleMutation();
   };
 
   return KDScrollThumb;
@@ -11015,12 +15207,14 @@ module.exports = KDScrollThumb = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":107}],68:[function(require,module,exports){
-var JView, KDScrollTrack,
+},{"./../../core/view.coffee":115}],75:[function(require,module,exports){
+var KDScrollThumb, KDScrollTrack, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-JView = require('./../../core/jview');
+KDView = require('./../../core/view');
+
+KDScrollThumb = require('./scrollthumb.coffee');
 
 module.exports = KDScrollTrack = (function(_super) {
   __extends(KDScrollTrack, _super);
@@ -11040,26 +15234,27 @@ module.exports = KDScrollTrack = (function(_super) {
     });
   }
 
-  KDScrollTrack.prototype.pistachio = function() {
-    return "{{> this.thumb}}";
+  KDScrollTrack.prototype.viewAppended = function() {
+    KDScrollTrack.__super__.viewAppended.call(this);
+    return this.addSubView(this.thumb);
   };
 
   KDScrollTrack.prototype.show = function() {
-    this.getDelegate().emit("ScrollTrackShown", this.type);
+    this.getDelegate().emit('ScrollTrackShown', this.type);
     return this.unsetClass('invisible');
   };
 
   KDScrollTrack.prototype.hide = function() {
-    this.getDelegate().emit("ScrollTrackHidden", this.type);
+    this.getDelegate().emit('ScrollTrackHidden', this.type);
     return this.setClass('invisible');
   };
 
   return KDScrollTrack;
 
-})(JView);
+})(KDView);
 
 
-},{"./../../core/jview":100}],69:[function(require,module,exports){
+},{"./../../core/view":115,"./scrollthumb.coffee":74}],76:[function(require,module,exports){
 var KDScrollView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -11085,7 +15280,7 @@ module.exports = KDScrollView = (function(_super) {
   }
 
   KDScrollView.prototype.bindEvents = function() {
-    this.$().bind("mousewheel scroll", (function(_this) {
+    this.$().bind('mousewheel scroll', (function(_this) {
       return function(event, delta, deltaX, deltaY) {
         if (delta) {
           event._delta = {
@@ -11101,7 +15296,15 @@ module.exports = KDScrollView = (function(_super) {
   };
 
   KDScrollView.prototype.hasScrollBars = function() {
+    return this.hasVerticalScrollBars() || this.hasHorizontalScrollBars();
+  };
+
+  KDScrollView.prototype.hasVerticalScrollBars = function() {
     return this.getScrollHeight() > this.getHeight();
+  };
+
+  KDScrollView.prototype.hasHorizontalScrollBars = function() {
+    return this.getScrollWidth() > this.getWidth();
   };
 
   KDScrollView.prototype.getScrollHeight = function() {
@@ -11196,7 +15399,7 @@ module.exports = KDScrollView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":107,"jquery-mousewheel":2}],70:[function(require,module,exports){
+},{"./../../core/view.coffee":115,"jquery-mousewheel":8}],77:[function(require,module,exports){
 var KDCustomHTMLView, KDSliderBarHandleView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -11313,7 +15516,7 @@ module.exports = KDSliderBarHandleView = (function(_super) {
 })(KDCustomHTMLView);
 
 
-},{"./../../core/customhtmlview.coffee":97}],71:[function(require,module,exports){
+},{"./../../core/customhtmlview.coffee":104}],78:[function(require,module,exports){
 var KDCustomHTMLView, KDSliderBarHandleView, KDSliderBarView,
   __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   __hasProp = {}.hasOwnProperty,
@@ -11553,12 +15756,12 @@ module.exports = KDSliderBarView = (function(_super) {
 })(KDCustomHTMLView);
 
 
-},{"./../../core/customhtmlview.coffee":97,"./sliderbarhandleview.coffee":70}],72:[function(require,module,exports){
-var JView, KDSlidePageView,
+},{"./../../core/customhtmlview.coffee":104,"./sliderbarhandleview.coffee":77}],79:[function(require,module,exports){
+var KDSlidePageView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-JView = require('./../../core/jview.coffee');
+KDView = require('./../../core/view.coffee');
 
 module.exports = KDSlidePageView = (function(_super) {
   __extends(KDSlidePageView, _super);
@@ -11583,15 +15786,17 @@ module.exports = KDSlidePageView = (function(_super) {
 
   return KDSlidePageView;
 
-})(JView);
+})(KDView);
 
 
-},{"./../../core/jview.coffee":100}],73:[function(require,module,exports){
-var JView, KDSlideShowView,
+},{"./../../core/view.coffee":115}],80:[function(require,module,exports){
+var KDSlideShowView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-JView = require('./../../core/jview.coffee');
+require('./../../../libs/hammer.js');
+
+KDView = require('./../../core/view.coffee');
 
 module.exports = KDSlideShowView = (function(_super) {
   var X_COORD, Y_COORD, _ref;
@@ -11724,10 +15929,10 @@ module.exports = KDSlideShowView = (function(_super) {
 
   return KDSlideShowView;
 
-})(JView);
+})(KDView);
 
 
-},{"./../../core/jview.coffee":100}],74:[function(require,module,exports){
+},{"./../../../libs/hammer.js":2,"./../../core/view.coffee":115}],81:[function(require,module,exports){
 var KDSplitComboView, KDSplitView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -11776,7 +15981,7 @@ module.exports = KDSplitComboView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":107,"./splitview.coffee":77}],75:[function(require,module,exports){
+},{"./../../core/view.coffee":115,"./splitview.coffee":84}],82:[function(require,module,exports){
 var KDScrollView, KDSplitViewPanel,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -11787,28 +15992,45 @@ module.exports = KDSplitViewPanel = (function(_super) {
   __extends(KDSplitViewPanel, _super);
 
   function KDSplitViewPanel(options, data) {
-    var _ref;
+    var type, _ref;
     if (options == null) {
       options = {};
     }
     if (options.fixed == null) {
       options.fixed = false;
     }
-    options.minimum || (options.minimum = null);
-    options.maximum || (options.maximum = null);
     options.view || (options.view = null);
     KDSplitViewPanel.__super__.constructor.call(this, options, data);
-    this.isVertical = this.getOptions().type.toLowerCase() === "vertical";
-    this.isFixed = this.getOptions().fixed;
-    _ref = this.options, this.size = _ref.size, this.minimum = _ref.minimum, this.maximum = _ref.maximum;
+    type = this.getOptions().type;
+    this.vertical = type.toLowerCase() === "vertical";
+    _ref = this.getOptions(), this.fixed = _ref.fixed, this.size = _ref.size, this.index = _ref.index;
   }
 
-  KDSplitViewPanel.prototype._getIndex = function() {
-    return this.parent.getPanelIndex(this);
+  KDSplitViewPanel.prototype.splitPanel = function(options) {
+    var index, split, splitClass, view;
+    if (options == null) {
+      options = {};
+    }
+    if (this.subViews.first instanceof KDSplitView) {
+      return warn("this panel is already splitted");
+    }
+    view = this.subViews.first;
+    index = this.parent.panels.indexOf(this);
+    this.subViews = [];
+    if (view) {
+      view.detach();
+      view.unsetParent();
+      options.views = [view];
+    }
+    options.colored = true;
+    splitClass = this.parent.getOptions().splitClass;
+    split = new (splitClass || KDSplitView)(options);
+    this.parent.setView(split, index);
+    return split;
   };
 
   KDSplitViewPanel.prototype._getSize = function() {
-    if (this.isVertical) {
+    if (this.vertical) {
       return this.getWidth();
     } else {
       return this.getHeight();
@@ -11820,12 +16042,12 @@ module.exports = KDSplitViewPanel = (function(_super) {
       if (size < 0) {
         size = 0;
       }
-      if (this.isVertical) {
+      if (this.vertical) {
         this.setWidth(size);
       } else {
         this.setHeight(size);
       }
-      this.parent.sizes[this._getIndex()] = this.size = size;
+      this.parent.sizes[this.index] = this.size = size;
       this.parent.emit("PanelDidResize", {
         panel: this
       });
@@ -11839,89 +16061,36 @@ module.exports = KDSplitViewPanel = (function(_super) {
   };
 
   KDSplitViewPanel.prototype._wouldResize = function(size) {
-    if (this.minimum == null) {
-      this.minimum = -1;
-    }
-    if (this.maximum == null) {
-      this.maximum = 99999;
-    }
-    if (size > this.minimum && size < this.maximum) {
+    var maximum, minimum, _ref, _ref1;
+    minimum = (_ref = this.parent.minimums[this.index]) != null ? _ref : 0;
+    maximum = (_ref1 = this.parent.maximums[this.index]) != null ? _ref1 : 999999;
+    if ((maximum >= size && size >= minimum)) {
       return true;
     } else {
-      if (size < this.minimum) {
-        this.parent._panelReachedMinimum(this._getIndex());
-      } else if (size > this.maximum) {
-        this.parent._panelReachedMaximum(this._getIndex());
+      if (size < minimum) {
+        this.parent._panelReachedMinimum(this.index);
+      } else if (size > maximum) {
+        this.parent._panelReachedMaximum(this.index);
       }
       return false;
     }
   };
 
   KDSplitViewPanel.prototype._setOffset = function(offset) {
-    if (offset < 0) {
-      offset = 0;
-    }
-    if (this.isVertical) {
-      this.$().css({
-        left: offset
-      });
+    offset = Math.max(offset, 0);
+    if (this.vertical) {
+      return this.setX(offset);
     } else {
-      this.$().css({
-        top: offset
-      });
+      return this.setY(offset);
     }
-    return this.parent.panelsBounds[this._getIndex()] = offset;
   };
 
   KDSplitViewPanel.prototype._getOffset = function() {
-    if (this.isVertical) {
-      return this.getRelativeX();
+    if (this.vertical) {
+      return parseInt(this.getElement().style.left, 10);
     } else {
-      return this.getRelativeY();
+      return parseInt(this.getElement().style.top, 10);
     }
-  };
-
-  KDSplitViewPanel.prototype._animateTo = function(size, offset, callback) {
-    var cb, d, options, panel, properties;
-    if ("undefined" === typeof callback && "function" === typeof offset) {
-      callback = offset;
-    }
-    callback || (callback = noop);
-    panel = this;
-    d = panel.parent.options.duration;
-    cb = function() {
-      var newSize;
-      newSize = panel._getSize();
-      panel.parent.sizes[panel.index] = panel.size = newSize;
-      panel.parent.emit("PanelDidResize", {
-        panel: panel
-      });
-      panel.emit("PanelDidResize", {
-        newSize: newSize
-      });
-      return callback.call(panel);
-    };
-    properties = {};
-    if (size < 0) {
-      size = 0;
-    }
-    if (panel.isVertical) {
-      properties.width = size;
-      if (offset != null) {
-        properties.left = offset;
-      }
-    } else {
-      properties.height = size;
-      if (offset != null) {
-        properties.top = offset;
-      }
-    }
-    options = {
-      duration: d,
-      complete: cb
-    };
-    panel.$().stop();
-    return panel.$().animate(properties, options);
   };
 
   return KDSplitViewPanel;
@@ -11929,7 +16098,7 @@ module.exports = KDSplitViewPanel = (function(_super) {
 })(KDScrollView);
 
 
-},{"./../scrollview/scrollview.coffee":69}],76:[function(require,module,exports){
+},{"./../scrollview/scrollview.coffee":76}],83:[function(require,module,exports){
 var KDSplitResizer, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -11944,6 +16113,7 @@ module.exports = KDSplitResizer = (function(_super) {
     if (options == null) {
       options = {};
     }
+    options.handleSize || (options.handleSize = 2);
     this.isVertical = options.type.toLowerCase() === "vertical";
     axis = this.isVertical ? "x" : "y";
     if (options.draggable == null) {
@@ -11959,16 +16129,18 @@ module.exports = KDSplitResizer = (function(_super) {
   }
 
   KDSplitResizer.prototype._setOffset = function(offset) {
+    var newOffset;
     if (offset < 0) {
       offset = 0;
     }
+    newOffset = offset - this.getOption('handleSize');
     if (this.isVertical) {
       return this.$().css({
-        left: offset - 5
+        left: newOffset
       });
     } else {
       return this.$().css({
-        top: offset - 5
+        top: newOffset
       });
     }
   };
@@ -12010,23 +16182,17 @@ module.exports = KDSplitResizer = (function(_super) {
   };
 
   KDSplitResizer.prototype.dragInAction = function(x, y) {
-    var p0DidResize, p0WouldResize, p1DidResize, p1WouldResize;
     if (this.isVertical) {
-      p0WouldResize = this.panel0._wouldResize(x + this.p0Size);
-      if (p0WouldResize) {
-        p1WouldResize = this.panel1._wouldResize(-x + this.p1Size);
-      }
-      this.dragIsAllowed = p1WouldResize ? (this.panel0._setSize(x + this.p0Size), this.panel1._setSize(-x + this.p1Size), true) : (this._setOffset(this.panel1._getOffset()), false);
-      if (this.dragIsAllowed) {
-        return this.panel1._setOffset(x + this.p1Offset);
+      if (this.panel0._wouldResize(x + this.p0Size)) {
+        return this.parent.resizePanel(x + this.p0Size);
+      } else {
+        return this._setOffset(this.panel1._getOffset());
       }
     } else {
-      p0WouldResize = this.panel0._wouldResize(y + this.p0Size);
-      p1WouldResize = this.panel1._wouldResize(-y + this.p1Size);
-      p0DidResize = p0WouldResize && p1WouldResize ? this.panel0._setSize(y + this.p0Size) : false;
-      p1DidResize = p0WouldResize && p1WouldResize ? this.panel1._setSize(-y + this.p1Size) : false;
-      if (p0DidResize && p1DidResize) {
-        return this.panel1._setOffset(y + this.p1Offset);
+      if (this.panel0._wouldResize(y + this.p0Size)) {
+        return this.parent.resizePanel(y + this.p0Size);
+      } else {
+        return this._setOffset(this.panel1._getOffset());
       }
     }
   };
@@ -12036,7 +16202,7 @@ module.exports = KDSplitResizer = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":107}],77:[function(require,module,exports){
+},{"./../../core/view.coffee":115}],84:[function(require,module,exports){
 var KD, KDSplitResizer, KDSplitView, KDSplitViewPanel, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -12050,9 +16216,12 @@ KDSplitViewPanel = require('./splitpanel.coffee');
 KDSplitResizer = require('./splitresizer.coffee');
 
 module.exports = KDSplitView = (function(_super) {
+  var deprecated;
+
   __extends(KDSplitView, _super);
 
   function KDSplitView(options, data) {
+    var _ref;
     if (options == null) {
       options = {};
     }
@@ -12060,65 +16229,59 @@ module.exports = KDSplitView = (function(_super) {
     if (options.resizable == null) {
       options.resizable = true;
     }
-    options.sizes || (options.sizes = ["50%", "50%"]);
-    options.minimums || (options.minimums = null);
-    options.maximums || (options.maximums = null);
-    options.views || (options.views = null);
+    options.sizes || (options.sizes = [.5, .5]);
+    options.minimums || (options.minimums = [0, 0]);
+    options.maximums || (options.maximums = ['100%', '100%']);
+    options.views || (options.views = []);
     options.fixed || (options.fixed = []);
     options.duration || (options.duration = 200);
     options.separator || (options.separator = null);
     if (options.colored == null) {
       options.colored = false;
     }
-    if (options.animated == null) {
-      options.animated = true;
-    }
+    options.resizeHandleSize || (options.resizeHandleSize = 2);
     options.type = options.type.toLowerCase();
+    options.cssClass = KD.utils.curry("kdsplitview kdsplitview-" + options.type, options.cssClass);
     KDSplitView.__super__.constructor.call(this, options, data);
-    this.setClass("kdsplitview kdsplitview-" + (this.getOptions().type) + " " + (this.getOptions().cssClass));
+    _ref = this.getOptions(), this.type = _ref.type, this.resizable = _ref.resizable;
     this.panels = [];
-    this.panelsBounds = [];
-    this.resizers = [];
+    this.resizer = null;
     this.sizes = [];
+    this.minimums = [];
+    this.maximums = [];
+    this.size = 0;
   }
 
   KDSplitView.prototype.viewAppended = function() {
-    this._sanitizeSizes();
+    var _ref;
+    this._calculateSizes();
     this._createPanels();
-    this._calculatePanelBounds();
     this._putPanels();
-    this._setPanelPositions();
+    this._resizePanels();
     this._putViews();
-    if (this.getOptions().resizable && this.panels.length) {
-      this._createResizers();
+    if (this.resizable && this.panels[1]) {
+      this._createResizer();
     }
-    return this.listenWindowResize();
+    this.listenWindowResize();
+    return (_ref = this.parent) != null ? _ref.on("PanelDidResize", KD.utils.debounce(10, this.bound('_windowDidResize'))) : void 0;
   };
 
   KDSplitView.prototype._createPanels = function() {
-    var i, panelCount;
-    panelCount = this.getOptions().sizes.length;
-    return this.panels = (function() {
-      var _i, _results;
-      _results = [];
-      for (i = _i = 0; 0 <= panelCount ? _i < panelCount : _i > panelCount; i = 0 <= panelCount ? ++_i : --_i) {
-        _results.push(this._createPanel(i));
-      }
-      return _results;
-    }).call(this);
+    this._createPanel(0);
+    if (this.sizes[1] != null) {
+      return this._createPanel(1);
+    }
   };
 
   KDSplitView.prototype._createPanel = function(index) {
-    var fixed, maximums, minimums, panel, type, _ref;
-    _ref = this.getOptions(), type = _ref.type, fixed = _ref.fixed, minimums = _ref.minimums, maximums = _ref.maximums;
-    panel = new KDSplitViewPanel({
+    var fixed, panel, panelClass, _ref;
+    _ref = this.getOptions(), fixed = _ref.fixed, panelClass = _ref.panelClass;
+    panel = new (panelClass || KDSplitViewPanel)({
       cssClass: "kdsplitview-panel panel-" + index,
       index: index,
-      type: type,
-      size: this._sanitizeSize(this.sizes[index]),
-      fixed: fixed[index] != null,
-      minimum: minimums ? this._sanitizeSize(minimums[index]) : void 0,
-      maximum: maximums ? this._sanitizeSize(maximums[index]) : void 0
+      type: this.type,
+      size: this.sizes[index],
+      fixed: !!fixed[index]
     });
     panel.on("KDObjectWillBeDestroyed", (function(_this) {
       return function() {
@@ -12126,198 +16289,120 @@ module.exports = KDSplitView = (function(_super) {
       };
     })(this));
     this.emit("SplitPanelCreated", panel);
+    this.panels[index] = panel;
     return panel;
   };
 
-  KDSplitView.prototype._calculatePanelBounds = function() {
-    var i, offset, prevSize, size;
-    return this.panelsBounds = (function() {
-      var _i, _j, _len, _ref, _results;
-      _ref = this.sizes;
-      _results = [];
-      for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
-        size = _ref[i];
-        if (i === 0) {
-          _results.push(0);
-        } else {
-          offset = 0;
-          for (prevSize = _j = 0; 0 <= i ? _j < i : _j > i; prevSize = 0 <= i ? ++_j : --_j) {
-            offset += this.sizes[prevSize];
-          }
-          _results.push(offset);
-        }
-      }
-      return _results;
-    }).call(this);
-  };
-
   KDSplitView.prototype._putPanels = function() {
-    var panel, _i, _len, _ref, _results;
-    _ref = this.panels;
-    _results = [];
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      panel = _ref[_i];
-      this.addSubView(panel);
-      if (this.getOptions().colored) {
-        _results.push(panel.$().css({
-          backgroundColor: KD.utils.getRandomRGB()
-        }));
-      } else {
-        _results.push(void 0);
-      }
+    this.addSubView(this.panels[0]);
+    this.addSubView(this.panels[1]);
+    if (this.getOptions().colored) {
+      this.panels[0].setCss({
+        backgroundColor: KD.utils.getRandomRGB()
+      });
+      return this.panels[1].setCss({
+        backgroundColor: KD.utils.getRandomRGB()
+      });
     }
-    return _results;
   };
 
-  KDSplitView.prototype._setPanelPositions = function() {
-    var i, panel, _i, _len, _ref;
-    _ref = this.panels;
-    for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
-      panel = _ref[i];
-      panel._setSize(this.sizes[i]);
-      panel._setOffset(this.panelsBounds[i]);
-    }
-    return false;
+  KDSplitView.prototype._resizePanels = function() {
+    return this.resizePanel(this.sizes[0]);
   };
 
   KDSplitView.prototype._panelIsBeingDestroyed = function(panel) {
-    var index, o;
-    index = this.getPanelIndex(panel);
-    o = this.getOptions();
-    this.panels = this.panels.slice(0, index).concat(this.panels.slice(index + 1));
-    this.sizes = this.sizes.slice(0, index).concat(this.sizes.slice(index + 1));
-    this.panelsBounds = this.panelsBounds.slice(0, index).concat(this.panelsBounds.slice(index + 1));
-    o.minimums.splice(index, 1);
-    o.maximums.splice(index, 1);
-    if (o.views[index] != null) {
-      return o.views.splice(index, 1);
-    }
+    var index, views;
+    views = this.getOptions().views;
+    index = panel.index;
+    this.panels[index] = null;
+    this.sizes[index] = null;
+    this.minimums[index] = null;
+    this.maximums[index] = null;
+    return views[index] = null;
   };
 
-  KDSplitView.prototype._createResizers = function() {
-    var i;
-    this.resizers = (function() {
-      var _i, _ref, _results;
-      _results = [];
-      for (i = _i = 1, _ref = this.sizes.length; 1 <= _ref ? _i < _ref : _i > _ref; i = 1 <= _ref ? ++_i : --_i) {
-        _results.push(this._createResizer(i));
-      }
-      return _results;
-    }).call(this);
-    return this._repositionResizers();
-  };
-
-  KDSplitView.prototype._createResizer = function(index) {
-    var resizer;
-    this.addSubView(resizer = new KDSplitResizer({
-      cssClass: "kdsplitview-resizer " + (this.getOptions().type),
-      type: this.getOptions().type,
-      panel0: this.panels[index - 1],
-      panel1: this.panels[index]
+  KDSplitView.prototype._createResizer = function() {
+    var resizeHandleSize, type, _ref;
+    _ref = this.getOptions(), type = _ref.type, resizeHandleSize = _ref.resizeHandleSize;
+    this.resizer = this.addSubView(new KDSplitResizer({
+      cssClass: "kdsplitview-resizer " + type,
+      type: this.type,
+      panel0: this.panels[0],
+      panel1: this.panels[1],
+      handleSize: resizeHandleSize
     }));
-    return resizer;
+    return this._repositionResizer();
   };
 
-  KDSplitView.prototype._repositionResizers = function() {
-    var i, resizer, _i, _len, _ref, _results;
-    _ref = this.resizers;
-    _results = [];
-    for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
-      resizer = _ref[i];
-      _results.push(resizer._setOffset(this.panelsBounds[i + 1]));
-    }
-    return _results;
+  KDSplitView.prototype._repositionResizer = function() {
+    return this.resizer._setOffset(this.sizes[0]);
   };
 
   KDSplitView.prototype._putViews = function() {
-    var i, view, _base, _i, _len, _ref, _results;
-    if ((_base = this.getOptions()).views == null) {
-      _base.views = [];
+    var views;
+    views = this.getOptions().views;
+    if (!views) {
+      return;
     }
-    _ref = this.getOptions().views;
-    _results = [];
-    for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
-      view = _ref[i];
-      if (view instanceof KDView) {
-        _results.push(this.setView(view, i));
-      } else {
-        _results.push(void 0);
-      }
+    if (views[0]) {
+      this.setView(views[0], 0);
     }
-    return _results;
+    if (views[1]) {
+      return this.setView(views[1], 1);
+    }
   };
 
-  KDSplitView.prototype._sanitizeSizes = function() {
-    var i, newSizes, nullCount, nullSize, o, panelSize, size, splitSize, totalOccupied;
+  KDSplitView.prototype._calculateSizes = function() {
+    var s, sizes, ss, st;
     this._setMinsAndMaxs();
-    o = this.getOptions();
-    nullCount = 0;
-    totalOccupied = 0;
-    splitSize = this._getSize();
-    newSizes = (function() {
-      var _i, _len, _ref, _results;
-      _ref = o.sizes;
-      _results = [];
-      for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
-        size = _ref[i];
-        if (size === null) {
-          nullCount++;
-          _results.push(null);
-        } else {
-          panelSize = this._sanitizeSize(size);
-          this._getLegitPanelSize(size, i);
-          totalOccupied += panelSize;
-          _results.push(panelSize);
-        }
+    sizes = this.getOptions().sizes;
+    ss = this._getSize();
+    s = [];
+    s[0] = this._getLegitPanelSize(this._sanitizeSize(sizes[0]), 0);
+    s[1] = this._getLegitPanelSize(this._sanitizeSize(sizes[1]), 1);
+    st = s[0] + s[1];
+    if (st > ss) {
+      s[1] = ss - s[0];
+    } else if (st < ss) {
+      if (sizes[0] && (!sizes[1] || sizes[1] === 'auto')) {
+        s[1] = ss - s[0];
+      } else if (sizes[1] && (!sizes[0] || sizes[0] === 'auto')) {
+        s[0] = ss - s[1];
       }
-      return _results;
-    }).call(this);
-    this.sizes = (function() {
-      var _i, _len, _results;
-      _results = [];
-      for (_i = 0, _len = newSizes.length; _i < _len; _i++) {
-        size = newSizes[_i];
-        if (size === null) {
-          nullSize = (splitSize - totalOccupied) / nullCount;
-          _results.push(Math.round(nullSize));
-        } else {
-          _results.push(Math.round(size));
-        }
-      }
-      return _results;
-    })();
-    return this.sizes;
+    }
+    this.size = ss;
+    return this.sizes = s;
   };
 
   KDSplitView.prototype._sanitizeSize = function(size) {
-    var splitSize;
-    if ("number" === typeof size || /px$/.test(size)) {
+    if ("number" === typeof size) {
+      if ((1 > size && size > 0)) {
+        return this._getSize() * size;
+      } else {
+        return size;
+      }
+    } else if (/px$/.test(size)) {
       return parseInt(size, 10);
     } else if (/%$/.test(size)) {
-      splitSize = this._getSize();
-      return splitSize / 100 * parseInt(size, 10);
+      return this._getSize() / 100 * parseInt(size, 10);
+    } else {
+      return null;
     }
   };
 
   KDSplitView.prototype._setMinsAndMaxs = function() {
-    var i, panelAmount, _base, _base1, _i, _results;
-    if ((_base = this.getOptions()).minimums == null) {
-      _base.minimums = [];
-    }
-    if ((_base1 = this.getOptions()).maximums == null) {
-      _base1.maximums = [];
-    }
-    panelAmount = this.getOptions().sizes.length || 2;
-    _results = [];
-    for (i = _i = 0; 0 <= panelAmount ? _i < panelAmount : _i > panelAmount; i = 0 <= panelAmount ? ++_i : --_i) {
-      this.getOptions().minimums[i] = this.getOptions().minimums[i] ? this._sanitizeSize(this.getOptions().minimums[i]) : -1;
-      _results.push(this.getOptions().maximums[i] = this.getOptions().maximums[i] ? this._sanitizeSize(this.getOptions().maximums[i]) : 99999);
-    }
-    return _results;
+    var maximums, minimums, _ref;
+    _ref = this.getOptions(), minimums = _ref.minimums, maximums = _ref.maximums;
+    this.minimums[0] = this._sanitizeSize(minimums[0]);
+    this.minimums[1] = this._sanitizeSize(minimums[1]);
+    this.maximums[0] = this._sanitizeSize(maximums[0]);
+    return this.maximums[1] = this._sanitizeSize(maximums[1]);
   };
 
   KDSplitView.prototype._getSize = function() {
-    if (this.getOptions().type === "vertical") {
+    if (this.size) {
+      return this.size;
+    } else if (this.isVertical()) {
       return this.getWidth();
     } else {
       return this.getHeight();
@@ -12325,7 +16410,7 @@ module.exports = KDSplitView = (function(_super) {
   };
 
   KDSplitView.prototype._setSize = function(size) {
-    if (this.getOptions().type === "vertical") {
+    if (this.isVertical()) {
       return this.setWidth(size);
     } else {
       return this.setHeight(size);
@@ -12333,293 +16418,255 @@ module.exports = KDSplitView = (function(_super) {
   };
 
   KDSplitView.prototype._getParentSize = function() {
-    var $parent, type;
-    type = this.getOptions().type;
-    $parent = this.$().parent();
-    if (type === "vertical") {
-      return $parent.width();
+    if (this.isVertical()) {
+      if (this.parent && this.parent.isInDom()) {
+        return this.parent.getWidth();
+      } else {
+        return window.innerWidth;
+      }
     } else {
-      return $parent.height();
+      if (this.parent && this.parent.isInDom()) {
+        return this.parent.getHeight();
+      } else {
+        return window.innerHeight;
+      }
     }
   };
 
   KDSplitView.prototype._getLegitPanelSize = function(size, index) {
-    return size = this.getOptions().minimums[index] > size ? this.getOptions().minimums[index] : this.getOptions().maximums[index] < size ? this.getOptions().maximums[index] : size;
+    var max, min;
+    min = this.minimums[index] || 0;
+    max = this.maximums[index] || this._getSize();
+    return Math.min(Math.max(min, size), max);
   };
 
-  KDSplitView.prototype._resizePanels = function() {
-    return this._sanitizeSizes();
-  };
-
-  KDSplitView.prototype._repositionPanels = function() {
-    this._calculatePanelBounds();
-    return this._setPanelPositions();
-  };
-
-  KDSplitView.prototype._windowDidResize = function(event) {
+  KDSplitView.prototype._windowDidResize = function() {
+    this.size = null;
     this._setSize(this._getParentSize());
+    this._calculateSizes();
     this._resizePanels();
-    this._repositionPanels();
-    this._setPanelPositions();
-    if (this.getOptions().resizable) {
-      return this._repositionResizers();
+    if (this.resizable) {
+      return this._repositionResizer();
     }
   };
 
   KDSplitView.prototype.mouseUp = function(event) {
-    this.$().unbind("mousemove.resizeHandle");
-    return this._resizeDidStop(event);
+    return this.$().unbind("mousemove.resizeHandle");
   };
 
-  KDSplitView.prototype._panelReachedMinimum = function(panelIndex) {
-    this.panels[panelIndex].emit("PanelReachedMinimum");
+  KDSplitView.prototype._panelReachedMinimum = function(index) {
+    var panel;
+    panel = this.panels[index];
+    panel.emit("PanelReachedMinimum");
     return this.emit("PanelReachedMinimum", {
-      panel: this.panels[panelIndex]
+      panel: panel
     });
   };
 
-  KDSplitView.prototype._panelReachedMaximum = function(panelIndex) {
-    this.panels[panelIndex].emit("PanelReachedMaximum");
+  KDSplitView.prototype._panelReachedMaximum = function(index) {
+    var panel;
+    panel = this.panels[index];
+    panel.emit("PanelReachedMaximum");
     return this.emit("PanelReachedMaximum", {
-      panel: this.panels[panelIndex]
+      panel: panel
     });
   };
 
   KDSplitView.prototype._resizeDidStart = function(event) {
-    $('body').addClass("resize-in-action");
-    return this.emit("ResizeDidStart", {
-      orgEvent: event
-    });
+    this.emit("ResizeDidStart", event);
+    return document.body.classList.add("resize-in-action");
   };
 
-  KDSplitView.prototype._resizeDidStop = function(event) {
-    this.emit("ResizeDidStop", {
-      orgEvent: event
+  KDSplitView.prototype._resizeDidStop = (function() {
+    var unsetResizeInAction;
+    unsetResizeInAction = KD.utils.throttle(1000, function(view) {
+      return document.body.classList.remove("resize-in-action");
     });
-    return this.utils.wait(300, function() {
-      return $('body').removeClass("resize-in-action");
-    });
-  };
-
-
-  /* PUBLIC METHODS */
+    return function(event) {
+      var s1, s2;
+      s1 = this.sizes[0] / this._getSize();
+      s2 = this.sizes[1] / this._getSize();
+      this.setOption('sizes', [s1, s2]);
+      this.emit("ResizeDidStop", event);
+      return unsetResizeInAction(this);
+    };
+  })();
 
   KDSplitView.prototype.isVertical = function() {
-    return this.getOptions().type === "vertical";
+    return this.type === "vertical";
   };
 
   KDSplitView.prototype.getPanelIndex = function(panel) {
-    var i, p, _i, _len, _ref;
-    _ref = this.panels;
-    for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
-      p = _ref[i];
-      if (p.getId() === panel.getId()) {
-        return i;
-      }
-    }
+    return panel.index;
   };
 
-  KDSplitView.prototype.hidePanel = function(panelIndex, callback) {
+  KDSplitView.prototype.hidePanel = function(index, callback) {
     var panel;
     if (callback == null) {
       callback = noop;
     }
-    panel = this.panels[panelIndex];
+    panel = this.panels[index];
     panel._lastSize = panel._getSize();
-    return this.resizePanel(0, panelIndex, (function(_this) {
-      return function() {
-        return callback.call(_this, {
-          panel: panel,
-          index: panelIndex
-        });
-      };
-    })(this));
+    if (panel.isFloating) {
+      panel.setCss("width", 0);
+      return callback({
+        panel: panel,
+        index: index
+      });
+    } else {
+      return this.resizePanel(0, index, callback.bind(this, {
+        panel: panel,
+        index: index
+      }));
+    }
   };
 
-  KDSplitView.prototype.showPanel = function(panelIndex, callback) {
-    var newSize, panel;
+  KDSplitView.prototype.showPanel = function(index, callback) {
+    var left, newSize, panel;
     if (callback == null) {
       callback = noop;
     }
-    panel = this.panels[panelIndex];
-    newSize = panel._lastSize || this.getOptions().sizes[panelIndex] || 200;
+    panel = this.panels[index];
+    newSize = panel._lastSize || this.sizes[index] || 200;
     panel._lastSize = null;
-    return this.resizePanel(newSize, panelIndex, function() {
-      return callback.call(this, {
+    if (panel.isFloating) {
+      panel.setCss('width', newSize);
+      left = panel.getRelativeX();
+      if (left > 0) {
+        panel.setCss('left', left - newSize);
+      }
+      KD.getSingleton('windowController').addLayer(panel);
+      panel.once('ReceivedClickElsewhere', (function(_this) {
+        return function() {
+          return _this.hidePanel(index);
+        };
+      })(this));
+      return callback({
         panel: panel,
-        index: panelIndex
+        index: index
       });
-    });
+    } else {
+      return this.resizePanel(newSize, index, callback.bind(this, {
+        panel: panel,
+        index: index
+      }));
+    }
   };
 
-  KDSplitView.prototype.resizePanel = function(value, panelIndex, callback) {
-    var isReverse, p0offset, p0size, p1index, p1newSize, p1offset, p1size, panel0, panel1, race, raceCounter, resizer, surplus, totalActionArea;
+  KDSplitView.prototype.setFloatingPanel = function(index, size) {
+    var panel;
+    if (size == null) {
+      size = 0;
+    }
+    panel = this.panels[index];
+    panel.setClass('floating');
+    panel.isFloating = true;
+    panel._lastSize = panel._getSize();
+    this.resizePanel(size, index);
+    return this.emit('PanelSetToFloating', panel);
+  };
+
+  KDSplitView.prototype.unsetFloatingPanel = function(index) {
+    var panel;
+    panel = this.panels[index];
+    delete panel.isFloating;
+    panel.unsetClass('floating');
+    this.showPanel(index);
+    return this.emit('PanelSetToNormal', panel);
+  };
+
+  KDSplitView.prototype.resizePanel = function(value, index, callback) {
+    var affectedPanel, askedPanel, offset, sizes;
     if (value == null) {
       value = 0;
     }
-    if (panelIndex == null) {
-      panelIndex = 0;
+    if (index == null) {
+      index = 0;
     }
     if (callback == null) {
       callback = noop;
     }
+    if (this.sizes[1] == null) {
+      return;
+    }
+    if (this.beingResized) {
+      return;
+    }
     this._resizeDidStart();
     value = this._sanitizeSize(value);
-    panel0 = this.panels[panelIndex];
-    isReverse = false;
-    if (panel0.size === value) {
+    if (value > this._getSize()) {
+      value = this._getSize();
+    }
+    askedPanel = this.panels[index];
+    affectedPanel = this.panels[(index + 1) % 2];
+    if (askedPanel._getSize() === value) {
       this._resizeDidStop();
       callback();
       return;
     }
-    panel1 = this.panels.length - 1 !== panelIndex ? (p1index = panelIndex + 1, this.getOptions().resizable ? resizer = this.resizers[panelIndex] : void 0, this.panels[p1index]) : (isReverse = true, p1index = panelIndex - 1, this.getOptions().resizable ? resizer = this.resizers[p1index] : void 0, this.panels[p1index]);
-    totalActionArea = panel0.size + panel1.size;
-    if (value > totalActionArea) {
-      return false;
+    this.beingResized = true;
+    value = this._getLegitPanelSize(value, index);
+    sizes = [value, this._getSize() - value];
+    offset = index ? sizes[1] : sizes[0];
+    askedPanel._setSize(sizes[0]);
+    affectedPanel._setSize(sizes[1]);
+    this.panels[1]._setOffset(offset);
+    if (this.resizer) {
+      this.resizer._setOffset(offset);
     }
-    p0size = this._getLegitPanelSize(value, panelIndex);
-    surplus = panel0.size - p0size;
-    p1newSize = panel1.size + surplus;
-    p1size = this._getLegitPanelSize(p1newSize, p1index);
-    raceCounter = 0;
-    race = (function(_this) {
-      return function() {
-        raceCounter++;
-        if (raceCounter === 2) {
-          _this._resizeDidStop();
-          return callback();
+    this._resizeDidStop();
+    return this.beingResized = false;
+  };
+
+  KDSplitView.prototype.merge = function() {
+    var views;
+    views = this.getOptions().views;
+    this.getOptions().views = [];
+    views.forEach((function(_this) {
+      return function(view, i) {
+        if (!view) {
+          return;
         }
+        view.detach();
+        view.unsetParent();
+        return _this.panels[i].subViews = [];
       };
-    })(this);
-    if (!isReverse) {
-      p1offset = panel1._getOffset() - surplus;
-      if (this.getOptions().animated) {
-        panel0._animateTo(p0size, race);
-        panel1._animateTo(p1size, p1offset, race);
-        if (resizer) {
-          return resizer._animateTo(p1offset);
-        }
-      } else {
-        panel0._setSize(p0size);
-        race();
-        panel1._setSize(p1size, panel1._setOffset(p1offset));
-        race();
-        if (resizer) {
-          return resizer._setOffset(p1offset);
-        }
-      }
-    } else {
-      p0offset = panel0._getOffset() + surplus;
-      if (this.getOptions().animated) {
-        panel0._animateTo(p0size, p0offset, race);
-        panel1._animateTo(p1size, race);
-        if (resizer) {
-          return resizer._animateTo(p0offset);
-        }
-      } else {
-        panel0._setSize(p0size);
-        panel0._setOffset(p0offset);
-        race();
-        panel1._setSize(p1size);
-        race();
-        if (resizer) {
-          return resizer._setOffset(p0offset);
-        }
-      }
-    }
+    })(this));
+    this.emit("SplitIsBeingMerged", views);
+    return this.destroy();
   };
 
-  KDSplitView.prototype.splitPanel = function(index, options) {
-    var i, isLastPanel, newIndex, newPanel, newPanelOptions, newResizer, newSize, o, oldResizer, panel, panelToBeSplitted, _i, _len, _ref;
-    newPanelOptions = {};
-    o = this.getOptions();
-    isLastPanel = this.resizers[index] ? false : true;
-    panelToBeSplitted = this.panels[index];
-    this.panels.splice(index + 1, 0, newPanel = this._createPanel(index));
-    this.sizes.splice(index + 1, 0, this.sizes[index] / 2);
-    this.sizes[index] = this.sizes[index] / 2;
-    o.minimums.splice(index + 1, 0, newPanelOptions.minimum);
-    o.maximums.splice(index + 1, 0, newPanelOptions.maximum);
-    o.views.splice(index + 1, 0, newPanelOptions.view);
-    o.sizes = this.sizes;
-    this.subViews.push(newPanel);
-    newPanel.setParent(this);
-    panelToBeSplitted.$().after(newPanel.$());
-    newPanel.emit('viewAppended');
-    newSize = panelToBeSplitted._getSize() / 2;
-    panelToBeSplitted._setSize(newSize);
-    newPanel._setSize(newSize);
-    newPanel._setOffset(panelToBeSplitted._getOffset() + newSize);
-    this._calculatePanelBounds();
-    _ref = this.panels.slice(index + 1, this.panels.length);
-    for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
-      panel = _ref[i];
-      panel.index = newIndex = index + 1 + i;
-      panel.unsetClass("panel-" + (index + i)).setClass("panel-" + newIndex);
-    }
-    if (this.getOptions().resizable) {
-      if (!isLastPanel) {
-        oldResizer = this.resizers[index];
-        oldResizer._setOffset(this.panelsBounds[index + 1]);
-        oldResizer.panel0 = panelToBeSplitted;
-        oldResizer.panel1 = newPanel;
-        this.resizers.splice(index + 1, 0, newResizer = this._createResizer(index + 2));
-        newResizer._setOffset(this.panelsBounds[index + 2]);
-      } else {
-        this.resizers.push(newResizer = this._createResizer(index + 1));
-        newResizer._setOffset(this.panelsBounds[index + 1]);
-      }
-    }
-    this.emit("panelSplitted", newPanel);
-    return newPanel;
-  };
-
-  KDSplitView.prototype.removePanel = function(index) {
-    var l, panel, r, res;
-    l = this.panels.length;
-    if (l === 1) {
-      warn("this is the only panel left");
-      return false;
-    }
-    panel = this.panels[index];
-    panel.destroy();
-    if (index === 0) {
-      r = this.resizers.shift();
-      r.destroy();
-      if (res = this.resizers[0]) {
-        res.panel0 = this.panels[0];
-        res.panel1 = this.panels[1];
-      }
-    } else if (index === l - 1) {
-      r = this.resizers.pop();
-      r.destroy();
-      if (res = this.resizers[l - 2]) {
-        res.panel0 = this.panels[l - 2];
-        res.panel1 = this.panels[l - 1];
-      }
-    } else {
-      r = this.resizers.splice(index - 1, 1)[0];
-      r.destroy();
-      this.resizers[index - 1].panel0 = this.panels[index - 1];
-      this.resizers[index - 1].panel1 = this.panels[index];
-    }
-    return true;
-  };
+  KDSplitView.prototype.removePanel = function(index) {};
 
   KDSplitView.prototype.setView = function(view, index) {
-    if (index > this.panels.length || !view) {
-      warn("Either 'view' or 'index' is missing at KDSplitView::setView!");
-      return;
+    if (!view) {
+      return warn("view is missing at KDSplitView::setView");
+    }
+    if (index > this.panels.length) {
+      return warn("index is missing at KDSplitView::setView");
+    }
+    if (!(view instanceof KDView)) {
+      return warn("index is missing at KDSplitView::setView");
     }
     return this.panels[index].addSubView(view);
   };
+
+  deprecated = function() {
+    return warn('deprecated method invoked');
+  };
+
+  KDSplitView.prototype._repositionPanels = deprecated;
+
+  KDSplitView.prototype._repositionResizers = deprecated;
+
+  KDSplitView.prototype._setPanelPositions = deprecated;
 
   return KDSplitView;
 
 })(KDView);
 
 
-},{"./../../core/kd.coffee":101,"./../../core/view.coffee":107,"./splitpanel.coffee":75,"./splitresizer.coffee":76}],78:[function(require,module,exports){
+},{"./../../core/kd.coffee":107,"./../../core/view.coffee":115,"./splitpanel.coffee":82,"./splitresizer.coffee":83}],85:[function(require,module,exports){
 var KDTabHandleContainer, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -12648,7 +16695,7 @@ module.exports = KDTabHandleContainer = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":107}],79:[function(require,module,exports){
+},{"./../../core/view.coffee":115}],86:[function(require,module,exports){
 var KDCustomHTMLView, KDTabHandleMoveNav,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -12726,7 +16773,7 @@ module.exports = KDTabHandleMoveNav = (function(_super) {
 })(KDCustomHTMLView);
 
 
-},{"./../../core/customhtmlview.coffee":97}],80:[function(require,module,exports){
+},{"./../../core/customhtmlview.coffee":104}],87:[function(require,module,exports){
 var KDTabHandleView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -12836,22 +16883,13 @@ module.exports = KDTabHandleView = (function(_super) {
 
   KDTabHandleView.prototype.cloneElement = function(x) {
     var holder, pane, tabView;
-    if (this.$cloned) {
-      return;
-    }
     pane = this.getOptions().pane;
     tabView = pane.getDelegate();
-    holder = tabView.tabHandleContainer;
+    holder = tabView.tabHandleContainer.tabs;
     this.$cloned = this.$().clone();
     holder.$().append(this.$cloned);
     return this.$cloned.css({
       marginLeft: -(tabView.handles.length - this.index) * this.getWidth()
-    });
-  };
-
-  KDTabHandleView.prototype.updateClonedElementPosition = function(x) {
-    return this.$cloned.css({
-      left: x
     });
   };
 
@@ -12894,12 +16932,15 @@ module.exports = KDTabHandleView = (function(_super) {
         'left': 0
       });
     }
-    this.unsetClass('first');
-    this.cloneElement(x);
+    if (!this.$cloned) {
+      this.cloneElement(x);
+    }
     this.$().css({
       opacity: 0
     });
-    this.updateClonedElementPosition(x);
+    this.$cloned.css({
+      left: x
+    });
     return this.reorderTabHandles(x);
   };
 
@@ -12927,7 +16968,7 @@ module.exports = KDTabHandleView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":107}],81:[function(require,module,exports){
+},{"./../../core/view.coffee":115}],88:[function(require,module,exports){
 var KDTabPaneView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -12946,56 +16987,66 @@ module.exports = KDTabPaneView = (function(_super) {
       options.hiddenHandle = false;
     }
     options.name || (options.name = "");
+    if (options.detachable == null) {
+      options.detachable = true;
+    }
     defaultCssClass = "kdtabpaneview kdhiddentab " + (KD.utils.slugify(options.name.toLowerCase())) + " clearfix";
     options.cssClass = KD.utils.curry(defaultCssClass, options.cssClass);
     KDTabPaneView.__super__.constructor.call(this, options, data);
     this.name = options.name;
     this.lastScrollTops = {
-      window: 0,
       parent: 0,
-      self: 0,
-      body: 0
+      self: 0
     };
-    this.on("KDTabPaneActive", this.bound("setMainView"));
-    this.on("KDTabPaneLazyViewAdded", this.bound("fireLazyCallback"));
+    this.on('KDTabPaneActive', this.bound('setMainView'));
+    this.on('KDTabPaneLazyViewAdded', this.bound('fireLazyCallback'));
   }
 
   KDTabPaneView.prototype.show = function() {
     var _ref;
-    this.setClass("active");
-    this.unsetClass("kdhiddentab");
-    if (this.getOption("detachable")) {
+    if (this.getOption('detachable')) {
       if ((_ref = this.parent) != null) {
         _ref.getElement().appendChild(this.getElement());
       }
     }
+    this.unsetClass('kdhiddentab');
+    this.setClass('active');
     this.active = true;
-    this.emit("KDTabPaneActive");
-    return KD.utils.defer((function(_this) {
-      return function() {
-        var _ref1;
-        _this.getElement().scrollTop = _this.lastScrollTops.self;
-        return (_ref1 = _this.parent) != null ? _ref1.getElement().scrollTop = _this.lastScrollTops.parent : void 0;
-      };
-    })(this));
+    this.emit('KDTabPaneActive');
+    return this.applyScrollTops();
   };
 
   KDTabPaneView.prototype.hide = function() {
-    var _ref, _ref1;
+    var _ref;
     if (!this.active) {
       return;
     }
-    this.lastScrollTops.parent = ((_ref = this.parent) != null ? _ref.getElement().scrollTop : void 0) || 0;
-    this.lastScrollTops.self = this.getElement().scrollTop;
-    this.setClass("kdhiddentab");
-    this.unsetClass("active");
-    if (this.active && this.getOption("detachable")) {
-      if ((_ref1 = this.parent) != null) {
-        _ref1.getElement().removeChild(this.getElement());
+    this.setScrollTops();
+    this.unsetClass('active');
+    this.setClass('kdhiddentab');
+    if (this.getOption('detachable')) {
+      if ((_ref = this.parent) != null) {
+        _ref.getElement().removeChild(this.getElement());
       }
     }
     this.active = false;
-    return this.emit("KDTabPaneInactive");
+    return this.emit('KDTabPaneInactive');
+  };
+
+  KDTabPaneView.prototype.setScrollTops = function() {
+    var _ref;
+    this.lastScrollTops.parent = ((_ref = this.parent) != null ? _ref.getElement().scrollTop : void 0) || 0;
+    return this.lastScrollTops.self = this.getElement().scrollTop;
+  };
+
+  KDTabPaneView.prototype.applyScrollTops = function() {
+    return KD.utils.defer((function(_this) {
+      return function() {
+        var _ref;
+        _this.getElement().scrollTop = _this.lastScrollTops.self;
+        return (_ref = _this.parent) != null ? _ref.getElement().scrollTop = _this.lastScrollTops.parent : void 0;
+      };
+    })(this));
   };
 
   KDTabPaneView.prototype.setTitle = function(title) {
@@ -13040,7 +17091,7 @@ module.exports = KDTabPaneView = (function(_super) {
 
   KDTabPaneView.prototype.destroyMainView = function() {
     this.mainView.destroy();
-    return delete this.mainView;
+    return this.mainView = null;
   };
 
   KDTabPaneView.prototype.fireLazyCallback = function(pane, view) {
@@ -13061,7 +17112,7 @@ module.exports = KDTabPaneView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":107}],82:[function(require,module,exports){
+},{"./../../core/view.coffee":115}],89:[function(require,module,exports){
 var KDScrollView, KDTabHandleContainer, KDTabHandleMoveNav, KDTabView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -13179,43 +17230,44 @@ module.exports = KDTabView = (function(_super) {
     if (shouldShow == null) {
       shouldShow = true;
     }
-    if (paneInstance instanceof KDTabPaneView) {
-      _ref = this.getOptions(), tabHandleClass = _ref.tabHandleClass, sortable = _ref.sortable, detachPanes = _ref.detachPanes;
-      paneInstance.setOption("detachable", detachPanes);
-      this.panes.push(paneInstance);
-      _ref1 = paneInstance.getOptions(), name = _ref1.name, title = _ref1.title, hiddenHandle = _ref1.hiddenHandle, tabHandleView = _ref1.tabHandleView, closable = _ref1.closable, lazy = _ref1.lazy;
-      this.addHandle(newTabHandle = new tabHandleClass({
-        pane: paneInstance,
-        title: name || title,
-        hidden: hiddenHandle,
-        cssClass: KD.utils.slugify(name.toLowerCase()),
-        view: tabHandleView,
-        closable: closable,
-        sortable: sortable,
-        click: (function(_this) {
-          return function(event) {
-            return _this.handleMouseDownDefaultAction(newTabHandle, event);
-          };
-        })(this)
-      }));
-      paneInstance.tabHandle = newTabHandle;
-      this.appendPane(paneInstance);
-      if (shouldShow && !lazy) {
-        this.showPane(paneInstance);
-      }
-      this.emit("PaneAdded", paneInstance);
-      _ref2 = this.getOptions(), minHandleWidth = _ref2.minHandleWidth, maxHandleWidth = _ref2.maxHandleWidth;
-      newTabHandle.getDomElement().css({
-        maxWidth: maxHandleWidth,
-        minWidth: minHandleWidth
-      });
-      newTabHandle.on("HandleIndexHasChanged", this.bound("resortTabHandles"));
-      return paneInstance;
-    } else {
+    if (!(paneInstance instanceof KDTabPaneView)) {
       name = ((paneInstance != null ? paneInstance.constructor : void 0) != null).name;
       warn("You can't add " + (name ? name : void 0) + " as a pane, use KDTabPaneView instead");
       return false;
     }
+    _ref = this.getOptions(), tabHandleClass = _ref.tabHandleClass, sortable = _ref.sortable, detachPanes = _ref.detachPanes;
+    paneInstance.setOption('detachable', detachPanes);
+    this.panes.push(paneInstance);
+    _ref1 = paneInstance.getOptions(), name = _ref1.name, title = _ref1.title, hiddenHandle = _ref1.hiddenHandle, tabHandleView = _ref1.tabHandleView, closable = _ref1.closable, lazy = _ref1.lazy;
+    newTabHandle = paneInstance.tabHandle || new tabHandleClass({
+      pane: paneInstance,
+      title: name || title,
+      hidden: hiddenHandle,
+      cssClass: KD.utils.slugify(name.toLowerCase()),
+      view: tabHandleView,
+      closable: closable,
+      sortable: sortable,
+      mousedown: function(event) {
+        var pane, tabView;
+        pane = this.getOptions().pane;
+        tabView = pane.getDelegate();
+        return tabView.handleClicked(event, this);
+      }
+    });
+    this.addHandle(newTabHandle);
+    paneInstance.tabHandle = newTabHandle;
+    this.appendPane(paneInstance);
+    if (shouldShow && !lazy) {
+      this.showPane(paneInstance);
+    }
+    this.emit('PaneAdded', paneInstance);
+    _ref2 = this.getOptions(), minHandleWidth = _ref2.minHandleWidth, maxHandleWidth = _ref2.maxHandleWidth;
+    newTabHandle.getDomElement().css({
+      maxWidth: maxHandleWidth,
+      minWidth: minHandleWidth
+    });
+    newTabHandle.on('HandleIndexHasChanged', this.bound('resortTabHandles'));
+    return paneInstance;
   };
 
   KDTabView.prototype.resortTabHandles = function(index, dir) {
@@ -13241,16 +17293,30 @@ module.exports = KDTabView = (function(_super) {
     return this.emit('TabsSorted');
   };
 
-  KDTabView.prototype.removePane = function(pane) {
+  KDTabView.prototype.removePane = function(pane, shouldDetach) {
     var firstPane, handle, index, isActivePane, prevPane;
+    if (shouldDetach == null) {
+      shouldDetach = false;
+    }
     pane.emit("KDTabPaneDestroy");
     index = this.getPaneIndex(pane);
     isActivePane = this.getActivePane() === pane;
     this.panes.splice(index, 1);
-    pane.destroy();
     handle = this.getHandleByIndex(index);
     this.handles.splice(index, 1);
-    handle.destroy();
+    if (shouldDetach) {
+      this.panes = this.panes.filter(function(p) {
+        return p !== pane;
+      });
+      this.handles = this.handles.filter(function(h) {
+        return h !== handle;
+      });
+      pane.detach();
+      handle.detach();
+    } else {
+      pane.destroy();
+      handle.destroy();
+    }
     if (isActivePane) {
       if (prevPane = this.getPaneByIndex(this.lastOpenPaneIndex)) {
         this.showPane(prevPane);
@@ -13258,7 +17324,14 @@ module.exports = KDTabView = (function(_super) {
         this.showPane(firstPane);
       }
     }
-    return this.emit("PaneRemoved");
+    this.emit("PaneRemoved", {
+      pane: pane,
+      handle: handle
+    });
+    return {
+      pane: pane,
+      handle: handle
+    };
   };
 
   KDTabView.prototype.removePaneByName = function(name) {
@@ -13299,17 +17372,17 @@ module.exports = KDTabView = (function(_super) {
 
   KDTabView.prototype.addHandle = function(handle) {
     var name;
-    if (handle instanceof KDTabHandleView) {
-      this.handles.push(handle);
-      this.appendHandle(handle);
-      if (handle.getOptions().hidden) {
-        handle.setClass("hidden");
-      }
-      return handle;
-    } else {
+    if (!(handle instanceof KDTabHandleView)) {
       name = ((handle != null ? handle.constructor : void 0) != null).name;
-      return warn("You can't add " + (name != null ? name : void 0) + " as a pane, use KDTabHandleView instead");
+      warn("You can't add " + (name != null ? name : void 0) + " as a pane, use KDTabHandleView instead");
+      return false;
     }
+    this.handles.push(handle);
+    this.appendHandle(handle);
+    if (handle.getOptions().hidden) {
+      handle.setClass('hidden');
+    }
+    return handle;
   };
 
   KDTabView.prototype.removeHandle = function() {};
@@ -13394,10 +17467,10 @@ module.exports = KDTabView = (function(_super) {
     return _results;
   };
 
-  KDTabView.prototype.handleClicked = function(index, event) {
+  KDTabView.prototype.handleClicked = function(event, handle) {
     var pane;
-    pane = this.getPaneByIndex(index);
-    if ($(event.target).hasClass("close-tab")) {
+    pane = handle.getOptions().pane;
+    if ($(event.target).hasClass('close-tab')) {
       this.blockTabHandleResize = true;
       this.removePane(pane);
       return false;
@@ -13585,7 +17658,7 @@ module.exports = KDTabView = (function(_super) {
 })(KDScrollView);
 
 
-},{"./../scrollview/scrollview.coffee":69,"./tabhandlecontainer.coffee":78,"./tabhandlemovenav.coffee":79}],83:[function(require,module,exports){
+},{"./../scrollview/scrollview.coffee":76,"./tabhandlecontainer.coffee":85,"./tabhandlemovenav.coffee":86}],90:[function(require,module,exports){
 var KDFormViewWithFields, KDTabPaneView, KDTabView, KDTabViewWithForms,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -13691,7 +17764,7 @@ module.exports = KDTabViewWithForms = (function(_super) {
 })(KDTabView);
 
 
-},{"./../forms/formviewwithfields.coffee":35,"./tabpaneview.coffee":81,"./tabview.coffee":82}],84:[function(require,module,exports){
+},{"./../forms/formviewwithfields.coffee":41,"./tabpaneview.coffee":88,"./tabview.coffee":89}],91:[function(require,module,exports){
 var KDTimeAgoView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -13736,7 +17809,7 @@ module.exports = KDTimeAgoView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":107}],85:[function(require,module,exports){
+},{"./../../core/view.coffee":115}],92:[function(require,module,exports){
 
 /*
 
@@ -13763,11 +17836,11 @@ module.exports = KDTooltip = (function(_super) {
   __extends(KDTooltip, _super);
 
   function KDTooltip(options, data) {
-    options.bind || (options.bind = "mouseenter mouseleave");
+    options.bind || (options.bind = 'mouseenter mouseleave');
     if (options.sticky == null) {
       options.sticky = false;
     }
-    options.cssClass = KD.utils.curry("kdtooltip", options.cssClass);
+    options.cssClass = KD.utils.curry('kdtooltip', options.cssClass);
     KDTooltip.__super__.constructor.call(this, options, data);
     this.visible = false;
     this.parentView = this.getDelegate();
@@ -13780,16 +17853,16 @@ module.exports = KDTooltip = (function(_super) {
       this.hide();
     }
     this.addListeners();
-    KD.singleton("windowController").on("ScrollHappened", this.bound("hide"));
-    this.once("viewAppended", (function(_this) {
+    KD.singletons.windowController.on('ScrollHappened', this.bound("hide"));
+    this.once('viewAppended', (function(_this) {
       return function() {
-        var o;
-        o = _this.getOptions();
-        if (o.view != null) {
-          _this.setView(o.view);
+        var html, title, view, _ref;
+        _ref = _this.getOptions(), view = _ref.view, title = _ref.title, html = _ref.html;
+        if (view != null) {
+          _this.setView(view);
         } else {
           _this.setClass('just-text');
-          _this.setTitle(o.title, o);
+          _this.setTitle(title, html);
         }
         _this.parentView.emit('TooltipReady');
         _this.addSubView(_this.wrapper);
@@ -13810,12 +17883,16 @@ module.exports = KDTooltip = (function(_super) {
   };
 
   KDTooltip.prototype.hide = function(event) {
+    var permanent;
     if (!this.visible) {
       return;
     }
+    permanent = this.getOptions().permanent;
     KDTooltip.__super__.hide.apply(this, arguments);
     this.getDomElement().remove();
-    KD.singleton("windowController").removeLayer(this);
+    if (!permanent) {
+      KD.singletons.windowController.removeLayer(this);
+    }
     return this.visible = false;
   };
 
@@ -13823,15 +17900,11 @@ module.exports = KDTooltip = (function(_super) {
     if (o == null) {
       o = this.getOptions();
     }
-    if (view == null) {
-      view = null;
-    }
     if (!view) {
       o.selector || (o.selector = null);
       o.title || (o.title = "");
-      this.getOptions().title = o.title;
-      this.setTitle(o.title);
-      this.display(this.getOptions());
+      this.setTitle(o.title, o.html);
+      this.display();
     } else {
       this.setView(view);
     }
@@ -13839,21 +17912,27 @@ module.exports = KDTooltip = (function(_super) {
   };
 
   KDTooltip.prototype.addListeners = function() {
-    var events, name, _hide, _i, _len, _show;
-    events = this.getOptions().events;
-    _show = this.bound("show");
-    _hide = this.bound("hide");
+    var events, name, permanent, sticky, _hide, _i, _len, _ref, _show;
+    _ref = this.getOptions(), events = _ref.events, sticky = _ref.sticky, permanent = _ref.permanent;
+    _show = this.bound('show');
+    _hide = this.bound('hide');
     for (_i = 0, _len = events.length; _i < _len; _i++) {
       name = events[_i];
       this.parentView.bindEvent(name);
     }
     this.parentView.on('mouseenter', _show);
-    this.parentView.on('mouseleave', _hide);
-    this.on('ReceivedClickElsewhere', _hide);
+    if (!sticky) {
+      this.parentView.on('mouseleave', _hide);
+    }
+    if (!permanent) {
+      this.on('ReceivedClickElsewhere', _hide);
+    }
     return this.once('KDObjectWillBeDestroyed', (function(_this) {
       return function() {
         _this.parentView.off('mouseenter', _show);
-        return _this.parentView.off('mouseleave', _hide);
+        if (!sticky) {
+          return _this.parentView.off('mouseleave', _hide);
+        }
       };
     })(this));
   };
@@ -13892,20 +17971,22 @@ module.exports = KDTooltip = (function(_super) {
     return o;
   };
 
-  KDTooltip.prototype.display = function(o) {
-    if (o == null) {
-      o = this.getOptions();
-    }
+  KDTooltip.prototype.display = function() {
+    var animate, gravity, o, permanent, _ref;
+    o = this.getOptions();
+    _ref = this.getOptions(), permanent = _ref.permanent, gravity = _ref.gravity, animate = _ref.animate;
     this.appendToDomBody();
-    KD.singleton("windowController").addLayer(this);
-    if (o.gravity) {
+    if (!permanent) {
+      KD.singletons.windowController.addLayer(this);
+    }
+    if (gravity) {
       o = this.translateCompassDirections(o);
     }
     o.gravity = null;
-    if (o.animate) {
+    if (animate) {
       this.setClass('in');
     }
-    this.utils.defer((function(_this) {
+    KD.utils.defer((function(_this) {
       return function() {
         return _this.setPositions(o);
       };
@@ -14007,15 +18088,11 @@ module.exports = KDTooltip = (function(_super) {
     })(this));
   };
 
-  KDTooltip.prototype.setTitle = function(title, o) {
-    if (o == null) {
-      o = {};
+  KDTooltip.prototype.setTitle = function(title, isHTML) {
+    if (!isHTML) {
+      title = Encoder.htmlEncode(title);
     }
-    if (o.html !== false) {
-      return this.wrapper.updatePartial(title);
-    } else {
-      return this.wrapper.updatePartial(Encoder.htmlEncode(title));
-    }
+    return this.wrapper.updatePartial(title);
   };
 
   directionMap = function(placement, gravity) {
@@ -14097,14 +18174,12 @@ module.exports = KDTooltip = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":107}],86:[function(require,module,exports){
-var JTreeItemView, JView, KDListItemView,
+},{"./../../core/view.coffee":115}],93:[function(require,module,exports){
+var JTreeItemView, KDListItemView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 KDListItemView = require('./../list/listitemview.coffee');
-
-JView = require('./../../core/jview.coffee');
 
 module.exports = JTreeItemView = (function(_super) {
   __extends(JTreeItemView, _super);
@@ -14131,13 +18206,12 @@ module.exports = JTreeItemView = (function(_super) {
     }
   }
 
-  JTreeItemView.prototype.viewAppended = JView.prototype.viewAppended;
-
-  JTreeItemView.prototype.pistachio = function() {
+  JTreeItemView.prototype.viewAppended = function() {
+    var _ref;
     if (this.getOptions().childClass) {
-      return "{{> this.child}}";
+      return this.addSubView(this.child);
     } else {
-      return "<span class='arrow'></span>\n{{#(title)}}";
+      return this.updatePartial("<span class='arrow'></span>\n" + ((_ref = this.getData().title) != null ? _ref : ""));
     }
   };
 
@@ -14175,7 +18249,7 @@ module.exports = JTreeItemView = (function(_super) {
 })(KDListItemView);
 
 
-},{"./../../core/jview.coffee":100,"./../list/listitemview.coffee":53}],87:[function(require,module,exports){
+},{"./../list/listitemview.coffee":59}],94:[function(require,module,exports){
 var JTreeView, KDListView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -14275,8 +18349,8 @@ module.exports = JTreeView = (function(_super) {
 })(KDListView);
 
 
-},{"./../list/listview.coffee":54}],88:[function(require,module,exports){
-var JTreeViewController, KDScrollView, KDViewController,
+},{"./../list/listview.coffee":60}],95:[function(require,module,exports){
+var JTreeViewController, KDListViewController, KDScrollView, KDViewController,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
@@ -14285,6 +18359,8 @@ KDViewController = require('./../../core/viewcontroller.coffee');
 
 KDScrollView = require('./../scrollview/scrollview.coffee');
 
+KDListViewController = require('./../list/listviewcontroller.coffee');
+
 module.exports = JTreeViewController = (function(_super) {
   var cacheDragHelper, dragHelper, keyMap;
 
@@ -14292,14 +18368,14 @@ module.exports = JTreeViewController = (function(_super) {
 
   keyMap = function() {
     return {
-      37: "left",
-      38: "up",
-      39: "right",
-      40: "down",
-      8: "backspace",
-      9: "tab",
-      13: "enter",
-      27: "escape"
+      37: 'left',
+      38: 'up',
+      39: 'right',
+      40: 'down',
+      8: 'backspace',
+      9: 'tab',
+      13: 'enter',
+      27: 'escape'
     };
   };
 
@@ -14307,7 +18383,7 @@ module.exports = JTreeViewController = (function(_super) {
 
   cacheDragHelper = (function() {
     dragHelper = document.createElement('img');
-    dragHelper.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAG4AAAAYCAMAAAAs/jgVAAAA0lBMVEX///+It9YAAAD///8AAACIt9aIt9aIt9aIt9aIt9aIt9YAAAD///+It9aIt9aIt9aIt9aIt9aIt9aIt9bT09OIt9aIt9aIt9b///+It9bv9fr+/v79/f2QvNn4+PioyuHA2enP4u/09PS41Obf7PTn8ff6+vr29vb3+vygxd78/Pz19fX7+/vs7OzY2NjR0dGwz+Tv7+/T09Pz8/PX19fQ0NCYwdvx8fHLy8vq6urZ2dnX5/H5+fny8vLOzs739/fPz8/W1tbu7u7w8PDH3ezd3d0P0SzzAAAAGHRSTlMAACZqGJkG2/k2rkZV4bG0V9gDaYBabJYxtX/TAAACLElEQVR4Xu3V127bMBQG4NT1SOw4s0kP59Ce3iN7tu//Sj2i0iiKE8AB7Juiv0SIFAR9OAQJ7mwy/9NsvElz61yDA4cEgGWQZA0Evm0xyAFAYkVMr/nCtU8PjsnGcnxw2n7lGMsSnmSMAX9slNxRh2w4naMXjrGEByzgCWPsqtdE7qT7ARDrOuCqL4LdE8tlyCCHWMZmjw3kWuSDuJ5V4K9iKl7BWl7LcgHnXOLFecAHV8jtkU841wqrHGbhreHtWS6QN5nMbiR2BjPkfhaAoh7QEQVfKFqMkNMAoEAp3wNwC05FQGNbXQwAeuEX7z2DXVP0NIAv6uUhl8gslFKGmUzkbIBcx3L4/XUUC+q+crYg5NDSkTBaRIpo33J2qj1NYhCeL2IwRFMBC6Lqy8VWJ8MwxSuUQTgpuN2SI0Tbf6xyKETKaAVFKs4OlWc/Kt4ZX5NadgvuPrxPp+E0xWc4mX2Bi4FgKi6ytVQcESZafMAtnWWKDdnhBLlOnYshJteW+2Vqk0ko8qOSG1FCDJKjihMuIXS0Mpnj6e341sE2HTuWa9U5YgCM5eJyqUQeYCHIxRRAl5ygoIUP4FVcOdSUeAbv16WSPz/l+WWePz3nl/PhpxthjV22zkZo9i4e7i7u5tgeLn4P7TbfDme3+f4PJ0wdZ+o4aegs5wXX7m6D67aRe18ecpizPtlw+mf2RHhfnuWwwPPDDYr9w/PyAFo9z7d8vGJ5399kf+cfyh+807YxJJdmLQAAAABJRU5ErkJggg==";
+    dragHelper.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAG4AAAAYCAMAAAAs/jgVAAAA0lBMVEX///+It9YAAAD///8AAACIt9aIt9aIt9aIt9aIt9aIt9YAAAD///+It9aIt9aIt9aIt9aIt9aIt9aIt9bT09OIt9aIt9aIt9b///+It9bv9fr+/v79/f2QvNn4+PioyuHA2enP4u/09PS41Obf7PTn8ff6+vr29vb3+vygxd78/Pz19fX7+/vs7OzY2NjR0dGwz+Tv7+/T09Pz8/PX19fQ0NCYwdvx8fHLy8vq6urZ2dnX5/H5+fny8vLOzs739/fPz8/W1tbu7u7w8PDH3ezd3d0P0SzzAAAAGHRSTlMAACZqGJkG2/k2rkZV4bG0V9gDaYBabJYxtX/TAAACLElEQVR4Xu3V127bMBQG4NT1SOw4s0kP59Ce3iN7tu//Sj2i0iiKE8AB7Juiv0SIFAR9OAQJ7mwy/9NsvElz61yDA4cEgGWQZA0Evm0xyAFAYkVMr/nCtU8PjsnGcnxw2n7lGMsSnmSMAX9slNxRh2w4naMXjrGEByzgCWPsqtdE7qT7ARDrOuCqL4LdE8tlyCCHWMZmjw3kWuSDuJ5V4K9iKl7BWl7LcgHnXOLFecAHV8jtkU841wqrHGbhreHtWS6QN5nMbiR2BjPkfhaAoh7QEQVfKFqMkNMAoEAp3wNwC05FQGNbXQwAeuEX7z2DXVP0NIAv6uUhl8gslFKGmUzkbIBcx3L4/XUUC+q+crYg5NDSkTBaRIpo33J2qj1NYhCeL2IwRFMBC6Lqy8VWJ8MwxSuUQTgpuN2SI0Tbf6xyKETKaAVFKs4OlWc/Kt4ZX5NadgvuPrxPp+E0xWc4mX2Bi4FgKi6ytVQcESZafMAtnWWKDdnhBLlOnYshJteW+2Vqk0ko8qOSG1FCDJKjihMuIXS0Mpnj6e341sE2HTuWa9U5YgCM5eJyqUQeYCHIxRRAl5ygoIUP4FVcOdSUeAbv16WSPz/l+WWePz3nl/PhpxthjV22zkZo9i4e7i7u5tgeLn4P7TbfDme3+f4PJ0wdZ+o4aegs5wXX7m6D67aRe18ecpizPtlw+mf2RHhfnuWwwPPDDYr9w/PyAFo9z7d8vGJ5399kf+cfyh+807YxJJdmLQAAAABJRU5ErkJggg==';
     return dragHelper.width = 110;
   })();
 
@@ -14315,6 +18391,9 @@ module.exports = JTreeViewController = (function(_super) {
     var o;
     if (options == null) {
       options = {};
+    }
+    if (data == null) {
+      data = [];
     }
     o = options;
     o.view || (o.view = new KDScrollView({
@@ -14325,8 +18404,8 @@ module.exports = JTreeViewController = (function(_super) {
     o.listViewClass || (o.listViewClass = JTreeView);
     o.itemChildClass || (o.itemChildClass = null);
     o.itemChildOptions || (o.itemChildOptions = {});
-    o.nodeIdPath || (o.nodeIdPath = "id");
-    o.nodeParentIdPath || (o.nodeParentIdPath = "parentId");
+    o.nodeIdPath || (o.nodeIdPath = 'id');
+    o.nodeParentIdPath || (o.nodeParentIdPath = 'parentId');
     if (o.contextMenu == null) {
       o.contextMenu = false;
     }
@@ -14416,7 +18495,7 @@ module.exports = JTreeViewController = (function(_super) {
   };
 
   JTreeViewController.prototype.repairIds = function(nodeData) {
-    var idPath, options, pIdPath;
+    var idPath, options, pIdPath, _ref;
     options = this.getOptions();
     idPath = options.nodeIdPath;
     pIdPath = options.nodeParentIdPath;
@@ -14425,7 +18504,7 @@ module.exports = JTreeViewController = (function(_super) {
     nodeData[pIdPath] = this.getNodePId(nodeData) ? "" + (this.getNodePId(nodeData)) : "0";
     this.nodes[this.getNodeId(nodeData)] = {};
     if (options.putDepthInfo) {
-      if (this.nodes[nodeData[pIdPath]]) {
+      if ((_ref = this.nodes[nodeData[pIdPath]]) != null ? _ref.getData : void 0) {
         nodeData.depth = this.nodes[nodeData[pIdPath]].getData().depth + 1;
       } else {
         nodeData.depth = 0;
@@ -14911,7 +18990,7 @@ module.exports = JTreeViewController = (function(_super) {
    */
 
   JTreeViewController.prototype.showDragOverFeedback = (function() {
-    return _.throttle(function(nodeView, event) {
+    return KD.utils.throttle(function(nodeView, event) {
       var nodeData, _ref, _ref1;
       nodeData = nodeView.getData();
       if (nodeData.type !== "file") {
@@ -14929,7 +19008,7 @@ module.exports = JTreeViewController = (function(_super) {
   })();
 
   JTreeViewController.prototype.clearDragOverFeedback = (function() {
-    return _.throttle(function(nodeView, event) {
+    return KD.utils.throttle(function(nodeView, event) {
       var nodeData, _ref, _ref1;
       nodeData = nodeView.getData();
       if (nodeData.type !== "file") {
@@ -15249,7 +19328,7 @@ module.exports = JTreeViewController = (function(_super) {
 })(KDViewController);
 
 
-},{"./../../core/viewcontroller.coffee":108,"./../scrollview/scrollview.coffee":69}],89:[function(require,module,exports){
+},{"./../../core/viewcontroller.coffee":116,"./../list/listviewcontroller.coffee":62,"./../scrollview/scrollview.coffee":76}],96:[function(require,module,exports){
 var KDCustomHTMLView, KDFileUploadArea, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -15323,7 +19402,7 @@ module.exports = KDFileUploadArea = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/customhtmlview.coffee":97,"./../../core/view.coffee":107}],90:[function(require,module,exports){
+},{"./../../core/customhtmlview.coffee":104,"./../../core/view.coffee":115}],97:[function(require,module,exports){
 var KDFileUploadListItemView, KDListItemView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -15360,7 +19439,7 @@ module.exports = KDFileUploadListItemView = (function(_super) {
 })(KDListItemView);
 
 
-},{"./../list/listitemview.coffee":53}],91:[function(require,module,exports){
+},{"./../list/listitemview.coffee":59}],98:[function(require,module,exports){
 var KDFileUploadListView, KDListView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -15394,7 +19473,7 @@ module.exports = KDFileUploadListView = (function(_super) {
 })(KDListView);
 
 
-},{"./../list/listview.coffee":54}],92:[function(require,module,exports){
+},{"./../list/listview.coffee":60}],99:[function(require,module,exports){
 var KDFileUploadThumbItemView, KDListItemView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -15434,7 +19513,7 @@ module.exports = KDFileUploadThumbItemView = (function(_super) {
 })(KDListItemView);
 
 
-},{"./../list/listitemview.coffee":53}],93:[function(require,module,exports){
+},{"./../list/listitemview.coffee":59}],100:[function(require,module,exports){
 var KDFileUploadListView, KDFileUploadThumbListView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -15457,7 +19536,7 @@ module.exports = KDFileUploadThumbListView = (function(_super) {
 })(KDFileUploadListView);
 
 
-},{"./fileuploadlistview.coffee":91}],94:[function(require,module,exports){
+},{"./fileuploadlistview.coffee":98}],101:[function(require,module,exports){
 var KDFileUploadArea, KDFileUploadListView, KDFileUploadThumbListView, KDFileUploadView, KDListViewController, KDMultipartUploader, KDNotificationView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -15685,7 +19764,7 @@ module.exports = KDFileUploadView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":107,"./../list/listviewcontroller.coffee":55,"./../notifications/notificationview.coffee":61,"./fileuploadarea.coffee":89,"./fileuploadlistview.coffee":91,"./fileuploadthumblistview.coffee":93,"./multipartuploader.coffee":95}],95:[function(require,module,exports){
+},{"./../../core/view.coffee":115,"./../list/listviewcontroller.coffee":62,"./../notifications/notificationview.coffee":68,"./fileuploadarea.coffee":96,"./fileuploadlistview.coffee":98,"./fileuploadthumblistview.coffee":100,"./multipartuploader.coffee":102}],102:[function(require,module,exports){
 var KDEventEmitter, KDMultipartUploader,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -15794,7 +19873,7 @@ module.exports = KDMultipartUploader = (function(_super) {
 })(KDEventEmitter);
 
 
-},{"./../../core/eventemitter.coffee":98}],96:[function(require,module,exports){
+},{"./../../core/eventemitter.coffee":105}],103:[function(require,module,exports){
 var KDController, KDObject,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -15813,7 +19892,7 @@ module.exports = KDController = (function(_super) {
 })(KDObject);
 
 
-},{"./object.coffee":103}],97:[function(require,module,exports){
+},{"./object.coffee":111}],104:[function(require,module,exports){
 var KDCustomHTMLView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -15856,7 +19935,7 @@ module.exports = KDCustomHTMLView = (function(_super) {
 })(KDView);
 
 
-},{"./view.coffee":107}],98:[function(require,module,exports){
+},{"./view.coffee":115}],105:[function(require,module,exports){
 var KDEventEmitter,
   __slice = [].slice;
 
@@ -16014,7 +20093,7 @@ module.exports = KDEventEmitter = (function() {
 })();
 
 
-},{}],99:[function(require,module,exports){
+},{}],106:[function(require,module,exports){
 var KDEventEmitter,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -16125,7 +20204,7 @@ module.exports = KDEventEmitter.Wildcard = (function(_super) {
       throw new Error('listener is not a function');
     }
     this.emit('newListener', eventName, listener);
-    edges = eventName.split('.');
+    edges = eventName.split(this._delim);
     node = this._e;
     for (_i = 0, _len = edges.length; _i < _len; _i++) {
       edge = edges[_i];
@@ -16141,42 +20220,7 @@ module.exports = KDEventEmitter.Wildcard = (function(_super) {
 })(KDEventEmitter);
 
 
-},{"./eventemitter.coffee":98}],100:[function(require,module,exports){
-var JView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
-
-KDView = require('./view.coffee');
-
-module.exports = JView = (function(_super) {
-  __extends(JView, _super);
-
-  function JView() {
-    return JView.__super__.constructor.apply(this, arguments);
-  }
-
-  JView.prototype.viewAppended = function() {
-    var template;
-    template = this.getOptions().pistachio || this.pistachio;
-    if ('function' === typeof template) {
-      template = template.call(this);
-    }
-    if (template != null) {
-      this.setTemplate(template);
-      return this.template.update();
-    }
-  };
-
-  JView.prototype.pistachio = function() {
-    return "";
-  };
-
-  return JView;
-
-})(KDView);
-
-
-},{"./view.coffee":107}],101:[function(require,module,exports){
+},{"./eventemitter.coffee":105}],107:[function(require,module,exports){
 var e, noop, utils,
   __hasProp = {}.hasOwnProperty;
 
@@ -16283,9 +20327,6 @@ window.KD = $.extend(window.KD, (function() {
     getAllKDInstances: function() {
       return KD.instances;
     },
-    getKDViewInstanceFromDomElement: function(el) {
-      return this.instances[el.getAttribute("data-id")];
-    },
     exportKDFramework: function() {
       var item, _ref;
       _ref = KD.classes;
@@ -16317,7 +20358,7 @@ window.KD = $.extend(window.KD, (function() {
 module.exports = KD;
 
 
-},{"./support":105,"./utils.coffee":106}],102:[function(require,module,exports){
+},{"./support":113,"./utils.coffee":114}],108:[function(require,module,exports){
 /*Copyright (c) 2012 Jessie
 
 Permission is hereby granted, free of charge, to any person obtaining
@@ -17900,7 +21941,185 @@ KD.dom.addClass = addClass;
 }(window));
 
 module.exports = KD.dom;
-},{}],103:[function(require,module,exports){
+},{}],109:[function(require,module,exports){
+var KDKeyboardListener,
+  __hasProp = {}.hasOwnProperty;
+
+require('./../../../libs/mousetrap.js');
+
+require('./../../../libs/mousetrap-global-bind.js');
+
+module.exports = KDKeyboardListener = (function() {
+  var makeUpdater;
+
+  function KDKeyboardListener() {
+    this.maps = {};
+    this.isListening = false;
+  }
+
+  makeUpdater = function(fn) {
+    return function() {
+      var isListening, retVal;
+      isListening = this.isListening;
+      if (isListening) {
+        this.reset();
+      }
+      retVal = fn.apply(this, arguments);
+      if (isListening) {
+        this.listen();
+      }
+      return retVal;
+    };
+  };
+
+  KDKeyboardListener.prototype.addComboMap = makeUpdater(function(comboMap, priority) {
+    var m, _base, _name, _ref;
+    m = (_base = this.maps)[_name = (_ref = priority != null ? priority : comboMap.priority) != null ? _ref : 0] != null ? _base[_name] : _base[_name] = [];
+    m.push(comboMap);
+    return this;
+  });
+
+  KDKeyboardListener.prototype.removeComboMap = makeUpdater(function(comboMap) {
+    var ms, priority, _ref;
+    _ref = this.maps;
+    for (priority in _ref) {
+      if (!__hasProp.call(_ref, priority)) continue;
+      ms = _ref[priority];
+      this.maps[priority] = ms.filter(function(m) {
+        return m !== comboMap;
+      });
+    }
+    return this;
+  });
+
+  KDKeyboardListener.prototype.listen = function() {
+    var seen, _ref;
+    if (this.isActive()) {
+      return this;
+    }
+    if ((_ref = KDKeyboardListener.currentListener) != null) {
+      _ref.reset();
+    }
+    seen = {};
+    this.combos(function(combo, options, listener) {
+      var method;
+      if (options == null) {
+        options = {
+          global: true
+        };
+      }
+      if (seen[combo]) {
+        return;
+      }
+      seen[combo] = true;
+      method = options.global ? 'bindGlobal' : 'bind';
+      return Mousetrap[method](combo, listener);
+    });
+    KDKeyboardListener.currentListener = this;
+    this.isListening = true;
+    return this;
+  };
+
+  KDKeyboardListener.prototype.reset = function() {
+    if (!this.isActive()) {
+      return this;
+    }
+    Mousetrap.reset();
+    this.isListening = false;
+    KDKeyboardListener.currentListener = null;
+    return this;
+  };
+
+  KDKeyboardListener.prototype.getCombos = function() {
+    return Object.keys(this.maps).sort(function(a, b) {
+      return b - a;
+    }).map((function(_this) {
+      return function(k) {
+        return _this.maps[k];
+      };
+    })(this)).reduce(function(a, b) {
+      return a.concat(b);
+    }, []);
+  };
+
+  KDKeyboardListener.prototype.combos = function(fn) {
+    this.getCombos().forEach(function(m) {
+      return m.eachCombo(fn);
+    });
+    return this;
+  };
+
+  KDKeyboardListener.prototype.isActive = function() {
+    return this.isListening && this === KDKeyboardListener.currentListener;
+  };
+
+  KDKeyboardListener.current = function() {
+    if (this.currentListener != null) {
+      return this.currentListener;
+    }
+    this.currentListener = new this;
+    this.currentListener.listen();
+    return this.currentListener;
+  };
+
+  return KDKeyboardListener;
+
+})();
+
+
+},{"./../../../libs/mousetrap-global-bind.js":5,"./../../../libs/mousetrap.js":6}],110:[function(require,module,exports){
+var KDKeyboardMap,
+  __hasProp = {}.hasOwnProperty;
+
+module.exports = KDKeyboardMap = (function() {
+  function KDKeyboardMap(options) {
+    var combo, combos, listener;
+    this.combos = {};
+    if (options != null) {
+      combos = options.combos, this.priority = options.priority;
+    }
+    if (combos != null) {
+      for (combo in combos) {
+        if (!__hasProp.call(combos, combo)) continue;
+        listener = combos[combo];
+        this.addCombo(combo, null, listener);
+      }
+    }
+  }
+
+  KDKeyboardMap.prototype.addCombo = function(combo, options, listener) {
+    var _ref;
+    if (listener == null) {
+      _ref = [options, listener], listener = _ref[0], options = _ref[1];
+    }
+    this.combos[combo] = {
+      listener: listener,
+      options: options
+    };
+    return this;
+  };
+
+  KDKeyboardMap.prototype.removeCombo = function(combo) {
+    this.combos[combo] = null;
+    return this;
+  };
+
+  KDKeyboardMap.prototype.eachCombo = function(fn, thisArg) {
+    var combo, listener, options, _ref, _ref1;
+    _ref = this.combos;
+    for (combo in _ref) {
+      if (!__hasProp.call(_ref, combo)) continue;
+      _ref1 = _ref[combo], options = _ref1.options, listener = _ref1.listener;
+      fn.call(thisArg, combo, options, listener);
+    }
+  };
+
+  return KDKeyboardMap;
+
+})();
+
+
+},{}],111:[function(require,module,exports){
 var KD, KDEventEmitter, KDObject,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -18078,7 +22297,7 @@ module.exports = KDObject = (function(_super) {
 })(KDEventEmitter);
 
 
-},{"./eventemitter.coffee":98,"./kd.coffee":101}],104:[function(require,module,exports){
+},{"./eventemitter.coffee":105,"./kd.coffee":107}],112:[function(require,module,exports){
 var KDNotificationView, KDObject, KDRouter,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -18360,7 +22579,7 @@ module.exports = KDRouter = (function(_super) {
 })(KDObject);
 
 
-},{"./../components/notifications/notificationview.coffee":61,"./object.coffee":103}],105:[function(require,module,exports){
+},{"./../components/notifications/notificationview.coffee":68,"./object.coffee":111}],113:[function(require,module,exports){
 var _base, _ref, _ref1, _ref2, _ref3, _ref4, _ref5;
 
 (_base = Function.prototype).bind || (_base.bind = function(context) {
@@ -18424,9 +22643,11 @@ String.prototype.trim = function() {
 })(Array.prototype, Object);
 
 
-},{}],106:[function(require,module,exports){
-var createCounter,
+},{}],114:[function(require,module,exports){
+var Inflector, createCounter,
   __slice = [].slice;
+
+Inflector = require('./../../libs/inflector.js');
 
 module.exports = {
   idCounter: 0,
@@ -18620,9 +22841,9 @@ module.exports = {
     }
   },
   getRandomRGB: function() {
-    var getRandomNumber;
-    getRandomNumber = this.getRandomNumber;
-    return "rgb(" + (getRandomNumber(255)) + "," + (getRandomNumber(255)) + "," + (getRandomNumber(255)) + ")";
+    var fn;
+    fn = this.getRandomNumber;
+    return "rgb(" + (fn(255)) + "," + (fn(255)) + "," + (fn(255)) + ")";
   },
   getRandomHex: function() {
     var hex;
@@ -18711,23 +22932,6 @@ module.exports = {
     }
     s = t;
     return s;
-  },
-  applyMarkdown: function(text) {
-    if (!text) {
-      return null;
-    }
-    return marked(Encoder.htmlDecode(text), {
-      gfm: true,
-      pedantic: false,
-      sanitize: true,
-      highlight: function(text, lang) {
-        if (hljs.getLanguage(lang)) {
-          return hljs.highlight(lang, text).value;
-        } else {
-          return text;
-        }
-      }
-    });
   },
   enterFullscreen: (function() {
     var launchFullscreen;
@@ -19118,11 +23322,29 @@ module.exports = {
       clearTimeout(timeout);
       return timeout = setTimeout(later, wait);
     };
+  },
+  relativeOffset: function(child, parent) {
+    var node, x, y;
+    x = 0;
+    y = 0;
+    node = child;
+    while (node) {
+      x += node.offsetLeft;
+      y += node.offsetTop;
+      if (node === parent) {
+        break;
+      }
+      node = node.parentNode;
+      if (node == null) {
+        throw new Error("Not a descendant!");
+      }
+    }
+    return [x, y];
   }
 };
 
 
-},{}],107:[function(require,module,exports){
+},{"./../../libs/inflector.js":3}],115:[function(require,module,exports){
 var KDObject, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -19200,70 +23422,69 @@ module.exports = KDView = (function(_super) {
   };
 
   function KDView(options, data) {
-    var o;
     if (options == null) {
       options = {};
     }
-    o = options;
-    o.tagName || (o.tagName = "div");
-    o.domId || (o.domId = null);
-    o.cssClass || (o.cssClass = "");
-    o.parent || (o.parent = null);
-    o.partial || (o.partial = null);
-    o.pistachio || (o.pistachio = null);
-    o.delegate || (o.delegate = null);
-    o.bind || (o.bind = "");
-    o.draggable || (o.draggable = null);
-    o.droppable || (o.droppable = null);
-    o.size || (o.size = null);
-    o.position || (o.position = null);
-    o.attributes || (o.attributes = null);
-    o.prefix || (o.prefix = "");
-    o.suffix || (o.suffix = "");
-    o.tooltip || (o.tooltip = null);
-    o.resizable || (o.resizable = null);
-    KDView.__super__.constructor.call(this, o, data);
+    options.tagName || (options.tagName = "div");
+    options.domId || (options.domId = null);
+    options.cssClass || (options.cssClass = "");
+    options.parent || (options.parent = null);
+    options.partial || (options.partial = null);
+    options.delegate || (options.delegate = null);
+    options.bind || (options.bind = "");
+    options.draggable || (options.draggable = null);
+    options.size || (options.size = null);
+    options.position || (options.position = null);
+    options.attributes || (options.attributes = null);
+    options.prefix || (options.prefix = "");
+    options.suffix || (options.suffix = "");
+    options.tooltip || (options.tooltip = null);
+    if (options.lazyLoadThreshold == null) {
+      options.lazyLoadThreshold = false;
+    }
+    options.droppable || (options.droppable = null);
+    options.resizable || (options.resizable = null);
+    KDView.__super__.constructor.call(this, options, data);
     if (data != null) {
       if (typeof data.on === "function") {
         data.on('update', this.bound('render'));
       }
     }
-    this.domId = options.domId, this.parent = options.parent;
-    this.subViews = [];
-    this.defaultInit(options, data);
-    this.devHacks();
+    this.defaultInit();
   }
 
-  KDView.prototype.defaultInit = function(options, data) {
-    this.setDomElement(options.cssClass);
+  KDView.prototype.defaultInit = function() {
+    var attributes, cssClass, draggable, lazyLoadThreshold, options, partial, pistachio, pistachioParams, position, size, tagName, tooltip;
+    options = this.getOptions();
+    this.domId = options.domId, this.parent = options.parent;
+    this.subViews = [];
+    cssClass = options.cssClass, attributes = options.attributes, size = options.size, position = options.position, partial = options.partial, draggable = options.draggable, pistachio = options.pistachio, pistachioParams = options.pistachioParams, lazyLoadThreshold = options.lazyLoadThreshold, tooltip = options.tooltip, draggable = options.draggable, tagName = options.tagName;
+    this.setDomElement(cssClass);
     this.setDataId();
-    if (options.domId) {
-      this.setDomId(options.domId);
+    if (this.domId) {
+      this.setDomId(this.domId);
     }
-    if (options.attributes) {
-      this.setAttributes(options.attributes);
+    if (attributes) {
+      this.setAttributes(attributes);
     }
-    if (options.size) {
-      this.setSize(options.size);
+    if (position) {
+      this.setPosition(position);
     }
-    if (options.position) {
-      this.setPosition(options.position);
+    if (partial) {
+      this.updatePartial(partial);
     }
-    if (options.partial) {
-      this.updatePartial(options.partial);
-    }
-    if (options.draggable) {
+    if (draggable) {
       this.setClass('kddraggable');
     }
     this.addEventHandlers(options);
-    if (options.lazyLoadThreshold) {
-      this.setLazyLoader(options.lazyLoadThreshold);
+    if (lazyLoadThreshold) {
+      this.setLazyLoader(lazyLoadThreshold);
     }
-    if (options.tooltip) {
-      this.setTooltip(options.tooltip);
+    if (tooltip) {
+      this.setTooltip(tooltip);
     }
-    if (options.draggable) {
-      this.setDraggable(options.draggable);
+    if (draggable) {
+      this.setDraggable(draggable);
     }
     this.bindEvents();
     this.on('childAppended', this.childAppended.bind(this));
@@ -19394,14 +23615,6 @@ module.exports = KDView = (function(_super) {
     };
   })();
 
-  Object.defineProperty(KDView.prototype, "$$", {
-    get: KDView.prototype.$
-  });
-
-  Object.defineProperty(KDView.prototype, "el", {
-    get: KDView.prototype.getElement
-  });
-
   KDView.prototype.getDomElement = function() {
     return this.domElement;
   };
@@ -19522,17 +23735,23 @@ module.exports = KDView = (function(_super) {
   };
 
   KDView.prototype.toggleClass = function(cssClass) {
-    this.$().toggleClass(cssClass);
+    if (this.hasClass(cssClass)) {
+      this.unsetClass(cssClass);
+    } else {
+      this.setClass(cssClass);
+    }
     return this;
   };
 
   KDView.prototype.hasClass = function(cssClass) {
+    if (!cssClass) {
+      return false;
+    }
     return this.getElement().classList.contains(cssClass);
   };
 
   KDView.prototype.getBounds = function() {
-    var bounds;
-    return bounds = {
+    return {
       x: this.getX(),
       y: this.getY(),
       w: this.getWidth(),
@@ -19551,15 +23770,6 @@ module.exports = KDView = (function(_super) {
 
   KDView.prototype.show = function(duration) {
     return this.unsetClass('hidden');
-  };
-
-  KDView.prototype.setSize = function(sizes) {
-    if (sizes.width != null) {
-      this.setWidth(sizes.width);
-    }
-    if (sizes.height != null) {
-      return this.setHeight(sizes.height);
-    }
   };
 
   KDView.prototype.setPosition = function() {
@@ -19612,11 +23822,11 @@ module.exports = KDView = (function(_super) {
   };
 
   KDView.prototype.getX = function() {
-    return this.$().offset().left;
+    return this.getElement().getBoundingClientRect().left;
   };
 
   KDView.prototype.getY = function() {
-    return this.$().offset().top;
+    return this.getElement().getBoundingClientRect().top;
   };
 
   KDView.prototype.getRelativeX = function() {
@@ -19641,23 +23851,33 @@ module.exports = KDView = (function(_super) {
   };
 
   KDView.prototype.attach = function(view) {
-    return this.getElement().appendChild(view.getElement());
+    this.getElement().appendChild(view.getElement());
+    view.setParent(this);
+    return this.subViews.push(view);
   };
 
   KDView.prototype.detach = function() {
     var _ref;
-    return (_ref = this.parent) != null ? _ref.getElement().removeChild(this.getElement()) : void 0;
+    if ((_ref = this.parent) != null) {
+      _ref.getElement().removeChild(this.getElement());
+    }
+    this.orphanize();
+    return this.unsetParent();
+  };
+
+  KDView.prototype.orphanize = function() {
+    var index, _ref;
+    if (((_ref = this.parent) != null ? _ref.subViews : void 0) && (index = this.parent.subViews.indexOf(this)) >= 0) {
+      this.parent.subViews.splice(index, 1);
+      return this.unsetParent();
+    }
   };
 
   KDView.prototype.destroy = function() {
-    var index, _ref;
     if (this.getSubViews().length > 0) {
       this.destroySubViews();
     }
-    if (((_ref = this.parent) != null ? _ref.subViews : void 0) && (index = this.parent.subViews.indexOf(this)) >= 0) {
-      this.parent.subViews.splice(index, 1);
-      this.unsetParent();
-    }
+    this.orphanize();
     this.getDomElement().remove();
     if (this.$overlay != null) {
       this.removeOverlay();
@@ -19717,25 +23937,6 @@ module.exports = KDView = (function(_super) {
       subViews = subViews.concat([].slice.call(this.items));
     }
     return subViews;
-  };
-
-  KDView.prototype.setTemplate = function(tmpl, params) {
-    var options, _ref;
-    if (params == null) {
-      params = (_ref = this.getOptions()) != null ? _ref.pistachioParams : void 0;
-    }
-    options = params != null ? {
-      params: params
-    } : void 0;
-    this.template = new Pistachio(this, tmpl, options);
-    this.updatePartial(this.template.html);
-    return this.template.embedSubViews();
-  };
-
-  KDView.prototype.pistachio = function(tmpl) {
-    if (tmpl) {
-      return "" + this.options.prefix + tmpl + this.options.suffix;
-    }
   };
 
   KDView.prototype.setParent = function(parent) {
@@ -19799,12 +24000,13 @@ module.exports = KDView = (function(_super) {
   };
 
   KDView.prototype.setLazyLoader = function(threshold) {
-    var view;
+    var bind, view;
     if (threshold == null) {
       threshold = .75;
     }
-    if (!/\bscroll\b/.test(this.getOptions().bind)) {
-      this.getOptions().bind += ' scroll';
+    bind = this.getOptions().bind;
+    if (!/scroll/.test(bind)) {
+      this.getOptions().bind = KD.utils.curry('scroll', bind);
     }
     view = this;
     return this.on('scroll', (function() {
@@ -20188,14 +24390,7 @@ module.exports = KDView = (function(_super) {
     return this.emit("DragInAction", x, y);
   };
 
-  KDView.prototype.viewAppended = function() {
-    var pistachio;
-    pistachio = this.getOptions().pistachio;
-    if (pistachio && (this.template == null)) {
-      this.setTemplate(pistachio);
-      return this.template.update();
-    }
-  };
+  KDView.prototype.viewAppended = function() {};
 
   KDView.prototype.childAppended = function(child) {
     var _ref;
@@ -20211,8 +24406,10 @@ module.exports = KDView = (function(_super) {
   };
 
   KDView.prototype.observeMutations = function() {
-    var MutationObserver, MutationSummary, observerSummary;
-    MutationSummary = require('./../../libs/mutation-summary.js');
+    var MutationObserver, observerSummary;
+    if (!MutationSummary) {
+      return;
+    }
     MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
     return observerSummary = new MutationSummary({
       callback: (function(_this) {
@@ -20244,15 +24441,12 @@ module.exports = KDView = (function(_super) {
     return (_ref = this.overlay) != null ? _ref.destroy() : void 0;
   };
 
-  KDView.prototype.unsetTooltip = function(o) {
+  KDView.prototype.unsetTooltip = function() {
     var _ref;
-    if (o == null) {
-      o = {};
-    }
     if ((_ref = this.tooltip) != null) {
       _ref.destroy();
     }
-    return delete this.tooltip;
+    return this.tooltip = null;
   };
 
   KDView.prototype.setTooltip = function(o) {
@@ -20290,6 +24484,9 @@ module.exports = KDView = (function(_super) {
     if (o.sticky == null) {
       o.sticky = false;
     }
+    if (o.permanent == null) {
+      o.permanent = false;
+    }
     o.delegate || (o.delegate = this);
     o.events || (o.events = ['mouseenter', 'mouseleave', 'mousemove']);
     this.unsetTooltip();
@@ -20308,49 +24505,22 @@ module.exports = KDView = (function(_super) {
       state = true;
     }
     if (state) {
-      return KD.getSingleton('windowController').registerWindowResizeListener(this);
+      return KD.singletons.windowController.registerWindowResizeListener(this);
     } else {
-      return KD.getSingleton('windowController').unregisterWindowResizeListener(this);
+      return KD.singletons.windowController.unregisterWindowResizeListener(this);
     }
   };
 
-  KDView.prototype.notifyResizeListeners = function() {
-    return KD.getSingleton('windowController').notifyWindowResizeListeners();
-  };
-
   KDView.prototype.setKeyView = function() {
-    return KD.getSingleton("windowController").setKeyView(this);
+    return KD.singletons.windowController.setKeyView(this);
   };
 
   KDView.prototype.unsetKeyView = function() {
-    return KD.getSingleton("windowController").setKeyView(null);
+    return KD.singletons.windowController.setKeyView(null);
   };
 
   KDView.prototype.activateKeyView = function() {
     return typeof this.emit === "function" ? this.emit('KDViewBecameKeyView') : void 0;
-  };
-
-  KDView.prototype.devHacks = function() {
-    return this.on("click", (function(_this) {
-      return function(event) {
-        if (!event) {
-          return;
-        }
-        if (event.metaKey && event.altKey && event.ctrlKey) {
-          log(_this.getData());
-          if (typeof event.stopPropagation === "function") {
-            event.stopPropagation();
-          }
-          if (typeof event.preventDefault === "function") {
-            event.preventDefault();
-          }
-          return false;
-        } else if (event.altKey && (event.metaKey || event.ctrlKey)) {
-          log(_this);
-          return false;
-        }
-      };
-    })(this));
   };
 
   return KDView;
@@ -20358,7 +24528,7 @@ module.exports = KDView = (function(_super) {
 })(KDObject);
 
 
-},{"./../../libs/mutation-summary.js":1,"./../components/overlay/overlayview.coffee":62,"./../components/tooltip/tooltip.coffee":85,"./object.coffee":103}],108:[function(require,module,exports){
+},{"./../components/overlay/overlayview.coffee":69,"./../components/tooltip/tooltip.coffee":92,"./object.coffee":111}],116:[function(require,module,exports){
 var KDController, KDView, KDViewController,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -20409,7 +24579,7 @@ module.exports = KDViewController = (function(_super) {
 })(KDController);
 
 
-},{"./controller.coffee":96,"./view.coffee":107}],109:[function(require,module,exports){
+},{"./controller.coffee":103,"./view.coffee":115}],117:[function(require,module,exports){
 
 /*
 todo:
@@ -20426,7 +24596,7 @@ var KDController, KDWindowController,
 KDController = require('./controller.coffee');
 
 module.exports = KDWindowController = (function(_super) {
-  var addListener, getVisibilityEventName, getVisibilityProperty, superKey, superizeCombos;
+  var addListener, superKey, superizeCombos;
 
   __extends(KDWindowController, _super);
 
@@ -20441,25 +24611,6 @@ module.exports = KDWindowController = (function(_super) {
     return window.addEventListener(eventName, listener, capturePhase);
   };
 
-  getVisibilityProperty = function() {
-    var prefix, prefixes, _i, _len;
-    prefixes = ["webkit", "moz", "o"];
-    if ("hidden" in document) {
-      return "hidden";
-    }
-    for (_i = 0, _len = prefixes.length; _i < _len; _i++) {
-      prefix = prefixes[_i];
-      if (prefix + "Hidden" in document) {
-        return "" + prefix + "Hidden";
-      }
-    }
-    return "";
-  };
-
-  getVisibilityEventName = function() {
-    return "" + (getVisibilityProperty().replace(/[Hh]idden/, '')) + "visibilitychange";
-  };
-
   function KDWindowController(options, data) {
     this.windowResizeListeners = {};
     this.keyEventsToBeListened = ['keydown', 'keyup', 'keypress'];
@@ -20470,6 +24621,7 @@ module.exports = KDWindowController = (function(_super) {
     this.layers = [];
     this.unloadListeners = {};
     this.focusListeners = [];
+    this.focused = true;
     this.bindEvents();
     KDWindowController.__super__.constructor.call(this, options, data);
   }
@@ -20506,7 +24658,7 @@ module.exports = KDWindowController = (function(_super) {
         var body, timer;
         timer = null;
         body = document.body;
-        return _.throttle(function(event) {
+        return KD.utils.throttle(function(event) {
           return _this.emit("ScrollHappened", event);
         }, 50);
       };
@@ -20577,12 +24729,17 @@ module.exports = KDWindowController = (function(_super) {
         }
       }
     }, false);
-    window.addEventListener('beforeunload', this.bound("beforeUnload"));
-    return document.addEventListener(getVisibilityEventName(), (function(_this) {
+    addListener('beforeunload', this.bound('beforeUnload'));
+    window.onfocus = (function(_this) {
       return function(event) {
-        return _this.focusChange(event, _this.isFocused());
+        return _this.focusChange(event, true);
       };
-    })(this));
+    })(this);
+    return window.onblur = (function(_this) {
+      return function(event) {
+        return _this.focusChange(event, false);
+      };
+    })(this);
   };
 
   KDWindowController.prototype.addUnloadListener = function(key, listener) {
@@ -20600,7 +24757,7 @@ module.exports = KDWindowController = (function(_super) {
   };
 
   KDWindowController.prototype.isFocused = function() {
-    return !Boolean(document[getVisibilityProperty()]);
+    return this.focused;
   };
 
   KDWindowController.prototype.addFocusListener = function(listener) {
@@ -20612,6 +24769,7 @@ module.exports = KDWindowController = (function(_super) {
     if (!event) {
       return;
     }
+    this.focused = state;
     _ref = this.focusListeners;
     _results = [];
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -20632,17 +24790,18 @@ module.exports = KDWindowController = (function(_super) {
       listeners = _ref[key];
       for (_i = 0, _len = listeners.length; _i < _len; _i++) {
         listener = listeners[_i];
-        if (listener() === false) {
-          message = key !== "window" ? " on " + key : "";
-          return "Please make sure that you saved all your work" + message + ".";
+        if (!(listener() === false)) {
+          continue;
         }
+        message = key !== 'window' ? " on " + key : '';
+        return "Please make sure that you saved all your work" + message + ".";
       }
     }
   };
 
   KDWindowController.prototype.setDragInAction = function(dragInAction) {
     this.dragInAction = dragInAction != null ? dragInAction : false;
-    return $('body')[this.dragInAction ? "addClass" : "removeClass"]("dragInAction");
+    return document.body.classList[this.dragInAction ? 'add' : 'remove']('dragInAction');
   };
 
   KDWindowController.prototype.setMainView = function(mainView) {
@@ -20655,7 +24814,7 @@ module.exports = KDWindowController = (function(_super) {
 
   KDWindowController.prototype.revertKeyView = function(view) {
     if (!view) {
-      warn("you must pass the view as a param, which doesn't want to be keyview anymore!");
+      warn('view, which shouldn\'t be the keyview anymore, must be passed as a parameter!');
       return;
     }
     if (view === this.keyView && this.keyView !== this.oldKeyView) {
@@ -20704,24 +24863,18 @@ module.exports = KDWindowController = (function(_super) {
   };
 
   KDWindowController.prototype.registerKeyCombos = function(view) {
-    var cb, combo, combos, _ref, _results;
-    if (combos = this.viewHasKeyCombos(view)) {
-      view.setClass("mousetrap");
-      this.currentCombos = superizeCombos(combos);
-      _ref = this.currentCombos;
-      _results = [];
-      for (combo in _ref) {
-        if (!__hasProp.call(_ref, combo)) continue;
-        cb = _ref[combo];
-        _results.push(Mousetrap.bind(combo, cb, 'keydown'));
-      }
-      return _results;
+    var combos;
+    combos = this.viewHasKeyCombos(view);
+    if (combos != null) {
+      this.comboMap = new KDKeyboardMap({
+        combos: combos
+      });
+      return KDKeyboardListener.current().addComboMap(this.comboMap);
     }
   };
 
   KDWindowController.prototype.unregisterKeyCombos = function() {
-    this.currentCombos = {};
-    Mousetrap.reset();
+    KDKeyboardListener.current().removeComboMap(this.comboMap);
     if (this.keyView) {
       return this.keyView.unsetClass("mousetrap");
     }
@@ -20805,43 +24958,21 @@ module.exports = KDWindowController = (function(_super) {
     return delete this.windowResizeListeners[instance.id];
   };
 
-  KDWindowController.prototype.setWindowProperties = function(event) {
-    this.winWidth = window.innerWidth;
-    return this.winHeight = window.innerHeight;
-  };
-
-  KDWindowController.prototype.notifyWindowResizeListeners = function(event, throttle, duration) {
-    var fireResizeHandlers;
-    if (throttle == null) {
-      throttle = false;
-    }
-    if (duration == null) {
-      duration = 17;
-    }
+  KDWindowController.prototype.notifyWindowResizeListeners = function(event) {
+    var inst, key, _ref, _results;
     event || (event = {
       type: "resize"
     });
-    fireResizeHandlers = (function(_this) {
-      return function() {
-        var instance, key, _ref, _results;
-        _ref = _this.windowResizeListeners;
-        _results = [];
-        for (key in _ref) {
-          if (!__hasProp.call(_ref, key)) continue;
-          instance = _ref[key];
-          if (instance._windowDidResize) {
-            _results.push(instance._windowDidResize(event));
-          }
-        }
-        return _results;
-      };
-    })(this);
-    if (throttle) {
-      KD.utils.killWait(this.resizeNotifiersTimer);
-      return this.resizeNotifiersTimer = KD.utils.wait(duration, fireResizeHandlers);
-    } else {
-      return fireResizeHandlers();
+    _ref = this.windowResizeListeners;
+    _results = [];
+    for (key in _ref) {
+      if (!__hasProp.call(_ref, key)) continue;
+      inst = _ref[key];
+      if (inst._windowDidResize) {
+        _results.push(inst._windowDidResize(event));
+      }
     }
+    return _results;
   };
 
   return KDWindowController;
@@ -20855,7 +24986,7 @@ module.exports = KDWindowController = (function(_super) {
 })();
 
 
-},{"./controller.coffee":96,"./kd.coffee":101}],110:[function(require,module,exports){
+},{"./controller.coffee":103,"./kd.coffee":107}],118:[function(require,module,exports){
 var KD, utils;
 
 require('./lib.includes.coffee');
@@ -20972,6 +25103,8 @@ KD.classes.KDListItemView = require("./components/list/listitemview.coffee");
 
 KD.classes.KDListView = require("./components/list/listview.coffee");
 
+KD.classes.KDListViewBox = require("./components/list/listviewbox.coffee");
+
 KD.classes.KDListViewController = require("./components/list/listviewcontroller.coffee");
 
 KD.classes.KDLoaderView = require("./components/loader/loaderview.coffee");
@@ -21062,7 +25195,9 @@ KD.classes.KDEventEmitter = require("./core/eventemitter.coffee");
 
 KD.classes.KDEventEmitter.Wildcard = require("./core/eventemitterwildcard.coffee");
 
-KD.classes.JView = require("./core/jview.coffee");
+KD.classes.KDKeyboardListener = require("./core/keyboard/listener.coffee");
+
+KD.classes.KDKeyboardMap = require("./core/keyboard/map.coffee");
 
 KD.classes.KDObject = require("./core/object.coffee");
 
@@ -21074,15 +25209,11 @@ KD.classes.KDViewController = require("./core/viewcontroller.coffee");
 
 KD.classes.KDWindowController = require("./core/windowcontroller.coffee");
 
-KD = require('./core/kd.coffee');
-
 KD.exportKDFramework();
 
-console.timeEnd('Framework loaded');
+
+},{"./components/autocomplete/autocomplete.coffee":9,"./components/autocomplete/autocompletecontroller.coffee":10,"./components/autocomplete/autocompleteditems.coffee":11,"./components/autocomplete/autocompletefetchingitem.coffee":12,"./components/autocomplete/autocompletelist.coffee":13,"./components/autocomplete/autocompletelistitem.coffee":14,"./components/autocomplete/autocompletenothingfounditem.coffee":15,"./components/autocomplete/autocompleteunselecteableitem.coffee":16,"./components/autocomplete/multipleinputlistview.coffee":17,"./components/autocomplete/multipleinputview.coffee":18,"./components/autocomplete/multiplelistitemview.coffee":19,"./components/autocomplete/noautocompleteinputview.coffee":20,"./components/autocomplete/noautocompletemultiplelistview.coffee":21,"./components/autocomplete/simpleautocomplete.coffee":22,"./components/buttons/buttonbar.coffee":23,"./components/buttons/buttongroupview.coffee":24,"./components/buttons/buttonmenu.coffee":25,"./components/buttons/buttonview.coffee":26,"./components/buttons/buttonviewwithmenu.coffee":27,"./components/buttons/togglebutton.coffee":28,"./components/contextmenu/contextmenu.coffee":29,"./components/contextmenu/contextmenuitem.coffee":30,"./components/contextmenu/contextmenutreeview.coffee":31,"./components/contextmenu/contextmenutreeviewcontroller.coffee":32,"./components/counter/counterdigitview.coffee":33,"./components/counter/counterview.coffee":34,"./components/dia/diacontainer.coffee":35,"./components/dia/diajoint.coffee":36,"./components/dia/diaobject.coffee":37,"./components/dia/diascene.coffee":38,"./components/dialog/dialogview.coffee":39,"./components/forms/formview.coffee":40,"./components/forms/formviewwithfields.coffee":41,"./components/header/headerview.coffee":42,"./components/image/webcamview.coffee":43,"./components/inputs/checkbox.coffee":44,"./components/inputs/contenteditableview.coffee":45,"./components/inputs/delimitedinputview.coffee":46,"./components/inputs/hitenterinputview.coffee":47,"./components/inputs/inputcheckboxgroup.coffee":48,"./components/inputs/inputradiogroup.coffee":49,"./components/inputs/inputswitch.coffee":50,"./components/inputs/inputvalidator.coffee":51,"./components/inputs/inputview.coffee":52,"./components/inputs/labelview.coffee":53,"./components/inputs/multiplechoice.coffee":54,"./components/inputs/onoffswitch.coffee":55,"./components/inputs/selectbox.coffee":56,"./components/inputs/tokenizedinputview.coffee":57,"./components/inputs/wmdinput.coffee":58,"./components/list/listitemview.coffee":59,"./components/list/listview.coffee":60,"./components/list/listviewbox.coffee":61,"./components/list/listviewcontroller.coffee":62,"./components/loader/loaderview.coffee":63,"./components/modals/blockingmodalview.coffee":64,"./components/modals/modalview.coffee":65,"./components/modals/modalviewstack.coffee":66,"./components/modals/modalviewwithforms.coffee":67,"./components/notifications/notificationview.coffee":68,"./components/overlay/overlayview.coffee":69,"./components/overlay/spotlightview.coffee":70,"./components/progressbar/progressbarview.coffee":71,"./components/scrollview/customscrollview.coffee":72,"./components/scrollview/customscrollviewinner.coffee":73,"./components/scrollview/scrollthumb.coffee":74,"./components/scrollview/scrolltrack.coffee":75,"./components/scrollview/scrollview.coffee":76,"./components/sliderbar/sliderbarhandleview.coffee":77,"./components/sliderbar/sliderbarview.coffee":78,"./components/slideshow/slidepageview.coffee":79,"./components/slideshow/slideshowview.coffee":80,"./components/split/splitcomboview.coffee":81,"./components/split/splitpanel.coffee":82,"./components/split/splitresizer.coffee":83,"./components/split/splitview.coffee":84,"./components/tabs/tabhandlecontainer.coffee":85,"./components/tabs/tabhandlemovenav.coffee":86,"./components/tabs/tabhandleview.coffee":87,"./components/tabs/tabpaneview.coffee":88,"./components/tabs/tabview.coffee":89,"./components/tabs/tabviewwithforms.coffee":90,"./components/time/timeagoview.coffee":91,"./components/tooltip/tooltip.coffee":92,"./components/tree/treeitemview.coffee":93,"./components/tree/treeview.coffee":94,"./components/tree/treeviewcontroller.coffee":95,"./components/upload/fileuploadarea.coffee":96,"./components/upload/fileuploadlistitemview.coffee":97,"./components/upload/fileuploadlistview.coffee":98,"./components/upload/fileuploadthumbitemview.coffee":99,"./components/upload/fileuploadthumblistview.coffee":100,"./components/upload/fileuploadview.coffee":101,"./components/upload/multipartuploader.coffee":102,"./core/controller.coffee":103,"./core/customhtmlview.coffee":104,"./core/eventemitter.coffee":105,"./core/eventemitterwildcard.coffee":106,"./core/kd.coffee":107,"./core/kd.dom.js":108,"./core/keyboard/listener.coffee":109,"./core/keyboard/map.coffee":110,"./core/object.coffee":111,"./core/router.coffee":112,"./core/utils.coffee":114,"./core/view.coffee":115,"./core/viewcontroller.coffee":116,"./core/windowcontroller.coffee":117,"./lib.includes.coffee":119}],119:[function(require,module,exports){
+module.exports = ["./libs/docwritenoop.js", "./libs/encode.js", "./libs/jquery-2.1.1.js"];
 
 
-},{"./components/autocomplete/autocomplete.coffee":3,"./components/autocomplete/autocompletecontroller.coffee":4,"./components/autocomplete/autocompleteditems.coffee":5,"./components/autocomplete/autocompletefetchingitem.coffee":6,"./components/autocomplete/autocompletelist.coffee":7,"./components/autocomplete/autocompletelistitem.coffee":8,"./components/autocomplete/autocompletenothingfounditem.coffee":9,"./components/autocomplete/autocompleteunselecteableitem.coffee":10,"./components/autocomplete/multipleinputlistview.coffee":11,"./components/autocomplete/multipleinputview.coffee":12,"./components/autocomplete/multiplelistitemview.coffee":13,"./components/autocomplete/noautocompleteinputview.coffee":14,"./components/autocomplete/noautocompletemultiplelistview.coffee":15,"./components/autocomplete/simpleautocomplete.coffee":16,"./components/buttons/buttonbar.coffee":17,"./components/buttons/buttongroupview.coffee":18,"./components/buttons/buttonmenu.coffee":19,"./components/buttons/buttonview.coffee":20,"./components/buttons/buttonviewwithmenu.coffee":21,"./components/buttons/togglebutton.coffee":22,"./components/contextmenu/contextmenu.coffee":23,"./components/contextmenu/contextmenuitem.coffee":24,"./components/contextmenu/contextmenutreeview.coffee":25,"./components/contextmenu/contextmenutreeviewcontroller.coffee":26,"./components/counter/counterdigitview.coffee":27,"./components/counter/counterview.coffee":28,"./components/dia/diacontainer.coffee":29,"./components/dia/diajoint.coffee":30,"./components/dia/diaobject.coffee":31,"./components/dia/diascene.coffee":32,"./components/dialog/dialogview.coffee":33,"./components/forms/formview.coffee":34,"./components/forms/formviewwithfields.coffee":35,"./components/header/headerview.coffee":36,"./components/image/webcamview.coffee":37,"./components/inputs/checkbox.coffee":38,"./components/inputs/contenteditableview.coffee":39,"./components/inputs/delimitedinputview.coffee":40,"./components/inputs/hitenterinputview.coffee":41,"./components/inputs/inputcheckboxgroup.coffee":42,"./components/inputs/inputradiogroup.coffee":43,"./components/inputs/inputswitch.coffee":44,"./components/inputs/inputvalidator.coffee":45,"./components/inputs/inputview.coffee":46,"./components/inputs/labelview.coffee":47,"./components/inputs/multiplechoice.coffee":48,"./components/inputs/onoffswitch.coffee":49,"./components/inputs/selectbox.coffee":50,"./components/inputs/tokenizedinputview.coffee":51,"./components/inputs/wmdinput.coffee":52,"./components/list/listitemview.coffee":53,"./components/list/listview.coffee":54,"./components/list/listviewcontroller.coffee":55,"./components/loader/loaderview.coffee":56,"./components/modals/blockingmodalview.coffee":57,"./components/modals/modalview.coffee":58,"./components/modals/modalviewstack.coffee":59,"./components/modals/modalviewwithforms.coffee":60,"./components/notifications/notificationview.coffee":61,"./components/overlay/overlayview.coffee":62,"./components/overlay/spotlightview.coffee":63,"./components/progressbar/progressbarview.coffee":64,"./components/scrollview/customscrollview.coffee":65,"./components/scrollview/customscrollviewinner.coffee":66,"./components/scrollview/scrollthumb.coffee":67,"./components/scrollview/scrolltrack.coffee":68,"./components/scrollview/scrollview.coffee":69,"./components/sliderbar/sliderbarhandleview.coffee":70,"./components/sliderbar/sliderbarview.coffee":71,"./components/slideshow/slidepageview.coffee":72,"./components/slideshow/slideshowview.coffee":73,"./components/split/splitcomboview.coffee":74,"./components/split/splitpanel.coffee":75,"./components/split/splitresizer.coffee":76,"./components/split/splitview.coffee":77,"./components/tabs/tabhandlecontainer.coffee":78,"./components/tabs/tabhandlemovenav.coffee":79,"./components/tabs/tabhandleview.coffee":80,"./components/tabs/tabpaneview.coffee":81,"./components/tabs/tabview.coffee":82,"./components/tabs/tabviewwithforms.coffee":83,"./components/time/timeagoview.coffee":84,"./components/tooltip/tooltip.coffee":85,"./components/tree/treeitemview.coffee":86,"./components/tree/treeview.coffee":87,"./components/tree/treeviewcontroller.coffee":88,"./components/upload/fileuploadarea.coffee":89,"./components/upload/fileuploadlistitemview.coffee":90,"./components/upload/fileuploadlistview.coffee":91,"./components/upload/fileuploadthumbitemview.coffee":92,"./components/upload/fileuploadthumblistview.coffee":93,"./components/upload/fileuploadview.coffee":94,"./components/upload/multipartuploader.coffee":95,"./core/controller.coffee":96,"./core/customhtmlview.coffee":97,"./core/eventemitter.coffee":98,"./core/eventemitterwildcard.coffee":99,"./core/jview.coffee":100,"./core/kd.coffee":101,"./core/kd.dom.js":102,"./core/object.coffee":103,"./core/router.coffee":104,"./core/utils.coffee":106,"./core/view.coffee":107,"./core/viewcontroller.coffee":108,"./core/windowcontroller.coffee":109,"./lib.includes.coffee":111}],111:[function(require,module,exports){
-module.exports = ["./libs/docwritenoop.js", "./libs/encode.js", "./libs/jquery-1.9.1.js", "./libs/underscore-min.1.3.js", "./libs/cookies.js", "./libs/jquery-timeago.js", "./libs/date.format.js", "./libs/highlight.pack.js", "./libs/inflector.js", "./libs/canvas-loader.js", "./libs/mousetrap.js", "./libs/mousetrap.js", "./libs/mousetrap-global-bind.js", "./libs/marked.js", "./libs/jspath.js", "./libs/hammer.js", "./libs/pistachio.js"];
-
-
-},{}]},{},[110])
+},{}]},{},[118])

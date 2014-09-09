@@ -1,21 +1,65 @@
-.main-view {
+body {
   font-family: 'Open Sans', 'sans-serif';
 }
-footer,
-header.main-header,
 section.home-section {
   position: relative;
   overflow: visible;
 }
-footer .inner-wrapper,
-header.main-header .inner-wrapper,
-section.home-section .inner-wrapper {
+.inner-wrapper {
   position: relative;
   max-width: 1290px;
   padding: 0 45px;
   margin: 0px auto;
   overflow: visible;
   border-top: 1px solid transparent;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.kdtabview .kdtabhandlecontainer {
+  background-color: transparent;
+  border: none;
+  height: 36px;
+  overflow: visible;
+}
+.kdtabview .kdtabhandlecontainer .kdtabhandle-tabs {
+  overflow: visible;
+}
+.kdtabview .kdtabhandlecontainer .kdtabhandle {
+  height: 36px;
+  line-height: 36px;
+  -webkit-border-radius: 4px 4px 0 0;
+  -moz-border-radius: 4px 4px 0 0;
+  border-radius: 4px 4px 0 0;
+  margin-right: 3px;
+  border: none;
+  padding: 0 24px;
+  color: #858585;
+  font-size: 14px;
+  background: #ececec;
+}
+.kdtabview .kdtabhandlecontainer .kdtabhandle.active {
+  background: #333;
+  color: #f1f1f1;
+}
+.kdtabview pre.kdtabpaneview {
+  -webkit-border-radius: 0 4px 4px 4px;
+  -moz-border-radius: 0 4px 4px 4px;
+  border-radius: 0 4px 4px 4px;
+  background: #333;
+  padding: 20px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.kdtabview pre.kdtabpaneview:before,
+.kdtabview pre.kdtabpaneview:after {
+  display: none;
+}
+.kdtabview pre.kdtabpaneview code {
+  font-family: 'Courier New', 'Courier', monospace, sans-serif;
+  width: auto;
+  background: transparent;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -132,6 +176,33 @@ header.main-header nav a.download-button:hover {
   -moz-animation: downloadIcon 0.4s 1 ease;
   animation: downloadIcon 0.4s 1 ease;
 }
+.main-view.collapse-header .main-header,
+.page-view .main-header {
+  -webkit-box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  -moz-box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+.main-view.collapse-header .main-header .download-button,
+.page-view .main-header .download-button {
+  opacity: 1;
+}
+.main-view.collapse-header .main-header figure.logo,
+.page-view .main-header figure.logo {
+  left: 0%;
+  opacity: 1;
+}
+.main-view.collapse-header .main-header nav,
+.page-view .main-header nav {
+  right: 98px;
+  -webkit-transform: translateX(0);
+  -moz-transform: translateX(0);
+  transform: translateX(0);
+}
+.main-view.collapse-header .main-header nav a#fork-us,
+.page-view .main-header nav a#fork-us {
+  width: 24px;
+  color: transparent;
+}
 section.home-section {
   background: #fff;
   z-index: 3;
@@ -149,7 +220,7 @@ section.home-section.intro {
   background-scroll: no-scroll;
   text-align: center;
   width: 100%;
-  height: auto;
+  height: 100%;
   z-index: 2;
   -webkit-box-shadow: 0 0 0 rgba(0,0,0,0.4);
   -moz-box-shadow: 0 0 0 rgba(0,0,0,0.4);
@@ -305,54 +376,6 @@ section.home-section.examples .kdtabview {
   width: 66%;
   margin: 60px 0 74px;
 }
-section.home-section.examples .kdtabview .kdtabhandlecontainer {
-  background-color: transparent;
-  border: none;
-  height: 36px;
-  overflow: visible;
-}
-section.home-section.examples .kdtabview .kdtabhandlecontainer .kdtabhandle-tabs {
-  overflow: visible;
-}
-section.home-section.examples .kdtabview .kdtabhandlecontainer .kdtabhandle {
-  height: 36px;
-  line-height: 36px;
-  -webkit-border-radius: 4px 4px 0 0;
-  -moz-border-radius: 4px 4px 0 0;
-  border-radius: 4px 4px 0 0;
-  margin-right: 3px;
-  border: none;
-  padding: 0 24px;
-  color: #858585;
-  font-size: 14px;
-  background: #ececec;
-}
-section.home-section.examples .kdtabview .kdtabhandlecontainer .kdtabhandle.active {
-  background: #333;
-  color: #f1f1f1;
-}
-section.home-section.examples .kdtabview pre.kdtabpaneview {
-  -webkit-border-radius: 0 4px 4px 4px;
-  -moz-border-radius: 0 4px 4px 4px;
-  border-radius: 0 4px 4px 4px;
-  background: #333;
-  padding: 20px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-section.home-section.examples .kdtabview pre.kdtabpaneview:before,
-section.home-section.examples .kdtabview pre.kdtabpaneview:after {
-  display: none;
-}
-section.home-section.examples .kdtabview pre.kdtabpaneview code {
-  font-family: 'Courier New', 'Courier', monospace, sans-serif;
-  width: auto;
-  background: transparent;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
 section.home-section.examples .go-to-doc {
   font-size: 22px;
   color: #6b6b6b;
@@ -400,27 +423,143 @@ footer.kdview nav a {
 footer.kdview nav a:hover {
   text-decoration: none;
 }
-.main-view.collapse-header .main-header {
-  -webkit-box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  -moz-box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+.guide-page.inner-wrapper {
+  padding-top: 146px;
 }
-.main-view.collapse-header .main-header .download-button {
-  opacity: 1;
+aside.main-sidebar {
+  width: 252px;
+  height: auto;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  display: block;
+  float: left;
 }
-.main-view.collapse-header .main-header figure.logo {
-  left: 0%;
-  opacity: 1;
+aside.main-sidebar ul.kdlistview {
+  margin-bottom: 24px;
 }
-.main-view.collapse-header .main-header nav {
-  right: 98px;
-  -webkit-transform: translateX(0);
-  -moz-transform: translateX(0);
-  transform: translateX(0);
+aside.main-sidebar ul.kdlistview .arrow {
+  display: none;
+  visibility: hidden;
 }
-.main-view.collapse-header .main-header nav a#fork-us {
-  width: 24px;
-  color: transparent;
+aside.main-sidebar ul.kdlistview >li {
+  cursor: pointer;
+}
+aside.main-sidebar ul.kdlistview >li.has-sub-items {
+  display: block;
+  font-size: 16px;
+  font-weight: 700;
+  color: #555;
+  line-height: 17px;
+  margin: 0 0 20px 0;
+  padding: 0 0 0 10px;
+  border-left: 4px solid transparent;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+aside.main-sidebar ul.kdlistview >li.has-sub-items.expanded {
+  border-left-color: #ff5a27;
+}
+aside.main-sidebar ul.kdlistview li:not(.has-sub-items) {
+  display: block;
+  font-size: 14px;
+  color: #777;
+  height: 24px;
+  line-height: 24px;
+  margin: 2px 0 0 14px;
+  padding: 0 0 0 12px;
+  text-decoration: none;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+aside.main-sidebar ul.kdlistview li:not(.has-sub-items):hover {
+  text-decoration: none;
+}
+aside.main-sidebar ul.kdlistview li:not(.has-sub-items).selected {
+  background: #eee;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+aside.main-sidebar .nav-main-item {
+  margin-bottom: 24px;
+}
+aside.main-sidebar .nav-main-item >span {
+  display: block;
+  font-size: 16px;
+  font-weight: 700;
+  color: #555;
+  line-height: 17px;
+  margin: 0 0 20px 0;
+  padding: 0 0 0 10px;
+  cursor: pointer;
+  border-left: 4px solid transparent;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+aside.main-sidebar .nav-main-item a.nav-sub-item {
+  display: block;
+  font-size: 14px;
+  color: #777;
+  height: 24px;
+  line-height: 24px;
+  margin: 2px 0 0 14px;
+  padding: 0 0 0 12px;
+  display: none;
+  text-decoration: none;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+aside.main-sidebar .nav-main-item a.nav-sub-item:hover {
+  text-decoration: none;
+}
+aside.main-sidebar .nav-main-item.active >span {
+  border-left-color: #ff5a27;
+}
+aside.main-sidebar .nav-main-item.active a.nav-sub-item {
+  display: block;
+}
+aside.main-sidebar .nav-main-item.active a.nav-sub-item.active {
+  background: #eee;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+section.content-section {
+  width: auto;
+  height: auto;
+  margin-left: 252px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+section.content-section article section {
+  padding: 0 0 42px 40px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+section.content-section article h3 {
+  color: #555;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 22px 0;
+}
+section.content-section article p {
+  line-height: 22px;
+  letter-spacing: 0.025em;
+  color: #555;
+  margin: 0 0 24px 0;
+}
+section.content-section article p:last-of-type {
+  margin-bottom: 0;
+}
+section.content-section article p:last-of-type+.kdtabview {
+  margin-top: 22px;
 }
 @-moz-keyframes downloadIcon {
   0% {

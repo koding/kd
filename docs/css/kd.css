@@ -103,48 +103,37 @@ h4.kdheaderview span {
 /*
 **  KDSplitView STYLES
 */
-.kdsplitview {
-  position: relative;
-  width: 100%;
-  height: 100%;
+body.resize-in-action {
+  overflow: hidden !important;
+}
+body.resize-in-action .kdsplitview,
+body.resize-in-action .kdsplitview-panel {
+  overflow: hidden !important;
 }
 .kdsplitview .kdsplitview-panel {
   overflow: auto;
+  position: absolute;
 }
 .kdsplitview >.kdsplitview-resizer {
   left: 0;
   top: 0;
-  position: absolute;
-  z-index: 9999;
+  z-index: 1;
+  background-color: transparent;
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
-}
-.kdsplitview >.kdsplitview-resizer:hover {
-  background-color: rgba(0,0,0,0.2);
+  position: absolute;
 }
 .kdsplitview.min-width-reached {
   overflow: auto;
 }
-.kdsplitview-vertical >.kdsplitview-panel {
-  position: absolute;
-  width: 50%;
-  height: 100%;
-}
 .kdsplitview-vertical >.kdsplitview-resizer {
   cursor: ew-resize;
-  background: rgba(0,0,0,0.1) url("../images/left.resizer.ver.png") no-repeat 50% 50%;
   width: 10px;
   height: 100%;
 }
-.kdsplitview-horizontal >.kdsplitview-panel {
-  position: absolute;
-  width: 100%;
-  height: 50%;
-}
 .kdsplitview-horizontal >.kdsplitview-resizer {
   cursor: ns-resize;
-  background: rgba(0,0,0,0.1) url("../images/left.resizer.hor.png") no-repeat 50% 50%;
   width: 100%;
   height: 10px;
 }
@@ -152,6 +141,9 @@ h4.kdheaderview span {
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
+}
+.kdsplitview-panel.floating {
+  z-index: 10000;
 }
 /*
 **  KDTabView STYLES
@@ -298,7 +290,6 @@ h4.kdheaderview span {
 */
 .kdautocomplete.listview-wrapper {
   position: absolute;
-  border: 1px solid #ddd;
   border: 1px solid #7dbef1;
   border-top: 1px solid #f2f2f2;
   margin: -1px 0 0 4px;
@@ -316,7 +307,7 @@ h4.kdheaderview span {
 .kdautocomplete.listview-wrapper .kdview.kdlistview.kdautocompletelist {
   padding: 5px 0;
 }
-.kdautocomplete.listview-wrapper .kdview.kdlistview.kdautocompletelist .kdautocompletelistitem {
+.kdautocomplete.listview-wrapper .kdview.kdlistview.kdautocompletelist .kdlistitemview-default {
   padding: 0 5px;
   border: none;
   cursor: pointer;
@@ -326,7 +317,7 @@ h4.kdheaderview span {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-.kdautocomplete.listview-wrapper .kdview.kdlistview.kdautocompletelist .kdautocompletelistitem.active {
+.kdautocomplete.listview-wrapper .kdview.kdlistview.kdautocompletelist .kdlistitemview-default.active {
   color: #fff;
   text-shadow: 0 1px 0 rgba(0,0,0,0.5);
   background-color: #7dbef1;
@@ -677,12 +668,12 @@ label.kdlabel {
 input.kdinput.text,
 textarea.kdinput.text {
   width: 100%;
-  height: 44px;
+  height: auto;
   z-index: 1;
-  padding: 14px;
+  padding: 10px 14px;
   color: #3e4f55;
   font-size: 16px;
-  line-height: 17px;
+  line-height: 22px;
   font-weight: 300;
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
@@ -698,18 +689,16 @@ textarea.kdinput.text {
 }
 input.kdinput.text.big,
 textarea.kdinput.text.big {
-  height: 55px;
-  padding: 19px;
+  padding: 15px 19px;
 }
 input.kdinput.text.medium,
 textarea.kdinput.text.medium {
-  height: 44px;
-  padding: 14px 14px;
+  padding: 10px 14px;
+  line-height: 22px;
 }
 input.kdinput.text.small,
 textarea.kdinput.text.small {
-  height: 24px;
-  padding: 6px;
+  padding: 3px 6px;
   font-size: 12px;
   line-height: 12px;
 }
@@ -2140,7 +2129,7 @@ button.transparent:active {
 /*
 **  KDScrollView STYLES
 */
-.kdscrollview {
+.kdview.kdscrollview {
   overflow: auto;
 }
 .kdcustomscrollview {
@@ -2794,10 +2783,6 @@ div.kdtooltip:after {
   position: absolute;
 }
 div.kdtooltip div.wrapper {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  position: relative;
   background-color: #fff;
   -webkit-box-shadow: 0 10px 20px 5px rgba(0,0,0,0.15);
   -moz-box-shadow: 0 10px 20px 5px rgba(0,0,0,0.15);
@@ -2811,6 +2796,10 @@ div.kdtooltip div.wrapper {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  position: relative;
 }
 div.kdtooltip.direction-right div.wrapper {
   text-align: left;

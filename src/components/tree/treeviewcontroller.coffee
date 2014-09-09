@@ -278,10 +278,11 @@ module.exports = class JTreeViewController extends KDViewController
     nodeView.$().attr "draggable","true" if @getOptions().dragdrop
     {id, parentId} = nodeData
     @nodes[@getNodeId nodeData] = nodeView
-    if @nodes[@getNodePId nodeData]
-      @expand @nodes[@getNodePId nodeData] unless @getOptions().addListsCollapsed
+    nodePId = @getNodePId nodeData
+    if @nodes[nodePId]
+      @expand @nodes[nodePId] unless @getOptions().addListsCollapsed
       # todo: make decoration with events
-      @nodes[@getNodePId nodeData].decorateSubItemsState()
+      @nodes[nodePId].decorateSubItemsState()
     return unless @listControllers[id]
     @addSubList nodeView, id
 
@@ -317,15 +318,17 @@ module.exports = class JTreeViewController extends KDViewController
 
   removeIndexedNode:(nodeData)->
 
-    if nodeData in @indexedNodes
-      index = @indexedNodes.indexOf nodeData
+    index = @indexedNodes.indexOf nodeData
+    if index > -1
+
       # Disable this for now, useless for most cases, FIXME GG
       # @selectNode @nodes[@getNodeId @indexedNodes[index-1]] if index-1 >= 0
+
       @indexedNodes.splice index, 1
       # todo: make decoration with events
-      if @nodes[@getNodePId nodeData] and not \
-        @getChildNodes(@nodes[@getNodePId nodeData].getData())
-          @nodes[@getNodePId nodeData].decorateSubItemsState(no)
+      nodePId = @getNodePId nodeData
+      if @nodes[nodePId] and not @getChildNodes @nodes[nodePId].getData()
+        @nodes[nodePId].decorateSubItemsState no
 
 
   ###

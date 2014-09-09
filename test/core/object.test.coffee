@@ -1,5 +1,5 @@
 {assert} = require('chai')
-KDObject = require('../object')
+KDObject = require('../../src/core/object')
 
 describe 'KDObject', ->
 

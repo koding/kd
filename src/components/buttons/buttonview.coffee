@@ -185,15 +185,17 @@ module.exports = class KDButtonView extends KDView
       marginLeft  : -(loader.diameter/2)
     @loader.hide()
 
+    @showLoader()  if loader.show
+
   ###*
    * Show the KDLoaderView on this button, if any. Note that the loader is
    * shown by default when the button is clicked.
   ###
   showLoader:->
-    
+
     unless @loader
       return warn 'KDButtonView::showLoader is called where no loader is set'
-    
+
     {icon, iconOnly} = @getOptions()
     @setClass "loading"
     @loader.show()
@@ -203,7 +205,7 @@ module.exports = class KDButtonView extends KDView
    * Hide the KDLoaderView on this button, if any.
   ###
   hideLoader:->
-    
+
     unless @loader
       return warn 'KDButtonView::hideLoader is called where no loader is set'
 

@@ -1,3 +1,4 @@
+require './../../../libs/canvas-loader.js'
 KDView = require './../../core/view.coffee'
 
 module.exports = class KDLoaderView extends KDView
@@ -33,6 +34,9 @@ module.exports = class KDLoaderView extends KDView
     {loaderOptions, showLoader} = @getOptions()
     for own option, value of loaderOptions
       @canvas["set#{option.capitalize()}"] value
+
+    {height} = @getOption 'size'
+    @setCss 'line-height', if height then height + 'px' else 'initial'
 
     @show()  if showLoader
 

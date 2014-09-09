@@ -1,2 +1,3 @@
-require('../src/core/test')
-require('../src/components/buttons/test')
+require('./core')
+require('./components/buttons')
+require('./components/list')

@@ -21,10 +21,11 @@ express    = require 'express'
 Promise    = require 'bluebird'
 exec       = Promise.promisify (require 'child_process').exec
 
+ENTRY_PATH    = argv.entryPath ? './src/entry.coffee'
 STYLES_PATH   = require './src/themes/styl.includes.coffee'
 COFFEE_PATH   = ['./src/components/**/*.coffee','./src/core/**/*.coffee','./src/init.coffee']
 LIBS_PATH     = ['./libs/*.js']
-TEST_PATH     = ['./src/**/*.test.coffee']
+TEST_PATH     = ['./test/**/*.test.coffee']
 LIBS          = require './src/lib.includes.coffee'
 
 # Helpers
@@ -56,12 +57,19 @@ useMinify     = checkParam argv.minify
 karmaAction   = 'watch'
 buildDocs     = checkParam argv.docs
 buildPlay     = checkParam argv.play
+theme         = checkParam argv.theme
 
 
 # Build Tasks
 
 
 gulp.task 'styles', ->
+
+  if theme
+    resetStyles = require './src/themes/reset.includes.coffee'
+    # FIXME: require & put real theme styl files array here
+    themeStyles = []
+    STYLES_PATH = themeStyles.concat resetStyles
 
   gulp.src STYLES_PATH
     .pipe stylus()
@@ -86,13 +94,11 @@ gulp.task 'export', ->
 
 gulp.task 'coffee', ['export'], ->
 
-  entryPath = './src/entry.coffee'
-
   gulpBrowserify
-      entries : entryPath
-    .pipe source entryPath
+      entries : ENTRY_PATH
+    .pipe source ENTRY_PATH
     .pipe gulpBuffer()
-    .pipe gulpif useUglify, uglify()
+    .pipe gulpif useUglify, uglify(mangle : no)
     .pipe rename "kd.#{version}js"
     .pipe gulp.dest "#{buildDir}/js"
 
@@ -211,16 +217,20 @@ gulp.task 'coffee-test', ->
     .pipe gulp.dest 'test'
 
 
+testFiles = [
+  './test/kd.libs.js'
+  './test/kd.test.js'
+]
+
 gulp.task 'karma', ['coffee-test'], ->
 
-  gulp.src ['./test/kd.*']
+  gulp.src testFiles
     .pipe karma
       configFile : 'karma.conf.js'
       action     : karmaAction
 
-
 gulp.task 'sauce', ->
-  gulp.src ['./test/kd.*']
+  gulp.src testFiles
     .pipe karma
       browsers   : [
         'sl_firefox_windows'
@@ -279,8 +289,8 @@ gulp.task 'watch-playground', ->
 
   watchLogger 'blue', gulp.watch [
     './playground/**/*.coffee'
-    './playground/**/*.html'
     './playground/**/*.styl'
+    './playground/**/*.html'
   ], ['play']
 
 

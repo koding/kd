@@ -26,7 +26,7 @@ module.exports = class JTreeItemView extends KDListItemView
     else
       @updatePartial """
         <span class='arrow'></span>
-        #{ @getData().title }
+        #{ @getData().title ? "" }
         """
 
   toggle:(callback)->

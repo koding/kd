@@ -92,7 +92,7 @@ module.exports = class KDInputView extends KDView
     @setLabel()
     @setCallback()
     @setDefaultValue options.defaultValue
-    @setPlaceHolder options.placeholder
+    @setPlaceholder options.placeholder
     @makeDisabled() if options.disabled
     if options.selectOptions? and 'function' isnt typeof options.selectOptions
       @setSelectOptions options.selectOptions
@@ -195,7 +195,7 @@ module.exports = class KDInputView extends KDView
 
   getDefaultValue:-> @inputDefaultValue
 
-  setPlaceHolder:(value)->
+  setPlaceholder:(value)->
     if @$().is("input") or @$().is("textarea")
       @$().attr "placeholder",value
       @options.placeholder = value
@@ -330,9 +330,9 @@ module.exports = class KDInputView extends KDView
       @validationResults[rule] = null
       # if there is any true on validation results' values then is not valid
 
-      @valid = not _.values(@validationResults)
-                    .map((result)-> Boolean result)
-                    .indexOf(true) > -1
+      @valid = not (v for own k, v of @validationResults)
+                   .map((result)-> Boolean result)
+                   .indexOf(true) > -1
 
   showValidationError:(message)->
 

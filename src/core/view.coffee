@@ -71,51 +71,55 @@ module.exports = class KDView extends KDObject
 
   constructor:(options = {},data)->
 
-    o = options
-    o.tagName     or= "div"     # a String of a HTML tag
-    o.domId       or= null      # a String
-    o.cssClass    or= ""        # a String
-    o.parent      or= null      # a KDView Instance
-    o.partial     or= null      # a String of HTML or text
-    o.delegate    or= null      # a KDView Instance
-    o.bind        or= ""        # a String of space seperated javascript dom events to be listened on instantiated view
-    o.draggable   or= null      # an Object holding draggable options and/or events !!! NOT HTML5 !!!
-    o.droppable   or= null      # TBDL
-    o.size        or= null      # an Object holding width and height properties
-    o.position    or= null      # an Object holding top/right/bottom/left properties (would force view to be positioned absolutely)
-    o.attributes  or= null      # an Object holding attribute key/value pairs e.g. {href:'#',title:'my picture'}
-    o.prefix      or= ""        # a String
-    o.suffix      or= ""        # a String
-    o.tooltip     or= null      # an Object of kdtooltip options
-
+    options.tagName           or= "div"     # a String of a HTML tag
+    options.domId             or= null      # a String
+    options.cssClass          or= ""        # a String
+    options.parent            or= null      # a KDView Instance
+    options.partial           or= null      # a String of HTML or text
+    options.delegate          or= null      # a KDView Instance
+    options.bind              or= ""        # a String of space separated javascript dom events to be listened
+    options.draggable         or= null      # an Object holding draggable options and/or events !!! NOT HTML5 !!!
+    options.size              or= null      # an Object holding width and height properties
+    options.position          or= null      # an Object holding top/right/bottom/left properties (would force view to be positioned absolutely)
+    options.attributes        or= null      # an Object holding attribute key/value pairs e.g. {href:'#',title:'my picture'}
+    options.prefix            or= ""        # a String
+    options.suffix            or= ""        # a String
+    options.tooltip           or= null      # an Object of kdtooltip options
+    options.lazyLoadThreshold  ?= no
     # TO BE IMPLEMENTED
-    o.resizable   or= null      # TBDL
-    super o, data
+    options.droppable         or= null      # TBDL
+    options.resizable         or= null      # TBDL
+
+    super options, data
 
     data?.on? 'update', @bound 'render'
 
+    @defaultInit()
+
+  defaultInit:->
+
+    options           = @getOptions()
     {@domId, @parent} = options
     @subViews         = []
 
-    @defaultInit options,data
+    { cssClass, attributes, size, position
+      partial, draggable, pistachio, pistachioParams
+      lazyLoadThreshold, tooltip, draggable, tagName
+    } = options
 
-  defaultInit:(options, data)->
-
-    @setDomElement options.cssClass
+    @setDomElement cssClass
     @setDataId()
-    @setDomId options.domId               if options.domId
-    @setAttributes options.attributes     if options.attributes
-    @setSize options.size                 if options.size
-    @setPosition options.position         if options.position
-    @updatePartial options.partial        if options.partial
-    @setClass 'kddraggable'               if options.draggable
+    @setDomId @domId          if @domId
+    @setAttributes attributes if attributes
+    @setPosition position     if position
+    @updatePartial partial    if partial
+    @setClass 'kddraggable'   if draggable
 
     @addEventHandlers options
 
-    @setLazyLoader options.lazyLoadThreshold  if options.lazyLoadThreshold
-
-    @setTooltip options.tooltip      if options.tooltip
-    @setDraggable options.draggable  if options.draggable
+    @setLazyLoader lazyLoadThreshold  if lazyLoadThreshold
+    @setTooltip tooltip               if tooltip
+    @setDraggable draggable           if draggable
 
     @bindEvents()
 
@@ -203,8 +207,6 @@ module.exports = class KDView extends KDObject
 # #
 # TRAVERSE DOM ELEMENT
 # #
-  Object.defineProperty @::, "$$", get : @::$
-  Object.defineProperty @::, "el", get : @::getElement
 
   getDomElement:-> @domElement
 
@@ -213,7 +215,6 @@ module.exports = class KDView extends KDObject
   getTagName:-> @options.tagName || 'div'
 
   # shortcut method for @getDomElement()
-
   $:(selector)->
     if selector
     then @getDomElement().find(selector)
@@ -306,20 +307,25 @@ module.exports = class KDView extends KDObject
     return this
 
   toggleClass:(cssClass)->
-    @$().toggleClass cssClass
+
+    if @hasClass cssClass
+    then @unsetClass cssClass
+    else @setClass cssClass
+
     return this
 
   hasClass:(cssClass)->
+
+    return no  unless cssClass
     @getElement().classList.contains cssClass
 
-  getBounds:->
-    #return false unless @viewDidAppend
-    bounds =
-      x : @getX()
-      y : @getY()
-      w : @getWidth()
-      h : @getHeight()
-      n : @constructor.name
+  getBounds: ->
+
+    x : @getX()
+    y : @getY()
+    w : @getWidth()
+    h : @getHeight()
+    n : @constructor.name
 
   setRandomBG:->@getDomElement().css "background-color", KD.utils.getRandomRGB()
 
@@ -332,30 +338,6 @@ module.exports = class KDView extends KDObject
     @unsetClass 'hidden'
     # @$().show duration
     #@getDomElement()[0].style.display = "block"
-
-  # setSize: do->
-  #   counter = 0
-  #   isPredefinedSize = (size)->
-  #     # we have predefined classes for 0 to 1000px
-  #     return !isNaN(size) and (1000 >= size >= 0)
-
-  #   (sizes)->
-  #     if sizes.width?
-  #       if isPredefinedSize sizes.width
-  #       then @setClass "w#{sizes.width}"
-  #       else @setWidth sizes.width
-
-  #     if sizes.height?
-  #       if isPredefinedSize sizes.height
-  #       then @setClass "h#{sizes.height}"
-  #       else @setHeight  sizes.height
-
-  setSize: (sizes)->
-    if sizes.width?
-      @setWidth sizes.width
-
-    if sizes.height?
-      @setHeight sizes.height
 
   setPosition:->
     positionOptions = @getOptions().position
@@ -377,8 +359,8 @@ module.exports = class KDView extends KDObject
 
   setX:(x)-> @$().css left : x
   setY:(y)-> @$().css top : y
-  getX:-> @$().offset().left
-  getY:-> @$().offset().top
+  getX:-> @getElement().getBoundingClientRect().left
+  getY:-> @getElement().getBoundingClientRect().top
   getRelativeX:-> @$().position().left
   getRelativeY:-> @$().position().top
 
@@ -392,12 +374,24 @@ module.exports = class KDView extends KDObject
 # #
 # ADD/DESTROY VIEW INSTANCES
 # #
-
-  attach:(view) ->
+  attach: (view) ->
     @getElement().appendChild view.getElement()
+    view.setParent this
+    @subViews.push view
+
 
   detach: ->
     @parent?.getElement().removeChild @getElement()
+    @orphanize()
+    @unsetParent()
+
+
+  orphanize: ->
+
+    if @parent?.subViews and (index = @parent.subViews.indexOf @) >= 0
+      @parent.subViews.splice index, 1
+      @unsetParent()
+
 
   destroy: ->
 
@@ -408,10 +402,7 @@ module.exports = class KDView extends KDObject
     @destroySubViews()  if @getSubViews().length > 0
 
     # instance drops itself from its parent's subviews array
-
-    if @parent?.subViews and (index = @parent.subViews.indexOf @) >= 0
-      @parent.subViews.splice index, 1
-      @unsetParent()
+    @orphanize()
 
     # instance removes itself from DOM
     @getDomElement().remove()
@@ -426,7 +417,8 @@ module.exports = class KDView extends KDObject
     view.destroy?() for view in @getSubViews().slice()
     return
 
-  addSubView:(subView,selector,shouldPrepend)->
+  addSubView: (subView, selector, shouldPrepend) ->
+
     throw new Error 'no subview was specified' unless subView?
 
     # this is a performance killer
@@ -508,8 +500,13 @@ module.exports = class KDView extends KDObject
       (subView.parentDidResize(parent,event) for subView in @getSubViews())
 
   # if threshold is greater than 1 it is treated as pixel value
-  setLazyLoader:(threshold=.75)->
-    @getOptions().bind += ' scroll' unless /\bscroll\b/.test @getOptions().bind
+  setLazyLoader:(threshold = .75)->
+
+    {bind} = @getOptions()
+
+    unless /scroll/.test bind
+      @getOptions().bind = KD.utils.curry 'scroll', bind
+
     view = this
     @on 'scroll', do ->
       lastRatio = 0
@@ -830,7 +827,7 @@ module.exports = class KDView extends KDObject
 
   observeMutations: ->
 
-    MutationSummary = require './../../libs/mutation-summary.js'
+    return  unless MutationSummary
 
     MutationObserver = window.MutationObserver or window.WebKitMutationObserver or window.MozMutationObserver
 
@@ -852,9 +849,12 @@ module.exports = class KDView extends KDObject
   removeOverlay:->
     @overlay?.destroy()
 
-  unsetTooltip:(o = {})->
+
+  unsetTooltip: ->
+
     @tooltip?.destroy()
-    delete @tooltip
+    @tooltip = null
+
 
   setTooltip:(o = {})->
 
@@ -881,6 +881,7 @@ module.exports = class KDView extends KDObject
     o.fallback  or= o.title
     o.view      or= null
     o.sticky     ?= no
+    o.permanent  ?= no
     o.delegate  or= this
     o.events    or= ['mouseenter','mouseleave','mousemove']
 

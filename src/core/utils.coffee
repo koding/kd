@@ -1,3 +1,5 @@
+Inflector = require './../../libs/inflector.js'
+
 module.exports =
 
   idCounter : 0
@@ -141,8 +143,8 @@ module.exports =
     if prefix? then "#{prefix}#{id}" else id
 
   getRandomRGB :->
-    {getRandomNumber} = @
-    "rgb(#{getRandomNumber(255)},#{getRandomNumber(255)},#{getRandomNumber(255)})"
+    fn = @getRandomNumber
+    return "rgb(#{fn 255},#{fn 255},#{fn 255})"
 
   getRandomHex : ->
     # hex = (Math.random()*0xFFFFFF<<0).toString(16)
@@ -206,18 +208,6 @@ module.exports =
     s = t
     s
 
-  applyMarkdown: (text, options = {})->
-    return null unless text
-
-    options.gfm       ?= true
-    options.pedantic  ?= false
-    options.sanitize  ?= true
-    options.highlight ?= (text, lang) ->
-      if hljs.getLanguage lang
-      then hljs.highlight(lang,text).value
-      else text
-
-    marked Encoder.htmlDecode(text), options
 
   enterFullscreen: do ->
 
@@ -509,15 +499,15 @@ module.exports =
     whenDone = KD.utils.debounce wait, -> more = throttling = false
     ->
       context = this
-      args = arguments;
+      args = arguments
       later = ->
-        timeout = null;
+        timeout = null
         if more then func.apply context, args
         whenDone()
 
       if !timeout then timeout = setTimeout later, wait
 
-      if throttling then more = yes else func.apply(context, args);
+      if throttling then more = yes else func.apply(context, args)
 
       whenDone()
       throttling = yes
@@ -536,3 +526,14 @@ module.exports =
 
       clearTimeout timeout
       timeout = setTimeout later, wait
+
+  relativeOffset: (child, parent) ->
+    x = 0; y = 0
+    node = child
+    while node
+      x += node.offsetLeft
+      y += node.offsetTop
+      break if node is parent
+      node = node.parentNode
+      throw new Error "Not a descendant!" unless node?
+    [x, y]

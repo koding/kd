@@ -1,6 +1,6 @@
 {assert} = require 'chai'
 sinon = require 'sinon'
-KDButtonBar = require '../buttonbar'
+KDButtonBar = require '../../../src/components/buttons/buttonbar.coffee'
 
 describe 'KDButtonBar', ->
   beforeEach ->

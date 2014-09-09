@@ -43,7 +43,7 @@ module.exports = class JButtonMenu extends KDContextMenu
     @$(".chevron-ghost-wrapper").css ghostCss
 
     @$().css
-      top       : top
+      top       : top + mainScroll
       left      : button.getX() + buttonWidth - menuWidth
 
     # left here for reference to be able to put menu left or right for button menus

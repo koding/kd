@@ -98,7 +98,6 @@ module.exports = class KDTokenizedInput extends KDContentEditableView
 
   showMenu:(options, data)->
     @menu?.destroy()
-    @blur()
 
     return  unless @tokenInput and data.length
 

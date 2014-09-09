@@ -85,42 +85,47 @@ h4.kdheaderview
 /*
 **  KDSplitView STYLES
 */
-.kdsplitview
-  rel()
-  size        100%,100%
+body.resize-in-action
+  overflow          hidden !important
+
+  .kdsplitview
   .kdsplitview-panel
-    overflow auto
-  >.kdsplitview-resizer
-    left 0
-    top 0
+    overflow        hidden !important
+
+.kdsplitview
+
+  .kdsplitview-panel
+    overflow        auto
     abs()
-    z-index 9999
+
+  >.kdsplitview-resizer
+    left            0
+    top             0
+    z-index         1
+    bg              color transparent
     noTextSelection()
-    &:hover
-      background-color rgba(0,0,0,.2)
+    abs()
+
   &.min-width-reached
     overflow auto
 
 .kdsplitview-vertical
-  >.kdsplitview-panel
-    abs()
-    size(50%,100%)
+
   >.kdsplitview-resizer
-    cursor ew-resize
-    background rgba(0,0,0,.1) url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAeCAYAAADzXER0AAAAMklEQVQ4jWP6//8/AzrWtHYxBmIwDeNjU8fEQAEY1TyqeVTzqOZRzaOaKdP8BwdNPZsBu0cnSb9j6TcAAAAASUVORK5CYII=") no-repeat 50% 50%
-    size(10px,100%)
+    cursor          ew-resize
+    size            10px 100%
 
 .kdsplitview-horizontal
-  >.kdsplitview-panel
-    abs()
-    size(100%,50%)
+
   >.kdsplitview-resizer
-    cursor ns-resize
-    background rgba(0,0,0,.1) url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAPCAYAAADzun+cAAAALklEQVQ4y2P8//8/w0AAxlGLh7/FmtYu+kCahc72/gFZPOrjYe7j0Xw8ajGtAABz/yTHef7KzwAAAABJRU5ErkJggg==") no-repeat 50% 50%
-    size(100%,10px)
+    cursor          ns-resize
+    size            100% 10px
 
 .resize-in-action
   noTextSelection()
+
+.kdsplitview-panel.floating
+  z-index           10000
 
 /*
 **  KDTabView STYLES
@@ -247,7 +252,6 @@ h4.kdheaderview
 */
 .kdautocomplete.listview-wrapper
   abs()
-  border            1px solid #ddd
   border            1px solid rgba(125,190,241,1)
   border-top        1px solid #f2f2f2
   margin            -1px 0 0 4px
@@ -258,14 +262,14 @@ h4.kdheaderview
   rounded           0 0 5px 5px
   .kdview.kdlistview.kdautocompletelist
     padding           5px 0
-    .kdautocompletelistitem
+    .kdlistitemview-default
       padding         0 5px
       border          none
       cursor          pointer
       line-height     27px
       bg(color,transparent)
       borderBox()
-    .kdautocompletelistitem.active
+    .kdlistitemview-default.active
       color           white
       text-shadow     0 1px 0 rgba(0,0,0,.5)
       bg              color,rgba(125,190,241,1)

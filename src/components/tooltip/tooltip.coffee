@@ -19,9 +19,9 @@ module.exports = class KDTooltip extends KDView
 
   constructor:(options,data)->
 
-    options.bind    or= "mouseenter mouseleave"
+    options.bind    or= 'mouseenter mouseleave'
     options.sticky   ?= no
-    options.cssClass  = KD.utils.curry "kdtooltip", options.cssClass
+    options.cssClass  = KD.utils.curry 'kdtooltip', options.cssClass
 
     super options, data
 
@@ -32,16 +32,17 @@ module.exports = class KDTooltip extends KDView
     if @getOptions().animate then @setClass 'out' else @hide()
 
     @addListeners()
-    KD.singletons.windowController.on "ScrollHappened", @bound "hide"
+    KD.singletons.windowController.on 'ScrollHappened', @bound "hide"
 
-    @once "viewAppended", =>
-      o = @getOptions()
+    @once 'viewAppended', =>
 
-      if o.view?
-        @setView o.view
+      {view, title, html} = @getOptions()
+
+      if view?
+        @setView view
       else
         @setClass 'just-text'
-        @setTitle o.title, o
+        @setTitle title, html
 
       @parentView.emit 'TooltipReady'
 
@@ -62,38 +63,39 @@ module.exports = class KDTooltip extends KDView
 
   hide: (event)->
     return unless @visible
+    {permanent} = @getOptions()
     super
     @getDomElement().remove()
-    KD.singletons.windowController.removeLayer this
+    KD.singletons.windowController.removeLayer this  unless permanent
     @visible = no
 
-  update:(o = @getOptions(), view = null)->
+  update: (o = @getOptions(), view) ->
+
     unless view
       o.selector or= null
       o.title    or= ""
-      @getOptions().title = o.title
-      @setTitle o.title
-      @display @getOptions()
+      @setTitle o.title, o.html
+      @display()
     else
       @setView view
 
     @visible = yes
 
   addListeners:->
-    {events} = @getOptions()
+    {events, sticky, permanent} = @getOptions()
 
-    _show = @bound "show"
-    _hide = @bound "hide"
+    _show = @bound 'show'
+    _hide = @bound 'hide'
 
     @parentView.bindEvent name for name in events
     @parentView.on 'mouseenter', _show
-    @parentView.on 'mouseleave', _hide
+    @parentView.on 'mouseleave', _hide  unless sticky
 
-    @on 'ReceivedClickElsewhere', _hide
+    @on 'ReceivedClickElsewhere', _hide  unless permanent
 
     @once 'KDObjectWillBeDestroyed', =>
       @parentView.off 'mouseenter',  _show
-      @parentView.off 'mouseleave',  _hide
+      @parentView.off 'mouseleave',  _hide  unless sticky
 
   setView: (childView) ->
     return unless childView
@@ -122,18 +124,22 @@ module.exports = class KDTooltip extends KDView
 
     return o
 
-  display:(o = @getOptions())->
+  display: ->
+
+    o = @getOptions()
+    {permanent, gravity, animate} = @getOptions()
 
     # converts NESW-Values to topbottomleftright and retains them in @getOptions
     @appendToDomBody()
-    KD.singletons.windowController.addLayer this
-    o = @translateCompassDirections o if o.gravity
+    KD.singletons.windowController.addLayer this  unless permanent
+    o = @translateCompassDirections o  if gravity
     o.gravity = null
 
-    @setClass 'in' if o.animate
-    @utils.defer => @setPositions o
+    @setClass 'in'  if animate
+    KD.utils.defer => @setPositions o
 
     @visible = yes
+
 
   getCorrectPositionCoordinates:(o={},positionValues,callback=noop)->
     # values that can/will be used in all the submethods
@@ -233,11 +239,12 @@ module.exports = class KDTooltip extends KDView
 
     @utils.wait 500, => @unsetClass 'animate-movement'
 
-  setTitle:(title,o={})->
-    unless o.html is no
-      @wrapper.updatePartial title
-    else
-      @wrapper.updatePartial Encoder.htmlEncode title
+
+  setTitle: (title, isHTML) ->
+
+    title = Encoder.htmlEncode title  unless isHTML
+    @wrapper.updatePartial title
+
 
   directionMap = (placement, gravity)->
     if placement in ["top", "bottom"]

@@ -1,3 +1,4 @@
+require './../../../libs/hammer.js'
 KDView = require './../../core/view.coffee'
 
 module.exports = class KDSlideShowView extends KDView

@@ -63,44 +63,51 @@ module.exports = class KDTabView extends KDScrollView
 
   addPane:(paneInstance, shouldShow = yes)->
 
-    if paneInstance instanceof KDTabPaneView
-
-      { tabHandleClass, sortable, detachPanes } = @getOptions()
-
-      paneInstance.setOption "detachable", detachPanes
-      @panes.push paneInstance
-
-      { name, title, hiddenHandle, tabHandleView, closable, lazy } = paneInstance.getOptions()
-
-      @addHandle newTabHandle = new tabHandleClass
-        pane      : paneInstance
-        title     : name or title
-        hidden    : hiddenHandle
-        cssClass  : KD.utils.slugify name.toLowerCase()
-        view      : tabHandleView
-        closable  : closable
-        sortable  : sortable
-        click     : (event)=> @handleMouseDownDefaultAction newTabHandle, event
-
-      paneInstance.tabHandle = newTabHandle
-      @appendPane paneInstance
-      @showPane paneInstance  if shouldShow and not lazy
-
-      @emit "PaneAdded", paneInstance
-
-      {minHandleWidth, maxHandleWidth} = @getOptions()
-
-      newTabHandle.getDomElement().css
-        maxWidth : maxHandleWidth
-        minWidth : minHandleWidth
-
-      newTabHandle.on "HandleIndexHasChanged", @bound "resortTabHandles"
-
-      return paneInstance
-    else
+    unless paneInstance instanceof KDTabPaneView
       {name} = paneInstance?.constructor?
       warn "You can't add #{name if name} as a pane, use KDTabPaneView instead"
-      return false
+      return no
+
+
+    { tabHandleClass, sortable, detachPanes } = @getOptions()
+
+    paneInstance.setOption 'detachable', detachPanes
+    @panes.push paneInstance
+
+    { name, title, hiddenHandle, tabHandleView, closable, lazy } = paneInstance.getOptions()
+
+    newTabHandle = paneInstance.tabHandle or new tabHandleClass
+      pane       : paneInstance
+      title      : name or title
+      hidden     : hiddenHandle
+      cssClass   : KD.utils.slugify name.toLowerCase()
+      view       : tabHandleView
+      closable   : closable
+      sortable   : sortable
+      mousedown  : (event) ->
+        {pane} = @getOptions()
+        tabView = pane.getDelegate()
+        tabView.handleClicked event, this
+
+    @addHandle newTabHandle
+
+    paneInstance.tabHandle = newTabHandle
+    @appendPane paneInstance
+
+    @showPane paneInstance  if shouldShow and not lazy
+
+    @emit 'PaneAdded', paneInstance
+
+    {minHandleWidth, maxHandleWidth} = @getOptions()
+
+    newTabHandle.getDomElement().css
+      maxWidth : maxHandleWidth
+      minWidth : minHandleWidth
+
+    newTabHandle.on 'HandleIndexHasChanged', @bound 'resortTabHandles'
+
+    return paneInstance
+
 
   resortTabHandles: (index, dir) ->
     return if (index is 0 and dir is 'left')                    or \
@@ -128,22 +135,31 @@ module.exports = class KDTabView extends KDScrollView
 
     @emit 'TabsSorted'
 
-  removePane:(pane)->
+  removePane:(pane, shouldDetach = no)->
     pane.emit "KDTabPaneDestroy"
     index = @getPaneIndex pane
     isActivePane = @getActivePane() is pane
     @panes.splice index, 1
-    pane.destroy()
     handle = @getHandleByIndex index
     @handles.splice index, 1
-    handle.destroy()
+
+    if shouldDetach
+      @panes   = @panes.filter   (p)-> p isnt pane
+      @handles = @handles.filter (h)-> h isnt handle
+      pane.detach()
+      handle.detach()
+    else
+      pane.destroy()
+      handle.destroy()
+
     if isActivePane
       if prevPane = @getPaneByIndex @lastOpenPaneIndex
         @showPane prevPane
       else if firstPane = @getPaneByIndex 0
         @showPane firstPane
 
-    @emit "PaneRemoved"
+    @emit "PaneRemoved", { pane, handle }
+    return { pane, handle }
 
   removePaneByName:(name)->
     for pane in @panes
@@ -171,17 +187,21 @@ module.exports = class KDTabView extends KDScrollView
     #   tabHandle.$().css {marginTop : @handleHeight}
     #   tabHandle.$().animate({marginTop : 0},300)
 
+
   # ADD/REMOVE HANDLES
-  addHandle:(handle)->
-    if handle instanceof KDTabHandleView
-      @handles.push handle
-      @appendHandle handle
-      handle.setClass "hidden" if handle.getOptions().hidden
-      return handle
-    else
+
+  addHandle: (handle) ->
+
+    unless handle instanceof KDTabHandleView
       {name} = handle?.constructor?
-      warn \
-        "You can't add #{name if name?} as a pane, use KDTabHandleView instead"
+      warn "You can't add #{name if name?} as a pane, use KDTabHandleView instead"
+      return no
+
+    @handles.push handle
+    @appendHandle handle
+    handle.setClass 'hidden'  if handle.getOptions().hidden
+    return handle
+
 
   removeHandle:->
 
@@ -230,12 +250,16 @@ module.exports = class KDTabView extends KDScrollView
       @handleClicked index, event
 
   # DEFAULT ACTIONS
-  handleClicked:(index,event)->
-    pane = @getPaneByIndex index
-    if $(event.target).hasClass "close-tab"
+  handleClicked: (event, handle) ->
+
+    {pane} = handle.getOptions()
+
+    # fixme: make close icon a kdview and check the view instead.
+    if $(event.target).hasClass 'close-tab'
       @blockTabHandleResize = yes
       @removePane pane
       return no
+
     @showPane pane
 
   # DEFINE CUSTOM or DEFAULT tabHandleContainer

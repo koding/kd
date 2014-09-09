@@ -6,54 +6,63 @@ module.exports = class KDTabPaneView extends KDView
 
     options.hiddenHandle  ?= no      # a Boolean
     options.name         or= ""      # a String
-    defaultCssClass        = "kdtabpaneview kdhiddentab #{KD.utils.slugify(options.name.toLowerCase())} clearfix"
+    options.detachable    ?= yes
+    defaultCssClass        = "kdtabpaneview kdhiddentab #{KD.utils.slugify options.name.toLowerCase()} clearfix"
     options.cssClass       = KD.utils.curry defaultCssClass, options.cssClass
 
     super options, data
 
     @name = options.name
     @lastScrollTops =
-      window        : 0
       parent        : 0
       self          : 0
-      body          : 0
 
 
-    @on "KDTabPaneActive",        @bound "setMainView"
-    @on "KDTabPaneLazyViewAdded", @bound "fireLazyCallback"
+    @on 'KDTabPaneActive',        @bound 'setMainView'
+    @on 'KDTabPaneLazyViewAdded', @bound 'fireLazyCallback'
 
 
   show:->
 
-    @setClass "active"
-    @unsetClass "kdhiddentab"
-
-    if @getOption "detachable"
+    if @getOption 'detachable'
       @parent?.getElement().appendChild @getElement()
 
-    @active = yes
-    @emit "KDTabPaneActive"
+    @unsetClass 'kdhiddentab'
+    @setClass 'active'
 
-    KD.utils.defer =>
-      @getElement().scrollTop         = @lastScrollTops.self
-      @parent?.getElement().scrollTop = @lastScrollTops.parent
+    @active = yes
+    @emit 'KDTabPaneActive'
+
+    @applyScrollTops()
 
 
   hide:->
 
     return  unless @active
 
-    @lastScrollTops.parent = @parent?.getElement().scrollTop or 0
-    @lastScrollTops.self   = @getElement().scrollTop
+    @setScrollTops()
 
-    @setClass "kdhiddentab"
-    @unsetClass "active"
+    @unsetClass 'active'
+    @setClass 'kdhiddentab'
 
-    if @active and @getOption "detachable"
+    if @getOption 'detachable'
       @parent?.getElement().removeChild @getElement()
 
     @active = no
-    @emit "KDTabPaneInactive"
+    @emit 'KDTabPaneInactive'
+
+
+  setScrollTops: ->
+
+    @lastScrollTops.parent = @parent?.getElement().scrollTop or 0
+    @lastScrollTops.self   = @getElement().scrollTop
+
+
+  applyScrollTops: ->
+
+    KD.utils.defer =>
+      @getElement().scrollTop         = @lastScrollTops.self
+      @parent?.getElement().scrollTop = @lastScrollTops.parent
 
 
   setTitle:(title)->
@@ -94,7 +103,7 @@ module.exports = class KDTabPaneView extends KDView
   destroyMainView:->
 
     @mainView.destroy()
-    delete @mainView
+    @mainView = null
 
 
   fireLazyCallback:(pane, view)->

@@ -5,20 +5,6 @@ module.exports = [
   "./libs/encode.js"
 
   ## JQuery
-  "./libs/jquery-1.9.1.js"
-  "./libs/underscore-min.1.3.js"
-  "./libs/cookies.js"
-  "./libs/jquery-timeago.js"
-
-  ## Helpers
-  "./libs/date.format.js"
-  "./libs/highlight.pack.js"
-  "./libs/inflector.js"
-  "./libs/canvas-loader.js"
-  "./libs/mousetrap.js"
-  "./libs/mousetrap-global-bind.js"
-  "./libs/marked.js"
-  "./libs/jspath.js"
-  "./libs/hammer.js"
+  "./libs/jquery-2.1.1.js"
 
 ]

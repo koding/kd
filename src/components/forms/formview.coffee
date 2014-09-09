@@ -1,3 +1,4 @@
+{JsPath} = require './../../../libs/jspath.js'
 KDView = require './../../core/view.coffee'
 
 module.exports = class KDFormView extends KDView
@@ -94,9 +95,7 @@ module.exports = class KDFormView extends KDView
 
   submit:(event)->
 
-    if event
-      event.stopPropagation()
-      event.preventDefault()
+    KD.utils.stopDOMEvent event
 
     form                = this
     inputs              = KDFormView.findChildInputs form

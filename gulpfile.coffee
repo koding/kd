@@ -35,12 +35,11 @@ checkParam = (param) -> !(param in ['0', 0, no, 'false', 'no', 'off', '', undefi
 log = (color, message) ->
   gutil.log gutil.colors[color] message
 
-gulpBrowserify = (options, bundleOptions) ->
+gulpBrowserify = (options) ->
   options.extensions or= ['.coffee']
-  bundleOptions or= {}
   b = browserify options
   b.transform coffeeify
-  b.bundle bundleOptions
+  b.bundle()
 
 watchLogger = (color, watcher) ->
   server = livereload()  if useLiveReload

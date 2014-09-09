@@ -90,7 +90,7 @@ module.exports = class KDEventEmitter
     @_e             = {}
     @_maxListeners  = if maxListeners > 0 then maxListeners else 10
 
-  emit:(eventName, args...)->
+  emit: (eventName, args...)->
     @_e[eventName] ?= []
 
     listenerStack = []
@@ -100,7 +100,7 @@ module.exports = class KDEventEmitter
 
     return this
 
-  on  :(eventName, listener) ->
+  on: (eventName, listener) ->
     unless 'function' is typeof listener
       throw new Error 'listener is not a function'
 
@@ -108,12 +108,12 @@ module.exports = class KDEventEmitter
     _on  @_e, eventName, listener
     return this
 
-  off :(eventName, listener) ->
+  off: (eventName, listener) ->
     @emit 'listenerRemoved', eventName, listener
     _off @_e, eventName, listener
     return this
 
-  once:(eventName, listener) ->
+  once: (eventName, listener) ->
     _listener = =>
       args = [].slice.call arguments
       @off eventName, _listener

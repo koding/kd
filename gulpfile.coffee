@@ -11,20 +11,21 @@ concat     = require 'gulp-concat'
 minifyCSS  = require 'gulp-minify-css'
 karma      = require 'gulp-karma'
 clean      = require 'gulp-clean'
-Q          = require 'q'
+markdox    = require 'gulp-markdox'
 fs         = require 'fs'
 http       = require 'http'
 argv       = require('minimist') process.argv
 source     = require 'vinyl-source-stream'
 gulpBuffer = require 'gulp-buffer'
-ecstatic   = require 'ecstatic'
-{exec}     = require 'child_process'
-pistachio  = require 'gulp-pistachio-compiler'
+express    = require 'express'
+Promise    = require 'bluebird'
+exec       = Promise.promisify (require 'child_process').exec
 
+ENTRY_PATH    = argv.entryPath ? './src/entry.coffee'
 STYLES_PATH   = require './src/themes/styl.includes.coffee'
 COFFEE_PATH   = ['./src/components/**/*.coffee','./src/core/**/*.coffee','./src/init.coffee']
 LIBS_PATH     = ['./libs/*.js']
-TEST_PATH     = ['./src/**/*.test.coffee']
+TEST_PATH     = ['./test/**/*.test.coffee']
 LIBS          = require './src/lib.includes.coffee'
 
 # Helpers
@@ -56,12 +57,19 @@ useMinify     = checkParam argv.minify
 karmaAction   = 'watch'
 buildDocs     = checkParam argv.docs
 buildPlay     = checkParam argv.play
+theme         = checkParam argv.theme
 
 
 # Build Tasks
 
 
 gulp.task 'styles', ->
+
+  if theme
+    resetStyles = require './src/themes/reset.includes.coffee'
+    # FIXME: require & put real theme styl files array here
+    themeStyles = []
+    STYLES_PATH = themeStyles.concat resetStyles
 
   gulp.src STYLES_PATH
     .pipe stylus()
@@ -81,27 +89,16 @@ gulp.task 'libs', ->
     .pipe gulp.dest 'test'
     .pipe gulp.dest "#{buildDir}/js"
 
-
 gulp.task 'export', ->
-
-  deferred = Q.defer()
-  exec "cd ./src;sh exporter.sh > entry.coffee; cd ..", (err)->
-    return deferred.reject err  if err
-    deferred.resolve()
-
-  return deferred.promise
-
+  exec "cd ./src;sh exporter.sh > entry.coffee; cd .."
 
 gulp.task 'coffee', ['export'], ->
 
-  entryPath = './src/entry.coffee'
-
   gulpBrowserify
-      entries : entryPath
-    .pipe source entryPath
+      entries : ENTRY_PATH
+    .pipe source ENTRY_PATH
     .pipe gulpBuffer()
-    .pipe pistachio()
-    .pipe gulpif useUglify, uglify()
+    .pipe gulpif useUglify, uglify(mangle : no)
     .pipe rename "kd.#{version}js"
     .pipe gulp.dest "#{buildDir}/js"
 
@@ -138,13 +135,7 @@ gulp.task 'play', ['clean-play', 'play-html', 'play-styles', 'play-coffee'], ->
 # Build docs
 
 gulp.task 'docs-exec', ->
-
-  deferred = Q.defer()
-  exec "cd docs;mkdir js;mkdir css;cd ..", (err) ->
-    return deferred.reject err  if err
-    deferred.resolve()
-
-  return deferred.promise
+  exec "cd docs;mkdir js;mkdir css;cd .."
 
 
 gulp.task 'docs-coffee', ['docs-exec'], ->
@@ -170,7 +161,50 @@ gulp.task 'docs-html', ->
     .pipe gulpif useLiveReload, livereload()
 
 
-gulp.task 'docs', ['docs-exec', 'docs-html', 'docs-coffee', 'docs-styles']
+# sitemap task
+
+# this creates a simple two level sitemap
+# for the files under ./docs/contents
+#
+# e.g.
+# ./docs/contents/getting.started/readme.md
+# ./docs/contents/getting.started/sample.md
+# ./docs/contents/more.examples/readme.md
+# ./docs/contents/more.examples/sample.md
+#
+# becomes
+#
+# KD.sitemap = {
+#   'getting.started' : ['readme.md', 'sample.md']
+#   'more.examples'   : ['readme.md', 'sample.md']
+# }
+
+gulp.task 'docs-sitemap', ->
+
+  find     = require 'findit'
+  folder   = "#{__dirname}/docs/contents/"
+  finder   = find folder
+  tree     = {}
+  trimBase = (dir) -> dir.replace folder, ''
+
+  finder.on 'directory', (dir, stat, stop) ->
+    dir = trimBase dir
+    return  if /\//.test dir
+    tree[dir] = []  if dir
+
+  finder.on 'file', (file, stat) ->
+    file = trimBase file
+    return  unless /\//.test file
+    [parent, file] = file.split '/'
+    tree[parent].push file  if file
+
+  finder.on 'end', ->
+    content = "(function(){window.KD||(window.KD={});KD.sitemap=#{JSON.stringify tree}})()"
+    fs.writeFileSync "#{__dirname}/docs/js/kd.sitemap.js", content
+
+
+gulp.task 'docs', ['docs-exec', 'docs-html', 'docs-sitemap',
+                   'docs-coffee', 'docs-styles']
 
 
 # Build test suite
@@ -183,16 +217,20 @@ gulp.task 'coffee-test', ->
     .pipe gulp.dest 'test'
 
 
+testFiles = [
+  './test/kd.libs.js'
+  './test/kd.test.js'
+]
+
 gulp.task 'karma', ['coffee-test'], ->
 
-  gulp.src ['./test/kd.*']
+  gulp.src testFiles
     .pipe karma
       configFile : 'karma.conf.js'
       action     : karmaAction
 
-
 gulp.task 'sauce', ->
-  gulp.src ['./test/kd.*']
+  gulp.src testFiles
     .pipe karma
       browsers   : [
         'sl_firefox_windows'
@@ -203,6 +241,26 @@ gulp.task 'sauce', ->
       configFile : 'karma.conf.js'
       action     : 'run'
 
+
+# build webserver
+
+gulp.task 'webserver', ['compile'], ->
+  express = require 'express'
+  app     = express()
+
+  app.use express.static "#{__dirname}/#{buildDir}"
+
+  app.get '*', (req, res) ->
+    {url}            = req
+    redirectTo = "/#!#{url}"
+
+    res.header 'Location', redirectTo
+    res.send 301
+
+  app.listen 3000
+
+  log 'green', "HTTP server for #{buildDir} is ready at localhost:3000"
+  return
 
 
 # Watch Tasks
@@ -231,8 +289,8 @@ gulp.task 'watch-playground', ->
 
   watchLogger 'blue', gulp.watch [
     './playground/**/*.coffee'
-    './playground/**/*.html'
     './playground/**/*.styl'
+    './playground/**/*.html'
   ], ['play']
 
 
@@ -265,6 +323,17 @@ gulp.task 'clean-play', ->
     .pipe clean force : yes
 
 
+# Use markdox to output markdown files for the API Documentation.
+gulp.task 'markdox', ->
+  gulp.src [
+      'src/**/core/**/*.coffee'
+      'src/**/components/**/*.coffee'
+      ]
+    .pipe markdox()
+    .pipe rename extname: '.md'
+    .pipe gulp.dest 'docs/api'
+
+
 # Aggregate Tasks
 
 gulp.task 'compile', ['clean', 'styles', 'libs', 'coffee']
@@ -273,24 +342,16 @@ defaultTasks = ['compile', 'clean', 'watch-styles', 'watch-coffee', 'watch-libs'
 
 if buildDocs
   buildDir     = 'docs'
-  defaultTasks = defaultTasks.concat ['live', 'docs', 'watch-docs']
+  defaultTasks = defaultTasks.concat ['live', 'docs', 'watch-docs', 'webserver']
 else if buildPlay
   buildDir     = 'playground'
-  defaultTasks = defaultTasks.concat ['live', 'play', 'watch-playground']
+  defaultTasks = defaultTasks.concat ['live', 'play', 'watch-playground', 'webserver']
 
 
-gulp.task 'default', defaultTasks , ->
+gulp.task 'default', defaultTasks , -> log 'green', 'All done!'
 
-  if useLiveReload
-    http.createServer ecstatic
-        root        : "#{__dirname}/#{buildDir}"
-        handleError : no
-      .listen 8080
 
-    log 'green', "HTTP server for #{buildDir} is ready at localhost:8080"
-  else
-    log 'green', 'All done!'
-
+# error handling
 
 process.on 'uncaughtException', (err)->
 

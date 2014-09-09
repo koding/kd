@@ -1,6 +1,5 @@
-KD
+KD [![Build Status](https://img.shields.io/travis/koding/kd/master.listview.svg?style=flat)](https://travis-ci.org/koding/kd) [![Dependency Status](https://img.shields.io/david/dev/koding/kd.svg?style=flat)](https://david-dm.org/koding/kd#info=devDependencies)
 --
-
 _a non-document focused UI Framework for web applications._
 
 Install gulp:
@@ -69,7 +68,7 @@ $ open test/index.html
 
 #### Running tests on Saucelabs
 
-You can also run tests remotely on [SauceLabs](http://saucelabs.com)
+You can also run tests remotely on [SauceLabs](https://saucelabs.com)
 browsers.
 
 First, expose your saucelabs username and access key as environment

@@ -1,6 +1,6 @@
 var Inflector;
 
-Inflector = (function() {
+module.exports = Inflector = (function() {
   var inflection;
   var __slice = Array.prototype.slice;
   /*

@@ -37,7 +37,7 @@ module.exports = class KDButtonViewWithMenu extends KDButtonView
       cssClass          : o.style
       ghost             : @$('.chevron').clone()
       event             : event
-      delegate          : @
+      delegate          : this
       treeItemClass     : o.treeItemClass
       itemChildClass    : o.itemChildClass
       itemChildOptions  : o.itemChildOptions
@@ -50,7 +50,7 @@ module.exports = class KDButtonViewWithMenu extends KDButtonView
       # dynamically at runtime. it also allows to adding elements at certain
       # positions  with Array.splice (whereas Objects properties can't be enumerated)
 
-      if o.menu instanceof Array
+      if Array.isArray o.menu
         menuArrayToObj = {}
         for menuObject in o.menu
           for own menuObjectProperty,menuObjectValue of menuObject

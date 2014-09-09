@@ -23,7 +23,7 @@ module.exports = class KDTabHandleView extends KDView
       @handleDragStart event, dragState
 
     @on "DragInAction", (x, y) =>
-      @dragIsAllowed = no if @startedDragFromCloseElement
+      @dragIsAllowed = no  if @startedDragFromCloseElement
       @handleDragInAction x, y
 
     @on "DragFinished", (event) =>
@@ -61,17 +61,12 @@ module.exports = class KDTabHandleView extends KDView
   getWidth:-> @$().outerWidth(no) or 0
 
   cloneElement: (x) ->
-    return if @$cloned
-
     {pane}   = @getOptions()
     tabView  = pane.getDelegate()
-    holder   = tabView.tabHandleContainer
+    holder   = tabView.tabHandleContainer.tabs
     @$cloned = @$().clone()
     holder.$().append @$cloned
     @$cloned.css marginLeft: -(tabView.handles.length - @index) * @getWidth()
-
-  updateClonedElementPosition: (x) ->
-    @$cloned.css left: x
 
   reorderTabHandles: (x) ->
     dragDir = @dragState.direction
@@ -98,12 +93,11 @@ module.exports = class KDTabHandleView extends KDView
 
   handleDragInAction: (x, y) ->
     return unless @dragIsAllowed
-    return @$().css 'left': 0 if -(@draggedItemIndex * @getWidth()) > x
+    return @$().css 'left': 0  if -(@draggedItemIndex * @getWidth()) > x
 
-    @unsetClass 'first'
-    @cloneElement x
-    @$().css opacity: 0
-    @updateClonedElementPosition x
+    @cloneElement x  unless @$cloned
+    @$().css     opacity: 0
+    @$cloned.css left   : x
     @reorderTabHandles x
 
   handleDragFinished: (event) ->
@@ -111,6 +105,7 @@ module.exports = class KDTabHandleView extends KDView
 
     @$cloned.remove()
     @$().css { left: '', opacity: 1, marginLeft: '' }
-    @$().css left: 0 if not @targetTabHandle and @draggedItemIndex is 0
+    @$().css left: 0  if not @targetTabHandle and @draggedItemIndex is 0
+
     @targetTabHandle = null
-    @$cloned   = null
+    @$cloned         = null

@@ -1,5 +1,6 @@
 HeaderView = require './headerview'
 FooterView = require './footerview'
+PageView   = require './pageview'
 
 module.exports = class MainView extends KDView
 
@@ -37,10 +38,10 @@ module.exports = class MainView extends KDView
 
 
   showPage: ->
+    @hide()
 
-    new KDNotificationView
-      type  : 'growl'
-      title : 'Coming soon...'
+    page = new PageView
+    page.appendToDomBody()
 
 
   pistachio: ->

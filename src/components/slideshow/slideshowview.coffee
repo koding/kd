@@ -1,6 +1,7 @@
-JView = require './../../core/jview.coffee'
+require './../../../libs/hammer.js'
+KDView = require './../../core/view.coffee'
 
-module.exports = class KDSlideShowView extends JView
+module.exports = class KDSlideShowView extends KDView
 
   [X_COORD, Y_COORD] = [1, 2]
 

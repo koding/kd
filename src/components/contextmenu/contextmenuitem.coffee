@@ -6,7 +6,7 @@ module.exports = class JContextMenuItem extends JTreeItemView
   constructor:(options = {}, data = {})->
 
     options.type       = "contextitem"
-    options.cssClass or= "default"
+    options.cssClass or= "default #{KD.utils.slugify data.title}"
 
     super options, data
 
@@ -20,16 +20,13 @@ module.exports = class JContextMenuItem extends JTreeItemView
         @setClass data.cssClass
 
       if data.type is "customView"
-        @setTemplate ""
         @addCustomView data
 
       if data.disabled
         @setClass "disabled"
 
   viewAppended:->
-    unless @customView
-      @setTemplate @pistachio()
-      @template.update()
+    super()  unless @customView
 
   mouseDown:-> yes
 

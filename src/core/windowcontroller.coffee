@@ -13,18 +13,8 @@ module.exports = class KDWindowController extends KDController
 
   @keyViewHistory = []
   superKey        = if navigator.userAgent.indexOf("Mac OS X") is -1 then "ctrl" else "command"
-  addListener     = (eventName, listener, capturePhase=yes)->
+  addListener     = (eventName, listener, capturePhase = yes) ->
     window.addEventListener eventName, listener, capturePhase
-
-  # Finding vendor prefixes for visibility
-  getVisibilityProperty = ->
-    prefixes = ["webkit", "moz", "o"]
-    return "hidden" if `"hidden" in document`
-    return "#{prefix}Hidden" for prefix in prefixes when `prefix + "Hidden" in document`
-    return ""
-
-  getVisibilityEventName = ->
-    return "#{getVisibilityProperty().replace(/[Hh]idden/, '')}visibilitychange"
 
   constructor:(options,data)->
 
@@ -37,6 +27,7 @@ module.exports = class KDWindowController extends KDController
     @layers                = []
     @unloadListeners       = {}
     @focusListeners        = []
+    @focused               = yes
 
     @bindEvents()
 
@@ -67,7 +58,7 @@ module.exports = class KDWindowController extends KDController
     document.addEventListener 'scroll', do =>
       timer  = null
       {body} = document
-      _.throttle (event)=>
+      KD.utils.throttle (event)=>
         @emit "ScrollHappened", event
       , 50
     , no
@@ -122,45 +113,52 @@ module.exports = class KDWindowController extends KDController
             KD.getSingleton("router").handleRoute href
     , no)
 
-    window.addEventListener 'beforeunload', @bound "beforeUnload"
+    addListener 'beforeunload', @bound 'beforeUnload'
 
-    document.addEventListener getVisibilityEventName(), (event)=>
-      @focusChange event, @isFocused()
+    window.onfocus = (event) => @focusChange event, yes
+    window.onblur  = (event) => @focusChange event, no
 
   addUnloadListener:(key, listener)->
     @unloadListeners[key] or= []
     @unloadListeners[key].push listener
 
   clearUnloadListeners: (key)->
-    if key
-      @unloadListeners[key] = []
-    else
-      @unloadListeners = {}
 
-  isFocused: -> !Boolean document[getVisibilityProperty()]
+    if key
+    then @unloadListeners[key] = []
+    else @unloadListeners = {}
+
+
+  isFocused: -> @focused
 
   addFocusListener: (listener)-> @focusListeners.push listener
 
   focusChange: (event, state)->
 
-    return unless event
+    return  unless event
+
+    @focused = state
+
     listener state, event for listener in @focusListeners
+
 
   beforeUnload:(event)->
 
-    return unless event
+    return  unless event
 
     # all the listeners make their checks if it is safe or not to reload the page
     # they either return true or false if any of them returns false we intercept reload
 
     for own key, listeners of @unloadListeners
-      for listener in listeners
-        if listener() is off
-          message = unless key is "window" then " on #{key}" else ""
-          return "Please make sure that you saved all your work#{message}."
+      for listener in listeners when listener() is off
+        message = unless key is 'window' then " on #{key}" else ''
+        return "Please make sure that you saved all your work#{message}."
+
 
   setDragInAction:(@dragInAction = no)->
-    $('body')[if @dragInAction then "addClass" else "removeClass"] "dragInAction"
+
+    document.body.classList[if @dragInAction then 'add' else 'remove'] 'dragInAction'
+
 
   setMainView:(@mainView)->
 
@@ -169,7 +167,7 @@ module.exports = class KDWindowController extends KDController
   revertKeyView:(view)->
 
     unless view
-      warn "you must pass the view as a param, which doesn't want to be keyview anymore!"
+      warn 'view, which shouldn\'t be the keyview anymore, must be passed as a parameter!'
       return
 
     if view is @keyView and @keyView isnt @oldKeyView
@@ -200,17 +198,13 @@ module.exports = class KDWindowController extends KDController
     return if Object.keys(combos).length > 0 then combos else no
 
   registerKeyCombos:(view)->
-
-    if combos = @viewHasKeyCombos view
-      view.setClass "mousetrap"
-      @currentCombos = superizeCombos combos
-      for own combo, cb of @currentCombos
-        Mousetrap.bind combo, cb, 'keydown'
+    combos = @viewHasKeyCombos view
+    if combos?
+      @comboMap = new KDKeyboardMap { combos }
+      KDKeyboardListener.current().addComboMap @comboMap
 
   unregisterKeyCombos:->
-
-    @currentCombos = {}
-    Mousetrap.reset()
+    KDKeyboardListener.current().removeComboMap @comboMap
     @keyView.unsetClass "mousetrap" if @keyView
 
   setKeyView:(keyView)->
@@ -278,19 +272,10 @@ module.exports = class KDWindowController extends KDController
   unregisterWindowResizeListener:(instance)->
     delete @windowResizeListeners[instance.id]
 
-  setWindowProperties:(event)->
-    @winWidth  = window.innerWidth
-    @winHeight = window.innerHeight
-
-  notifyWindowResizeListeners:(event, throttle = no, duration = 17)->
+  notifyWindowResizeListeners: (event)->
     event or= type : "resize"
-    fireResizeHandlers = =>
-      for own key, instance of @windowResizeListeners when instance._windowDidResize
-        instance._windowDidResize event
-    if throttle
-      KD.utils.killWait @resizeNotifiersTimer
-      @resizeNotifiersTimer = KD.utils.wait duration, fireResizeHandlers
-    else do fireResizeHandlers
+    for own key, inst of @windowResizeListeners when inst._windowDidResize
+      inst._windowDidResize event
 
 do ->
   KD = require './kd.coffee'

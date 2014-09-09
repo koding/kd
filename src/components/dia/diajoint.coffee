@@ -1,6 +1,6 @@
-JView = require './../../core/jview.coffee'
+KDView = require './../../core/view.coffee'
 
-module.exports = class KDDiaJoint extends JView
+module.exports = class KDDiaJoint extends KDView
 
   types = ['left', 'right', 'top', 'bottom']
 

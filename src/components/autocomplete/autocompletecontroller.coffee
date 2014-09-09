@@ -1,3 +1,5 @@
+{JsPath}                   = require './../../../libs/jspath.js'
+Inflector                  = require './../../../libs/inflector.js'
 KDViewController           = require './../../core/viewcontroller.coffee'
 KDListViewController       = require './../list/listviewcontroller.coffee'
 KDLabelView                = require './../inputs/labelview.coffee'
@@ -203,12 +205,17 @@ module.exports = class KDAutoCompleteController extends KDViewController
 
     @hideDropdown()
 
-  getAutoCompletedItemParent:->
+
+  getAutoCompletedItemParent: ->
+
     {outputWrapper} = @getOptions()
-    if outputWrapper instanceof KDView
-      @itemWrapper = outputWrapper
-    else
-      @itemWrapper = @getView()
+
+    @itemWrapper = if outputWrapper instanceof KDView
+    then outputWrapper
+    else @getView()
+
+    return @itemWrapper
+
 
   isItemAlreadySelected:(data)->
     {itemDataPath,customCompare,isCaseSensitive} = @getOptions()
@@ -372,11 +379,16 @@ module.exports = class KDAutoCompleteController extends KDViewController
       else
         @dropdown.getListView().addItemView view
 
-  getNoItemFoundView:(suggestion) ->
+  getNoItemFoundView: (suggestion) ->
+
     {nothingFoundItemClass} = @getOptions()
+
     view = new nothingFoundItemClass
-      delegate: @dropdown.getListView()
-      userInput: suggestion or @getView().getValue()
+      delegate  : @dropdown.getListView()
+      userInput : suggestion or @getView().getValue()
+    , {}
+
+    return view
 
   showNoDataFound: ->
     noItemFoundView = @getNoItemFoundView()

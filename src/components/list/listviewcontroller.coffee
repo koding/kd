@@ -1,29 +1,33 @@
-KDView           = require './../../core/view.coffee'
-KDViewController = require './../../core/viewcontroller.coffee'
-KDScrollView     = require './../scrollview/scrollview.coffee'
-KDListView       = require './../list/listview.coffee'
-KDLoaderView     = require './../loader/loaderview.coffee'
+KDView             = require './../../core/view.coffee'
+KDViewController   = require './../../core/viewcontroller.coffee'
+KDCustomHTMLView   = require './../../core/customhtmlview.coffee'
+KDScrollView       = require './../scrollview/scrollview.coffee'
+KDCustomScrollView = require './../scrollview/customscrollview.coffee'
+KDListView         = require './../list/listview.coffee'
+KDLoaderView       = require './../loader/loaderview.coffee'
 
 module.exports = class KDListViewController extends KDViewController
 
   constructor:(options = {}, data)->
 
-    options.wrapper               ?= yes
-    options.scrollView            ?= yes
-    options.keyNav                ?= no
-    options.multipleSelection     ?= no
-    options.selection             ?= no
-    options.ownScrollBars         ?= no
-    options.startWithLazyLoader   ?= no
+    options.wrapper                ?= yes
+    options.scrollView             ?= yes
+    options.keyNav                 ?= no
+    options.multipleSelection      ?= no
+    options.selection              ?= no
+    options.ownScrollBars          ?= no
+    options.startWithLazyLoader    ?= no
     options.itemChildClass        or= null
     options.itemChildOptions      or= {}
+    options.useCustomScrollView    ?= no
     # rename these options
     options.noItemFoundWidget     or= null
     options.noMoreItemFoundWidget or= null
+    options.lastToFirst            ?= no
 
-    @itemsOrdered                 = [] unless @itemsOrdered
-    # CtF: this must be fixed: duplicate itemsOrdered and KDListView.items
-    # Object.defineProperty this, "itemsOrdered", get : => @getListView().items
+    Object.defineProperty this, "itemsOrdered", get : =>
+      warn "KDListViewController::itemsOrdered is deprecated."
+      @getListView().items
 
     @itemsIndexed                 = {}
     @selectedItems                = []
@@ -38,13 +42,19 @@ module.exports = class KDListViewController extends KDViewController
       viewOptions.itemOptions      or= options.itemOptions
       viewOptions.itemChildClass   or= options.itemChildClass
       viewOptions.itemChildOptions or= options.itemChildOptions
+      viewOptions.boxed             ?= options.boxed
+      viewOptions.itemsPerBox       ?= options.itemsPerBox
 
       @setListView listView = new KDListView viewOptions
 
     if options.scrollView
-      @scrollView = new KDScrollView
-        lazyLoadThreshold : options.lazyLoadThreshold
-        ownScrollBars     : options.ownScrollBars
+      if options.useCustomScrollView
+        @customScrollView = new KDCustomScrollView
+          lazyLoadThreshold : options.lazyLoadThreshold
+        @scrollView = @customScrollView.wrapper
+      else
+        @scrollView = new KDScrollView
+          lazyLoadThreshold : options.lazyLoadThreshold
 
     options.view = if options.wrapper
     then new KDView cssClass : "listview-wrapper"
@@ -54,38 +64,48 @@ module.exports = class KDListViewController extends KDViewController
 
     {noItemFoundWidget} = @getOptions()
 
-    listView.on 'ItemWasAdded', (view, index)=>
+    listView.on 'ItemWasAdded', (view, index) =>
+
       @registerItem view, index
       @hideNoItemWidget()  if noItemFoundWidget
 
-    listView.on 'ItemIsBeingDestroyed', (itemInfo)=>
-      @unregisterItem itemInfo
+
+    listView.on 'ItemWasRemoved', (view, index) =>
+
+      @unregisterItem view, index
       @showNoItemWidget()  if noItemFoundWidget
 
     if options.keyNav
-      listView.on 'KeyDownOnList', (event)=> @keyDownPerformed listView, event
+      listView.on 'KeyDownOnList', (event) => @keyDownPerformed listView, event
 
-  loadView:(mainView)->
 
-    options = @getOptions()
-    if options.scrollView
-      mainView.addSubView @scrollView
+  loadView: (mainView) ->
+
+    { scrollView
+      startWithLazyLoader
+      noItemFoundWidget
+    } = @getOptions()
+
+    {windowController} = KD.singletons
+
+    if scrollView
+      mainView.addSubView @customScrollView or @scrollView
       @scrollView.addSubView @getListView()
-      if options.startWithLazyLoader
-        @showLazyLoader no
       @scrollView.on 'LazyLoadThresholdReached', @bound "showLazyLoader"
 
-    if options.noItemFoundWidget
-      @putNoItemView()
+    @showLazyLoader no  if startWithLazyLoader
+    @putNoItemView()    if noItemFoundWidget
 
-    @instantiateListItems(@getData()?.items or [])
-    KD.getSingleton("windowController").on "ReceivedMouseUpElsewhere", (event)=> @mouseUpHappened event
+    @instantiateListItems @getData()?.items or []
 
-  instantiateListItems:(items)->
-    newItems = for itemData in items
-      @getListView().addItem itemData
+    windowController.on "ReceivedMouseUpElsewhere", @bound 'mouseUpHappened'
 
-    @emit "AllItemsAddedToList"
+
+  instantiateListItems: (items) ->
+
+    newItems = (@addItem itemData for itemData in items)
+
+    @emit 'AllItemsAddedToList'
 
     return newItems
 
@@ -93,17 +113,28 @@ module.exports = class KDListViewController extends KDViewController
   HELPERS
   ###
 
-  itemForId:(id)-> @itemsIndexed[id]
+  # get the index depending on the
+  # conditions. e.g `options.lastToFirst`
+  # This method can be overriden by subclasses
+  # to change the item order and get necessary index.
+  getIndex: (index) ->
+    return if @getOptions().lastToFirst
+    then @getItemCount() - index - 1
+    else index
 
-  getItemsOrdered:-> @itemsOrdered
+  itemForId: (id) -> @itemsIndexed[id]
 
-  getItemCount:-> @itemsOrdered.length
+  getItemsOrdered: -> @itemsOrdered
 
-  setListView:(listView)-> @listView = listView
+  getListItems: -> @getListView().items
 
-  getListView:-> @listView
+  getItemCount: -> @getListItems().length
 
-  forEachItemByIndex:(ids, callback)->
+  setListView: (listView) -> @listView = listView
+
+  getListView: -> @listView
+
+  forEachItemByIndex: (ids, callback) ->
     [callback, ids] = [ids, callback]  unless callback
     ids = [ids]  unless Array.isArray ids
     ids.forEach (id)=>
@@ -114,7 +145,7 @@ module.exports = class KDListViewController extends KDViewController
     {noItemFoundWidget} = @getOptions()
     @getListView().addSubView @noItemView = noItemFoundWidget
 
-  showNoItemWidget:-> @noItemView?.show() if @itemsOrdered.length is 0
+  showNoItemWidget:-> @noItemView?.show() if @getListItems().length is 0
   hideNoItemWidget:-> @noItemView?.hide()
 
   # regressed, will put back whenever i'm here again. - SY
@@ -127,68 +158,64 @@ module.exports = class KDListViewController extends KDViewController
   ITEM OPERATIONS
   ###
 
-  addItem:(itemData, index, animation)->
+  addItem: (itemData, index) ->
 
-    @getListView().addItem itemData, index, animation
+    return unless itemData or index?
 
-  removeItem:(itemInstance, itemData, index)->
+    @getListView().addItem itemData, index
+
+
+  removeItem: (itemInstance, itemData, index) ->
+    return unless itemInstance or itemData or index?
 
     @getListView().removeItem itemInstance, itemData, index
 
-  registerItem:(view, index)->
 
-    options = @getOptions()
+  registerItem: (itemInstance, index) ->
 
-    if index?
-      actualIndex = if @getOptions().lastToFirst then @getListView().items.length - index - 1 else index
-      @itemsOrdered.splice(actualIndex, 0, view)
-    else
-      @itemsOrdered[if @getOptions().lastToFirst then 'unshift' else 'push'] view
-    if view.getData()?
-      @itemsIndexed[view.getItemDataId()] = view
+    if itemInstance.getItemDataId()?
+      id = itemInstance.getItemDataId()
+      @itemsIndexed[id] = itemInstance
 
-    if options.selection
-      view.on 'click', (event)=> @selectItem view, event
+    {selection, keyNav, multipleSelection} = @getOptions()
 
-    if options.keyNav or options.multipleSelection
-      view.on "mousedown", (event)=> @mouseDownHappenedOnItem view, event
-      view.on "mouseenter", (event)=> @mouseEnterHappenedOnItem view, event
+    if selection
+      itemInstance.on 'click', (event)=> @selectItem itemInstance, event
 
-  unregisterItem:(itemInfo)->
+    if keyNav or multipleSelection
+      itemInstance.on 'mousedown',  (event) => @mouseDownHappenedOnItem itemInstance, event
+      itemInstance.on 'mouseenter', (event) => @mouseEnterHappenedOnItem itemInstance, event
 
-    @emit "UnregisteringItem", itemInfo
-    {index, view} = itemInfo
-    actualIndex = if @getOptions().lastToFirst then @getListView().items.length - index - 1 else index
-    @itemsOrdered.splice actualIndex, 1
-    if view.getData()?
-      delete @itemsIndexed[view.getItemDataId()]
+  unregisterItem: (itemInstance, index) ->
 
-  replaceAllItems:(items)->
+    @emit 'UnregisteringItem', itemInstance, index
+
+    if itemInstance.getData()?
+      delete @itemsIndexed[itemInstance.getItemDataId()]
+
+  replaceAllItems: (items) ->
 
     @removeAllItems()
     @instantiateListItems items
 
-  removeAllItems:->
-
-    {itemsOrdered}  = @
-    @itemsOrdered.length = 0
+  removeAllItems: ->
     @itemsIndexed = {}
 
     listView = @getListView()
     listView.empty() if listView.items.length
 
-    return itemsOrdered
+    return @getListItems()
 
-  moveItemToIndex:(item, newIndex)->
+  moveItemToIndex: (item, newIndex) ->
 
-    newIndex = Math.max(0, Math.min(@itemsOrdered.length-1, newIndex))
-    @itemsOrdered = @getListView().moveItemToIndex(item, newIndex).slice()
+    newIndex = Math.max(0, Math.min(@getListItems().length-1, newIndex))
+    @getListView().moveItemToIndex(item, newIndex).slice()
 
   ###
   HANDLING MOUSE EVENTS
   ###
 
-  mouseDownHappenedOnItem:(item, event)->
+  mouseDownHappenedOnItem: (item, event) ->
     KD.getSingleton("windowController").setKeyView @getListView() if @getOptions().keyNav
 
     @lastEvent = event
@@ -205,13 +232,13 @@ module.exports = class KDListViewController extends KDViewController
       @mouseDown = no
       @mouseDownTempItem = null
 
-  mouseUpHappened:(event)->
+  mouseUpHappened: (event) ->
 
     clearTimeout @mouseDownTimer
     @mouseDown = no
     @mouseDownTempItem = null
 
-  mouseEnterHappenedOnItem:(item, event)->
+  mouseEnterHappenedOnItem: (item, event) ->
 
     clearTimeout @mouseDownTimer
     if @mouseDown
@@ -224,7 +251,7 @@ module.exports = class KDListViewController extends KDViewController
   HANDLING KEY EVENTS
   ###
 
-  keyDownPerformed:(mainView, event)->
+  keyDownPerformed: (mainView, event) ->
 
     switch event.which
       when 40, 38
@@ -237,7 +264,7 @@ module.exports = class KDListViewController extends KDViewController
 
   # bad naming because of backwards compatibility i didn't
   # change the method name during refactoring - Sinan 10 May 2012
-  selectItem:(item, event = {})->
+  selectItem: (item, event = {}) ->
 
     return unless item?
 
@@ -262,40 +289,46 @@ module.exports = class KDListViewController extends KDViewController
 
     return @selectedItems
 
-  selectItemBelowOrAbove:(event)->
+  selectItemBelowOrAbove: (event) ->
 
     direction         = if event.which is 40 then "down" else "up"
     addend            = if event.which is 40 then 1 else -1
 
-    selectedIndex     = @itemsOrdered.indexOf @selectedItems[0]
-    lastSelectedIndex = @itemsOrdered.indexOf @selectedItems[@selectedItems.length - 1]
+    items = @getListItems()
 
-    if @itemsOrdered[selectedIndex + addend]
+    selectedIndex     = items.indexOf @selectedItems[0]
+    lastSelectedIndex = items.indexOf @selectedItems[@selectedItems.length - 1]
+
+    if items[selectedIndex + addend]
       unless event.metaKey or event.ctrlKey or event.shiftKey
         # navigate normally if meta key is NOT pressed
-        @selectItem @itemsOrdered[selectedIndex + addend]
+        @selectItem items[selectedIndex + addend]
       else
         # take extra actions if meta key is pressed
-        if @selectedItems.indexOf(@itemsOrdered[lastSelectedIndex + addend]) isnt -1
+        if @selectedItems.indexOf(items[lastSelectedIndex + addend]) isnt -1
           # to be deselected item is in @selectedItems
-          if @itemsOrdered[lastSelectedIndex]
-            @deselectSingleItem @itemsOrdered[lastSelectedIndex]
+          if items[lastSelectedIndex]
+            @deselectSingleItem items[lastSelectedIndex]
         else
           # to be deselected item is NOT in @selectedItems
-          if @itemsOrdered[lastSelectedIndex + addend ]
-            @selectSingleItem @itemsOrdered[lastSelectedIndex + addend ]
+          if items[lastSelectedIndex + addend ]
+            @selectSingleItem items[lastSelectedIndex + addend ]
 
   selectNextItem:(item, event)->
 
+    items = @getListItems()
+
     [item] = @selectedItems unless item
-    selectedIndex = @itemsOrdered.indexOf item
-    @selectItem @itemsOrdered[selectedIndex + 1]
+    selectedIndex = items.indexOf item
+    @selectItem items[selectedIndex + 1]
 
   selectPrevItem:(item, event)->
 
+    items = @getListItems()
+
     [item] = @selectedItems unless item
-    selectedIndex = @itemsOrdered.indexOf item
-    @selectItem @itemsOrdered[selectedIndex + -1]
+    selectedIndex = items.indexOf item
+    @selectItem items[selectedIndex + -1]
 
 
   deselectAllItems:->
@@ -308,30 +341,37 @@ module.exports = class KDListViewController extends KDViewController
 
   deselectSingleItem:(item)->
     item.removeHighlight()
+
+    items = @getListItems()
+
     @selectedItems.splice @selectedItems.indexOf(item), 1
-    if item is @itemsOrdered[@itemsOrdered.length-1]
+    if item is items[items.length-1]
       @getListView().unsetClass "last-item-selected"
     @itemDeselectionPerformed [item]
 
   selectSingleItem:(item)->
 
+    items = @getListItems()
+
     if item.getOption("selectable") and !(item in @selectedItems)
       item.highlight()
       @selectedItems.push item
-      if item is @itemsOrdered[@itemsOrdered.length-1]
+      if item is items[items.length-1]
         @getListView().setClass "last-item-selected"
       @itemSelectionPerformed()
 
   selectAllItems:->
 
-    @selectSingleItem item for item in @itemsOrdered
+    @selectSingleItem item for item in @getListItems()
 
 
   selectItemsByRange:(item1, item2)->
 
-    indicesToBeSliced = [@itemsOrdered.indexOf(item1), @itemsOrdered.indexOf(item2)]
+    items = @getListItems()
+
+    indicesToBeSliced = [items.indexOf(item1), items.indexOf(item2)]
     indicesToBeSliced.sort (a, b)-> a - b
-    itemsToBeSelected = @itemsOrdered.slice indicesToBeSliced[0], indicesToBeSliced[1] + 1
+    itemsToBeSelected = items.slice indicesToBeSliced[0], indicesToBeSliced[1] + 1
     @selectSingleItem item for item in itemsToBeSelected
     @itemSelectionPerformed()
 
@@ -347,34 +387,39 @@ module.exports = class KDListViewController extends KDViewController
   LAZY LOADER
   ###
 
+  createLazyLoader: ->
+
+    {lazyLoaderOptions} = @getOptions()
+
+    lazyLoaderOptions                or= {}
+    lazyLoaderOptions.itemClass      or= KDCustomHTMLView
+    lazyLoaderOptions.partial         ?= ''
+    lazyLoaderOptions.cssClass         = KD.utils.curry 'lazy-loader', lazyLoaderOptions.cssClass
+    lazyLoaderOptions.spinnerOptions or= size : width : 32
+    {itemClass, spinnerOptions}        = lazyLoaderOptions
+    delete lazyLoaderOptions.itemClass
+
+    wrapper = @scrollView or @getView()
+    wrapper.addSubView @lazyLoader = new itemClass lazyLoaderOptions
+    @lazyLoader.addSubView @lazyLoader.spinner = new KDLoaderView spinnerOptions
+
+
   showLazyLoader:(emitWhenReached = yes)->
 
-    @hideNoItemWidget() if @noItemView and @getOptions().noItemFoundWidget
-    unless @lazyLoader
-      {lazyLoaderOptions} = @getOptions()
+    @hideNoItemWidget()  if @noItemView and @getOptions().noItemFoundWidget
 
-      lazyLoaderOptions                or= {}
-      lazyLoaderOptions.itemClass      or= KDCustomHTMLView
-      lazyLoaderOptions.partial         ?= ''
-      lazyLoaderOptions.cssClass         = KD.utils.curry 'lazy-loader', lazyLoaderOptions.cssClass
-      lazyLoaderOptions.spinnerOptions or= size : width : 32
-      {itemClass, spinnerOptions}        = lazyLoaderOptions
-      delete lazyLoaderOptions.itemClass
+    @createLazyLoader()  unless @lazyLoader
 
-      wrapper     = @scrollView or @getView()
-      wrapper.addSubView @lazyLoader = new itemClass lazyLoaderOptions
-      @lazyLoader.addSubView @lazyLoader.spinner = new KDLoaderView spinnerOptions
-
-      @lazyLoader.spinner.show()
-      @emit 'LazyLoadThresholdReached'  if emitWhenReached
-      KD.utils.defer => @scrollView?.stopScrolling = yes
+    @lazyLoader.show()
+    @lazyLoader.spinner.show()
+    @emit 'LazyLoadThresholdReached'  if emitWhenReached
+    KD.utils.defer => @scrollView?.stopScrolling = yes
 
 
   hideLazyLoader:->
 
     KD.utils.wait 300, => @scrollView?.stopScrolling = no
     @showNoItemWidget() if @noItemView and @getOptions().noItemFoundWidget
-    if @lazyLoader
-      @lazyLoader.spinner.hide()
-      @lazyLoader.destroy()
-      @lazyLoader = null
+
+    @lazyLoader.spinner.hide()
+    @lazyLoader.hide()

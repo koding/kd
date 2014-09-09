@@ -2,7 +2,9 @@ KDView = require './../../core/view.coffee'
 
 module.exports = class KDSplitResizer extends KDView
 
-  constructor:(options = {}, data)->
+  constructor: (options = {}, data) ->
+
+    options.handleSize or= 2
 
     @isVertical = options.type.toLowerCase() is "vertical"
 
@@ -19,8 +21,9 @@ module.exports = class KDSplitResizer extends KDView
     @on "DragStarted",  @dragStarted
 
   _setOffset:(offset)->
-    offset = 0 if offset < 0
-    if @isVertical then @$().css left : offset-5 else @$().css top : offset-5
+    offset    = 0 if offset < 0
+    newOffset = offset - @getOption('handleSize')
+    if @isVertical then @$().css left : newOffset else @$().css top : newOffset
 
   _getOffset:(offset)->
     if @isVertical then @getRelativeX() else @getRelativeY()
@@ -49,28 +52,13 @@ module.exports = class KDSplitResizer extends KDView
   dragInAction:(x, y)->
 
     if @isVertical
-      # check if views are fine with that
-      p0WouldResize = @panel0._wouldResize x + @p0Size
-      p1WouldResize = @panel1._wouldResize -x + @p1Size if p0WouldResize
-
-      # see if they resize
-      @dragIsAllowed = if p1WouldResize
-        @panel0._setSize x + @p0Size
-        @panel1._setSize -x + @p1Size
-        yes
+      if @panel0._wouldResize x + @p0Size
+        @parent.resizePanel x + @p0Size
       else
         @_setOffset @panel1._getOffset()
-        no
-
-      # set the changed offset of second panel
-      @panel1._setOffset x + @p1Offset if @dragIsAllowed
 
     else
-      # check if views are fine with that
-      p0WouldResize = @panel0._wouldResize y + @p0Size
-      p1WouldResize = @panel1._wouldResize -y + @p1Size
-      # see if they resize
-      p0DidResize = if p0WouldResize and p1WouldResize then @panel0._setSize y + @p0Size else no
-      p1DidResize = if p0WouldResize and p1WouldResize then @panel1._setSize -y + @p1Size else no
-      # set the changed offset of second panel
-      @panel1._setOffset y + @p1Offset if p0DidResize and p1DidResize
+      if @panel0._wouldResize y + @p0Size
+        @parent.resizePanel y + @p0Size
+      else
+        @_setOffset @panel1._getOffset()

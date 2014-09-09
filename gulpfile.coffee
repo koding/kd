@@ -10,7 +10,7 @@ livereload = require 'gulp-livereload'
 concat     = require 'gulp-concat'
 minifyCSS  = require 'gulp-minify-css'
 karma      = require 'gulp-karma'
-clean      = require 'gulp-clean'
+rimraf     = require 'gulp-rimraf'
 markdox    = require 'gulp-markdox'
 fs         = require 'fs'
 http       = require 'http'
@@ -313,13 +313,13 @@ gulp.task 'run', -> karmaAction = 'run'
 gulp.task 'clean', ->
 
   gulp.src ['build'], read : no
-    .pipe clean force : yes
+    .pipe rimraf force : yes
 
 
 gulp.task 'clean-play', ->
 
   gulp.src ['playground/{css/js}'], read : no
-    .pipe clean force : yes
+    .pipe rimraf force : yes
 
 
 # Use markdox to output markdown files for the API Documentation.

@@ -1,4 +1,4 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var MainView;
 
 MainView = require('./views/mainview');
@@ -19,6 +19,7 @@ MainView = require('./views/mainview');
   });
   return router.listen();
 })();
+
 
 
 },{"./views/mainview":6}],2:[function(require,module,exports){
@@ -57,6 +58,7 @@ module.exports = HeaderView = (function(_super) {
 })(KDView);
 
 
+
 },{}],3:[function(require,module,exports){
 var ContentView,
   __hasProp = {}.hasOwnProperty,
@@ -81,6 +83,7 @@ module.exports = ContentView = (function(_super) {
   return ContentView;
 
 })(KDView);
+
 
 
 },{}],4:[function(require,module,exports){
@@ -110,6 +113,7 @@ module.exports = FooterView = (function(_super) {
   return FooterView;
 
 })(KDView);
+
 
 
 },{}],5:[function(require,module,exports){
@@ -146,6 +150,7 @@ module.exports = HeaderView = (function(_super) {
   return HeaderView;
 
 })(KDView);
+
 
 
 },{}],6:[function(require,module,exports){
@@ -274,6 +279,7 @@ module.exports = MainView = (function(_super) {
 })(KDView);
 
 
+
 },{"./footerview":4,"./headerview":5,"./pageview":7}],7:[function(require,module,exports){
 var ContentView, HeaderView, PageView, SideNavigation,
   __hasProp = {}.hasOwnProperty,
@@ -310,6 +316,7 @@ module.exports = PageView = (function(_super) {
   return PageView;
 
 })(KDView);
+
 
 
 },{"./HeaderView":2,"./contentview":3,"./sidenavigation":8}],8:[function(require,module,exports){
@@ -382,4 +389,5 @@ module.exports = SideNavigation = (function(_super) {
 })(KDView);
 
 
-},{}]},{},[1])
+
+},{}]},{},[1]);

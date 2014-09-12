@@ -1,4 +1,231 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+var KD, utils;
+
+require('./lib.includes.coffee');
+
+utils = require('./core/utils.coffee');
+
+KD = require('./core/kd.coffee');
+
+KD.dom = require('./core/kd.dom.js');
+
+KD.classes = {};
+
+KD.classes.KDAutoComplete = require("./components/autocomplete/autocomplete.coffee");
+
+KD.classes.KDAutoCompleteController = require("./components/autocomplete/autocompletecontroller.coffee");
+
+KD.classes.KDAutoCompletedItem = require("./components/autocomplete/autocompleteditems.coffee");
+
+KD.classes.KDAutoCompleteFetchingItem = require("./components/autocomplete/autocompletefetchingitem.coffee");
+
+KD.classes.KDAutoCompleteListView = require("./components/autocomplete/autocompletelist.coffee");
+
+KD.classes.KDAutoCompleteListItemView = require("./components/autocomplete/autocompletelistitem.coffee");
+
+KD.classes.KDAutoCompleteNothingFoundItem = require("./components/autocomplete/autocompletenothingfounditem.coffee");
+
+KD.classes.KDAutocompleteUnselecteableItem = require("./components/autocomplete/autocompleteunselecteableitem.coffee");
+
+KD.classes.MultipleInputListView = require("./components/autocomplete/multipleinputlistview.coffee");
+
+KD.classes.KDMultipleInputView = require("./components/autocomplete/multipleinputview.coffee");
+
+KD.classes.MultipleListItemView = require("./components/autocomplete/multiplelistitemview.coffee");
+
+KD.classes.NoAutocompleteInputView = require("./components/autocomplete/noautocompleteinputview.coffee");
+
+KD.classes.NoAutocompleteMultipleListView = require("./components/autocomplete/noautocompletemultiplelistview.coffee");
+
+KD.classes.KDSimpleAutocomplete = require("./components/autocomplete/simpleautocomplete.coffee");
+
+KD.classes.KDButtonBar = require("./components/buttons/buttonbar.coffee");
+
+KD.classes.KDButtonGroupView = require("./components/buttons/buttongroupview.coffee");
+
+KD.classes.JButtonMenu = require("./components/buttons/buttonmenu.coffee");
+
+KD.classes.KDButtonView = require("./components/buttons/buttonview.coffee");
+
+KD.classes.KDButtonViewWithMenu = require("./components/buttons/buttonviewwithmenu.coffee");
+
+KD.classes.KDToggleButton = require("./components/buttons/togglebutton.coffee");
+
+KD.classes.KDContextMenu = require("./components/contextmenu/contextmenu.coffee");
+
+KD.classes.JContextMenuItem = require("./components/contextmenu/contextmenuitem.coffee");
+
+KD.classes.JContextMenuTreeView = require("./components/contextmenu/contextmenutreeview.coffee");
+
+KD.classes.JContextMenuTreeViewController = require("./components/contextmenu/contextmenutreeviewcontroller.coffee");
+
+KD.classes.KDCounterDigitView = require("./components/counter/counterdigitview.coffee");
+
+KD.classes.KDCounterView = require("./components/counter/counterview.coffee");
+
+KD.classes.KDDiaContainer = require("./components/dia/diacontainer.coffee");
+
+KD.classes.KDDiaJoint = require("./components/dia/diajoint.coffee");
+
+KD.classes.KDDiaObject = require("./components/dia/diaobject.coffee");
+
+KD.classes.KDDiaScene = require("./components/dia/diascene.coffee");
+
+KD.classes.KDDialogView = require("./components/dialog/dialogview.coffee");
+
+KD.classes.KDFormView = require("./components/forms/formview.coffee");
+
+KD.classes.KDFormViewWithFields = require("./components/forms/formviewwithfields.coffee");
+
+KD.classes.KDHeaderView = require("./components/header/headerview.coffee");
+
+KD.classes.KDWebcamView = require("./components/image/webcamview.coffee");
+
+KD.classes.KDCheckBox = require("./components/inputs/checkbox.coffee");
+
+KD.classes.KDContentEditableView = require("./components/inputs/contenteditableview.coffee");
+
+KD.classes.KDDelimitedInputView = require("./components/inputs/delimitedinputview.coffee");
+
+KD.classes.KDHitEnterInputView = require("./components/inputs/hitenterinputview.coffee");
+
+KD.classes.KDInputCheckboxGroup = require("./components/inputs/inputcheckboxgroup.coffee");
+
+KD.classes.KDInputRadioGroup = require("./components/inputs/inputradiogroup.coffee");
+
+KD.classes.KDInputSwitch = require("./components/inputs/inputswitch.coffee");
+
+KD.classes.KDInputValidator = require("./components/inputs/inputvalidator.coffee");
+
+KD.classes.KDInputView = require("./components/inputs/inputview.coffee");
+
+KD.classes.KDLabelView = require("./components/inputs/labelview.coffee");
+
+KD.classes.KDMultipleChoice = require("./components/inputs/multiplechoice.coffee");
+
+KD.classes.KDOnOffSwitch = require("./components/inputs/onoffswitch.coffee");
+
+KD.classes.KDSelectBox = require("./components/inputs/selectbox.coffee");
+
+KD.classes.KDTokenizedInput = require("./components/inputs/tokenizedinputview.coffee");
+
+KD.classes.KDWmdInput = require("./components/inputs/wmdinput.coffee");
+
+KD.classes.KDListItemView = require("./components/list/listitemview.coffee");
+
+KD.classes.KDListView = require("./components/list/listview.coffee");
+
+KD.classes.KDListViewBox = require("./components/list/listviewbox.coffee");
+
+KD.classes.KDListViewController = require("./components/list/listviewcontroller.coffee");
+
+KD.classes.KDLoaderView = require("./components/loader/loaderview.coffee");
+
+KD.classes.KDBlockingModalView = require("./components/modals/blockingmodalview.coffee");
+
+KD.classes.KDModalView = require("./components/modals/modalview.coffee");
+
+KD.classes.KDModalViewStack = require("./components/modals/modalviewstack.coffee");
+
+KD.classes.KDModalViewWithForms = require("./components/modals/modalviewwithforms.coffee");
+
+KD.classes.KDNotificationView = require("./components/notifications/notificationview.coffee");
+
+KD.classes.KDOverlayView = require("./components/overlay/overlayview.coffee");
+
+KD.classes.KDSpotlightView = require("./components/overlay/spotlightview.coffee");
+
+KD.classes.KDProgressBarView = require("./components/progressbar/progressbarview.coffee");
+
+KD.classes.KDCustomScrollView = require("./components/scrollview/customscrollview.coffee");
+
+KD.classes.KDCustomScrollViewWrapper = require("./components/scrollview/customscrollviewinner.coffee");
+
+KD.classes.KDScrollThumb = require("./components/scrollview/scrollthumb.coffee");
+
+KD.classes.KDScrollTrack = require("./components/scrollview/scrolltrack.coffee");
+
+KD.classes.KDScrollView = require("./components/scrollview/scrollview.coffee");
+
+KD.classes.KDSliderBarHandleView = require("./components/sliderbar/sliderbarhandleview.coffee");
+
+KD.classes.KDSliderBarView = require("./components/sliderbar/sliderbarview.coffee");
+
+KD.classes.KDSlidePageView = require("./components/slideshow/slidepageview.coffee");
+
+KD.classes.KDSlideShowView = require("./components/slideshow/slideshowview.coffee");
+
+KD.classes.KDSplitComboView = require("./components/split/splitcomboview.coffee");
+
+KD.classes.KDSplitViewPanel = require("./components/split/splitpanel.coffee");
+
+KD.classes.KDSplitResizer = require("./components/split/splitresizer.coffee");
+
+KD.classes.KDSplitView = require("./components/split/splitview.coffee");
+
+KD.classes.KDTabHandleContainer = require("./components/tabs/tabhandlecontainer.coffee");
+
+KD.classes.KDTabHandleMoveNav = require("./components/tabs/tabhandlemovenav.coffee");
+
+KD.classes.KDTabHandleView = require("./components/tabs/tabhandleview.coffee");
+
+KD.classes.KDTabPaneView = require("./components/tabs/tabpaneview.coffee");
+
+KD.classes.KDTabView = require("./components/tabs/tabview.coffee");
+
+KD.classes.KDTabViewWithForms = require("./components/tabs/tabviewwithforms.coffee");
+
+KD.classes.KDTimeAgoView = require("./components/time/timeagoview.coffee");
+
+KD.classes.KDTooltip = require("./components/tooltip/tooltip.coffee");
+
+KD.classes.JTreeItemView = require("./components/tree/treeitemview.coffee");
+
+KD.classes.JTreeView = require("./components/tree/treeview.coffee");
+
+KD.classes.JTreeViewController = require("./components/tree/treeviewcontroller.coffee");
+
+KD.classes.KDFileUploadArea = require("./components/upload/fileuploadarea.coffee");
+
+KD.classes.KDFileUploadListItemView = require("./components/upload/fileuploadlistitemview.coffee");
+
+KD.classes.KDFileUploadListView = require("./components/upload/fileuploadlistview.coffee");
+
+KD.classes.KDFileUploadThumbItemView = require("./components/upload/fileuploadthumbitemview.coffee");
+
+KD.classes.KDFileUploadThumbListView = require("./components/upload/fileuploadthumblistview.coffee");
+
+KD.classes.KDFileUploadView = require("./components/upload/fileuploadview.coffee");
+
+KD.classes.KDMultipartUploader = require("./components/upload/multipartuploader.coffee");
+
+KD.classes.KDController = require("./core/controller.coffee");
+
+KD.classes.KDCustomHTMLView = require("./core/customhtmlview.coffee");
+
+KD.classes.KDEventEmitter = require("./core/eventemitter.coffee");
+
+KD.classes.KDEventEmitter.Wildcard = require("./core/eventemitterwildcard.coffee");
+
+KD.classes.KDKeyboardListener = require("./core/keyboard/listener.coffee");
+
+KD.classes.KDKeyboardMap = require("./core/keyboard/map.coffee");
+
+KD.classes.KDObject = require("./core/object.coffee");
+
+KD.classes.KDRouter = require("./core/router.coffee");
+
+KD.classes.KDView = require("./core/view.coffee");
+
+KD.classes.KDViewController = require("./core/viewcontroller.coffee");
+
+KD.classes.KDWindowController = require("./core/windowcontroller.coffee");
+
+KD.exportKDFramework();
+
+
+
+},{"./components/autocomplete/autocomplete.coffee":10,"./components/autocomplete/autocompletecontroller.coffee":11,"./components/autocomplete/autocompleteditems.coffee":12,"./components/autocomplete/autocompletefetchingitem.coffee":13,"./components/autocomplete/autocompletelist.coffee":14,"./components/autocomplete/autocompletelistitem.coffee":15,"./components/autocomplete/autocompletenothingfounditem.coffee":16,"./components/autocomplete/autocompleteunselecteableitem.coffee":17,"./components/autocomplete/multipleinputlistview.coffee":18,"./components/autocomplete/multipleinputview.coffee":19,"./components/autocomplete/multiplelistitemview.coffee":20,"./components/autocomplete/noautocompleteinputview.coffee":21,"./components/autocomplete/noautocompletemultiplelistview.coffee":22,"./components/autocomplete/simpleautocomplete.coffee":23,"./components/buttons/buttonbar.coffee":24,"./components/buttons/buttongroupview.coffee":25,"./components/buttons/buttonmenu.coffee":26,"./components/buttons/buttonview.coffee":27,"./components/buttons/buttonviewwithmenu.coffee":28,"./components/buttons/togglebutton.coffee":29,"./components/contextmenu/contextmenu.coffee":30,"./components/contextmenu/contextmenuitem.coffee":31,"./components/contextmenu/contextmenutreeview.coffee":32,"./components/contextmenu/contextmenutreeviewcontroller.coffee":33,"./components/counter/counterdigitview.coffee":34,"./components/counter/counterview.coffee":35,"./components/dia/diacontainer.coffee":36,"./components/dia/diajoint.coffee":37,"./components/dia/diaobject.coffee":38,"./components/dia/diascene.coffee":39,"./components/dialog/dialogview.coffee":40,"./components/forms/formview.coffee":41,"./components/forms/formviewwithfields.coffee":42,"./components/header/headerview.coffee":43,"./components/image/webcamview.coffee":44,"./components/inputs/checkbox.coffee":45,"./components/inputs/contenteditableview.coffee":46,"./components/inputs/delimitedinputview.coffee":47,"./components/inputs/hitenterinputview.coffee":48,"./components/inputs/inputcheckboxgroup.coffee":49,"./components/inputs/inputradiogroup.coffee":50,"./components/inputs/inputswitch.coffee":51,"./components/inputs/inputvalidator.coffee":52,"./components/inputs/inputview.coffee":53,"./components/inputs/labelview.coffee":54,"./components/inputs/multiplechoice.coffee":55,"./components/inputs/onoffswitch.coffee":56,"./components/inputs/selectbox.coffee":57,"./components/inputs/tokenizedinputview.coffee":58,"./components/inputs/wmdinput.coffee":59,"./components/list/listitemview.coffee":60,"./components/list/listview.coffee":61,"./components/list/listviewbox.coffee":62,"./components/list/listviewcontroller.coffee":63,"./components/loader/loaderview.coffee":64,"./components/modals/blockingmodalview.coffee":65,"./components/modals/modalview.coffee":66,"./components/modals/modalviewstack.coffee":67,"./components/modals/modalviewwithforms.coffee":68,"./components/notifications/notificationview.coffee":69,"./components/overlay/overlayview.coffee":70,"./components/overlay/spotlightview.coffee":71,"./components/progressbar/progressbarview.coffee":72,"./components/scrollview/customscrollview.coffee":73,"./components/scrollview/customscrollviewinner.coffee":74,"./components/scrollview/scrollthumb.coffee":75,"./components/scrollview/scrolltrack.coffee":76,"./components/scrollview/scrollview.coffee":77,"./components/sliderbar/sliderbarhandleview.coffee":78,"./components/sliderbar/sliderbarview.coffee":79,"./components/slideshow/slidepageview.coffee":80,"./components/slideshow/slideshowview.coffee":81,"./components/split/splitcomboview.coffee":82,"./components/split/splitpanel.coffee":83,"./components/split/splitresizer.coffee":84,"./components/split/splitview.coffee":85,"./components/tabs/tabhandlecontainer.coffee":86,"./components/tabs/tabhandlemovenav.coffee":87,"./components/tabs/tabhandleview.coffee":88,"./components/tabs/tabpaneview.coffee":89,"./components/tabs/tabview.coffee":90,"./components/tabs/tabviewwithforms.coffee":91,"./components/time/timeagoview.coffee":92,"./components/tooltip/tooltip.coffee":93,"./components/tree/treeitemview.coffee":94,"./components/tree/treeview.coffee":95,"./components/tree/treeviewcontroller.coffee":96,"./components/upload/fileuploadarea.coffee":97,"./components/upload/fileuploadlistitemview.coffee":98,"./components/upload/fileuploadlistview.coffee":99,"./components/upload/fileuploadthumbitemview.coffee":100,"./components/upload/fileuploadthumblistview.coffee":101,"./components/upload/fileuploadview.coffee":102,"./components/upload/multipartuploader.coffee":103,"./core/controller.coffee":104,"./core/customhtmlview.coffee":105,"./core/eventemitter.coffee":106,"./core/eventemitterwildcard.coffee":107,"./core/kd.coffee":108,"./core/kd.dom.js":109,"./core/keyboard/listener.coffee":110,"./core/keyboard/map.coffee":111,"./core/object.coffee":112,"./core/router.coffee":113,"./core/utils.coffee":115,"./core/view.coffee":116,"./core/viewcontroller.coffee":117,"./core/windowcontroller.coffee":118,"./lib.includes.coffee":119}],2:[function(require,module,exports){
 /*
 * Copyright (c) 2011 Róbert Pataki
 *
@@ -640,7 +867,7 @@
 	};
 	window.CanvasLoader = CanvasLoader;
 }(window));
-},{}],2:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 /*! Hammer.JS - v1.0.5 - 2013-04-07
  * http://eightmedia.github.com/hammer.js
  *
@@ -2062,7 +2289,7 @@ else {
     }
 }
 })(this);
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 var Inflector;
 
 module.exports = Inflector = (function() {
@@ -2627,7 +2854,7 @@ module.exports = Inflector = (function() {
 
 })();
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 (function() {
   var JsPath,
     __slice = Array.prototype.slice;
@@ -2777,7 +3004,7 @@ module.exports = Inflector = (function() {
 
 }).call(this);
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 /**
  * adds a bindGlobal method to Mousetrap that allows you to
  * bind specific keyboard shortcuts that will still work
@@ -2815,7 +3042,7 @@ Mousetrap = (function(Mousetrap) {
     return Mousetrap;
 }) (Mousetrap);
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 /*global define:false */
 /**
  * Copyright 2013 Craig Campbell
@@ -3770,7 +3997,7 @@ Mousetrap = (function(Mousetrap) {
     }
 }) (window, document);
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 // Copyright 2011 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -5439,7 +5666,7 @@ var MutationSummary = (function () {
 
 module.exports = MutationSummary
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /*! Copyright (c) 2013 Brandon Aaron (http://brandon.aaron.sh)
  * Licensed under the MIT License (LICENSE.txt).
  *
@@ -5662,7 +5889,7 @@ module.exports = MutationSummary
 
 }));
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 var KDAutoComplete, KDInputView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -5757,7 +5984,8 @@ module.exports = KDAutoComplete = (function(_super) {
 })(KDInputView);
 
 
-},{"./../inputs/inputview.coffee":52}],10:[function(require,module,exports){
+
+},{"./../inputs/inputview.coffee":53}],11:[function(require,module,exports){
 var Inflector, JsPath, KDAutoComplete, KDAutoCompleteController, KDAutoCompleteFetchingItem, KDAutoCompleteListView, KDLabelView, KDListViewController, KDNotificationView, KDViewController,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -6259,7 +6487,8 @@ module.exports = KDAutoCompleteController = (function(_super) {
 })(KDViewController);
 
 
-},{"./../../../libs/inflector.js":3,"./../../../libs/jspath.js":4,"./../../core/viewcontroller.coffee":116,"./../inputs/labelview.coffee":53,"./../list/listviewcontroller.coffee":62,"./../notifications/notificationview.coffee":68,"./autocomplete.coffee":9,"./autocompletefetchingitem.coffee":12,"./autocompletelist.coffee":13}],11:[function(require,module,exports){
+
+},{"./../../../libs/inflector.js":4,"./../../../libs/jspath.js":5,"./../../core/viewcontroller.coffee":117,"./../inputs/labelview.coffee":54,"./../list/listviewcontroller.coffee":63,"./../notifications/notificationview.coffee":69,"./autocomplete.coffee":10,"./autocompletefetchingitem.coffee":13,"./autocompletelist.coffee":14}],12:[function(require,module,exports){
 var KDAutoCompletedItem, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -6297,7 +6526,8 @@ module.exports = KDAutoCompletedItem = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":115}],12:[function(require,module,exports){
+
+},{"./../../core/view.coffee":116}],13:[function(require,module,exports){
 var KDAutoCompleteFetchingItem, KDAutocompleteUnselecteableItem,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -6324,7 +6554,8 @@ module.exports = KDAutoCompleteFetchingItem = (function(_super) {
 })(KDAutocompleteUnselecteableItem);
 
 
-},{"./autocompleteunselecteableitem.coffee":16}],13:[function(require,module,exports){
+
+},{"./autocompleteunselecteableitem.coffee":17}],14:[function(require,module,exports){
 var KDAutoCompleteListView, KDListView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -6389,7 +6620,8 @@ module.exports = KDAutoCompleteListView = (function(_super) {
 })(KDListView);
 
 
-},{"./../list/listview.coffee":60}],14:[function(require,module,exports){
+
+},{"./../list/listview.coffee":61}],15:[function(require,module,exports){
 var KDAutoCompleteListItemView, KDListItemView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -6453,7 +6685,8 @@ module.exports = KDAutoCompleteListItemView = (function(_super) {
 })(KDListItemView);
 
 
-},{"./../list/listitemview.coffee":59}],15:[function(require,module,exports){
+
+},{"./../list/listitemview.coffee":60}],16:[function(require,module,exports){
 var KDAutoCompleteNothingFoundItem, KDAutocompleteUnselecteableItem,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -6480,7 +6713,8 @@ module.exports = KDAutoCompleteNothingFoundItem = (function(_super) {
 })(KDAutocompleteUnselecteableItem);
 
 
-},{"./autocompleteunselecteableitem.coffee":16}],16:[function(require,module,exports){
+
+},{"./autocompleteunselecteableitem.coffee":17}],17:[function(require,module,exports){
 var KDAutocompleteUnselecteableItem, KDListItemView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -6517,7 +6751,8 @@ module.exports = KDAutocompleteUnselecteableItem = (function(_super) {
 })(KDListItemView);
 
 
-},{"./../list/listitemview.coffee":59}],17:[function(require,module,exports){
+
+},{"./../list/listitemview.coffee":60}],18:[function(require,module,exports){
 var KDListView, MultipleInputListView, MultipleListItemView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -6560,7 +6795,8 @@ module.exports = MultipleInputListView = (function(_super) {
 })(KDListView);
 
 
-},{"./../list/listview.coffee":60,"./multiplelistitemview.coffee":19}],18:[function(require,module,exports){
+
+},{"./../list/listview.coffee":61,"./multiplelistitemview.coffee":20}],19:[function(require,module,exports){
 var KDInputView, KDMultipleInputView, KDSimpleAutocomplete, MultipleInputListView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -6690,7 +6926,8 @@ module.exports = KDMultipleInputView = (function(_super) {
 })(KDSimpleAutocomplete);
 
 
-},{"./../inputs/inputview.coffee":52,"./multipleinputlistview.coffee":17,"./simpleautocomplete.coffee":22}],19:[function(require,module,exports){
+
+},{"./../inputs/inputview.coffee":53,"./multipleinputlistview.coffee":18,"./simpleautocomplete.coffee":23}],20:[function(require,module,exports){
 var KDListItemView, MultipleListItemView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -6723,7 +6960,8 @@ module.exports = MultipleListItemView = (function(_super) {
 })(KDListItemView);
 
 
-},{"./../list/listitemview.coffee":59}],20:[function(require,module,exports){
+
+},{"./../list/listitemview.coffee":60}],21:[function(require,module,exports){
 var KDMultipleInputView, NoAutocompleteInputView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -6758,7 +6996,8 @@ module.exports = NoAutocompleteInputView = (function(_super) {
 })(KDMultipleInputView);
 
 
-},{"./multipleinputview.coffee":18}],21:[function(require,module,exports){
+
+},{"./multipleinputview.coffee":19}],22:[function(require,module,exports){
 var KDView, NoAutocompleteMultipleListView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -6814,7 +7053,8 @@ module.exports = NoAutocompleteMultipleListView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":115}],22:[function(require,module,exports){
+
+},{"./../../core/view.coffee":116}],23:[function(require,module,exports){
 var JsPath, KDAutoComplete, KDSimpleAutocomplete,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -6853,7 +7093,8 @@ module.exports = KDSimpleAutocomplete = (function(_super) {
 })(KDAutoComplete);
 
 
-},{"./../../../libs/jspath.js":4,"./autocomplete.coffee":9}],23:[function(require,module,exports){
+
+},{"./../../../libs/jspath.js":5,"./autocomplete.coffee":10}],24:[function(require,module,exports){
 var KDButtonBar, KDButtonView, KDFormView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -6901,7 +7142,8 @@ module.exports = KDButtonBar = (function(_super) {
 })(KDView);
 
 
-},{"../forms/formview.coffee":40,"./../../core/view.coffee":115,"./buttonview":26}],24:[function(require,module,exports){
+
+},{"../forms/formview.coffee":41,"./../../core/view.coffee":116,"./buttonview":27}],25:[function(require,module,exports){
 var KDButtonGroupView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -6960,7 +7202,8 @@ module.exports = KDButtonGroupView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":115}],25:[function(require,module,exports){
+
+},{"./../../core/view.coffee":116}],26:[function(require,module,exports){
 var JButtonMenu, KDContextMenu,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -7014,7 +7257,8 @@ module.exports = JButtonMenu = (function(_super) {
 })(KDContextMenu);
 
 
-},{"./../contextmenu/contextmenu.coffee":29}],26:[function(require,module,exports){
+
+},{"./../contextmenu/contextmenu.coffee":30}],27:[function(require,module,exports){
 var KDButtonView, KDLoaderView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -7325,7 +7569,8 @@ module.exports = KDButtonView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":115,"./../loader/loaderview.coffee":63}],27:[function(require,module,exports){
+
+},{"./../../core/view.coffee":116,"./../loader/loaderview.coffee":64}],28:[function(require,module,exports){
 var KDButtonView, KDButtonViewWithMenu,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -7446,7 +7691,8 @@ module.exports = KDButtonViewWithMenu = (function(_super) {
 })(KDButtonView);
 
 
-},{"./buttonview.coffee":26}],28:[function(require,module,exports){
+
+},{"./buttonview.coffee":27}],29:[function(require,module,exports){
 var KDButtonView, KDToggleButton,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -7532,7 +7778,8 @@ module.exports = KDToggleButton = (function(_super) {
 })(KDButtonView);
 
 
-},{"./buttonview.coffee":26}],29:[function(require,module,exports){
+
+},{"./buttonview.coffee":27}],30:[function(require,module,exports){
 var JContextMenuTreeViewController, KDContextMenu, KDCustomHTMLView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -7743,7 +7990,8 @@ module.exports = KDContextMenu = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/customhtmlview.coffee":104,"./../../core/view.coffee":115,"./contextmenutreeviewcontroller.coffee":32}],30:[function(require,module,exports){
+
+},{"./../../core/customhtmlview.coffee":105,"./../../core/view.coffee":116,"./contextmenutreeviewcontroller.coffee":33}],31:[function(require,module,exports){
 var JContextMenuItem, JTreeItemView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -7805,7 +8053,8 @@ module.exports = JContextMenuItem = (function(_super) {
 })(JTreeItemView);
 
 
-},{"./../../core/view.coffee":115,"./../tree/treeitemview.coffee":93}],31:[function(require,module,exports){
+
+},{"./../../core/view.coffee":116,"./../tree/treeitemview.coffee":94}],32:[function(require,module,exports){
 var JContextMenuTreeView, JTreeView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -7836,7 +8085,8 @@ module.exports = JContextMenuTreeView = (function(_super) {
 })(JTreeView);
 
 
-},{"./../tree/treeview.coffee":94}],32:[function(require,module,exports){
+
+},{"./../tree/treeview.coffee":95}],33:[function(require,module,exports){
 var JContextMenuItem, JContextMenuTreeView, JContextMenuTreeViewController, JTreeViewController, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -8109,7 +8359,8 @@ module.exports = JContextMenuTreeViewController = (function(_super) {
 })(JTreeViewController);
 
 
-},{"./../../core/view.coffee":115,"./../tree/treeviewcontroller.coffee":95,"./contextmenuitem.coffee":30,"./contextmenutreeview.coffee":31}],33:[function(require,module,exports){
+
+},{"./../../core/view.coffee":116,"./../tree/treeviewcontroller.coffee":96,"./contextmenuitem.coffee":31,"./contextmenutreeview.coffee":32}],34:[function(require,module,exports){
 var KDCounterDigitView, KDCustomHTMLView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -8169,7 +8420,8 @@ module.exports = KDCounterDigitView = (function(_super) {
 })(KDCustomHTMLView);
 
 
-},{"./../../core/customhtmlview.coffee":104}],34:[function(require,module,exports){
+
+},{"./../../core/customhtmlview.coffee":105}],35:[function(require,module,exports){
 var KDCounterDigitView, KDCounterView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -8268,7 +8520,8 @@ module.exports = KDCounterView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":115,"./counterdigitview.coffee":33}],35:[function(require,module,exports){
+
+},{"./../../core/view.coffee":116,"./counterdigitview.coffee":34}],36:[function(require,module,exports){
 var KDDiaContainer, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -8380,7 +8633,8 @@ module.exports = KDDiaContainer = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":115}],36:[function(require,module,exports){
+
+},{"./../../core/view.coffee":116}],37:[function(require,module,exports){
 var KDDiaJoint, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -8470,7 +8724,8 @@ module.exports = KDDiaJoint = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":115}],37:[function(require,module,exports){
+
+},{"./../../core/view.coffee":116}],38:[function(require,module,exports){
 var KDDiaObject, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -8626,7 +8881,8 @@ module.exports = KDDiaObject = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":115}],38:[function(require,module,exports){
+
+},{"./../../core/view.coffee":116}],39:[function(require,module,exports){
 var KDCustomHTMLView, KDDiaScene, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -9104,7 +9360,8 @@ module.exports = KDDiaScene = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/customhtmlview.coffee":104,"./../../core/view.coffee":115}],39:[function(require,module,exports){
+
+},{"./../../core/customhtmlview.coffee":105,"./../../core/view.coffee":116}],40:[function(require,module,exports){
 var KDButtonView, KDDialogView, KDOverlayView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -9198,7 +9455,8 @@ module.exports = KDDialogView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":115,"./../buttons/buttonview.coffee":26,"./../overlay/overlayview.coffee":69}],40:[function(require,module,exports){
+
+},{"./../../core/view.coffee":116,"./../buttons/buttonview.coffee":27,"./../overlay/overlayview.coffee":70}],41:[function(require,module,exports){
 var JsPath, KDFormView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -9426,7 +9684,8 @@ module.exports = KDFormView = (function(_super) {
 })(KDView);
 
 
-},{"./../../../libs/jspath.js":4,"./../../core/view.coffee":115}],41:[function(require,module,exports){
+
+},{"./../../../libs/jspath.js":5,"./../../core/view.coffee":116}],42:[function(require,module,exports){
 var KDButtonBar, KDCustomHTMLView, KDFormView, KDFormViewWithFields, KDLabelView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -9549,7 +9808,8 @@ module.exports = KDFormViewWithFields = (function(_super) {
 })(KDFormView);
 
 
-},{"./../../core/customhtmlview.coffee":104,"./../../core/view.coffee":115,"./../buttons/buttonbar.coffee":23,"./../inputs/labelview.coffee":53,"./formview.coffee":40}],42:[function(require,module,exports){
+
+},{"./../../core/customhtmlview.coffee":105,"./../../core/view.coffee":116,"./../buttons/buttonbar.coffee":24,"./../inputs/labelview.coffee":54,"./formview.coffee":41}],43:[function(require,module,exports){
 var KDHeaderView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -9652,7 +9912,8 @@ module.exports = KDHeaderView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":115}],43:[function(require,module,exports){
+
+},{"./../../core/view.coffee":116}],44:[function(require,module,exports){
 var KDButtonView, KDCustomHTMLView, KDView, KDWebcamView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -9915,7 +10176,8 @@ module.exports = KDWebcamView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/customhtmlview.coffee":104,"./../../core/view.coffee":115,"./../buttons/buttonview.coffee":26}],44:[function(require,module,exports){
+
+},{"./../../core/customhtmlview.coffee":105,"./../../core/view.coffee":116,"./../buttons/buttonview.coffee":27}],45:[function(require,module,exports){
 var KDCheckBox, KDInputView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -9945,7 +10207,8 @@ module.exports = KDCheckBox = (function(_super) {
 })(KDInputView);
 
 
-},{"./inputview.coffee":52}],45:[function(require,module,exports){
+
+},{"./inputview.coffee":53}],46:[function(require,module,exports){
 var KDContentEditableView, KDNotificationView, KDView,
   __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   __hasProp = {}.hasOwnProperty,
@@ -10241,7 +10504,8 @@ module.exports = KDContentEditableView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":115,"./../notifications/notificationview.coffee":68}],46:[function(require,module,exports){
+
+},{"./../../core/view.coffee":116,"./../notifications/notificationview.coffee":69}],47:[function(require,module,exports){
 var KDDelimitedInputView, KDInputView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -10311,7 +10575,8 @@ module.exports = KDDelimitedInputView = (function(_super) {
 })(KDInputView);
 
 
-},{"./inputview.coffee":52}],47:[function(require,module,exports){
+
+},{"./inputview.coffee":53}],48:[function(require,module,exports){
 
 /*
 todo:
@@ -10426,7 +10691,8 @@ module.exports = KDHitEnterInputView = (function(_super) {
 })(KDInputView);
 
 
-},{"./inputview.coffee":52}],48:[function(require,module,exports){
+
+},{"./inputview.coffee":53}],49:[function(require,module,exports){
 var KDInputCheckboxGroup, KDInputRadioGroup,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -10491,7 +10757,8 @@ module.exports = KDInputCheckboxGroup = (function(_super) {
 })(KDInputRadioGroup);
 
 
-},{"./inputradiogroup.coffee":49}],49:[function(require,module,exports){
+
+},{"./inputradiogroup.coffee":50}],50:[function(require,module,exports){
 var KDInputRadioGroup, KDInputView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -10609,7 +10876,8 @@ module.exports = KDInputRadioGroup = (function(_super) {
 })(KDInputView);
 
 
-},{"./inputview.coffee":52}],50:[function(require,module,exports){
+
+},{"./inputview.coffee":53}],51:[function(require,module,exports){
 var KDInputSwitch, KDInputView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -10741,7 +11009,8 @@ module.exports = KDInputSwitch = (function(_super) {
 })(KDInputView);
 
 
-},{"./inputview.coffee":52}],51:[function(require,module,exports){
+
+},{"./inputview.coffee":53}],52:[function(require,module,exports){
 var KDInputValidator;
 
 module.exports = KDInputValidator = (function() {
@@ -10936,7 +11205,8 @@ Credits
  */
 
 
-},{}],52:[function(require,module,exports){
+
+},{}],53:[function(require,module,exports){
 var KDInputValidator, KDInputView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -11701,7 +11971,8 @@ module.exports = KDInputView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":115,"./inputvalidator.coffee":51}],53:[function(require,module,exports){
+
+},{"./../../core/view.coffee":116,"./inputvalidator.coffee":52}],54:[function(require,module,exports){
 var KDLabelView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -11740,7 +12011,8 @@ module.exports = KDLabelView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":115}],54:[function(require,module,exports){
+
+},{"./../../core/view.coffee":116}],55:[function(require,module,exports){
 var KDInputView, KDMultipleChoice,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -11900,7 +12172,8 @@ module.exports = KDMultipleChoice = (function(_super) {
 })(KDInputView);
 
 
-},{"./inputview.coffee":52}],55:[function(require,module,exports){
+
+},{"./inputview.coffee":53}],56:[function(require,module,exports){
 var KDInputView, KDOnOffSwitch,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -12018,7 +12291,8 @@ module.exports = KDOnOffSwitch = (function(_super) {
 })(KDInputView);
 
 
-},{"./inputview.coffee":52}],56:[function(require,module,exports){
+
+},{"./inputview.coffee":53}],57:[function(require,module,exports){
 var KDInputView, KDSelectBox,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -12145,7 +12419,8 @@ module.exports = KDSelectBox = (function(_super) {
 })(KDInputView);
 
 
-},{"./inputview.coffee":52}],57:[function(require,module,exports){
+
+},{"./inputview.coffee":53}],58:[function(require,module,exports){
 var KDContentEditableView, KDContextMenu, KDTokenizedInput,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -12456,7 +12731,8 @@ module.exports = KDTokenizedInput = (function(_super) {
 })(KDContentEditableView);
 
 
-},{"./../contextmenu/contextmenu.coffee":29,"./contenteditableview.coffee":45}],58:[function(require,module,exports){
+
+},{"./../contextmenu/contextmenu.coffee":30,"./contenteditableview.coffee":46}],59:[function(require,module,exports){
 var KDInputView, KDWmdInput,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -12491,7 +12767,8 @@ module.exports = KDWmdInput = (function(_super) {
 })(KDInputView);
 
 
-},{"./inputview.coffee":52}],59:[function(require,module,exports){
+
+},{"./inputview.coffee":53}],60:[function(require,module,exports){
 var KDListItemView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -12561,7 +12838,8 @@ module.exports = KDListItemView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":115}],60:[function(require,module,exports){
+
+},{"./../../core/view.coffee":116}],61:[function(require,module,exports){
 var KDListView, KDListViewBox, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -12866,7 +13144,8 @@ module.exports = KDListView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view":115,"./listviewbox":61}],61:[function(require,module,exports){
+
+},{"./../../core/view":116,"./listviewbox":62}],62:[function(require,module,exports){
 var KDCustomHTMLView, KDListViewBox,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -12900,7 +13179,8 @@ module.exports = KDListViewBox = (function(_super) {
 })(KDCustomHTMLView);
 
 
-},{"../../../libs/mutation-summary.js":7,"../../core/customhtmlview":104}],62:[function(require,module,exports){
+
+},{"../../../libs/mutation-summary.js":8,"../../core/customhtmlview":105}],63:[function(require,module,exports){
 var KDCustomHTMLView, KDCustomScrollView, KDListView, KDListViewController, KDLoaderView, KDScrollView, KDView, KDViewController,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -13503,7 +13783,8 @@ module.exports = KDListViewController = (function(_super) {
 })(KDViewController);
 
 
-},{"./../../core/customhtmlview.coffee":104,"./../../core/view.coffee":115,"./../../core/viewcontroller.coffee":116,"./../list/listview.coffee":60,"./../loader/loaderview.coffee":63,"./../scrollview/customscrollview.coffee":72,"./../scrollview/scrollview.coffee":76}],63:[function(require,module,exports){
+
+},{"./../../core/customhtmlview.coffee":105,"./../../core/view.coffee":116,"./../../core/viewcontroller.coffee":117,"./../list/listview.coffee":61,"./../loader/loaderview.coffee":64,"./../scrollview/customscrollview.coffee":73,"./../scrollview/scrollview.coffee":77}],64:[function(require,module,exports){
 var KDLoaderView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -13582,7 +13863,8 @@ module.exports = KDLoaderView = (function(_super) {
 })(KDView);
 
 
-},{"./../../../libs/canvas-loader.js":1,"./../../core/view.coffee":115}],64:[function(require,module,exports){
+
+},{"./../../../libs/canvas-loader.js":2,"./../../core/view.coffee":116}],65:[function(require,module,exports){
 var KDBlockingModalView, KDModalView, KDOverlayView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -13633,7 +13915,8 @@ module.exports = KDBlockingModalView = (function(_super) {
 })(KDModalView);
 
 
-},{"./../overlay/overlayview.coffee":69,"./modalview.coffee":65}],65:[function(require,module,exports){
+
+},{"./../overlay/overlayview.coffee":70,"./modalview.coffee":66}],66:[function(require,module,exports){
 var KDButtonView, KDModalView, KDModalViewStack, KDOverlayView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -14032,7 +14315,8 @@ module.exports = KDModalView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":115,"./../buttons/buttonview.coffee":26,"./../overlay/overlayview.coffee":69,"./modalviewstack.coffee":66}],66:[function(require,module,exports){
+
+},{"./../../core/view.coffee":116,"./../buttons/buttonview.coffee":27,"./../overlay/overlayview.coffee":70,"./modalviewstack.coffee":67}],67:[function(require,module,exports){
 var KDModalViewStack, KDObject,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -14108,7 +14392,8 @@ module.exports = KDModalViewStack = (function(_super) {
 })(KDObject);
 
 
-},{"./../../core/object.coffee":111}],67:[function(require,module,exports){
+
+},{"./../../core/object.coffee":112}],68:[function(require,module,exports){
 var KDModalView, KDModalViewWithForms, KDTabViewWithForms,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -14162,7 +14447,8 @@ module.exports = KDModalViewWithForms = (function(_super) {
 })(KDModalView);
 
 
-},{"./../tabs/tabviewwithforms":90,"./modalview.coffee":65}],68:[function(require,module,exports){
+
+},{"./../tabs/tabviewwithforms":91,"./modalview.coffee":66}],69:[function(require,module,exports){
 var KDLoaderView, KDNotificationView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -14536,7 +14822,8 @@ module.exports = KDNotificationView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":115,"./../loader/loaderview.coffee":63}],69:[function(require,module,exports){
+
+},{"./../../core/view.coffee":116,"./../loader/loaderview.coffee":64}],70:[function(require,module,exports){
 var KDOverlayView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -14633,7 +14920,8 @@ module.exports = KDOverlayView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":115}],70:[function(require,module,exports){
+
+},{"./../../core/view.coffee":116}],71:[function(require,module,exports){
 var KDSpotlightView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -14758,7 +15046,8 @@ module.exports = KDSpotlightView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":115}],71:[function(require,module,exports){
+
+},{"./../../core/view.coffee":116}],72:[function(require,module,exports){
 var KDCustomHTMLView, KDProgressBarView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -14839,7 +15128,8 @@ module.exports = KDProgressBarView = (function(_super) {
 })(KDCustomHTMLView);
 
 
-},{"./../../core/customhtmlview.coffee":104}],72:[function(require,module,exports){
+
+},{"./../../core/customhtmlview.coffee":105}],73:[function(require,module,exports){
 var KDCustomHTMLView, KDCustomScrollView, KDCustomScrollViewWrapper, KDScrollTrack,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -14969,7 +15259,8 @@ module.exports = KDCustomScrollView = (function(_super) {
 })(KDCustomHTMLView);
 
 
-},{"./../../../libs/mutation-summary.js":7,"./../../core/customhtmlview":104,"./customscrollviewinner":73,"./scrolltrack":75}],73:[function(require,module,exports){
+
+},{"./../../../libs/mutation-summary.js":8,"./../../core/customhtmlview":105,"./customscrollviewinner":74,"./scrolltrack":76}],74:[function(require,module,exports){
 var KDCustomHTMLView, KDCustomScrollViewWrapper, KDScrollThumb, KDScrollTrack, KDScrollView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -15054,7 +15345,8 @@ module.exports = KDCustomScrollViewWrapper = (function(_super) {
 })(KDScrollView);
 
 
-},{"./../../core/customhtmlview":104,"./scrollthumb":74,"./scrolltrack":75,"./scrollview":76,"jquery-mousewheel":8}],74:[function(require,module,exports){
+
+},{"./../../core/customhtmlview":105,"./scrollthumb":75,"./scrolltrack":76,"./scrollview":77,"jquery-mousewheel":9}],75:[function(require,module,exports){
 var KDScrollThumb, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -15207,7 +15499,8 @@ module.exports = KDScrollThumb = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":115}],75:[function(require,module,exports){
+
+},{"./../../core/view.coffee":116}],76:[function(require,module,exports){
 var KDScrollThumb, KDScrollTrack, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -15254,7 +15547,8 @@ module.exports = KDScrollTrack = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view":115,"./scrollthumb.coffee":74}],76:[function(require,module,exports){
+
+},{"./../../core/view":116,"./scrollthumb.coffee":75}],77:[function(require,module,exports){
 var KDScrollView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -15399,7 +15693,8 @@ module.exports = KDScrollView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":115,"jquery-mousewheel":8}],77:[function(require,module,exports){
+
+},{"./../../core/view.coffee":116,"jquery-mousewheel":9}],78:[function(require,module,exports){
 var KDCustomHTMLView, KDSliderBarHandleView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -15516,7 +15811,8 @@ module.exports = KDSliderBarHandleView = (function(_super) {
 })(KDCustomHTMLView);
 
 
-},{"./../../core/customhtmlview.coffee":104}],78:[function(require,module,exports){
+
+},{"./../../core/customhtmlview.coffee":105}],79:[function(require,module,exports){
 var KDCustomHTMLView, KDSliderBarHandleView, KDSliderBarView,
   __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   __hasProp = {}.hasOwnProperty,
@@ -15756,7 +16052,8 @@ module.exports = KDSliderBarView = (function(_super) {
 })(KDCustomHTMLView);
 
 
-},{"./../../core/customhtmlview.coffee":104,"./sliderbarhandleview.coffee":77}],79:[function(require,module,exports){
+
+},{"./../../core/customhtmlview.coffee":105,"./sliderbarhandleview.coffee":78}],80:[function(require,module,exports){
 var KDSlidePageView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -15789,7 +16086,8 @@ module.exports = KDSlidePageView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":115}],80:[function(require,module,exports){
+
+},{"./../../core/view.coffee":116}],81:[function(require,module,exports){
 var KDSlideShowView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -15932,7 +16230,8 @@ module.exports = KDSlideShowView = (function(_super) {
 })(KDView);
 
 
-},{"./../../../libs/hammer.js":2,"./../../core/view.coffee":115}],81:[function(require,module,exports){
+
+},{"./../../../libs/hammer.js":3,"./../../core/view.coffee":116}],82:[function(require,module,exports){
 var KDSplitComboView, KDSplitView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -15981,7 +16280,8 @@ module.exports = KDSplitComboView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":115,"./splitview.coffee":84}],82:[function(require,module,exports){
+
+},{"./../../core/view.coffee":116,"./splitview.coffee":85}],83:[function(require,module,exports){
 var KDScrollView, KDSplitViewPanel,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -16098,7 +16398,8 @@ module.exports = KDSplitViewPanel = (function(_super) {
 })(KDScrollView);
 
 
-},{"./../scrollview/scrollview.coffee":76}],83:[function(require,module,exports){
+
+},{"./../scrollview/scrollview.coffee":77}],84:[function(require,module,exports){
 var KDSplitResizer, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -16202,7 +16503,8 @@ module.exports = KDSplitResizer = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":115}],84:[function(require,module,exports){
+
+},{"./../../core/view.coffee":116}],85:[function(require,module,exports){
 var KD, KDSplitResizer, KDSplitView, KDSplitViewPanel, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -16666,7 +16968,8 @@ module.exports = KDSplitView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/kd.coffee":107,"./../../core/view.coffee":115,"./splitpanel.coffee":82,"./splitresizer.coffee":83}],85:[function(require,module,exports){
+
+},{"./../../core/kd.coffee":108,"./../../core/view.coffee":116,"./splitpanel.coffee":83,"./splitresizer.coffee":84}],86:[function(require,module,exports){
 var KDTabHandleContainer, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -16695,7 +16998,8 @@ module.exports = KDTabHandleContainer = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":115}],86:[function(require,module,exports){
+
+},{"./../../core/view.coffee":116}],87:[function(require,module,exports){
 var KDCustomHTMLView, KDTabHandleMoveNav,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -16773,7 +17077,8 @@ module.exports = KDTabHandleMoveNav = (function(_super) {
 })(KDCustomHTMLView);
 
 
-},{"./../../core/customhtmlview.coffee":104}],87:[function(require,module,exports){
+
+},{"./../../core/customhtmlview.coffee":105}],88:[function(require,module,exports){
 var KDTabHandleView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -16968,7 +17273,8 @@ module.exports = KDTabHandleView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":115}],88:[function(require,module,exports){
+
+},{"./../../core/view.coffee":116}],89:[function(require,module,exports){
 var KDTabPaneView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -17112,7 +17418,8 @@ module.exports = KDTabPaneView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":115}],89:[function(require,module,exports){
+
+},{"./../../core/view.coffee":116}],90:[function(require,module,exports){
 var KDScrollView, KDTabHandleContainer, KDTabHandleMoveNav, KDTabView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -17658,7 +17965,8 @@ module.exports = KDTabView = (function(_super) {
 })(KDScrollView);
 
 
-},{"./../scrollview/scrollview.coffee":76,"./tabhandlecontainer.coffee":85,"./tabhandlemovenav.coffee":86}],90:[function(require,module,exports){
+
+},{"./../scrollview/scrollview.coffee":77,"./tabhandlecontainer.coffee":86,"./tabhandlemovenav.coffee":87}],91:[function(require,module,exports){
 var KDFormViewWithFields, KDTabPaneView, KDTabView, KDTabViewWithForms,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -17764,7 +18072,8 @@ module.exports = KDTabViewWithForms = (function(_super) {
 })(KDTabView);
 
 
-},{"./../forms/formviewwithfields.coffee":41,"./tabpaneview.coffee":88,"./tabview.coffee":89}],91:[function(require,module,exports){
+
+},{"./../forms/formviewwithfields.coffee":42,"./tabpaneview.coffee":89,"./tabview.coffee":90}],92:[function(require,module,exports){
 var KDTimeAgoView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -17809,7 +18118,8 @@ module.exports = KDTimeAgoView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":115}],92:[function(require,module,exports){
+
+},{"./../../core/view.coffee":116}],93:[function(require,module,exports){
 
 /*
 
@@ -18174,7 +18484,8 @@ module.exports = KDTooltip = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":115}],93:[function(require,module,exports){
+
+},{"./../../core/view.coffee":116}],94:[function(require,module,exports){
 var JTreeItemView, KDListItemView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -18249,7 +18560,8 @@ module.exports = JTreeItemView = (function(_super) {
 })(KDListItemView);
 
 
-},{"./../list/listitemview.coffee":59}],94:[function(require,module,exports){
+
+},{"./../list/listitemview.coffee":60}],95:[function(require,module,exports){
 var JTreeView, KDListView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -18349,7 +18661,8 @@ module.exports = JTreeView = (function(_super) {
 })(KDListView);
 
 
-},{"./../list/listview.coffee":60}],95:[function(require,module,exports){
+
+},{"./../list/listview.coffee":61}],96:[function(require,module,exports){
 var JTreeViewController, KDListViewController, KDScrollView, KDViewController,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -19328,7 +19641,8 @@ module.exports = JTreeViewController = (function(_super) {
 })(KDViewController);
 
 
-},{"./../../core/viewcontroller.coffee":116,"./../list/listviewcontroller.coffee":62,"./../scrollview/scrollview.coffee":76}],96:[function(require,module,exports){
+
+},{"./../../core/viewcontroller.coffee":117,"./../list/listviewcontroller.coffee":63,"./../scrollview/scrollview.coffee":77}],97:[function(require,module,exports){
 var KDCustomHTMLView, KDFileUploadArea, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -19402,7 +19716,8 @@ module.exports = KDFileUploadArea = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/customhtmlview.coffee":104,"./../../core/view.coffee":115}],97:[function(require,module,exports){
+
+},{"./../../core/customhtmlview.coffee":105,"./../../core/view.coffee":116}],98:[function(require,module,exports){
 var KDFileUploadListItemView, KDListItemView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -19439,7 +19754,8 @@ module.exports = KDFileUploadListItemView = (function(_super) {
 })(KDListItemView);
 
 
-},{"./../list/listitemview.coffee":59}],98:[function(require,module,exports){
+
+},{"./../list/listitemview.coffee":60}],99:[function(require,module,exports){
 var KDFileUploadListView, KDListView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -19473,7 +19789,8 @@ module.exports = KDFileUploadListView = (function(_super) {
 })(KDListView);
 
 
-},{"./../list/listview.coffee":60}],99:[function(require,module,exports){
+
+},{"./../list/listview.coffee":61}],100:[function(require,module,exports){
 var KDFileUploadThumbItemView, KDListItemView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -19513,7 +19830,8 @@ module.exports = KDFileUploadThumbItemView = (function(_super) {
 })(KDListItemView);
 
 
-},{"./../list/listitemview.coffee":59}],100:[function(require,module,exports){
+
+},{"./../list/listitemview.coffee":60}],101:[function(require,module,exports){
 var KDFileUploadListView, KDFileUploadThumbListView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -19536,7 +19854,8 @@ module.exports = KDFileUploadThumbListView = (function(_super) {
 })(KDFileUploadListView);
 
 
-},{"./fileuploadlistview.coffee":98}],101:[function(require,module,exports){
+
+},{"./fileuploadlistview.coffee":99}],102:[function(require,module,exports){
 var KDFileUploadArea, KDFileUploadListView, KDFileUploadThumbListView, KDFileUploadView, KDListViewController, KDMultipartUploader, KDNotificationView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -19764,7 +20083,8 @@ module.exports = KDFileUploadView = (function(_super) {
 })(KDView);
 
 
-},{"./../../core/view.coffee":115,"./../list/listviewcontroller.coffee":62,"./../notifications/notificationview.coffee":68,"./fileuploadarea.coffee":96,"./fileuploadlistview.coffee":98,"./fileuploadthumblistview.coffee":100,"./multipartuploader.coffee":102}],102:[function(require,module,exports){
+
+},{"./../../core/view.coffee":116,"./../list/listviewcontroller.coffee":63,"./../notifications/notificationview.coffee":69,"./fileuploadarea.coffee":97,"./fileuploadlistview.coffee":99,"./fileuploadthumblistview.coffee":101,"./multipartuploader.coffee":103}],103:[function(require,module,exports){
 var KDEventEmitter, KDMultipartUploader,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -19873,7 +20193,8 @@ module.exports = KDMultipartUploader = (function(_super) {
 })(KDEventEmitter);
 
 
-},{"./../../core/eventemitter.coffee":105}],103:[function(require,module,exports){
+
+},{"./../../core/eventemitter.coffee":106}],104:[function(require,module,exports){
 var KDController, KDObject,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -19892,7 +20213,8 @@ module.exports = KDController = (function(_super) {
 })(KDObject);
 
 
-},{"./object.coffee":111}],104:[function(require,module,exports){
+
+},{"./object.coffee":112}],105:[function(require,module,exports){
 var KDCustomHTMLView, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -19935,7 +20257,8 @@ module.exports = KDCustomHTMLView = (function(_super) {
 })(KDView);
 
 
-},{"./view.coffee":115}],105:[function(require,module,exports){
+
+},{"./view.coffee":116}],106:[function(require,module,exports){
 var KDEventEmitter,
   __slice = [].slice;
 
@@ -20093,7 +20416,8 @@ module.exports = KDEventEmitter = (function() {
 })();
 
 
-},{}],106:[function(require,module,exports){
+
+},{}],107:[function(require,module,exports){
 var KDEventEmitter,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -20220,7 +20544,8 @@ module.exports = KDEventEmitter.Wildcard = (function(_super) {
 })(KDEventEmitter);
 
 
-},{"./eventemitter.coffee":105}],107:[function(require,module,exports){
+
+},{"./eventemitter.coffee":106}],108:[function(require,module,exports){
 var e, noop, utils,
   __hasProp = {}.hasOwnProperty;
 
@@ -20358,7 +20683,8 @@ window.KD = $.extend(window.KD, (function() {
 module.exports = KD;
 
 
-},{"./support":113,"./utils.coffee":114}],108:[function(require,module,exports){
+
+},{"./support":114,"./utils.coffee":115}],109:[function(require,module,exports){
 /*Copyright (c) 2012 Jessie
 
 Permission is hereby granted, free of charge, to any person obtaining
@@ -21941,7 +22267,7 @@ KD.dom.addClass = addClass;
 }(window));
 
 module.exports = KD.dom;
-},{}],109:[function(require,module,exports){
+},{}],110:[function(require,module,exports){
 var KDKeyboardListener,
   __hasProp = {}.hasOwnProperty;
 
@@ -22067,7 +22393,8 @@ module.exports = KDKeyboardListener = (function() {
 })();
 
 
-},{"./../../../libs/mousetrap-global-bind.js":5,"./../../../libs/mousetrap.js":6}],110:[function(require,module,exports){
+
+},{"./../../../libs/mousetrap-global-bind.js":6,"./../../../libs/mousetrap.js":7}],111:[function(require,module,exports){
 var KDKeyboardMap,
   __hasProp = {}.hasOwnProperty;
 
@@ -22119,7 +22446,8 @@ module.exports = KDKeyboardMap = (function() {
 })();
 
 
-},{}],111:[function(require,module,exports){
+
+},{}],112:[function(require,module,exports){
 var KD, KDEventEmitter, KDObject,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -22297,7 +22625,8 @@ module.exports = KDObject = (function(_super) {
 })(KDEventEmitter);
 
 
-},{"./eventemitter.coffee":105,"./kd.coffee":107}],112:[function(require,module,exports){
+
+},{"./eventemitter.coffee":106,"./kd.coffee":108}],113:[function(require,module,exports){
 var KDNotificationView, KDObject, KDRouter,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -22579,7 +22908,8 @@ module.exports = KDRouter = (function(_super) {
 })(KDObject);
 
 
-},{"./../components/notifications/notificationview.coffee":68,"./object.coffee":111}],113:[function(require,module,exports){
+
+},{"./../components/notifications/notificationview.coffee":69,"./object.coffee":112}],114:[function(require,module,exports){
 var _base, _ref, _ref1, _ref2, _ref3, _ref4, _ref5;
 
 (_base = Function.prototype).bind || (_base.bind = function(context) {
@@ -22643,7 +22973,8 @@ String.prototype.trim = function() {
 })(Array.prototype, Object);
 
 
-},{}],114:[function(require,module,exports){
+
+},{}],115:[function(require,module,exports){
 var Inflector, createCounter,
   __slice = [].slice;
 
@@ -23344,7 +23675,8 @@ module.exports = {
 };
 
 
-},{"./../../libs/inflector.js":3}],115:[function(require,module,exports){
+
+},{"./../../libs/inflector.js":4}],116:[function(require,module,exports){
 var KDObject, KDView,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -24528,7 +24860,8 @@ module.exports = KDView = (function(_super) {
 })(KDObject);
 
 
-},{"./../components/overlay/overlayview.coffee":69,"./../components/tooltip/tooltip.coffee":92,"./object.coffee":111}],116:[function(require,module,exports){
+
+},{"./../components/overlay/overlayview.coffee":70,"./../components/tooltip/tooltip.coffee":93,"./object.coffee":112}],117:[function(require,module,exports){
 var KDController, KDView, KDViewController,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -24579,7 +24912,8 @@ module.exports = KDViewController = (function(_super) {
 })(KDController);
 
 
-},{"./controller.coffee":103,"./view.coffee":115}],117:[function(require,module,exports){
+
+},{"./controller.coffee":104,"./view.coffee":116}],118:[function(require,module,exports){
 
 /*
 todo:
@@ -24986,234 +25320,10 @@ module.exports = KDWindowController = (function(_super) {
 })();
 
 
-},{"./controller.coffee":103,"./kd.coffee":107}],118:[function(require,module,exports){
-var KD, utils;
 
-require('./lib.includes.coffee');
-
-utils = require('./core/utils.coffee');
-
-KD = require('./core/kd.coffee');
-
-KD.dom = require('./core/kd.dom.js');
-
-KD.classes = {};
-
-KD.classes.KDAutoComplete = require("./components/autocomplete/autocomplete.coffee");
-
-KD.classes.KDAutoCompleteController = require("./components/autocomplete/autocompletecontroller.coffee");
-
-KD.classes.KDAutoCompletedItem = require("./components/autocomplete/autocompleteditems.coffee");
-
-KD.classes.KDAutoCompleteFetchingItem = require("./components/autocomplete/autocompletefetchingitem.coffee");
-
-KD.classes.KDAutoCompleteListView = require("./components/autocomplete/autocompletelist.coffee");
-
-KD.classes.KDAutoCompleteListItemView = require("./components/autocomplete/autocompletelistitem.coffee");
-
-KD.classes.KDAutoCompleteNothingFoundItem = require("./components/autocomplete/autocompletenothingfounditem.coffee");
-
-KD.classes.KDAutocompleteUnselecteableItem = require("./components/autocomplete/autocompleteunselecteableitem.coffee");
-
-KD.classes.MultipleInputListView = require("./components/autocomplete/multipleinputlistview.coffee");
-
-KD.classes.KDMultipleInputView = require("./components/autocomplete/multipleinputview.coffee");
-
-KD.classes.MultipleListItemView = require("./components/autocomplete/multiplelistitemview.coffee");
-
-KD.classes.NoAutocompleteInputView = require("./components/autocomplete/noautocompleteinputview.coffee");
-
-KD.classes.NoAutocompleteMultipleListView = require("./components/autocomplete/noautocompletemultiplelistview.coffee");
-
-KD.classes.KDSimpleAutocomplete = require("./components/autocomplete/simpleautocomplete.coffee");
-
-KD.classes.KDButtonBar = require("./components/buttons/buttonbar.coffee");
-
-KD.classes.KDButtonGroupView = require("./components/buttons/buttongroupview.coffee");
-
-KD.classes.JButtonMenu = require("./components/buttons/buttonmenu.coffee");
-
-KD.classes.KDButtonView = require("./components/buttons/buttonview.coffee");
-
-KD.classes.KDButtonViewWithMenu = require("./components/buttons/buttonviewwithmenu.coffee");
-
-KD.classes.KDToggleButton = require("./components/buttons/togglebutton.coffee");
-
-KD.classes.KDContextMenu = require("./components/contextmenu/contextmenu.coffee");
-
-KD.classes.JContextMenuItem = require("./components/contextmenu/contextmenuitem.coffee");
-
-KD.classes.JContextMenuTreeView = require("./components/contextmenu/contextmenutreeview.coffee");
-
-KD.classes.JContextMenuTreeViewController = require("./components/contextmenu/contextmenutreeviewcontroller.coffee");
-
-KD.classes.KDCounterDigitView = require("./components/counter/counterdigitview.coffee");
-
-KD.classes.KDCounterView = require("./components/counter/counterview.coffee");
-
-KD.classes.KDDiaContainer = require("./components/dia/diacontainer.coffee");
-
-KD.classes.KDDiaJoint = require("./components/dia/diajoint.coffee");
-
-KD.classes.KDDiaObject = require("./components/dia/diaobject.coffee");
-
-KD.classes.KDDiaScene = require("./components/dia/diascene.coffee");
-
-KD.classes.KDDialogView = require("./components/dialog/dialogview.coffee");
-
-KD.classes.KDFormView = require("./components/forms/formview.coffee");
-
-KD.classes.KDFormViewWithFields = require("./components/forms/formviewwithfields.coffee");
-
-KD.classes.KDHeaderView = require("./components/header/headerview.coffee");
-
-KD.classes.KDWebcamView = require("./components/image/webcamview.coffee");
-
-KD.classes.KDCheckBox = require("./components/inputs/checkbox.coffee");
-
-KD.classes.KDContentEditableView = require("./components/inputs/contenteditableview.coffee");
-
-KD.classes.KDDelimitedInputView = require("./components/inputs/delimitedinputview.coffee");
-
-KD.classes.KDHitEnterInputView = require("./components/inputs/hitenterinputview.coffee");
-
-KD.classes.KDInputCheckboxGroup = require("./components/inputs/inputcheckboxgroup.coffee");
-
-KD.classes.KDInputRadioGroup = require("./components/inputs/inputradiogroup.coffee");
-
-KD.classes.KDInputSwitch = require("./components/inputs/inputswitch.coffee");
-
-KD.classes.KDInputValidator = require("./components/inputs/inputvalidator.coffee");
-
-KD.classes.KDInputView = require("./components/inputs/inputview.coffee");
-
-KD.classes.KDLabelView = require("./components/inputs/labelview.coffee");
-
-KD.classes.KDMultipleChoice = require("./components/inputs/multiplechoice.coffee");
-
-KD.classes.KDOnOffSwitch = require("./components/inputs/onoffswitch.coffee");
-
-KD.classes.KDSelectBox = require("./components/inputs/selectbox.coffee");
-
-KD.classes.KDTokenizedInput = require("./components/inputs/tokenizedinputview.coffee");
-
-KD.classes.KDWmdInput = require("./components/inputs/wmdinput.coffee");
-
-KD.classes.KDListItemView = require("./components/list/listitemview.coffee");
-
-KD.classes.KDListView = require("./components/list/listview.coffee");
-
-KD.classes.KDListViewBox = require("./components/list/listviewbox.coffee");
-
-KD.classes.KDListViewController = require("./components/list/listviewcontroller.coffee");
-
-KD.classes.KDLoaderView = require("./components/loader/loaderview.coffee");
-
-KD.classes.KDBlockingModalView = require("./components/modals/blockingmodalview.coffee");
-
-KD.classes.KDModalView = require("./components/modals/modalview.coffee");
-
-KD.classes.KDModalViewStack = require("./components/modals/modalviewstack.coffee");
-
-KD.classes.KDModalViewWithForms = require("./components/modals/modalviewwithforms.coffee");
-
-KD.classes.KDNotificationView = require("./components/notifications/notificationview.coffee");
-
-KD.classes.KDOverlayView = require("./components/overlay/overlayview.coffee");
-
-KD.classes.KDSpotlightView = require("./components/overlay/spotlightview.coffee");
-
-KD.classes.KDProgressBarView = require("./components/progressbar/progressbarview.coffee");
-
-KD.classes.KDCustomScrollView = require("./components/scrollview/customscrollview.coffee");
-
-KD.classes.KDCustomScrollViewWrapper = require("./components/scrollview/customscrollviewinner.coffee");
-
-KD.classes.KDScrollThumb = require("./components/scrollview/scrollthumb.coffee");
-
-KD.classes.KDScrollTrack = require("./components/scrollview/scrolltrack.coffee");
-
-KD.classes.KDScrollView = require("./components/scrollview/scrollview.coffee");
-
-KD.classes.KDSliderBarHandleView = require("./components/sliderbar/sliderbarhandleview.coffee");
-
-KD.classes.KDSliderBarView = require("./components/sliderbar/sliderbarview.coffee");
-
-KD.classes.KDSlidePageView = require("./components/slideshow/slidepageview.coffee");
-
-KD.classes.KDSlideShowView = require("./components/slideshow/slideshowview.coffee");
-
-KD.classes.KDSplitComboView = require("./components/split/splitcomboview.coffee");
-
-KD.classes.KDSplitViewPanel = require("./components/split/splitpanel.coffee");
-
-KD.classes.KDSplitResizer = require("./components/split/splitresizer.coffee");
-
-KD.classes.KDSplitView = require("./components/split/splitview.coffee");
-
-KD.classes.KDTabHandleContainer = require("./components/tabs/tabhandlecontainer.coffee");
-
-KD.classes.KDTabHandleMoveNav = require("./components/tabs/tabhandlemovenav.coffee");
-
-KD.classes.KDTabHandleView = require("./components/tabs/tabhandleview.coffee");
-
-KD.classes.KDTabPaneView = require("./components/tabs/tabpaneview.coffee");
-
-KD.classes.KDTabView = require("./components/tabs/tabview.coffee");
-
-KD.classes.KDTabViewWithForms = require("./components/tabs/tabviewwithforms.coffee");
-
-KD.classes.KDTimeAgoView = require("./components/time/timeagoview.coffee");
-
-KD.classes.KDTooltip = require("./components/tooltip/tooltip.coffee");
-
-KD.classes.JTreeItemView = require("./components/tree/treeitemview.coffee");
-
-KD.classes.JTreeView = require("./components/tree/treeview.coffee");
-
-KD.classes.JTreeViewController = require("./components/tree/treeviewcontroller.coffee");
-
-KD.classes.KDFileUploadArea = require("./components/upload/fileuploadarea.coffee");
-
-KD.classes.KDFileUploadListItemView = require("./components/upload/fileuploadlistitemview.coffee");
-
-KD.classes.KDFileUploadListView = require("./components/upload/fileuploadlistview.coffee");
-
-KD.classes.KDFileUploadThumbItemView = require("./components/upload/fileuploadthumbitemview.coffee");
-
-KD.classes.KDFileUploadThumbListView = require("./components/upload/fileuploadthumblistview.coffee");
-
-KD.classes.KDFileUploadView = require("./components/upload/fileuploadview.coffee");
-
-KD.classes.KDMultipartUploader = require("./components/upload/multipartuploader.coffee");
-
-KD.classes.KDController = require("./core/controller.coffee");
-
-KD.classes.KDCustomHTMLView = require("./core/customhtmlview.coffee");
-
-KD.classes.KDEventEmitter = require("./core/eventemitter.coffee");
-
-KD.classes.KDEventEmitter.Wildcard = require("./core/eventemitterwildcard.coffee");
-
-KD.classes.KDKeyboardListener = require("./core/keyboard/listener.coffee");
-
-KD.classes.KDKeyboardMap = require("./core/keyboard/map.coffee");
-
-KD.classes.KDObject = require("./core/object.coffee");
-
-KD.classes.KDRouter = require("./core/router.coffee");
-
-KD.classes.KDView = require("./core/view.coffee");
-
-KD.classes.KDViewController = require("./core/viewcontroller.coffee");
-
-KD.classes.KDWindowController = require("./core/windowcontroller.coffee");
-
-KD.exportKDFramework();
-
-
-},{"./components/autocomplete/autocomplete.coffee":9,"./components/autocomplete/autocompletecontroller.coffee":10,"./components/autocomplete/autocompleteditems.coffee":11,"./components/autocomplete/autocompletefetchingitem.coffee":12,"./components/autocomplete/autocompletelist.coffee":13,"./components/autocomplete/autocompletelistitem.coffee":14,"./components/autocomplete/autocompletenothingfounditem.coffee":15,"./components/autocomplete/autocompleteunselecteableitem.coffee":16,"./components/autocomplete/multipleinputlistview.coffee":17,"./components/autocomplete/multipleinputview.coffee":18,"./components/autocomplete/multiplelistitemview.coffee":19,"./components/autocomplete/noautocompleteinputview.coffee":20,"./components/autocomplete/noautocompletemultiplelistview.coffee":21,"./components/autocomplete/simpleautocomplete.coffee":22,"./components/buttons/buttonbar.coffee":23,"./components/buttons/buttongroupview.coffee":24,"./components/buttons/buttonmenu.coffee":25,"./components/buttons/buttonview.coffee":26,"./components/buttons/buttonviewwithmenu.coffee":27,"./components/buttons/togglebutton.coffee":28,"./components/contextmenu/contextmenu.coffee":29,"./components/contextmenu/contextmenuitem.coffee":30,"./components/contextmenu/contextmenutreeview.coffee":31,"./components/contextmenu/contextmenutreeviewcontroller.coffee":32,"./components/counter/counterdigitview.coffee":33,"./components/counter/counterview.coffee":34,"./components/dia/diacontainer.coffee":35,"./components/dia/diajoint.coffee":36,"./components/dia/diaobject.coffee":37,"./components/dia/diascene.coffee":38,"./components/dialog/dialogview.coffee":39,"./components/forms/formview.coffee":40,"./components/forms/formviewwithfields.coffee":41,"./components/header/headerview.coffee":42,"./components/image/webcamview.coffee":43,"./components/inputs/checkbox.coffee":44,"./components/inputs/contenteditableview.coffee":45,"./components/inputs/delimitedinputview.coffee":46,"./components/inputs/hitenterinputview.coffee":47,"./components/inputs/inputcheckboxgroup.coffee":48,"./components/inputs/inputradiogroup.coffee":49,"./components/inputs/inputswitch.coffee":50,"./components/inputs/inputvalidator.coffee":51,"./components/inputs/inputview.coffee":52,"./components/inputs/labelview.coffee":53,"./components/inputs/multiplechoice.coffee":54,"./components/inputs/onoffswitch.coffee":55,"./components/inputs/selectbox.coffee":56,"./components/inputs/tokenizedinputview.coffee":57,"./components/inputs/wmdinput.coffee":58,"./components/list/listitemview.coffee":59,"./components/list/listview.coffee":60,"./components/list/listviewbox.coffee":61,"./components/list/listviewcontroller.coffee":62,"./components/loader/loaderview.coffee":63,"./components/modals/blockingmodalview.coffee":64,"./components/modals/modalview.coffee":65,"./components/modals/modalviewstack.coffee":66,"./components/modals/modalviewwithforms.coffee":67,"./components/notifications/notificationview.coffee":68,"./components/overlay/overlayview.coffee":69,"./components/overlay/spotlightview.coffee":70,"./components/progressbar/progressbarview.coffee":71,"./components/scrollview/customscrollview.coffee":72,"./components/scrollview/customscrollviewinner.coffee":73,"./components/scrollview/scrollthumb.coffee":74,"./components/scrollview/scrolltrack.coffee":75,"./components/scrollview/scrollview.coffee":76,"./components/sliderbar/sliderbarhandleview.coffee":77,"./components/sliderbar/sliderbarview.coffee":78,"./components/slideshow/slidepageview.coffee":79,"./components/slideshow/slideshowview.coffee":80,"./components/split/splitcomboview.coffee":81,"./components/split/splitpanel.coffee":82,"./components/split/splitresizer.coffee":83,"./components/split/splitview.coffee":84,"./components/tabs/tabhandlecontainer.coffee":85,"./components/tabs/tabhandlemovenav.coffee":86,"./components/tabs/tabhandleview.coffee":87,"./components/tabs/tabpaneview.coffee":88,"./components/tabs/tabview.coffee":89,"./components/tabs/tabviewwithforms.coffee":90,"./components/time/timeagoview.coffee":91,"./components/tooltip/tooltip.coffee":92,"./components/tree/treeitemview.coffee":93,"./components/tree/treeview.coffee":94,"./components/tree/treeviewcontroller.coffee":95,"./components/upload/fileuploadarea.coffee":96,"./components/upload/fileuploadlistitemview.coffee":97,"./components/upload/fileuploadlistview.coffee":98,"./components/upload/fileuploadthumbitemview.coffee":99,"./components/upload/fileuploadthumblistview.coffee":100,"./components/upload/fileuploadview.coffee":101,"./components/upload/multipartuploader.coffee":102,"./core/controller.coffee":103,"./core/customhtmlview.coffee":104,"./core/eventemitter.coffee":105,"./core/eventemitterwildcard.coffee":106,"./core/kd.coffee":107,"./core/kd.dom.js":108,"./core/keyboard/listener.coffee":109,"./core/keyboard/map.coffee":110,"./core/object.coffee":111,"./core/router.coffee":112,"./core/utils.coffee":114,"./core/view.coffee":115,"./core/viewcontroller.coffee":116,"./core/windowcontroller.coffee":117,"./lib.includes.coffee":119}],119:[function(require,module,exports){
+},{"./controller.coffee":104,"./kd.coffee":108}],119:[function(require,module,exports){
 module.exports = ["./libs/docwritenoop.js", "./libs/encode.js", "./libs/jquery-2.1.1.js"];
 
 
-},{}]},{},[118])
+
+},{}]},{},[1]);

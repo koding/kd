@@ -565,15 +565,12 @@ section.content-section article p:last-of-type+.kdtabview {
   0% {
     background-position: 18px 9px;
   }
-
   49% {
     background-position: 18px 36px;
   }
-
   49.1% {
     background-position: 18px -24px;
   }
-
   100 {
     background-position: 18px 9px;
   }
@@ -582,15 +579,12 @@ section.content-section article p:last-of-type+.kdtabview {
   0% {
     background-position: 18px 9px;
   }
-
   49% {
     background-position: 18px 36px;
   }
-
   49.1% {
     background-position: 18px -24px;
   }
-
   100 {
     background-position: 18px 9px;
   }
@@ -599,32 +593,12 @@ section.content-section article p:last-of-type+.kdtabview {
   0% {
     background-position: 18px 9px;
   }
-
   49% {
     background-position: 18px 36px;
   }
-
   49.1% {
     background-position: 18px -24px;
   }
-
-  100 {
-    background-position: 18px 9px;
-  }
-}
-@-ms-keyframes downloadIcon {
-  0% {
-    background-position: 18px 9px;
-  }
-
-  49% {
-    background-position: 18px 36px;
-  }
-
-  49.1% {
-    background-position: 18px -24px;
-  }
-
   100 {
     background-position: 18px 9px;
   }
@@ -633,15 +607,12 @@ section.content-section article p:last-of-type+.kdtabview {
   0% {
     background-position: 18px 9px;
   }
-
   49% {
     background-position: 18px 36px;
   }
-
   49.1% {
     background-position: 18px -24px;
   }
-
   100 {
     background-position: 18px 9px;
   }

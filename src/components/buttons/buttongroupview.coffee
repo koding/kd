@@ -17,8 +17,8 @@ module.exports = class KDButtonGroupView extends KDView
 
     for own buttonTitle, buttonOptions of allButtonOptions
       buttonClass = buttonOptions.buttonClass or KDButtonView
-      buttonOptions.title = buttonTitle
-      buttonOptions.style = ""
+      buttonOptions.title or= buttonTitle
+      buttonOptions.style or= ""
       @addSubView @buttons[buttonTitle] = new buttonClass buttonOptions
       @buttons[buttonTitle].on "click", (event)=>
         @buttonReceivedClick @buttons[buttonTitle], event

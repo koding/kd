@@ -4,6 +4,7 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 /* COLORS */
 /* FUNCTIONS */
 
+
 /*
 KD FRAMEWORK stylesheet starts
 kd.styl
@@ -656,6 +657,7 @@ span.close-btn-x:hover {
   min-width: 1px;
 }
 
+
 /*
 KDInputView styles
 */
@@ -805,6 +807,7 @@ select.kdinput.select:focus {
   -moz-box-shadow: 0 0 3px rgba(125,190,241,0.7);
   box-shadow: 0 0 3px rgba(125,190,241,0.7);
 }
+
 /*
 KDInputView > KDSelectBox styles
 */
@@ -877,6 +880,7 @@ div.kdselectbox span.arrows {
 .kd-checkbox-holder label {
   display: inline-block;
 }
+
 /*
 KDInputView > KDSwitch styles
 */
@@ -896,6 +900,7 @@ KDInputView > KDSwitch styles
 .kdinputswitch.on {
   background-position: left top;
 }
+
 /*
 KDInputView > KDOnOffSwitch styles
 */
@@ -1159,6 +1164,7 @@ span.kdinputhint {
   top: 0;
   left: 0;
 }
+
 /*
 KDContentEditableView
 */
@@ -1167,6 +1173,7 @@ KDContentEditableView
   height: 100%;
   min-width: 1px;
 }
+
 /*
 KDInputView > KDTokenizedInputView styles
 */
@@ -2428,11 +2435,9 @@ button.transparent:active {
   0% {
     -webkit-transform: scale(1);
   }
-
   50% {
     -webkit-transform: scale(1.03);
   }
-
   100% {
     -webkit-transform: scale(1);
   }
@@ -2441,11 +2446,9 @@ button.transparent:active {
   0% {
     -webkit-transform: scale(1);
   }
-
   50% {
     -webkit-transform: scale(1.03);
   }
-
   100% {
     -webkit-transform: scale(1);
   }
@@ -2521,7 +2524,6 @@ button.transparent:active {
   0% {
     margin-left: -50%;
   }
-
   100% {
     margin-left: 101%;
   }
@@ -2530,7 +2532,6 @@ button.transparent:active {
   0% {
     margin-left: -50%;
   }
-
   100% {
     margin-left: 101%;
   }
@@ -2539,16 +2540,6 @@ button.transparent:active {
   0% {
     margin-left: -50%;
   }
-
-  100% {
-    margin-left: 101%;
-  }
-}
-@-ms-keyframes progressbar-spinner {
-  0% {
-    margin-left: -50%;
-  }
-
   100% {
     margin-left: 101%;
   }
@@ -2557,7 +2548,6 @@ button.transparent:active {
   0% {
     margin-left: -50%;
   }
-
   100% {
     margin-left: 101%;
   }
@@ -2667,6 +2657,7 @@ button.transparent:active {
   z-index: 2;
   position: absolute;
 }
+
 
 /*
 KDFormView stylesheet
@@ -3409,7 +3400,6 @@ div.kd-page.rotateFromBottom {
   0% {
     -webkit-transform: rotateX(180deg);
   }
-
   100% {
     -webkit-transform: rotateX(0deg);
   }
@@ -3418,7 +3408,6 @@ div.kd-page.rotateFromBottom {
   0% {
     -webkit-transform: rotateX(0deg);
   }
-
   100% {
     -webkit-transform: rotateX(-180deg);
   }

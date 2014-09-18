@@ -90,7 +90,7 @@ gulp.task 'libs', ->
 
 gulp.task 'export', ->
 
-  return  unless if argv.entryPath
+  return  if argv.entryPath
   
   exec "cd ./src;sh exporter.sh > entry.coffee; cd .."
 

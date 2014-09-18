@@ -89,7 +89,11 @@ gulp.task 'libs', ->
     .pipe gulp.dest "#{buildDir}/js"
 
 gulp.task 'export', ->
+
+  return  unless if argv.entryPath
+  
   exec "cd ./src;sh exporter.sh > entry.coffee; cd .."
+
 
 gulp.task 'coffee', ['export'], ->
 

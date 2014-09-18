@@ -6,18 +6,14 @@ coffeeify  = require 'coffeeify'
 rename     = require 'gulp-rename'
 uglify     = require 'gulp-uglify'
 stylus     = require 'gulp-stylus'
-livereload = require 'gulp-livereload'
 concat     = require 'gulp-concat'
 minifyCSS  = require 'gulp-minify-css'
-karma      = require 'gulp-karma'
 rimraf     = require 'gulp-rimraf'
-markdox    = require 'gulp-markdox'
 fs         = require 'fs'
 http       = require 'http'
 argv       = require('minimist') process.argv
 source     = require 'vinyl-source-stream'
 gulpBuffer = require 'gulp-buffer'
-express    = require 'express'
 Promise    = require 'bluebird'
 exec       = Promise.promisify (require 'child_process').exec
 
@@ -42,6 +38,7 @@ gulpBrowserify = (options) ->
   b.bundle()
 
 watchLogger = (color, watcher) ->
+  livereload = require 'gulp-livereload'
   server = livereload()  if useLiveReload
   watcher.on 'change', (event) ->
     log color, "file #{event.path} was #{event.type}"
@@ -120,6 +117,7 @@ gulp.task 'play-styles', ['clean-play'], ->
 
 gulp.task 'play-html', ->
 
+  livereload = require 'gulp-livereload'
   gulp.src './playground/index.html'
     .pipe gulpif useLiveReload, livereload()
 
@@ -160,6 +158,7 @@ gulp.task 'docs-styles', ['docs-exec'],->
 
 gulp.task 'docs-html', ->
 
+  livereload = require 'gulp-livereload'
   gulp.src './docs/index.html'
     .pipe gulpif useLiveReload, livereload()
 
@@ -227,10 +226,13 @@ testFiles = [
 
 gulp.task 'karma', ['coffee-test'], ->
 
+  karma = require 'gulp-karma'
+  
   gulp.src testFiles
     .pipe karma
       configFile : 'karma.conf.js'
       action     : karmaAction
+
 
 gulp.task 'sauce', ->
   gulp.src testFiles
@@ -328,6 +330,9 @@ gulp.task 'clean-play', ->
 
 # Use markdox to output markdown files for the API Documentation.
 gulp.task 'markdox', ->
+
+  markdox = require 'gulp-markdox'
+  
   gulp.src [
       'src/**/core/**/*.coffee'
       'src/**/components/**/*.coffee'

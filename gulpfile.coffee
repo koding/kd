@@ -88,7 +88,7 @@ gulp.task 'libs', ->
 gulp.task 'export', ->
 
   return  if argv.entryPath
-  
+
   exec "cd ./src;sh exporter.sh > entry.coffee; cd .."
 
 
@@ -227,11 +227,19 @@ testFiles = [
 gulp.task 'karma', ['coffee-test'], ->
 
   karma = require 'gulp-karma'
-  
+
   gulp.src testFiles
     .pipe karma
       configFile : 'karma.conf.js'
       action     : karmaAction
+
+
+gulp.task 'karma-travis', ['coffee-test'], ->
+  karma = require 'gulp-karma'
+  gulp.src testFiles
+    .pipe karma
+      configFile : 'karma.travis.conf.js'
+      action     : 'run'
 
 
 gulp.task 'sauce', ->
@@ -332,7 +340,7 @@ gulp.task 'clean-play', ->
 gulp.task 'markdox', ->
 
   markdox = require 'gulp-markdox'
-  
+
   gulp.src [
       'src/**/core/**/*.coffee'
       'src/**/components/**/*.coffee'

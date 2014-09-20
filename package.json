@@ -4,7 +4,7 @@
   "description": "KD: a non-document focused UI Framework for web applications.",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "./node_modules/karma/bin/karma start --browsers Firefox --single-run"
+    "test": "./node_modules/gulp/bin/gulp.js karma-travis"
   },
   "homepage": "http://kd.io",
   "repository": {

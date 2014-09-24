@@ -72,9 +72,11 @@ module.exports = class KDInputValidator
 
     return if event?.which is 9
 
+    {match} = ruleSet.rules
+
     value         = $.trim input.getValue()
     ruleSet       = input.getOptions().validate
-    matchView     = ruleSet.rules.match
+    matchView     = if 'function' is typeof match then match() else match
     matchViewVal  = $.trim matchView.getValue()
     doesValidate  = value is matchViewVal
 

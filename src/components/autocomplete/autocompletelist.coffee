@@ -47,3 +47,6 @@ module.exports = class KDAutoCompleteListView extends KDListView
         active.index = i
         break
     active
+
+  setActiveItem: (target) ->
+    item.active = item is target  for item in @items

@@ -82,7 +82,6 @@ module.exports = class KDAutoCompleteController extends KDViewController
           event.stopPropagation()
           event.preventDefault()
           return no
-        else
       when 40 #downarrow
         if @dropdown.getView().$().is(":visible")
           @dropdown.getListView().goDown()
@@ -190,7 +189,9 @@ module.exports = class KDAutoCompleteController extends KDViewController
     inputView = @getView()
     # log @getOptions().selectedItemsLimit, @selectedItemCounter
     if @getOptions().selectedItemsLimit is null or @getOptions().selectedItemsLimit > @selectedItemCounter
-      activeItem = @dropdown.getListView().getActiveItem()
+      listView = @dropdown.getListView()
+      activeItem = listView.getActiveItem()
+      listView.setActiveItem null
       if activeItem.item
         @appendAutoCompletedItem()
       @addItemToSubmitQueue activeItem.item

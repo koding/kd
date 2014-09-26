@@ -6,7 +6,7 @@ class ListItem extends KDListItemView
     @setCss 'padding-left' : '50px'
 
     {randomIndex, id} = @getData()
-    "#{id} numarali itemim ulan indexim de #{randomIndex or 'yok'}!!<br><br>"
+    "I'm the number #{id} and my index: #{randomIndex or 'N/A'}!!<br><br>"
 
 
 mainView = new KDView
@@ -22,7 +22,7 @@ id = 0
 mainView.addSubView input = new KDInputView
 
 mainView.addSubView new KDButtonView
-  title    : 'Random indexli eleman ekle'
+  title    : 'Add random indexed item'
   callback : ->
     randomIndex = parseInt(input.getValue(), 10) or 0
     listController.addItem {title : Date.now(), id : ++id, randomIndex}, randomIndex

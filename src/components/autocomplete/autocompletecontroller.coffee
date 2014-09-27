@@ -132,7 +132,7 @@ module.exports = class KDAutoCompleteController extends KDViewController
 
   hideDropdown:->
     dropdownWrapper = @dropdown.getView()
-    dropdownWrapper.$().fadeOut 75
+    dropdownWrapper.hide()
 
   showDropdown:->
 
@@ -147,7 +147,7 @@ module.exports = class KDAutoCompleteController extends KDViewController
     offset.top += input.getHeight()
     dropdownWrapper.$().css offset
 
-    dropdownWrapper.$().fadeIn 75
+    dropdownWrapper.show()
     windowController.addLayer dropdownWrapper
 
     # parent = @getView()

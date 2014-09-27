@@ -8,9 +8,9 @@ module.exports = class KDAutoComplete extends KDInputView
     @domElement = $ "<div class='kdautocompletewrapper clearfix'><input type='text' placeholder='#{@getOptions().placeholder}' class='kdinput text'/></div>"
 
   setDomId:->
-    @$input().attr "id",@getDomId()
-    @$input().attr "name",@getName()
-    @$input().data "data-id",@getId()
+    @$input().attr 'id', @getDomId()
+    @$input().attr 'name', @getName()
+    @$input().data 'data-id', @getId()
 
   setDefaultValue:(value) ->
     @inputDefaultValue = value
@@ -23,32 +23,20 @@ module.exports = class KDAutoComplete extends KDInputView
   bindEvents:->
     super @$input()
 
-  # FIX THIS: on blur dropdown should disappear but the
-  # problem is if you the lines below, blur fires earlier than
-  # KDAutoCompleteListItemViewClick and that breaks mouse selection
-  # on autocomplete list
-  blur:(pubInst,event)->
-    @unsetClass "focus"
-    # @hideDropdown()
-    # log pubInst,event.target,"blur"
-    # @destroyDropdown()
+  blur: (event) ->
+    @unsetClass 'focus'
     yes
 
-  focus:(pubInst,event)->
+  focus: (event) ->
     @setClass "focus"
     super
 
-  keyDown:(event)->
-    (KD.getSingleton "windowController").setKeyView @
+  keyDown: (event) ->
+    (KD.getSingleton "windowController").setKeyView this
     yes
 
   getLeftOffset:->
     @$input().prev().width()
-
-  destroyDropdown:->
-    @dropdown.destroy() if @dropdown?
-    @dropdownPrefix = ""
-    @dropdown = null
 
   setPlaceholder:(value)->
     @$input()[0].setAttribute "placeholder", value

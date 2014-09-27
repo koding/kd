@@ -341,22 +341,20 @@ module.exports = class KDAutoCompleteController extends KDViewController
 
   updateDropdownContents:->
     inputView = @getView()
-    value     = inputView.getValue()
-    @hideDropdown() if value is ''
+    value     = inputView.getValue().trim()
 
+    return @hideDropdown() if value is ''
 
-    if value isnt "" and @dropdownPrefix isnt value
+    @dropdownPrefix = value
+    @showFetching()
 
-      @dropdownPrefix = value
-      @showFetching()
+    @fetch KD.utils.debounce 177, (data) =>
 
-      @fetch KD.utils.debounce 177, (data) =>
-
-        if data.length > 0
-          @refreshDropDown data
-          @showDropdown()
-        else
-          @showNoDataFound()
+      if data.length > 0
+        @refreshDropDown data
+        @showDropdown()
+      else
+        @showNoDataFound()
 
   keyUpOnInputView:(event)->
     return if event.keyCode in [9,38,40] #tab

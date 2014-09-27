@@ -15,6 +15,14 @@ module.exports = class KDContentEditableView extends KDView
 
     @getDelegate()?.on "EditingModeToggled", (state) => @setEditingMode state
 
+    # we shouldn't do per instance
+    # quick hack unf - SY
+    document.addEventListener 'focus', (event)=>
+      if event.target is @editableElement
+        log 'gelmiyo musun buraya'
+        @focus()
+    , yes
+
     @validationNotifications = {}
 
   viewAppended: ->

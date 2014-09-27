@@ -81,18 +81,18 @@ module.exports = class KDAutoCompleteController extends KDViewController
       # when 38, 40 #up, down
       #   @dropdown.keyDownPerformed @dropdown.getListView(), event
       when 38 #uparrow
-        if @dropdown.getView().$().is(":visible")
           @dropdown.getListView().goUp()
           event.stopPropagation()
           event.preventDefault()
           return no
+        if @active
       when 40 #downarrow
-        if @dropdown.getView().$().is(":visible")
           @dropdown.getListView().goDown()
           event.stopPropagation()
           event.preventDefault()
           return no
         # @getView().$input().blur()
+        if @active
       else
         @readyToShowDropDown = yes
     no
@@ -132,12 +132,14 @@ module.exports = class KDAutoCompleteController extends KDViewController
 
   hideDropdown:->
     dropdownWrapper = @dropdown.getView()
+    @active = no
     dropdownWrapper.hide()
 
   showDropdown:->
 
     return unless @readyToShowDropDown
 
+    @active = yes
     windowController = KD.getSingleton('windowController')
     dropdownWrapper = @dropdown.getView()
     dropdownWrapper.unsetClass "hidden"

@@ -54,7 +54,7 @@ module.exports = class KDAutoCompleteController extends KDViewController
   loadView:(mainView)->
     @setDefaultValue()
 
-    mainView.on 'keyup', @utils.debounce 300, (@bound "keyUpOnInputView")
+    mainView.on 'keyup', @bound 'keyUpOnInputView'
     mainView.on 'keydown', (event)=> @keyDownOnInputView event
 
   setDefaultValue:(defaultItems)->
@@ -355,6 +355,7 @@ module.exports = class KDAutoCompleteController extends KDViewController
       @fetch (data)=>
         @refreshDropDown data
         @showDropdown()
+      @fetch KD.utils.debounce 177, (data) =>
 
   keyUpOnInputView:(event)->
     return if event.keyCode in [9,38,40] #tab

@@ -66,33 +66,28 @@ module.exports = class KDAutoCompleteController extends KDViewController
   keyDownOnInputView:(event)->
 
     autoCompleteView = @getView()
+    list             = @dropdown.getListView()
+
     switch event.which
       when 13, 9 #enter, tab
         if autoCompleteView.getValue() isnt "" and event.shiftKey isnt yes
           @submitAutoComplete autoCompleteView.getValue()
-          event.stopPropagation()
-          event.preventDefault()
           @readyToShowDropDown = no
-          return no
-        else
-          return yes
+        else yes
+
       when 27 #escape
         @hideDropdown()
-      # when 38, 40 #up, down
-      #   @dropdown.keyDownPerformed @dropdown.getListView(), event
+
       when 38 #uparrow
-          @dropdown.getListView().goUp()
-          event.stopPropagation()
-          event.preventDefault()
-          return no
         if @active
+          list.goUp()
+          return KD.utils.stopDOMEvent event
+
       when 40 #downarrow
-          @dropdown.getListView().goDown()
-          event.stopPropagation()
-          event.preventDefault()
-          return no
-        # @getView().$input().blur()
         if @active
+          list.goDown()
+          return KD.utils.stopDOMEvent event
+
       else
         @readyToShowDropDown = yes
     no

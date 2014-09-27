@@ -166,12 +166,12 @@ module.exports = class KDInputView extends KDView
   getName:-> @inputName
 
   setFocus:->
-    (KD.getSingleton "windowController").setKeyView @
-    @$().trigger "focus"
+    (KD.getSingleton "windowController").setKeyView this
+    @$().trigger 'focus'
 
   setBlur:->
     (KD.getSingleton "windowController").setKeyView null
-    @$().trigger "blur"
+    @$().trigger 'blur'
 
   setSelectOptions:(options)->
     unless options.length

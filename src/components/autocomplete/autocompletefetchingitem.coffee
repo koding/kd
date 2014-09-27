@@ -2,8 +2,11 @@ KDAutocompleteUnselecteableItem = require './autocompleteunselecteableitem.coffe
 
 module.exports = class KDAutoCompleteFetchingItem extends KDAutocompleteUnselecteableItem
 
-  constructor:(options = {}, data)->
-    options.cssClass = @utils.curry "kdautocompletelistitem fetching", options.cssClass
-    super
+  constructor: (options = {}, data) ->
 
-  partial:-> "Fetching in process..."
+    options.cssClass = KD.utils.curry 'kdautocompletelistitem fetching', options.cssClass
+
+    super options, data
+
+
+  partial: -> 'Fetching in process...'

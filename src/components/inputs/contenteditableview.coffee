@@ -5,7 +5,7 @@ module.exports = class KDContentEditableView extends KDView
 
   constructor: (options = {}, data) ->
     options.cssClass         = KD.utils.curry "kdcontenteditableview", options.cssClass
-    options.bind             = KD.utils.curry "click input keydown paste drop", options.bind
+    options.bind             = KD.utils.curry "click input paste drop focus blur", options.bind
     options.type           or= "text"
     options.multiline       ?= off
     options.placeholder    or= ""

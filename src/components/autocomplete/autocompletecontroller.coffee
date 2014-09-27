@@ -341,18 +341,22 @@ module.exports = class KDAutoCompleteController extends KDViewController
 
   updateDropdownContents:->
     inputView = @getView()
-    if inputView.getValue() is ""
-      @hideDropdown()
+    value     = inputView.getValue()
+    @hideDropdown() if value is ''
 
-    if inputView.getValue() isnt "" and
-       @dropdownPrefix isnt inputView.getValue() and
-       @dropdown.getView().$().not(":visible")
 
-      @dropdownPrefix = inputView.getValue()
-      @fetch (data)=>
-        @refreshDropDown data
-        @showDropdown()
+    if value isnt "" and @dropdownPrefix isnt value
+
+      @dropdownPrefix = value
+      @showFetching()
+
       @fetch KD.utils.debounce 177, (data) =>
+
+        if data.length > 0
+          @refreshDropDown data
+          @showDropdown()
+        else
+          @showNoDataFound()
 
   keyUpOnInputView:(event)->
     return if event.keyCode in [9,38,40] #tab
@@ -363,24 +367,25 @@ module.exports = class KDAutoCompleteController extends KDViewController
 
   #this one I guess should be overriden
   fetch:(callback)->
-    args = {}
-    if @getOptions().fetchInputName
-      args[@getOptions().fetchInputName] = @getView().getValue()
-    else
-      args = inputValue : @getView().getValue()
 
-    @dropdownPrefix = @getView().getValue()
-    source = @getOptions().dataSource
-    source args, callback
+    {fetchInputName, dataSource} = @getOptions()
+    value   = @getView().getValue()
+    options = {}
+
+    if fetchInputName
+    then options[fetchInputName] = value
+    else options = inputValue : value
+
+    @dropdownPrefix = value
+    dataSource options, callback
 
   showFetching: ->
     {fetchingItemClass} = @getOptions()
-    if @dropdown.getListView().items?[0] not instanceof KDAutoCompleteFetchingItem
-      view = new fetchingItemClass
-      if @dropdown.getListView().items.length
-        @dropdown.getListView().addItemView view, 0
-      else
-        @dropdown.getListView().addItemView view
+    list = @dropdown.getListView()
+
+    @dropdown.removeAllItems()
+    list.addItemView new fetchingItemClass {}, {}
+    @showDropdown()
 
   getNoItemFoundView: (suggestion) ->
 
@@ -394,6 +399,7 @@ module.exports = class KDAutoCompleteController extends KDViewController
     return view
 
   showNoDataFound: ->
+
     noItemFoundView = @getNoItemFoundView()
     @dropdown.removeAllItems()
     @dropdown.getListView().addItemView noItemFoundView

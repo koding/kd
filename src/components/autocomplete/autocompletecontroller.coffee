@@ -32,7 +32,7 @@ module.exports = class KDAutoCompleteController extends KDViewController
 
     super options, data
 
-    mainView.on 'focus', @bound "updateDropdownContents"
+    mainView.on 'focus', @bound 'updateDropdownContents'
 
     @lastPrefix          = null
     @selectedItemData    = []
@@ -40,14 +40,15 @@ module.exports = class KDAutoCompleteController extends KDViewController
     @selectedItemCounter = 0
     @readyToShowDropDown = yes
 
+    @createDropDown()
+    @getAutoCompletedItemParent()
+
   reset:->
     subViews = @itemWrapper.getSubViews().slice()
     for item in subViews
       @removeFromSubmitQueue item
 
   loadView:(mainView)->
-    @createDropDown()
-    @getAutoCompletedItemParent()
     @setDefaultValue()
 
     mainView.on 'keyup', @utils.debounce 300, (@bound "keyUpOnInputView")

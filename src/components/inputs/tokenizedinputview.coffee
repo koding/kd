@@ -96,6 +96,10 @@ module.exports = class KDTokenizedInput extends KDContentEditableView
 
     return @cancel()  if /\s/.test token
 
+    return  if token is @lastToken
+
+    @lastToken = token
+
     if token.trim()
       {dataSource} = @activeRule
       dataSource token, @bound 'showMenu'

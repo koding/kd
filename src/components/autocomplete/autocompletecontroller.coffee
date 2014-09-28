@@ -33,9 +33,6 @@ module.exports = class KDAutoCompleteController extends KDViewController
     super options, data
 
     mainView.on 'focus', @bound 'updateDropdownContents'
-    mainView.on 'blur',  =>
-      @dropdown.removeAllItems()
-      @hideDropdown()
 
     @lastPrefix          = null
     @selectedItemData    = []

@@ -342,6 +342,8 @@ module.exports = class KDAutoCompleteController extends KDViewController
 
     return @hideDropdown() if value is ''
 
+    return if @active and value is @dropdownPrefix
+
     @dropdownPrefix = value
     @showFetching()
 

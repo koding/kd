@@ -153,7 +153,7 @@ module.exports = class KDTokenizedInput extends KDContentEditableView
       when 9, 13, 27, 38, 40 # enter, tab, escape, up, down
         if @menu
           @menu.treeController.keyEventHappened event
-          @utils.stopDOMEvent event
+          KD.utils.stopDOMEvent event
       else
         super event
 

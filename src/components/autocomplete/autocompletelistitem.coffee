@@ -26,9 +26,9 @@ module.exports = class KDAutoCompleteListItemView extends KDListItemView
     @active = no
     @unsetClass "active"
 
-  click:->
+  click: (event)->
     list = @getDelegate()
-    list.emit 'KDAutoCompleteSubmit', @, @data
-    no
+    list.emit 'KDAutoCompleteSubmit', this, @data
+    return KD.utils.stopDOMEvent event
 
   partial:-> "<div class='autocomplete-item clearfix'>Default item</div>"

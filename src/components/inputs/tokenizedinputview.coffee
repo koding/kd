@@ -109,7 +109,9 @@ module.exports = class KDTokenizedInput extends KDContentEditableView
   sanitizeInput: ->
 
   showMenu:(options = {}, data)->
+
     @menu?.destroy()
+    @menu = null
 
     return  unless @tokenInput and data.length
 

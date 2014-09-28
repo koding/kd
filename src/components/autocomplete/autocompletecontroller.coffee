@@ -20,6 +20,7 @@ module.exports = class KDAutoCompleteController extends KDViewController
       selectedItemClass     : KDAutoCompletedItem
       nothingFoundItemClass : KDAutoCompleteNothingFoundItem
       fetchingItemClass     : KDAutoCompleteFetchingItem
+      fetchInterval         : options.fetchInterval ? 300
       listWrapperCssClass   : ''
       minSuggestionLength   : 2
       selectedItemsLimit    : null
@@ -347,7 +348,9 @@ module.exports = class KDAutoCompleteController extends KDViewController
     @dropdownPrefix = value
     @showFetching()
 
-    @fetch KD.utils.debounce 177, (data) =>
+    {fetchInterval} = @getOptions()
+
+    @fetch KD.utils.debounce fetchInterval, (data) =>
 
       if data.length > 0
         @refreshDropDown data

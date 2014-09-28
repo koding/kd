@@ -101,14 +101,14 @@ module.exports = class KDTokenizedInput extends KDContentEditableView
 
   sanitizeInput: ->
 
-  showMenu:(options, data)->
+  showMenu:(options = {}, data)->
     @menu?.destroy()
 
     return  unless @tokenInput and data.length
 
-    pos       = @tokenInput.getBoundingClientRect()
-    options.x = pos.left
-    options.y = pos.top + parseInt window.getComputedStyle(@tokenInput).lineHeight, 10
+    pos        = @tokenInput.getBoundingClientRect()
+    options.x ?= pos.left
+    options.y ?= pos.top + parseInt window.getComputedStyle(@tokenInput).lineHeight, 10
 
     @menu = new KDContextMenu options, data
     @menu.on 'ContextMenuItemReceivedClick', @bound 'menuItemClicked'

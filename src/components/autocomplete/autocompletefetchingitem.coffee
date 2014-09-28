@@ -9,4 +9,4 @@ module.exports = class KDAutoCompleteFetchingItem extends KDAutocompleteUnselect
     super options, data
 
 
-  partial: -> 'Loading...'
+  partial: -> 'loading...'

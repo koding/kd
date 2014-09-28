@@ -9,4 +9,4 @@ module.exports = class KDAutoCompleteNothingFoundItem extends KDAutocompleteUnse
     super options, data
 
 
-  partial: (data) -> "Nothing found"
+  partial: (data) -> "nothing here."

@@ -110,7 +110,7 @@ module.exports = class KDAutoCompleteController extends KDViewController
       view = @getView()
       view.$input().trigger('focus')
 
-    dropdownListView.on 'KDAutoCompleteSubmit', @bound "submitAutoComplete"
+    dropdownListView.on 'KDAutoCompleteSubmit', @bound 'submitAutoComplete'
 
     windowController = KD.getSingleton('windowController')
 

@@ -89,7 +89,8 @@ module.exports = class KDContentEditableView extends KDView
     if @getValue("text").length is 0
       @setPlaceholder()
     else
-      @setContent @getValue() if @getOptions().type isnt "html"
+      @setContent @getValue() if @getOptions().type isnt 'html'
+
     @emit 'BlurHappened'
 
   click: => @focus() if @editingMode and not @focused

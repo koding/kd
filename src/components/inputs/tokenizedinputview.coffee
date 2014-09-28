@@ -2,9 +2,11 @@ KDContentEditableView = require './contenteditableview.coffee'
 KDContextMenu         = require './../contextmenu/contextmenu.coffee'
 
 module.exports = class KDTokenizedInput extends KDContentEditableView
+
   constructor: (options = {}, data) ->
-    options.cssClass   = KD.utils.curry "kdtokenizedinputview", options.cssClass
-    options.bind       = KD.utils.curry "keyup", options.bind
+
+    options.cssClass   = KD.utils.curry 'kdtokenizedinputview', options.cssClass
+    options.bind       = KD.utils.curry 'keyup', options.bind
     options.rules    or= {}
     options.layer    or= {}
     super options, data
@@ -84,13 +86,16 @@ module.exports = class KDTokenizedInput extends KDContentEditableView
         @utils.replaceRange node, @tokenInput, start, start + rule.prefix.length
         @utils.selectText @tokenInput, rule.prefix.length
 
+
   matchToken: ->
+
     return  @cancel() unless @tokenInput.parentNode
+
     @sanitizeInput()
     token = @tokenInput.textContent.substring @activeRule.prefix.length
     if token.trim()
       {dataSource} = @activeRule
-      dataSource token, @bound "showMenu"
+      dataSource token, @bound 'showMenu'
     else if token.length isnt 0
       @cancel()
 
@@ -106,7 +111,7 @@ module.exports = class KDTokenizedInput extends KDContentEditableView
     options.y = pos.top + parseInt window.getComputedStyle(@tokenInput).lineHeight, 10
 
     @menu = new KDContextMenu options, data
-    @menu.on "ContextMenuItemReceivedClick", @bound "menuItemClicked"
+    @menu.on 'ContextMenuItemReceivedClick', @bound 'menuItemClicked'
 
   hideMenu: ->
     @menu?.destroy()

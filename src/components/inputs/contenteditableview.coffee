@@ -88,7 +88,12 @@ module.exports = class KDContentEditableView extends KDView
 
   blur: ->
     @focused = no
-    if @getValue("text").length is 0
+
+    {windowController} = KD.singletons
+    windowController.removeLayer this
+    @unsetKeyView()
+
+    if @getValue('text').length is 0
       @setPlaceholder()
     else
       @setContent @getValue() if @getOptions().type isnt 'html'

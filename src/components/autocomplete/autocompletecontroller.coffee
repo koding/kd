@@ -356,6 +356,7 @@ module.exports = class KDAutoCompleteController extends KDViewController
         @refreshDropDown data
         @showDropdown()
       else
+        log 'no data found'
         @showNoDataFound()
 
   keyUpOnInputView:(event)->

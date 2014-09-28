@@ -18,6 +18,11 @@ module.exports = class KDContentEditableView extends KDView
     # we shouldn't do per instance
     # quick hack unf - SY
     document.addEventListener 'focus', (event)=>
+      @focus()  if event.target is @editableElement
+    , yes
+
+    document.addEventListener 'blur', (event)=>
+      @blur()  if event.target is @editableElement
     , yes
 
     @validationNotifications = {}

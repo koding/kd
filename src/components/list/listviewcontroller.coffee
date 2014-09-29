@@ -145,8 +145,14 @@ module.exports = class KDListViewController extends KDViewController
     {noItemFoundWidget} = @getOptions()
     @getListView().addSubView @noItemView = noItemFoundWidget
 
-  showNoItemWidget:-> @noItemView?.show() if @getListItems().length is 0
-  hideNoItemWidget:-> @noItemView?.hide()
+  showNoItemWidget:->
+    if @getListItems().length is 0
+      @emit 'ListIsEmptied'
+      @noItemView?.show()
+
+  hideNoItemWidget:->
+    @noItemView?.hide()
+    @emit 'ListIsNoMoreEmpty'
 
   # regressed, will put back whenever i'm here again. - SY
   showNoMoreItemWidget:->

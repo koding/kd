@@ -460,9 +460,11 @@ module.exports = class KDInputView extends KDView
       @_clone.detach()
       @$()[0].style.height = 'none' # hack to set to initial
 
-    @on "keyup", (event) => @resize()
+    @on 'keydown', => KD.utils.defer @bound 'resize'
 
-  resize: ->
+
+  resize: (event) ->
+
     return  unless @_clone
 
     @_clone.appendTo 'body' unless document.body.contains @_clone[0]

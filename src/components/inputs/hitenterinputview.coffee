@@ -1,11 +1,3 @@
-###
-todo:
-
-  - on enter should validation fire by default??? Sinan - 6/6/2012
-
-###
-
-
 KDInputView = require './inputview.coffee'
 
 module.exports = class KDHitEnterInputView extends KDInputView
@@ -29,9 +21,9 @@ module.exports = class KDHitEnterInputView extends KDInputView
     @setToggler() if options.label?
     @disableEnterKey() if @getOptions().showButton
 
-    @on "ValidationPassed", =>
-      @blur()
-      @getOptions().callback?.call @,@getValue()
+    @on 'ValidationPassed', =>
+      {callback} = @getOptions()
+      callback?.call this, @getValue()
 
   enableEnterKey:->
     @setClass "active"

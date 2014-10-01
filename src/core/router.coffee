@@ -112,7 +112,6 @@ module.exports = class KDRouter extends KDObject
     @addRoute route, listener  for own route, listener of routes
 
   handleRoute:(userRoute, options={})->
-    return @handleRoute '/Activity'  if /<|>/.test userRoute
     userRoute = userRoute.slice 1  if (userRoute.indexOf '!') is 0
     @visitedRoutes.push userRoute  if @visitedRoutes.last isnt userRoute
 

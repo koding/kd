@@ -456,22 +456,23 @@ module.exports = class KDInputView extends KDView
         lineHeight    : $input.css 'lineHeight'
         whiteSpace    : "pre-line"
 
-    @on "blur", =>
+    @on 'blur', =>
       @_clone.detach()
-      @$()[0].style.height = "none" # hack to set to initial
+      @$()[0].style.height = 'none' # hack to set to initial
 
     @on "keyup", (event) => @resize()
 
   resize: ->
     return  unless @_clone
+
     @_clone.appendTo 'body' unless document.body.contains @_clone[0]
     @_clone.html Encoder.XSSEncode @getValue()
-    @_clone.append document.createElement "br"
+    @_clone.append document.createElement 'br'
 
     height = @_clone.height()
     if @$().css("boxSizing") is "border-box"
-      padding = parseInt(@_clone.css("paddingTop"),     10) + parseInt(@_clone.css("paddingBottom"),     10)
-      border  = parseInt(@_clone.css("borderTopWidth"), 10) + parseInt(@_clone.css("borderBottomWidth"), 10)
+      padding = parseInt(@_clone.css('paddingTop'),     10) + parseInt(@_clone.css('paddingBottom'),     10)
+      border  = parseInt(@_clone.css('borderTopWidth'), 10) + parseInt(@_clone.css('borderBottomWidth'), 10)
       height  = height + border + padding
 
     @setHeight \

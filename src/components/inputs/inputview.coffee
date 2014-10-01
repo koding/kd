@@ -469,7 +469,6 @@ module.exports = class KDInputView extends KDView
 
     @_clone.appendTo 'body' unless document.body.contains @_clone[0]
     @_clone.html Encoder.XSSEncode @getValue()
-    @_clone.append document.createElement 'br'
 
     height = @_clone.height()
     if @$().css("boxSizing") is "border-box"

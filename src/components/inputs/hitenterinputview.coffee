@@ -4,17 +4,16 @@ module.exports = class KDHitEnterInputView extends KDInputView
 
   constructor:(options = {}, data)->
 
-    options.type            or= "textarea"
+    options.type            or= 'textarea'
+    options.cssClass          = KD.utils.curry 'hitenterview', options.cssClass
     options.button          or= null
     options.showButton       ?= no
     options.label           or= null
     options.placeholder     or= ""
     options.callback        or= null
-    options.togglerPartials or= ["quick update disabled","quick update enabled"]
+    options.togglerPartials or= ['quick update disabled', 'quick update enabled']
 
     super options,data
-
-    @setClass "hitenterview"
 
     @button = @getOptions().button ? null
     @enableEnterKey()

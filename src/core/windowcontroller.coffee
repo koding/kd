@@ -267,10 +267,10 @@ module.exports = class KDWindowController extends KDController
   registerWindowResizeListener:(instance)->
     @windowResizeListeners[instance.id] = instance
     instance.on "KDObjectWillBeDestroyed", =>
-      delete @windowResizeListeners[instance.id]
+      @windowResizeListeners[instance.id] = null
 
   unregisterWindowResizeListener:(instance)->
-    delete @windowResizeListeners[instance.id]
+    @windowResizeListeners[instance.id] = null
 
   notifyWindowResizeListeners: (event)->
     event or= type : "resize"

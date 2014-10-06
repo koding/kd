@@ -274,7 +274,7 @@ module.exports = class KDWindowController extends KDController
 
   notifyWindowResizeListeners: (event)->
     event or= type : "resize"
-    for own key, inst of @windowResizeListeners when inst._windowDidResize
+    for own key, inst of @windowResizeListeners when inst?._windowDidResize
       inst._windowDidResize event
 
 do ->

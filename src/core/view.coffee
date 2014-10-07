@@ -511,7 +511,7 @@ module.exports = class KDView extends KDObject
     @on 'scroll', do ->
       lastRatio = 0
       (event)->
-        el = view.$()[0]
+        el = @getElement()
         {scrollHeight, scrollTop} = el
 
         dynamicThreshold = if threshold > 1

@@ -15,7 +15,6 @@ module.exports = class KDListViewController extends KDViewController
     options.keyNav                 ?= no
     options.multipleSelection      ?= no
     options.selection              ?= no
-    options.ownScrollBars          ?= no
     options.startWithLazyLoader    ?= no
     options.itemChildClass        or= null
     options.itemChildOptions      or= {}

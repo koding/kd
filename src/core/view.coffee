@@ -832,7 +832,7 @@ module.exports = class KDView extends KDObject
     MutationObserver = window.MutationObserver or window.WebKitMutationObserver or window.MozMutationObserver
 
     observerSummary = new MutationSummary
-      callback : (rest)=> @emit 'MutationHappened', rest...
+      callback : (rest...) => @emit 'MutationHappened', rest...
       rootNode : @getElement()
       queries  : [
         { all  : true }

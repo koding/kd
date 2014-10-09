@@ -2,15 +2,18 @@ KDListView = require './../list/listview.coffee'
 
 module.exports = class JTreeView extends KDListView
 
-  constructor:(options = {},data)->
+  constructor:(options = {}, data)->
 
     options.animated ?= no
+    options.cssClass  = KD.utils.curry 'jtreeview expanded', options.cssClass
+
     super options, data
-    @setClass "jtreeview expanded"
+
 
   toggle:(callback)->
 
     if @expanded then @collapse callback else @expand callback
+
 
   expand:(callback)->
 
@@ -23,6 +26,7 @@ module.exports = class JTreeView extends KDListView
       @setClass "expanded"
       callback?()
 
+
   collapse:(callback)->
 
     if @getOptions().animated
@@ -34,17 +38,20 @@ module.exports = class JTreeView extends KDListView
       @unsetClass "expanded"
       callback?()
 
+
   mouseDown:->
 
-    KD.getSingleton("windowController").setKeyView @
+    KD.getSingleton("windowController").setKeyView this
     no
+
 
   keyDown:(event)->
 
     @emit "KeyDownOnTreeView", event
 
+
   destroy:->
 
-    KD.getSingleton("windowController").revertKeyView @
+    KD.getSingleton("windowController").revertKeyView this
 
     super

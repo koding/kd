@@ -8,7 +8,7 @@ module.exports = class MultipleInputListView extends KDListView
   addItems: (items) ->
     for item in items
       newItem = new MultipleListItemView {delegate: @}, item
-      @addItemView newItem
+      @addItem newItem
 
   removeListItem: (instance) ->
     super instance

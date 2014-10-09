@@ -48,24 +48,3 @@ module.exports = class JTreeView extends KDListView
     KD.getSingleton("windowController").revertKeyView @
 
     super
-
-  appendItemAtIndex:(itemInstance,index,animation)->
-
-    itemInstance.setParent @
-
-    added = yes
-    if index <= 0
-      @$().prepend itemInstance.$()
-    else if index > 0
-      if @items[index-1]?.$().hasClass('has-sub-items')
-        @items[index-1].$().next().after itemInstance.$()
-      else if @items[index-1]?
-        @items[index-1].$().after itemInstance.$()
-      else
-        warn "Out of bound"
-        added = no
-
-    if @parentIsInDom and added
-      itemInstance.emit 'viewAppended'
-
-    null

@@ -178,7 +178,7 @@ module.exports = class KDAutoCompleteController extends KDViewController
           inexactMatches.push datum
 
     if (@dropdownPrefix.length >= minSuggestionLength) and allowNewSuggestions and not exactMatches.length
-      @dropdown.getListView().addItemView @getNoItemFoundView()
+      @dropdown.getListView().addItem @getNoItemFoundView()
 
     data = exactMatches.concat inexactMatches
     @dropdown.instantiateListItems data
@@ -385,7 +385,7 @@ module.exports = class KDAutoCompleteController extends KDViewController
     list = @dropdown.getListView()
 
     @dropdown.removeAllItems()
-    list.addItemView new fetchingItemClass {}, {}
+    list.addItem new fetchingItemClass {}, {}
     @showDropdown()
 
   getNoItemFoundView: (suggestion) ->
@@ -403,7 +403,7 @@ module.exports = class KDAutoCompleteController extends KDViewController
 
     noItemFoundView = @getNoItemFoundView()
     @dropdown.removeAllItems()
-    @dropdown.getListView().addItemView noItemFoundView
+    @dropdown.getListView().addItem noItemFoundView
     @showDropdown()
 
   destroy:->

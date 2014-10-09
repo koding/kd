@@ -10,5 +10,5 @@ module.exports = class KDFileUploadListView extends KDListView
   addItem:(file)->
     itemInstance = new (@getOptions().itemClass) {delegate : @},file
     @getDelegate().on "removeFile", @getDelegate().removeFile
-    @addItemView itemInstance
+    @addItem itemInstance
     @itemsByName[file.name] = itemInstance

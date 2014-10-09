@@ -421,15 +421,6 @@ module.exports = class KDView extends KDObject
 
     throw new Error 'no subview was specified' unless subView?
 
-    # this is a performance killer
-    # and we dont know whom it belongs to
-    # let's see if it was really needed -> SY
-
-    # if subView.parent and subView.parent instanceof KDView
-    #   index = subView.parent.subViews.indexOf subView
-    #   if index > -1
-    #     subView.parent.subViews.splice index, 1
-
     @subViews.push subView
     subView.setParent this
     subView.parentIsInDom = @parentIsInDom

@@ -16,9 +16,9 @@ module.exports = class KDListView extends KDView
     @items = []
     @boxes = []
 
-    if @getOptions().boxed
-      @on 'viewAppended', =>
-        @parent.on 'scroll', @bound 'handleScroll'
+    # if @getOptions().boxed
+    #   @on 'viewAppended', =>
+    #     @parent.on 'scroll', @bound 'handleScroll'
 
 
   empty: ->
@@ -176,24 +176,11 @@ module.exports = class KDListView extends KDView
         break
       @boxes.splice(index, 1)[0].destroy()  if index?
 
-
     return box
 
 
-  updateBoxProps: (box, height) ->
-
-    # log @boxes.indexOf(box), height
-
   # handle vertical and horizontal scrolls separately - SY
   handleScroll:->
-
-    # log box.size for box in @boxes
-    # log @parent.fractionOfHeightBelowFold view : @boxes.first
-
-    # log 'scrollaki'
-    # log @boxes
-
-
 
 
   getItemIndex: (item) -> @items.indexOf item

@@ -423,6 +423,8 @@ module.exports = class KDListViewController extends KDViewController
 
   hideLazyLoader:->
 
+    return  unless @lazyLoader
+
     KD.utils.wait 300, => @scrollView?.stopScrolling = no
     @showNoItemWidget() if @noItemView and @getOptions().noItemFoundWidget
 

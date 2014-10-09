@@ -18,5 +18,5 @@ module.exports = class KDListViewBox extends KDCustomHTMLView
 
   updateProps: ->
 
-    @emit 'BoxIsEmptied', @getId()  if @subViews.length is 0
-    @emit 'HeightChanged', @getElement().clientHeight
+    @emit 'BoxIsEmptied', @getId()  if @getItems().length is 0
+    # @emit 'HeightChanged', @getElement().clientHeight

@@ -13,6 +13,9 @@ module.exports = class KDListViewBox extends KDCustomHTMLView
     @on 'MutationHappened', @bound 'updateProps'
 
 
+  getItems: -> @subViews.filter (item)-> item instanceof KDListItemView
+
+
   updateProps: ->
 
     @emit 'BoxIsEmptied', @getId()  if @subViews.length is 0

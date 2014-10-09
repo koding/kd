@@ -34,55 +34,53 @@ module.exports = class KDListView extends KDView
     @emit "KeyDownOnList", event
 
 
+  sanitizeIndex: (index) ->
+
+    {lastToFirst} = @getOptions()
+    {length}      = @items
+
+    if lastToFirst
+      index ?= 0
+      sanitizedIndex = Math.max 0, length - index - 1
+    else
+      index ?= length
+      sanitizedIndex = Math.min length, index
+
+    return sanitizedIndex
+
+
   addItem: (itemData, index) ->
 
-    {itemChildClass, itemChildOptions} = @getOptions()
+    index = @sanitizeIndex index
 
-    if index? and 'number' isnt typeof index
-      itemOptions = index
-      index       = null
-    else
-      {itemOptions} = @getOptions()
+    {itemOptions, itemClass, itemChildClass, itemChildOptions} = @getOptions()
 
-    itemOptions = @customizeItemOptions?(itemOptions, itemData) or \
-                  itemOptions or {}
+    itemClass   ?= KDListItemView
+    itemOptions ?= {}
+    itemOptions  = @customizeItemOptions?(itemOptions, itemData) or itemOptions
 
     itemOptions.delegate     or= this
     itemOptions.childClass   or= itemChildClass
     itemOptions.childOptions or= itemChildOptions
 
-    itemInstance = new (@getOptions().itemClass ? KDListItemView) itemOptions, itemData
-    @addItemView itemInstance, index
+    itemInstance = new itemClass itemOptions, itemData
+
+    @insertItemAtIndex itemInstance, index
 
     return itemInstance
 
 
-  removeItem: (itemInstance, itemData, index) ->
-    destroy = (item, i) =>
-      @emit 'ItemWasRemoved', item, i
-      item.destroy()
-      @items.splice i, 1
-      return yes
+  removeItem: (item) ->
 
-    if index
-      return no  unless @items[index]
-      return destroy @items[index], index
+    index = @items.indexOf item
 
-    {dataPath} = @getOptions()
+    return no if index < 0
 
-    for item, i in @items
-      if itemInstance
-        if itemInstance.getId() is @items[i].getId()
-          return destroy @items[i], i
-      else if itemData
-        if itemData[dataPath] and @items[i].getData()[dataPath] and itemData[dataPath] is @items[i].getData()[dataPath]
-          return destroy @items[i], i
+    @emit 'ItemWasRemoved', item, index
+    item.destroy()
+    @items.splice index, 1
 
-
-  removeItemByData: (itemData) -> @removeItem null, itemData
-
-
-  removeItemByIndex: (index) -> @removeItem null, null, index
+    return yes
 
 
   destroy: ->
@@ -92,86 +90,88 @@ module.exports = class KDListView extends KDView
     super
 
 
-  addItemView: (itemInstance, index) ->
-
-    {lastToFirst} = @getOptions()
-
-    unless index?
-      if lastToFirst
-      then @items.unshift itemInstance
-      else @items.push itemInstance
-
-      index = if lastToFirst then 0 else @items.length - 1
-    else
-
-      @items.splice index, 0, itemInstance
-
-
-    @emit 'ItemWasAdded', itemInstance, index
-    @insertItemAtIndex itemInstance, index
-
-    return itemInstance
-
-
-  appendItem: (itemInstance) -> @insertItemAtIndex itemInstance
-
-
-  insertItemAtIndex: (itemInstance, index) ->
+  insertItemAtIndex: (item, index) ->
 
     {boxed, lastToFirst} = @getOptions()
 
-    if index <= 0
-      index = if boxed and lastToFirst then undefined else 0
 
-    if index >= @items.length - 1
-      index = if boxed and not lastToFirst then undefined else @items.length - 1
+    isLastIndex  = index >= @items.length - 1
+    isFirstIndex = index is 0
+    isInBetween  = 0 < index < @items.length - 1
 
-    if boxed and not index?
-      @packageItem itemInstance
+    if isLastIndex       then @items.push item
+    else if isFirstIndex then @items.unshift item
+    else @items.splice index, 0, item
+
+    @emit 'ItemWasAdded', item, index
+
+    addNeighborItem = (item, index) =>
+      element      = item.getElement()
+      neighborItem = @items[index + 1].getElement()
+      neighborItem.parentNode.insertBefore element, neighborItem
+      item.emit 'viewAppended'  if @parentIsInDom
+
+    unless boxed
+
+      if isLastIndex then @addSubView item
+      else addNeighborItem item, index
+
     else
-      shouldBeLastItem = index >= @items.length - 1
-      item             = itemInstance.getElement()
 
-      unless shouldBeLastItem
-        neighborItem = @items[index + 1].getElement()
-        neighborItem.parentNode.insertBefore item, neighborItem
-        itemInstance.emit 'viewAppended'  if @parentIsInDom
-      else
-        @addSubView itemInstance, null
+      {itemsPerBox} = @getOptions()
+
+      if @boxes.length is 0
+
+        box = @createBox()
+        box.addSubView item
+
+      else if isFirstIndex or isLastIndex
+
+        box   = null
+        which = if isFirstIndex then 'first' else 'last'
+
+        if @boxes[which].getItems().length >= itemsPerBox
+        then box = @createBox isFirstIndex
+        else box = @boxes[which]
+
+        box.addSubView item, null, isFirstIndex
+
+      else if isInBetween
+
+        addNeighborItem item, index
 
     @scrollDown()  if @doIHaveToScroll()
 
 
   packageItem: (itemInstance) ->
 
-    {
-      lastToFirst
-      itemsPerBox
-    } = @getOptions()
-
-    operation = if lastToFirst then 'prepend' else 'append'
+    {itemsPerBox} = @getOptions()
 
     newBox = =>
-      box = @createBox()
+      box = @createBox prepend
       box.addSubView itemInstance
 
-    if @boxes.last
-      items = @boxes.last.subViews.filter (item)-> item instanceof KDListItemView
-      if items.length < itemsPerBox
-      then @boxes.last.addSubView itemInstance, null, lastToFirst
-      else newBox()
+    potentialBox = if prepend then @boxes.first else @boxes.last
+
+    return newBox()  unless potentialBox
+
+    items = potentialBox.getItems()
+    if items.length < itemsPerBox
+    then potentialBox.addSubView itemInstance, null, lastToFirst
     else newBox()
 
 
-  createBox: ->
+  createBox: (prepend) ->
 
-    @boxes.push box = new KDListViewBox
-    @addSubView box, null, @getOptions().lastToFirst
-    box.on 'HeightChanged', (height) => @updateBoxProps box, height
-    box.on 'BoxIsEmptied', (id)=>
+    box = new KDListViewBox
+    if prepend then @boxes.unshift box else @boxes.push box
 
+    @addSubView box, null, prepend
+
+    box.on 'BoxIsEmptied', (id) =>
+      # TODO: use indexOf here
       index = null
-      for b, i in @boxes when b.getId() is id
+      for _box, i in @boxes when _box.getId() is id
         index = i
         break
       @boxes.splice(index, 1)[0].destroy()  if index?

@@ -38,9 +38,7 @@
     "browserify": "^5.11.1",
     "jquery-mousewheel": "^3.1.12",
     "findit": "^2.0.0",
-    "bluebird": "^2.3.2",
-    "karma-coverage": "^0.2.6",
-    "coveralls": "^2.11.2"
+    "bluebird": "^2.3.2"
   },
   "devDependencies": {
     "chai": "^1.9.1",
@@ -53,6 +51,8 @@
     "karma-mocha": "^0.1.9",
     "karma-sauce-launcher": "^0.2.10",
     "mocha": "^1.21.4",
-    "sinon": "^1.10.3"
+    "sinon": "^1.10.3",
+    "karma-coverage": "^0.2.6",
+    "coveralls": "^2.11.2"
   }
 }

@@ -78,6 +78,7 @@ gulp.task 'styles', ->
 gulp.task 'libs', ->
 
   gulp.src LIBS
+    # INVESTIGATE: this somehow breaks jQuery - SY
     # .pipe gulpif useUglify, uglify()
     .pipe uglify()
     .pipe concat 'tmp'

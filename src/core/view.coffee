@@ -2,19 +2,12 @@ KDObject      = require './object.coffee'
 
 module.exports = class KDView extends KDObject
 
-
-  @appendToDOMBody = (view) ->
-    console.warn "KDView.appendToDOMBody is deprecated; use #appendToDomBody instead"
-    view.appendToDomBody()
 DOMOperations = require './mixins/domoperations'
 DOMEvents     = require './mixins/domevents'
 Draggable     = require './mixins/draggable'
 Overlayable   = require './mixins/overlayable'
 Tooltipable   = require './mixins/tooltipable'
 
-# #
-# INSTANCE LEVEL
-# #
 
   constructor:(options = {},data)->
   @include DOMOperations
@@ -47,6 +40,7 @@ Tooltipable   = require './mixins/tooltipable'
     data?.on? 'update', @bound 'render'
 
     @defaultInit()
+
 
   defaultInit:->
 
@@ -124,6 +118,7 @@ Tooltipable   = require './mixins/tooltipable'
     @orphanize()
 
     # instance removes itself from DOM
+
     @getDomElement().remove()
 
     @removeOverlay()  if @$overlay?
@@ -157,9 +152,9 @@ Tooltipable   = require './mixins/tooltipable'
     return subView
 
   # here for backwards compatibility - SY
-  removeSubView:(subView)-> subView.destroy()
+  removeSubView: (subView) -> subView.destroy()
 
-  getSubViews:->
+  getSubViews: ->
     ###
     FIX: NEEDS REFACTORING
     used in @destroy
@@ -171,23 +166,26 @@ Tooltipable   = require './mixins/tooltipable'
       subViews = subViews.concat [].slice.call @items
     subViews
 
-  setParent:(parent)->
+  setParent: (parent) ->
+    { defineProperty } = Object
     if @parent? then error 'View already has a parent', this, @parent
     else
       if defineProperty
-        defineProperty @, 'parent', value : parent, configurable : yes
+        defineProperty this, 'parent', value : parent, configurable : yes
       else
         @parent = parent
 
-  unsetParent:-> delete @parent
+  unsetParent: -> @parent = null
 
-  embedChild:(placeholderId, child, isCustom)->
+  embedChild: (placeholderId, child, isCustom) ->
 
-    @addSubView child, '#'+placeholderId, no
+    @addSubView child, '#' + placeholderId, no
     unless isCustom
       @$('#'+placeholderId).replaceWith child.$()
 
+
   render: (fields) ->
+
     @template.update fields  if @template?
     # removes e.g. on actions on status updates such as like and comment
     # as in the backend they trigger 'update'
@@ -200,9 +198,13 @@ Tooltipable   = require './mixins/tooltipable'
       (subView.parentDidResize(parent,event) for subView in @getSubViews())
 
 
+  viewAppended: ->
 
+  childAppended: (child) -> @parent?.emit 'childAppended', child
 
+  setViewReady: -> @viewIsReady = yes
 
+  isViewReady: -> @viewIsReady or no
 
   observeMutations: ->
 
@@ -218,8 +220,13 @@ Tooltipable   = require './mixins/tooltipable'
       ]
 
 
+  @appendToDOMBody = (view) ->
+    console.warn "KDView.appendToDOMBody is deprecated; use #appendToDomBody instead"
+    view.appendToDomBody()
 
 
+  @setElementClass = (el, addOrRemove, cssClass) ->
+    el.classList[addOrRemove] cl for cl in cssClass.split(' ') when cl isnt ''
 
 
   _windowDidResize:->
@@ -236,3 +243,5 @@ Tooltipable   = require './mixins/tooltipable'
   unsetKeyView: -> KD.singletons.windowController.setKeyView null
 
   activateKeyView: -> @emit? 'KDViewBecameKeyView'
+
+

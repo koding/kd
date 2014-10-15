@@ -9,6 +9,7 @@ module.exports = class KDView extends KDObject
 DOMOperations = require './mixins/domoperations'
 DOMEvents     = require './mixins/domevents'
 Draggable     = require './mixins/draggable'
+Overlayable   = require './mixins/overlayable'
 
 # #
 # INSTANCE LEVEL
@@ -18,6 +19,7 @@ Draggable     = require './mixins/draggable'
   @include DOMOperations
   @include DOMEvents
   @include Draggable
+  @include Overlayable
 
     options.tagName           or= "div"     # a String of a HTML tag
     options.domId             or= null      # a String
@@ -213,16 +215,6 @@ Draggable     = require './mixins/draggable'
         { all  : true }
       ]
 
-
-
-  putOverlay: (options = {}) ->
-    options.delegate = this
-
-    KDOverlayView = require './../components/overlay/overlayview.coffee'
-    @overlay = new KDOverlayView options
-
-  removeOverlay:->
-    @overlay?.destroy()
 
 
   unsetTooltip: ->

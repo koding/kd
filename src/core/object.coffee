@@ -11,6 +11,8 @@ module.exports = class KDObject extends KDEventEmitter
 
   @include = (mixin) -> include this.prototype, mixin
 
+  include: (mixin) -> include this, mixin
+
   utils: KD.utils
 
   constructor:(options = {}, data)->

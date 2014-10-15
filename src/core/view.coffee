@@ -58,12 +58,14 @@ module.exports = class KDView extends KDObject
   @appendToDOMBody = (view) ->
     console.warn "KDView.appendToDOMBody is deprecated; use #appendToDomBody instead"
     view.appendToDomBody()
+DOMOperations = require './mixins/domoperations'
 
 # #
 # INSTANCE LEVEL
 # #
 
   constructor:(options = {},data)->
+  @include DOMOperations
 
     options.tagName           or= "div"     # a String of a HTML tag
     options.domId             or= null      # a String
@@ -140,244 +142,11 @@ module.exports = class KDView extends KDObject
         fireViewAppended child for own key, child of subViews
 
 
-  getDomId:-> @domElement.attr "id"
-
-
-# #
-# DOM ELEMENT CREATION
-# #
-
-
-  setDomElement:(cssClass='')->
-    {domId, tagName} = @getOptions()
-
-    if domId
-      el = document.getElementById domId
-
-    @lazy = unless el?
-      el    = document.createElement tagName
-      el.id = domId  if domId
-      no
-    else yes
-
-    for klass in "kdview #{cssClass}".split ' ' when klass.length
-      el.classList.add klass
-
-    @domElement = $ el
-
-    if @lazy
-      # warn "lazyElement found with id #{domId}"
-      @utils.defer => @emit 'viewAppended'
-
-  setDomId:(id)->
-    @domElement.attr "id",id
-
   setData: (data) ->
     @data?.off? 'update', @bound 'render'
     super data
     @data?.on? 'update', @bound 'render'
     @render()  if @parentIsInDom
-
-  setDataId:->
-    @domElement.data "data-id",@getId()
-
-  getAttribute:(attr)->
-    @getElement().getAttribute attr
-
-  setAttribute:(attr, val)->
-    @getElement().setAttribute attr, val
-
-  setAttributes:(attributes)->
-    @setAttribute attr, val for own attr, val of attributes
-
-  isInDom:do ->
-    findUltimateAncestor =(el)->
-      ancestor = el
-      while ancestor.parentNode
-        ancestor = ancestor.parentNode
-      ancestor
-    -> findUltimateAncestor(@$()[0]).body?
-
-# #
-# TRAVERSE DOM ELEMENT
-# #
-
-  getDomElement:-> @domElement
-
-  getElement:-> @getDomElement()[0]
-
-  getTagName:-> @options.tagName || 'div'
-
-  # shortcut method for @getDomElement()
-  $:(selector)->
-    if selector
-    then @getDomElement().find(selector)
-    else @getDomElement()
-
-# #
-# MANIPULATE DOM ELEMENT
-# #
-
-  # TODO: DRY these out.
-  append:(child, selector)->
-    @$(selector).append child.$()
-    if @parentIsInDom
-      child.emit 'viewAppended'
-    this
-
-  appendTo:(parent, selector)->
-    @$().appendTo parent.$(selector)
-    if @parentIsInDom
-      @emit 'viewAppended'
-    this
-
-  appendToSelector:(selector)->
-    $(selector).append @$()
-    @emit 'viewAppended'
-
-  prepend:(child, selector)->
-    @$(selector).prepend child.$()
-    if @parentIsInDom
-      child.emit 'viewAppended'
-    this
-
-  prependTo:(parent, selector)->
-    @$().prependTo parent.$(selector)
-    if @parentIsInDom
-      @emit 'viewAppended'
-    this
-
-  prependToSelector:(selector)->
-    $(selector).prepend @$()
-    @emit 'viewAppended'
-
-  setPartial:(partial,selector)->
-    @$(selector).append partial
-    this
-
-  updatePartial: (partial, selector) ->
-    @$(selector).html partial
-
-  clear:-> @getElement().innerHTML = ''
-
-  # UPDATE PARTIAL EXPERIMENT TO NOT TO ORPHAN SUBVIEWS
-
-  # updatePartial: (partial, selector) ->
-  #   subViews = @getSubViews()
-  #   subViewSelectors = for subView in subViews
-  #     subView.$().parent().attr "class"
-  #
-  #   @$(selector).html partial
-  #
-  #   for subView,i in subViews
-  #     @$(subViewSelectors[i]).append subView.$()
-
-
-# #
-# CSS METHODS
-# #
-
-  @setElementClass = (el, addOrRemove, cssClass)->
-    el.classList[addOrRemove] cl for cl in cssClass.split(' ') when cl isnt ''
-
-  setCss:(property, value)->
-
-    @$().css property, value
-
-  setStyle:(properties)->
-
-    @$().css property, value for own property, value of properties
-
-  setClass:(cssClass)->
-
-    return unless cssClass
-    KDView.setElementClass @getElement(), "add", cssClass
-    return this
-
-  unsetClass:(cssClass)->
-
-    return unless cssClass
-    KDView.setElementClass @getElement(), "remove", cssClass
-    return this
-
-  toggleClass:(cssClass)->
-
-    if @hasClass cssClass
-    then @unsetClass cssClass
-    else @setClass cssClass
-
-    return this
-
-  hasClass:(cssClass)->
-
-    return no  unless cssClass
-    @getElement().classList.contains cssClass
-
-  getBounds: ->
-
-    x : @getX()
-    y : @getY()
-    w : @getWidth()
-    h : @getHeight()
-    n : @constructor.name
-
-  setRandomBG:->@getDomElement().css "background-color", KD.utils.getRandomRGB()
-
-  hide:(duration)->
-    @setClass 'hidden'
-    # @$().hide duration
-    #@getDomElement()[0].style.display = "none"
-
-  show:(duration)->
-    @unsetClass 'hidden'
-    # @$().show duration
-    #@getDomElement()[0].style.display = "block"
-
-  setPosition:->
-    positionOptions = @getOptions().position
-    positionOptions.position = "absolute"
-    @$().css positionOptions
-
-  getWidth:-> @$().outerWidth no
-
-  setWidth:(w, unit = "px")->
-    @getElement().style.width = "#{w}#{unit}"
-    @emit "ViewResized", {newWidth : w, unit}
-
-  getHeight:->
-    @getDomElement().outerHeight no
-
-  setHeight:(h, unit = "px")->
-    @getElement().style.height = "#{h}#{unit}"
-    @emit "ViewResized", {newHeight : h, unit}
-
-  setX:(x)-> @$().css left : x
-  setY:(y)-> @$().css top : y
-  getX:-> @getElement().getBoundingClientRect().left
-  getY:-> @getElement().getBoundingClientRect().top
-  getRelativeX:-> @$().position().left
-  getRelativeY:-> @$().position().top
-
-  destroyChild: (prop) ->
-    if @[prop]?
-      @[prop].destroy?()
-      delete @[prop]
-      yes
-    else no
-
-# #
-# ADD/DESTROY VIEW INSTANCES
-# #
-  attach: (view) ->
-    @getElement().appendChild view.getElement()
-    view.setParent this
-    @subViews.push view
-
-
-  detach: ->
-    @parent?.getElement().removeChild @getElement()
-    @orphanize()
-    @unsetParent()
 
 
   orphanize: ->

@@ -49,12 +49,6 @@ module.exports = class KDView extends KDObject
     transitionend : "transitionEnd"
 
 
-  overrideAndMergeObjects = (objects)->
-    for own title,item of objects.overridden
-      continue if objects.overrider[title]
-      objects.overrider[title] = item
-    objects.overrider
-
   appendToDomBody: ->
     @parentIsInDom = yes
     unless @lazy

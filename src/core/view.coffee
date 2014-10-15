@@ -1,6 +1,4 @@
-KDObject      = require './object.coffee'
-
-module.exports = class KDView extends KDObject
+KDNode = require './node'
 
 DOMOperations = require './mixins/domoperations'
 DOMEvents     = require './mixins/domevents'
@@ -8,32 +6,25 @@ Draggable     = require './mixins/draggable'
 Overlayable   = require './mixins/overlayable'
 Tooltipable   = require './mixins/tooltipable'
 
+module.exports = class KDView extends KDNode
 
-  constructor:(options = {},data)->
   @include DOMOperations
   @include DOMEvents
   @include Draggable
   @include Overlayable
   @include Tooltipable
 
-    options.tagName           or= "div"     # a String of a HTML tag
-    options.domId             or= null      # a String
-    options.cssClass          or= ""        # a String
+  constructor: (options = {}, data) ->
+
     options.parent            or= null      # a KDView Instance
-    options.partial           or= null      # a String of HTML or text
-    options.delegate          or= null      # a KDView Instance
     options.bind              or= ""        # a String of space separated javascript dom events to be listened
-    options.draggable         or= null      # an Object holding draggable options and/or events !!! NOT HTML5 !!!
-    options.size              or= null      # an Object holding width and height properties
-    options.position          or= null      # an Object holding top/right/bottom/left properties (would force view to be positioned absolutely)
-    options.attributes        or= null      # an Object holding attribute key/value pairs e.g. {href:'#',title:'my picture'}
     options.prefix            or= ""        # a String
     options.suffix            or= ""        # a String
     options.tooltip           or= null      # an Object of kdtooltip options
     options.lazyLoadThreshold  ?= no
-    # TO BE IMPLEMENTED
-    options.droppable         or= null      # TBDL
-    options.resizable         or= null      # TBDL
+    options.draggable         or= null      # an Object holding draggable options and/or events !!! NOT HTML5 !!!
+
+    options.nodeType          or= 'view'
 
     super options, data
 

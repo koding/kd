@@ -99,8 +99,8 @@ module.exports = class KDListView extends KDView
     isFirstIndex = index is 0
     isInBetween  = 0 < index < @items.length - 1
 
-    if isLastIndex       then @items.push item
-    else if isFirstIndex then @items.unshift item
+    if isFirstIndex      then @items.unshift item
+    else if isLastIndex  then @items.push item
     else @items.splice index, 0, item
 
     @emit 'ItemWasAdded', item, index

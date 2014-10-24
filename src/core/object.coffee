@@ -5,6 +5,14 @@ module.exports = class KDObject extends KDEventEmitter
 
   [NOTREADY, READY] = [0,1]
 
+  include = (context, mixin) ->
+    mixin = require mixin  if typeof mixin is 'string'
+    mixin.call context
+
+  @include = (mixin) -> include this.prototype, mixin
+
+  include: (mixin) -> include this, mixin
+
   utils: KD.utils
 
   constructor:(options = {}, data)->

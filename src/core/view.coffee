@@ -500,21 +500,36 @@ module.exports = class KDView extends KDObject
 
     view = this
     @on 'scroll', do ->
-      lastRatio = 0
-      (event)->
-        el = @getElement()
-        {scrollHeight, scrollTop} = el
 
-        dynamicThreshold = if threshold > 1
-        then (scrollHeight - threshold) / scrollHeight
-        else threshold
+      threshold = Math.max 50, threshold
+      lastPos   = 0
 
-        ratio = (scrollTop + view.getHeight()) / scrollHeight
+      (event) ->
 
-        if dynamicThreshold < ratio > lastRatio
-          @emit 'LazyLoadThresholdReached', {ratio}
+        {scrollHeight, scrollTop} = @getElement()
+        height                    = @getHeight()
 
-        lastRatio = ratio
+        # return when it pulls the page on top
+        return lastPos = height  if scrollTop < 0
+
+        # return when it pulls the page at the bottom
+        return  if scrollHeight - scrollTop < height
+
+        currentPos = scrollTop + height
+        direction  = if currentPos > lastPos then 'down' else 'up'
+
+
+        if direction is 'up' and scrollTop < threshold
+          @emit 'TopLazyLoadThresholdReached'
+
+        if direction is 'down' and currentPos > scrollHeight - threshold
+          @emit 'LazyLoadThresholdReached'
+
+        lastPos = currentPos
+
+
+
+
 
   bindEvents:($elm)->
     $elm or= @getDomElement()

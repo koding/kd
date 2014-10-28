@@ -490,42 +490,76 @@ module.exports =
   //     http://documentcloud.github.com/underscore
   ###
 
-  throttle : (wait, func)->
-    # for backwards compatibility
-    if (typeof func) is "number"
-      [wait, func] = [func, wait]
+  throttle : (wait, func, options) ->
 
-    context = args = timeout = throttling = more = null
-    whenDone = KD.utils.debounce wait, -> more = throttling = false
+    [wait, func] = [func, wait]  if (typeof func) is 'number'
+
+    context  = null
+    args     = null
+    result   = null
+    timeout  = null
+    previous = 0
+    options ?= {}
+
+    later = ->
+      previous = (if options.leading is false then 0 else Date.now)
+      timeout  = null
+      result   = func.apply context, args
+      context  = args = null  unless timeout
+
     ->
-      context = this
-      args = arguments
-      later = ->
-        timeout = null
-        if more then func.apply context, args
-        whenDone()
+      now       = Date.now
+      previous  = now  if not previous and options.leading is false
+      remaining = wait - (now - previous)
+      context   = this
+      args      = arguments
 
-      if !timeout then timeout = setTimeout later, wait
+      if remaining <= 0 or remaining > wait
+        if timeout
+          clearTimeout timeout
+          timeout = null
+        previous = now
+        result = func.apply context, args
+        context = args = null  unless timeout
+      else if not timeout and options.trailing isnt false
+        timeout = setTimeout later, remaining
 
-      if throttling then more = yes else func.apply(context, args)
+      return result
 
-      whenDone()
-      throttling = yes
 
-  debounce : (wait, func)->
-    if (typeof func) is "number"
-      [wait, func] = [func, wait]
+  debounce : (wait, func, immediate) ->
+
+    [wait, func] = [func, wait]  if (typeof func) is 'number'
 
     timeout   = null
-    ->
-      context = this
-      args    = arguments
-      later   = ->
+    args      = null
+    context   = null
+    timestamp = null
+    result    = null
+    later     = ->
+      last = Date.now - timestamp
+      if last < wait and last >= 0
+        timeout = setTimeout(later, wait - last)
+      else
         timeout = null
-        func.apply context, args
+        unless immediate
+          result  = func.apply(context, args)
+          context = args = null  unless timeout
 
-      clearTimeout timeout
-      timeout = setTimeout later, wait
+    ->
+      context   = this
+      args      = arguments
+      timestamp = Date.now
+      callNow   = immediate and not timeout
+      timeout  ?= setTimeout later, wait
+
+      if callNow
+        result  = func.apply(context, args)
+        context = args = null
+
+      return result
+
+
 
   relativeOffset: (child, parent) ->
     x = 0; y = 0

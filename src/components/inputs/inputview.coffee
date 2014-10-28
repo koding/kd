@@ -425,18 +425,22 @@ module.exports = class KDInputView extends KDView
 
   setAutoGrow:->
 
-    $input = @$()
-    $input.css "overflow", "hidden"
+    initialHeight = null
+    $input        = @$()
 
-    @setClass "autogrow"
+    $input.css 'overflow', 'hidden'
 
-    # input content is copied into clone element to get calculated height
-    @_clone = $ "<div/>", class : "invisible"
+    @setClass 'autogrow'
+
+    # input content is copied into clone
+    # element to get calculated height
+    @_clone = $ '<div/>', class : 'invisible'
 
     @on "focus", =>
+      initialHeight = @$()[0].style.height
       @_clone.appendTo 'body'
       @_clone.css
-        height        : "auto"
+        height        : 'auto'
         zIndex        : 100000
         width         : $input.css 'width'
         boxSizing     : $input.css 'box-sizing'
@@ -454,13 +458,11 @@ module.exports = class KDInputView extends KDView
         fontSize      : $input.css 'fontSize'
         fontWeight    : $input.css 'fontWeight'
         lineHeight    : $input.css 'lineHeight'
-        whiteSpace    : "pre-line"
+        whiteSpace    : 'pre-line'
 
-    @on 'blur', =>
-      @_clone.detach()
-      @$()[0].style.height = 'none' # hack to set to initial
+    @on 'blur', => @_clone.detach()
 
-    @on 'keydown', => KD.utils.defer @bound 'resize'
+    @on 'input', (event) => KD.utils.defer => @resize event
 
 
   resize: (event) ->
@@ -468,7 +470,9 @@ module.exports = class KDInputView extends KDView
     return  unless @_clone
 
     @_clone.appendTo 'body' unless document.body.contains @_clone[0]
-    @_clone.html Encoder.XSSEncode @getValue()
+    val = @getElement().value.replace(/\n/g,'\n&nbsp;')
+    safeValue = Encoder.XSSEncode val
+    @_clone.html safeValue
 
     height = @_clone.height()
     if @$().css("boxSizing") is "border-box"

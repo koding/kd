@@ -36,6 +36,7 @@ module.exports = class KDScrollThumb extends KDView
     @calculateSize()
     @calculatePosition()
 
+
   handleDrag:->
 
     size        = @getSize()
@@ -109,20 +110,22 @@ module.exports = class KDScrollThumb extends KDView
     @trackSize  = @getTrackSize()
     @scrollSize = @getScrollSize()
 
-    if @trackSize >= @scrollSize
-    then @track.hide()
-    else @track.show()
-
-    size = @trackSize * @trackSize / @scrollSize
-    @setSize size
+    @setTrackVisibility()
+    @setSize @trackSize * @trackSize / @scrollSize
 
 
   calculatePosition:(event)->
 
     ratio = @getScrollOffset() / @getScrollSize()
-
+    @setTrackVisibility()
     @setOffset @getTrackSize() * ratio
 
+
+  setTrackVisibility: ->
+
+    if @trackSize >= @scrollSize
+    then @track.hide()
+    else @track.show()
 
   # I assume, this would fire a lot
   # we may throttle this in case - SY

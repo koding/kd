@@ -30,7 +30,7 @@ module.exports = class KDScrollThumb extends KDView
     @scrollSize = null
 
 
-  handleMutation:->
+  handleMutation: ->
 
     @resetSizes()
     @calculateSize()

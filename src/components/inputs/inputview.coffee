@@ -74,10 +74,8 @@ module.exports = class KDInputView extends KDView
     o.hint                    or= null          # a String of HTML
     o.autogrow                 ?= no            # a Boolean
     o.enableTabKey             ?= no            # a Boolean # NOT YET READY needs some work
-    o.bind                    or= ""            # a String of event names
     o.forceCase               or= null          # a String of either "lowercase" or "uppercase"
-
-    o.bind += " blur change focus"
+    o.bind                      = KD.utils.curry 'blur change focus paste cut input copy', o.bind
 
     @setType o.type
 

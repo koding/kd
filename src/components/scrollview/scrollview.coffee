@@ -1,26 +1,15 @@
-require('jquery-mousewheel') $
 KDView = require './../../core/view.coffee'
 
 module.exports = class KDScrollView extends KDView
 
   constructor:(options = {}, data)->
 
-    options.bind     or= "mouseenter"
-    options.cssClass   = KD.utils.curry "kdscrollview", options.cssClass
+    options.bind     = KD.utils.curry 'wheel scroll', options.bind
+    options.cssClass = KD.utils.curry 'kdscrollview', options.cssClass
 
     super options, data
 
     @stopScrolling = no
-    @on 'click', -> KD.getSingleton('windowController').enableScroll()
-
-
-  bindEvents:->
-
-    @$().bind 'mousewheel scroll', (event, delta, deltaX, deltaY)=>
-      event._delta = {delta, deltaX, deltaY}  if delta
-      @handleEvent event
-
-    super
 
   hasScrollBars:-> @hasVerticalScrollBars() or @hasHorizontalScrollBars()
 
@@ -89,3 +78,5 @@ module.exports = class KDScrollView extends KDView
   mouseWheel:->
 
     return no  if @stopScrolling
+
+    return yes

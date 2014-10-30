@@ -6,23 +6,21 @@ KDScrollTrack    = require './scrolltrack'
 
 module.exports = class KDCustomScrollViewWrapper extends KDScrollView
 
-  scroll:(event)->
+  scroll: (event) ->
 
     if @verticalThumb.beingDragged or @horizontalThumb.beingDragged
       return KD.utils.stopDOMEvent event
 
 
-  mouseWheel:(event)->
+  mouseWheel: (event) ->
 
     super
 
-    {_delta, deltaFactor} = event
+    {deltaX, deltaY, deltaFactor} = event.originalEvent
 
-    return  unless _delta
-
-    speed = deltaFactor or @getOptions().mouseWheelSpeed
-    x     = _delta.deltaX
-    y     = _delta.deltaY
+    speed = deltaFactor or @getOptions().mouseWheelSpeed or 1
+    x     = deltaX
+    y     = deltaY
 
     resX  = if x isnt 0 and @getScrollWidth() > @getWidth()
     then  @_scrollHorizontally {speed, velocity : x}
@@ -44,7 +42,7 @@ module.exports = class KDCustomScrollViewWrapper extends KDScrollView
 
       stepInPixels = velocity * speed
       actPosition  = @getScrollTop()
-      newPosition  = actPosition - stepInPixels
+      newPosition  = actPosition + stepInPixels
       shouldStop   = if velocity > 0
       then lastPosition > newPosition
       else lastPosition < newPosition

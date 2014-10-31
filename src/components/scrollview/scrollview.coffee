@@ -75,7 +75,7 @@ module.exports = class KDScrollView extends KDView
     (viewHeight + viewOffsetFromScrollView - @getHeight())/@getHeight()
 
 
-  mouseWheel:->
+  mouseWheel: ->
 
     return no  if @stopScrolling
 

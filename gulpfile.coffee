@@ -372,5 +372,5 @@ gulp.task 'default', defaultTasks , -> log 'green', 'All done!'
 
 process.on 'uncaughtException', (err)->
 
-  log 'red', "An error has occured: #{err.name}"
+  log 'red', "An error has occurred: #{err.name}"
   console.error err

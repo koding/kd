@@ -41,6 +41,7 @@ module.exports = class KDTabPaneView extends KDView
     return  unless @active
 
     @setScrollTops()
+    @emit 'KDTabPaneInactive'
 
     @unsetClass 'active'
     @setClass 'kdhiddentab'
@@ -49,7 +50,6 @@ module.exports = class KDTabPaneView extends KDView
       @parent?.getElement().removeChild @getElement()
 
     @active = no
-    @emit 'KDTabPaneInactive'
 
 
   setScrollTops: ->

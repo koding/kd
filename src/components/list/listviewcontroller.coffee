@@ -26,7 +26,7 @@ module.exports = class KDListViewController extends KDViewController
 
     Object.defineProperty this, "itemsOrdered", get : =>
       warn "KDListViewController::itemsOrdered is deprecated."
-      @getListView().items
+      @getListItems()
 
     @itemsIndexed                 = {}
     @selectedItems                = []

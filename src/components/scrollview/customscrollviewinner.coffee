@@ -9,6 +9,7 @@ module.exports = class KDCustomScrollViewWrapper extends KDScrollView
   scroll: (event) ->
 
     if @verticalThumb.beingDragged or @horizontalThumb.beingDragged
+
       return KD.utils.stopDOMEvent event
 
 

@@ -423,8 +423,7 @@ module.exports = class KDInputView extends KDView
 
   setAutoGrow:->
 
-    initialHeight = null
-    $input        = @$()
+    $input = @$()
 
     $input.css 'overflow', 'hidden'
 
@@ -434,8 +433,7 @@ module.exports = class KDInputView extends KDView
     # element to get calculated height
     @_clone = $ '<div/>', class : 'invisible'
 
-    @on "focus", =>
-      initialHeight = @$()[0].style.height
+    @on 'focus', =>
       @_clone.appendTo 'body'
       @_clone.css
         height        : 'auto'

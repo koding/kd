@@ -80,6 +80,7 @@ module.exports = class KDScrollView extends KDView
       @scrollTo top : subViewRelTop - viewHeight + subViewHeight
 
 
+  isAtBottom: -> @getScrollTop() + @getHeight() >= @getScrollHeight()
 
   mouseWheel: ->
 

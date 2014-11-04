@@ -1,4 +1,3 @@
-require('jquery-mousewheel') $
 KDCustomHTMLView = require './../../core/customhtmlview'
 KDScrollView     = require './scrollview'
 KDScrollThumb    = require './scrollthumb'

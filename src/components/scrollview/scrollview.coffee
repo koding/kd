@@ -2,7 +2,7 @@ KDView = require './../../core/view.coffee'
 
 module.exports = class KDScrollView extends KDView
 
-  constructor:(options = {}, data)->
+  constructor: (options = {}, data) ->
 
     options.bind     = KD.utils.curry 'wheel scroll', options.bind
     options.cssClass = KD.utils.curry 'kdscrollview', options.cssClass
@@ -11,28 +11,38 @@ module.exports = class KDScrollView extends KDView
 
     @stopScrolling = no
 
-  hasScrollBars:-> @hasVerticalScrollBars() or @hasHorizontalScrollBars()
 
-  hasVerticalScrollBars:->   @getScrollHeight() > @getHeight()
-  hasHorizontalScrollBars:-> @getScrollWidth()  > @getWidth()
+  hasScrollBars: -> @hasVerticalScrollBars() or @hasHorizontalScrollBars()
 
-  getScrollHeight:-> @getElement().scrollHeight
-  getScrollWidth:->  @getElement().scrollWidth
-  getScrollTop:->    @getElement().scrollTop
-  getScrollLeft:->   @getElement().scrollLeft
+  hasVerticalScrollBars: -> @getScrollHeight() > @getHeight()
 
-  setScrollHeight:(val)-> @getElement().scrollHeight = val
-  setScrollWidth:(val)->  @getElement().scrollWidth = val
-  setScrollTop:(val)->    @getElement().scrollTop = val
-  setScrollLeft:(val)->   @getElement().scrollLeft = val
+  hasHorizontalScrollBars: -> @getScrollWidth() > @getWidth()
+
+  getScrollHeight: -> @getElement().scrollHeight
+
+  getScrollWidth: -> @getElement().scrollWidth
+
+  getScrollTop: -> @getElement().scrollTop
+
+  getScrollLeft: -> @getElement().scrollLeft
+
+  setScrollHeight: (val) -> @getElement().scrollHeight = val
+
+  setScrollWidth: (val) -> @getElement().scrollWidth = val
+
+  setScrollTop: (val) -> @getElement().scrollTop = val
+
+  setScrollLeft: (val) -> @getElement().scrollLeft = val
 
 
-  scrollTo:({top, left, duration},callback)->
+  scrollTo: (options, callback) ->
+
+    { top, left, duration } = options
+
     top      or= 0
     left     or= 0
-    duration or= null
 
-    if duration
+    if duration?
       @$().animate
         scrollTop  : top
         scrollLeft : left
@@ -44,7 +54,7 @@ module.exports = class KDScrollView extends KDView
       callback?()
 
 
-  scrollToSubView:(subView)->
+  scrollToSubView: (subView) ->
 
     viewTop       = @getY()
     viewHeight    = @getHeight()
@@ -53,16 +63,16 @@ module.exports = class KDScrollView extends KDView
     subViewHeight = subView.getHeight()
     subViewRelTop = subViewTop - viewTop + viewScrollTop
 
-    # log "item is in visible area"
+    # subview is in visible area
     if subViewTop - viewTop + subViewHeight < viewHeight and subViewTop - viewTop >= 0
-      # log "item is in visible area"
+      # subview is in visible area
       return
 
-    # log "item is above visible area"
+    # subview is above visible area
     else if subViewTop - viewTop < 0
       @scrollTo top : subViewRelTop
 
-    # log "item is below visible area"
+    # subview is below visible area
     else if subViewTop - viewTop + subViewHeight > viewHeight
       @scrollTo top : subViewRelTop - viewHeight + subViewHeight
 

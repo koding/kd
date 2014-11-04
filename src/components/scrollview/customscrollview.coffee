@@ -13,11 +13,13 @@ module.exports = class KDCustomScrollView extends KDCustomHTMLView
 
     super options, data
 
-    {mouseWheelSpeed, lazyLoadThreshold} = @getOptions()
+    {mouseWheelSpeed, lazyLoadThreshold, wrapperClass} = @getOptions()
 
     @listenWindowResize()  if options.offscreenIndicatorClassName?
 
-    @wrapper = new KDCustomScrollViewWrapper {
+    Wrapper = wrapperClass or KDCustomScrollViewWrapper
+
+    @wrapper = new Wrapper {
       tagName  : 'main'
       lazyLoadThreshold
       mouseWheelSpeed

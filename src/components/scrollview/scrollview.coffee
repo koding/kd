@@ -80,13 +80,6 @@ module.exports = class KDScrollView extends KDView
       @scrollTo top : subViewRelTop - viewHeight + subViewHeight
 
 
-  fractionOfHeightBelowFold:({view})->
-    viewHeight = view.getHeight()
-    viewGlobalOffset = view.$().offset().top
-    scrollViewGlobalOffset = @$().offset().top
-    viewOffsetFromScrollView = viewGlobalOffset - scrollViewGlobalOffset
-    (viewHeight + viewOffsetFromScrollView - @getHeight())/@getHeight()
-
 
   mouseWheel: ->
 

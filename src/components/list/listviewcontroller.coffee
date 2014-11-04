@@ -26,7 +26,7 @@ module.exports = class KDListViewController extends KDViewController
 
     Object.defineProperty this, "itemsOrdered", get : =>
       warn "KDListViewController::itemsOrdered is deprecated."
-      @getListView().items
+      @getListItems()
 
     @itemsIndexed                 = {}
     @selectedItems                = []
@@ -418,14 +418,12 @@ module.exports = class KDListViewController extends KDViewController
     @lazyLoader.show()
     @lazyLoader.spinner.show()
     @emit 'LazyLoadThresholdReached'  if emitWhenReached
-    KD.utils.defer => @scrollView?.stopScrolling = yes
 
 
   hideLazyLoader:->
 
     return  unless @lazyLoader
 
-    KD.utils.wait 300, => @scrollView?.stopScrolling = no
     @showNoItemWidget() if @noItemView and @getOptions().noItemFoundWidget
 
     @lazyLoader.spinner.hide()

@@ -1,4 +1,3 @@
-require('jquery-mousewheel') $
 KDCustomHTMLView = require './../../core/customhtmlview'
 KDScrollView     = require './scrollview'
 KDScrollThumb    = require './scrollthumb'
@@ -6,32 +5,33 @@ KDScrollTrack    = require './scrolltrack'
 
 module.exports = class KDCustomScrollViewWrapper extends KDScrollView
 
-  scroll:(event)->
+  scroll: (event) ->
 
     if @verticalThumb.beingDragged or @horizontalThumb.beingDragged
+
       return KD.utils.stopDOMEvent event
 
 
-  mouseWheel:(event)->
+  mouseWheel: (event) ->
 
     super
 
-    {_delta, deltaFactor} = event
+    {deltaX, deltaY, deltaFactor} = event.originalEvent
 
-    return  unless _delta
+    speed = deltaFactor or @getOptions().mouseWheelSpeed or 1
+    x     = deltaX
+    y     = deltaY
 
-    speed = deltaFactor or @getOptions().mouseWheelSpeed
-    x     = _delta.deltaX
-    y     = _delta.deltaY
-
-    resX  = if x isnt 0 and @getScrollWidth() > @getWidth()
+    resX  = if x isnt 0 and @getScrollWidth() > @horizontalThumb.getTrackSize()
     then  @_scrollHorizontally {speed, velocity : x}
     else  no
-    resY  = if y isnt 0 and @getScrollHeight() > @getHeight()
+    resY  = if y isnt 0 and @getScrollHeight() > @verticalThumb.getTrackSize()
     then  @_scrollVertically {speed, velocity : y}
     else  no
 
     stop  = if Math.abs(x) > Math.abs(y) then resX else resY
+
+    KD.utils.stopDOMEvent event  unless stop
 
     return !stop
 
@@ -44,7 +44,7 @@ module.exports = class KDCustomScrollViewWrapper extends KDScrollView
 
       stepInPixels = velocity * speed
       actPosition  = @getScrollTop()
-      newPosition  = actPosition - stepInPixels
+      newPosition  = actPosition + stepInPixels
       shouldStop   = if velocity > 0
       then lastPosition > newPosition
       else lastPosition < newPosition

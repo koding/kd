@@ -38,10 +38,10 @@ module.exports = class KDScrollThumb extends KDView
 
 
   handleDrag:->
-
     size        = @getSize()
     offset      = @getOffset()
-    trackSize   = @getTrackSize()
+    thumbDiff   = @getSize(yes) + @size # in case of given min-height/width with css
+    trackSize   = @getTrackSize() - thumbDiff
     availOffset = trackSize - size
     ratio       = Math.min Math.max(0, offset/availOffset), 1
 
@@ -69,9 +69,9 @@ module.exports = class KDScrollThumb extends KDView
     @size = size
 
 
-  getSize:->
+  getSize: (force) ->
 
-    if @size then @size
+    if @size and not force then @size
     else if @isVertical()
     then @getHeight()
     else @getWidth()
@@ -114,11 +114,12 @@ module.exports = class KDScrollThumb extends KDView
     @setSize @trackSize * @trackSize / @scrollSize
 
 
-  calculatePosition:(event)->
+  calculatePosition: (event) ->
 
-    ratio = @getScrollOffset() / @getScrollSize()
+    ratio     = @getScrollOffset() / @getScrollSize()
+    thumbDiff = @getSize(yes) - @size # in case of given min-height/width with css
     @setTrackVisibility()
-    @setOffset @getTrackSize() * ratio
+    @setOffset (@getTrackSize() - thumbDiff) * ratio
 
 
   setTrackVisibility: ->

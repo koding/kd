@@ -1,49 +1,48 @@
-require('jquery-mousewheel') $
 KDView = require './../../core/view.coffee'
 
 module.exports = class KDScrollView extends KDView
 
-  constructor:(options = {}, data)->
+  constructor: (options = {}, data) ->
 
-    options.bind     or= "mouseenter"
-    options.cssClass   = KD.utils.curry "kdscrollview", options.cssClass
+    options.bind     = KD.utils.curry 'wheel scroll', options.bind
+    options.cssClass = KD.utils.curry 'kdscrollview', options.cssClass
 
     super options, data
 
     @stopScrolling = no
-    @on 'click', -> KD.getSingleton('windowController').enableScroll()
 
 
-  bindEvents:->
+  hasScrollBars: -> @hasVerticalScrollBars() or @hasHorizontalScrollBars()
 
-    @$().bind 'mousewheel scroll', (event, delta, deltaX, deltaY)=>
-      event._delta = {delta, deltaX, deltaY}  if delta
-      @handleEvent event
+  hasVerticalScrollBars: -> @getScrollHeight() > @getHeight()
 
-    super
+  hasHorizontalScrollBars: -> @getScrollWidth() > @getWidth()
 
-  hasScrollBars:-> @hasVerticalScrollBars() or @hasHorizontalScrollBars()
+  getScrollHeight: -> @getElement().scrollHeight
 
-  hasVerticalScrollBars:->   @getScrollHeight() > @getHeight()
-  hasHorizontalScrollBars:-> @getScrollWidth()  > @getWidth()
+  getScrollWidth: -> @getElement().scrollWidth
 
-  getScrollHeight:-> @getElement().scrollHeight
-  getScrollWidth:->  @getElement().scrollWidth
-  getScrollTop:->    @getElement().scrollTop
-  getScrollLeft:->   @getElement().scrollLeft
+  getScrollTop: -> @getElement().scrollTop
 
-  setScrollHeight:(val)-> @getElement().scrollHeight = val
-  setScrollWidth:(val)->  @getElement().scrollWidth = val
-  setScrollTop:(val)->    @getElement().scrollTop = val
-  setScrollLeft:(val)->   @getElement().scrollLeft = val
+  getScrollLeft: -> @getElement().scrollLeft
+
+  setScrollHeight: (val) -> @getElement().scrollHeight = val
+
+  setScrollWidth: (val) -> @getElement().scrollWidth = val
+
+  setScrollTop: (val) -> @getElement().scrollTop = val
+
+  setScrollLeft: (val) -> @getElement().scrollLeft = val
 
 
-  scrollTo:({top, left, duration},callback)->
+  scrollTo: (options, callback) ->
+
+    { top, left, duration } = options
+
     top      or= 0
     left     or= 0
-    duration or= null
 
-    if duration
+    if duration?
       @$().animate
         scrollTop  : top
         scrollLeft : left
@@ -55,7 +54,10 @@ module.exports = class KDScrollView extends KDView
       callback?()
 
 
-  scrollToSubView:(subView)->
+  scrollToBottom: -> @scrollTo top : @getScrollHeight() - @getHeight()
+
+
+  scrollToSubView: (subView) ->
 
     viewTop       = @getY()
     viewHeight    = @getHeight()
@@ -64,28 +66,24 @@ module.exports = class KDScrollView extends KDView
     subViewHeight = subView.getHeight()
     subViewRelTop = subViewTop - viewTop + viewScrollTop
 
-    # log "item is in visible area"
+    # subview is in visible area
     if subViewTop - viewTop + subViewHeight < viewHeight and subViewTop - viewTop >= 0
-      # log "item is in visible area"
+      # subview is in visible area
       return
 
-    # log "item is above visible area"
+    # subview is above visible area
     else if subViewTop - viewTop < 0
       @scrollTo top : subViewRelTop
 
-    # log "item is below visible area"
+    # subview is below visible area
     else if subViewTop - viewTop + subViewHeight > viewHeight
       @scrollTo top : subViewRelTop - viewHeight + subViewHeight
 
 
-  fractionOfHeightBelowFold:({view})->
-    viewHeight = view.getHeight()
-    viewGlobalOffset = view.$().offset().top
-    scrollViewGlobalOffset = @$().offset().top
-    viewOffsetFromScrollView = viewGlobalOffset - scrollViewGlobalOffset
-    (viewHeight + viewOffsetFromScrollView - @getHeight())/@getHeight()
+  isAtBottom: -> @getScrollTop() + @getHeight() >= @getScrollHeight()
 
-
-  mouseWheel:->
+  mouseWheel: ->
 
     return no  if @stopScrolling
+
+    return yes

@@ -6,7 +6,7 @@ module.exports = class KDScrollTrack extends KDView
   constructor:(options = {}, data)->
 
     options.type   or= 'vertical'
-    options.cssClass = KD.utils.curry "kdscrolltrack #{options.type}", options.cssClass
+    options.cssClass = KD.utils.curry "kdscrolltrack #{options.type} out", options.cssClass
 
     super options, data
 

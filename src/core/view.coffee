@@ -23,7 +23,8 @@ module.exports = class KDView extends KDObject
     scroll|
     paste|
     error|
-    load
+    load|
+    wheel
     )$
     ///
 
@@ -37,7 +38,6 @@ module.exports = class KDView extends KDObject
     mouseenter    : "mouseEnter"
     mouseleave    : "mouseLeave"
     mousemove     : "mouseMove"
-    mousewheel    : "mouseWheel"
     wheel         : "mouseWheel"
     mouseover     : "mouseOver"
     contextmenu   : "contextMenu"

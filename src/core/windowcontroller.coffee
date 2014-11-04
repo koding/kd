@@ -23,7 +23,6 @@ module.exports = class KDWindowController extends KDController
     @currentCombos         = {}
     @keyView               = null
     @dragView              = null
-    @scrollingEnabled      = yes
     @layers                = []
     @unloadListeners       = {}
     @focusListeners        = []
@@ -259,10 +258,6 @@ module.exports = class KDWindowController extends KDController
     # else
     @emit event.type, event
     @keyView?.handleEvent event
-
-  enableScroll:-> @scrollingEnabled = yes
-
-  disableScroll:-> @scrollingEnabled = no
 
   registerWindowResizeListener:(instance)->
     @windowResizeListeners[instance.id] = instance

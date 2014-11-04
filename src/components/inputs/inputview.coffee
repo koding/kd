@@ -423,8 +423,7 @@ module.exports = class KDInputView extends KDView
 
   setAutoGrow:->
 
-    initialHeight = null
-    $input        = @$()
+    $input = @$()
 
     $input.css 'overflow', 'hidden'
 
@@ -434,8 +433,7 @@ module.exports = class KDInputView extends KDView
     # element to get calculated height
     @_clone = $ '<div/>', class : 'invisible'
 
-    @on "focus", =>
-      initialHeight = @$()[0].style.height
+    @on 'focus', =>
       @_clone.appendTo 'body'
       @_clone.css
         height        : 'auto'
@@ -463,25 +461,36 @@ module.exports = class KDInputView extends KDView
     @on 'input', (event) => KD.utils.defer => @resize event
 
 
-  resize: (event) ->
+  resize: do ->
 
-    return  unless @_clone
+    previousHeight = null
 
-    @_clone.appendTo 'body' unless document.body.contains @_clone[0]
-    val = @getElement().value.replace(/\n/g,'\n&nbsp;')
-    safeValue = Encoder.XSSEncode val
-    @_clone.html safeValue
+    (event) ->
 
-    height = @_clone.height()
-    if @$().css("boxSizing") is "border-box"
-      padding = parseInt(@_clone.css('paddingTop'),     10) + parseInt(@_clone.css('paddingBottom'),     10)
-      border  = parseInt(@_clone.css('borderTopWidth'), 10) + parseInt(@_clone.css('borderBottomWidth'), 10)
-      height  = height + border + padding
+      return  unless @_clone
 
-    @setHeight \
-      if @initialHeight
-      then Math.max @initialHeight, height
-      else height
+      @_clone.appendTo 'body' unless document.body.contains @_clone[0]
+      val = @getElement().value.replace(/\n/g,'\n&nbsp;')
+      safeValue = Encoder.XSSEncode val
+      @_clone.html safeValue
+
+      height = @_clone.height()
+
+      getValue = (rule) => parseInt @_clone.css(rule), 10
+
+      if @$().css('boxSizing') is 'border-box'
+        padding = getValue('paddingTop')     + getValue('paddingBottom')
+        border  = getValue('borderTopWidth') + getValue('borderBottomWidth')
+        height  = height + border + padding
+
+      newHeight = if @initialHeight then Math.max @initialHeight, height else height
+
+      if previousHeight isnt newHeight
+        @setHeight newHeight
+        @emit 'InputHeightChanged'
+
+      previousHeight = newHeight
+
 
   enableTabKey:-> @inputTabKeyEnabled = yes
 

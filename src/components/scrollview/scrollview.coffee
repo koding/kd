@@ -54,6 +54,9 @@ module.exports = class KDScrollView extends KDView
       callback?()
 
 
+  scrollToBottom: -> @scrollTo top : @getScrollHeight() - @getHeight()
+
+
   scrollToSubView: (subView) ->
 
     viewTop       = @getY()

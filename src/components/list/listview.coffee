@@ -113,7 +113,8 @@ module.exports = class KDListView extends KDView
 
     unless boxed
 
-      if isLastIndex then @addSubView item
+      if isFirstIndex     then @addSubView item, null, yes
+      else if isLastIndex then @addSubView item
       else addNeighborItem item, index
 
     else

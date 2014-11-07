@@ -16,11 +16,11 @@ module.exports = class KDCustomScrollViewWrapper extends KDScrollView
 
     super
 
-    {deltaX, deltaY, deltaFactor} = event.originalEvent
+    {deltaX, deltaY, deltaFactor} = event
 
     speed = deltaFactor or @getOptions().mouseWheelSpeed or 1
-    x     = deltaX
-    y     = deltaY
+    x     = -deltaX
+    y     = -deltaY
 
     resX  = if x isnt 0 and @getScrollWidth() > @horizontalThumb.getTrackSize()
     then  @_scrollHorizontally {speed, velocity : x}

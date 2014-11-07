@@ -1,10 +1,11 @@
+require('jquery-mousewheel') $
 KDView = require './../../core/view.coffee'
 
 module.exports = class KDScrollView extends KDView
 
   constructor: (options = {}, data) ->
 
-    options.bind     = KD.utils.curry 'wheel scroll', options.bind
+    options.bind     = KD.utils.curry 'mousewheel scroll', options.bind
     options.cssClass = KD.utils.curry 'kdscrollview', options.cssClass
 
     super options, data

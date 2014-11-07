@@ -39,6 +39,7 @@ module.exports = class KDView extends KDObject
     mouseleave    : 'mouseLeave'
     mousemove     : 'mouseMove'
     wheel         : 'mouseWheel'
+    mousewheel    : 'mouseWheel'
     mouseover     : 'mouseOver'
     contextmenu   : 'contextMenu'
     dragstart     : 'dragStart'

@@ -12,6 +12,8 @@ module.exports = class KDScrollTrack extends KDView
 
     {@type} = @getOptions()
 
+    @scrollView = @getDelegate()
+
     @thumb = new KDScrollThumb
       cssClass : 'kdscrollthumb'
       type     : @type
@@ -23,6 +25,23 @@ module.exports = class KDScrollTrack extends KDView
     super
 
     @addSubView @thumb
+
+
+  click: (event) ->
+
+    return  unless 'kdscrolltrack' in event.target.classList
+
+    if @type is 'vertical'
+      scrollHeight = @scrollView.getScrollHeight()
+      thumbHeight  = @thumb.getHeight()
+      @scrollView.scrollTo
+        top : (event.offsetY - thumbHeight / 2) / @getHeight() * scrollHeight
+
+    else
+      scrollWidth = @scrollView.getScrollWidth()
+      thumbWidth  = @thumb.getWidth()
+      @scrollView.scrollTo
+        left : (event.offsetX - thumbWidth / 2) / @getWidth() * scrollWidth
 
 
   show:->

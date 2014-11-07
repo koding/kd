@@ -41,7 +41,7 @@ module.exports = class KDScrollThumb extends KDView
 
     size        = @getSize()
     offset      = @getOffset()
-    thumbDiff   = @getSize(yes) + @size # in case of given min-height/width with css
+    thumbDiff   = @getSize(yes) - @size # in case of given min-height/width with css
     trackSize   = @getTrackSize() - thumbDiff
     availOffset = trackSize - size
     ratio       = Math.min Math.max(0, offset/availOffset), 1

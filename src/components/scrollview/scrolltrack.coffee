@@ -19,7 +19,9 @@ module.exports = class KDScrollTrack extends KDView
 
 
   viewAppended: ->
-    super()
+
+    super
+
     @addSubView @thumb
 
 

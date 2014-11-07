@@ -29,24 +29,24 @@ module.exports = class KDView extends KDObject
     ///
 
   eventToMethodMap = ->
-    dblclick      : "dblClick"
-    keyup         : "keyUp"
-    keydown       : "keyDown"
-    keypress      : "keyPress"
-    mouseup       : "mouseUp"
-    mousedown     : "mouseDown"
-    mouseenter    : "mouseEnter"
-    mouseleave    : "mouseLeave"
-    mousemove     : "mouseMove"
-    wheel         : "mouseWheel"
-    mouseover     : "mouseOver"
-    contextmenu   : "contextMenu"
-    dragstart     : "dragStart"
-    dragenter     : "dragEnter"
-    dragleave     : "dragLeave"
-    dragover      : "dragOver"
-    paste         : "paste"
-    transitionend : "transitionEnd"
+    dblclick      : 'dblClick'
+    keyup         : 'keyUp'
+    keydown       : 'keyDown'
+    keypress      : 'keyPress'
+    mouseup       : 'mouseUp'
+    mousedown     : 'mouseDown'
+    mouseenter    : 'mouseEnter'
+    mouseleave    : 'mouseLeave'
+    mousemove     : 'mouseMove'
+    wheel         : 'mouseWheel'
+    mouseover     : 'mouseOver'
+    contextmenu   : 'contextMenu'
+    dragstart     : 'dragStart'
+    dragenter     : 'dragEnter'
+    dragleave     : 'dragLeave'
+    dragover      : 'dragOver'
+    paste         : 'paste'
+    transitionend : 'transitionEnd'
 
 
   overrideAndMergeObjects = (objects)->

@@ -33,8 +33,8 @@ module.exports = class KDCustomScrollView extends KDCustomHTMLView
     @wrapper.verticalThumb   = @verticalTrack.thumb
     @wrapper.horizontalThumb = @horizontalTrack.thumb
 
-    @wrapper.on 'ScrollTrackShown',  (type)=> @setClass   "has-#{type}"
-    @wrapper.on 'ScrollTrackHidden', (type)=> @unsetClass "has-#{type}"
+    @wrapper.on 'ScrollTrackShown',  (type) => @setClass   "has-#{type}"
+    @wrapper.on 'ScrollTrackHidden', (type) => @unsetClass "has-#{type}"
 
     @on 'mouseenter', @bound 'showTracks'
     @on 'mouseleave', @bound 'hideTracks'

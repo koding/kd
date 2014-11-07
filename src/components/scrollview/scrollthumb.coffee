@@ -37,7 +37,8 @@ module.exports = class KDScrollThumb extends KDView
     @calculatePosition()
 
 
-  handleDrag:->
+  handleDrag: ->
+
     size        = @getSize()
     offset      = @getOffset()
     thumbDiff   = @getSize(yes) + @size # in case of given min-height/width with css

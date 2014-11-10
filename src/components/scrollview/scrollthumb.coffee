@@ -30,7 +30,7 @@ module.exports = class KDScrollThumb extends KDView
     @scrollSize = null
 
 
-  handleMutation: ->
+  reset: ->
 
     @resetSizes()
     @calculateSize()
@@ -131,4 +131,4 @@ module.exports = class KDScrollThumb extends KDView
 
   # I assume, this would fire a lot
   # we may throttle this in case - SY
-  _windowDidResize: -> @handleMutation()
+  _windowDidResize: -> @reset()

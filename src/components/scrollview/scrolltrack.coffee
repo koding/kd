@@ -14,17 +14,10 @@ module.exports = class KDScrollTrack extends KDView
 
     @scrollView = @getDelegate()
 
-    @thumb = new KDScrollThumb
+    @addSubView @thumb = new KDScrollThumb
       cssClass : 'kdscrollthumb'
       type     : @type
       track    : this
-
-
-  viewAppended: ->
-
-    super
-
-    @addSubView @thumb
 
 
   click: (event) ->

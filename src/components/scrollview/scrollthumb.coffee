@@ -2,7 +2,7 @@ KDView = require './../../core/view.coffee'
 
 module.exports = class KDScrollThumb extends KDView
 
-  constructor:(options = {}, data)->
+  constructor:(options = {}, data) ->
 
     options.type      or= 'vertical'
     options.cssClass    = KD.utils.curry 'kdscrollthumb', options.cssClass
@@ -23,7 +23,7 @@ module.exports = class KDScrollThumb extends KDView
     @listenWindowResize()
 
 
-  resetSizes:->
+  resetSizes: ->
 
     @size       = null
     @trackSize  = null
@@ -51,10 +51,10 @@ module.exports = class KDScrollThumb extends KDView
     else @view.setScrollLeft (@view.getScrollWidth()  - trackSize) * ratio
 
 
-  isVertical:-> @type is 'vertical'
+  isVertical: -> @type is 'vertical'
 
 
-  getTrackSize:->
+  getTrackSize: ->
 
     if @trackSize then @trackSize
     else if @isVertical()
@@ -62,7 +62,7 @@ module.exports = class KDScrollThumb extends KDView
     else @track.getWidth()
 
 
-  setSize:(size)->
+  setSize: (size) ->
 
     if @isVertical()
     then @setHeight size
@@ -78,27 +78,28 @@ module.exports = class KDScrollThumb extends KDView
     else @getWidth()
 
 
-  setOffset:(offset)->
+  setOffset: (offset) ->
 
     @setStyle if @isVertical()
     then top  : offset
     else left : offset
 
 
-  getOffset:->
+  getOffset: ->
 
     if @isVertical()
     then @getY() - @track.getY()
     else @getX() - @track.getX()
 
-  getScrollOffset:->
+
+  getScrollOffset: ->
 
     if @isVertical()
     then @view.getScrollTop()
     else @view.getScrollLeft()
 
 
-  getScrollSize:->
+  getScrollSize: ->
 
     if @scrollSize then @scrollSize
     else if @isVertical()
@@ -106,7 +107,7 @@ module.exports = class KDScrollThumb extends KDView
     else @view.getScrollWidth()
 
 
-  calculateSize:->
+  calculateSize: ->
 
     @trackSize  = @getTrackSize()
     @scrollSize = @getScrollSize()
@@ -119,8 +120,9 @@ module.exports = class KDScrollThumb extends KDView
 
     ratio     = @getScrollOffset() / @getScrollSize()
     thumbDiff = @getSize(yes) - @size # in case of given min-height/width with css
+    trackSize = @getTrackSize()
     @setTrackVisibility()
-    @setOffset (@getTrackSize() - thumbDiff) * ratio
+    @setOffset (trackSize - thumbDiff) * ratio
 
 
   setTrackVisibility: ->

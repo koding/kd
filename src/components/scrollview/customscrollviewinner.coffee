@@ -62,10 +62,10 @@ module.exports = class KDCustomScrollViewWrapper extends KDScrollView
 
       stepInPixels = velocity * speed
       actPosition  = @getScrollLeft()
-      newPosition  = actPosition + stepInPixels
-      shouldStop   = if velocity < 0
-      then lastPosition >= newPosition
-      else lastPosition <= newPosition
+      newPosition  = actPosition - stepInPixels
+      shouldStop   = if velocity > 0
+      then lastPosition < newPosition
+      else lastPosition > newPosition
 
       @setScrollLeft lastPosition = newPosition
 

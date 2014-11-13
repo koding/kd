@@ -72,8 +72,9 @@ module.exports = class KDCustomScrollView extends KDCustomHTMLView
 
     @wrapper.observeMutations()
 
-    @wrapper.on 'MutationHappened', @verticalTrack.thumb.bound 'reset'
-    @wrapper.on 'MutationHappened', @horizontalTrack.thumb.bound 'reset'
+    @wrapper.on 'MutationHappened', =>
+      @verticalTrack.thumb.reset()
+      @horizontalTrack.thumb.reset()
 
   intent = null
 

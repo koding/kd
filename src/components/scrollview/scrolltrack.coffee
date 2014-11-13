@@ -24,17 +24,19 @@ module.exports = class KDScrollTrack extends KDView
 
     return  unless 'kdscrolltrack' in event.target.classList
 
+    thumbSize = @thumb.getSize yes
+
     if @type is 'vertical'
       scrollHeight = @scrollView.getScrollHeight()
-      thumbHeight  = @thumb.getHeight()
+      offset = event.originalEvent.layerY or event.offsetY
       @scrollView.scrollTo
-        top : (event.offsetY - thumbHeight / 2) / @getHeight() * scrollHeight
+        top : (offset - thumbSize / 2) / @getHeight() * scrollHeight
 
     else
       scrollWidth = @scrollView.getScrollWidth()
-      thumbWidth  = @thumb.getWidth()
+      offset = event.originalEvent.layerX or event.offsetX
       @scrollView.scrollTo
-        left : (event.offsetX - thumbWidth / 2) / @getWidth() * scrollWidth
+        left : (offset - thumbSize / 2) / @getWidth() * scrollWidth
 
 
   show:->

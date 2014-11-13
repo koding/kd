@@ -7,7 +7,7 @@ module.exports = class KDCustomScrollView extends KDCustomHTMLView
 
   constructor: (options = {}, data) ->
 
-    options.bind            ?= 'mouseenter mouseleave'
+    options.bind             = KD.utils.curry 'mouseenter mouseleave', options.bind
     options.cssClass         = KD.utils.curry 'kdcustomscrollview', options.cssClass
     options.mouseWheelSpeed ?= 3
 

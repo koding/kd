@@ -137,6 +137,7 @@ module.exports = class KDRouter extends KDObject
     qs = @utils.stringifyQuery query
     path += "?#{qs}"  if qs.length
 
+    notFound = no
     for edge in frags
       if node[edge]
         node = node[edge]
@@ -145,11 +146,13 @@ module.exports = class KDRouter extends KDObject
         if param?
           params[param.name] = edge
           node = param
-        else @handleNotFound frags.join '/'
+        else notFound = yes
 
     if not suppressListeners and shouldPushState and not replaceState and path is @currentPath
       @emit 'AlreadyHere', path, { params, frags }
       return
+
+    @handleNotFound frags.join '/'  if notFound
 
     @currentPath = path
 

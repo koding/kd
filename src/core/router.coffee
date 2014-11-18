@@ -148,7 +148,7 @@ module.exports = class KDRouter extends KDObject
         else @handleNotFound frags.join '/'
 
     if not suppressListeners and shouldPushState and not replaceState and path is @currentPath
-      @emit 'AlreadyHere', path
+      @emit 'AlreadyHere', path, { params, frags }
       return
 
     @currentPath = path

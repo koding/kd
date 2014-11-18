@@ -115,7 +115,7 @@ module.exports = class KDRouter extends KDObject
     userRoute = userRoute.slice 1  if (userRoute.indexOf '!') is 0
     @visitedRoutes.push userRoute  if @visitedRoutes.last isnt userRoute
 
-    [frag, query...] = (userRoute ? @getDefaultRoute?() ? '/').split '?'
+    [frags, query...] = (userRoute ? @getDefaultRoute?() ? '/').split '?'
 
     query = @utils.parseQuery query.join '&'
 
@@ -127,27 +127,18 @@ module.exports = class KDRouter extends KDObject
     node = @tree
     params = {}
 
-    frag = frag.split '/'
-    frag.shift() # first edge is garbage like '' or '#!'
+    frags = frags.split '/'
+    frags.shift() # first edge is garbage like '' or '#!'
 
-    frag = frag.filter Boolean
+    frags = frags.filter Boolean
 
-    path = "/#{frag.join '/'}"
+    path = "/#{frags.join '/'}"
 
     qs = @utils.stringifyQuery query
     path += "?#{qs}"  if qs.length
 
-    if not suppressListeners and shouldPushState and not replaceState and path is @currentPath
-      @emit 'AlreadyHere', path
-      return
-
-    @currentPath = path
-
-    if shouldPushState
-      method = if replaceState then 'replaceState' else 'pushState'
-      history[method] objRef, path, path
-
-    for edge in frag
+    notFound = no
+    for edge in frags
       if node[edge]
         node = node[edge]
       else
@@ -155,7 +146,19 @@ module.exports = class KDRouter extends KDObject
         if param?
           params[param.name] = edge
           node = param
-        else @handleNotFound frag.join '/'
+        else notFound = yes
+
+    if not suppressListeners and shouldPushState and not replaceState and path is @currentPath
+      @emit 'AlreadyHere', path, { params, frags }
+      return
+
+    @handleNotFound frags.join '/'  if notFound
+
+    @currentPath = path
+
+    if shouldPushState
+      method = if replaceState then 'replaceState' else 'pushState'
+      history[method] objRef, path, path
 
     routeInfo = {params, query}
     @emit 'RouteInfoHandled', {params, query, path}

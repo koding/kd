@@ -305,7 +305,7 @@ module.exports = class KDSplitView extends KDView
     @showPanel index
     @emit 'PanelSetToNormal', panel
 
-  resizePanel:(value = 0, index = 0, callback = noop)->
+  resizePanel:(value = 0, index = 0, callback = noop, forceResize = no)->
 
     return  unless @sizes[1]?
     return  if @beingResized
@@ -317,7 +317,7 @@ module.exports = class KDSplitView extends KDView
     askedPanel    = @panels[index]
     affectedPanel = @panels[(index + 1) % 2]
 
-    if askedPanel._getSize() is value
+    if askedPanel._getSize() is value and not forceResize
       @_resizeDidStop()
       callback()
       return

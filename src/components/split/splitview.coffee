@@ -124,23 +124,25 @@ module.exports = class KDSplitView extends KDView
 
     @_setMinsAndMaxs()
 
-    {sizes} = @getOptions()
-    ss      = @_getSize()
-    s       = []
-    s[0]    = @_getLegitPanelSize @_sanitizeSize(sizes[0]), 0
-    s[1]    = @_getLegitPanelSize @_sanitizeSize(sizes[1]), 1
-    st      = s[0] + s[1]
+    {sizes}       = @getOptions()
+    givenSizes    = sizes
+    splitSize     = @_getSize()
+    legitSizes    = []
+    legitSizes[0] = @_getLegitPanelSize @_sanitizeSize(givenSizes[0]), 0
+    legitSizes[1] = @_getLegitPanelSize @_sanitizeSize(givenSizes[1]), 1
 
-    if st > ss
-      s[1] = ss - s[0]
-    else if st < ss
-      if sizes[0] and (not sizes[1] or sizes[1] is 'auto')
-        s[1] = ss - s[0]
-      else if sizes[1] and (not sizes[0] or sizes[0] is 'auto')
-        s[0] = ss - s[1]
+    totalSize     = legitSizes[0] + legitSizes[1]
 
-    @size  = ss
-    @sizes = s
+    if totalSize > splitSize
+      legitSizes[1] = splitSize - legitSizes[0]
+    else if totalSize < splitSize
+      if givenSizes[0] and (not givenSizes[1] or givenSizes[1] is 'auto')
+        legitSizes[1] = splitSize - legitSizes[0]
+      else if givenSizes[1] and (not givenSizes[0] or givenSizes[0] is 'auto')
+        legitSizes[0] = splitSize - legitSizes[1]
+
+    @size  = splitSize
+    @sizes = legitSizes
 
 
   _sanitizeSize: (size) ->

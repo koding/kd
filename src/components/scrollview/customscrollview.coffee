@@ -36,6 +36,10 @@ module.exports = class KDCustomScrollView extends KDCustomHTMLView
     @wrapper.on 'ScrollTrackShown',  (type) => @setClass   "has-#{type}"
     @wrapper.on 'ScrollTrackHidden', (type) => @unsetClass "has-#{type}"
 
+    @wrapper.on 'MutationHappened', =>
+      @verticalTrack.thumb.reset()
+      @horizontalTrack.thumb.reset()
+
     @on 'mouseenter', @bound 'showTracks'
     @on 'mouseleave', @bound 'hideTracks'
 
@@ -72,9 +76,6 @@ module.exports = class KDCustomScrollView extends KDCustomHTMLView
 
     @wrapper.observeMutations()
 
-    @wrapper.on 'MutationHappened', =>
-      @verticalTrack.thumb.reset()
-      @horizontalTrack.thumb.reset()
 
   intent = null
 

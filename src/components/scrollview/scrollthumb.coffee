@@ -127,7 +127,7 @@ module.exports = class KDScrollThumb extends KDView
 
   setTrackVisibility: ->
 
-    if @trackSize >= @scrollSize
+    if @getTrackSize() >= @getScrollSize()
     then @track.hide()
     else @track.show()
 

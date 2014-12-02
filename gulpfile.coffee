@@ -33,6 +33,7 @@ log = (color, message) ->
 
 gulpBrowserify = (options) ->
   options.extensions or= ['.coffee']
+  options.debug = argv.devMode?
   b = browserify options
   b.transform coffeeify
   b.bundle()
@@ -45,7 +46,7 @@ watchLogger = (color, watcher) ->
     server?.changed event.path
 
 createServer  = no
-buildDir      = argv.outputDir ? 'build'
+buildDir      = argv.outputDir || 'build'
 version       = if argv.buildVersion then "#{argv.buildVersion}." else ''
 useLiveReload = checkParam argv.liveReload
 useUglify     = checkParam argv.uglify

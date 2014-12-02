@@ -23,6 +23,14 @@ module.exports = class KDObject extends KDEventEmitter
     @on 'error', error
     @once 'ready', => @readyState = READY
 
+
+  define: (property, options) ->
+
+    options = { get: options }  if 'function' is typeof options
+
+    Object.defineProperty this, property, options
+
+
   bound: (method)->
     unless 'function' is typeof @[method]
       throw new Error "bound: unknown method! #{method}"

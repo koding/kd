@@ -33,6 +33,7 @@ log = (color, message) ->
 
 gulpBrowserify = (options) ->
   options.extensions or= ['.coffee']
+  options.debug = argv.devMode?
   b = browserify options
   b.transform coffeeify
   b.bundle()

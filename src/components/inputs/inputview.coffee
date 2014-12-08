@@ -318,7 +318,9 @@ module.exports = class KDInputView extends KDView
     for rule in @ruleChain
       @validationResults[rule] = null
 
+  
   setValidationResult:(rule, err, showNotification=yes)->
+    
     if err
       @validationResults[rule] = err
       @showValidationError err if @getOptions().validate.notifications and showNotification
@@ -328,9 +330,12 @@ module.exports = class KDInputView extends KDView
       @validationResults[rule] = null
       # if there is any true on validation results' values then is not valid
 
-      @valid = not (v for own k, v of @validationResults)
-                   .map((result)-> Boolean result)
-                   .indexOf(true) > -1
+      @valid = not(
+        (v for own k, v of @validationResults)
+        .map((result)-> Boolean result)
+        .indexOf(true) > -1
+      )
+
 
   showValidationError:(message)->
 

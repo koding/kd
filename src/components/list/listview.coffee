@@ -49,6 +49,15 @@ module.exports = class KDListView extends KDView
     return sanitizedIndex
 
 
+  addItemView: (itemInstance, index) ->
+
+    index = @sanitizeIndex index
+
+    @insertItemAtIndex itemInstance, index
+
+    return itemInstance
+
+
   addItem: (itemData, index) ->
 
     index = @sanitizeIndex index
@@ -234,6 +243,7 @@ module.exports = class KDListView extends KDView
       then yes
       else @isScrollAtBottom scrollView
     else no
+
 
   isScrollAtBottom: (scrollView) ->
 

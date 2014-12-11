@@ -8,13 +8,13 @@ uglify     = require 'gulp-uglify'
 stylus     = require 'gulp-stylus'
 concat     = require 'gulp-concat'
 minifyCSS  = require 'gulp-minify-css'
-rimraf     = require 'gulp-rimraf'
 fs         = require 'fs'
 http       = require 'http'
 argv       = require('minimist') process.argv
 source     = require 'vinyl-source-stream'
 gulpBuffer = require 'gulp-buffer'
 Promise    = require 'bluebird'
+del        = Promise.promisify require 'del'
 exec       = Promise.promisify (require 'child_process').exec
 
 ENTRY_PATH    = argv.entryPath ? './src/entry.coffee'
@@ -326,16 +326,11 @@ gulp.task 'live', -> useLiveReload = yes
 gulp.task 'run', -> karmaAction = 'run'
 
 
-gulp.task 'clean', ->
-
-  gulp.src ['build'], read : no
-    .pipe rimraf force : yes
+gulp.task 'clean', -> del ['build'], force : yes
 
 
-gulp.task 'clean-play', ->
+gulp.task 'clean-play', -> del ['./playground/{css,js}'], force : yes
 
-  gulp.src ['playground/{css/js}'], read : no
-    .pipe rimraf force : yes
 
 
 # Use markdox to output markdown files for the API Documentation.

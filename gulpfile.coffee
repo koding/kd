@@ -60,7 +60,7 @@ theme         = checkParam argv.theme
 # Build Tasks
 
 
-gulp.task 'styles', ->
+gulp.task 'styles', ['clean'], ->
 
   if theme
     resetStyles = require './src/themes/reset.includes.coffee'
@@ -76,7 +76,7 @@ gulp.task 'styles', ->
     .pipe gulp.dest "#{buildDir}/css"
 
 
-gulp.task 'libs', ->
+gulp.task 'libs', ['clean'], ->
 
   gulp.src LIBS
     # INVESTIGATE: this somehow breaks jQuery - SY
@@ -94,7 +94,7 @@ gulp.task 'export', ->
   exec "cd ./src;sh exporter.sh > entry.coffee; cd .."
 
 
-gulp.task 'coffee', ['export'], ->
+gulp.task 'coffee', ['export', 'clean'], ->
 
   gulpBrowserify
       entries : ENTRY_PATH
@@ -349,9 +349,9 @@ gulp.task 'markdox', ->
 
 # Aggregate Tasks
 
-gulp.task 'compile', ['clean', 'styles', 'libs', 'coffee']
+gulp.task 'compile', ['styles', 'libs', 'coffee']
 
-defaultTasks = ['compile', 'clean', 'watch-styles', 'watch-coffee', 'watch-libs']
+defaultTasks = ['compile', 'watch-styles', 'watch-coffee', 'watch-libs']
 
 if buildDocs
   buildDir     = 'docs'

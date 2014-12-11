@@ -8,13 +8,13 @@ uglify     = require 'gulp-uglify'
 stylus     = require 'gulp-stylus'
 concat     = require 'gulp-concat'
 minifyCSS  = require 'gulp-minify-css'
-rimraf     = require 'gulp-rimraf'
 fs         = require 'fs'
 http       = require 'http'
 argv       = require('minimist') process.argv
 source     = require 'vinyl-source-stream'
 gulpBuffer = require 'gulp-buffer'
 Promise    = require 'bluebird'
+del        = Promise.promisify require 'del'
 exec       = Promise.promisify (require 'child_process').exec
 
 ENTRY_PATH    = argv.entryPath ? './src/entry.coffee'
@@ -60,7 +60,7 @@ theme         = checkParam argv.theme
 # Build Tasks
 
 
-gulp.task 'styles', ->
+gulp.task 'styles', ['clean'], ->
 
   if theme
     resetStyles = require './src/themes/reset.includes.coffee'
@@ -76,7 +76,7 @@ gulp.task 'styles', ->
     .pipe gulp.dest "#{buildDir}/css"
 
 
-gulp.task 'libs', ->
+gulp.task 'libs', ['clean'], ->
 
   gulp.src LIBS
     # INVESTIGATE: this somehow breaks jQuery - SY
@@ -94,7 +94,7 @@ gulp.task 'export', ->
   exec "cd ./src;sh exporter.sh > entry.coffee; cd .."
 
 
-gulp.task 'coffee', ['export'], ->
+gulp.task 'coffee', ['export', 'clean'], ->
 
   gulpBrowserify
       entries : ENTRY_PATH
@@ -326,16 +326,11 @@ gulp.task 'live', -> useLiveReload = yes
 gulp.task 'run', -> karmaAction = 'run'
 
 
-gulp.task 'clean', ->
-
-  gulp.src ['build'], read : no
-    .pipe rimraf force : yes
+gulp.task 'clean', -> del ['build'], force : yes
 
 
-gulp.task 'clean-play', ->
+gulp.task 'clean-play', -> del ['./playground/{css,js}'], force : yes
 
-  gulp.src ['playground/{css/js}'], read : no
-    .pipe rimraf force : yes
 
 
 # Use markdox to output markdown files for the API Documentation.
@@ -354,9 +349,9 @@ gulp.task 'markdox', ->
 
 # Aggregate Tasks
 
-gulp.task 'compile', ['clean', 'styles', 'libs', 'coffee']
+gulp.task 'compile', ['styles', 'libs', 'coffee']
 
-defaultTasks = ['compile', 'clean', 'watch-styles', 'watch-coffee', 'watch-libs']
+defaultTasks = ['compile', 'watch-styles', 'watch-coffee', 'watch-libs']
 
 if buildDocs
   buildDir     = 'docs'

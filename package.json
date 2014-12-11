@@ -51,6 +51,8 @@
     "karma-mocha": "^0.1.9",
     "karma-sauce-launcher": "^0.2.10",
     "mocha": "^1.21.4",
-    "sinon": "^1.10.3"
+    "sinon": "^1.10.3",
+    "karma-coverage": "^0.2.6",
+    "coveralls": "^2.11.2"
   }
 }

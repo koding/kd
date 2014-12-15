@@ -9,233 +9,57 @@
   .kdmodal
     vendor                transition, none
 
-
-/*
-**  KDModal Default Theme
-*/
 .kdmodal
-  z-index                 10001
-  opacity                 0.0001
+  z-index                 10000
   top                     -100%
   left                    -100%
-  abs()
-  rounded                 6px
-  vendor                  transition, top .15s ease-in-out\, left .15s ease-in-out
-
-  &.initial
-    vendor                transition, none
+  rounded                 3px
+  fix()
 
   .kdmodal-inner
-    rounded               6px
+    bg                    color, #FAFAFA
+    border                1px solid #eaeaea
     height                auto
-    bg                    color,#fff
+    rounded               3px
+    padding               17px 25px 25px
+    shadow                0 12px 19px rgba(0, 0, 0, .5)
+    borderBox()
 
     .kdmodal-title
-      margin              0
-      padding             0
+      color               #00B057
+      line-height         30px
+      font-size           20px
+      margin-bottom       13px
       cursor              move
-      line-height         22px
-      color               #485259
-      rounded             6px 6px 0 0
-      bg                  color, #f8f8f9
-      border-bottom       1px solid #ededed
-      padding             20px 0 20px 20px
-      borderBox()
 
-      span.title
-        font-size         18px
-        display           block
+      .title
         white-space       nowrap
+        display           block
         overflow          hidden
         text-overflow     ellipsis
 
-      span.subtitle
-        font-size         14px
-        display           block
-        color             #91979b
-        font-weight       200
-
     .kdmodal-content
-      rel()
-      margin              0
-      padding             0
-      border-bottom       none
-      overflow            auto
-
-      span.hint
-        line-height       25px
-        font-size         .9em
-        margin            5px 0
-        display           block
-        padding           0 10px
-        font-style        italic
-        color             #7e6b3d
-        bg                color, #ffefce
-        border            1px dashed #dfd4b3
-
-    .showHelp
-      abs()
-      top                 26px
-      color               #AAA
-      right               45px
-      font-size           11px
-      cursor              pointer
-      &:hover
-        color             #555
-
-    .close-icon
-      z-index             10
-      right               29px
-      top                 29px
-      bg                  position,-80px -220px
-      &:hover
-        bg                position,-80px -240px
-
-    .modalformline
-      size                  auto,auto
-      padding               11px 20px 11px 20px
-
-      &:last-child
-        border-bottom     none
-      label
-        blockMid()
-        min-width         90px
-      input,textarea
-        blockMidTop()
-        margin-right      15px
-        line-height       14px
-        min-width         160px
-        border            1px solid #c9c9c9
-        color             #282521 !important
-      .on-off
-        fr()
-        margin-top        0
-      .select
-        margin-right      10px
-      p
-        line-height       22px
-      a
-        text-decoration   none
-        color             linkColor1
-
-      div.kdselectbox
-        span.title
-          line-height     23px
-          height          22px
-      .linkholder
-        width             200px
-        padding           0 0 10px 0
-        display           inline-block
-        a
-          display         block
-          cursor          pointer
-          margin-bottom   5px
+      font-size           14px
+      color               #828282
+      line-height         24px
+      position            relative
 
     .kdmodal-buttons
     .button-field
-      borderBox()
-      bottom              0
-      size                auto, 43px
-      bg                  color, #eee
-      rounded             0,0,5px,5px
-      border-top          1px solid #ddd
-      margin              0
-      padding             0
-
       .kdbutton
         fr()
-        margin-right      0
-        margin-left       6px
-        padding-right     10px
-        padding-left      10px
-        width             auto
 
-      .modal-clean-gray,.modal-clean-red,.modal-clean-green,.modal-cancel
-        margin            10px 10px 7px -2px
-
-    .button-field
-      border-top-width    0
-
-  .help-box
-    top                   -34px
-    left                  10px
-    width                 180px
-
-.kdmodal.with-buttons
-  rel() !important
-  top                     -43px
-
-.kdmodal.fx
-  visibility            hidden
-  opacity               0
-
-  // fade
-
-  // vendor                transition,opacity 0.15s linear
-
-  // scale
-
-  // -webkit-transform     scale(3) translate(0, 0)
-  // -moz-transform        scale(.1) translate(0, 0)
-  // -o-transform          scale(.7) translate(0, 0)
-  // -ms-transform         scale(.7) translate(0, 0)
-  // transform             scale(3) translate(0, 0)
-
-  // vendor                transform-origin, center center
-
-  // -webkit-transition    -webkit-transform ease-out .15s, opacity ease-out .15s, visibility 0s linear .15s
-  // -moz-transition       -moz-transform ease-out .15s, opacity ease-out .15s, visibility 0s linear .15s
-  // -o-transition         -o-transform ease-out .15s, opacity ease-out .15s, visibility 0s linear .15s
-  // -ms-transition        -ms-transform ease-out .15s, opacity ease-out .15s, visibility 0s linear .15s
-  // transition            transform ease-out .15s, opacity ease-out .15s, visibility 0s linear .15s
-
-  // salto
-  // vendor                        transform-style, preserve-3d
-  // vendor                        transition-duration, 1s
-  // -webkit-transition-property   -webkit-transform
-  // -moz-transition-property      -moz-transform
-  // -o-transition-property        -o-transform
-  // -khtml-transition-property    -khtml-transform
-  // transition-property           transform
-
-  &.active
-    visibility          visible
-    opacity             1
-
-    // scale
-
-    // vendor              transform, scale(1)
-    // vendor              transition-delay, 0s
-
-    // salto
-
-    // vendor              transform-origin, right center
-    // vendor              transform, rotateZ( -360deg ) rotateY( 0deg )
-
-
-.kdmodal
-  .kdmodal-content
-    .kdtabview,
-    .kdtabpaneview
-      overflow              visible
-
-.button-pre-box
-  abs()
-  left                  10px
-  top                   5px
-  line-height           33px
-  height                33px
-  color                 #B0B0B0
-  text-shadow           0 1px 1px #FBFBFB
-
-
-.kddialog-buttons
-  .modal-clean-gray
-    margin              10px 10px 0 0
+        &.to-left
+          margin-left     0
+          margin-right    12px
+          fl()
 
 .kdmodal.blocking-animation
   vendor                animation, blockingAnimation .2s 1 ease
 
+.kdoverlay
+  background            rgba(0, 0, 0, .3)
+  fix()
 
 @-webkit-keyframes blockingAnimation
   0%

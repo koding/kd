@@ -104,9 +104,10 @@ module.exports = class KDWindowController extends KDController
       if nearestLink?.target?.length is 0 # links with a target attribute should work as normal.
         href   = nearestLink.getAttribute "href"
         isHttp = href?.indexOf("http") is 0
+        isMail = href?.indexOf("mailto") is 0
         if isHttp
           nearestLink.target = "_blank"
-        else
+        else if not isMail
           e.preventDefault()
           if href and not /^#/.test href
             KD.getSingleton("router").handleRoute href

@@ -1,4 +1,4 @@
-KD [![Build Status](https://img.shields.io/travis/koding/kd/master.svg?style=flat)](https://travis-ci.org/koding/kd) [![Dependency Status](https://img.shields.io/david/dev/koding/kd.svg?style=flat)](https://david-dm.org/koding/kd#info=devDependencies) [![Dependency Status](https://img.shields.io/david/koding/kd.svg?style=flat)](https://david-dm.org/koding/kd#info=dependencies)
+KD [![Build Status](https://img.shields.io/travis/koding/kd/master.svg?style=flat)](https://travis-ci.org/koding/kd) [![Dependency Status](https://img.shields.io/david/dev/koding/kd.svg?style=flat)](https://david-dm.org/koding/kd#info=devDependencies) [![Dependency Status](https://img.shields.io/david/koding/kd.svg?style=flat)](https://david-dm.org/koding/kd#info=dependencies) [![Code Climate](https://codeclimate.com/github/koding/kd/badges/gpa.svg)](https://codeclimate.com/github/koding/kd) [![Test Coverage](https://codeclimate.com/github/koding/kd/badges/coverage.svg)](https://codeclimate.com/github/koding/kd)
 --
 _a non-document focused UI Framework for web applications._
 

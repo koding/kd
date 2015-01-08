@@ -1,5 +1,6 @@
 require './../../../libs/mousetrap.js'
 require './../../../libs/mousetrap-global-bind.js'
+require './../../../libs/mousetrap-record.js'
 
 module.exports = class KDKeyboardListener
 
@@ -72,3 +73,8 @@ module.exports = class KDKeyboardListener
     @currentListener = new this
     @currentListener.listen()
     return @currentListener
+
+  @record = (fn) ->
+    Mousetrap.record fn.bind fn
+    return
+

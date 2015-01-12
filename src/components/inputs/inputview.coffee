@@ -86,6 +86,7 @@ module.exports = class KDInputView extends KDView
     @validationNotifications = {}
     @valid = yes
     @inputCallback = null
+    @previousHeight= null
     @setName options.name
     @setLabel()
     @setCallback()
@@ -318,9 +319,9 @@ module.exports = class KDInputView extends KDView
     for rule in @ruleChain
       @validationResults[rule] = null
 
-  
+
   setValidationResult:(rule, err, showNotification=yes)->
-    
+
     if err
       @validationResults[rule] = err
       @showValidationError err if @getOptions().validate.notifications and showNotification
@@ -466,35 +467,31 @@ module.exports = class KDInputView extends KDView
     @on 'input', (event) => KD.utils.defer => @resize event
 
 
-  resize: do ->
+  resize: (event) ->
 
-    previousHeight = null
+    return  unless @_clone
 
-    (event) ->
+    @_clone.appendTo 'body' unless document.body.contains @_clone[0]
+    val = @getElement().value.replace(/\n/g,'\n&nbsp;')
+    safeValue = Encoder.XSSEncode val
+    @_clone.html safeValue
 
-      return  unless @_clone
+    height = @_clone.height()
 
-      @_clone.appendTo 'body' unless document.body.contains @_clone[0]
-      val = @getElement().value.replace(/\n/g,'\n&nbsp;')
-      safeValue = Encoder.XSSEncode val
-      @_clone.html safeValue
+    getValue = (rule) => parseInt @_clone.css(rule), 10
 
-      height = @_clone.height()
+    if @$().css('boxSizing') is 'border-box'
+      padding = getValue('paddingTop')     + getValue('paddingBottom')
+      border  = getValue('borderTopWidth') + getValue('borderBottomWidth')
+      height  = height + border + padding
 
-      getValue = (rule) => parseInt @_clone.css(rule), 10
+    newHeight = if @initialHeight then Math.max @initialHeight, height else height
 
-      if @$().css('boxSizing') is 'border-box'
-        padding = getValue('paddingTop')     + getValue('paddingBottom')
-        border  = getValue('borderTopWidth') + getValue('borderBottomWidth')
-        height  = height + border + padding
+    if @previousHeight isnt newHeight
+      @setHeight newHeight
+      @emit 'InputHeightChanged'
 
-      newHeight = if @initialHeight then Math.max @initialHeight, height else height
-
-      if previousHeight isnt newHeight
-        @setHeight newHeight
-        @emit 'InputHeightChanged'
-
-      previousHeight = newHeight
+    @previousHeight = newHeight
 
 
   enableTabKey:-> @inputTabKeyEnabled = yes

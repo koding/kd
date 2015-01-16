@@ -1,10 +1,10 @@
 {
-  "name": "kdf",
-  "version": "0.1.20",
-  "description": "KD: a non-document focused UI Framework for web applications.",
-  "main": "gulpfile.js",
+  "name": "kd.js",
+  "version": "0.2.0",
+  "description": "a collection of ui widgets and other nice things",
+  "main": "index.coffee",
   "scripts": {
-    "test": "./node_modules/gulp/bin/gulp.js karma-travis"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "homepage": "http://kd.io",
   "repository": {
@@ -12,46 +12,41 @@
     "url": "git://github.com/koding/kd.git"
   },
   "keywords": [
+    "kd",
+    "kd.js",
+    "koding",
     "ui",
-    "framework",
-    "coffeescript",
-    "stylus"
+    "framework"
   ],
-  "author": "Koding, Inc. - Sinan Yasar",
   "license": "MIT",
   "dependencies": {
-    "gulp": "^3.8.10",
-    "gulp-coffee": "^2.2.0",
-    "vinyl-source-stream": "^1.0.0",
-    "gulp-rename": "^1.2.0",
-    "gulp-uglify": "^1.0.2",
-    "gulp-stylus": "1.3.4",
-    "gulp-minify-css": "^0.3.11",
-    "del": "^1.1.0",
-    "gulp-util": "^3.0.1",
-    "gulp-concat": "^2.4.2",
-    "coffee-script": "1.8.0",
-    "coffeeify": "~1.0.0",
-    "minimist": "1.1.0",
-    "gulp-if": "1.2.5",
-    "gulp-buffer": "0.0.2",
-    "browserify": "^7.0.0",
+    "hammerjs": "^1.0.5",
+    "jquery": "^2.1.3",
     "jquery-mousewheel": "^3.1.12",
-    "findit": "^2.0.0",
-    "bluebird": "^2.3.11"
+    "kd-dom": "^0.1.1",
+    "kd-polyfills": "^0.1.5",
+    "kd-shim-canvas-loader": "^0.9.1",
+    "kd-shim-htmlencode": "^0.1.0",
+    "kd-shim-inflector": "^0.1.0",
+    "kd-shim-jspath": "^0.1.0",
+    "kd-shim-mutation-summary": "^0.1.0",
+    "lodash.throttle": "^2.4.1",
+    "mousetrap": "^1.4.6"
   },
   "devDependencies": {
-    "chai": "^1.10.0",
-    "express": "^4.10.4",
-    "gulp-karma": "0.0.4",
-    "gulp-livereload": "^2.1.1",
-    "gulp-markdox": "^0.1.1",
-    "karma": "^0.13.15",
-    "karma-chrome-launcher": "^0.1.7",
-    "karma-firefox-launcher": "^0.1.3",
-    "karma-mocha": "^0.1.10",
-    "karma-sauce-launcher": "^0.2.10",
-    "mocha": "^2.0.1",
-    "sinon": "^1.12.1"
+    "browserify": "^8.1.1",
+    "clean-css": "^3.0.4",
+    "coffeeify": "^1.0.0",
+    "stylus": "^0.49.3",
+    "uglify-js": "^2.4.16"
+  },
+  "browser": {
+    "canvas-loader": "kd-shim-canvas-loader",
+    "htmlencode": "kd-shim-htmlencode",
+    "inflector": "kd-shim-inflector",
+    "jspath": "kd-shim-jspath",
+    "mutation-summary": "kd-shim-mutation-summary",
+    "mousetrap-global-bind": "mousetrap/plugins/global-bind/mousetrap-global-bind.js",
+    "mousetrap-record": "mousetrap/plugins/record/mousetrap-record.js"
   }
 }

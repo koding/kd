@@ -58,6 +58,9 @@ module.exports =
   log: console.log.bind console
   warn: console.warn.bind console
   error: console.error.bind console
+  info: console.info.bind console
+  time: console.time.bind console
+  timeEnd: console.timeEnd.bind console
 
   debugStates: debugStates
   instances: instances

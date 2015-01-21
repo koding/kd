@@ -8,6 +8,13 @@ subscriptions = []
 lastFuncCall = null
 instancesToBeTested = {}
 
+getSingleton = (name) ->
+  if singletons[name]?
+    singletons[name]
+  else
+    console.warn "[getSingleton] #{name} doesn't exist"
+    null
+
 module.exports =
   extend: (obj) ->
     for key, val of obj
@@ -38,12 +45,9 @@ module.exports =
   deleteInstance: (id) ->
     delete instances[id]
 
-  getSingleton: (name) ->
-    if singletons[name]?
-      singletons[name]
-    else
-      console.warn "[getSingleton] #{name} doesn't exist"
-      null
+  getSingleton: getSingleton
+
+  singleton: getSingleton
 
   getAllKDInstances: -> instances
 

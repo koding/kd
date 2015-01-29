@@ -1,7 +1,7 @@
 !function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.kd=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var $, KD, KDAutoComplete, KDInputView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -92,8 +92,8 @@ module.exports = KDAutoComplete = (function(_super) {
 
 },{"../../core/kd":99,"../inputs/inputview":44,"jquery":111}],2:[function(require,module,exports){
 var $, Inflector, JsPath, KD, KDAutoComplete, KDAutoCompleteController, KDAutoCompleteFetchingItem, KDAutoCompleteListItemView, KDAutoCompleteListView, KDAutoCompleteNothingFoundItem, KDAutoCompletedItem, KDInputView, KDLabelView, KDListViewController, KDNotificationView, KDView, KDViewController,
-  __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty,
   __slice = [].slice;
 
 $ = require('jquery');
@@ -468,7 +468,7 @@ module.exports = KDAutoCompleteController = (function(_super) {
       return false;
     }
     path = this.getCollectionPath();
-    itemName = "" + name + "-" + (this.selectedItemCounter++);
+    itemName = name + "-" + (this.selectedItemCounter++);
     if (form) {
       collection = form.getCustomData(path) || [];
       collection.push(submitValuesAsText ? itemValue : (typeof itemValue.getId === "function" ? itemValue.getId() : void 0) ? {
@@ -612,8 +612,8 @@ module.exports = KDAutoCompleteController = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"../../core/viewcontroller":106,"../inputs/inputview":44,"../inputs/labelview":45,"../list/listviewcontroller":54,"../notifications/notificationview":60,"./autocomplete":1,"./autocompleteditems":3,"./autocompletefetchingitem":4,"./autocompletelist":5,"./autocompletelistitem":6,"./autocompletenothingfounditem":7,"inflector":116,"jquery":111,"jspath":117}],3:[function(require,module,exports){
 var $, KDAutoCompletedItem, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -653,8 +653,8 @@ module.exports = KDAutoCompletedItem = (function(_super) {
 
 },{"../../core/view":105,"jquery":111}],4:[function(require,module,exports){
 var KD, KDAutoCompleteFetchingItem, KDAutocompleteUnselecteableItem,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -683,8 +683,8 @@ module.exports = KDAutoCompleteFetchingItem = (function(_super) {
 
 },{"../../core/kd":99,"./autocompleteunselecteableitem":8}],5:[function(require,module,exports){
 var KDAutoCompleteListView, KDListView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KDListView = require('../list/listview');
 
@@ -760,8 +760,8 @@ module.exports = KDAutoCompleteListView = (function(_super) {
 
 },{"../list/listview":52}],6:[function(require,module,exports){
 var KD, KDAutoCompleteListItemView, KDListItemView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -827,8 +827,8 @@ module.exports = KDAutoCompleteListItemView = (function(_super) {
 
 },{"../../core/kd":99,"../list/listitemview":51}],7:[function(require,module,exports){
 var KDAutoCompleteNothingFoundItem, KDAutocompleteUnselecteableItem,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KDAutocompleteUnselecteableItem = require('./autocompleteunselecteableitem');
 
@@ -855,8 +855,8 @@ module.exports = KDAutoCompleteNothingFoundItem = (function(_super) {
 
 },{"./autocompleteunselecteableitem":8}],8:[function(require,module,exports){
 var KDAutocompleteUnselecteableItem, KDListItemView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KDListItemView = require('../list/listitemview');
 
@@ -893,8 +893,8 @@ module.exports = KDAutocompleteUnselecteableItem = (function(_super) {
 
 },{"../list/listitemview":51}],9:[function(require,module,exports){
 var $, KDListView, MultipleInputListView, MultipleListItemView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -939,8 +939,8 @@ module.exports = MultipleInputListView = (function(_super) {
 
 },{"../list/listview":52,"./multiplelistitemview":11,"jquery":111}],10:[function(require,module,exports){
 var $, KD, KDInputView, KDMultipleInputView, KDSimpleAutocomplete, MultipleInputListView,
-  __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty,
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 $ = require('jquery');
@@ -1074,8 +1074,8 @@ module.exports = KDMultipleInputView = (function(_super) {
 
 },{"../../core/kd":99,"../inputs/inputview":44,"./multipleinputlistview":9,"./simpleautocomplete":14,"jquery":111}],11:[function(require,module,exports){
 var $, KDListItemView, MultipleListItemView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -1099,7 +1099,7 @@ module.exports = MultipleListItemView = (function(_super) {
   };
 
   MultipleListItemView.prototype.partial = function() {
-    return "" + (this.getData()) + " <cite class='removeIcon'>x</cite>";
+    return (this.getData()) + " <cite class='removeIcon'>x</cite>";
   };
 
   return MultipleListItemView;
@@ -1110,8 +1110,8 @@ module.exports = MultipleListItemView = (function(_super) {
 
 },{"../list/listitemview":51,"jquery":111}],12:[function(require,module,exports){
 var $, KDMultipleInputView, NoAutocompleteInputView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -1148,8 +1148,8 @@ module.exports = NoAutocompleteInputView = (function(_super) {
 
 },{"./multipleinputview":10,"jquery":111}],13:[function(require,module,exports){
 var $, KDButtonView, KDCustomHTMLView, KDNoAutocompleteInputView, KDView, NoAutocompleteMultipleListView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -1213,8 +1213,8 @@ module.exports = NoAutocompleteMultipleListView = (function(_super) {
 
 },{"../../core/customhtmlview":96,"../../core/view":105,"../buttons/buttonview":18,"./noautocompleteinputview":12,"jquery":111}],14:[function(require,module,exports){
 var JsPath, KDAutoComplete, KDSimpleAutocomplete,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 JsPath = require('jspath').JsPath;
 
@@ -1253,8 +1253,8 @@ module.exports = KDSimpleAutocomplete = (function(_super) {
 
 },{"./autocomplete":1,"jspath":117}],15:[function(require,module,exports){
 var $, KD, KDButtonBar, KDButtonView, KDFormView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -1306,8 +1306,8 @@ module.exports = KDButtonBar = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"../forms/formview":32,"./buttonview":18,"jquery":111}],16:[function(require,module,exports){
 var KDButtonGroupView, KDButtonView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KDButtonView = require('./buttonview');
 
@@ -1368,8 +1368,8 @@ module.exports = KDButtonGroupView = (function(_super) {
 
 },{"../../core/view":105,"./buttonview":18}],17:[function(require,module,exports){
 var $, JButtonMenu, JContextMenuTreeView, KD, KDContextMenu,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -1429,8 +1429,8 @@ module.exports = JButtonMenu = (function(_super) {
 
 },{"../../core/kd":99,"../contextmenu/contextmenu":21,"../contextmenu/contextmenutreeview":23,"jquery":111}],18:[function(require,module,exports){
 var $, KD, KDButtonView, KDLoaderView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -1745,8 +1745,8 @@ module.exports = KDButtonView = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"../loader/loaderview":55,"jquery":111}],19:[function(require,module,exports){
 var $, JButtonMenu, KDButtonView, KDButtonViewWithMenu,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -1871,8 +1871,8 @@ module.exports = KDButtonViewWithMenu = (function(_super) {
 
 },{"./buttonmenu":17,"./buttonview":18,"jquery":111}],20:[function(require,module,exports){
 var $, KD, KDButtonView, KDToggleButton,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -1962,8 +1962,8 @@ module.exports = KDToggleButton = (function(_super) {
 
 },{"../../core/kd":99,"./buttonview":18,"jquery":111}],21:[function(require,module,exports){
 var JContextMenuTreeViewController, KD, KDContextMenu, KDCustomHTMLView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -2138,15 +2138,15 @@ module.exports = KDContextMenu = (function(_super) {
     this.topMargin = expectedTop - top;
     this.leftMargin = expectedLeft - left;
     style = {
-      width: "" + menuWidth + "px",
+      width: menuWidth + "px",
       top: top,
       left: left
     };
     if (menuMaxWidth) {
-      style.maxWidth = "" + menuMaxWidth + "px";
+      style.maxWidth = menuMaxWidth + "px";
     }
     if (menuMinWidth) {
-      style.minWidth = "" + menuMinWidth + "px";
+      style.minWidth = menuMinWidth + "px";
     }
     return this.getDomElement().css(style);
   });
@@ -2176,8 +2176,8 @@ module.exports = KDContextMenu = (function(_super) {
 
 },{"../../core/customhtmlview":96,"../../core/kd":99,"../../core/view":105,"./contextmenutreeviewcontroller":24}],22:[function(require,module,exports){
 var JContextMenuItem, JTreeItemView, KD, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -2244,8 +2244,8 @@ module.exports = JContextMenuItem = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"../tree/treeitemview":85}],23:[function(require,module,exports){
 var JContextMenuTreeView, JTreeView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 JTreeView = require('../tree/treeview');
 
@@ -2276,8 +2276,8 @@ module.exports = JContextMenuTreeView = (function(_super) {
 
 },{"../tree/treeview":86}],24:[function(require,module,exports){
 var JContextMenuItem, JContextMenuTreeView, JContextMenuTreeViewController, JTreeViewController, KD, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -2551,8 +2551,8 @@ module.exports = JContextMenuTreeViewController = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"../tree/treeviewcontroller":87,"./contextmenuitem":22,"./contextmenutreeview":23}],25:[function(require,module,exports){
 var KD, KDCounterDigitView, KDCustomHTMLView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -2614,8 +2614,8 @@ module.exports = KDCounterDigitView = (function(_super) {
 
 },{"../../core/customhtmlview":96,"../../core/kd":99}],26:[function(require,module,exports){
 var KD, KDCounterDigitView, KDCounterView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -2655,7 +2655,7 @@ module.exports = KDCounterView = (function(_super) {
     if (options.digits == null) {
       options.digits = options.direction === "up" ? options.to.toString().length : options.from.toString().length;
     }
-    options.cssClass = KD.utils.curry("" + options.style + " " + options.direction + " kd-counter", options.cssClass);
+    options.cssClass = KD.utils.curry(options.style + " " + options.direction + " kd-counter", options.cssClass);
     KDCounterView.__super__.constructor.call(this, options, data);
     this.digitsList = [];
     this.currentValue = options.from;
@@ -2716,8 +2716,8 @@ module.exports = KDCounterView = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"./counterdigitview":25}],27:[function(require,module,exports){
 var KD, KDDiaContainer, KDDiaObject, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -2833,8 +2833,8 @@ module.exports = KDDiaContainer = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"./diaobject":29}],28:[function(require,module,exports){
 var KD, KDDiaJoint, KDView,
-  __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty,
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 KD = require('../../core/kd');
@@ -2926,8 +2926,8 @@ module.exports = KDDiaJoint = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105}],29:[function(require,module,exports){
 var KD, KDDiaJoint, KDDiaObject, KDView,
-  __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty,
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 KD = require('../../core/kd');
@@ -3087,8 +3087,8 @@ module.exports = KDDiaObject = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"./diajoint":28}],30:[function(require,module,exports){
 var $, KD, KDCustomHTMLView, KDDiaScene, KDView, _throttle,
-  __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty,
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 $ = require('jquery');
@@ -3572,8 +3572,8 @@ module.exports = KDDiaScene = (function(_super) {
 
 },{"../../core/customhtmlview":96,"../../core/kd":99,"../../core/view":105,"jquery":111,"lodash.throttle":119}],31:[function(require,module,exports){
 var KD, KDButtonView, KDDialogView, KDOverlayView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -3669,8 +3669,8 @@ module.exports = KDDialogView = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"../buttons/buttonview":18,"../overlay/overlayview":61}],32:[function(require,module,exports){
 var $, JsPath, KD, KDFormView, KDInputView, KDView,
-  __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty,
   __slice = [].slice;
 
 $ = require('jquery');
@@ -3904,8 +3904,8 @@ module.exports = KDFormView = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"../inputs/inputview":44,"jquery":111,"jspath":117}],33:[function(require,module,exports){
 var KD, KDButtonBar, KDCustomHTMLView, KDFormView, KDFormViewWithFields, KDInputView, KDLabelView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -4032,8 +4032,8 @@ module.exports = KDFormViewWithFields = (function(_super) {
 
 },{"../../core/customhtmlview":96,"../../core/kd":99,"../../core/view":105,"../buttons/buttonbar":15,"../inputs/inputview":44,"../inputs/labelview":45,"./formview":32}],34:[function(require,module,exports){
 var KDHeaderView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KDView = require('../../core/view');
 
@@ -4136,8 +4136,8 @@ module.exports = KDHeaderView = (function(_super) {
 
 },{"../../core/view":105}],35:[function(require,module,exports){
 var KD, KDButtonView, KDCustomHTMLView, KDView, KDWebcamView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -4402,8 +4402,8 @@ module.exports = KDWebcamView = (function(_super) {
 
 },{"../../core/customhtmlview":96,"../../core/kd":99,"../../core/view":105,"../buttons/buttonview":18}],36:[function(require,module,exports){
 var KDCheckBox, KDInputView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KDInputView = require('./inputview');
 
@@ -4434,8 +4434,8 @@ module.exports = KDCheckBox = (function(_super) {
 },{"./inputview":44}],37:[function(require,module,exports){
 var $, Encoder, KD, KDContentEditableView, KDInputValidator, KDNotificationView, KDView,
   __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -4757,8 +4757,8 @@ module.exports = KDContentEditableView = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"../notifications/notificationview":60,"./inputvalidator":43,"htmlencode":115,"jquery":111}],38:[function(require,module,exports){
 var KDDelimitedInputView, KDInputView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KDInputView = require('./inputview');
 
@@ -4828,8 +4828,8 @@ module.exports = KDDelimitedInputView = (function(_super) {
 
 },{"./inputview":44}],39:[function(require,module,exports){
 var KD, KDCustomHTMLView, KDHitEnterInputView, KDInputView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -4942,8 +4942,8 @@ module.exports = KDHitEnterInputView = (function(_super) {
 
 },{"../../core/customhtmlview":96,"../../core/kd":99,"./inputview":44}],40:[function(require,module,exports){
 var $, KDInputCheckboxGroup, KDInputRadioGroup,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -5010,8 +5010,8 @@ module.exports = KDInputCheckboxGroup = (function(_super) {
 
 },{"./inputradiogroup":41,"jquery":111}],41:[function(require,module,exports){
 var $, KDInputRadioGroup, KDInputView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -5053,14 +5053,14 @@ module.exports = KDInputRadioGroup = (function(_super) {
         name: options.name,
         value: radioOptions.value,
         "class": "no-kdinput" + (options.hideRadios ? ' hidden' : ''),
-        id: "" + (this.getId()) + "_" + (this.getType()) + "_" + i,
+        id: (this.getId()) + "_" + (this.getType()) + "_" + i,
         change: radioOptions.callback
       });
       if (radioOptions.disabled) {
         radio[0].setAttribute('disabled', 'disabled');
       }
       label = $("<label/>", {
-        "for": "" + (this.getId()) + "_" + (this.getType()) + "_" + i,
+        "for": (this.getId()) + "_" + (this.getType()) + "_" + i,
         html: radioOptions.title,
         "class": options.cssClassPrefix + this.utils.slugify(radioOptions.value)
       });
@@ -5131,8 +5131,8 @@ module.exports = KDInputRadioGroup = (function(_super) {
 
 },{"./inputview":44,"jquery":111}],42:[function(require,module,exports){
 var $, KDInputSwitch, KDInputView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -5467,8 +5467,8 @@ Credits
 
 },{"../../core/kd":99,"jquery":111}],44:[function(require,module,exports){
 var $, Encoder, KD, KDInputValidator, KDInputView, KDNotificationView, KDView,
-  __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty,
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 $ = require('jquery');
@@ -5712,16 +5712,16 @@ module.exports = KDInputView = (function(_super) {
     return this.inputCallback;
   };
 
-  KDInputView.prototype.setType = function(inputType) {
-    this.inputType = inputType != null ? inputType : "text";
+  KDInputView.prototype.setType = function(_at_inputType) {
+    this.inputType = _at_inputType != null ? _at_inputType : "text";
   };
 
   KDInputView.prototype.getType = function() {
     return this.inputType;
   };
 
-  KDInputView.prototype.setName = function(inputName) {
-    this.inputName = inputName;
+  KDInputView.prototype.setName = function(_at_inputName) {
+    this.inputName = _at_inputName;
   };
 
   KDInputView.prototype.getName = function() {
@@ -6253,8 +6253,8 @@ module.exports = KDInputView = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"../notifications/notificationview":60,"./inputvalidator":43,"htmlencode":115,"jquery":111}],45:[function(require,module,exports){
 var $, KDLabelView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -6295,8 +6295,8 @@ module.exports = KDLabelView = (function(_super) {
 
 },{"../../core/view":105,"jquery":111}],46:[function(require,module,exports){
 var $, KDInputView, KDMultipleChoice,
-  __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty,
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 $ = require('jquery');
@@ -6458,8 +6458,8 @@ module.exports = KDMultipleChoice = (function(_super) {
 
 },{"./inputview":44,"jquery":111}],47:[function(require,module,exports){
 var $, KD, KDInputView, KDOnOffSwitch,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -6581,8 +6581,8 @@ module.exports = KDOnOffSwitch = (function(_super) {
 
 },{"../../core/kd":99,"./inputview":44,"jquery":111}],48:[function(require,module,exports){
 var $, KD, KDInputView, KDSelectBox,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -6713,8 +6713,8 @@ module.exports = KDSelectBox = (function(_super) {
 
 },{"../../core/kd":99,"./inputview":44,"jquery":111}],49:[function(require,module,exports){
 var Encoder, KD, KDContentEditableView, KDContextMenu, KDTokenizedInput,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -6947,7 +6947,7 @@ module.exports = KDTokenizedInput = (function(_super) {
       pistachio: pistachio
     }, item);
     tokenElement = tokenView.getElement();
-    tokenKey = "" + (tokenView.getId()) + "-" + (tokenView.getKey());
+    tokenKey = (tokenView.getId()) + "-" + (tokenView.getKey());
     this.tokenViews[tokenKey] = tokenView;
     tokenView.setAttributes({
       "data-key": tokenKey
@@ -7044,8 +7044,8 @@ module.exports = KDTokenizedInput = (function(_super) {
 
 },{"../../core/kd":99,"../contextmenu/contextmenu":21,"./contenteditableview":37,"htmlencode":115}],50:[function(require,module,exports){
 var KDInputView, KDWmdInput,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KDInputView = require('./inputview');
 
@@ -7080,8 +7080,8 @@ module.exports = KDWmdInput = (function(_super) {
 
 },{"./inputview":44}],51:[function(require,module,exports){
 var KDListItemView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KDView = require('../../core/view');
 
@@ -7151,8 +7151,8 @@ module.exports = KDListItemView = (function(_super) {
 
 },{"../../core/view":105}],52:[function(require,module,exports){
 var KD, KDListItemView, KDListView, KDListViewBox, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -7451,8 +7451,8 @@ module.exports = KDListView = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"./listitemview":51,"./listviewbox":53}],53:[function(require,module,exports){
 var KDCustomHTMLView, KDListItemView, KDListViewBox,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KDListItemView = require('./listitemview');
 
@@ -7491,8 +7491,8 @@ module.exports = KDListViewBox = (function(_super) {
 
 },{"../../core/customhtmlview":96,"./listitemview":51}],54:[function(require,module,exports){
 var KD, KDCustomHTMLView, KDCustomScrollView, KDListView, KDListViewController, KDLoaderView, KDScrollView, KDView, KDViewController,
-  __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty,
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 KD = require('../../core/kd');
@@ -8089,8 +8089,8 @@ module.exports = KDListViewController = (function(_super) {
 
 },{"../../core/customhtmlview":96,"../../core/kd":99,"../../core/view":105,"../../core/viewcontroller":106,"../list/listview":52,"../loader/loaderview":55,"../scrollview/customscrollview":64,"../scrollview/scrollview":68}],55:[function(require,module,exports){
 var KDLoaderView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 require('canvas-loader');
 
@@ -8123,7 +8123,7 @@ module.exports = KDLoaderView = (function(_super) {
       }
     };
     options.loaderOptions.diameter = options.size.height = options.size.width;
-    options.cssClass = o.cssClass ? "" + o.cssClass + " kdloader" : "kdloader";
+    options.cssClass = o.cssClass ? o.cssClass + " kdloader" : "kdloader";
     KDLoaderView.__super__.constructor.call(this, options, data);
   }
 
@@ -8169,8 +8169,8 @@ module.exports = KDLoaderView = (function(_super) {
 
 },{"../../core/view":105,"canvas-loader":114}],56:[function(require,module,exports){
 var $, KD, KDBlockingModalView, KDModalView, KDOverlayView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -8225,8 +8225,8 @@ module.exports = KDBlockingModalView = (function(_super) {
 
 },{"../../core/kd":99,"../overlay/overlayview":61,"./modalview":57,"jquery":111}],57:[function(require,module,exports){
 var $, KD, KDButtonView, KDModalView, KDModalViewStack, KDOverlayView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -8629,8 +8629,8 @@ module.exports = KDModalView = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"../buttons/buttonview":18,"../overlay/overlayview":61,"./modalviewstack":58,"jquery":111}],58:[function(require,module,exports){
 var KD, KDModalView, KDModalViewStack, KDObject,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -8710,8 +8710,8 @@ module.exports = KDModalViewStack = (function(_super) {
 
 },{"../../core/kd":99,"../../core/object":102,"./modalview":57}],59:[function(require,module,exports){
 var KDModalView, KDModalViewWithForms, KDTabViewWithForms,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KDModalView = require('./modalview');
 
@@ -8765,8 +8765,8 @@ module.exports = KDModalViewWithForms = (function(_super) {
 
 },{"../tabs/tabviewwithforms":82,"./modalview":57}],60:[function(require,module,exports){
 var $, KDLoaderView, KDNotificationView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -9142,8 +9142,8 @@ module.exports = KDNotificationView = (function(_super) {
 
 },{"../../core/view":105,"../loader/loaderview":55,"jquery":111}],61:[function(require,module,exports){
 var KD, KDOverlayView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -9242,8 +9242,8 @@ module.exports = KDOverlayView = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105}],62:[function(require,module,exports){
 var KD, KDSpotlightView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -9370,8 +9370,8 @@ module.exports = KDSpotlightView = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105}],63:[function(require,module,exports){
 var KD, KDCustomHTMLView, KDProgressBarView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -9438,8 +9438,8 @@ module.exports = KDProgressBarView = (function(_super) {
       this.bar.show();
       this.spinner.hide();
       this.bar.setWidth(value, unit);
-      this.darkLabel.updatePartial("" + label + "&nbsp;");
-      return this.lightLabel.updatePartial("" + label + "&nbsp;");
+      this.darkLabel.updatePartial(label + "&nbsp;");
+      return this.lightLabel.updatePartial(label + "&nbsp;");
     } else {
       this.bar.hide();
       return this.spinner.show();
@@ -9454,8 +9454,8 @@ module.exports = KDProgressBarView = (function(_super) {
 
 },{"../../core/customhtmlview":96,"../../core/kd":99}],64:[function(require,module,exports){
 var KD, KDCustomHTMLView, KDCustomScrollView, KDCustomScrollViewWrapper, KDScrollTrack,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -9588,8 +9588,8 @@ module.exports = KDCustomScrollView = (function(_super) {
 
 },{"../../core/customhtmlview":96,"../../core/kd":99,"./customscrollviewinner":65,"./scrolltrack":67}],65:[function(require,module,exports){
 var KD, KDCustomHTMLView, KDCustomScrollViewWrapper, KDScrollThumb, KDScrollTrack, KDScrollView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -9674,8 +9674,8 @@ module.exports = KDCustomScrollViewWrapper = (function(_super) {
 
 },{"../../core/customhtmlview":96,"../../core/kd":99,"./scrollthumb":66,"./scrolltrack":67,"./scrollview":68}],66:[function(require,module,exports){
 var KD, KDScrollThumb, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -9836,8 +9836,8 @@ module.exports = KDScrollThumb = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105}],67:[function(require,module,exports){
 var KD, KDScrollThumb, KDScrollTrack, KDView,
-  __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty,
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 KD = require('../../core/kd');
@@ -9904,8 +9904,8 @@ module.exports = KDScrollTrack = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"./scrollthumb":66}],68:[function(require,module,exports){
 var $, KD, KDScrollView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -10035,8 +10035,8 @@ module.exports = KDScrollView = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"jquery":111,"jquery-mousewheel":110}],69:[function(require,module,exports){
 var KDCustomHTMLView, KDSliderBarHandleView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KDCustomHTMLView = require('../../core/customhtmlview');
 
@@ -10088,7 +10088,7 @@ module.exports = KDSliderBarHandleView = (function(_super) {
     sliderWidth = this.parent.getWidth();
     percentage = ((this.value - minValue) * 100) / (maxValue - minValue);
     position = (sliderWidth / 100) * percentage;
-    return "" + position + "px";
+    return position + "px";
   };
 
   KDSliderBarHandleView.prototype.setValue = function(value) {
@@ -10154,8 +10154,8 @@ module.exports = KDSliderBarHandleView = (function(_super) {
 },{"../../core/customhtmlview":96}],70:[function(require,module,exports){
 var KD, KDCustomHTMLView, KDSliderBarHandleView, KDSliderBarView,
   __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -10245,7 +10245,7 @@ module.exports = KDSliderBarView = (function(_super) {
       }));
     }
     this.bar.setWidth(diff);
-    return this.bar.setX("" + left + "px");
+    return this.bar.setX(left + "px");
   };
 
   KDSliderBarView.prototype.drawOppositeBar = function() {
@@ -10264,7 +10264,7 @@ module.exports = KDSliderBarView = (function(_super) {
       }));
     }
     this.oppositeBar.setWidth(diff);
-    return this.oppositeBar.setX("" + right + "px");
+    return this.oppositeBar.setX(right + "px");
   };
 
   KDSliderBarView.prototype._createLabel = function(value) {
@@ -10275,7 +10275,7 @@ module.exports = KDSliderBarView = (function(_super) {
       cssClass: "sliderbar-label",
       partial: "" + value
     })));
-    return label.setX("" + pos + "%");
+    return label.setX(pos + "%");
   };
 
   KDSliderBarView.prototype.addLabels = function() {
@@ -10396,8 +10396,8 @@ module.exports = KDSliderBarView = (function(_super) {
 
 },{"../../core/customhtmlview":96,"../../core/kd":99,"./sliderbarhandleview":69}],71:[function(require,module,exports){
 var KD, KDSlidePageView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -10432,8 +10432,8 @@ module.exports = KDSlidePageView = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105}],72:[function(require,module,exports){
 var Hammer, KD, KDSlideShowView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -10468,8 +10468,8 @@ module.exports = KDSlideShowView = (function(_super) {
     this._coordsY = [];
     this._currentX = 0;
     _ref1 = this.getOptions(), animation = _ref1.animation, direction = _ref1.direction, touchEnabled = _ref1.touchEnabled;
-    topToBottom = [["" + animation + "FromTop", "" + animation + "FromBottom"], ["" + animation + "ToBottom", "" + animation + "ToTop"]];
-    leftToRight = [["" + animation + "FromLeft", "" + animation + "FromRight"], ["" + animation + "ToRight", "" + animation + "ToLeft"]];
+    topToBottom = [[animation + "FromTop", animation + "FromBottom"], [animation + "ToBottom", animation + "ToTop"]];
+    leftToRight = [[animation + "FromLeft", animation + "FromRight"], [animation + "ToRight", animation + "ToLeft"]];
     if (direction === 'topToBottom') {
       this.xcoordAnimations = topToBottom;
       this.ycoordAnimations = leftToRight;
@@ -10578,8 +10578,8 @@ module.exports = KDSlideShowView = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"hammerjs":109}],73:[function(require,module,exports){
 var KDSplitComboView, KDSplitView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KDView = require('../../core/view');
 
@@ -10628,8 +10628,8 @@ module.exports = KDSplitComboView = (function(_super) {
 
 },{"../../core/view":105,"./splitview":76}],74:[function(require,module,exports){
 var KD, KDScrollView, KDSplitView, KDSplitViewPanel,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -10750,8 +10750,8 @@ module.exports = KDSplitViewPanel = (function(_super) {
 
 },{"../../core/kd":99,"../scrollview/scrollview":68,"./splitview":76}],75:[function(require,module,exports){
 var KDSplitResizer, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KDView = require('../../core/view');
 
@@ -10855,8 +10855,8 @@ module.exports = KDSplitResizer = (function(_super) {
 
 },{"../../core/view":105}],76:[function(require,module,exports){
 var KD, KDSplitResizer, KDSplitView, KDSplitViewPanel, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -11324,8 +11324,8 @@ module.exports = KDSplitView = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"./splitpanel":74,"./splitresizer":75}],77:[function(require,module,exports){
 var KDTabHandleContainer, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KDView = require('../../core/view');
 
@@ -11354,8 +11354,8 @@ module.exports = KDTabHandleContainer = (function(_super) {
 
 },{"../../core/view":105}],78:[function(require,module,exports){
 var KD, KDCustomHTMLView, KDTabHandleMoveNav,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -11424,7 +11424,7 @@ module.exports = KDTabHandleMoveNav = (function(_super) {
       case 'initial':
         this._current = 0;
     }
-    return tabHandleContainer.tabs.setCss('marginLeft', "" + this._current + "px");
+    return tabHandleContainer.tabs.setCss('marginLeft', this._current + "px");
   };
 
   return KDTabHandleMoveNav;
@@ -11435,8 +11435,8 @@ module.exports = KDTabHandleMoveNav = (function(_super) {
 
 },{"../../core/customhtmlview":96,"../../core/kd":99}],79:[function(require,module,exports){
 var $, KDTabHandleView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -11503,7 +11503,7 @@ module.exports = KDTabHandleView = (function(_super) {
       cssClass = "";
     }
     _ref = this.getOptions(), hidden = _ref.hidden, closable = _ref.closable, tagName = _ref.tagName, title = _ref.title, addTitleAttribute = _ref.addTitleAttribute;
-    cssClass = hidden ? "" + cssClass + " hidden" : cssClass;
+    cssClass = hidden ? cssClass + " hidden" : cssClass;
     closeHandle = closable ? "<span class='close-tab'></span>" : "";
     title = addTitleAttribute ? "title='" + title + "'" : "";
     return this.domElement = $("<" + tagName + " " + title + " class='kdtabhandle " + cssClass + "'>" + closeHandle + "</" + tagName + ">");
@@ -11633,8 +11633,8 @@ module.exports = KDTabHandleView = (function(_super) {
 
 },{"../../core/view":105,"jquery":111}],80:[function(require,module,exports){
 var KD, KDTabPaneView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -11780,8 +11780,8 @@ module.exports = KDTabPaneView = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105}],81:[function(require,module,exports){
 var $, KD, KDScrollView, KDTabHandleContainer, KDTabHandleMoveNav, KDTabHandleView, KDTabPaneView, KDTabView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -12222,8 +12222,8 @@ module.exports = KDTabView = (function(_super) {
     return this.getPaneIndex(this.getActivePane());
   };
 
-  KDTabView.prototype.setActivePane = function(activePane) {
-    this.activePane = activePane;
+  KDTabView.prototype.setActivePane = function(_at_activePane) {
+    this.activePane = _at_activePane;
   };
 
   KDTabView.prototype.getPaneByIndex = function(index) {
@@ -12335,8 +12335,8 @@ module.exports = KDTabView = (function(_super) {
 
 },{"../../core/kd":99,"../scrollview/scrollview":68,"./tabhandlecontainer":77,"./tabhandlemovenav":78,"./tabhandleview":79,"./tabpaneview":80,"jquery":111}],82:[function(require,module,exports){
 var $, KDFormViewWithFields, KDTabPaneView, KDTabView, KDTabViewWithForms,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -12443,15 +12443,17 @@ module.exports = KDTabViewWithForms = (function(_super) {
 
 
 },{"../forms/formviewwithfields":33,"./tabpaneview":80,"./tabview":81,"jquery":111}],83:[function(require,module,exports){
-var $, KD, KDTimeAgoView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+var $, KD, KDTimeAgoView, KDView, timeago,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
 KD = require('../../core/kd');
 
 KDView = require('../../core/view');
+
+timeago = require('timeago');
 
 module.exports = KDTimeAgoView = (function(_super) {
   __extends(KDTimeAgoView, _super);
@@ -12470,7 +12472,7 @@ module.exports = KDTimeAgoView = (function(_super) {
     KDTimeAgoView.__super__.constructor.call(this, options, data);
     KDTimeAgoView.on("OneMinutePassed", (function(_this) {
       return function() {
-        return _this.updatePartial($.timeago(_this.getData()));
+        return _this.updatePartial(timeago(_this.getData()));
       };
     })(this));
   }
@@ -12478,12 +12480,12 @@ module.exports = KDTimeAgoView = (function(_super) {
   KDTimeAgoView.prototype.setData = function() {
     KDTimeAgoView.__super__.setData.apply(this, arguments);
     if (this.parent) {
-      return this.updatePartial($.timeago(this.getData()));
+      return this.updatePartial(timeago(this.getData()));
     }
   };
 
   KDTimeAgoView.prototype.viewAppended = function() {
-    return this.setPartial($.timeago(this.getData()));
+    return this.setPartial(timeago(this.getData()));
   };
 
   return KDTimeAgoView;
@@ -12492,10 +12494,10 @@ module.exports = KDTimeAgoView = (function(_super) {
 
 
 
-},{"../../core/kd":99,"../../core/view":105,"jquery":111}],84:[function(require,module,exports){
+},{"../../core/kd":99,"../../core/view":105,"jquery":111,"timeago":129}],84:[function(require,module,exports){
 var Encoder, KD, KDTooltip, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -12869,8 +12871,8 @@ module.exports = KDTooltip = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"htmlencode":115}],85:[function(require,module,exports){
 var JTreeItemView, KDListItemView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KDListItemView = require('../list/listitemview');
 
@@ -12945,8 +12947,8 @@ module.exports = JTreeItemView = (function(_super) {
 
 },{"../list/listitemview":51}],86:[function(require,module,exports){
 var JTreeView, KD, KDListView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -13026,8 +13028,8 @@ module.exports = JTreeView = (function(_super) {
 
 },{"../../core/kd":99,"../list/listview":52}],87:[function(require,module,exports){
 var JTreeItemView, JTreeView, JTreeViewController, KD, KDListViewController, KDScrollView, KDViewController,
-  __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty,
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 KD = require('../../core/kd');
@@ -13442,7 +13444,7 @@ module.exports = JTreeViewController = (function(_super) {
     var options, _ref, _ref1;
     options = this.getOptions();
     this.listControllers[listId] = new options.listViewControllerClass({
-      id: "" + (this.getId()) + "_" + listId,
+      id: (this.getId()) + "_" + listId,
       wrapper: false,
       scrollView: false,
       selection: (_ref = options.selection) != null ? _ref : false,
@@ -14012,8 +14014,8 @@ module.exports = JTreeViewController = (function(_super) {
 
 },{"../../core/kd":99,"../../core/viewcontroller":106,"../list/listviewcontroller":54,"../scrollview/scrollview":68,"./treeitemview":85,"./treeview":86}],88:[function(require,module,exports){
 var KDCustomHTMLView, KDFileUploadArea, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KDView = require('../../core/view');
 
@@ -14087,8 +14089,8 @@ module.exports = KDFileUploadArea = (function(_super) {
 
 },{"../../core/customhtmlview":96,"../../core/view":105}],89:[function(require,module,exports){
 var $, KDFileUploadListItemView, KDListItemView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -14127,8 +14129,8 @@ module.exports = KDFileUploadListItemView = (function(_super) {
 
 },{"../list/listitemview":51,"jquery":111}],90:[function(require,module,exports){
 var KDFileUploadListItemView, KDFileUploadListView, KDListView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KDListView = require('../list/listview');
 
@@ -14164,8 +14166,8 @@ module.exports = KDFileUploadListView = (function(_super) {
 
 },{"../list/listview":52,"./fileuploadlistitemview":89}],91:[function(require,module,exports){
 var $, KDFileUploadThumbItemView, KDListItemView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -14212,8 +14214,8 @@ module.exports = KDFileUploadThumbItemView = (function(_super) {
 
 },{"../list/listitemview":51,"jquery":111}],92:[function(require,module,exports){
 var KDFileUploadListView, KDFileUploadThumbItemView, KDFileUploadThumbListView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KDFileUploadThumbItemView = require('./fileuploadthumbitemview');
 
@@ -14238,8 +14240,8 @@ module.exports = KDFileUploadThumbListView = (function(_super) {
 
 },{"./fileuploadlistview":90,"./fileuploadthumbitemview":91}],93:[function(require,module,exports){
 var KDFileUploadArea, KDFileUploadListView, KDFileUploadThumbListView, KDFileUploadView, KDListViewController, KDMultipartUploader, KDNotificationView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KDView = require('../../core/view');
 
@@ -14467,8 +14469,8 @@ module.exports = KDFileUploadView = (function(_super) {
 
 },{"../../core/view":105,"../list/listviewcontroller":54,"../notifications/notificationview":60,"./fileuploadarea":88,"./fileuploadlistview":90,"./fileuploadthumblistview":92,"./multipartuploader":94}],94:[function(require,module,exports){
 var KDEventEmitter, KDMultipartUploader,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KDEventEmitter = require('../../core/eventemitter');
 
@@ -14550,7 +14552,7 @@ module.exports = KDMultipartUploader = (function(_super) {
     })(this);
     body += this.serializedToMultipart([
       {
-        name: "" + this.id + "-size",
+        name: this.id + "-size",
         value: this.file.size
       }
     ]);
@@ -14577,8 +14579,8 @@ module.exports = KDMultipartUploader = (function(_super) {
 
 },{"../../core/eventemitter":97}],95:[function(require,module,exports){
 var KDController, KDObject,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KDObject = require('./object');
 
@@ -14597,8 +14599,8 @@ module.exports = KDController = (function(_super) {
 
 },{"./object":102}],96:[function(require,module,exports){
 var KDCustomHTMLView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KDView = require('./view');
 
@@ -14800,8 +14802,8 @@ module.exports = KDEventEmitter = (function() {
 
 },{}],98:[function(require,module,exports){
 var KDEventEmitter,
-  __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty,
   __slice = [].slice;
 
 KDEventEmitter = require('./eventemitter');
@@ -14927,7 +14929,7 @@ module.exports = KDEventEmitter.Wildcard = (function(_super) {
 
 
 },{"./eventemitter":97}],99:[function(require,module,exports){
-var debugStates, dom, instances, instancesToBeTested, lastFuncCall, singletons, subscriptions, utils;
+var debugStates, dom, getSingleton, instances, instancesToBeTested, lastFuncCall, singletons, subscriptions, utils;
 
 utils = require('./utils');
 
@@ -14945,6 +14947,15 @@ lastFuncCall = null;
 
 instancesToBeTested = {};
 
+getSingleton = function(name) {
+  if (singletons[name] != null) {
+    return singletons[name];
+  } else {
+    console.warn("[getSingleton] " + name + " doesn't exist");
+    return null;
+  }
+};
+
 module.exports = {
   extend: function(obj) {
     var key, val, _results;
@@ -14952,7 +14963,7 @@ module.exports = {
     for (key in obj) {
       val = obj[key];
       if (this[key]) {
-        throw new Error("" + key + " is already registered");
+        throw new Error(key + " is already registered");
       } else {
         _results.push(this[key] = val);
       }
@@ -14991,14 +15002,8 @@ module.exports = {
   deleteInstance: function(id) {
     return delete instances[id];
   },
-  getSingleton: function(name) {
-    if (singletons[name] != null) {
-      return singletons[name];
-    } else {
-      console.warn("[getSingleton] " + name + " doesn't exist");
-      return null;
-    }
-  },
+  getSingleton: getSingleton,
+  singleton: getSingleton,
   getAllKDInstances: function() {
     return instances;
   },
@@ -15019,6 +15024,9 @@ module.exports = {
   log: console.log.bind(console),
   warn: console.warn.bind(console),
   error: console.error.bind(console),
+  info: console.info.bind(console),
+  time: console.time.bind(console),
+  timeEnd: console.timeEnd.bind(console),
   debugStates: debugStates,
   instances: instances,
   singletons: singletons,
@@ -15219,8 +15227,8 @@ module.exports = KDKeyboardMap = (function() {
 
 },{}],102:[function(require,module,exports){
 var KD, KDEventEmitter, KDObject,
-  __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty,
   __slice = [].slice;
 
 KD = require('./kd');
@@ -15338,16 +15346,16 @@ module.exports = KDObject = (function(_super) {
     return KD.registerInstance(this);
   };
 
-  KDObject.prototype.setData = function(data) {
-    this.data = data;
+  KDObject.prototype.setData = function(_at_data) {
+    this.data = _at_data;
   };
 
   KDObject.prototype.getData = function() {
     return this.data;
   };
 
-  KDObject.prototype.setOptions = function(options) {
-    this.options = options != null ? options : {};
+  KDObject.prototype.setOptions = function(_at_options) {
+    this.options = _at_options != null ? _at_options : {};
   };
 
   KDObject.prototype.setOption = function(option, value) {
@@ -15379,8 +15387,8 @@ module.exports = KDObject = (function(_super) {
     return this.id;
   };
 
-  KDObject.prototype.setDelegate = function(delegate) {
-    this.delegate = delegate;
+  KDObject.prototype.setDelegate = function(_at_delegate) {
+    this.delegate = _at_delegate;
   };
 
   KDObject.prototype.getDelegate = function() {
@@ -15396,7 +15404,7 @@ module.exports = KDObject = (function(_super) {
   KDObject.prototype.chainNames = function(options) {
     options.chain;
     options.newLink;
-    return "" + options.chain + "." + options.newLink;
+    return options.chain + "." + options.newLink;
   };
 
   return KDObject;
@@ -15407,8 +15415,8 @@ module.exports = KDObject = (function(_super) {
 
 },{"./eventemitter":97,"./kd":99}],103:[function(require,module,exports){
 var Encoder, KD, KDNotificationView, KDObject, KDRouter,
-  __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty,
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; },
   __slice = [].slice;
 
@@ -15686,7 +15694,7 @@ module.exports = KDRouter = (function(_super) {
     if (!query.length) {
       return;
     }
-    nextRoute = "" + this.currentPath + "?" + query;
+    nextRoute = this.currentPath + "?" + query;
     return this.handleRoute(nextRoute);
   };
 
@@ -15762,7 +15770,7 @@ module.exports = {
     if (showCount == null) {
       showCount = true;
     }
-    return "" + (showCount ? "" + (count || 0) + " " : '') + (count === 1 ? noun : Inflector.pluralize(noun));
+    return "" + (showCount ? (count || 0) + " " : '') + (count === 1 ? noun : Inflector.pluralize(noun));
   },
   formatIndefiniteArticle: function(noun) {
     var _ref;
@@ -15936,7 +15944,7 @@ module.exports = {
     };
     return stringifyQuery = function(obj) {
       return Object.keys(obj).map(function(key) {
-        return "" + (encode(key)) + "=" + (encode(obj[key]));
+        return (encode(key)) + "=" + (encode(obj[key]));
       }).join('&').trim();
     };
   })(),
@@ -16269,7 +16277,7 @@ module.exports = {
     units = ["kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
     unitIndex = -1;
     if (bytes < thresh) {
-      return "" + bytes + " B";
+      return bytes + " B";
     }
     while (true) {
       bytes /= thresh;
@@ -16437,8 +16445,8 @@ module.exports = {
 
 },{"inflector":116}],105:[function(require,module,exports){
 var $, KD, KDObject, KDView, MutationSummary,
-  __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty,
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; },
   __slice = [].slice;
 
@@ -16458,7 +16466,7 @@ module.exports = KDView = (function(_super) {
   defineProperty = Object.defineProperty;
 
   deprecated = function(methodName) {
-    return KD.warn("" + methodName + " is deprecated from KDView if you need it override in your subclass");
+    return KD.warn(methodName + " is deprecated from KDView if you need it override in your subclass");
   };
 
   eventNames = /^((dbl)?click|key(up|down|press)|mouse(up|down|over|enter|leave|move)|drag(start|end|enter|leave|over)|blur|change|focus|drop|contextmenu|scroll|paste|error|load|wheel)$/;
@@ -17644,8 +17652,8 @@ module.exports = KDView = (function(_super) {
 
 },{"./../components/overlay/overlayview.coffee":61,"./../components/tooltip/tooltip.coffee":84,"./kd":99,"./object":102,"jquery":111,"mutation-summary":118}],106:[function(require,module,exports){
 var KD, KDController, KDView, KDViewController,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty;
 
 KD = require('./kd');
 
@@ -17698,8 +17706,8 @@ module.exports = KDViewController = (function(_super) {
 
 },{"./controller":95,"./kd":99,"./view":105}],107:[function(require,module,exports){
 var $, KD, KDController, KDKeyboardListener, KDKeyboardMap, KDWindowController,
-  __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __hasProp = {}.hasOwnProperty,
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 $ = require('jquery');
@@ -17925,13 +17933,13 @@ module.exports = KDWindowController = (function(_super) {
     }
   };
 
-  KDWindowController.prototype.setDragInAction = function(dragInAction) {
-    this.dragInAction = dragInAction != null ? dragInAction : false;
+  KDWindowController.prototype.setDragInAction = function(_at_dragInAction) {
+    this.dragInAction = _at_dragInAction != null ? _at_dragInAction : false;
     return document.body.classList[this.dragInAction ? 'add' : 'remove']('dragInAction');
   };
 
-  KDWindowController.prototype.setMainView = function(mainView) {
-    this.mainView = mainView;
+  KDWindowController.prototype.setMainView = function(_at_mainView) {
+    this.mainView = _at_mainView;
   };
 
   KDWindowController.prototype.getMainView = function(view) {
@@ -31484,17 +31492,17 @@ try {
 },{}],114:[function(require,module,exports){
 /*
 * Copyright (c) 2011 Róbert Pataki
-* 
+*
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
 * in the Software without restriction, including without limitation the rights
 * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 * copies of the Software, and to permit persons to whom the Software is
 * furnished to do so, subject to the following conditions:
-* 
+*
 * The above copyright notice and this permission notice shall be included in
 * all copies or substantial portions of the Software.
-* 
+*
 * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -31502,9 +31510,9 @@ try {
 * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 * THE SOFTWARE.
-* 
+*
 * ----------------------------------------------------------------------------------------
-* 
+*
 * Check out my GitHub:	http://github.com/heartcode/
 * Send me an email:		heartcode@robertpataki.com
 * Follow me on Twitter:	http://twitter.com/#iHeartcode
@@ -31531,9 +31539,9 @@ try {
 	* <li><strong>id (String):</strong> The id of the CanvasLoader instance</li>
 	* <li><strong>safeVML (Boolean):</strong> If set to true, the amount of CanvasLoader shapes are limited in VML mode. It prevents CPU overkilling when rendering loaders with high density. The default value is true.</li>
 	**/
-	var CanvasLoader = function (id, opt) {
+	var CanvasLoader = function (parentElm, opt) {
 		if (typeof(opt) == "undefined") { opt = {}; }
-		this.init(id, opt);
+		this.init(parentElm, opt);
 	}, p = CanvasLoader.prototype, engine, engines = ["canvas", "vml"], shapes = ["oval", "spiral", "square", "rect", "roundRect"], cRX = /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/, ie8 = navigator.appVersion.indexOf("MSIE") !== -1 && parseFloat(navigator.appVersion.split("MSIE")[1]) === 8 ? true : false, canSup = !!document.createElement('canvas').getContext, safeDensity = 40, safeVML = true,
 	/**
 	* Creates a new element with the tag and applies the passed properties on it
@@ -31592,7 +31600,7 @@ try {
 			c.translate(-x, -y);
 			c.beginPath();
 		};
-	/** 
+	/**
 	* Initialization method
 	* @method init
 	* @protected
@@ -31603,18 +31611,18 @@ try {
 	* <li><strong>id (String):</strong> The id of the CanvasLoader instance</li>
 	* <li><strong>safeVML (Boolean):</strong> If set to true, the amount of CanvasLoader shapes are limited in VML mode. It prevents CPU overkilling when rendering loaders with high density. The default value is true.</li>
 	**/
-	p.init = function (pId, opt) {
-		
+	p.init = function (parentElm, opt) {
+
 		if (typeof(opt.safeVML) === "boolean") { safeVML = opt.safeVML; }
-		
+
 		/*
 		* Find the containing div by id
 		* If the container element cannot be found we use the document body itself
 		*/
 		try {
 			// Look for the parent element
-			if (document.getElementById(pId) !== undefined) {
-				this.mum = document.getElementById(pId);
+			if (parentElm !== undefined) {
+				this.mum = parentElm;
 			} else {
 				this.mum = document.body;
 			}
@@ -31623,7 +31631,8 @@ try {
 		}
 		// Creates the parent div of the loader instance
 		opt.id = typeof (opt.id) !== "undefined" ? opt.id : "canvasLoader";
-		this.cont = addEl("div", this.mum, {id: opt.id});
+		this.cont = addEl("span", this.mum, {id: opt.id});
+		this.cont.setAttribute("class","canvas-loader");
 		if (canSup) {
 		// For browsers with Canvas support...
 			engine = engines[0];
@@ -31641,7 +31650,7 @@ try {
 				document.getElementsByTagName("head")[0].appendChild(addEl("style"));
 				CanvasLoader.vmlSheet = document.styleSheets[document.styleSheets.length - 1];
 				var a = ["group", "oval", "roundrect", "fill"], n;
-				for ( var n = 0; n < a.length; ++n ) { CanvasLoader.vmlSheet.addRule(a[n], "behavior:url(#default#VML); position:absolute;"); }
+				for (n in a) { CanvasLoader.vmlSheet.addRule(a[n], "behavior:url(#default#VML); position:absolute;"); }
 			}
 			this.vml = addEl("group", this.cont);
 		}
@@ -31803,7 +31812,7 @@ try {
 	* @public
 	* @param density {Number} The default value is 40
 	**/
-	p.setDensity = function (density) { 
+	p.setDensity = function (density) {
 		if (safeVML && engine === engines[1]) {
 			this.density = Math.round(Math.abs(density)) <= safeDensity ? Math.round(Math.abs(density)) : safeDensity;
 		} else {
@@ -31891,7 +31900,7 @@ try {
 	**/
 	p.getFPS = function () { return this.fps; };
 // End of Property declarations
-/////////////////////////////////////////////////////////////////////////////////////////////	
+/////////////////////////////////////////////////////////////////////////////////////////////
 	/**
 	* Return the RGB values of the passed color
 	* @method getRGB
@@ -31983,7 +31992,7 @@ try {
 			}
 			w = h = size;
 			x = d * 0.5 - h;
-			y = -h * 0.5;		
+			y = -h * 0.5;
 			while (i < de) {
 				bitMod = i <= animBits ? 1 - ((1 - minBitMod) / animBits * i) : bitMod = minBitMod;
 				ang = 270 - 360 / de * i;
@@ -32013,7 +32022,7 @@ try {
 						x = d * 0.5 - w;
 						y = -h * 0.5;
 					}
-					arc = this.shape === shapes[4] ? 0.6 : 0; 
+					arc = this.shape === shapes[4] ? 0.6 : 0;
 					break;
 				}
 				g = setAttr(setCSS(addEl("group", this.vml), {width: d, height: d, rotation: ang}), {coordsize: d + "," + d, coordorigin: -d * 0.5 + "," + (-d * 0.5)});
@@ -32098,7 +32107,7 @@ try {
 	*/
 	p.hide = function () {
 		if (typeof (this.timer) === "number") {
-			clearInterval(this.timer);			
+			clearInterval(this.timer);
 			delete this.timer;
 			setCSS(this.cont, {display: "none"});
 		}
@@ -32925,154 +32934,158 @@ module.exports = Inflector = (function() {
 })();
 
 },{}],117:[function(require,module,exports){
-(function() {
-  var JsPath,
-    __slice = Array.prototype.slice;
+var JsPath,
+  __slice = [].slice;
 
-  this.JsPath = (function() {
-    var primTypes,
-      _this = this;
+module.exports = JsPath = (function() {
+  var primTypes;
 
-    primTypes = /^(string|number|boolean)$/;
+  primTypes = /^(string|number|boolean)$/;
 
-    /*
-      @constructor.
-      @signature: new JsPath(path, val)
-      @param: path - a dot-notation style "path" to identify a
-        nested JS object.
-      @description: Initialize a new js object with the provided
-        path.  I've never actually used this constructor for any-
-        thing, and it is here for the sake of "comprehensiveness"
-        at this time, although I am incredulous as to it's overall
-        usefulness.
-    */
-
-    function JsPath(path, val) {
-      return JsPath.setAt({}, path, val || {});
-    }
-
-    ['forEach', 'indexOf', 'join', 'pop', 'reverse', 'shift', 'sort', 'splice', 'unshift', 'push'].forEach(function(method) {
-      return JsPath[method + 'At'] = function() {
-        var obj, path, rest, target;
-        obj = arguments[0], path = arguments[1], rest = 3 <= arguments.length ? __slice.call(arguments, 2) : [];
-        target = JsPath.getAt(obj, path);
-        if ('function' === typeof (target != null ? target[method] : void 0)) {
-          return target[method].apply(target, rest);
-        } else {
-          throw new Error("Does not implement method " + method + " at " + path);
-        }
-      };
-    });
-
-    /*
-      @method. property of the constructor.
-      @signature: JsPath.getAt(ref, path)
-      @param: ref - the object to traverse.
-      @param: path - a dot-notation style "path" to identify a
-        nested JS object.
-      @return: the object that can be found inside ref at the path
-        described by the second parameter or undefined if the path
-        is not valid.
-    */
-
-    JsPath.getAt = function(ref, path) {
-      var prop;
-      if ('function' === typeof path.split) {
-        path = path.split('.');
-      } else {
-        path = path.slice();
-      }
-      while ((ref != null) && (prop = path.shift())) {
-        ref = ref[prop];
-      }
-      return ref;
-    };
-
-    /*
-      @method. property of the constructor.
-      @signature: JsPath.getAt(ref, path)
-      @param: obj - the object to extend.
-      @param: path - a dot-notation style "path" to identify a
-        nested JS object.
-      @param: val - the value to assign to the path of the obj.
-      @return: the object that was extended.
-      @description: set a property to the path provided by the
-        second parameter with the value provided by the third
-        parameter.
-    */
-
-    JsPath.setAt = function(obj, path, val) {
-      var component, last, prev, ref;
-      if ('function' === typeof path.split) {
-        path = path.split('.');
-      } else {
-        path = path.slice();
-      }
-      last = path.pop();
-      prev = [];
-      ref = obj;
-      while (component = path.shift()) {
-        if (primTypes.test(typeof ref[component])) {
-          throw new Error("" + (prev.concat(component).join('.')) + " is\nprimitive, and cannot be extended.");
-        }
-        ref = ref[component] || (ref[component] = {});
-        prev.push(component);
-      }
-      ref[last] = val;
-      return obj;
-    };
-
-    JsPath.assureAt = function(ref, path, initializer) {
-      var obj;
-      if (obj = this.getAt(ref, path)) {
-        return obj;
-      } else {
-        this.setAt(ref, path, initializer);
-        return initializer;
-      }
-    };
-
-    /*
-      @method. property of the constructor.
-      @signature: JsPath.deleteAt(ref, path)
-      @param: obj - the object to extend.
-      @param: path - a dot-notation style "path" to identify a
-        nested JS object to dereference.
-      @return: boolean success.
-      @description: deletes the reference specified by the last
-        unit of the path from the object specified by other
-        components of the path, belonging to the provided object.
-    */
-
-    JsPath.deleteAt = function(ref, path) {
-      var component, last, prev;
-      if ('function' === typeof path.split) {
-        path = path.split('.');
-      } else {
-        path = path.slice();
-      }
-      prev = [];
-      last = path.pop();
-      while (component = path.shift()) {
-        if (primTypes.test(typeof ref[component])) {
-          throw new Error("" + (prev.concat(component).join('.')) + " is\nprimitive; cannot drill any deeper.");
-        }
-        if (!(ref = ref[component])) return false;
-        prev.push(component);
-      }
-      return delete ref[last];
-    };
-
-    return JsPath;
-
-  }).call(this);
 
   /*
-  Footnotes:
-    1 - if there's no .split() method, assume it's already an array
-  */
+  @constructor.
+  @signature: new JsPath(path, val)
+  @param: path - a dot-notation style "path" to identify a
+    nested JS object.
+  @description: Initialize a new js object with the provided
+    path.  I've never actually used this constructor for any-
+    thing, and it is here for the sake of "comprehensiveness"
+    at this time, although I am incredulous as to it's overall
+    usefulness.
+   */
 
-}).call(this);
+  function JsPath(path, val) {
+    return JsPath.setAt({}, path, val || {});
+  }
+
+  ['forEach', 'indexOf', 'join', 'pop', 'reverse', 'shift', 'sort', 'splice', 'unshift', 'push'].forEach(function(method) {
+    return JsPath[method + 'At'] = function() {
+      var obj, path, rest, target;
+      obj = arguments[0], path = arguments[1], rest = 3 <= arguments.length ? __slice.call(arguments, 2) : [];
+      target = JsPath.getAt(obj, path);
+      if ('function' === typeof (target != null ? target[method] : void 0)) {
+        return target[method].apply(target, rest);
+      } else {
+        throw new Error("Does not implement method " + method + " at " + path);
+      }
+    };
+  });
+
+
+  /*
+  @method. property of the constructor.
+  @signature: JsPath.getAt(ref, path)
+  @param: ref - the object to traverse.
+  @param: path - a dot-notation style "path" to identify a
+    nested JS object.
+  @return: the object that can be found inside ref at the path
+    described by the second parameter or undefined if the path
+    is not valid.
+   */
+
+  JsPath.getAt = function(ref, path) {
+    var e;
+    if ('function' === typeof path.split) {
+      path = path.split('.');
+    } else {
+      path = path.slice();
+    }
+    try {
+      return path.reduce((function(a, b) {
+        return a[b];
+      }), ref);
+    } catch (_error) {
+      e = _error;
+    }
+  };
+
+
+  /*
+  @method. property of the constructor.
+  @signature: JsPath.getAt(ref, path)
+  @param: obj - the object to extend.
+  @param: path - a dot-notation style "path" to identify a
+    nested JS object.
+  @param: val - the value to assign to the path of the obj.
+  @return: the object that was extended.
+  @description: set a property to the path provided by the
+    second parameter with the value provided by the third
+    parameter.
+   */
+
+  JsPath.setAt = function(obj, path, val) {
+    var component, last, prev, ref, _i, _len;
+    if ('function' === typeof path.split) {
+      path = path.split('.');
+    } else {
+      path = path.slice();
+    }
+    last = path.pop();
+    prev = [];
+    ref = obj;
+    for (_i = 0, _len = path.length; _i < _len; _i++) {
+      component = path[_i];
+      if (primTypes.test(typeof ref[component])) {
+        throw new Error((prev.concat(component).join('.')) + " is\nprimitive, and cannot be extended.");
+      }
+      ref = ref[component] || (ref[component] = {});
+      prev.push(component);
+    }
+    ref[last] = val;
+    return obj;
+  };
+
+  JsPath.assureAt = function(ref, path, initializer) {
+    var obj;
+    if (obj = JsPath.getAt(ref, path)) {
+      return obj;
+    } else {
+      JsPath.setAt(ref, path, initializer);
+      return initializer;
+    }
+  };
+
+
+  /*
+  @method. property of the constructor.
+  @signature: JsPath.deleteAt(ref, path)
+  @param: obj - the object to extend.
+  @param: path - a dot-notation style "path" to identify a
+    nested JS object to dereference.
+  @return: boolean success.
+  @description: deletes the reference specified by the last
+    unit of the path from the object specified by other
+    components of the path, belonging to the provided object.
+   */
+
+  JsPath.deleteAt = function(ref, path) {
+    var component, last, prev, _i, _len;
+    if ('function' === typeof path.split) {
+      path = path.split('.');
+    } else {
+      path = path.slice();
+    }
+    prev = [];
+    last = path.pop();
+    for (_i = 0, _len = path.length; _i < _len; _i++) {
+      component = path[_i];
+      if (primTypes.test(typeof ref[component])) {
+        throw new Error((prev.concat(component).join('.')) + " is\nprimitive; cannot drill any deeper.");
+      }
+      if (!(ref = ref[component])) {
+        return false;
+      }
+      prev.push(component);
+    }
+    return delete ref[last];
+  };
+
+  return JsPath;
+
+})();
+
+
 
 },{}],118:[function(require,module,exports){
 // Copyright 2011 Google Inc.
@@ -36315,6 +36328,119 @@ Mousetrap = (function(Mousetrap) {
     };
 
 })(Mousetrap);
+
+},{}],129:[function(require,module,exports){
+/*
+ * node-timeago
+ * Cam Pedersen
+ * <diffference@gmail.com>
+ * Oct 6, 2011
+ * Timeago is a jQuery plugin that makes it easy to support automatically
+ * updating fuzzy timestamps (e.g. "4 minutes ago" or "about 1 day ago").
+ *
+ * @name timeago
+ * @version 0.10.0
+ * @requires jQuery v1.2.3+
+ * @author Ryan McGeary
+ * @license MIT License - http://www.opensource.org/licenses/mit-license.php
+ *
+ * For usage and examples, visit:
+ * http://timeago.yarp.com/
+ *
+ * Copyright (c) 2008-2011, Ryan McGeary (ryanonjavascript -[at]- mcgeary [*dot*] org)
+ */
+module.exports = function (timestamp) {
+  if (timestamp instanceof Date) {
+    return inWords(timestamp);
+  } else if (typeof timestamp === "string") {
+    return inWords(parse(timestamp));
+  } else if (typeof timestamp === "number") {
+    return inWords(new Date(timestamp))
+  }
+};
+
+var settings = {
+  allowFuture: false,
+  strings: {
+    prefixAgo: null,
+    prefixFromNow: null,
+    suffixAgo: "ago",
+    suffixFromNow: "from now",
+    seconds: "less than a minute",
+    minute: "about a minute",
+    minutes: "%d minutes",
+    hour: "about an hour",
+    hours: "about %d hours",
+    day: "a day",
+    days: "%d days",
+    month: "about a month",
+    months: "%d months",
+    year: "about a year",
+    years: "%d years",
+    numbers: []
+  }
+};
+
+var $l = settings.strings;
+
+module.exports.settings = settings;
+
+$l.inWords = function (distanceMillis) {
+  var prefix = $l.prefixAgo;
+  var suffix = $l.suffixAgo;
+  if (settings.allowFuture) {
+    if (distanceMillis < 0) {
+      prefix = $l.prefixFromNow;
+      suffix = $l.suffixFromNow;
+    }
+  }
+
+  var seconds = Math.abs(distanceMillis) / 1000;
+  var minutes = seconds / 60;
+  var hours = minutes / 60;
+  var days = hours / 24;
+  var years = days / 365;
+
+  function substitute (stringOrFunction, number) {
+    var string = typeof stringOrFunction === 'function' ? stringOrFunction(number, distanceMillis) : stringOrFunction;
+    var value = ($l.numbers && $l.numbers[number]) || number;
+    return string.replace(/%d/i, value);
+  }
+
+  var words = seconds < 45 && substitute($l.seconds, Math.round(seconds)) ||
+    seconds < 90 && substitute($l.minute, 1) ||
+    minutes < 45 && substitute($l.minutes, Math.round(minutes)) ||
+    minutes < 90 && substitute($l.hour, 1) ||
+    hours < 24 && substitute($l.hours, Math.round(hours)) ||
+    hours < 48 && substitute($l.day, 1) ||
+    days < 30 && substitute($l.days, Math.floor(days)) ||
+    days < 60 && substitute($l.month, 1) ||
+    days < 365 && substitute($l.months, Math.floor(days / 30)) ||
+    years < 2 && substitute($l.year, 1) ||
+    substitute($l.years, Math.floor(years));
+
+  return [prefix, words, suffix].join(" ").toString().trim();
+};
+
+function parse (iso8601) {
+  if (!iso8601) return;
+  var s = iso8601.trim();
+  s = s.replace(/\.\d\d\d+/,""); // remove milliseconds
+  s = s.replace(/-/,"/").replace(/-/,"/");
+  s = s.replace(/T/," ").replace(/Z/," UTC");
+  s = s.replace(/([\+\-]\d\d)\:?(\d\d)/," $1$2"); // -04:00 -> -0400
+  return new Date(s);
+}
+
+$l.parse = parse;
+
+function inWords (date) {
+  return $l.inWords(distance(date));
+}
+
+function distance (date) {
+  return (new Date().getTime() - date.getTime());
+}
 
 },{}]},{},[108])(108)
 });

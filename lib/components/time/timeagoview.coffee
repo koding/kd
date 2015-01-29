@@ -1,6 +1,7 @@
 $ = require 'jquery'
 KD = require '../../core/kd'
 KDView = require '../../core/view'
+timeago = require 'timeago'
 
 module.exports = class KDTimeAgoView extends KDView
 
@@ -14,11 +15,11 @@ module.exports = class KDTimeAgoView extends KDView
 
     super options, data
 
-    KDTimeAgoView.on "OneMinutePassed", => @updatePartial $.timeago @getData()
+    KDTimeAgoView.on "OneMinutePassed", => @updatePartial timeago @getData()
 
   setData: ->
     super
-    @updatePartial $.timeago @getData()  if @parent
+    @updatePartial timeago @getData()  if @parent
 
   viewAppended: ->
-    @setPartial $.timeago @getData()
+    @setPartial timeago @getData()

@@ -6,7 +6,7 @@ dist: clean js css
 
 js:
 	@$(BIN)/browserify \
-		--transform coffeeify \
+		-g coffeeify \
 		--extension=".coffee" \
 		--outfile kd.js \
 		--standalone kd \

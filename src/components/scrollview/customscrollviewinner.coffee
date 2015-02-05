@@ -5,6 +5,15 @@ KDScrollTrack    = require './scrolltrack'
 
 module.exports = class KDCustomScrollViewWrapper extends KDScrollView
 
+  constructor: (options = {}, data) ->
+
+    options.bind        = KD.utils.curry 'keydown', options.bind
+    options.attributes ?= {}
+    options.attributes.tabindex ?= "0"
+
+    super options, data
+
+
   scroll: (event) ->
 
     if @verticalThumb.beingDragged or @horizontalThumb.beingDragged
@@ -70,3 +79,25 @@ module.exports = class KDCustomScrollViewWrapper extends KDScrollView
       @setScrollLeft lastPosition = newPosition
 
       return shouldStop
+
+
+  pageUp: -> @scrollTo top : Math.max @getScrollTop() - @getHeight(), 0
+
+
+  pageDown: -> @scrollTo top : @getScrollTop() + @getHeight()
+
+
+  keyDown: (event) ->
+
+    editables = "input,textarea,select,datalist,keygen,[contenteditable='true']"
+
+    return  if ($ document.activeElement).is editables
+    return  if @verticalThumb.hasClass 'invisible'
+
+    return @pageUp()  if event.which is 32 and event.shiftKey
+
+    switch event.which
+      when 33 then @pageUp()
+      when 32, 34 then @pageDown()
+      when 35 then @scrollToBottom()
+      when 36 then @scrollTo top : 0

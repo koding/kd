@@ -158,7 +158,7 @@ module.exports = class KDTabView extends KDScrollView
       else if firstPane = @getPaneByIndex 0
         @showPane firstPane
 
-    @emit "PaneRemoved", { pane, handle }
+    @emit "PaneRemoved", { pane, handle, isDetached: shouldDetach }
     return { pane, handle }
 
   removePaneByName:(name)->

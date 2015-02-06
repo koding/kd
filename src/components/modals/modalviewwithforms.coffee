@@ -41,7 +41,7 @@ module.exports = class KDModalViewWithForms extends KDModalView
 #           buttons           :
 #             Next            :
 #               title         : "Next"
-#               style         : "modal-clean-gray"
+#               style         : "solid light-gray medium"
 #               type          : "submit"
 #           # callback          : (formOutput)-> log formOutput,"Form 1 ::::::"
 #           fields            :
@@ -69,11 +69,11 @@ module.exports = class KDModalViewWithForms extends KDModalView
 #           buttons           :
 #             Submit          :
 #               title         : "Submit"
-#               style         : "modal-clean-gray"
+#               style         : "solid light-gray medium"
 #               type          : "submit"
 #             Reset           :
 #               title         : "Reset"
-#               style         : "modal-clean-red"
+#               style         : "solid red medium"
 #               type          : "reset"
 #           # callback          : (formOutput)-> log formOutput,"Form 2 ::::::"
 #           fields            :

@@ -11,7 +11,11 @@ module.exports = class KDCustomScrollViewWrapper extends KDScrollView
     options.attributes ?= {}
     options.attributes.tabindex ?= "0"
 
+    @documentKeydownHandled = no
+
     super options, data
+
+    @on 'MutationHappened', @bound "handleDocumentKeydown"
 
 
   scroll: (event) ->
@@ -81,23 +85,47 @@ module.exports = class KDCustomScrollViewWrapper extends KDScrollView
       return shouldStop
 
 
-  pageUp: -> @scrollTo top : Math.max @getScrollTop() - @getHeight(), 0
+  handleDocumentKeydown: ->
+
+    return  if @documentKeydownHandled
+
+    winHeight = $(window).height()
+    if @getHeight() >= winHeight
+      @documentKeydownHandled = yes
+      $(document).on "keydown.customscroll#{@getId()}", @bound "keyDown"
 
 
-  pageDown: -> @scrollTo top : @getScrollTop() + @getHeight()
+  destroy: ->
+
+    $(document).off "keydown.customscroll#{@getId()}"
+    super
+
+
+  pageUp: ->
+    @scrollTo top : Math.max @getScrollTop() - @getHeight(), 0
+
+
+  pageDown: ->
+    @scrollTo top : @getScrollTop() + @getHeight()
 
 
   keyDown: (event) ->
 
     editables = "input,textarea,select,datalist,keygen,[contenteditable='true']"
 
-    return  if ($ document.activeElement).is editables
-    return  if @verticalThumb.hasClass 'invisible'
+    return yes  if ($ document.activeElement).is editables
+    return yes  if not(@getDomElement().is ":visible")
+    return yes  if @getScrollHeight() <= @verticalThumb.getTrackSize()
 
-    return @pageUp()  if event.which is 32 and event.shiftKey
+    shouldPropagate = no
+    if event.which is 32 and event.shiftKey
+      @pageUp()
+    else
+      switch event.which
+        when 33 then @pageUp()
+        when 32, 34 then @pageDown()
+        when 35 then @scrollToBottom()
+        when 36 then @scrollTo top : 0
+        else shouldPropagate = yes
 
-    switch event.which
-      when 33 then @pageUp()
-      when 32, 34 then @pageDown()
-      when 35 then @scrollToBottom()
-      when 36 then @scrollTo top : 0
+    return shouldPropagate

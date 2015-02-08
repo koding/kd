@@ -278,5 +278,5 @@ module.exports = class KDWindowController extends KDController
       inst._windowDidResize event
 
 do ->
-  KD = require './kd.coffee'
+  KD = require './kd'
   KD.registerSingleton "windowController", new KDWindowController

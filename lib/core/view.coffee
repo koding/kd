@@ -853,7 +853,7 @@ module.exports = class KDView extends KDObject
   putOverlay: (options = {}) ->
     options.delegate = this
 
-    KDOverlayView = require './../components/overlay/overlayview.coffee'
+    KDOverlayView = require '../components/overlay/overlayview'
     @overlay = new KDOverlayView options
 
   removeOverlay:->
@@ -896,7 +896,7 @@ module.exports = class KDView extends KDObject
     o.events    or= ['mouseenter','mouseleave','mousemove']
 
     @unsetTooltip()
-    KDTooltip = require './../components/tooltip/tooltip.coffee'
+    KDTooltip = require '../components/tooltip/tooltip'
     @tooltip  = new KDTooltip o, {}
 
   getTooltip:-> @tooltip

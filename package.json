@@ -1,10 +1,10 @@
 {
   "name": "kd.js",
-  "version": "0.2.0-rc3",
+  "version": "1.0.0",
   "description": "a collection of ui widgets and other nice things",
-  "main": "index.coffee",
+  "main": "build/lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepublish": "make all"
   },
   "homepage": "http://kd.io",
   "repository": {
@@ -35,8 +35,9 @@
     "timeago": "^0.2.0"
   },
   "devDependencies": {
-    "browserify": "^8.1.1",
+    "browserify": "^8.1.3",
     "clean-css": "^3.0.4",
+    "coffee-script": "^1.8.0",
     "coffeeify": "^1.0.0",
     "stylus": "^0.49.3",
     "uglify-js": "^2.4.16"

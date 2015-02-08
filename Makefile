@@ -1,8 +1,18 @@
 BIN=./node_modules/.bin
+SRC=$(shell find lib -name "*.coffee")
+TARGETS=$(patsubst %.coffee,build/%.js,$(SRC))
 
-dist: clean js css
+all: clean prepublish dist
+
+dist: clean_dist js css
 	@mkdir -p dist
 	@mv kd.* dist
+
+prepublish: $(TARGETS)
+
+build/%.js: %.coffee
+	@mkdir -p $(@D)
+	@$(BIN)/coffee -p -b $< >$@
 
 js:
 	@$(BIN)/browserify \
@@ -27,5 +37,9 @@ css:
 		--source-map \
 		--output kd.css
 
-clean:
+clean: clean_dist
+	@rm -fr build
+
+clean_dist:
 	@rm -fr dist
+

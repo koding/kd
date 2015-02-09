@@ -110,7 +110,7 @@ KDInputView = require('../inputs/inputview');
 
 KDView = require('../../core/view');
 
-JsPath = require('jspath').JsPath;
+JsPath = require('jspath');
 
 Inflector = require('inflector');
 
@@ -1216,7 +1216,7 @@ var JsPath, KDAutoComplete, KDSimpleAutocomplete,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-JsPath = require('jspath').JsPath;
+JsPath = require('jspath');
 
 KDAutoComplete = require('./autocomplete');
 
@@ -3679,7 +3679,7 @@ KD = require('../../core/kd');
 
 KDInputView = require('../inputs/inputview');
 
-JsPath = require('jspath').JsPath;
+JsPath = require('jspath');
 
 KDView = require('../../core/view');
 

@@ -14,6 +14,16 @@ build/%.js: %.coffee
 	@mkdir -p $(@D)
 	@$(BIN)/coffee -p -b $< >$@
 
+development:
+	@$(BIN)/watchify \
+		-v \
+		-g coffeeify \
+		--extension=".coffee" \
+		--outfile kd.js \
+		--standalone kd \
+		--debug \
+		lib/index.coffee
+
 js:
 	@$(BIN)/browserify \
 		-g coffeeify \

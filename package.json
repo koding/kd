@@ -40,7 +40,8 @@
     "coffee-script": "^1.8.0",
     "coffeeify": "^1.0.0",
     "stylus": "^0.49.3",
-    "uglify-js": "^2.4.16"
+    "uglify-js": "^2.4.16",
+    "watchify": "^2.3.0"
   },
   "browser": {
     "canvas-loader": "kd-shim-canvas-loader",

@@ -1,7 +1,7 @@
 !function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.kd=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var $, KD, KDAutoComplete, KDInputView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -9,8 +9,8 @@ KD = require('../../core/kd');
 
 KDInputView = require('../inputs/inputview');
 
-module.exports = KDAutoComplete = (function(_super) {
-  __extends(KDAutoComplete, _super);
+module.exports = KDAutoComplete = (function(superClass) {
+  extend(KDAutoComplete, superClass);
 
   function KDAutoComplete() {
     return KDAutoComplete.__super__.constructor.apply(this, arguments);
@@ -92,9 +92,9 @@ module.exports = KDAutoComplete = (function(_super) {
 
 },{"../../core/kd":99,"../inputs/inputview":44,"jquery":111}],2:[function(require,module,exports){
 var $, Inflector, JsPath, KD, KDAutoComplete, KDAutoCompleteController, KDAutoCompleteFetchingItem, KDAutoCompleteListItemView, KDAutoCompleteListView, KDAutoCompleteNothingFoundItem, KDAutoCompletedItem, KDInputView, KDLabelView, KDListViewController, KDNotificationView, KDView, KDViewController,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  __slice = [].slice;
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty,
+  slice = [].slice;
 
 $ = require('jquery');
 
@@ -128,11 +128,11 @@ KDAutoCompleteListView = require('./autocompletelist');
 
 KDAutoCompleteFetchingItem = require('./autocompletefetchingitem');
 
-module.exports = KDAutoCompleteController = (function(_super) {
-  __extends(KDAutoCompleteController, _super);
+module.exports = KDAutoCompleteController = (function(superClass) {
+  extend(KDAutoCompleteController, superClass);
 
   function KDAutoCompleteController(options, data) {
-    var mainView, _ref;
+    var mainView, ref;
     if (options == null) {
       options = {};
     }
@@ -148,7 +148,7 @@ module.exports = KDAutoCompleteController = (function(_super) {
       selectedItemClass: KDAutoCompletedItem,
       nothingFoundItemClass: KDAutoCompleteNothingFoundItem,
       fetchingItemClass: KDAutoCompleteFetchingItem,
-      fetchInterval: (_ref = options.fetchInterval) != null ? _ref : 300,
+      fetchInterval: (ref = options.fetchInterval) != null ? ref : 300,
       listWrapperCssClass: '',
       minSuggestionLength: 2,
       selectedItemsLimit: null,
@@ -170,14 +170,14 @@ module.exports = KDAutoCompleteController = (function(_super) {
   }
 
   KDAutoCompleteController.prototype.reset = function() {
-    var item, subViews, _i, _len, _results;
+    var item, j, len, results, subViews;
     subViews = this.itemWrapper.getSubViews().slice();
-    _results = [];
-    for (_i = 0, _len = subViews.length; _i < _len; _i++) {
-      item = subViews[_i];
-      _results.push(this.removeFromSubmitQueue(item));
+    results = [];
+    for (j = 0, len = subViews.length; j < len; j++) {
+      item = subViews[j];
+      results.push(this.removeFromSubmitQueue(item));
     }
-    return _results;
+    return results;
   };
 
   KDAutoCompleteController.prototype.loadView = function(mainView) {
@@ -191,15 +191,15 @@ module.exports = KDAutoCompleteController = (function(_super) {
   };
 
   KDAutoCompleteController.prototype.setDefaultValue = function(defaultItems) {
-    var defaultValue, item, itemDataPath, _i, _len, _ref, _results;
-    _ref = this.getOptions(), defaultValue = _ref.defaultValue, itemDataPath = _ref.itemDataPath;
+    var defaultValue, item, itemDataPath, j, len, ref, results;
+    ref = this.getOptions(), defaultValue = ref.defaultValue, itemDataPath = ref.itemDataPath;
     defaultItems || (defaultItems = defaultValue);
-    _results = [];
-    for (_i = 0, _len = defaultItems.length; _i < _len; _i++) {
-      item = defaultItems[_i];
-      _results.push(this.addItemToSubmitQueue(this.getView(), item));
+    results = [];
+    for (j = 0, len = defaultItems.length; j < len; j++) {
+      item = defaultItems[j];
+      results.push(this.addItemToSubmitQueue(this.getView(), item));
     }
-    return _results;
+    return results;
   };
 
   KDAutoCompleteController.prototype.keyDownOnInputView = function(event) {
@@ -303,7 +303,7 @@ module.exports = KDAutoCompleteController = (function(_super) {
   };
 
   KDAutoCompleteController.prototype.refreshDropDown = function(data) {
-    var allowNewSuggestions, exactMatches, exactPattern, inexactMatches, itemDataPath, listView, minSuggestionLength, _ref;
+    var allowNewSuggestions, exactMatches, exactPattern, inexactMatches, itemDataPath, listView, minSuggestionLength, ref;
     if (data == null) {
       data = [];
     }
@@ -313,7 +313,7 @@ module.exports = KDAutoCompleteController = (function(_super) {
     exactPattern = RegExp('^' + this.dropdownPrefix.replace(/[^\s\w]/, '') + '$', 'i');
     exactMatches = [];
     inexactMatches = [];
-    _ref = this.getOptions(), itemDataPath = _ref.itemDataPath, allowNewSuggestions = _ref.allowNewSuggestions, minSuggestionLength = _ref.minSuggestionLength;
+    ref = this.getOptions(), itemDataPath = ref.itemDataPath, allowNewSuggestions = ref.allowNewSuggestions, minSuggestionLength = ref.minSuggestionLength;
     data.forEach((function(_this) {
       return function(datum) {
         var match;
@@ -367,12 +367,12 @@ module.exports = KDAutoCompleteController = (function(_super) {
   };
 
   KDAutoCompleteController.prototype.isItemAlreadySelected = function(data) {
-    var alreadySelected, customCompare, isCaseSensitive, itemDataPath, selected, selectedData, suggested, _i, _len, _ref, _ref1;
-    _ref = this.getOptions(), itemDataPath = _ref.itemDataPath, customCompare = _ref.customCompare, isCaseSensitive = _ref.isCaseSensitive;
+    var alreadySelected, customCompare, isCaseSensitive, itemDataPath, j, len, ref, ref1, selected, selectedData, suggested;
+    ref = this.getOptions(), itemDataPath = ref.itemDataPath, customCompare = ref.customCompare, isCaseSensitive = ref.isCaseSensitive;
     suggested = JsPath.getAt(data, itemDataPath);
-    _ref1 = this.getSelectedItemData();
-    for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-      selectedData = _ref1[_i];
+    ref1 = this.getSelectedItemData();
+    for (j = 0, len = ref1.length; j < len; j++) {
+      selectedData = ref1[j];
       if (customCompare != null) {
         alreadySelected = customCompare(data, selectedData);
         if (alreadySelected) {
@@ -424,9 +424,9 @@ module.exports = KDAutoCompleteController = (function(_super) {
   };
 
   KDAutoCompleteController.prototype.removeSelectedItemData = function(data) {
-    var i, selectedData, selectedItemData, _i, _len;
+    var i, j, len, selectedData, selectedItemData;
     selectedItemData = this.getSelectedItemData();
-    for (i = _i = 0, _len = selectedItemData.length; _i < _len; i = ++_i) {
+    for (i = j = 0, len = selectedItemData.length; j < len; i = ++j) {
       selectedData = selectedItemData[i];
       if (selectedData === data) {
         selectedItemData.splice(i, 1);
@@ -436,12 +436,12 @@ module.exports = KDAutoCompleteController = (function(_super) {
   };
 
   KDAutoCompleteController.prototype.getCollectionPath = function() {
-    var collectionName, leaf, name, path, _i, _ref;
+    var collectionName, j, leaf, name, path, ref;
     name = this.getOptions().name;
     if (!name) {
       throw new Error('No name!');
     }
-    _ref = name.split('.'), path = 2 <= _ref.length ? __slice.call(_ref, 0, _i = _ref.length - 1) : (_i = 0, []), leaf = _ref[_i++];
+    ref = name.split('.'), path = 2 <= ref.length ? slice.call(ref, 0, j = ref.length - 1) : (j = 0, []), leaf = ref[j++];
     collectionName = Inflector.pluralize(leaf);
     path.push(collectionName);
     return path.join('.');
@@ -452,12 +452,12 @@ module.exports = KDAutoCompleteController = (function(_super) {
   };
 
   KDAutoCompleteController.prototype.addItemToSubmitQueue = function(item, data) {
-    var collection, form, itemDataPath, itemName, itemValue, name, path, submitValuesAsText, _ref;
+    var collection, form, itemDataPath, itemName, itemValue, name, path, ref, submitValuesAsText;
     data || (data = item != null ? item.getData() : void 0);
     if (!(data || (item != null ? item.getOptions().userInput : void 0))) {
       return;
     }
-    _ref = this.getOptions(), name = _ref.name, itemDataPath = _ref.itemDataPath, form = _ref.form, submitValuesAsText = _ref.submitValuesAsText;
+    ref = this.getOptions(), name = ref.name, itemDataPath = ref.itemDataPath, form = ref.form, submitValuesAsText = ref.submitValuesAsText;
     if (data) {
       itemValue = submitValuesAsText ? JsPath.getAt(data, itemDataPath) : data;
     } else {
@@ -468,7 +468,7 @@ module.exports = KDAutoCompleteController = (function(_super) {
       return false;
     }
     path = this.getCollectionPath();
-    itemName = "" + name + "-" + (this.selectedItemCounter++);
+    itemName = name + "-" + (this.selectedItemCounter++);
     if (form) {
       collection = form.getCustomData(path) || [];
       collection.push(submitValuesAsText ? itemValue : (typeof itemValue.getId === "function" ? itemValue.getId() : void 0) ? {
@@ -491,8 +491,8 @@ module.exports = KDAutoCompleteController = (function(_super) {
   };
 
   KDAutoCompleteController.prototype.removeFromSubmitQueue = function(item, data) {
-    var collection, form, itemDataPath, path, _ref;
-    _ref = this.getOptions(), itemDataPath = _ref.itemDataPath, form = _ref.form;
+    var collection, form, itemDataPath, path, ref;
+    ref = this.getOptions(), itemDataPath = ref.itemDataPath, form = ref.form;
     data || (data = item.getData());
     path = this.getCollectionPath();
     if (form) {
@@ -548,8 +548,8 @@ module.exports = KDAutoCompleteController = (function(_super) {
   };
 
   KDAutoCompleteController.prototype.keyUpOnInputView = function(event) {
-    var _ref;
-    if ((_ref = event.keyCode) === 9 || _ref === 38 || _ref === 40) {
+    var ref;
+    if ((ref = event.keyCode) === 9 || ref === 38 || ref === 40) {
       return;
     }
     this.updateDropdownContents();
@@ -557,8 +557,8 @@ module.exports = KDAutoCompleteController = (function(_super) {
   };
 
   KDAutoCompleteController.prototype.fetch = function(callback) {
-    var dataSource, fetchInputName, options, value, _ref;
-    _ref = this.getOptions(), fetchInputName = _ref.fetchInputName, dataSource = _ref.dataSource;
+    var dataSource, fetchInputName, options, ref, value;
+    ref = this.getOptions(), fetchInputName = ref.fetchInputName, dataSource = ref.dataSource;
     value = this.getView().getValue();
     options = {};
     if (fetchInputName) {
@@ -612,15 +612,15 @@ module.exports = KDAutoCompleteController = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"../../core/viewcontroller":106,"../inputs/inputview":44,"../inputs/labelview":45,"../list/listviewcontroller":54,"../notifications/notificationview":60,"./autocomplete":1,"./autocompleteditems":3,"./autocompletefetchingitem":4,"./autocompletelist":5,"./autocompletelistitem":6,"./autocompletenothingfounditem":7,"inflector":116,"jquery":111,"jspath":117}],3:[function(require,module,exports){
 var $, KDAutoCompletedItem, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
 KDView = require('../../core/view');
 
-module.exports = KDAutoCompletedItem = (function(_super) {
-  __extends(KDAutoCompletedItem, _super);
+module.exports = KDAutoCompletedItem = (function(superClass) {
+  extend(KDAutoCompletedItem, superClass);
 
   function KDAutoCompletedItem(options, data) {
     if (options == null) {
@@ -653,15 +653,15 @@ module.exports = KDAutoCompletedItem = (function(_super) {
 
 },{"../../core/view":105,"jquery":111}],4:[function(require,module,exports){
 var KD, KDAutoCompleteFetchingItem, KDAutocompleteUnselecteableItem,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
 KDAutocompleteUnselecteableItem = require('./autocompleteunselecteableitem');
 
-module.exports = KDAutoCompleteFetchingItem = (function(_super) {
-  __extends(KDAutoCompleteFetchingItem, _super);
+module.exports = KDAutoCompleteFetchingItem = (function(superClass) {
+  extend(KDAutoCompleteFetchingItem, superClass);
 
   function KDAutoCompleteFetchingItem(options, data) {
     if (options == null) {
@@ -683,13 +683,13 @@ module.exports = KDAutoCompleteFetchingItem = (function(_super) {
 
 },{"../../core/kd":99,"./autocompleteunselecteableitem":8}],5:[function(require,module,exports){
 var KDAutoCompleteListView, KDListView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KDListView = require('../list/listview');
 
-module.exports = KDAutoCompleteListView = (function(_super) {
-  __extends(KDAutoCompleteListView, _super);
+module.exports = KDAutoCompleteListView = (function(superClass) {
+  extend(KDAutoCompleteListView, superClass);
 
   function KDAutoCompleteListView(options, data) {
     KDAutoCompleteListView.__super__.constructor.call(this, options, data);
@@ -697,7 +697,7 @@ module.exports = KDAutoCompleteListView = (function(_super) {
   }
 
   KDAutoCompleteListView.prototype.goDown = function() {
-    var activeItem, nextItem, _ref;
+    var activeItem, nextItem, ref;
     activeItem = this.getActiveItem();
     if (activeItem.index != null) {
       nextItem = this.items[activeItem.index + 1];
@@ -705,7 +705,7 @@ module.exports = KDAutoCompleteListView = (function(_super) {
         return nextItem.makeItemActive();
       }
     } else {
-      return (_ref = this.items[0]) != null ? _ref.makeItemActive() : void 0;
+      return (ref = this.items[0]) != null ? ref.makeItemActive() : void 0;
     }
   };
 
@@ -724,14 +724,14 @@ module.exports = KDAutoCompleteListView = (function(_super) {
   };
 
   KDAutoCompleteListView.prototype.getActiveItem = function() {
-    var active, i, item, _i, _len, _ref;
+    var active, i, item, j, len, ref;
     active = {
       index: null,
       item: null
     };
-    _ref = this.items;
-    for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
-      item = _ref[i];
+    ref = this.items;
+    for (i = j = 0, len = ref.length; j < len; i = ++j) {
+      item = ref[i];
       if (item.active) {
         active.item = item;
         active.index = i;
@@ -742,14 +742,14 @@ module.exports = KDAutoCompleteListView = (function(_super) {
   };
 
   KDAutoCompleteListView.prototype.setActiveItem = function(target) {
-    var item, _i, _len, _ref, _results;
-    _ref = this.items;
-    _results = [];
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      item = _ref[_i];
-      _results.push(item.active = item === target);
+    var item, j, len, ref, results;
+    ref = this.items;
+    results = [];
+    for (j = 0, len = ref.length; j < len; j++) {
+      item = ref[j];
+      results.push(item.active = item === target);
     }
-    return _results;
+    return results;
   };
 
   return KDAutoCompleteListView;
@@ -760,15 +760,15 @@ module.exports = KDAutoCompleteListView = (function(_super) {
 
 },{"../list/listview":52}],6:[function(require,module,exports){
 var KD, KDAutoCompleteListItemView, KDListItemView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
 KDListItemView = require('../list/listitemview');
 
-module.exports = KDAutoCompleteListItemView = (function(_super) {
-  __extends(KDAutoCompleteListItemView, _super);
+module.exports = KDAutoCompleteListItemView = (function(superClass) {
+  extend(KDAutoCompleteListItemView, superClass);
 
   function KDAutoCompleteListItemView(options, data) {
     if (options == null) {
@@ -793,10 +793,10 @@ module.exports = KDAutoCompleteListItemView = (function(_super) {
   };
 
   KDAutoCompleteListItemView.prototype.makeItemActive = function() {
-    var item, _i, _len, _ref;
-    _ref = this.getDelegate().items;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      item = _ref[_i];
+    var i, item, len, ref;
+    ref = this.getDelegate().items;
+    for (i = 0, len = ref.length; i < len; i++) {
+      item = ref[i];
       item.makeItemInactive();
     }
     this.active = true;
@@ -827,13 +827,13 @@ module.exports = KDAutoCompleteListItemView = (function(_super) {
 
 },{"../../core/kd":99,"../list/listitemview":51}],7:[function(require,module,exports){
 var KDAutoCompleteNothingFoundItem, KDAutocompleteUnselecteableItem,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KDAutocompleteUnselecteableItem = require('./autocompleteunselecteableitem');
 
-module.exports = KDAutoCompleteNothingFoundItem = (function(_super) {
-  __extends(KDAutoCompleteNothingFoundItem, _super);
+module.exports = KDAutoCompleteNothingFoundItem = (function(superClass) {
+  extend(KDAutoCompleteNothingFoundItem, superClass);
 
   function KDAutoCompleteNothingFoundItem(options, data) {
     if (options == null) {
@@ -855,13 +855,13 @@ module.exports = KDAutoCompleteNothingFoundItem = (function(_super) {
 
 },{"./autocompleteunselecteableitem":8}],8:[function(require,module,exports){
 var KDAutocompleteUnselecteableItem, KDListItemView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KDListItemView = require('../list/listitemview');
 
-module.exports = KDAutocompleteUnselecteableItem = (function(_super) {
-  __extends(KDAutocompleteUnselecteableItem, _super);
+module.exports = KDAutocompleteUnselecteableItem = (function(superClass) {
+  extend(KDAutocompleteUnselecteableItem, superClass);
 
   function KDAutocompleteUnselecteableItem() {
     return KDAutocompleteUnselecteableItem.__super__.constructor.apply(this, arguments);
@@ -893,8 +893,8 @@ module.exports = KDAutocompleteUnselecteableItem = (function(_super) {
 
 },{"../list/listitemview":51}],9:[function(require,module,exports){
 var $, KDListView, MultipleInputListView, MultipleListItemView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -902,8 +902,8 @@ KDListView = require('../list/listview');
 
 MultipleListItemView = require('./multiplelistitemview');
 
-module.exports = MultipleInputListView = (function(_super) {
-  __extends(MultipleInputListView, _super);
+module.exports = MultipleInputListView = (function(superClass) {
+  extend(MultipleInputListView, superClass);
 
   function MultipleInputListView() {
     return MultipleInputListView.__super__.constructor.apply(this, arguments);
@@ -914,16 +914,16 @@ module.exports = MultipleInputListView = (function(_super) {
   };
 
   MultipleInputListView.prototype.addItems = function(items) {
-    var item, newItem, _i, _len, _results;
-    _results = [];
-    for (_i = 0, _len = items.length; _i < _len; _i++) {
-      item = items[_i];
+    var i, item, len, newItem, results;
+    results = [];
+    for (i = 0, len = items.length; i < len; i++) {
+      item = items[i];
       newItem = new MultipleListItemView({
         delegate: this
       }, item);
-      _results.push(this.addItem(newItem));
+      results.push(this.addItem(newItem));
     }
-    return _results;
+    return results;
   };
 
   MultipleInputListView.prototype.removeListItem = function(instance) {
@@ -939,9 +939,9 @@ module.exports = MultipleInputListView = (function(_super) {
 
 },{"../list/listview":52,"./multiplelistitemview":11,"jquery":111}],10:[function(require,module,exports){
 var $, KD, KDInputView, KDMultipleInputView, KDSimpleAutocomplete, MultipleInputListView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty,
+  indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 $ = require('jquery');
 
@@ -953,8 +953,8 @@ MultipleInputListView = require('./multipleinputlistview');
 
 KDInputView = require('../inputs/inputview');
 
-module.exports = KDMultipleInputView = (function(_super) {
-  __extends(KDMultipleInputView, _super);
+module.exports = KDMultipleInputView = (function(superClass) {
+  extend(KDMultipleInputView, superClass);
 
   function KDMultipleInputView(options) {
     this._values = [];
@@ -1015,7 +1015,7 @@ module.exports = KDMultipleInputView = (function(_super) {
     var value;
     value = this.$input().val();
     value = $.trim(value);
-    if (__indexOf.call(this._values, value) >= 0 || value === '') {
+    if (indexOf.call(this._values, value) >= 0 || value === '') {
       return;
     }
     this._values.push(value);
@@ -1025,19 +1025,19 @@ module.exports = KDMultipleInputView = (function(_super) {
   };
 
   KDMultipleInputView.prototype._inputChanged = function() {
-    var index, input, inputName, newInput, value, _i, _j, _len, _len1, _ref, _ref1;
+    var i, index, input, inputName, j, len, len1, newInput, ref, ref1, value;
     if (!this._hiddenInputs) {
       this._hiddenInputs = [];
     }
-    _ref = this._hiddenInputs;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      input = _ref[_i];
+    ref = this._hiddenInputs;
+    for (i = 0, len = ref.length; i < len; i++) {
+      input = ref[i];
       input.destroy();
     }
     inputName = this.getOptions().name;
-    _ref1 = this._values;
-    for (index = _j = 0, _len1 = _ref1.length; _j < _len1; index = ++_j) {
-      value = _ref1[index];
+    ref1 = this._values;
+    for (index = j = 0, len1 = ref1.length; j < len1; index = ++j) {
+      value = ref1[index];
       newInput = new KDInputView({
         type: 'hidden',
         name: inputName + ("[" + index + "]"),
@@ -1074,15 +1074,15 @@ module.exports = KDMultipleInputView = (function(_super) {
 
 },{"../../core/kd":99,"../inputs/inputview":44,"./multipleinputlistview":9,"./simpleautocomplete":14,"jquery":111}],11:[function(require,module,exports){
 var $, KDListItemView, MultipleListItemView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
 KDListItemView = require('../list/listitemview');
 
-module.exports = MultipleListItemView = (function(_super) {
-  __extends(MultipleListItemView, _super);
+module.exports = MultipleListItemView = (function(superClass) {
+  extend(MultipleListItemView, superClass);
 
   function MultipleListItemView() {
     return MultipleListItemView.__super__.constructor.apply(this, arguments);
@@ -1099,7 +1099,7 @@ module.exports = MultipleListItemView = (function(_super) {
   };
 
   MultipleListItemView.prototype.partial = function() {
-    return "" + (this.getData()) + " <cite class='removeIcon'>x</cite>";
+    return (this.getData()) + " <cite class='removeIcon'>x</cite>";
   };
 
   return MultipleListItemView;
@@ -1110,15 +1110,15 @@ module.exports = MultipleListItemView = (function(_super) {
 
 },{"../list/listitemview":51,"jquery":111}],12:[function(require,module,exports){
 var $, KDMultipleInputView, NoAutocompleteInputView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
 KDMultipleInputView = require('./multipleinputview');
 
-module.exports = NoAutocompleteInputView = (function(_super) {
-  __extends(NoAutocompleteInputView, _super);
+module.exports = NoAutocompleteInputView = (function(superClass) {
+  extend(NoAutocompleteInputView, superClass);
 
   function NoAutocompleteInputView() {
     return NoAutocompleteInputView.__super__.constructor.apply(this, arguments);
@@ -1148,8 +1148,8 @@ module.exports = NoAutocompleteInputView = (function(_super) {
 
 },{"./multipleinputview":10,"jquery":111}],13:[function(require,module,exports){
 var $, KDButtonView, KDCustomHTMLView, KDNoAutocompleteInputView, KDView, NoAutocompleteMultipleListView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -1161,8 +1161,8 @@ KDView = require('../../core/view');
 
 KDNoAutocompleteInputView = require('./noautocompleteinputview');
 
-module.exports = NoAutocompleteMultipleListView = (function(_super) {
-  __extends(NoAutocompleteMultipleListView, _super);
+module.exports = NoAutocompleteMultipleListView = (function(superClass) {
+  extend(NoAutocompleteMultipleListView, superClass);
 
   function NoAutocompleteMultipleListView(options, data) {
     var defaults;
@@ -1177,8 +1177,8 @@ module.exports = NoAutocompleteMultipleListView = (function(_super) {
   }
 
   NoAutocompleteMultipleListView.prototype.viewAppended = function() {
-    var button, defaults, icon, input, options, _ref;
-    _ref = this.options, icon = _ref.icon, input = _ref.input, button = _ref.button;
+    var button, defaults, icon, input, options, ref;
+    ref = this.options, icon = ref.icon, input = ref.input, button = ref.button;
     if (icon) {
       this.setClass("with-icon");
       options = {
@@ -1213,15 +1213,15 @@ module.exports = NoAutocompleteMultipleListView = (function(_super) {
 
 },{"../../core/customhtmlview":96,"../../core/view":105,"../buttons/buttonview":18,"./noautocompleteinputview":12,"jquery":111}],14:[function(require,module,exports){
 var JsPath, KDAutoComplete, KDSimpleAutocomplete,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 JsPath = require('jspath');
 
 KDAutoComplete = require('./autocomplete');
 
-module.exports = KDSimpleAutocomplete = (function(_super) {
-  __extends(KDSimpleAutocomplete, _super);
+module.exports = KDSimpleAutocomplete = (function(superClass) {
+  extend(KDSimpleAutocomplete, superClass);
 
   function KDSimpleAutocomplete() {
     return KDSimpleAutocomplete.__super__.constructor.apply(this, arguments);
@@ -1253,8 +1253,8 @@ module.exports = KDSimpleAutocomplete = (function(_super) {
 
 },{"./autocomplete":1,"jspath":117}],15:[function(require,module,exports){
 var $, KD, KDButtonBar, KDButtonView, KDFormView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -1266,11 +1266,11 @@ KDButtonView = require('./buttonview');
 
 KDFormView = require('../forms/formview');
 
-module.exports = KDButtonBar = (function(_super) {
-  __extends(KDButtonBar, _super);
+module.exports = KDButtonBar = (function(superClass) {
+  extend(KDButtonBar, superClass);
 
   function KDButtonBar(options, data) {
-    var button, buttonOptions, buttons, _i, _len, _ref;
+    var button, buttonOptions, buttons, i, len, ref;
     if (options == null) {
       options = {};
     }
@@ -1278,9 +1278,9 @@ module.exports = KDButtonBar = (function(_super) {
     KDButtonBar.__super__.constructor.call(this, options, data);
     this.buttons = {};
     buttons = options.buttons;
-    _ref = KDFormView.sanitizeFormOptions(buttons);
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      buttonOptions = _ref[_i];
+    ref = KDFormView.sanitizeFormOptions(buttons);
+    for (i = 0, len = ref.length; i < len; i++) {
+      buttonOptions = ref[i];
       button = this.createButton(buttonOptions);
       this.addSubView(button);
       this.buttons[buttonOptions.key] = button;
@@ -1306,15 +1306,15 @@ module.exports = KDButtonBar = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"../forms/formview":32,"./buttonview":18,"jquery":111}],16:[function(require,module,exports){
 var KDButtonGroupView, KDButtonView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KDButtonView = require('./buttonview');
 
 KDView = require('../../core/view');
 
-module.exports = KDButtonGroupView = (function(_super) {
-  __extends(KDButtonGroupView, _super);
+module.exports = KDButtonGroupView = (function(superClass) {
+  extend(KDButtonGroupView, superClass);
 
   function KDButtonGroupView(options, data) {
     var cssClass;
@@ -1331,30 +1331,30 @@ module.exports = KDButtonGroupView = (function(_super) {
   }
 
   KDButtonGroupView.prototype.createButtons = function(allButtonOptions) {
-    var buttonClass, buttonOptions, buttonTitle, _results;
-    _results = [];
+    var buttonClass, buttonOptions, buttonTitle, results;
+    results = [];
     for (buttonTitle in allButtonOptions) {
-      if (!__hasProp.call(allButtonOptions, buttonTitle)) continue;
+      if (!hasProp.call(allButtonOptions, buttonTitle)) continue;
       buttonOptions = allButtonOptions[buttonTitle];
       buttonClass = buttonOptions.buttonClass || KDButtonView;
       buttonOptions.title || (buttonOptions.title = buttonTitle);
       buttonOptions.style || (buttonOptions.style = "");
       this.addSubView(this.buttons[buttonTitle] = new buttonClass(buttonOptions));
-      _results.push(this.buttons[buttonTitle].on("click", (function(_this) {
+      results.push(this.buttons[buttonTitle].on("click", (function(_this) {
         return function(event) {
           return _this.buttonReceivedClick(_this.buttons[buttonTitle], event);
         };
       })(this)));
     }
-    return _results;
+    return results;
   };
 
   KDButtonGroupView.prototype.buttonReceivedClick = function(button, event) {
-    var otherButton, title, _ref;
-    _ref = this.buttons;
-    for (title in _ref) {
-      if (!__hasProp.call(_ref, title)) continue;
-      otherButton = _ref[title];
+    var otherButton, ref, title;
+    ref = this.buttons;
+    for (title in ref) {
+      if (!hasProp.call(ref, title)) continue;
+      otherButton = ref[title];
       otherButton.unsetClass("toggle");
     }
     return button.setClass("toggle");
@@ -1368,8 +1368,8 @@ module.exports = KDButtonGroupView = (function(_super) {
 
 },{"../../core/view":105,"./buttonview":18}],17:[function(require,module,exports){
 var $, JButtonMenu, JContextMenuTreeView, KD, KDContextMenu,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -1379,8 +1379,8 @@ JContextMenuTreeView = require('../contextmenu/contextmenutreeview');
 
 KDContextMenu = require('../contextmenu/contextmenu');
 
-module.exports = JButtonMenu = (function(_super) {
-  __extends(JButtonMenu, _super);
+module.exports = JButtonMenu = (function(superClass) {
+  extend(JButtonMenu, superClass);
 
   function JButtonMenu(options, data) {
     if (options == null) {
@@ -1429,8 +1429,8 @@ module.exports = JButtonMenu = (function(_super) {
 
 },{"../../core/kd":99,"../contextmenu/contextmenu":21,"../contextmenu/contextmenutreeview":23,"jquery":111}],18:[function(require,module,exports){
 var $, KD, KDButtonView, KDLoaderView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -1504,8 +1504,8 @@ KDLoaderView = require('../loader/loaderview');
  * - **transparent**: And no surprise, a transparent button.
  */
 
-module.exports = KDButtonView = (function(_super) {
-  __extends(KDButtonView, _super);
+module.exports = KDButtonView = (function(superClass) {
+  extend(KDButtonView, superClass);
 
 
   /**
@@ -1571,13 +1571,13 @@ module.exports = KDButtonView = (function(_super) {
   };
 
   KDButtonView.prototype.setDomElement = function(cssClass) {
-    var el, klass, lazyDomId, tagName, _i, _len, _ref, _ref1;
-    _ref = this.getOptions(), lazyDomId = _ref.lazyDomId, tagName = _ref.tagName;
+    var el, i, klass, lazyDomId, len, ref, ref1, tagName;
+    ref = this.getOptions(), lazyDomId = ref.lazyDomId, tagName = ref.tagName;
     if (lazyDomId) {
       el = document.getElementById(lazyDomId);
-      _ref1 = ("kdview " + cssClass).split(' ');
-      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-        klass = _ref1[_i];
+      ref1 = ("kdview " + cssClass).split(' ');
+      for (i = 0, len = ref1.length; i < len; i++) {
+        klass = ref1[i];
         if (klass.length) {
           el.classList.add(klass);
         }
@@ -1633,22 +1633,22 @@ module.exports = KDButtonView = (function(_super) {
   };
 
   KDButtonView.prototype.setLoader = function() {
-    var loader, loaderSize, _ref, _ref1, _ref2, _ref3, _ref4, _ref5;
+    var loader, loaderSize, ref, ref1, ref2, ref3, ref4, ref5;
     this.setClass("w-loader");
     loader = this.getOptions().loader;
     loaderSize = this.getHeight() / 2;
     this.loader = new KDLoaderView({
       size: {
-        width: (_ref = loader.diameter) != null ? _ref : loaderSize
+        width: (ref = loader.diameter) != null ? ref : loaderSize
       },
       loaderOptions: {
         color: loader.color || "#ffffff",
         shape: loader.shape || "spiral",
-        diameter: (_ref1 = loader.diameter) != null ? _ref1 : loaderSize,
-        density: (_ref2 = loader.density) != null ? _ref2 : 30,
-        range: (_ref3 = loader.range) != null ? _ref3 : 0.4,
-        speed: (_ref4 = loader.speed) != null ? _ref4 : 1.5,
-        FPS: (_ref5 = loader.FPS) != null ? _ref5 : 24
+        diameter: (ref1 = loader.diameter) != null ? ref1 : loaderSize,
+        density: (ref2 = loader.density) != null ? ref2 : 30,
+        range: (ref3 = loader.range) != null ? ref3 : 0.4,
+        speed: (ref4 = loader.speed) != null ? ref4 : 1.5,
+        FPS: (ref5 = loader.FPS) != null ? ref5 : 24
       }
     });
     this.addSubView(this.loader, null, true);
@@ -1672,11 +1672,11 @@ module.exports = KDButtonView = (function(_super) {
    */
 
   KDButtonView.prototype.showLoader = function() {
-    var icon, iconOnly, _ref;
+    var icon, iconOnly, ref;
     if (!this.loader) {
       return KD.warn('KDButtonView::showLoader is called where no loader is set');
     }
-    _ref = this.getOptions(), icon = _ref.icon, iconOnly = _ref.iconOnly;
+    ref = this.getOptions(), icon = ref.icon, iconOnly = ref.iconOnly;
     this.setClass("loading");
     this.loader.show();
     if (icon && !iconOnly) {
@@ -1690,11 +1690,11 @@ module.exports = KDButtonView = (function(_super) {
    */
 
   KDButtonView.prototype.hideLoader = function() {
-    var icon, iconOnly, _ref;
+    var icon, iconOnly, ref;
     if (!this.loader) {
       return KD.warn('KDButtonView::hideLoader is called where no loader is set');
     }
-    _ref = this.getOptions(), icon = _ref.icon, iconOnly = _ref.iconOnly;
+    ref = this.getOptions(), icon = ref.icon, iconOnly = ref.iconOnly;
     this.unsetClass("loading");
     this.loader.hide();
     if (icon && !iconOnly) {
@@ -1719,8 +1719,8 @@ module.exports = KDButtonView = (function(_super) {
   };
 
   KDButtonView.prototype.click = function(event) {
-    var _ref;
-    if ((_ref = this.loader) != null ? _ref.active : void 0) {
+    var ref;
+    if ((ref = this.loader) != null ? ref.active : void 0) {
       return this.utils.stopDOMEvent();
     }
     if (this.loader && !this.loader.active) {
@@ -1745,8 +1745,8 @@ module.exports = KDButtonView = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"../loader/loaderview":55,"jquery":111}],19:[function(require,module,exports){
 var $, JButtonMenu, KDButtonView, KDButtonViewWithMenu,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -1754,8 +1754,8 @@ JButtonMenu = require('./buttonmenu');
 
 KDButtonView = require('./buttonview');
 
-module.exports = KDButtonViewWithMenu = (function(_super) {
-  __extends(KDButtonViewWithMenu, _super);
+module.exports = KDButtonViewWithMenu = (function(superClass) {
+  extend(KDButtonViewWithMenu, superClass);
 
   function KDButtonViewWithMenu() {
     return KDButtonViewWithMenu.__super__.constructor.apply(this, arguments);
@@ -1802,17 +1802,17 @@ module.exports = KDButtonViewWithMenu = (function(_super) {
       itemChildClass: o.itemChildClass,
       itemChildOptions: o.itemChildOptions
     }, (function() {
-      var _i, _len, _ref;
+      var i, len, ref;
       if ("function" === typeof o.menu) {
         return o.menu();
       } else {
         if (Array.isArray(o.menu)) {
           menuArrayToObj = {};
-          _ref = o.menu;
-          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            menuObject = _ref[_i];
+          ref = o.menu;
+          for (i = 0, len = ref.length; i < len; i++) {
+            menuObject = ref[i];
             for (menuObjectProperty in menuObject) {
-              if (!__hasProp.call(menuObject, menuObjectProperty)) continue;
+              if (!hasProp.call(menuObject, menuObjectProperty)) continue;
               menuObjectValue = menuObject[menuObjectProperty];
               if ((menuObjectProperty != null) && (menuObjectValue != null)) {
                 menuArrayToObj[menuObjectProperty] = menuObjectValue;
@@ -1837,10 +1837,10 @@ module.exports = KDButtonViewWithMenu = (function(_super) {
   };
 
   KDButtonViewWithMenu.prototype.setButtonStyle = function(newStyle) {
-    var style, styles, _i, _len;
+    var i, len, style, styles;
     styles = this.constructor.styles;
-    for (_i = 0, _len = styles.length; _i < _len; _i++) {
-      style = styles[_i];
+    for (i = 0, len = styles.length; i < len; i++) {
+      style = styles[i];
       this.$().removeClass(style);
       this.$button.removeClass(style);
     }
@@ -1871,8 +1871,8 @@ module.exports = KDButtonViewWithMenu = (function(_super) {
 
 },{"./buttonmenu":17,"./buttonview":18,"jquery":111}],20:[function(require,module,exports){
 var $, KD, KDButtonView, KDToggleButton,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -1880,8 +1880,8 @@ KD = require('../../core/kd');
 
 KDButtonView = require('./buttonview');
 
-module.exports = KDToggleButton = (function(_super) {
-  __extends(KDToggleButton, _super);
+module.exports = KDToggleButton = (function(superClass) {
+  extend(KDToggleButton, superClass);
 
   function KDToggleButton(options, data) {
     if (options == null) {
@@ -1897,12 +1897,12 @@ module.exports = KDToggleButton = (function(_super) {
   }
 
   KDToggleButton.prototype.getStateIndex = function(name) {
-    var index, state, states, _i, _len;
+    var i, index, len, state, states;
     states = this.getOptions().states;
     if (!name) {
       return 0;
     } else {
-      for (index = _i = 0, _len = states.length; _i < _len; index = ++_i) {
+      for (index = i = 0, len = states.length; i < len; index = ++i) {
         state = states[index];
         if (name === state.title) {
           return index;
@@ -1962,8 +1962,8 @@ module.exports = KDToggleButton = (function(_super) {
 
 },{"../../core/kd":99,"./buttonview":18,"jquery":111}],21:[function(require,module,exports){
 var JContextMenuTreeViewController, KD, KDContextMenu, KDCustomHTMLView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -1973,11 +1973,11 @@ KDCustomHTMLView = require('../../core/customhtmlview');
 
 JContextMenuTreeViewController = require('./contextmenutreeviewcontroller');
 
-module.exports = KDContextMenu = (function(_super) {
-  __extends(KDContextMenu, _super);
+module.exports = KDContextMenu = (function(superClass) {
+  extend(KDContextMenu, superClass);
 
   function KDContextMenu(options, data) {
-    var o, _base, _base1, _ref;
+    var base, base1, o, ref;
     if (options == null) {
       options = {};
     }
@@ -1986,8 +1986,8 @@ module.exports = KDContextMenu = (function(_super) {
     options.menuMinWidth || (options.menuMinWidth = "auto");
     options.menuWidth || (options.menuWidth = 172);
     options.offset || (options.offset = {});
-    (_base = options.offset).left || (_base.left = 0);
-    (_base1 = options.offset).top || (_base1.top = 0);
+    (base = options.offset).left || (base.left = 0);
+    (base1 = options.offset).top || (base1.top = 0);
     if (options.arrow == null) {
       options.arrow = false;
     }
@@ -2018,7 +2018,7 @@ module.exports = KDContextMenu = (function(_super) {
         itemChildOptions: o.itemChildOptions,
         addListsCollapsed: o.addListsCollapsed,
         putDepthInfo: o.putDepthInfo,
-        lazyLoad: (_ref = o.lazyLoad) != null ? _ref : false
+        lazyLoad: (ref = o.lazyLoad) != null ? ref : false
       }, data);
       this.addSubView(this.treeController.getView());
       this.treeController.getView().on('ReceivedClickElsewhere', (function(_this) {
@@ -2055,13 +2055,13 @@ module.exports = KDContextMenu = (function(_super) {
   };
 
   KDContextMenu.prototype.addArrow = function() {
-    var o, rule, _ref;
+    var o, ref, rule;
     o = this.getOptions().arrow;
     o.placement || (o.placement = "top");
     if (o.margin == null) {
       o.margin = 0;
     }
-    if ((_ref = o.placement) === 'top' || _ref === 'bottom') {
+    if ((ref = o.placement) === 'top' || ref === 'bottom') {
       o.margin += this.leftMargin;
     } else {
       o.margin += this.topMargin;
@@ -2138,22 +2138,22 @@ module.exports = KDContextMenu = (function(_super) {
     this.topMargin = expectedTop - top;
     this.leftMargin = expectedLeft - left;
     style = {
-      width: "" + menuWidth + "px",
+      width: menuWidth + "px",
       top: top,
       left: left
     };
     if (menuMaxWidth) {
-      style.maxWidth = "" + menuMaxWidth + "px";
+      style.maxWidth = menuMaxWidth + "px";
     }
     if (menuMinWidth) {
-      style.minWidth = "" + menuMinWidth + "px";
+      style.minWidth = menuMinWidth + "px";
     }
     return this.getDomElement().css(style);
   });
 
   KDContextMenu.prototype.positionSubMenu = function(nodeView) {
-    var children, expandView, fullViewHeight, fullViewWidth, id, _ref;
-    _ref = nodeView.getData(), children = _ref.children, id = _ref.id;
+    var children, expandView, fullViewHeight, fullViewWidth, id, ref;
+    ref = nodeView.getData(), children = ref.children, id = ref.id;
     if (children) {
       expandView = this.treeController.listControllers[id].getView();
       fullViewHeight = expandView.getY() + expandView.getHeight();
@@ -2176,8 +2176,8 @@ module.exports = KDContextMenu = (function(_super) {
 
 },{"../../core/customhtmlview":96,"../../core/kd":99,"../../core/view":105,"./contextmenutreeviewcontroller":24}],22:[function(require,module,exports){
 var JContextMenuItem, JTreeItemView, KD, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -2185,8 +2185,8 @@ KDView = require('../../core/view');
 
 JTreeItemView = require('../tree/treeitemview');
 
-module.exports = JContextMenuItem = (function(_super) {
-  __extends(JContextMenuItem, _super);
+module.exports = JContextMenuItem = (function(superClass) {
+  extend(JContextMenuItem, superClass);
 
   function JContextMenuItem(options, data) {
     if (options == null) {
@@ -2244,13 +2244,13 @@ module.exports = JContextMenuItem = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"../tree/treeitemview":85}],23:[function(require,module,exports){
 var JContextMenuTreeView, JTreeView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 JTreeView = require('../tree/treeview');
 
-module.exports = JContextMenuTreeView = (function(_super) {
-  __extends(JContextMenuTreeView, _super);
+module.exports = JContextMenuTreeView = (function(superClass) {
+  extend(JContextMenuTreeView, superClass);
 
   function JContextMenuTreeView(options, data) {
     if (options == null) {
@@ -2276,8 +2276,8 @@ module.exports = JContextMenuTreeView = (function(_super) {
 
 },{"../tree/treeview":86}],24:[function(require,module,exports){
 var JContextMenuItem, JContextMenuTreeView, JContextMenuTreeViewController, JTreeViewController, KD, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -2289,14 +2289,14 @@ JContextMenuItem = require('./contextmenuitem');
 
 JContextMenuTreeView = require('./contextmenutreeview');
 
-module.exports = JContextMenuTreeViewController = (function(_super) {
+module.exports = JContextMenuTreeViewController = (function(superClass) {
 
   /*
   STATIC CONTEXT
    */
   var convertToArray, getUId, uId;
 
-  __extends(JContextMenuTreeViewController, _super);
+  extend(JContextMenuTreeViewController, superClass);
 
   uId = 0;
 
@@ -2311,7 +2311,7 @@ module.exports = JContextMenuTreeViewController = (function(_super) {
     }
     results = [];
     for (title in items) {
-      if (!__hasProp.call(items, title)) continue;
+      if (!hasProp.call(items, title)) continue;
       options = items[title];
       id = null;
       if ((title.indexOf("customView")) === 0) {
@@ -2551,15 +2551,15 @@ module.exports = JContextMenuTreeViewController = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"../tree/treeviewcontroller":87,"./contextmenuitem":22,"./contextmenutreeview":23}],25:[function(require,module,exports){
 var KD, KDCounterDigitView, KDCustomHTMLView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
 KDCustomHTMLView = require('../../core/customhtmlview');
 
-module.exports = KDCounterDigitView = (function(_super) {
-  __extends(KDCounterDigitView, _super);
+module.exports = KDCounterDigitView = (function(superClass) {
+  extend(KDCounterDigitView, superClass);
 
   function KDCounterDigitView(options, data) {
     if (options == null) {
@@ -2614,8 +2614,8 @@ module.exports = KDCounterDigitView = (function(_super) {
 
 },{"../../core/customhtmlview":96,"../../core/kd":99}],26:[function(require,module,exports){
 var KD, KDCounterDigitView, KDCounterView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -2623,8 +2623,8 @@ KDView = require('../../core/view');
 
 KDCounterDigitView = require('./counterdigitview');
 
-module.exports = KDCounterView = (function(_super) {
-  __extends(KDCounterView, _super);
+module.exports = KDCounterView = (function(superClass) {
+  extend(KDCounterView, superClass);
 
   function KDCounterView(options, data) {
     if (options == null) {
@@ -2655,7 +2655,7 @@ module.exports = KDCounterView = (function(_super) {
     if (options.digits == null) {
       options.digits = options.direction === "up" ? options.to.toString().length : options.from.toString().length;
     }
-    options.cssClass = KD.utils.curry("" + options.style + " " + options.direction + " kd-counter", options.cssClass);
+    options.cssClass = KD.utils.curry(options.style + " " + options.direction + " kd-counter", options.cssClass);
     KDCounterView.__super__.constructor.call(this, options, data);
     this.digitsList = [];
     this.currentValue = options.from;
@@ -2666,29 +2666,29 @@ module.exports = KDCounterView = (function(_super) {
   }
 
   KDCounterView.prototype.createCounter = function() {
-    var digits, from, i, _i, _ref, _results;
-    _ref = this.getOptions(), from = _ref.from, digits = _ref.digits;
-    _results = [];
-    for (i = _i = 0; 0 <= digits ? _i < digits : _i > digits; i = 0 <= digits ? ++_i : --_i) {
-      _results.push(this.digitsList.push(this.addSubView(new KDCounterDigitView({
+    var digits, from, i, j, ref, ref1, results;
+    ref = this.getOptions(), from = ref.from, digits = ref.digits;
+    results = [];
+    for (i = j = 0, ref1 = digits; 0 <= ref1 ? j < ref1 : j > ref1; i = 0 <= ref1 ? ++j : --j) {
+      results.push(this.digitsList.push(this.addSubView(new KDCounterDigitView({
         initialValue: from.toString()[i]
       }))));
     }
-    return _results;
+    return results;
   };
 
   KDCounterView.prototype.setValue = function(value) {
-    var i, _i, _ref, _results;
+    var i, j, ref, results;
     if (value === this.currentValue) {
       return;
     }
     this.currentValue = value;
     value = value.toString();
-    _results = [];
-    for (i = _i = 0, _ref = value.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
-      _results.push(this.digitsList[i].setValue(value[i]));
+    results = [];
+    for (i = j = 0, ref = value.length; 0 <= ref ? j < ref : j > ref; i = 0 <= ref ? ++j : --j) {
+      results.push(this.digitsList[i].setValue(value[i]));
     }
-    return _results;
+    return results;
   };
 
   KDCounterView.prototype.start = function() {
@@ -2716,8 +2716,8 @@ module.exports = KDCounterView = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"./counterdigitview":25}],27:[function(require,module,exports){
 var KD, KDDiaContainer, KDDiaObject, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -2725,8 +2725,8 @@ KDDiaObject = require('./diaobject');
 
 KDView = require('../../core/view');
 
-module.exports = KDDiaContainer = (function(_super) {
-  __extends(KDDiaContainer, _super);
+module.exports = KDDiaContainer = (function(superClass) {
+  extend(KDDiaContainer, superClass);
 
   function KDDiaContainer(options, data) {
     if (options == null) {
@@ -2750,14 +2750,14 @@ module.exports = KDDiaContainer = (function(_super) {
     var dia, key;
     KDDiaContainer.__super__.mouseDown.apply(this, arguments);
     return this.emit("HighlightDia", (function() {
-      var _ref, _results;
-      _ref = this.dias;
-      _results = [];
-      for (key in _ref) {
-        dia = _ref[key];
-        _results.push(dia);
+      var ref, results;
+      ref = this.dias;
+      results = [];
+      for (key in ref) {
+        dia = ref[key];
+        results.push(dia);
       }
-      return _results;
+      return results;
     }).call(this));
   };
 
@@ -2797,18 +2797,18 @@ module.exports = KDDiaContainer = (function(_super) {
   };
 
   KDDiaContainer.prototype.removeAllItems = function() {
-    var dia, _key, _ref, _results;
-    _ref = this.dias;
-    _results = [];
-    for (_key in _ref) {
-      dia = _ref[_key];
-      _results.push(typeof dia.destroy === "function" ? dia.destroy() : void 0);
+    var _key, dia, ref, results;
+    ref = this.dias;
+    results = [];
+    for (_key in ref) {
+      dia = ref[_key];
+      results.push(typeof dia.destroy === "function" ? dia.destroy() : void 0);
     }
-    return _results;
+    return results;
   };
 
   KDDiaContainer.prototype.setScale = function(scale) {
-    var css, prop, props, _i, _len;
+    var css, i, len, prop, props;
     if (scale == null) {
       scale = 1;
     }
@@ -2817,8 +2817,8 @@ module.exports = KDDiaContainer = (function(_super) {
     }
     props = ['webkitTransform', 'MozTransform', 'transform'];
     css = {};
-    for (_i = 0, _len = props.length; _i < _len; _i++) {
-      prop = props[_i];
+    for (i = 0, len = props.length; i < len; i++) {
+      prop = props[i];
       css[prop] = "scale(" + scale + ")";
     }
     this.setStyle(css);
@@ -2833,28 +2833,28 @@ module.exports = KDDiaContainer = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"./diaobject":29}],28:[function(require,module,exports){
 var KD, KDDiaJoint, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty,
+  indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 KD = require('../../core/kd');
 
 KDView = require('../../core/view');
 
-module.exports = KDDiaJoint = (function(_super) {
+module.exports = KDDiaJoint = (function(superClass) {
   var types;
 
-  __extends(KDDiaJoint, _super);
+  extend(KDDiaJoint, superClass);
 
   types = ['left', 'right', 'top', 'bottom'];
 
   function KDDiaJoint(options, data) {
-    var _ref;
+    var ref;
     if (options == null) {
       options = {};
     }
     options.type || (options.type = 'left');
-    if (_ref = options.type, __indexOf.call(types, _ref) < 0) {
+    if (ref = options.type, indexOf.call(types, ref) < 0) {
       KD.warn("Unknown joint type '" + options.type + "', falling back to 'left'");
       options.type = 'left';
     }
@@ -2926,9 +2926,9 @@ module.exports = KDDiaJoint = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105}],29:[function(require,module,exports){
 var KD, KDDiaJoint, KDDiaObject, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty,
+  indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 KD = require('../../core/kd');
 
@@ -2936,20 +2936,20 @@ KDDiaJoint = require('./diajoint');
 
 KDView = require('../../core/view');
 
-module.exports = KDDiaObject = (function(_super) {
-  __extends(KDDiaObject, _super);
+module.exports = KDDiaObject = (function(superClass) {
+  extend(KDDiaObject, superClass);
 
   function KDDiaObject(options, data) {
-    var _base, _base1, _base2;
+    var base, base1, base2;
     options.cssClass = KD.utils.curry('kddia-object', options.cssClass);
     if (options.draggable == null) {
       if ('object' !== typeof options.draggable) {
         options.draggable = {};
       }
-      (_base = options.draggable).containment || (_base.containment = {});
-      (_base1 = options.draggable.containment).view || (_base1.view = 'parent');
-      if ((_base2 = options.draggable.containment).padding == null) {
-        _base2.padding = {
+      (base = options.draggable).containment || (base.containment = {});
+      (base1 = options.draggable.containment).view || (base1.view = 'parent');
+      if ((base2 = options.draggable.containment).padding == null) {
+        base2.padding = {
           top: 1,
           right: 1,
           bottom: 1,
@@ -2978,22 +2978,22 @@ module.exports = KDDiaObject = (function(_super) {
     })(this));
     this.once('viewAppended', (function(_this) {
       return function() {
-        var joint, _i, _len, _ref;
-        _ref = _this.getOption('joints');
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          joint = _ref[_i];
+        var i, joint, len, ref;
+        ref = _this.getOption('joints');
+        for (i = 0, len = ref.length; i < len; i++) {
+          joint = ref[i];
           _this.addJoint(joint);
         }
         return _this.parent.on('UnhighlightDias', function() {
-          var key, _ref1, _results;
+          var key, ref1, results;
           _this.unsetClass('highlight');
-          _ref1 = _this.joints;
-          _results = [];
-          for (key in _ref1) {
-            joint = _ref1[key];
-            _results.push(joint.hideDeleteButton());
+          ref1 = _this.joints;
+          results = [];
+          for (key in ref1) {
+            joint = ref1[key];
+            results.push(joint.hideDeleteButton());
           }
-          return _results;
+          return results;
         });
       };
     })(this));
@@ -3039,23 +3039,23 @@ module.exports = KDDiaObject = (function(_super) {
   };
 
   KDDiaObject.prototype.addJoint = function(type) {
-    var joint, jointItemClass, staticJoints, _base, _ref;
+    var base, joint, jointItemClass, ref, staticJoints;
     if (this.joints[type] != null) {
       KD.warn("KDDiaObject: Tried to add same joint! Destroying old one. ");
-      if (typeof (_base = this.joints[type]).destroy === "function") {
-        _base.destroy();
+      if (typeof (base = this.joints[type]).destroy === "function") {
+        base.destroy();
       }
     }
-    _ref = this.getOptions(), jointItemClass = _ref.jointItemClass, staticJoints = _ref.staticJoints;
+    ref = this.getOptions(), jointItemClass = ref.jointItemClass, staticJoints = ref.staticJoints;
     this.addSubView(joint = new jointItemClass({
       type: type,
-      "static": __indexOf.call(staticJoints, type) >= 0
+      "static": indexOf.call(staticJoints, type) >= 0
     }));
     return this.joints[type] = joint;
   };
 
   KDDiaObject.prototype.getJointPos = function(joint) {
-    var dx, dy, j, jx, jy, p, s, x, y, _ref, _ref1, _ref2, _ref3, _ref4;
+    var dx, dy, j, jx, jy, p, ref, ref1, ref2, ref3, ref4, s, x, y;
     if (typeof joint === "string") {
       joint = this.joints[joint];
     }
@@ -3065,10 +3065,10 @@ module.exports = KDDiaObject = (function(_super) {
         y: 0
       };
     }
-    _ref = [this.parent.getElement(), this.getElement(), joint.getElement()], p = _ref[0], s = _ref[1], j = _ref[2];
-    _ref1 = [p.offsetLeft + s.offsetLeft, p.offsetTop + s.offsetTop], x = _ref1[0], y = _ref1[1];
-    _ref2 = [j.offsetLeft, j.offsetTop], jx = _ref2[0], jy = _ref2[1];
-    _ref4 = (_ref3 = joint.type) === 'left' || _ref3 === 'right' ? [10, 4] : [4, 10], dx = _ref4[0], dy = _ref4[1];
+    ref = [this.parent.getElement(), this.getElement(), joint.getElement()], p = ref[0], s = ref[1], j = ref[2];
+    ref1 = [p.offsetLeft + s.offsetLeft, p.offsetTop + s.offsetTop], x = ref1[0], y = ref1[1];
+    ref2 = [j.offsetLeft, j.offsetTop], jx = ref2[0], jy = ref2[1];
+    ref4 = (ref3 = joint.type) === 'left' || ref3 === 'right' ? [10, 4] : [4, 10], dx = ref4[0], dy = ref4[1];
     return {
       x: x + jx + dx,
       y: y + jy + dy
@@ -3087,9 +3087,9 @@ module.exports = KDDiaObject = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"./diajoint":28}],30:[function(require,module,exports){
 var $, KD, KDCustomHTMLView, KDDiaScene, KDView, _throttle,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty,
+  indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 $ = require('jquery');
 
@@ -3101,8 +3101,8 @@ KDCustomHTMLView = require('../../core/customhtmlview');
 
 _throttle = require('lodash.throttle');
 
-module.exports = KDDiaScene = (function(_super) {
-  __extends(KDDiaScene, _super);
+module.exports = KDDiaScene = (function(superClass) {
+  extend(KDDiaScene, superClass);
 
   function KDDiaScene(options, data) {
     if (options == null) {
@@ -3149,7 +3149,7 @@ module.exports = KDDiaScene = (function(_super) {
   };
 
   KDDiaScene.prototype.addContainer = function(container, pos) {
-    var padding, _ref, _ref1, _ref2, _ref3;
+    var padding, ref, ref1, ref2, ref3;
     if (pos == null) {
       pos = {};
     }
@@ -3159,10 +3159,10 @@ module.exports = KDDiaScene = (function(_super) {
     container.on("UpdateScene", this.bound("updateScene"));
     container.on("HighlightDia", this.bound("highlightLines"));
     this.containers.push(container);
-    padding = (_ref = container.getOption('draggable')) != null ? (_ref1 = _ref.containment) != null ? _ref1.padding : void 0 : void 0;
+    padding = (ref = container.getOption('draggable')) != null ? (ref1 = ref.containment) != null ? ref1.padding : void 0 : void 0;
     if (padding) {
-      pos.x = Math.max(padding, (_ref2 = pos.x) != null ? _ref2 : 0);
-      pos.y = Math.max(padding, (_ref3 = pos.y) != null ? _ref3 : 0);
+      pos.x = Math.max(padding, (ref2 = pos.x) != null ? ref2 : 0);
+      pos.y = Math.max(padding, (ref3 = pos.y) != null ? ref3 : 0);
     }
     if (pos.x != null) {
       container.setX(pos.x);
@@ -3201,11 +3201,11 @@ module.exports = KDDiaScene = (function(_super) {
   };
 
   KDDiaScene.prototype.mouseMove = function(e) {
-    var ex, ey, x, y, _ref;
+    var ex, ey, ref, x, y;
     if (!this._trackJoint) {
       return;
     }
-    _ref = this._trackJoint.getPos(), x = _ref.x, y = _ref.y;
+    ref = this._trackJoint.getPos(), x = ref.x, y = ref.y;
     ex = x + (e.clientX - this._trackJoint.getX());
     ey = y + (e.clientY - this._trackJoint.getY());
     return this.drawFakeLine({
@@ -3248,20 +3248,20 @@ module.exports = KDDiaScene = (function(_super) {
   };
 
   KDDiaScene.prototype.getDia = function(id) {
-    var container, dia, joint, objId, parts, _i, _len, _ref, _ref1;
+    var container, dia, j, joint, len, objId, parts, ref, ref1;
     parts = (id.match(/dia\-((.*)\-joint\-(.*)|(.*))/)).filter(function(m) {
       return !!m;
     });
     if (!parts) {
       return null;
     }
-    _ref = parts.slice(-2), objId = _ref[0], joint = _ref[1];
+    ref = parts.slice(-2), objId = ref[0], joint = ref[1];
     if (objId === joint) {
       joint = null;
     }
-    _ref1 = this.containers;
-    for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-      container = _ref1[_i];
+    ref1 = this.containers;
+    for (j = 0, len = ref1.length; j < len; j++) {
+      container = ref1[j];
       if (dia = container.dias[objId]) {
         break;
       }
@@ -3274,7 +3274,7 @@ module.exports = KDDiaScene = (function(_super) {
   };
 
   KDDiaScene.prototype.highlightLines = function(dia, update) {
-    var connection, container, joint, source, target, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2, _results;
+    var connection, container, j, joint, k, l, len, len1, len2, ref, ref1, ref2, results, source, target;
     if (dia == null) {
       dia = [];
     }
@@ -3285,14 +3285,14 @@ module.exports = KDDiaScene = (function(_super) {
       dia = [dia];
     }
     this.activeDias = dia;
-    _ref = this.activeJoints;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      joint = _ref[_i];
+    ref = this.activeJoints;
+    for (j = 0, len = ref.length; j < len; j++) {
+      joint = ref[j];
       joint.off('DeleteRequested');
     }
-    _ref1 = this.containers;
-    for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-      container = _ref1[_j];
+    ref1 = this.containers;
+    for (k = 0, len1 = ref1.length; k < len1; k++) {
+      container = ref1[k];
       container.emit('UnhighlightDias');
     }
     this.activeJoints = [];
@@ -3303,18 +3303,18 @@ module.exports = KDDiaScene = (function(_super) {
       return;
     }
     dia = dia.first;
-    _ref2 = this.connections;
-    _results = [];
-    for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
-      connection = _ref2[_k];
+    ref2 = this.connections;
+    results = [];
+    for (l = 0, len2 = ref2.length; l < len2; l++) {
+      connection = ref2[l];
       source = connection.source, target = connection.target;
       if ((source.dia === dia) || (target.dia === dia)) {
-        _results.push([source, target].forEach((function(_this) {
+        results.push([source, target].forEach((function(_this) {
           return function(conn) {
             conn.dia.setClass('highlight');
             if (conn.dia !== dia) {
               joint = conn.dia.joints[conn.joint];
-              if (__indexOf.call(_this.activeJoints, joint) < 0) {
+              if (indexOf.call(_this.activeJoints, joint) < 0) {
                 joint.showDeleteButton();
                 joint.on('DeleteRequested', _this.bound('disconnect'));
                 return _this.activeJoints.push(joint);
@@ -3323,10 +3323,10 @@ module.exports = KDDiaScene = (function(_super) {
           };
         })(this)));
       } else {
-        _results.push(void 0);
+        results.push(void 0);
       }
     }
-    return _results;
+    return results;
   };
 
   KDDiaScene.prototype.handleLineRequest = function(joint) {
@@ -3334,16 +3334,16 @@ module.exports = KDDiaScene = (function(_super) {
   };
 
   KDDiaScene.prototype.findTargetConnection = function(dia, joint) {
-    var activeDia, conn, isEqual, _i, _len, _ref;
+    var activeDia, conn, isEqual, j, len, ref;
     isEqual = (function(_this) {
       return function(connection) {
         return (dia === connection.dia) && (joint === connection.joint);
       };
     })(this);
     activeDia = this.activeDias.first;
-    _ref = this.connections;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      conn = _ref[_i];
+    ref = this.connections;
+    for (j = 0, len = ref.length; j < len; j++) {
+      conn = ref[j];
       if (((isEqual(conn.source)) || (isEqual(conn.target))) && ((conn.source.dia === activeDia) || (conn.target.dia === activeDia))) {
         return conn;
       }
@@ -3357,28 +3357,28 @@ module.exports = KDDiaScene = (function(_super) {
     }
     connectionsToDelete = this.findTargetConnection(dia, joint);
     this.connections = (function() {
-      var _i, _len, _ref, _results;
-      _ref = this.connections;
-      _results = [];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        c = _ref[_i];
+      var j, len, ref, results;
+      ref = this.connections;
+      results = [];
+      for (j = 0, len = ref.length; j < len; j++) {
+        c = ref[j];
         if (c !== connectionsToDelete) {
-          _results.push(c);
+          results.push(c);
         }
       }
-      return _results;
+      return results;
     }).call(this);
     return this.highlightLines(this.activeDias);
   };
 
   KDDiaScene.prototype.disconnectAllConnections = function(dia) {
-    var connection, newConnections, source, target, _i, _len, _ref, _ref1;
+    var connection, j, len, newConnections, ref, ref1, source, target;
     newConnections = [];
-    _ref = this.connections;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      connection = _ref[_i];
+    ref = this.connections;
+    for (j = 0, len = ref.length; j < len; j++) {
+      connection = ref[j];
       source = connection.source, target = connection.target;
-      if ((_ref1 = dia.getDiaId()) !== source.dia.getDiaId() && _ref1 !== target.dia.getDiaId()) {
+      if ((ref1 = dia.getDiaId()) !== source.dia.getDiaId() && ref1 !== target.dia.getDiaId()) {
         newConnections.push(connection);
       }
     }
@@ -3387,25 +3387,25 @@ module.exports = KDDiaScene = (function(_super) {
   };
 
   KDDiaScene.prototype.allowedToConnect = function(source, target) {
-    var allowList, i, restrictions, _i, _ref, _ref1, _ref2, _ref3;
+    var allowList, i, j, ref, ref1, ref2, ref3, restrictions;
     if (!(source && target)) {
       return false;
     }
-    if (((_ref = source.dia) != null ? _ref.id : void 0) === ((_ref1 = target.dia) != null ? _ref1.id : void 0)) {
+    if (((ref = source.dia) != null ? ref.id : void 0) === ((ref1 = target.dia) != null ? ref1.id : void 0)) {
       return false;
     }
-    for (i = _i = 0; _i <= 1; i = ++_i) {
+    for (i = j = 0; j <= 1; i = ++j) {
       if ((source.dia.allowedConnections != null) && Object.keys(source.dia.allowedConnections).length > 0) {
         allowList = source.dia.allowedConnections;
         restrictions = allowList[target.dia.constructor.name];
         if (!restrictions) {
           return false;
         }
-        if (_ref2 = source.joint, __indexOf.call(restrictions, _ref2) >= 0) {
+        if (ref2 = source.joint, indexOf.call(restrictions, ref2) >= 0) {
           return false;
         }
       }
-      _ref3 = [target, source], source = _ref3[0], target = _ref3[1];
+      ref3 = [target, source], source = ref3[0], target = ref3[1];
     }
     return true;
   };
@@ -3431,25 +3431,25 @@ module.exports = KDDiaScene = (function(_super) {
   };
 
   KDDiaScene.prototype.updateScene = function() {
-    var connection, _i, _j, _len, _len1, _ref, _ref1, _results;
+    var connection, j, k, len, len1, ref, ref1, results;
     this.cleanup(this.realCanvas);
-    _ref = this.connections;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      connection = _ref[_i];
+    ref = this.connections;
+    for (j = 0, len = ref.length; j < len; j++) {
+      connection = ref[j];
       this.drawConnectionLine(connection);
     }
-    _ref1 = this.fakeConnections;
-    _results = [];
-    for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-      connection = _ref1[_j];
-      _results.push(this.drawConnectionLine(connection));
+    ref1 = this.fakeConnections;
+    results = [];
+    for (k = 0, len1 = ref1.length; k < len1; k++) {
+      connection = ref1[k];
+      results.push(this.drawConnectionLine(connection));
     }
-    return _results;
+    return results;
   };
 
-  KDDiaScene.prototype.drawConnectionLine = function(_arg) {
-    var activeColor, activeDia, cd, lineColor, lineDashes, options, sJoint, source, sx, sy, tJoint, target, tx, ty, _ref, _ref1, _ref2, _ref3, _ref4, _ref5, _ref6;
-    source = _arg.source, target = _arg.target, options = _arg.options;
+  KDDiaScene.prototype.drawConnectionLine = function(arg) {
+    var activeColor, activeDia, cd, lineColor, lineDashes, options, ref, ref1, ref2, ref3, ref4, ref5, ref6, sJoint, source, sx, sy, tJoint, target, tx, ty;
+    source = arg.source, target = arg.target, options = arg.options;
     if (!(source || target)) {
       return;
     }
@@ -3458,7 +3458,7 @@ module.exports = KDDiaScene = (function(_super) {
     lineDashes = this.getOption('lineDashes');
     lineColor = this.getOption('lineColor');
     this.realContext.beginPath();
-    activeDia = (_ref = source.dia, __indexOf.call(this.activeDias, _ref) >= 0) ? source : (_ref1 = target.dia, __indexOf.call(this.activeDias, _ref1) >= 0) ? target : void 0;
+    activeDia = (ref = source.dia, indexOf.call(this.activeDias, ref) >= 0) ? source : (ref1 = target.dia, indexOf.call(this.activeDias, ref1) >= 0) ? target : void 0;
     if (activeDia) {
       lineColor = options.lineColor || (activeDia.dia.getOption('colorTag')) || activeColor;
       lineDashes = options.lineDashes || (activeDia.dia.getOption('lineDashes')) || lineDashes;
@@ -3471,15 +3471,15 @@ module.exports = KDDiaScene = (function(_super) {
     }
     this.realContext.moveTo(sJoint.x, sJoint.y);
     cd = this.getOption('curveDistance');
-    _ref2 = [0, 0, 0, 0], sx = _ref2[0], sy = _ref2[1], tx = _ref2[2], ty = _ref2[3];
-    if ((_ref3 = source.joint) === "top" || _ref3 === "bottom") {
+    ref2 = [0, 0, 0, 0], sx = ref2[0], sy = ref2[1], tx = ref2[2], ty = ref2[3];
+    if ((ref3 = source.joint) === "top" || ref3 === "bottom") {
       sy = source.joint === "top" ? -cd : cd;
-    } else if ((_ref4 = source.joint) === "left" || _ref4 === "right") {
+    } else if ((ref4 = source.joint) === "left" || ref4 === "right") {
       sx = source.joint === "left" ? -cd : cd;
     }
-    if ((_ref5 = target.joint) === "top" || _ref5 === "bottom") {
+    if ((ref5 = target.joint) === "top" || ref5 === "bottom") {
       ty = target.joint === "top" ? -cd : cd;
-    } else if ((_ref6 = target.joint) === "left" || _ref6 === "right") {
+    } else if ((ref6 = target.joint) === "left" || ref6 === "right") {
       tx = target.joint === "left" ? -cd : cd;
     }
     this.realContext.bezierCurveTo(sJoint.x + sx, sJoint.y + sy, tJoint.x + tx, tJoint.y + ty, tJoint.x, tJoint.y);
@@ -3493,12 +3493,12 @@ module.exports = KDDiaScene = (function(_super) {
   };
 
   KDDiaScene.prototype.createCanvas = function() {
-    var _ref, _ref1;
-    if ((_ref = this.realCanvas) != null) {
-      _ref.destroy();
+    var ref, ref1;
+    if ((ref = this.realCanvas) != null) {
+      ref.destroy();
     }
-    if ((_ref1 = this.fakeCanvas) != null) {
-      _ref1.destroy();
+    if ((ref1 = this.fakeCanvas) != null) {
+      ref1.destroy();
     }
     this.addSubView(this.realCanvas = new KDCustomHTMLView({
       tagName: "canvas",
@@ -3517,13 +3517,13 @@ module.exports = KDDiaScene = (function(_super) {
   };
 
   KDDiaScene.prototype.setScale = function(scale) {
-    var container, _i, _len, _ref;
+    var container, j, len, ref;
     if (scale == null) {
       scale = 1;
     }
-    _ref = this.containers;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      container = _ref[_i];
+    ref = this.containers;
+    for (j = 0, len = ref.length; j < len; j++) {
+      container = ref[j];
       container.setScale(scale);
     }
     return this.updateScene();
@@ -3572,8 +3572,8 @@ module.exports = KDDiaScene = (function(_super) {
 
 },{"../../core/customhtmlview":96,"../../core/kd":99,"../../core/view":105,"jquery":111,"lodash.throttle":119}],31:[function(require,module,exports){
 var KD, KDButtonView, KDDialogView, KDOverlayView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -3583,8 +3583,8 @@ KDOverlayView = require('../overlay/overlayview');
 
 KDButtonView = require('../buttons/buttonview');
 
-module.exports = KDDialogView = (function(_super) {
-  __extends(KDDialogView, _super);
+module.exports = KDDialogView = (function(superClass) {
+  extend(KDDialogView, superClass);
 
   function KDDialogView(options, data) {
     if (options == null) {
@@ -3609,9 +3609,9 @@ module.exports = KDDialogView = (function(_super) {
   KDDialogView.prototype.show = function() {
     return KD.utils.defer((function(_this) {
       return function() {
-        var container, _ref;
-        if ((_ref = _this.overlay) != null) {
-          _ref.destroy();
+        var container, ref;
+        if ((ref = _this.overlay) != null) {
+          ref.destroy();
         }
         container = _this.getOptions().container;
         _this.overlay = new KDOverlayView({
@@ -3634,20 +3634,20 @@ module.exports = KDDialogView = (function(_super) {
   };
 
   KDDialogView.prototype.setButtons = function() {
-    var buttonOptions, buttonTitle, buttons, _results;
+    var buttonOptions, buttonTitle, buttons, results;
     buttons = this.getOptions().buttons;
     this.buttons = {};
     this.buttonHolder = new KDView({
       cssClass: "kddialog-buttons clearfix"
     });
     this.addSubView(this.buttonHolder);
-    _results = [];
+    results = [];
     for (buttonTitle in buttons) {
-      if (!__hasProp.call(buttons, buttonTitle)) continue;
+      if (!hasProp.call(buttons, buttonTitle)) continue;
       buttonOptions = buttons[buttonTitle];
-      _results.push(this.createButton(buttonTitle, buttonOptions));
+      results.push(this.createButton(buttonTitle, buttonOptions));
     }
-    return _results;
+    return results;
   };
 
   KDDialogView.prototype.createButton = function(title, buttonOptions) {
@@ -3669,9 +3669,9 @@ module.exports = KDDialogView = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"../buttons/buttonview":18,"../overlay/overlayview":61}],32:[function(require,module,exports){
 var $, JsPath, KD, KDFormView, KDInputView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  __slice = [].slice;
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty,
+  slice = [].slice;
 
 $ = require('jquery');
 
@@ -3683,8 +3683,8 @@ JsPath = require('jspath');
 
 KDView = require('../../core/view');
 
-module.exports = KDFormView = (function(_super) {
-  __extends(KDFormView, _super);
+module.exports = KDFormView = (function(superClass) {
+  extend(KDFormView, superClass);
 
   KDFormView.findChildInputs = function(parent) {
     var inputs, subViews;
@@ -3702,17 +3702,17 @@ module.exports = KDFormView = (function(_super) {
   };
 
   KDFormView.sanitizeFormOptions = function(options) {
-    var key, option, _results;
-    _results = [];
+    var key, option, results;
+    results = [];
     for (key in options) {
       option = options[key];
       if (option.title == null) {
         option.title = key;
       }
       option.key = key;
-      _results.push(option);
+      results.push(option);
     }
-    return _results;
+    return results;
   };
 
 
@@ -3755,26 +3755,26 @@ module.exports = KDFormView = (function(_super) {
   };
 
   KDFormView.prototype.addCustomData = function(path, value) {
-    var key, _results;
+    var key, results;
     if ('string' === typeof path) {
       return JsPath.setAt(this.customData, path, value);
     } else {
-      _results = [];
+      results = [];
       for (key in path) {
-        if (!__hasProp.call(path, key)) continue;
+        if (!hasProp.call(path, key)) continue;
         value = path[key];
-        _results.push(JsPath.setAt(this.customData, key, value));
+        results.push(JsPath.setAt(this.customData, key, value));
       }
-      return _results;
+      return results;
     }
   };
 
   KDFormView.prototype.removeCustomData = function(path) {
-    var isArrayElement, last, pathUntil, _i;
+    var i, isArrayElement, last, pathUntil;
     if ('string' === typeof path) {
       path = path.split('.');
     }
-    pathUntil = 2 <= path.length ? __slice.call(path, 0, _i = path.length - 1) : (_i = 0, []), last = path[_i++];
+    pathUntil = 2 <= path.length ? slice.call(path, 0, i = path.length - 1) : (i = 0, []), last = path[i++];
     isArrayElement = !isNaN(+last);
     if (isArrayElement) {
       return JsPath.spliceAt(this.customData, pathUntil, last);
@@ -3784,13 +3784,13 @@ module.exports = KDFormView = (function(_super) {
   };
 
   KDFormView.prototype.serializeFormData = function(data) {
-    var inputData, _i, _len, _ref;
+    var i, inputData, len, ref;
     if (data == null) {
       data = {};
     }
-    _ref = this.getDomElement().serializeArray();
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      inputData = _ref[_i];
+    ref = this.getDomElement().serializeArray();
+    for (i = 0, len = ref.length; i < len; i++) {
+      inputData = ref[i];
       data[inputData.name] = inputData.value;
     }
     return data;
@@ -3841,14 +3841,14 @@ module.exports = KDFormView = (function(_super) {
     validInputs = [];
     formData = this.getCustomData() || {};
     this.once("FormValidationFinished", function(isValid) {
-      var _ref;
+      var ref;
       if (isValid == null) {
         isValid = true;
       }
       form.valid = isValid;
       if (isValid) {
-        if ((_ref = form.getCallback()) != null) {
-          _ref.call(form, formData, event);
+        if ((ref = form.getCallback()) != null) {
+          ref.call(form, formData, event);
         }
         return form.emit("FormValidationPassed");
       } else {
@@ -3871,15 +3871,15 @@ module.exports = KDFormView = (function(_super) {
     toBeValidatedInputs.forEach(function(inputToBeValidated) {
       (function() {
         return inputToBeValidated.once("ValidationResult", function(result) {
-          var input, valid, _i, _len;
+          var i, input, len, valid;
           validationCount++;
           if (result) {
             validInputs.push(inputToBeValidated);
           }
           if (toBeValidatedInputs.length === validationCount) {
             if (validInputs.length === toBeValidatedInputs.length) {
-              for (_i = 0, _len = validInputs.length; _i < _len; _i++) {
-                input = validInputs[_i];
+              for (i = 0, len = validInputs.length; i < len; i++) {
+                input = validInputs[i];
                 formData[input.getName()] = input.getValue();
               }
             } else {
@@ -3904,8 +3904,8 @@ module.exports = KDFormView = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"../inputs/inputview":44,"jquery":111,"jspath":117}],33:[function(require,module,exports){
 var KD, KDButtonBar, KDCustomHTMLView, KDFormView, KDFormViewWithFields, KDInputView, KDLabelView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -3921,16 +3921,16 @@ KDButtonBar = require('../buttons/buttonbar');
 
 KDLabelView = require('../inputs/labelview');
 
-module.exports = KDFormViewWithFields = (function(_super) {
-  __extends(KDFormViewWithFields, _super);
+module.exports = KDFormViewWithFields = (function(superClass) {
+  extend(KDFormViewWithFields, superClass);
 
   function KDFormViewWithFields() {
-    var buttons, fields, _ref;
+    var buttons, fields, ref;
     KDFormViewWithFields.__super__.constructor.apply(this, arguments);
     this.setClass("with-fields");
     this.inputs = {};
     this.fields = {};
-    _ref = this.getOptions(), fields = _ref.fields, buttons = _ref.buttons;
+    ref = this.getOptions(), fields = ref.fields, buttons = ref.buttons;
     if (fields) {
       this.createFields(KDFormView.sanitizeFormOptions(fields));
     }
@@ -3941,13 +3941,13 @@ module.exports = KDFormViewWithFields = (function(_super) {
   }
 
   KDFormViewWithFields.prototype.createFields = function(fields) {
-    var fieldData, _i, _len, _results;
-    _results = [];
-    for (_i = 0, _len = fields.length; _i < _len; _i++) {
-      fieldData = fields[_i];
-      _results.push(this.addSubView(this.createField(fieldData)));
+    var fieldData, i, len, results;
+    results = [];
+    for (i = 0, len = fields.length; i < len; i++) {
+      fieldData = fields[i];
+      results.push(this.addSubView(this.createField(fieldData)));
     }
-    return _results;
+    return results;
   };
 
   KDFormViewWithFields.prototype.createButtons = function(buttons) {
@@ -3957,7 +3957,7 @@ module.exports = KDFormViewWithFields = (function(_super) {
   };
 
   KDFormViewWithFields.prototype.createField = function(fieldData, field, isNextElement) {
-    var hint, input, inputWrapper, itemClass, key, label, next, title, _ref, _ref1;
+    var hint, input, inputWrapper, itemClass, key, label, next, ref, ref1, title;
     if (isNextElement == null) {
       isNextElement = false;
     }
@@ -3988,18 +3988,18 @@ module.exports = KDFormViewWithFields = (function(_super) {
     }
     this.fields[title] = field;
     if (fieldData.nextElement) {
-      _ref = fieldData.nextElement;
-      for (key in _ref) {
-        next = _ref[key];
+      ref = fieldData.nextElement;
+      for (key in ref) {
+        next = ref[key];
         next.title || (next.title = key);
         this.createField(next, inputWrapper || field, true);
       }
     }
     if (fieldData.nextElementFlat) {
-      _ref1 = fieldData.nextElementFlat;
-      for (key in _ref1) {
-        if (!__hasProp.call(_ref1, key)) continue;
-        next = _ref1[key];
+      ref1 = fieldData.nextElementFlat;
+      for (key in ref1) {
+        if (!hasProp.call(ref1, key)) continue;
+        next = ref1[key];
         next.title || (next.title = key);
         this.createField(next, field);
       }
@@ -4032,8 +4032,8 @@ module.exports = KDFormViewWithFields = (function(_super) {
 
 },{"../../core/customhtmlview":96,"../../core/kd":99,"../../core/view":105,"../buttons/buttonbar":15,"../inputs/inputview":44,"../inputs/labelview":45,"./formview":32}],34:[function(require,module,exports){
 var KDHeaderView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KDView = require('../../core/view');
 
@@ -4055,8 +4055,8 @@ KDView = require('../../core/view');
  * ```
  */
 
-module.exports = KDHeaderView = (function(_super) {
-  __extends(KDHeaderView, _super);
+module.exports = KDHeaderView = (function(superClass) {
+  extend(KDHeaderView, superClass);
 
 
   /**
@@ -4071,9 +4071,9 @@ module.exports = KDHeaderView = (function(_super) {
    */
 
   function KDHeaderView(options, data) {
-    var _ref;
+    var ref;
     options = options != null ? options : {};
-    options.type = (_ref = options.type) != null ? _ref : "default";
+    options.type = (ref = options.type) != null ? ref : "default";
     KDHeaderView.__super__.constructor.call(this, options, data);
     if (options.title != null) {
       if (this.lazy) {
@@ -4136,8 +4136,8 @@ module.exports = KDHeaderView = (function(_super) {
 
 },{"../../core/view":105}],35:[function(require,module,exports){
 var KD, KDButtonView, KDCustomHTMLView, KDView, KDWebcamView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -4147,8 +4147,8 @@ KDCustomHTMLView = require('../../core/customhtmlview');
 
 KDButtonView = require('../buttons/buttonview');
 
-module.exports = KDWebcamView = (function(_super) {
-  __extends(KDWebcamView, _super);
+module.exports = KDWebcamView = (function(superClass) {
+  extend(KDWebcamView, superClass);
 
   function KDWebcamView(options, data) {
     if (options == null) {
@@ -4292,11 +4292,11 @@ module.exports = KDWebcamView = (function(_super) {
   };
 
   KDWebcamView.prototype.unsetVideoStream = function() {
-    var video, _ref;
+    var ref, video;
     video = this.video.getElement();
     video.pause();
     KDWebcamView.setVideoStreamVendor(video, "");
-    return (_ref = this.localMediaStream) != null ? _ref.stop() : void 0;
+    return (ref = this.localMediaStream) != null ? ref.stop() : void 0;
   };
 
   KDWebcamView.prototype.setVideoStream = function(stream) {
@@ -4383,15 +4383,15 @@ module.exports = KDWebcamView = (function(_super) {
   };
 
   KDWebcamView.prototype.viewAppended = function() {
-    var view, _i, _len, _ref, _results;
+    var i, len, ref, results, view;
     KDWebcamView.__super__.viewAppended.call(this);
-    _ref = [this.button, this.save, this.retake, this.video, this.picture];
-    _results = [];
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      view = _ref[_i];
-      _results.push(this.addSubView(view));
+    ref = [this.button, this.save, this.retake, this.video, this.picture];
+    results = [];
+    for (i = 0, len = ref.length; i < len; i++) {
+      view = ref[i];
+      results.push(this.addSubView(view));
     }
-    return _results;
+    return results;
   };
 
   return KDWebcamView;
@@ -4402,16 +4402,16 @@ module.exports = KDWebcamView = (function(_super) {
 
 },{"../../core/customhtmlview":96,"../../core/kd":99,"../../core/view":105,"../buttons/buttonview":18}],36:[function(require,module,exports){
 var KDCheckBox, KDInputView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KDInputView = require('./inputview');
 
-module.exports = KDCheckBox = (function(_super) {
-  __extends(KDCheckBox, _super);
+module.exports = KDCheckBox = (function(superClass) {
+  extend(KDCheckBox, superClass);
 
   function KDCheckBox(options, data) {
-    var _base;
+    var base;
     if (options == null) {
       options = {};
     }
@@ -4419,8 +4419,8 @@ module.exports = KDCheckBox = (function(_super) {
     if (options.attributes == null) {
       options.attributes = {};
     }
-    if ((_base = options.attributes).checked == null) {
-      _base.checked = options.defaultValue || false;
+    if ((base = options.attributes).checked == null) {
+      base.checked = options.defaultValue || false;
     }
     KDCheckBox.__super__.constructor.call(this, options, data);
   }
@@ -4433,9 +4433,9 @@ module.exports = KDCheckBox = (function(_super) {
 
 },{"./inputview":44}],37:[function(require,module,exports){
 var $, Encoder, KD, KDContentEditableView, KDInputValidator, KDNotificationView, KDView,
-  __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -4449,17 +4449,17 @@ KDNotificationView = require('../notifications/notificationview');
 
 Encoder = require('htmlencode');
 
-module.exports = KDContentEditableView = (function(_super) {
-  __extends(KDContentEditableView, _super);
+module.exports = KDContentEditableView = (function(superClass) {
+  extend(KDContentEditableView, superClass);
 
   function KDContentEditableView(options, data) {
-    var _ref;
+    var ref;
     if (options == null) {
       options = {};
     }
-    this.keyDown = __bind(this.keyDown, this);
-    this.input = __bind(this.input, this);
-    this.click = __bind(this.click, this);
+    this.keyDown = bind(this.keyDown, this);
+    this.input = bind(this.input, this);
+    this.click = bind(this.click, this);
     options.cssClass = KD.utils.curry("kdcontenteditableview", options.cssClass);
     options.bind = KD.utils.curry("click input paste drop focus blur", options.bind);
     options.type || (options.type = "text");
@@ -4471,8 +4471,8 @@ module.exports = KDContentEditableView = (function(_super) {
       options.tabNavigation = false;
     }
     KDContentEditableView.__super__.constructor.call(this, options, data);
-    if ((_ref = this.getDelegate()) != null) {
-      _ref.on("EditingModeToggled", (function(_this) {
+    if ((ref = this.getDelegate()) != null) {
+      ref.on("EditingModeToggled", (function(_this) {
         return function(state) {
           return _this.setEditingMode(state);
         };
@@ -4532,8 +4532,8 @@ module.exports = KDContentEditableView = (function(_super) {
   };
 
   KDContentEditableView.prototype.getValue = function(forceType) {
-    var element, placeholder, type, value, _ref;
-    _ref = this.getOptions(), type = _ref.type, placeholder = _ref.placeholder;
+    var element, placeholder, ref, type, value;
+    ref = this.getOptions(), type = ref.type, placeholder = ref.placeholder;
     element = this.getEditableElement();
     if (forceType) {
       type = forceType;
@@ -4569,7 +4569,7 @@ module.exports = KDContentEditableView = (function(_super) {
   };
 
   KDContentEditableView.prototype.focus = function() {
-    var windowController, _base;
+    var base, windowController;
     if (this.getValue().length === 0) {
       this.unsetPlaceholder();
     }
@@ -4581,7 +4581,7 @@ module.exports = KDContentEditableView = (function(_super) {
       this.once("ReceivedClickElsewhere", this.bound('blur'));
     }
     this.focused = true;
-    return typeof (_base = this.getOptions()).focus === "function" ? _base.focus() : void 0;
+    return typeof (base = this.getOptions()).focus === "function" ? base.focus() : void 0;
   };
 
   KDContentEditableView.prototype.blur = function() {
@@ -4611,8 +4611,8 @@ module.exports = KDContentEditableView = (function(_super) {
   };
 
   KDContentEditableView.prototype.keyDown = function(event) {
-    var maxLength, multiline, tabNavigation, validate, value, _ref, _ref1, _ref2;
-    _ref = this.getOptions(), tabNavigation = _ref.tabNavigation, multiline = _ref.multiline, validate = _ref.validate;
+    var maxLength, multiline, ref, ref1, ref2, tabNavigation, validate, value;
+    ref = this.getOptions(), tabNavigation = ref.tabNavigation, multiline = ref.multiline, validate = ref.validate;
     switch (event.which) {
       case 9:
         if (tabNavigation) {
@@ -4642,7 +4642,7 @@ module.exports = KDContentEditableView = (function(_super) {
         }
     }
     value = this.getValue();
-    maxLength = ((_ref1 = this.getOptions().validate) != null ? (_ref2 = _ref1.rules) != null ? _ref2.maxLength : void 0 : void 0) || 0;
+    maxLength = ((ref1 = this.getOptions().validate) != null ? (ref2 = ref1.rules) != null ? ref2.maxLength : void 0 : void 0) || 0;
     if (event.which === 13 || (maxLength > 0 && value.length === maxLength)) {
       return event.preventDefault();
     } else if (value.length === 0) {
@@ -4661,15 +4661,15 @@ module.exports = KDContentEditableView = (function(_super) {
   };
 
   KDContentEditableView.prototype.drop = function(event) {
-    var clientX, clientY, commonAncestorContainer, endOffset, startOffset, text, _ref, _ref1;
+    var clientX, clientY, commonAncestorContainer, endOffset, ref, ref1, startOffset, text;
     event.preventDefault();
     text = event.originalEvent.dataTransfer.getData("text/plain");
-    _ref = event.originalEvent, clientX = _ref.clientX, clientY = _ref.clientY;
+    ref = event.originalEvent, clientX = ref.clientX, clientY = ref.clientY;
     if (this.getValue() === "") {
       startOffset = 0;
       this.unsetPlaceholder();
     }
-    _ref1 = document.caretRangeFromPoint(clientX, clientY), commonAncestorContainer = _ref1.commonAncestorContainer, startOffset = _ref1.startOffset, endOffset = _ref1.endOffset;
+    ref1 = document.caretRangeFromPoint(clientX, clientY), commonAncestorContainer = ref1.commonAncestorContainer, startOffset = ref1.startOffset, endOffset = ref1.endOffset;
     return this.utils.replaceRange(commonAncestorContainer, text, startOffset);
   };
 
@@ -4699,12 +4699,12 @@ module.exports = KDContentEditableView = (function(_super) {
   };
 
   KDContentEditableView.prototype.validate = function(event) {
-    var message, name, rule, valid, validator, _ref, _ref1;
+    var message, name, ref, ref1, rule, valid, validator;
     valid = true;
-    _ref1 = ((_ref = this.getOptions().validate) != null ? _ref.rules : void 0) || {};
-    for (name in _ref1) {
-      if (!__hasProp.call(_ref1, name)) continue;
-      rule = _ref1[name];
+    ref1 = ((ref = this.getOptions().validate) != null ? ref.rules : void 0) || {};
+    for (name in ref1) {
+      if (!hasProp.call(ref1, name)) continue;
+      rule = ref1[name];
       validator = KDInputValidator["rule" + (name.capitalize())];
       if (validator && (message = validator(this, event))) {
         valid = false;
@@ -4732,11 +4732,11 @@ module.exports = KDContentEditableView = (function(_super) {
   };
 
   KDContentEditableView.prototype.appendNewline = function() {
-    var count, i, newline, range, selection, _i;
+    var count, i, j, newline, range, ref, selection;
     selection = window.getSelection();
     count = selection.baseNode.length === selection.focusOffset ? 1 : 0;
     range = selection.getRangeAt(0);
-    for (i = _i = 0; 0 <= count ? _i <= count : _i >= count; i = 0 <= count ? ++_i : --_i) {
+    for (i = j = 0, ref = count; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
       range.insertNode(newline = document.createElement("br"));
     }
     return this.utils.selectEnd(newline);
@@ -4757,13 +4757,13 @@ module.exports = KDContentEditableView = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"../notifications/notificationview":60,"./inputvalidator":43,"htmlencode":115,"jquery":111}],38:[function(require,module,exports){
 var KDDelimitedInputView, KDInputView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KDInputView = require('./inputview');
 
-module.exports = KDDelimitedInputView = (function(_super) {
-  __extends(KDDelimitedInputView, _super);
+module.exports = KDDelimitedInputView = (function(superClass) {
+  extend(KDDelimitedInputView, superClass);
 
   function KDDelimitedInputView(options, data) {
     var defaultValue;
@@ -4828,8 +4828,8 @@ module.exports = KDDelimitedInputView = (function(_super) {
 
 },{"./inputview":44}],39:[function(require,module,exports){
 var KD, KDCustomHTMLView, KDHitEnterInputView, KDInputView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -4837,11 +4837,11 @@ KDCustomHTMLView = require('../../core/customhtmlview');
 
 KDInputView = require('./inputview');
 
-module.exports = KDHitEnterInputView = (function(_super) {
-  __extends(KDHitEnterInputView, _super);
+module.exports = KDHitEnterInputView = (function(superClass) {
+  extend(KDHitEnterInputView, superClass);
 
   function KDHitEnterInputView(options, data) {
-    var _ref;
+    var ref;
     if (options == null) {
       options = {};
     }
@@ -4856,7 +4856,7 @@ module.exports = KDHitEnterInputView = (function(_super) {
     options.callback || (options.callback = null);
     options.togglerPartials || (options.togglerPartials = ['quick update disabled', 'quick update enabled']);
     KDHitEnterInputView.__super__.constructor.call(this, options, data);
-    this.button = (_ref = this.getOptions().button) != null ? _ref : null;
+    this.button = (ref = this.getOptions().button) != null ? ref : null;
     this.enableEnterKey();
     if (options.label != null) {
       this.setToggler();
@@ -4942,15 +4942,15 @@ module.exports = KDHitEnterInputView = (function(_super) {
 
 },{"../../core/customhtmlview":96,"../../core/kd":99,"./inputview":44}],40:[function(require,module,exports){
 var $, KDInputCheckboxGroup, KDInputRadioGroup,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
 KDInputRadioGroup = require('./inputradiogroup');
 
-module.exports = KDInputCheckboxGroup = (function(_super) {
-  __extends(KDInputCheckboxGroup, _super);
+module.exports = KDInputCheckboxGroup = (function(superClass) {
+  extend(KDInputCheckboxGroup, superClass);
 
   function KDInputCheckboxGroup(options, data) {
     if (options == null) {
@@ -4969,27 +4969,27 @@ module.exports = KDInputCheckboxGroup = (function(_super) {
   };
 
   KDInputCheckboxGroup.prototype.getValue = function() {
-    var el, values, _i, _len, _ref;
+    var el, i, len, ref, values;
     values = [];
-    _ref = this.getDomElement().find('input:checked');
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      el = _ref[_i];
+    ref = this.getDomElement().find('input:checked');
+    for (i = 0, len = ref.length; i < len; i++) {
+      el = ref[i];
       values.push($(el).val());
     }
     return values;
   };
 
   KDInputCheckboxGroup.prototype.setValue = function(value) {
-    var v, _i, _len, _results;
+    var i, len, results, v;
     this.$('input').prop('checked', false);
     this.$('.kd-radio-holder').removeClass('active');
     if (value instanceof Array) {
-      _results = [];
-      for (_i = 0, _len = value.length; _i < _len; _i++) {
-        v = value[_i];
-        _results.push(this._setValue(v));
+      results = [];
+      for (i = 0, len = value.length; i < len; i++) {
+        v = value[i];
+        results.push(this._setValue(v));
       }
-      return _results;
+      return results;
     } else {
       return this._setValue(value);
     }
@@ -5010,15 +5010,15 @@ module.exports = KDInputCheckboxGroup = (function(_super) {
 
 },{"./inputradiogroup":41,"jquery":111}],41:[function(require,module,exports){
 var $, KDInputRadioGroup, KDInputView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
 KDInputView = require('./inputview');
 
-module.exports = KDInputRadioGroup = (function(_super) {
-  __extends(KDInputRadioGroup, _super);
+module.exports = KDInputRadioGroup = (function(superClass) {
+  extend(KDInputRadioGroup, superClass);
 
   function KDInputRadioGroup(options) {
     options.type || (options.type = 'radio');
@@ -5034,12 +5034,12 @@ module.exports = KDInputRadioGroup = (function(_super) {
   }
 
   KDInputRadioGroup.prototype.setDomElement = function() {
-    var disabledClass, div, i, label, options, radio, radioOptions, _i, _len, _ref;
+    var disabledClass, div, i, j, label, len, options, radio, radioOptions, ref;
     options = this.getOptions();
     this.domElement = $("<fieldset class='" + (this.utils.curry('radiogroup kdinput', options.cssClass)) + "'></fieldset>");
-    _ref = options.radios;
-    for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
-      radioOptions = _ref[i];
+    ref = options.radios;
+    for (i = j = 0, len = ref.length; j < len; i = ++j) {
+      radioOptions = ref[i];
       if (radioOptions.visible == null) {
         radioOptions.visible = true;
       }
@@ -5053,14 +5053,14 @@ module.exports = KDInputRadioGroup = (function(_super) {
         name: options.name,
         value: radioOptions.value,
         "class": "no-kdinput" + (options.hideRadios ? ' hidden' : ''),
-        id: "" + (this.getId()) + "_" + (this.getType()) + "_" + i,
+        id: (this.getId()) + "_" + (this.getType()) + "_" + i,
         change: radioOptions.callback
       });
       if (radioOptions.disabled) {
         radio[0].setAttribute('disabled', 'disabled');
       }
       label = $("<label/>", {
-        "for": "" + (this.getId()) + "_" + (this.getType()) + "_" + i,
+        "for": (this.getId()) + "_" + (this.getType()) + "_" + i,
         html: radioOptions.title,
         "class": options.cssClassPrefix + this.utils.slugify(radioOptions.value)
       });
@@ -5131,15 +5131,15 @@ module.exports = KDInputRadioGroup = (function(_super) {
 
 },{"./inputview":44,"jquery":111}],42:[function(require,module,exports){
 var $, KDInputSwitch, KDInputView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
 KDInputView = require('./inputview');
 
-module.exports = KDInputSwitch = (function(_super) {
-  __extends(KDInputSwitch, _super);
+module.exports = KDInputSwitch = (function(superClass) {
+  extend(KDInputSwitch, superClass);
 
   function KDInputSwitch(options) {
     if (options == null) {
@@ -5275,7 +5275,7 @@ module.exports = KDInputValidator = (function() {
   function KDInputValidator() {}
 
   KDInputValidator.ruleRequired = function(input, event) {
-    var doesValidate, ruleSet, value, _ref;
+    var doesValidate, ref, ruleSet, value;
     if ((event != null ? event.which : void 0) === 9) {
       return;
     }
@@ -5285,12 +5285,12 @@ module.exports = KDInputValidator = (function() {
     if (doesValidate) {
       return null;
     } else {
-      return ((_ref = ruleSet.messages) != null ? _ref.required : void 0) || "Field is required";
+      return ((ref = ruleSet.messages) != null ? ref.required : void 0) || "Field is required";
     }
   };
 
   KDInputValidator.ruleEmail = function(input, event) {
-    var doesValidate, ruleSet, value, _ref;
+    var doesValidate, ref, ruleSet, value;
     if ((event != null ? event.which : void 0) === 9) {
       return;
     }
@@ -5300,12 +5300,12 @@ module.exports = KDInputValidator = (function() {
     if (doesValidate) {
       return null;
     } else {
-      return ((_ref = ruleSet.messages) != null ? _ref.email : void 0) || "Please enter a valid email address";
+      return ((ref = ruleSet.messages) != null ? ref.email : void 0) || "Please enter a valid email address";
     }
   };
 
   KDInputValidator.ruleMinLength = function(input, event) {
-    var doesValidate, minLength, ruleSet, value, _ref;
+    var doesValidate, minLength, ref, ruleSet, value;
     if ((event != null ? event.which : void 0) === 9) {
       return;
     }
@@ -5316,12 +5316,12 @@ module.exports = KDInputValidator = (function() {
     if (doesValidate) {
       return null;
     } else {
-      return ((_ref = ruleSet.messages) != null ? _ref.minLength : void 0) || ("Please enter a value that has " + minLength + " characters or more");
+      return ((ref = ruleSet.messages) != null ? ref.minLength : void 0) || ("Please enter a value that has " + minLength + " characters or more");
     }
   };
 
   KDInputValidator.ruleMaxLength = function(input, event) {
-    var doesValidate, maxLength, ruleSet, value, _ref;
+    var doesValidate, maxLength, ref, ruleSet, value;
     if ((event != null ? event.which : void 0) === 9) {
       return;
     }
@@ -5332,12 +5332,12 @@ module.exports = KDInputValidator = (function() {
     if (doesValidate) {
       return null;
     } else {
-      return ((_ref = ruleSet.messages) != null ? _ref.maxLength : void 0) || ("Please enter a value that has " + maxLength + " characters or less");
+      return ((ref = ruleSet.messages) != null ? ref.maxLength : void 0) || ("Please enter a value that has " + maxLength + " characters or less");
     }
   };
 
   KDInputValidator.ruleRangeLength = function(input, event) {
-    var doesValidate, rangeLength, ruleSet, value, _ref;
+    var doesValidate, rangeLength, ref, ruleSet, value;
     if ((event != null ? event.which : void 0) === 9) {
       return;
     }
@@ -5348,12 +5348,12 @@ module.exports = KDInputValidator = (function() {
     if (doesValidate) {
       return null;
     } else {
-      return ((_ref = ruleSet.messages) != null ? _ref.rangeLength : void 0) || ("Please enter a value that has more than " + rangeLength[0] + " and less than " + rangeLength[1] + " characters");
+      return ((ref = ruleSet.messages) != null ? ref.rangeLength : void 0) || ("Please enter a value that has more than " + rangeLength[0] + " and less than " + rangeLength[1] + " characters");
     }
   };
 
   KDInputValidator.ruleMatch = function(input, event) {
-    var doesValidate, match, matchView, matchViewVal, ruleSet, value, _ref;
+    var doesValidate, match, matchView, matchViewVal, ref, ruleSet, value;
     if ((event != null ? event.which : void 0) === 9) {
       return;
     }
@@ -5366,7 +5366,7 @@ module.exports = KDInputValidator = (function() {
     if (doesValidate) {
       return null;
     } else {
-      return ((_ref = ruleSet.messages) != null ? _ref.match : void 0) || "Values do not match";
+      return ((ref = ruleSet.messages) != null ? ref.match : void 0) || "Values do not match";
     }
   };
 
@@ -5380,7 +5380,7 @@ module.exports = KDInputValidator = (function() {
     Discover:         start with 6011 or 65. All have 16 digits.
     JCB:              start with 2131 or 1800 have 15 digits. JCB cards beginning with 35 have 16 digits.
      */
-    var doesValidate, ruleSet, type, value, _ref;
+    var doesValidate, ref, ruleSet, type, value;
     if ((event != null ? event.which : void 0) === 9) {
       return;
     }
@@ -5392,12 +5392,12 @@ module.exports = KDInputValidator = (function() {
       input.emit("CreditCardTypeIdentified", type);
       return null;
     } else {
-      return ((_ref = ruleSet.messages) != null ? _ref.creditCard : void 0) || "Please enter a valid credit card number";
+      return ((ref = ruleSet.messages) != null ? ref.creditCard : void 0) || "Please enter a valid credit card number";
     }
   };
 
   KDInputValidator.ruleJSON = function(input, event) {
-    var doesValidate, err, ruleSet, value, _ref;
+    var doesValidate, err, ref, ruleSet, value;
     if ((event != null ? event.which : void 0) === 9) {
       return;
     }
@@ -5416,12 +5416,12 @@ module.exports = KDInputValidator = (function() {
     if (doesValidate) {
       return null;
     } else {
-      return ((_ref = ruleSet.messages) != null ? _ref.JSON : void 0) || "a valid JSON is required";
+      return ((ref = ruleSet.messages) != null ? ref.JSON : void 0) || "a valid JSON is required";
     }
   };
 
   KDInputValidator.ruleRegExp = function(input, event) {
-    var doesValidate, regExp, ruleSet, value, _ref;
+    var doesValidate, ref, regExp, ruleSet, value;
     if ((event != null ? event.which : void 0) === 9) {
       return;
     }
@@ -5432,12 +5432,12 @@ module.exports = KDInputValidator = (function() {
     if (doesValidate) {
       return null;
     } else {
-      return ((_ref = ruleSet.messages) != null ? _ref.regExp : void 0) || "Validation failed";
+      return ((ref = ruleSet.messages) != null ? ref.regExp : void 0) || "Validation failed";
     }
   };
 
   KDInputValidator.ruleUri = function(input, event) {
-    var doesValidate, regExp, ruleSet, value, _ref;
+    var doesValidate, ref, regExp, ruleSet, value;
     if ((event != null ? event.which : void 0) === 9) {
       return;
     }
@@ -5448,7 +5448,7 @@ module.exports = KDInputValidator = (function() {
     if (doesValidate) {
       return null;
     } else {
-      return ((_ref = ruleSet.messages) != null ? _ref.uri : void 0) || "Not a valid URI";
+      return ((ref = ruleSet.messages) != null ? ref.uri : void 0) || "Not a valid URI";
     }
   };
 
@@ -5467,9 +5467,9 @@ Credits
 
 },{"../../core/kd":99,"jquery":111}],44:[function(require,module,exports){
 var $, Encoder, KD, KDInputValidator, KDInputView, KDNotificationView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty,
+  indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 $ = require('jquery');
 
@@ -5507,8 +5507,8 @@ Encoder = require('htmlencode');
  * *(An Enter key)*, we create a notification with the value of the field.
  */
 
-module.exports = KDInputView = (function(_super) {
-  __extends(KDInputView, _super);
+module.exports = KDInputView = (function(superClass) {
+  extend(KDInputView, superClass);
 
 
   /**
@@ -5739,21 +5739,21 @@ module.exports = KDInputView = (function(_super) {
   };
 
   KDInputView.prototype.setSelectOptions = function(options) {
-    var $optGroup, optGroup, option, subOptions, _i, _j, _len, _len1;
+    var $optGroup, i, j, len, len1, optGroup, option, subOptions;
     if (!options.length) {
       for (optGroup in options) {
-        if (!__hasProp.call(options, optGroup)) continue;
+        if (!hasProp.call(options, optGroup)) continue;
         subOptions = options[optGroup];
         $optGroup = $("<optgroup label='" + optGroup + "'/>");
         this.$().append($optGroup);
-        for (_i = 0, _len = subOptions.length; _i < _len; _i++) {
-          option = subOptions[_i];
+        for (i = 0, len = subOptions.length; i < len; i++) {
+          option = subOptions[i];
           $optGroup.append("<option value='" + option.value + "'>" + option.title + "</option>");
         }
       }
     } else if (options.length) {
-      for (_j = 0, _len1 = options.length; _j < _len1; _j++) {
-        option = options[_j];
+      for (j = 0, len1 = options.length; j < len1; j++) {
+        option = options[j];
         this.$().append("<option value='" + option.value + "'>" + option.title + "</option>");
       }
     } else {
@@ -5824,10 +5824,10 @@ module.exports = KDInputView = (function(_super) {
    */
 
   KDInputView.prototype.setValue = function(value) {
-    var $el, el, _ref;
+    var $el, el, ref;
     $el = this.$();
     el = $el[0];
-    if ((_ref = this.getOption("type")) === "checkbox" || _ref === "radio") {
+    if ((ref = this.getOption("type")) === "checkbox" || ref === "radio") {
       if (value) {
         return el.setAttribute("checked", "checked");
       } else {
@@ -5866,28 +5866,28 @@ module.exports = KDInputView = (function(_super) {
   };
 
   KDInputView.prototype.setValidation = function(ruleSet) {
-    var oldCallback, oldCallbacks, oldEventName, _i, _len, _ref;
+    var i, len, oldCallback, oldCallbacks, oldEventName, ref;
     this.valid = false;
     this.currentRuleset = ruleSet;
     this.validationCallbacks || (this.validationCallbacks = {});
     this.createRuleChain(ruleSet);
-    _ref = this.validationCallbacks;
-    for (oldEventName in _ref) {
-      if (!__hasProp.call(_ref, oldEventName)) continue;
-      oldCallbacks = _ref[oldEventName];
-      for (_i = 0, _len = oldCallbacks.length; _i < _len; _i++) {
-        oldCallback = oldCallbacks[_i];
+    ref = this.validationCallbacks;
+    for (oldEventName in ref) {
+      if (!hasProp.call(ref, oldEventName)) continue;
+      oldCallbacks = ref[oldEventName];
+      for (i = 0, len = oldCallbacks.length; i < len; i++) {
+        oldCallback = oldCallbacks[i];
         this.off(oldEventName, oldCallback);
       }
     }
     return this.ruleChain.forEach((function(_this) {
       return function(rule) {
-        var cb, eventName, _base;
+        var base, cb, eventName;
         eventName = ruleSet.events ? ruleSet.events[rule] ? ruleSet.events[rule] : ruleSet.event ? ruleSet.event : void 0 : ruleSet.event ? ruleSet.event : void 0;
         if (eventName) {
-          (_base = _this.validationCallbacks)[eventName] || (_base[eventName] = []);
+          (base = _this.validationCallbacks)[eventName] || (base[eventName] = []);
           _this.validationCallbacks[eventName].push(cb = function(event) {
-            if (__indexOf.call(_this.ruleChain, rule) >= 0) {
+            if (indexOf.call(_this.ruleChain, rule) >= 0) {
               return _this.validate(rule, event);
             }
           });
@@ -5898,7 +5898,7 @@ module.exports = KDInputView = (function(_super) {
   };
 
   KDInputView.prototype.validate = function(rule, event) {
-    var allClear, errMsg, result, ruleSet, rulesToBeValidated, _ref;
+    var allClear, errMsg, ref, result, ruleSet, rulesToBeValidated;
     if (event == null) {
       event = {};
     }
@@ -5922,10 +5922,10 @@ module.exports = KDInputView = (function(_super) {
       this.valid = true;
     }
     allClear = true;
-    _ref = this.validationResults;
-    for (result in _ref) {
-      if (!__hasProp.call(_ref, result)) continue;
-      errMsg = _ref[result];
+    ref = this.validationResults;
+    for (result in ref) {
+      if (!hasProp.call(ref, result)) continue;
+      errMsg = ref[result];
       if (errMsg) {
         allClear = false;
       }
@@ -5939,26 +5939,26 @@ module.exports = KDInputView = (function(_super) {
   };
 
   KDInputView.prototype.createRuleChain = function(ruleSet) {
-    var rule, rules, value, _i, _len, _ref, _results;
+    var i, len, ref, results, rule, rules, value;
     rules = ruleSet.rules;
     this.validationResults || (this.validationResults = {});
     this.ruleChain = typeof rules === "object" ? (function() {
-      var _results;
-      _results = [];
+      var results;
+      results = [];
       for (rule in rules) {
-        if (!__hasProp.call(rules, rule)) continue;
+        if (!hasProp.call(rules, rule)) continue;
         value = rules[rule];
-        _results.push(rule);
+        results.push(rule);
       }
-      return _results;
+      return results;
     })() : [rules];
-    _ref = this.ruleChain;
-    _results = [];
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      rule = _ref[_i];
-      _results.push(this.validationResults[rule] = null);
+    ref = this.ruleChain;
+    results = [];
+    for (i = 0, len = ref.length; i < len; i++) {
+      rule = ref[i];
+      results.push(this.validationResults[rule] = null);
     }
-    return _results;
+    return results;
   };
 
   KDInputView.prototype.setValidationResult = function(rule, err, showNotification) {
@@ -5976,15 +5976,15 @@ module.exports = KDInputView = (function(_super) {
     } else {
       this.validationResults[rule] = null;
       return this.valid = !(((function() {
-        var _ref, _results;
-        _ref = this.validationResults;
-        _results = [];
-        for (k in _ref) {
-          if (!__hasProp.call(_ref, k)) continue;
-          v = _ref[k];
-          _results.push(v);
+        var ref, results;
+        ref = this.validationResults;
+        results = [];
+        for (k in ref) {
+          if (!hasProp.call(ref, k)) continue;
+          v = ref[k];
+          results.push(v);
         }
-        return _results;
+        return results;
       }).call(this)).map(function(result) {
         return Boolean(result);
       }).indexOf(true) > -1);
@@ -5992,11 +5992,11 @@ module.exports = KDInputView = (function(_super) {
   };
 
   KDInputView.prototype.showValidationError = function(message) {
-    var container, notice, notifications, str, _ref, _ref1;
-    if ((_ref = this.validationNotifications[message]) != null) {
-      _ref.destroy();
+    var container, notice, notifications, ref, ref1, str;
+    if ((ref = this.validationNotifications[message]) != null) {
+      ref.destroy();
     }
-    _ref1 = this.getOption('validate'), container = _ref1.container, notifications = _ref1.notifications;
+    ref1 = this.getOption('validate'), container = ref1.container, notifications = ref1.notifications;
     if ((notifications != null ? notifications.type : void 0) === 'tooltip') {
       if (this.tooltip) {
         str = "- " + message + "<br>" + (this.tooltip.getOption('title'));
@@ -6253,15 +6253,15 @@ module.exports = KDInputView = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"../notifications/notificationview":60,"./inputvalidator":43,"htmlencode":115,"jquery":111}],45:[function(require,module,exports){
 var $, KDLabelView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
 KDView = require('../../core/view');
 
-module.exports = KDLabelView = (function(_super) {
-  __extends(KDLabelView, _super);
+module.exports = KDLabelView = (function(superClass) {
+  extend(KDLabelView, superClass);
 
   function KDLabelView(options) {
     if ((options != null ? options.title : void 0) != null) {
@@ -6295,18 +6295,18 @@ module.exports = KDLabelView = (function(_super) {
 
 },{"../../core/view":105,"jquery":111}],46:[function(require,module,exports){
 var $, KDInputView, KDMultipleChoice,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty,
+  indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 $ = require('jquery');
 
 KDInputView = require('./inputview');
 
-module.exports = KDMultipleChoice = (function(_super) {
+module.exports = KDMultipleChoice = (function(superClass) {
   var setCurrent;
 
-  __extends(KDMultipleChoice, _super);
+  extend(KDMultipleChoice, superClass);
 
   function KDMultipleChoice(options, data) {
     if (options == null) {
@@ -6336,11 +6336,11 @@ module.exports = KDMultipleChoice = (function(_super) {
   }
 
   KDMultipleChoice.prototype.setDomElement = function(cssClass) {
-    var activeClass, clsName, defaultValue, i, label, labelItems, labels, name, titles, _i, _len, _ref;
-    _ref = this.getOptions(), titles = _ref.titles, labels = _ref.labels, name = _ref.name, defaultValue = _ref.defaultValue;
+    var activeClass, clsName, defaultValue, i, j, label, labelItems, labels, len, name, ref, titles;
+    ref = this.getOptions(), titles = ref.titles, labels = ref.labels, name = ref.name, defaultValue = ref.defaultValue;
     this.inputName = name;
     labelItems = "";
-    for (i = _i = 0, _len = labels.length; _i < _len; i = ++_i) {
+    for (i = j = 0, len = labels.length; j < len; i = ++j) {
       label = labels[i];
       activeClass = label === defaultValue ? ' active' : '';
       clsName = "multiple-choice-" + label + activeClass;
@@ -6358,7 +6358,7 @@ module.exports = KDMultipleChoice = (function(_super) {
   };
 
   setCurrent = function(view, label) {
-    if (__indexOf.call(view.currentValue, label) >= 0) {
+    if (indexOf.call(view.currentValue, label) >= 0) {
       view.$("a[name$='" + label + "']").removeClass('active');
       return view.currentValue.splice(view.currentValue.indexOf(label), 1);
     } else {
@@ -6375,34 +6375,34 @@ module.exports = KDMultipleChoice = (function(_super) {
   };
 
   KDMultipleChoice.prototype.setValue = function(label, wCallback) {
-    var multiple, obj, val, _ref;
+    var multiple, obj, ref, val;
     if (wCallback == null) {
       wCallback = true;
     }
     multiple = this.getOptions().multiple;
     if (multiple) {
-      this.oldValue = (_ref = [
+      this.oldValue = (ref = [
         (function() {
-          var _i, _len, _ref1, _results;
-          _ref1 = this.currentValue;
-          _results = [];
-          for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-            obj = _ref1[_i];
-            _results.push(obj);
+          var j, len, ref1, results;
+          ref1 = this.currentValue;
+          results = [];
+          for (j = 0, len = ref1.length; j < len; j++) {
+            obj = ref1[j];
+            results.push(obj);
           }
-          return _results;
+          return results;
         }).call(this)
-      ]) != null ? _ref.first : void 0;
+      ]) != null ? ref.first : void 0;
       if (Array.isArray(label)) {
         [
           (function() {
-            var _i, _len, _results;
-            _results = [];
-            for (_i = 0, _len = label.length; _i < _len; _i++) {
-              val = label[_i];
-              _results.push(setCurrent(this, val));
+            var j, len, results;
+            results = [];
+            for (j = 0, len = label.length; j < len; j++) {
+              val = label[j];
+              results.push(setCurrent(this, val));
             }
-            return _results;
+            return results;
           }).call(this)
         ];
       } else {
@@ -6458,8 +6458,8 @@ module.exports = KDMultipleChoice = (function(_super) {
 
 },{"./inputview":44,"jquery":111}],47:[function(require,module,exports){
 var $, KD, KDInputView, KDOnOffSwitch,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -6467,8 +6467,8 @@ KD = require('../../core/kd');
 
 KDInputView = require('./inputview');
 
-module.exports = KDOnOffSwitch = (function(_super) {
-  __extends(KDOnOffSwitch, _super);
+module.exports = KDOnOffSwitch = (function(superClass) {
+  extend(KDOnOffSwitch, superClass);
 
   function KDOnOffSwitch(options, data) {
     if (options == null) {
@@ -6488,8 +6488,8 @@ module.exports = KDOnOffSwitch = (function(_super) {
   }
 
   KDOnOffSwitch.prototype.setDomElement = function(cssClass) {
-    var labels, name, title, _ref;
-    _ref = this.getOptions(), title = _ref.title, labels = _ref.labels, name = _ref.name;
+    var labels, name, ref, title;
+    ref = this.getOptions(), title = ref.title, labels = ref.labels, name = ref.name;
     if (title !== '') {
       title = "<span>" + title + "</span>";
     }
@@ -6581,8 +6581,8 @@ module.exports = KDOnOffSwitch = (function(_super) {
 
 },{"../../core/kd":99,"./inputview":44,"jquery":111}],48:[function(require,module,exports){
 var $, KD, KDInputView, KDSelectBox,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -6590,8 +6590,8 @@ KD = require('../../core/kd');
 
 KDInputView = require('./inputview');
 
-module.exports = KDSelectBox = (function(_super) {
-  __extends(KDSelectBox, _super);
+module.exports = KDSelectBox = (function(superClass) {
+  extend(KDSelectBox, superClass);
 
   function KDSelectBox(options) {
     if (options == null) {
@@ -6614,10 +6614,10 @@ module.exports = KDSelectBox = (function(_super) {
   KDSelectBox.prototype.bindEvents = function() {
     this._$select.bind("blur change focus", (function(_this) {
       return function(event) {
-        var _base;
+        var base;
         if (event.type === "change") {
-          if (typeof (_base = _this.getCallback()) === "function") {
-            _base(_this.getValue());
+          if (typeof (base = _this.getCallback()) === "function") {
+            base(_this.getValue());
           }
         }
         _this.emit(event.type, event, _this.getValue());
@@ -6660,23 +6660,23 @@ module.exports = KDSelectBox = (function(_super) {
   };
 
   KDSelectBox.prototype.setSelectOptions = function(options) {
-    var $optGroup, firstOption, optGroup, option, subOptions, value, _i, _j, _len, _len1;
+    var $optGroup, firstOption, i, j, len, len1, optGroup, option, subOptions, value;
     firstOption = null;
     if (!options.length) {
       for (optGroup in options) {
-        if (!__hasProp.call(options, optGroup)) continue;
+        if (!hasProp.call(options, optGroup)) continue;
         subOptions = options[optGroup];
         $optGroup = $("<optgroup label='" + optGroup + "'/>");
         this._$select.append($optGroup);
-        for (_i = 0, _len = subOptions.length; _i < _len; _i++) {
-          option = subOptions[_i];
+        for (i = 0, len = subOptions.length; i < len; i++) {
+          option = subOptions[i];
           firstOption || (firstOption = option);
           $optGroup.append("<option value='" + option.value + "'>" + option.title + "</option>");
         }
       }
     } else if (options.length) {
-      for (_j = 0, _len1 = options.length; _j < _len1; _j++) {
-        option = options[_j];
+      for (j = 0, len1 = options.length; j < len1; j++) {
+        option = options[j];
         this._$select.append("<option value='" + option.value + "'>" + option.title + "</option>");
         firstOption || (firstOption = option);
       }
@@ -6713,8 +6713,8 @@ module.exports = KDSelectBox = (function(_super) {
 
 },{"../../core/kd":99,"./inputview":44,"jquery":111}],49:[function(require,module,exports){
 var Encoder, KD, KDContentEditableView, KDContextMenu, KDTokenizedInput,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -6724,8 +6724,8 @@ KDContextMenu = require('../contextmenu/contextmenu');
 
 Encoder = require('htmlencode');
 
-module.exports = KDTokenizedInput = (function(_super) {
-  __extends(KDTokenizedInput, _super);
+module.exports = KDTokenizedInput = (function(superClass) {
+  extend(KDTokenizedInput, superClass);
 
   function KDTokenizedInput(options, data) {
     if (options == null) {
@@ -6740,15 +6740,15 @@ module.exports = KDTokenizedInput = (function(_super) {
   }
 
   KDTokenizedInput.prototype.getValue = function(options) {
-    var node, nodeValue, value, _i, _len, _ref, _ref1;
+    var i, len, node, nodeValue, ref, ref1, value;
     if (options == null) {
       options = {};
     }
     value = "";
-    _ref = this.getEditableElement().childNodes;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      node = _ref[_i];
-      if (((_ref1 = node.tagName) != null ? _ref1.toLowerCase() : void 0) === "div") {
+    ref = this.getEditableElement().childNodes;
+    for (i = 0, len = ref.length; i < len; i++) {
+      node = ref[i];
+      if (((ref1 = node.tagName) != null ? ref1.toLowerCase() : void 0) === "div") {
         value += "\n";
       }
       nodeValue = this.getValueOfNode(node);
@@ -6779,8 +6779,8 @@ module.exports = KDTokenizedInput = (function(_super) {
   };
 
   KDTokenizedInput.prototype.getValueOfElement = function(element) {
-    var child, key, tagName, value, _i, _len, _ref, _ref1;
-    key = (_ref = element.dataset) != null ? _ref.key : void 0;
+    var child, i, key, len, ref, ref1, tagName, value;
+    key = (ref = element.dataset) != null ? ref.key : void 0;
     if (key) {
       value = this.getValueOfTokenElement(key);
     }
@@ -6793,9 +6793,9 @@ module.exports = KDTokenizedInput = (function(_super) {
         return "\n";
       default:
         value = "";
-        _ref1 = element.childNodes;
-        for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-          child = _ref1[_i];
+        ref1 = element.childNodes;
+        for (i = 0, len = ref1.length; i < len; i++) {
+          child = ref1[i];
           value += this.getValueOfNode(child);
         }
         return value || "";
@@ -6815,14 +6815,14 @@ module.exports = KDTokenizedInput = (function(_super) {
   };
 
   KDTokenizedInput.prototype.findTokensInElement = function(element) {
-    var child, data, key, tokens, type, view, _i, _len, _ref, _ref1;
+    var child, data, i, key, len, ref, ref1, tokens, type, view;
     tokens = [];
-    _ref = element.childNodes;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      child = _ref[_i];
+    ref = element.childNodes;
+    for (i = 0, len = ref.length; i < len; i++) {
+      child = ref[i];
       switch (child.nodeType) {
         case Node.ELEMENT_NODE:
-          if (key = (_ref1 = child.dataset) != null ? _ref1.key : void 0) {
+          if (key = (ref1 = child.dataset) != null ? ref1.key : void 0) {
             view = this.getTokenView(key);
             type = view.getOptions().type;
             data = view.getData();
@@ -6843,7 +6843,7 @@ module.exports = KDTokenizedInput = (function(_super) {
   };
 
   KDTokenizedInput.prototype.matchPrefix = function() {
-    var char, name, node, range, rule, start, _ref, _ref1, _results;
+    var char, name, node, range, ref, ref1, results, rule, start;
     if (this.tokenInput) {
       return;
     }
@@ -6851,26 +6851,26 @@ module.exports = KDTokenizedInput = (function(_super) {
       return;
     }
     node = range.commonAncestorContainer;
-    if (((_ref = node.children) != null ? _ref.length : void 0) === 1) {
+    if (((ref = node.children) != null ? ref.length : void 0) === 1) {
       return node.textContent === node.children[0].textContent;
     }
     start = range.startOffset - 1;
     char = node.textContent[start];
-    _ref1 = this.getOptions().rules;
-    _results = [];
-    for (name in _ref1) {
-      rule = _ref1[name];
+    ref1 = this.getOptions().rules;
+    results = [];
+    for (name in ref1) {
+      rule = ref1[name];
       if (char === rule.prefix) {
         this.activeRule = rule;
         this.tokenInput = document.createElement("span");
         this.tokenInput.textContent = rule.prefix;
         this.utils.replaceRange(node, this.tokenInput, start, start + rule.prefix.length);
-        _results.push(this.utils.selectText(this.tokenInput, rule.prefix.length));
+        results.push(this.utils.selectText(this.tokenInput, rule.prefix.length));
       } else {
-        _results.push(void 0);
+        results.push(void 0);
       }
     }
-    return _results;
+    return results;
   };
 
   KDTokenizedInput.prototype.matchToken = function() {
@@ -6898,12 +6898,12 @@ module.exports = KDTokenizedInput = (function(_super) {
   KDTokenizedInput.prototype.sanitizeInput = function() {};
 
   KDTokenizedInput.prototype.showMenu = function(options, data) {
-    var pos, _ref;
+    var pos, ref;
     if (options == null) {
       options = {};
     }
-    if ((_ref = this.menu) != null) {
-      _ref.destroy();
+    if ((ref = this.menu) != null) {
+      ref.destroy();
     }
     this.menu = null;
     if (!(this.tokenInput && data.length)) {
@@ -6921,9 +6921,9 @@ module.exports = KDTokenizedInput = (function(_super) {
   };
 
   KDTokenizedInput.prototype.hideMenu = function() {
-    var _ref;
-    if ((_ref = this.menu) != null) {
-      _ref.destroy();
+    var ref;
+    if ((ref = this.menu) != null) {
+      ref.destroy();
     }
     this.menu = null;
     this.activeRule = null;
@@ -6936,18 +6936,18 @@ module.exports = KDTokenizedInput = (function(_super) {
   };
 
   KDTokenizedInput.prototype.addToken = function(item, tokenViewClass) {
-    var pistachio, prefix, tokenElement, tokenKey, tokenView, type, _ref;
+    var pistachio, prefix, ref, tokenElement, tokenKey, tokenView, type;
     if (tokenViewClass == null) {
       tokenViewClass = this.getOptions().tokenViewClass;
     }
-    _ref = this.activeRule, type = _ref.type, prefix = _ref.prefix, pistachio = _ref.pistachio;
+    ref = this.activeRule, type = ref.type, prefix = ref.prefix, pistachio = ref.pistachio;
     tokenView = new tokenViewClass({
       type: type,
       prefix: prefix,
       pistachio: pistachio
     }, item);
     tokenElement = tokenView.getElement();
-    tokenKey = "" + (tokenView.getId()) + "-" + (tokenView.getKey());
+    tokenKey = (tokenView.getId()) + "-" + (tokenView.getKey());
     this.tokenViews[tokenKey] = tokenView;
     tokenView.setAttributes({
       "data-key": tokenKey
@@ -7017,18 +7017,18 @@ module.exports = KDTokenizedInput = (function(_super) {
   };
 
   KDTokenizedInput.prototype.reset = function() {
-    var id, view, _ref, _results;
+    var id, ref, results, view;
     this.setPlaceholder();
     this.blur();
-    _ref = this.tokenViews;
-    _results = [];
-    for (id in _ref) {
-      if (!__hasProp.call(_ref, id)) continue;
-      view = _ref[id];
+    ref = this.tokenViews;
+    results = [];
+    for (id in ref) {
+      if (!hasProp.call(ref, id)) continue;
+      view = ref[id];
       view.destroy();
-      _results.push(delete this.tokenViews[id]);
+      results.push(delete this.tokenViews[id]);
     }
-    return _results;
+    return results;
   };
 
   KDTokenizedInput.prototype.viewAppended = function() {
@@ -7044,19 +7044,19 @@ module.exports = KDTokenizedInput = (function(_super) {
 
 },{"../../core/kd":99,"../contextmenu/contextmenu":21,"./contenteditableview":37,"htmlencode":115}],50:[function(require,module,exports){
 var KDInputView, KDWmdInput,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KDInputView = require('./inputview');
 
-module.exports = KDWmdInput = (function(_super) {
-  __extends(KDWmdInput, _super);
+module.exports = KDWmdInput = (function(superClass) {
+  extend(KDWmdInput, superClass);
 
   function KDWmdInput(options, data) {
-    var _ref;
+    var ref;
     options = options != null ? options : {};
     options.type = "textarea";
-    options.preview = (_ref = options.preview) != null ? _ref : false;
+    options.preview = (ref = options.preview) != null ? ref : false;
     KDWmdInput.__super__.constructor.call(this, options, data);
     this.setClass("monospace");
   }
@@ -7080,21 +7080,21 @@ module.exports = KDWmdInput = (function(_super) {
 
 },{"./inputview":44}],51:[function(require,module,exports){
 var KDListItemView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KDView = require('../../core/view');
 
-module.exports = KDListItemView = (function(_super) {
-  __extends(KDListItemView, _super);
+module.exports = KDListItemView = (function(superClass) {
+  extend(KDListItemView, superClass);
 
   function KDListItemView(options, data) {
-    var _ref, _ref1;
+    var ref, ref1;
     if (options == null) {
       options = {};
     }
-    options.type = (_ref = options.type) != null ? _ref : "default";
-    options.cssClass = "kdlistitemview kdlistitemview-" + options.type + " " + ((_ref1 = options.cssClass) != null ? _ref1 : '');
+    options.type = (ref = options.type) != null ? ref : "default";
+    options.cssClass = "kdlistitemview kdlistitemview-" + options.type + " " + ((ref1 = options.cssClass) != null ? ref1 : '');
     options.bind || (options.bind = "mouseenter mouseleave");
     options.childClass || (options.childClass = null);
     options.childOptions || (options.childOptions = {});
@@ -7106,8 +7106,8 @@ module.exports = KDListItemView = (function(_super) {
   }
 
   KDListItemView.prototype.viewAppended = function() {
-    var childClass, childOptions, _ref;
-    _ref = this.getOptions(), childClass = _ref.childClass, childOptions = _ref.childOptions;
+    var childClass, childOptions, ref;
+    ref = this.getOptions(), childClass = ref.childClass, childOptions = ref.childOptions;
     if (childClass) {
       return this.addSubView(this.child = new childClass(childOptions, this.getData()));
     } else {
@@ -7151,8 +7151,8 @@ module.exports = KDListItemView = (function(_super) {
 
 },{"../../core/view":105}],52:[function(require,module,exports){
 var KD, KDListItemView, KDListView, KDListViewBox, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -7162,8 +7162,8 @@ KDView = require('../../core/view');
 
 KDListViewBox = require('./listviewbox');
 
-module.exports = KDListView = (function(_super) {
-  __extends(KDListView, _super);
+module.exports = KDListView = (function(superClass) {
+  extend(KDListView, superClass);
 
   function KDListView(options, data) {
     if (options == null) {
@@ -7186,10 +7186,10 @@ module.exports = KDListView = (function(_super) {
   }
 
   KDListView.prototype.empty = function() {
-    var i, item, _i, _len, _ref;
-    _ref = this.items;
-    for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
-      item = _ref[i];
+    var i, item, j, len, ref;
+    ref = this.items;
+    for (i = j = 0, len = ref.length; j < len; i = ++j) {
+      item = ref[i];
       if (item) {
         item.destroy();
       }
@@ -7227,9 +7227,9 @@ module.exports = KDListView = (function(_super) {
   };
 
   KDListView.prototype.addItem = function(itemData, index) {
-    var itemChildClass, itemChildOptions, itemClass, itemInstance, itemOptions, _ref;
+    var itemChildClass, itemChildOptions, itemClass, itemInstance, itemOptions, ref;
     index = this.sanitizeIndex(index);
-    _ref = this.getOptions(), itemOptions = _ref.itemOptions, itemClass = _ref.itemClass, itemChildClass = _ref.itemChildClass, itemChildOptions = _ref.itemChildOptions;
+    ref = this.getOptions(), itemOptions = ref.itemOptions, itemClass = ref.itemClass, itemChildClass = ref.itemChildClass, itemChildOptions = ref.itemChildOptions;
     if (itemClass == null) {
       itemClass = KDListItemView;
     }
@@ -7258,21 +7258,22 @@ module.exports = KDListView = (function(_super) {
   };
 
   KDListView.prototype.destroy = function() {
-    var item, _i, _len, _ref;
-    _ref = this.items;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      item = _ref[_i];
+    var item, j, len, ref;
+    ref = this.items;
+    for (j = 0, len = ref.length; j < len; j++) {
+      item = ref[j];
       item.destroy();
     }
     return KDListView.__super__.destroy.apply(this, arguments);
   };
 
   KDListView.prototype.insertItemAtIndex = function(item, index) {
-    var addNeighborItem, box, boxed, isFirstIndex, isInBetween, isLastIndex, itemsPerBox, lastToFirst, which, _ref;
-    _ref = this.getOptions(), boxed = _ref.boxed, lastToFirst = _ref.lastToFirst;
-    isLastIndex = index >= this.items.length - 1;
+    var addNeighborItem, box, boxed, endIndex, isFirstIndex, isInBetween, isLastIndex, itemsPerBox, lastToFirst, ref, which;
+    ref = this.getOptions(), boxed = ref.boxed, lastToFirst = ref.lastToFirst;
+    endIndex = this.items.length - 1;
+    isLastIndex = index > endIndex;
     isFirstIndex = index === 0;
-    isInBetween = (0 < index && index < this.items.length - 1);
+    isInBetween = (0 < index && index <= endIndex);
     if (isFirstIndex) {
       this.items.unshift(item);
     } else if (isLastIndex) {
@@ -7283,9 +7284,10 @@ module.exports = KDListView = (function(_super) {
     this.emit('ItemWasAdded', item, index);
     addNeighborItem = (function(_this) {
       return function(item, index) {
-        var element, neighborItem;
+        var element, neighborIndex, neighborItem;
         element = item.getElement();
-        neighborItem = _this.items[index + 1].getElement();
+        neighborIndex = _this.items.length - 1 === index ? index : index + 1;
+        neighborItem = _this.items[neighborIndex].getElement();
         neighborItem.parentNode.insertBefore(element, neighborItem);
         if (_this.parentIsInDom) {
           return item.emit('viewAppended');
@@ -7324,8 +7326,8 @@ module.exports = KDListView = (function(_super) {
   };
 
   KDListView.prototype.packageItem = function(itemInstance, prepend) {
-    var items, itemsPerBox, lastToFirst, newBox, potentialBox, _ref;
-    _ref = this.getOptions(), itemsPerBox = _ref.itemsPerBox, lastToFirst = _ref.lastToFirst;
+    var items, itemsPerBox, lastToFirst, newBox, potentialBox, ref;
+    ref = this.getOptions(), itemsPerBox = ref.itemsPerBox, lastToFirst = ref.lastToFirst;
     newBox = (function(_this) {
       return function() {
         var box;
@@ -7356,11 +7358,11 @@ module.exports = KDListView = (function(_super) {
     this.addSubView(box, null, prepend);
     box.on('BoxIsEmptied', (function(_this) {
       return function(id) {
-        var i, index, _box, _i, _len, _ref;
+        var _box, i, index, j, len, ref;
         index = null;
-        _ref = _this.boxes;
-        for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
-          _box = _ref[i];
+        ref = _this.boxes;
+        for (i = j = 0, len = ref.length; j < len; i = ++j) {
+          _box = ref[i];
           if (!(_box.getId() === id)) {
             continue;
           }
@@ -7451,15 +7453,15 @@ module.exports = KDListView = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"./listitemview":51,"./listviewbox":53}],53:[function(require,module,exports){
 var KDCustomHTMLView, KDListItemView, KDListViewBox,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KDListItemView = require('./listitemview');
 
 KDCustomHTMLView = require('../../core/customhtmlview');
 
-module.exports = KDListViewBox = (function(_super) {
-  __extends(KDListViewBox, _super);
+module.exports = KDListViewBox = (function(superClass) {
+  extend(KDListViewBox, superClass);
 
   function KDListViewBox(options) {
     if (options == null) {
@@ -7491,9 +7493,9 @@ module.exports = KDListViewBox = (function(_super) {
 
 },{"../../core/customhtmlview":96,"./listitemview":51}],54:[function(require,module,exports){
 var KD, KDCustomHTMLView, KDCustomScrollView, KDListView, KDListViewController, KDLoaderView, KDScrollView, KDView, KDViewController,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty,
+  indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 KD = require('../../core/kd');
 
@@ -7511,8 +7513,8 @@ KDListView = require('../list/listview');
 
 KDLoaderView = require('../loader/loaderview');
 
-module.exports = KDListViewController = (function(_super) {
-  __extends(KDListViewController, _super);
+module.exports = KDListViewController = (function(superClass) {
+  extend(KDListViewController, superClass);
 
   function KDListViewController(options, data) {
     var listView, noItemFoundWidget, viewOptions;
@@ -7618,8 +7620,8 @@ module.exports = KDListViewController = (function(_super) {
   }
 
   KDListViewController.prototype.loadView = function(mainView) {
-    var noItemFoundWidget, scrollView, startWithLazyLoader, windowController, _ref, _ref1;
-    _ref = this.getOptions(), scrollView = _ref.scrollView, startWithLazyLoader = _ref.startWithLazyLoader, noItemFoundWidget = _ref.noItemFoundWidget;
+    var noItemFoundWidget, ref, ref1, scrollView, startWithLazyLoader, windowController;
+    ref = this.getOptions(), scrollView = ref.scrollView, startWithLazyLoader = ref.startWithLazyLoader, noItemFoundWidget = ref.noItemFoundWidget;
     windowController = KD.getSingleton('windowController');
     if (scrollView) {
       mainView.addSubView(this.customScrollView || this.scrollView);
@@ -7632,20 +7634,20 @@ module.exports = KDListViewController = (function(_super) {
     if (noItemFoundWidget) {
       this.putNoItemView();
     }
-    this.instantiateListItems(((_ref1 = this.getData()) != null ? _ref1.items : void 0) || []);
+    this.instantiateListItems(((ref1 = this.getData()) != null ? ref1.items : void 0) || []);
     return windowController.on("ReceivedMouseUpElsewhere", this.bound('mouseUpHappened'));
   };
 
   KDListViewController.prototype.instantiateListItems = function(items) {
     var itemData, newItems;
     newItems = (function() {
-      var _i, _len, _results;
-      _results = [];
-      for (_i = 0, _len = items.length; _i < _len; _i++) {
-        itemData = items[_i];
-        _results.push(this.addItem(itemData));
+      var i, len, results;
+      results = [];
+      for (i = 0, len = items.length; i < len; i++) {
+        itemData = items[i];
+        results.push(this.addItem(itemData));
       }
-      return _results;
+      return results;
     }).call(this);
     this.emit('AllItemsAddedToList');
     return newItems;
@@ -7689,9 +7691,9 @@ module.exports = KDListViewController = (function(_super) {
   };
 
   KDListViewController.prototype.forEachItemByIndex = function(ids, callback) {
-    var _ref;
+    var ref;
     if (!callback) {
-      _ref = [ids, callback], callback = _ref[0], ids = _ref[1];
+      ref = [ids, callback], callback = ref[0], ids = ref[1];
     }
     if (!Array.isArray(ids)) {
       ids = [ids];
@@ -7714,17 +7716,17 @@ module.exports = KDListViewController = (function(_super) {
   };
 
   KDListViewController.prototype.showNoItemWidget = function() {
-    var _ref;
+    var ref;
     if (this.getListItems().length === 0) {
       this.emit('ListIsEmptied');
-      return (_ref = this.noItemView) != null ? _ref.show() : void 0;
+      return (ref = this.noItemView) != null ? ref.show() : void 0;
     }
   };
 
   KDListViewController.prototype.hideNoItemWidget = function() {
-    var _ref;
-    if ((_ref = this.noItemView) != null) {
-      _ref.hide();
+    var ref;
+    if ((ref = this.noItemView) != null) {
+      ref.hide();
     }
     return this.emit('ListIsNoMoreEmpty');
   };
@@ -7757,12 +7759,12 @@ module.exports = KDListViewController = (function(_super) {
   };
 
   KDListViewController.prototype.registerItem = function(itemInstance, index) {
-    var id, keyNav, multipleSelection, selection, _ref;
+    var id, keyNav, multipleSelection, ref, selection;
     if (itemInstance.getItemDataId() != null) {
       id = itemInstance.getItemDataId();
       this.itemsIndexed[id] = itemInstance;
     }
-    _ref = this.getOptions(), selection = _ref.selection, keyNav = _ref.keyNav, multipleSelection = _ref.multipleSelection;
+    ref = this.getOptions(), selection = ref.selection, keyNav = ref.keyNav, multipleSelection = ref.multipleSelection;
     if (selection) {
       itemInstance.on('click', (function(_this) {
         return function(event) {
@@ -7821,7 +7823,7 @@ module.exports = KDListViewController = (function(_super) {
       KD.getSingleton("windowController").setKeyView(this.getListView());
     }
     this.lastEvent = event;
-    if (__indexOf.call(this.selectedItems, item) < 0) {
+    if (indexOf.call(this.selectedItems, item) < 0) {
       this.mouseDown = true;
       this.mouseDownTempItem = item;
       return this.mouseDownTimer = setTimeout((function(_this) {
@@ -7895,7 +7897,7 @@ module.exports = KDListViewController = (function(_super) {
     if (event.shiftKey && this.selectedItems.length > 0) {
       this.selectItemsByRange(this.selectedItems[0], item);
     } else {
-      if (__indexOf.call(this.selectedItems, item) < 0) {
+      if (indexOf.call(this.selectedItems, item) < 0) {
         this.selectSingleItem(item);
       } else {
         this.deselectSingleItem(item);
@@ -7949,18 +7951,18 @@ module.exports = KDListViewController = (function(_super) {
   };
 
   KDListViewController.prototype.deselectAllItems = function() {
-    var deselectedItems, selectedItem, _i, _len, _ref, _results;
-    _ref = this.selectedItems;
-    _results = [];
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      selectedItem = _ref[_i];
+    var deselectedItems, i, len, ref, results, selectedItem;
+    ref = this.selectedItems;
+    results = [];
+    for (i = 0, len = ref.length; i < len; i++) {
+      selectedItem = ref[i];
       selectedItem.removeHighlight();
       deselectedItems = this.selectedItems.concat([]);
       this.selectedItems = [];
       this.getListView().unsetClass("last-item-selected");
-      _results.push(this.itemDeselectionPerformed(deselectedItems));
+      results.push(this.itemDeselectionPerformed(deselectedItems));
     }
-    return _results;
+    return results;
   };
 
   KDListViewController.prototype.deselectSingleItem = function(item) {
@@ -7977,7 +7979,7 @@ module.exports = KDListViewController = (function(_super) {
   KDListViewController.prototype.selectSingleItem = function(item) {
     var items;
     items = this.getListItems();
-    if (item.getOption("selectable") && !(__indexOf.call(this.selectedItems, item) >= 0)) {
+    if (item.getOption("selectable") && !(indexOf.call(this.selectedItems, item) >= 0)) {
       item.highlight();
       this.selectedItems.push(item);
       if (item === items[items.length - 1]) {
@@ -7988,26 +7990,26 @@ module.exports = KDListViewController = (function(_super) {
   };
 
   KDListViewController.prototype.selectAllItems = function() {
-    var item, _i, _len, _ref, _results;
-    _ref = this.getListItems();
-    _results = [];
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      item = _ref[_i];
-      _results.push(this.selectSingleItem(item));
+    var i, item, len, ref, results;
+    ref = this.getListItems();
+    results = [];
+    for (i = 0, len = ref.length; i < len; i++) {
+      item = ref[i];
+      results.push(this.selectSingleItem(item));
     }
-    return _results;
+    return results;
   };
 
   KDListViewController.prototype.selectItemsByRange = function(item1, item2) {
-    var indicesToBeSliced, item, items, itemsToBeSelected, _i, _len;
+    var i, indicesToBeSliced, item, items, itemsToBeSelected, len;
     items = this.getListItems();
     indicesToBeSliced = [items.indexOf(item1), items.indexOf(item2)];
     indicesToBeSliced.sort(function(a, b) {
       return a - b;
     });
     itemsToBeSelected = items.slice(indicesToBeSliced[0], indicesToBeSliced[1] + 1);
-    for (_i = 0, _len = itemsToBeSelected.length; _i < _len; _i++) {
-      item = itemsToBeSelected[_i];
+    for (i = 0, len = itemsToBeSelected.length; i < len; i++) {
+      item = itemsToBeSelected[i];
       this.selectSingleItem(item);
     }
     return this.itemSelectionPerformed();
@@ -8089,15 +8091,15 @@ module.exports = KDListViewController = (function(_super) {
 
 },{"../../core/customhtmlview":96,"../../core/kd":99,"../../core/view":105,"../../core/viewcontroller":106,"../list/listview":52,"../loader/loaderview":55,"../scrollview/customscrollview":64,"../scrollview/scrollview":68}],55:[function(require,module,exports){
 var KDLoaderView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 require('canvas-loader');
 
 KDView = require('../../core/view');
 
-module.exports = KDLoaderView = (function(_super) {
-  __extends(KDLoaderView, _super);
+module.exports = KDLoaderView = (function(superClass) {
+  extend(KDLoaderView, superClass);
 
   function KDLoaderView(options, data) {
     var o;
@@ -8123,18 +8125,18 @@ module.exports = KDLoaderView = (function(_super) {
       }
     };
     options.loaderOptions.diameter = options.size.height = options.size.width;
-    options.cssClass = o.cssClass ? "" + o.cssClass + " kdloader" : "kdloader";
+    options.cssClass = o.cssClass ? o.cssClass + " kdloader" : "kdloader";
     KDLoaderView.__super__.constructor.call(this, options, data);
   }
 
   KDLoaderView.prototype.viewAppended = function() {
-    var height, loaderOptions, option, showLoader, value, _ref;
+    var height, loaderOptions, option, ref, showLoader, value;
     this.canvas = new CanvasLoader(this.getElement(), {
       id: "cl_" + this.id
     });
-    _ref = this.getOptions(), loaderOptions = _ref.loaderOptions, showLoader = _ref.showLoader;
+    ref = this.getOptions(), loaderOptions = ref.loaderOptions, showLoader = ref.showLoader;
     for (option in loaderOptions) {
-      if (!__hasProp.call(loaderOptions, option)) continue;
+      if (!hasProp.call(loaderOptions, option)) continue;
       value = loaderOptions[option];
       this.canvas["set" + (option.capitalize())](value);
     }
@@ -8169,8 +8171,8 @@ module.exports = KDLoaderView = (function(_super) {
 
 },{"../../core/view":105,"canvas-loader":114}],56:[function(require,module,exports){
 var $, KD, KDBlockingModalView, KDModalView, KDOverlayView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -8180,8 +8182,8 @@ KDModalView = require('./modalview');
 
 KDOverlayView = require('../overlay/overlayview');
 
-module.exports = KDBlockingModalView = (function(_super) {
-  __extends(KDBlockingModalView, _super);
+module.exports = KDBlockingModalView = (function(superClass) {
+  extend(KDBlockingModalView, superClass);
 
   function KDBlockingModalView(options, data) {
     if (options == null) {
@@ -8225,8 +8227,8 @@ module.exports = KDBlockingModalView = (function(_super) {
 
 },{"../../core/kd":99,"../overlay/overlayview":61,"./modalview":57,"jquery":111}],57:[function(require,module,exports){
 var $, KD, KDButtonView, KDModalView, KDModalViewStack, KDOverlayView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -8240,8 +8242,8 @@ KDButtonView = require('../buttons/buttonview');
 
 KDModalViewStack = require('./modalviewstack');
 
-module.exports = KDModalView = (function(_super) {
-  __extends(KDModalView, _super);
+module.exports = KDModalView = (function(superClass) {
+  extend(KDModalView, superClass);
 
   function KDModalView(options, data) {
     var modalButtonsInnerWidth;
@@ -8343,8 +8345,8 @@ module.exports = KDModalView = (function(_super) {
   }
 
   KDModalView.prototype.setDomElement = function(cssClass) {
-    var helpButton, helpContent, helpTitle, _ref;
-    _ref = this.getOptions(), helpContent = _ref.helpContent, helpTitle = _ref.helpTitle;
+    var helpButton, helpContent, helpTitle, ref;
+    ref = this.getOptions(), helpContent = ref.helpContent, helpTitle = ref.helpTitle;
     if (helpContent) {
       helpButton = "<span class='showHelp'>" + helpTitle + "</span>";
     } else {
@@ -8367,7 +8369,7 @@ module.exports = KDModalView = (function(_super) {
   };
 
   KDModalView.prototype.setButtons = function(buttonDataSet, destroyExists) {
-    var button, buttonOptions, buttonTitle, defaultFocusTitle, focused, _ref;
+    var button, buttonOptions, buttonTitle, defaultFocusTitle, focused, ref;
     if (destroyExists == null) {
       destroyExists = false;
     }
@@ -8378,7 +8380,7 @@ module.exports = KDModalView = (function(_super) {
       this.destroyButtons();
     }
     for (buttonTitle in buttonDataSet) {
-      if (!__hasProp.call(buttonDataSet, buttonTitle)) continue;
+      if (!hasProp.call(buttonDataSet, buttonTitle)) continue;
       buttonOptions = buttonDataSet[buttonTitle];
       if (defaultFocusTitle == null) {
         defaultFocusTitle = buttonTitle;
@@ -8390,20 +8392,20 @@ module.exports = KDModalView = (function(_super) {
       }
     }
     if (!focused && defaultFocusTitle) {
-      return (_ref = this.buttons[defaultFocusTitle]) != null ? _ref.setFocus() : void 0;
+      return (ref = this.buttons[defaultFocusTitle]) != null ? ref.setFocus() : void 0;
     }
   };
 
   KDModalView.prototype.destroyButtons = function() {
-    var button, _key, _ref, _results;
-    _ref = this.buttons;
-    _results = [];
-    for (_key in _ref) {
-      if (!__hasProp.call(_ref, _key)) continue;
-      button = _ref[_key];
-      _results.push(button.destroy());
+    var _key, button, ref, results;
+    ref = this.buttons;
+    results = [];
+    for (_key in ref) {
+      if (!hasProp.call(ref, _key)) continue;
+      button = ref[_key];
+      results.push(button.destroy());
     }
-    return _results;
+    return results;
   };
 
   KDModalView.prototype.click = function(e) {
@@ -8452,8 +8454,8 @@ module.exports = KDModalView = (function(_super) {
   KDModalView.prototype.setPositions = function() {
     return this.utils.defer((function(_this) {
       return function() {
-        var bottom, height, left, newRules, right, top, width, _ref;
-        _ref = _this.getOptions().position, top = _ref.top, right = _ref.right, bottom = _ref.bottom, left = _ref.left;
+        var bottom, height, left, newRules, ref, right, top, width;
+        ref = _this.getOptions().position, top = ref.top, right = ref.right, bottom = ref.bottom, left = ref.left;
         newRules = {};
         height = $(window).height();
         width = $(window).width();
@@ -8481,8 +8483,8 @@ module.exports = KDModalView = (function(_super) {
   };
 
   KDModalView.prototype.putOverlay = function() {
-    var overlayClick, overlayOptions, _ref;
-    _ref = this.getOptions(), overlayOptions = _ref.overlayOptions, overlayClick = _ref.overlayClick;
+    var overlayClick, overlayOptions, ref;
+    ref = this.getOptions(), overlayOptions = ref.overlayOptions, overlayClick = ref.overlayClick;
     if (overlayOptions == null) {
       overlayOptions = {};
     }
@@ -8534,7 +8536,7 @@ module.exports = KDModalView = (function(_super) {
   };
 
   KDModalView.prototype.destroy = function() {
-    var uber, _ref;
+    var ref, uber;
     $(window).off("keydown.modal");
     uber = KDView.prototype.destroy.bind(this);
     if (this.options.fx) {
@@ -8544,24 +8546,24 @@ module.exports = KDModalView = (function(_super) {
       this.getDomElement().hide();
       uber();
     }
-    if ((_ref = this.overlay) != null) {
-      _ref.destroy();
+    if ((ref = this.overlay) != null) {
+      ref.destroy();
     }
     return this.emit('KDModalViewDestroyed', this);
   };
 
   KDModalView.prototype.hide = function() {
-    var _ref;
-    if ((_ref = this.overlay) != null) {
-      _ref.hide();
+    var ref;
+    if ((ref = this.overlay) != null) {
+      ref.hide();
     }
     return KDModalView.__super__.hide.apply(this, arguments);
   };
 
   KDModalView.prototype.show = function() {
-    var _ref;
-    if ((_ref = this.overlay) != null) {
-      _ref.show();
+    var ref;
+    if ((ref = this.overlay) != null) {
+      ref.show();
     }
     return KDModalView.__super__.show.apply(this, arguments);
   };
@@ -8605,12 +8607,12 @@ module.exports = KDModalView = (function(_super) {
       buttons: {
         OK: {
           title: ok.title,
-          style: ok.style || "modal-clean-red",
+          style: ok.style || "solid red medium",
           callback: ok.callback || noop
         },
         cancel: {
           title: cancel.title,
-          style: cancel.style || "modal-cancel",
+          style: cancel.style || "solid light-gray medium",
           callback: cancel.callback || noop
         }
       }
@@ -8629,8 +8631,8 @@ module.exports = KDModalView = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"../buttons/buttonview":18,"../overlay/overlayview":61,"./modalviewstack":58,"jquery":111}],58:[function(require,module,exports){
 var KD, KDModalView, KDModalViewStack, KDObject,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -8638,8 +8640,8 @@ KDModalView = require('./modalview');
 
 KDObject = require('../../core/object');
 
-module.exports = KDModalViewStack = (function(_super) {
-  __extends(KDModalViewStack, _super);
+module.exports = KDModalViewStack = (function(superClass) {
+  extend(KDModalViewStack, superClass);
 
   function KDModalViewStack(options, data) {
     if (options == null) {
@@ -8681,14 +8683,14 @@ module.exports = KDModalViewStack = (function(_super) {
   };
 
   KDModalViewStack.prototype.next = function() {
-    var lastToFirst, _ref, _ref1;
+    var lastToFirst, ref, ref1;
     lastToFirst = this.getOptions().lastToFirst;
     if (lastToFirst) {
       this.modals.pop();
-      return (_ref = this.modals.last) != null ? _ref.show() : void 0;
+      return (ref = this.modals.last) != null ? ref.show() : void 0;
     } else {
       this.modals.shift();
-      return (_ref1 = this.modals.first) != null ? _ref1.show() : void 0;
+      return (ref1 = this.modals.first) != null ? ref1.show() : void 0;
     }
   };
 
@@ -8710,15 +8712,15 @@ module.exports = KDModalViewStack = (function(_super) {
 
 },{"../../core/kd":99,"../../core/object":102,"./modalview":57}],59:[function(require,module,exports){
 var KDModalView, KDModalViewWithForms, KDTabViewWithForms,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KDModalView = require('./modalview');
 
 KDTabViewWithForms = require('../tabs/tabviewwithforms');
 
-module.exports = KDModalViewWithForms = (function(_super) {
-  __extends(KDModalViewWithForms, _super);
+module.exports = KDModalViewWithForms = (function(superClass) {
+  extend(KDModalViewWithForms, superClass);
 
   function KDModalViewWithForms(options, data) {
     this.modalButtons = [];
@@ -8729,25 +8731,25 @@ module.exports = KDModalViewWithForms = (function(_super) {
   KDModalViewWithForms.prototype.aggregateFormData = function() {
     var data, form, formName;
     data = (function() {
-      var _ref, _results;
-      _ref = this.modalTabs.forms;
-      _results = [];
-      for (formName in _ref) {
-        if (!__hasProp.call(_ref, formName)) continue;
-        form = _ref[formName];
-        _results.push({
+      var ref, results;
+      ref = this.modalTabs.forms;
+      results = [];
+      for (formName in ref) {
+        if (!hasProp.call(ref, formName)) continue;
+        form = ref[formName];
+        results.push({
           name: formName,
           data: form.getData()
         });
       }
-      return _results;
+      return results;
     }).call(this);
     return data.reduce(function(acc, form) {
-      var key, val, _ref;
-      _ref = form.data;
-      for (key in _ref) {
-        if (!__hasProp.call(_ref, key)) continue;
-        val = _ref[key];
+      var key, ref, val;
+      ref = form.data;
+      for (key in ref) {
+        if (!hasProp.call(ref, key)) continue;
+        val = ref[key];
         if (key in acc) {
           console.warn("Property " + key + " will be overwitten!");
         }
@@ -8765,8 +8767,8 @@ module.exports = KDModalViewWithForms = (function(_super) {
 
 },{"../tabs/tabviewwithforms":82,"./modalview":57}],60:[function(require,module,exports){
 var $, KDLoaderView, KDNotificationView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -8774,8 +8776,8 @@ KDView = require('../../core/view');
 
 KDLoaderView = require('../loader/loaderview');
 
-module.exports = KDNotificationView = (function(_super) {
-  __extends(KDNotificationView, _super);
+module.exports = KDNotificationView = (function(superClass) {
+  extend(KDNotificationView, superClass);
 
   function KDNotificationView(options) {
     KDNotificationView.__super__.constructor.call(this, options);
@@ -8859,7 +8861,7 @@ module.exports = KDNotificationView = (function(_super) {
   };
 
   KDNotificationView.prototype.notificationSetPositions = function() {
-    var bottomMargin, i, notification, sameTypeNotifications, styles, topMargin, winHeight, winWidth, _i, _j, _len, _len1;
+    var bottomMargin, i, k, l, len, len1, notification, sameTypeNotifications, styles, topMargin, winHeight, winWidth;
     this.setClass(this.notificationType);
     sameTypeNotifications = $("body").find(".kdnotification." + this.notificationType);
     if (this.getOptions().container) {
@@ -8872,7 +8874,7 @@ module.exports = KDNotificationView = (function(_super) {
     switch (this.notificationType) {
       case "tray":
         bottomMargin = 8;
-        for (i = _i = 0, _len = sameTypeNotifications.length; _i < _len; i = ++_i) {
+        for (i = k = 0, len = sameTypeNotifications.length; k < len; i = ++k) {
           notification = sameTypeNotifications[i];
           if (i !== 0) {
             bottomMargin += $(notification).outerHeight(false) + 8;
@@ -8886,7 +8888,7 @@ module.exports = KDNotificationView = (function(_super) {
         break;
       case "growl":
         topMargin = 63;
-        for (i = _j = 0, _len1 = sameTypeNotifications.length; _j < _len1; i = ++_j) {
+        for (i = l = 0, len1 = sameTypeNotifications.length; l < len1; i = ++l) {
           notification = sameTypeNotifications[i];
           if (i !== 0) {
             topMargin += $(notification).outerHeight(false) + 8;
@@ -8919,28 +8921,28 @@ module.exports = KDNotificationView = (function(_super) {
   };
 
   KDNotificationView.prototype.notificationRepositionOtherNotifications = function() {
-    var elm, h, heights, i, j, newValue, options, position, sameTypeNotifications, _i, _j, _len, _len1, _ref, _results;
+    var elm, h, heights, i, j, k, l, len, len1, newValue, options, position, ref, results, sameTypeNotifications;
     sameTypeNotifications = $("body").find(".kdnotification." + this.notificationType);
     heights = (function() {
-      var _i, _len, _results;
-      _results = [];
-      for (i = _i = 0, _len = sameTypeNotifications.length; _i < _len; i = ++_i) {
+      var k, len, results;
+      results = [];
+      for (i = k = 0, len = sameTypeNotifications.length; k < len; i = ++k) {
         elm = sameTypeNotifications[i];
-        _results.push($(elm).outerHeight(false));
+        results.push($(elm).outerHeight(false));
       }
-      return _results;
+      return results;
     })();
-    _results = [];
-    for (i = _i = 0, _len = sameTypeNotifications.length; _i < _len; i = ++_i) {
+    results = [];
+    for (i = k = 0, len = sameTypeNotifications.length; k < len; i = ++k) {
       elm = sameTypeNotifications[i];
       switch (this.notificationType) {
         case "tray":
         case "growl":
           newValue = 0;
           position = this.notificationType === "tray" ? "bottom" : "top";
-          _ref = heights.slice(0, +i + 1 || 9e9);
-          for (j = _j = 0, _len1 = _ref.length; _j < _len1; j = ++_j) {
-            h = _ref[j];
+          ref = heights.slice(0, +i + 1 || 9e9);
+          for (j = l = 0, len1 = ref.length; l < len1; j = ++l) {
+            h = ref[j];
             if (j !== 0) {
               newValue += h;
             } else {
@@ -8949,13 +8951,13 @@ module.exports = KDNotificationView = (function(_super) {
           }
           options = {};
           options[position] = newValue + i * 8;
-          _results.push($(elm).css(options));
+          results.push($(elm).css(options));
           break;
         default:
-          _results.push(void 0);
+          results.push(void 0);
       }
     }
-    return _results;
+    return results;
   };
 
   KDNotificationView.prototype.notificationSetCloseHandle = function(closeManually) {
@@ -9010,8 +9012,8 @@ module.exports = KDNotificationView = (function(_super) {
     chainDuration = 0;
     return followUps.forEach((function(_this) {
       return function(followUp) {
-        var _ref;
-        chainDuration += (_ref = followUp.duration) != null ? _ref : 10000;
+        var ref;
+        chainDuration += (ref = followUp.duration) != null ? ref : 10000;
         return _this.utils.wait(chainDuration, function() {
           if (followUp.title) {
             _this.notificationSetTitle(followUp.title);
@@ -9076,7 +9078,7 @@ module.exports = KDNotificationView = (function(_super) {
   };
 
   KDNotificationView.prototype.setLoader = function() {
-    var diameters, loader, _ref, _ref1, _ref2, _ref3;
+    var diameters, loader, ref, ref1, ref2, ref3;
     this.setClass("w-loader");
     loader = this.getOptions().loader;
     diameters = {
@@ -9094,10 +9096,10 @@ module.exports = KDNotificationView = (function(_super) {
         color: loader.color || "#ffffff",
         shape: loader.shape || "spiral",
         diameter: loader.diameter,
-        density: (_ref = loader.density) != null ? _ref : 30,
-        range: (_ref1 = loader.range) != null ? _ref1 : 0.4,
-        speed: (_ref2 = loader.speed) != null ? _ref2 : 1.5,
-        FPS: (_ref3 = loader.FPS) != null ? _ref3 : 24
+        density: (ref = loader.density) != null ? ref : 30,
+        range: (ref1 = loader.range) != null ? ref1 : 0.4,
+        speed: (ref2 = loader.speed) != null ? ref2 : 1.5,
+        FPS: (ref3 = loader.FPS) != null ? ref3 : 24
       }
     });
     this.addSubView(this.loader, null, true);
@@ -9142,15 +9144,15 @@ module.exports = KDNotificationView = (function(_super) {
 
 },{"../../core/view":105,"../loader/loaderview":55,"jquery":111}],61:[function(require,module,exports){
 var KD, KDOverlayView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
 KDView = require('../../core/view');
 
-module.exports = KDOverlayView = (function(_super) {
-  __extends(KDOverlayView, _super);
+module.exports = KDOverlayView = (function(superClass) {
+  extend(KDOverlayView, superClass);
 
   function KDOverlayView(options, data) {
     if (options == null) {
@@ -9242,15 +9244,15 @@ module.exports = KDOverlayView = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105}],62:[function(require,module,exports){
 var KD, KDSpotlightView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
 KDView = require('../../core/view');
 
-module.exports = KDSpotlightView = (function(_super) {
-  __extends(KDSpotlightView, _super);
+module.exports = KDSpotlightView = (function(superClass) {
+  extend(KDSpotlightView, superClass);
 
   function KDSpotlightView(options, data) {
     if (options == null) {
@@ -9275,12 +9277,12 @@ module.exports = KDSpotlightView = (function(_super) {
   }
 
   KDSpotlightView.prototype.createElements = function() {
-    var boundaries, height, isRemovable, left, position, top, view, width, _ref, _results;
+    var boundaries, height, isRemovable, left, position, ref, results, top, view, width;
     isRemovable = this.getOptions().isRemovable;
-    _ref = this.getBoundaries();
-    _results = [];
-    for (position in _ref) {
-      boundaries = _ref[position];
+    ref = this.getBoundaries();
+    results = [];
+    for (position in ref) {
+      boundaries = ref[position];
       width = boundaries.width, height = boundaries.height, top = boundaries.top, left = boundaries.left;
       if (width > 0 && height > 0) {
         view = new KDView({
@@ -9302,12 +9304,12 @@ module.exports = KDSpotlightView = (function(_super) {
             };
           })(this));
         }
-        _results.push(this.addSubView(view));
+        results.push(this.addSubView(view));
       } else {
-        _results.push(void 0);
+        results.push(void 0);
       }
     }
-    return _results;
+    return results;
   };
 
   KDSpotlightView.prototype.getBoundaries = function() {
@@ -9370,15 +9372,15 @@ module.exports = KDSpotlightView = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105}],63:[function(require,module,exports){
 var KD, KDCustomHTMLView, KDProgressBarView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
 KDCustomHTMLView = require('../../core/customhtmlview');
 
-module.exports = KDProgressBarView = (function(_super) {
-  __extends(KDProgressBarView, _super);
+module.exports = KDProgressBarView = (function(superClass) {
+  extend(KDProgressBarView, superClass);
 
   function KDProgressBarView(options, data) {
     if (options == null) {
@@ -9398,8 +9400,8 @@ module.exports = KDProgressBarView = (function(_super) {
   }
 
   KDProgressBarView.prototype.viewAppended = function() {
-    var initial, title, _ref;
-    _ref = this.getOptions(), initial = _ref.initial, title = _ref.title;
+    var initial, ref, title;
+    ref = this.getOptions(), initial = ref.initial, title = ref.title;
     this.createBar();
     return this.updateBar(initial || 1, "%", title);
   };
@@ -9438,8 +9440,8 @@ module.exports = KDProgressBarView = (function(_super) {
       this.bar.show();
       this.spinner.hide();
       this.bar.setWidth(value, unit);
-      this.darkLabel.updatePartial("" + label + "&nbsp;");
-      return this.lightLabel.updatePartial("" + label + "&nbsp;");
+      this.darkLabel.updatePartial(label + "&nbsp;");
+      return this.lightLabel.updatePartial(label + "&nbsp;");
     } else {
       this.bar.hide();
       return this.spinner.show();
@@ -9454,8 +9456,8 @@ module.exports = KDProgressBarView = (function(_super) {
 
 },{"../../core/customhtmlview":96,"../../core/kd":99}],64:[function(require,module,exports){
 var KD, KDCustomHTMLView, KDCustomScrollView, KDCustomScrollViewWrapper, KDScrollTrack,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -9465,13 +9467,13 @@ KDScrollTrack = require('./scrolltrack');
 
 KDCustomScrollViewWrapper = require('./customscrollviewinner');
 
-module.exports = KDCustomScrollView = (function(_super) {
+module.exports = KDCustomScrollView = (function(superClass) {
   var intent;
 
-  __extends(KDCustomScrollView, _super);
+  extend(KDCustomScrollView, superClass);
 
   function KDCustomScrollView(options, data) {
-    var Wrapper, lazyLoadThreshold, mouseWheelSpeed, wrapperClass, _ref;
+    var Wrapper, lazyLoadThreshold, mouseWheelSpeed, ref, wrapperClass;
     if (options == null) {
       options = {};
     }
@@ -9481,7 +9483,7 @@ module.exports = KDCustomScrollView = (function(_super) {
       options.mouseWheelSpeed = 3;
     }
     KDCustomScrollView.__super__.constructor.call(this, options, data);
-    _ref = this.getOptions(), mouseWheelSpeed = _ref.mouseWheelSpeed, lazyLoadThreshold = _ref.lazyLoadThreshold, wrapperClass = _ref.wrapperClass;
+    ref = this.getOptions(), mouseWheelSpeed = ref.mouseWheelSpeed, lazyLoadThreshold = ref.lazyLoadThreshold, wrapperClass = ref.wrapperClass;
     if (options.offscreenIndicatorClassName != null) {
       this.listenWindowResize();
     }
@@ -9526,12 +9528,12 @@ module.exports = KDCustomScrollView = (function(_super) {
   };
 
   KDCustomScrollView.prototype.updateOffscreenIndicators = function() {
-    var above, below, offscreenIndicatorClassName, wrapperEl, _ref;
+    var above, below, offscreenIndicatorClassName, ref, wrapperEl;
     wrapperEl = this.wrapper.getElement();
     offscreenIndicatorClassName = this.getOptions().offscreenIndicatorClassName;
-    _ref = [].slice.call(wrapperEl.getElementsByClassName(offscreenIndicatorClassName)).reduce(function(memo, child) {
-      var y, _, _ref;
-      _ref = KD.utils.relativeOffset(child, wrapperEl), _ = _ref[0], y = _ref[1];
+    ref = [].slice.call(wrapperEl.getElementsByClassName(offscreenIndicatorClassName)).reduce(function(memo, child) {
+      var _, ref, y;
+      ref = KD.utils.relativeOffset(child, wrapperEl), _ = ref[0], y = ref[1];
       if (y < wrapperEl.scrollTop) {
         memo.above.push(child);
       } else if (y > wrapperEl.scrollTop + wrapperEl.offsetHeight) {
@@ -9541,7 +9543,7 @@ module.exports = KDCustomScrollView = (function(_super) {
     }, {
       above: [],
       below: []
-    }), above = _ref.above, below = _ref.below;
+    }), above = ref.above, below = ref.below;
     if (above.length > 0) {
       this.emit('OffscreenItemsAbove', above);
     } else {
@@ -9587,9 +9589,9 @@ module.exports = KDCustomScrollView = (function(_super) {
 
 
 },{"../../core/customhtmlview":96,"../../core/kd":99,"./customscrollviewinner":65,"./scrolltrack":67}],65:[function(require,module,exports){
-var KD, KDCustomHTMLView, KDCustomScrollViewWrapper, KDScrollThumb, KDScrollTrack, KDScrollView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+var Hammer, KD, KDCustomHTMLView, KDCustomScrollViewWrapper, KDScrollThumb, KDScrollTrack, KDScrollView,
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -9601,11 +9603,48 @@ KDScrollThumb = require('./scrollthumb');
 
 KDScrollTrack = require('./scrolltrack');
 
-module.exports = KDCustomScrollViewWrapper = (function(_super) {
-  __extends(KDCustomScrollViewWrapper, _super);
+Hammer = require('hammerjs');
 
-  function KDCustomScrollViewWrapper() {
-    return KDCustomScrollViewWrapper.__super__.constructor.apply(this, arguments);
+module.exports = KDCustomScrollViewWrapper = (function(superClass) {
+  extend(KDCustomScrollViewWrapper, superClass);
+
+  function KDCustomScrollViewWrapper(options, data) {
+    var calculateEvent, hammer, prevDeltaX, prevDeltaY;
+    if (options == null) {
+      options = {};
+    }
+    KDCustomScrollViewWrapper.__super__.constructor.call(this, options, data);
+    if (!KD.utils.isTouchDevice()) {
+      return;
+    }
+    hammer = new Hammer(this.getElement());
+    hammer.get('pan').set({
+      direction: Hammer.DIRECTION_ALL
+    });
+    prevDeltaX = prevDeltaY = 0;
+    calculateEvent = function(event) {
+      var currentDeltaX, currentDeltaY, currentVeloX, currentVeloY, deltaX, deltaY, direction, velocityX, velocityY;
+      event.stopPropagation = function() {};
+      event.preventDefault = function() {};
+      velocityX = event.velocityX, velocityY = event.velocityY, deltaX = event.deltaX, deltaY = event.deltaY, direction = event.direction;
+      currentDeltaX = deltaX;
+      currentDeltaY = deltaY;
+      currentVeloX = Math.min(.5, velocityX * (direction === 16 ? -1 : 1));
+      currentVeloY = Math.min(.5, velocityY * (direction === 16 ? -1 : 1));
+      event.deltaX = (currentDeltaX - prevDeltaX) * currentVeloX;
+      event.deltaY = (currentDeltaY - prevDeltaY) * currentVeloY;
+      prevDeltaX = currentDeltaX;
+      prevDeltaY = currentDeltaY;
+      return event;
+    };
+    hammer.on('panend pancancel', function(event) {
+      return prevDeltaX = prevDeltaY = 0;
+    });
+    hammer.on('panup pandown', (function(_this) {
+      return function(event) {
+        return _this.mouseWheel(calculateEvent(event));
+      };
+    })(this));
   }
 
   KDCustomScrollViewWrapper.prototype.scroll = function(event) {
@@ -9639,9 +9678,9 @@ module.exports = KDCustomScrollViewWrapper = (function(_super) {
   KDCustomScrollViewWrapper.prototype._scrollVertically = (function() {
     var lastPosition;
     lastPosition = 0;
-    return function(_arg) {
+    return function(arg) {
       var actPosition, newPosition, shouldStop, speed, stepInPixels, velocity;
-      speed = _arg.speed, velocity = _arg.velocity;
+      speed = arg.speed, velocity = arg.velocity;
       stepInPixels = velocity * speed;
       actPosition = this.getScrollTop();
       newPosition = actPosition + stepInPixels;
@@ -9654,9 +9693,9 @@ module.exports = KDCustomScrollViewWrapper = (function(_super) {
   KDCustomScrollViewWrapper.prototype._scrollHorizontally = (function() {
     var lastPosition;
     lastPosition = 0;
-    return function(_arg) {
+    return function(arg) {
       var actPosition, newPosition, shouldStop, speed, stepInPixels, velocity;
-      speed = _arg.speed, velocity = _arg.velocity;
+      speed = arg.speed, velocity = arg.velocity;
       stepInPixels = velocity * speed;
       actPosition = this.getScrollLeft();
       newPosition = actPosition - stepInPixels;
@@ -9672,20 +9711,20 @@ module.exports = KDCustomScrollViewWrapper = (function(_super) {
 
 
 
-},{"../../core/customhtmlview":96,"../../core/kd":99,"./scrollthumb":66,"./scrolltrack":67,"./scrollview":68}],66:[function(require,module,exports){
+},{"../../core/customhtmlview":96,"../../core/kd":99,"./scrollthumb":66,"./scrolltrack":67,"./scrollview":68,"hammerjs":109}],66:[function(require,module,exports){
 var KD, KDScrollThumb, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
 KDView = require('../../core/view');
 
-module.exports = KDScrollThumb = (function(_super) {
-  __extends(KDScrollThumb, _super);
+module.exports = KDScrollThumb = (function(superClass) {
+  extend(KDScrollThumb, superClass);
 
   function KDScrollThumb(options, data) {
-    var _ref;
+    var ref;
     if (options == null) {
       options = {};
     }
@@ -9698,7 +9737,7 @@ module.exports = KDScrollThumb = (function(_super) {
       };
     }
     KDScrollThumb.__super__.constructor.call(this, options, data);
-    _ref = this.getOptions(), this.type = _ref.type, this.track = _ref.track;
+    ref = this.getOptions(), this.type = ref.type, this.track = ref.track;
     this.view = this.track.getDelegate();
     this.on('viewAppended', this.bound('calculateSize'));
     this.on('DragInAction', this.bound('handleDrag'));
@@ -9836,9 +9875,9 @@ module.exports = KDScrollThumb = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105}],67:[function(require,module,exports){
 var KD, KDScrollThumb, KDScrollTrack, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty,
+  indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 KD = require('../../core/kd');
 
@@ -9846,8 +9885,8 @@ KDView = require('../../core/view');
 
 KDScrollThumb = require('./scrollthumb');
 
-module.exports = KDScrollTrack = (function(_super) {
-  __extends(KDScrollTrack, _super);
+module.exports = KDScrollTrack = (function(superClass) {
+  extend(KDScrollTrack, superClass);
 
   function KDScrollTrack(options, data) {
     if (options == null) {
@@ -9867,7 +9906,7 @@ module.exports = KDScrollTrack = (function(_super) {
 
   KDScrollTrack.prototype.click = function(event) {
     var offset, scrollHeight, scrollWidth, thumbSize;
-    if (__indexOf.call(event.target.classList, 'kdscrolltrack') < 0) {
+    if (indexOf.call(event.target.classList, 'kdscrolltrack') < 0) {
       return;
     }
     thumbSize = this.thumb.getSize(true);
@@ -9904,8 +9943,8 @@ module.exports = KDScrollTrack = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"./scrollthumb":66}],68:[function(require,module,exports){
 var $, KD, KDScrollView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -9915,8 +9954,8 @@ require('jquery-mousewheel')($);
 
 KDView = require('../../core/view');
 
-module.exports = KDScrollView = (function(_super) {
-  __extends(KDScrollView, _super);
+module.exports = KDScrollView = (function(superClass) {
+  extend(KDScrollView, superClass);
 
   function KDScrollView(options, data) {
     if (options == null) {
@@ -10035,13 +10074,13 @@ module.exports = KDScrollView = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"jquery":111,"jquery-mousewheel":110}],69:[function(require,module,exports){
 var KDCustomHTMLView, KDSliderBarHandleView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KDCustomHTMLView = require('../../core/customhtmlview');
 
-module.exports = KDSliderBarHandleView = (function(_super) {
-  __extends(KDSliderBarHandleView, _super);
+module.exports = KDSliderBarHandleView = (function(superClass) {
+  extend(KDSliderBarHandleView, superClass);
 
   function KDSliderBarHandleView(options) {
     if (options == null) {
@@ -10060,8 +10099,8 @@ module.exports = KDSliderBarHandleView = (function(_super) {
   }
 
   KDSliderBarHandleView.prototype.attachEvents = function() {
-    var currentValue, maxValue, minValue, width, _ref;
-    _ref = this.parent.getOptions(), maxValue = _ref.maxValue, minValue = _ref.minValue, width = _ref.width;
+    var currentValue, maxValue, minValue, ref, width;
+    ref = this.parent.getOptions(), maxValue = ref.maxValue, minValue = ref.minValue, width = ref.width;
     currentValue = this.value;
     this.on("DragStarted", function() {
       return currentValue = this.value;
@@ -10083,17 +10122,17 @@ module.exports = KDSliderBarHandleView = (function(_super) {
   };
 
   KDSliderBarHandleView.prototype.getPosition = function() {
-    var maxValue, minValue, percentage, position, sliderWidth, _ref;
-    _ref = this.parent.getOptions(), maxValue = _ref.maxValue, minValue = _ref.minValue;
+    var maxValue, minValue, percentage, position, ref, sliderWidth;
+    ref = this.parent.getOptions(), maxValue = ref.maxValue, minValue = ref.minValue;
     sliderWidth = this.parent.getWidth();
     percentage = ((this.value - minValue) * 100) / (maxValue - minValue);
     position = (sliderWidth / 100) * percentage;
-    return "" + position + "px";
+    return position + "px";
   };
 
   KDSliderBarHandleView.prototype.setValue = function(value) {
-    var leftLimit, rightLimit, _ref;
-    _ref = this.getOptions(), leftLimit = _ref.leftLimit, rightLimit = _ref.rightLimit;
+    var leftLimit, ref, rightLimit;
+    ref = this.getOptions(), leftLimit = ref.leftLimit, rightLimit = ref.rightLimit;
     if (typeof rightLimit === "number") {
       value = Math.min(value, rightLimit);
     }
@@ -10153,9 +10192,9 @@ module.exports = KDSliderBarHandleView = (function(_super) {
 
 },{"../../core/customhtmlview":96}],70:[function(require,module,exports){
 var KD, KDCustomHTMLView, KDSliderBarHandleView, KDSliderBarView,
-  __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -10163,8 +10202,8 @@ KDCustomHTMLView = require('../../core/customhtmlview');
 
 KDSliderBarHandleView = require('./sliderbarhandleview');
 
-module.exports = KDSliderBarView = (function(_super) {
-  __extends(KDSliderBarView, _super);
+module.exports = KDSliderBarView = (function(superClass) {
+  extend(KDSliderBarView, superClass);
 
   function KDSliderBarView(options, data) {
     if (options == null) {
@@ -10173,7 +10212,7 @@ module.exports = KDSliderBarView = (function(_super) {
     if (data == null) {
       data = {};
     }
-    this._createLabel = __bind(this._createLabel, this);
+    this._createLabel = bind(this._createLabel, this);
     options.cssClass = KD.utils.curry("sliderbar-container", options.cssClass);
     if (options.minValue == null) {
       options.minValue = 0;
@@ -10206,10 +10245,10 @@ module.exports = KDSliderBarView = (function(_super) {
   }
 
   KDSliderBarView.prototype.createHandles = function() {
-    var handle, sortRef, value, _i, _len, _ref;
-    _ref = this.getOption("handles");
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      value = _ref[_i];
+    var handle, j, len1, ref, sortRef, value;
+    ref = this.getOption("handles");
+    for (j = 0, len1 = ref.length; j < len1; j++) {
+      value = ref[j];
       this.handles.push(this.addSubView(handle = new KDSliderBarHandleView({
         value: value
       })));
@@ -10228,11 +10267,11 @@ module.exports = KDSliderBarView = (function(_super) {
   };
 
   KDSliderBarView.prototype.drawBar = function() {
-    var diff, handle, left, len, positions, right, _i, _len, _ref;
+    var diff, handle, j, left, len, len1, positions, ref, right;
     positions = [];
-    _ref = this.handles;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      handle = _ref[_i];
+    ref = this.handles;
+    for (j = 0, len1 = ref.length; j < len1; j++) {
+      handle = ref[j];
       positions.push(handle.getRelativeX());
     }
     len = positions.length;
@@ -10245,15 +10284,15 @@ module.exports = KDSliderBarView = (function(_super) {
       }));
     }
     this.bar.setWidth(diff);
-    return this.bar.setX("" + left + "px");
+    return this.bar.setX(left + "px");
   };
 
   KDSliderBarView.prototype.drawOppositeBar = function() {
-    var diff, handle, positions, right, _i, _len, _ref;
+    var diff, handle, j, len1, positions, ref, right;
     positions = [];
-    _ref = this.handles;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      handle = _ref[_i];
+    ref = this.handles;
+    for (j = 0, len1 = ref.length; j < len1; j++) {
+      handle = ref[j];
       positions.push(handle.getRelativeX());
     }
     right = parseInt(positions.last);
@@ -10264,48 +10303,48 @@ module.exports = KDSliderBarView = (function(_super) {
       }));
     }
     this.oppositeBar.setWidth(diff);
-    return this.oppositeBar.setX("" + right + "px");
+    return this.oppositeBar.setX(right + "px");
   };
 
   KDSliderBarView.prototype._createLabel = function(value) {
-    var interval, label, maxValue, minValue, pos, showLabels, _ref;
-    _ref = this.getOptions(), maxValue = _ref.maxValue, minValue = _ref.minValue, interval = _ref.interval, showLabels = _ref.showLabels;
+    var interval, label, maxValue, minValue, pos, ref, showLabels;
+    ref = this.getOptions(), maxValue = ref.maxValue, minValue = ref.minValue, interval = ref.interval, showLabels = ref.showLabels;
     pos = ((value - minValue) * 100) / (maxValue - minValue);
     this.labels.push(this.addSubView(label = new KDCustomHTMLView({
       cssClass: "sliderbar-label",
       partial: "" + value
     })));
-    return label.setX("" + pos + "%");
+    return label.setX(pos + "%");
   };
 
   KDSliderBarView.prototype.addLabels = function() {
-    var interval, maxValue, minValue, showLabels, value, _i, _j, _len, _ref, _results, _results1;
-    _ref = this.getOptions(), maxValue = _ref.maxValue, minValue = _ref.minValue, interval = _ref.interval, showLabels = _ref.showLabels;
+    var interval, j, k, len1, maxValue, minValue, ref, ref1, ref2, ref3, results, results1, showLabels, value;
+    ref = this.getOptions(), maxValue = ref.maxValue, minValue = ref.minValue, interval = ref.interval, showLabels = ref.showLabels;
     if (Array.isArray(showLabels)) {
-      _results = [];
-      for (_i = 0, _len = showLabels.length; _i < _len; _i++) {
-        value = showLabels[_i];
-        _results.push(this._createLabel(value));
+      results = [];
+      for (j = 0, len1 = showLabels.length; j < len1; j++) {
+        value = showLabels[j];
+        results.push(this._createLabel(value));
       }
-      return _results;
+      return results;
     } else {
-      _results1 = [];
-      for (value = _j = minValue; interval > 0 ? _j <= maxValue : _j >= maxValue; value = _j += interval) {
-        _results1.push(this._createLabel(value));
+      results1 = [];
+      for (value = k = ref1 = minValue, ref2 = maxValue, ref3 = interval; ref3 > 0 ? k <= ref2 : k >= ref2; value = k += ref3) {
+        results1.push(this._createLabel(value));
       }
-      return _results1;
+      return results1;
     }
   };
 
   KDSliderBarView.prototype.getValues = function() {
-    var handle, _i, _len, _ref, _results;
-    _ref = this.handles;
-    _results = [];
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      handle = _ref[_i];
-      _results.push(handle.getOptions().value);
+    var handle, j, len1, ref, results;
+    ref = this.handles;
+    results = [];
+    for (j = 0, len1 = ref.length; j < len1; j++) {
+      handle = ref[j];
+      results.push(handle.getOptions().value);
     }
-    return _results;
+    return results;
   };
 
   KDSliderBarView.prototype.setValue = function(value, handle, updateHandle) {
@@ -10330,37 +10369,37 @@ module.exports = KDSliderBarView = (function(_super) {
   };
 
   KDSliderBarView.prototype.setLimits = function() {
-    var handle, i, interval, maxValue, minValue, options, _i, _len, _ref, _ref1, _ref2, _ref3, _results;
-    _ref = this.getOptions(), maxValue = _ref.maxValue, minValue = _ref.minValue, interval = _ref.interval;
+    var handle, i, interval, j, len1, maxValue, minValue, options, ref, ref1, ref2, ref3, results;
+    ref = this.getOptions(), maxValue = ref.maxValue, minValue = ref.minValue, interval = ref.interval;
     if (this.handles.length === 1) {
       this.handles.first.options.leftLimit = minValue;
       return this.handles.first.options.rightLimit = maxValue;
     } else {
-      _ref1 = this.handles;
-      _results = [];
-      for (i = _i = 0, _len = _ref1.length; _i < _len; i = ++_i) {
-        handle = _ref1[i];
+      ref1 = this.handles;
+      results = [];
+      for (i = j = 0, len1 = ref1.length; j < len1; i = ++j) {
+        handle = ref1[i];
         options = handle.getOptions();
-        options.leftLimit = ((_ref2 = this.handles[i - 1]) != null ? _ref2.value : void 0) + interval || minValue;
-        _results.push(options.rightLimit = ((_ref3 = this.handles[i + 1]) != null ? _ref3.value : void 0) - interval || maxValue);
+        options.leftLimit = ((ref2 = this.handles[i - 1]) != null ? ref2.value : void 0) + interval || minValue;
+        results.push(options.rightLimit = ((ref3 = this.handles[i + 1]) != null ? ref3.value : void 0) - interval || maxValue);
       }
-      return _results;
+      return results;
     }
   };
 
   KDSliderBarView.prototype.attachEvents = function() {
     return this.on("click", function(event) {
-      var clickedPos, clickedValue, closestHandle, diff, handle, maxValue, minValue, mindiff, sliderWidth, snappedValue, value, _i, _len, _ref, _ref1;
-      _ref = this.getOptions(), maxValue = _ref.maxValue, minValue = _ref.minValue;
+      var clickedPos, clickedValue, closestHandle, diff, handle, j, len1, maxValue, minValue, mindiff, ref, ref1, sliderWidth, snappedValue, value;
+      ref = this.getOptions(), maxValue = ref.maxValue, minValue = ref.minValue;
       sliderWidth = this.getWidth();
       clickedPos = event.pageX - this.getBounds().x;
       clickedValue = ((maxValue - minValue) * clickedPos) / sliderWidth + minValue;
       snappedValue = this.handles.first.getSnappedValue(clickedValue);
       closestHandle = null;
       mindiff = null;
-      _ref1 = this.handles;
-      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-        handle = _ref1[_i];
+      ref1 = this.handles;
+      for (j = 0, len1 = ref1.length; j < len1; j++) {
+        handle = ref1[j];
         value = handle.value;
         diff = Math.abs(clickedValue - value);
         if ((diff < mindiff) || !mindiff) {
@@ -10396,15 +10435,15 @@ module.exports = KDSliderBarView = (function(_super) {
 
 },{"../../core/customhtmlview":96,"../../core/kd":99,"./sliderbarhandleview":69}],71:[function(require,module,exports){
 var KD, KDSlidePageView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
 KDView = require('../../core/view');
 
-module.exports = KDSlidePageView = (function(_super) {
-  __extends(KDSlidePageView, _super);
+module.exports = KDSlidePageView = (function(superClass) {
+  extend(KDSlidePageView, superClass);
 
   function KDSlidePageView(options, data) {
     if (options == null) {
@@ -10432,8 +10471,8 @@ module.exports = KDSlidePageView = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105}],72:[function(require,module,exports){
 var Hammer, KD, KDSlideShowView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -10441,15 +10480,15 @@ Hammer = require('hammerjs');
 
 KDView = require('../../core/view');
 
-module.exports = KDSlideShowView = (function(_super) {
-  var X_COORD, Y_COORD, _ref;
+module.exports = KDSlideShowView = (function(superClass) {
+  var X_COORD, Y_COORD, ref;
 
-  __extends(KDSlideShowView, _super);
+  extend(KDSlideShowView, superClass);
 
-  _ref = [1, 2], X_COORD = _ref[0], Y_COORD = _ref[1];
+  ref = [1, 2], X_COORD = ref[0], Y_COORD = ref[1];
 
   function KDSlideShowView(options, data) {
-    var animation, direction, hammer, leftToRight, topToBottom, touchCallbacks, touchEnabled, _ref1;
+    var animation, direction, hammer, leftToRight, ref1, topToBottom, touchCallbacks, touchEnabled;
     if (options == null) {
       options = {};
     }
@@ -10467,9 +10506,9 @@ module.exports = KDSlideShowView = (function(_super) {
     this.pages = [];
     this._coordsY = [];
     this._currentX = 0;
-    _ref1 = this.getOptions(), animation = _ref1.animation, direction = _ref1.direction, touchEnabled = _ref1.touchEnabled;
-    topToBottom = [["" + animation + "FromTop", "" + animation + "FromBottom"], ["" + animation + "ToBottom", "" + animation + "ToTop"]];
-    leftToRight = [["" + animation + "FromLeft", "" + animation + "FromRight"], ["" + animation + "ToRight", "" + animation + "ToLeft"]];
+    ref1 = this.getOptions(), animation = ref1.animation, direction = ref1.direction, touchEnabled = ref1.touchEnabled;
+    topToBottom = [[animation + "FromTop", animation + "FromBottom"], [animation + "ToBottom", animation + "ToTop"]];
+    leftToRight = [[animation + "FromLeft", animation + "FromRight"], [animation + "ToRight", animation + "ToLeft"]];
     if (direction === 'topToBottom') {
       this.xcoordAnimations = topToBottom;
       this.ycoordAnimations = leftToRight;
@@ -10525,7 +10564,7 @@ module.exports = KDSlideShowView = (function(_super) {
   };
 
   KDSlideShowView.prototype.jump = function(pageIndex, coord, callback) {
-    var current, currentPage, direction, index, newPage, pages, _ref1, _ref2;
+    var current, currentPage, direction, index, newPage, pages, ref1, ref2;
     if (coord == null) {
       coord = 1;
     }
@@ -10533,9 +10572,9 @@ module.exports = KDSlideShowView = (function(_super) {
       callback = KD.noop;
     }
     if (coord === X_COORD) {
-      _ref1 = [this.pages, this._currentX], pages = _ref1[0], current = _ref1[1];
+      ref1 = [this.pages, this._currentX], pages = ref1[0], current = ref1[1];
     } else {
-      _ref2 = [this.pages[this._currentX], this._coordsY[this._currentX]], pages = _ref2[0], current = _ref2[1];
+      ref2 = [this.pages[this._currentX], this._coordsY[this._currentX]], pages = ref2[0], current = ref2[1];
     }
     if (pages.length <= 1) {
       return;
@@ -10578,15 +10617,15 @@ module.exports = KDSlideShowView = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"hammerjs":109}],73:[function(require,module,exports){
 var KDSplitComboView, KDSplitView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KDView = require('../../core/view');
 
 KDSplitView = require('./splitview');
 
-module.exports = KDSplitComboView = (function(_super) {
-  __extends(KDSplitComboView, _super);
+module.exports = KDSplitComboView = (function(superClass) {
+  extend(KDSplitComboView, superClass);
 
   function KDSplitComboView(options, data) {
     if (options == null) {
@@ -10602,9 +10641,9 @@ module.exports = KDSplitComboView = (function(_super) {
   };
 
   KDSplitComboView.prototype.createSplitView = function(type, sizes, viewsConfig) {
-    var config, index, options, views, _i, _len;
+    var config, i, index, len, options, views;
     views = [];
-    for (index = _i = 0, _len = viewsConfig.length; _i < _len; index = ++_i) {
+    for (index = i = 0, len = viewsConfig.length; i < len; index = ++i) {
       config = viewsConfig[index];
       if (config.type === "split") {
         options = config.options;
@@ -10628,8 +10667,8 @@ module.exports = KDSplitComboView = (function(_super) {
 
 },{"../../core/view":105,"./splitview":76}],74:[function(require,module,exports){
 var KD, KDScrollView, KDSplitView, KDSplitViewPanel,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -10637,11 +10676,11 @@ KDSplitView = require('./splitview');
 
 KDScrollView = require('../scrollview/scrollview');
 
-module.exports = KDSplitViewPanel = (function(_super) {
-  __extends(KDSplitViewPanel, _super);
+module.exports = KDSplitViewPanel = (function(superClass) {
+  extend(KDSplitViewPanel, superClass);
 
   function KDSplitViewPanel(options, data) {
-    var type, _ref;
+    var ref, type;
     if (options == null) {
       options = {};
     }
@@ -10652,7 +10691,7 @@ module.exports = KDSplitViewPanel = (function(_super) {
     KDSplitViewPanel.__super__.constructor.call(this, options, data);
     type = this.getOptions().type;
     this.vertical = type.toLowerCase() === "vertical";
-    _ref = this.getOptions(), this.fixed = _ref.fixed, this.size = _ref.size, this.index = _ref.index;
+    ref = this.getOptions(), this.fixed = ref.fixed, this.size = ref.size, this.index = ref.index;
   }
 
   KDSplitViewPanel.prototype.splitPanel = function(options) {
@@ -10710,9 +10749,9 @@ module.exports = KDSplitViewPanel = (function(_super) {
   };
 
   KDSplitViewPanel.prototype._wouldResize = function(size) {
-    var maximum, minimum, _ref, _ref1;
-    minimum = (_ref = this.parent.minimums[this.index]) != null ? _ref : 0;
-    maximum = (_ref1 = this.parent.maximums[this.index]) != null ? _ref1 : 999999;
+    var maximum, minimum, ref, ref1;
+    minimum = (ref = this.parent.minimums[this.index]) != null ? ref : 0;
+    maximum = (ref1 = this.parent.maximums[this.index]) != null ? ref1 : 999999;
     if ((maximum >= size && size >= minimum)) {
       return true;
     } else {
@@ -10750,16 +10789,16 @@ module.exports = KDSplitViewPanel = (function(_super) {
 
 },{"../../core/kd":99,"../scrollview/scrollview":68,"./splitview":76}],75:[function(require,module,exports){
 var KDSplitResizer, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KDView = require('../../core/view');
 
-module.exports = KDSplitResizer = (function(_super) {
-  __extends(KDSplitResizer, _super);
+module.exports = KDSplitResizer = (function(superClass) {
+  extend(KDSplitResizer, superClass);
 
   function KDSplitResizer(options, data) {
-    var axis, _ref;
+    var axis, ref;
     if (options == null) {
       options = {};
     }
@@ -10772,7 +10811,7 @@ module.exports = KDSplitResizer = (function(_super) {
       };
     }
     KDSplitResizer.__super__.constructor.call(this, options, data);
-    _ref = this.getOptions(), this.panel0 = _ref.panel0, this.panel1 = _ref.panel1;
+    ref = this.getOptions(), this.panel0 = ref.panel0, this.panel1 = ref.panel1;
     this.on("DragFinished", this.dragFinished);
     this.on("DragInAction", this.dragInAction);
     this.on("DragStarted", this.dragStarted);
@@ -10855,8 +10894,8 @@ module.exports = KDSplitResizer = (function(_super) {
 
 },{"../../core/view":105}],76:[function(require,module,exports){
 var KD, KDSplitResizer, KDSplitView, KDSplitViewPanel, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -10866,13 +10905,13 @@ KDSplitViewPanel = require('./splitpanel');
 
 KDSplitResizer = require('./splitresizer');
 
-module.exports = KDSplitView = (function(_super) {
+module.exports = KDSplitView = (function(superClass) {
   var deprecated;
 
-  __extends(KDSplitView, _super);
+  extend(KDSplitView, superClass);
 
   function KDSplitView(options, data) {
-    var _ref;
+    var ref;
     if (options == null) {
       options = {};
     }
@@ -10894,7 +10933,7 @@ module.exports = KDSplitView = (function(_super) {
     options.type = options.type.toLowerCase();
     options.cssClass = KD.utils.curry("kdsplitview kdsplitview-" + options.type, options.cssClass);
     KDSplitView.__super__.constructor.call(this, options, data);
-    _ref = this.getOptions(), this.type = _ref.type, this.resizable = _ref.resizable;
+    ref = this.getOptions(), this.type = ref.type, this.resizable = ref.resizable;
     this.panels = [];
     this.resizer = null;
     this.sizes = [];
@@ -10904,7 +10943,7 @@ module.exports = KDSplitView = (function(_super) {
   }
 
   KDSplitView.prototype.viewAppended = function() {
-    var _ref;
+    var ref;
     this._calculateSizes();
     this._createPanels();
     this._putPanels();
@@ -10914,7 +10953,7 @@ module.exports = KDSplitView = (function(_super) {
       this._createResizer();
     }
     this.listenWindowResize();
-    return (_ref = this.parent) != null ? _ref.on("PanelDidResize", KD.utils.debounce(10, this.bound('_windowDidResize'))) : void 0;
+    return (ref = this.parent) != null ? ref.on("PanelDidResize", KD.utils.debounce(10, this.bound('_windowDidResize'))) : void 0;
   };
 
   KDSplitView.prototype._createPanels = function() {
@@ -10925,8 +10964,8 @@ module.exports = KDSplitView = (function(_super) {
   };
 
   KDSplitView.prototype._createPanel = function(index) {
-    var fixed, panel, panelClass, _ref;
-    _ref = this.getOptions(), fixed = _ref.fixed, panelClass = _ref.panelClass;
+    var fixed, panel, panelClass, ref;
+    ref = this.getOptions(), fixed = ref.fixed, panelClass = ref.panelClass;
     panel = new (panelClass || KDSplitViewPanel)({
       cssClass: "kdsplitview-panel panel-" + index,
       index: index,
@@ -10973,8 +11012,8 @@ module.exports = KDSplitView = (function(_super) {
   };
 
   KDSplitView.prototype._createResizer = function() {
-    var resizeHandleSize, type, _ref;
-    _ref = this.getOptions(), type = _ref.type, resizeHandleSize = _ref.resizeHandleSize;
+    var ref, resizeHandleSize, type;
+    ref = this.getOptions(), type = ref.type, resizeHandleSize = ref.resizeHandleSize;
     this.resizer = this.addSubView(new KDSplitResizer({
       cssClass: "kdsplitview-resizer " + type,
       type: this.type,
@@ -11043,8 +11082,8 @@ module.exports = KDSplitView = (function(_super) {
   };
 
   KDSplitView.prototype._setMinsAndMaxs = function() {
-    var maximums, minimums, _ref;
-    _ref = this.getOptions(), minimums = _ref.minimums, maximums = _ref.maximums;
+    var maximums, minimums, ref;
+    ref = this.getOptions(), minimums = ref.minimums, maximums = ref.maximums;
     this.minimums[0] = this._sanitizeSize(minimums[0]);
     this.minimums[1] = this._sanitizeSize(minimums[1]);
     this.maximums[0] = this._sanitizeSize(maximums[0]);
@@ -11324,13 +11363,13 @@ module.exports = KDSplitView = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"./splitpanel":74,"./splitresizer":75}],77:[function(require,module,exports){
 var KDTabHandleContainer, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KDView = require('../../core/view');
 
-module.exports = KDTabHandleContainer = (function(_super) {
-  __extends(KDTabHandleContainer, _super);
+module.exports = KDTabHandleContainer = (function(superClass) {
+  extend(KDTabHandleContainer, superClass);
 
   function KDTabHandleContainer(options, data) {
     if (options == null) {
@@ -11354,15 +11393,15 @@ module.exports = KDTabHandleContainer = (function(_super) {
 
 },{"../../core/view":105}],78:[function(require,module,exports){
 var KD, KDCustomHTMLView, KDTabHandleMoveNav,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
 KDCustomHTMLView = require('../../core/customhtmlview');
 
-module.exports = KDTabHandleMoveNav = (function(_super) {
-  __extends(KDTabHandleMoveNav, _super);
+module.exports = KDTabHandleMoveNav = (function(superClass) {
+  extend(KDTabHandleMoveNav, superClass);
 
   function KDTabHandleMoveNav(options, data) {
     if (options == null) {
@@ -11424,7 +11463,7 @@ module.exports = KDTabHandleMoveNav = (function(_super) {
       case 'initial':
         this._current = 0;
     }
-    return tabHandleContainer.tabs.setCss('marginLeft', "" + this._current + "px");
+    return tabHandleContainer.tabs.setCss('marginLeft', this._current + "px");
   };
 
   return KDTabHandleMoveNav;
@@ -11435,15 +11474,15 @@ module.exports = KDTabHandleMoveNav = (function(_super) {
 
 },{"../../core/customhtmlview":96,"../../core/kd":99}],79:[function(require,module,exports){
 var $, KDTabHandleView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
 KDView = require('../../core/view');
 
-module.exports = KDTabHandleView = (function(_super) {
-  __extends(KDTabHandleView, _super);
+module.exports = KDTabHandleView = (function(superClass) {
+  extend(KDTabHandleView, superClass);
 
   function KDTabHandleView(options, data) {
     if (options == null) {
@@ -11498,12 +11537,12 @@ module.exports = KDTabHandleView = (function(_super) {
   }
 
   KDTabHandleView.prototype.setDomElement = function(cssClass) {
-    var addTitleAttribute, closable, closeHandle, hidden, tagName, title, _ref;
+    var addTitleAttribute, closable, closeHandle, hidden, ref, tagName, title;
     if (cssClass == null) {
       cssClass = "";
     }
-    _ref = this.getOptions(), hidden = _ref.hidden, closable = _ref.closable, tagName = _ref.tagName, title = _ref.title, addTitleAttribute = _ref.addTitleAttribute;
-    cssClass = hidden ? "" + cssClass + " hidden" : cssClass;
+    ref = this.getOptions(), hidden = ref.hidden, closable = ref.closable, tagName = ref.tagName, title = ref.title, addTitleAttribute = ref.addTitleAttribute;
+    cssClass = hidden ? cssClass + " hidden" : cssClass;
     closeHandle = closable ? "<span class='close-tab'></span>" : "";
     title = addTitleAttribute ? "title='" + title + "'" : "";
     return this.domElement = $("<" + tagName + " " + title + " class='kdtabhandle " + cssClass + "'>" + closeHandle + "</" + tagName + ">");
@@ -11633,15 +11672,15 @@ module.exports = KDTabHandleView = (function(_super) {
 
 },{"../../core/view":105,"jquery":111}],80:[function(require,module,exports){
 var KD, KDTabPaneView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
 KDView = require('../../core/view');
 
-module.exports = KDTabPaneView = (function(_super) {
-  __extends(KDTabPaneView, _super);
+module.exports = KDTabPaneView = (function(superClass) {
+  extend(KDTabPaneView, superClass);
 
   function KDTabPaneView(options, data) {
     var defaultCssClass;
@@ -11668,10 +11707,10 @@ module.exports = KDTabPaneView = (function(_super) {
   }
 
   KDTabPaneView.prototype.show = function() {
-    var _ref;
+    var ref;
     if (this.getOption('detachable')) {
-      if ((_ref = this.parent) != null) {
-        _ref.getElement().appendChild(this.getElement());
+      if ((ref = this.parent) != null) {
+        ref.getElement().appendChild(this.getElement());
       }
     }
     this.unsetClass('kdhiddentab');
@@ -11682,7 +11721,7 @@ module.exports = KDTabPaneView = (function(_super) {
   };
 
   KDTabPaneView.prototype.hide = function() {
-    var _ref;
+    var ref;
     if (!this.active) {
       return;
     }
@@ -11691,25 +11730,25 @@ module.exports = KDTabPaneView = (function(_super) {
     this.unsetClass('active');
     this.setClass('kdhiddentab');
     if (this.getOption('detachable')) {
-      if ((_ref = this.parent) != null) {
-        _ref.getElement().removeChild(this.getElement());
+      if ((ref = this.parent) != null) {
+        ref.getElement().removeChild(this.getElement());
       }
     }
     return this.active = false;
   };
 
   KDTabPaneView.prototype.setScrollTops = function() {
-    var _ref;
-    this.lastScrollTops.parent = ((_ref = this.parent) != null ? _ref.getElement().scrollTop : void 0) || 0;
+    var ref;
+    this.lastScrollTops.parent = ((ref = this.parent) != null ? ref.getElement().scrollTop : void 0) || 0;
     return this.lastScrollTops.self = this.getElement().scrollTop;
   };
 
   KDTabPaneView.prototype.applyScrollTops = function() {
     return KD.utils.defer((function(_this) {
       return function() {
-        var _ref;
+        var ref;
         _this.getElement().scrollTop = _this.lastScrollTops.self;
-        return (_ref = _this.parent) != null ? _ref.getElement().scrollTop = _this.lastScrollTops.parent : void 0;
+        return (ref = _this.parent) != null ? ref.getElement().scrollTop = _this.lastScrollTops.parent : void 0;
       };
     })(this));
   };
@@ -11728,9 +11767,9 @@ module.exports = KDTabPaneView = (function(_super) {
   };
 
   KDTabPaneView.prototype.setMainView = function(view) {
-    var data, options, viewClass, viewOptions, _ref;
+    var data, options, ref, viewClass, viewOptions;
     if (!view) {
-      _ref = this.getOptions(), view = _ref.view, viewOptions = _ref.viewOptions;
+      ref = this.getOptions(), view = ref.view, viewOptions = ref.viewOptions;
     }
     if (this.mainView) {
       return;
@@ -11780,8 +11819,8 @@ module.exports = KDTabPaneView = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105}],81:[function(require,module,exports){
 var $, KD, KDScrollView, KDTabHandleContainer, KDTabHandleMoveNav, KDTabHandleView, KDTabPaneView, KDTabView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -11797,11 +11836,11 @@ KDTabHandleContainer = require('./tabhandlecontainer');
 
 KDTabHandleMoveNav = require('./tabhandlemovenav');
 
-module.exports = KDTabView = (function(_super) {
-  __extends(KDTabView, _super);
+module.exports = KDTabView = (function(superClass) {
+  extend(KDTabView, superClass);
 
   function KDTabView(options, data) {
-    var _ref;
+    var ref;
     if (options == null) {
       options = {};
     }
@@ -11841,7 +11880,7 @@ module.exports = KDTabView = (function(_super) {
     this.handles = [];
     this.panes = [];
     this.selectedIndex = [];
-    this.tabConstructor = (_ref = options.tabClass) != null ? _ref : KDTabPaneView;
+    this.tabConstructor = (ref = options.tabClass) != null ? ref : KDTabPaneView;
     this.lastOpenPaneIndex = 0;
     KDTabView.__super__.constructor.call(this, options, data);
     this.activePane = null;
@@ -11887,32 +11926,32 @@ module.exports = KDTabView = (function(_super) {
   }
 
   KDTabView.prototype.createPanes = function(paneData) {
-    var paneOptions, _i, _len, _results;
+    var i, len, paneOptions, results;
     if (paneData == null) {
       paneData = this.getOptions().paneData;
     }
-    _results = [];
-    for (_i = 0, _len = paneData.length; _i < _len; _i++) {
-      paneOptions = paneData[_i];
-      _results.push(this.addPane(new this.tabConstructor(paneOptions, null)));
+    results = [];
+    for (i = 0, len = paneData.length; i < len; i++) {
+      paneOptions = paneData[i];
+      results.push(this.addPane(new this.tabConstructor(paneOptions, null)));
     }
-    return _results;
+    return results;
   };
 
   KDTabView.prototype.addPane = function(paneInstance, shouldShow) {
-    var closable, detachPanes, hiddenHandle, lazy, maxHandleWidth, minHandleWidth, name, newTabHandle, sortable, tabHandleClass, tabHandleView, title, _ref, _ref1, _ref2, _ref3;
+    var closable, detachPanes, hiddenHandle, lazy, maxHandleWidth, minHandleWidth, name, newTabHandle, ref, ref1, ref2, ref3, sortable, tabHandleClass, tabHandleView, title;
     if (shouldShow == null) {
-      shouldShow = (_ref = paneInstance.getOptions().shouldShow) != null ? _ref : true;
+      shouldShow = (ref = paneInstance.getOptions().shouldShow) != null ? ref : true;
     }
     if (!(paneInstance instanceof KDTabPaneView)) {
       name = ((paneInstance != null ? paneInstance.constructor : void 0) != null).name;
       KD.warn("You can't add " + (name ? name : void 0) + " as a pane, use KDTabPaneView instead");
       return false;
     }
-    _ref1 = this.getOptions(), tabHandleClass = _ref1.tabHandleClass, sortable = _ref1.sortable, detachPanes = _ref1.detachPanes;
+    ref1 = this.getOptions(), tabHandleClass = ref1.tabHandleClass, sortable = ref1.sortable, detachPanes = ref1.detachPanes;
     paneInstance.setOption('detachable', detachPanes);
     this.panes.push(paneInstance);
-    _ref2 = paneInstance.getOptions(), name = _ref2.name, title = _ref2.title, hiddenHandle = _ref2.hiddenHandle, tabHandleView = _ref2.tabHandleView, closable = _ref2.closable, lazy = _ref2.lazy;
+    ref2 = paneInstance.getOptions(), name = ref2.name, title = ref2.title, hiddenHandle = ref2.hiddenHandle, tabHandleView = ref2.tabHandleView, closable = ref2.closable, lazy = ref2.lazy;
     newTabHandle = paneInstance.tabHandle || new tabHandleClass({
       pane: paneInstance,
       title: name || title,
@@ -11935,7 +11974,7 @@ module.exports = KDTabView = (function(_super) {
       this.showPane(paneInstance);
     }
     this.emit('PaneAdded', paneInstance);
-    _ref3 = this.getOptions(), minHandleWidth = _ref3.minHandleWidth, maxHandleWidth = _ref3.maxHandleWidth;
+    ref3 = this.getOptions(), minHandleWidth = ref3.minHandleWidth, maxHandleWidth = ref3.maxHandleWidth;
     newTabHandle.getDomElement().css({
       maxWidth: maxHandleWidth,
       minWidth: minHandleWidth
@@ -12009,19 +12048,19 @@ module.exports = KDTabView = (function(_super) {
   };
 
   KDTabView.prototype.removePaneByName = function(name) {
-    var pane, _i, _len, _ref, _results;
-    _ref = this.panes;
-    _results = [];
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      pane = _ref[_i];
+    var i, len, pane, ref, results;
+    ref = this.panes;
+    results = [];
+    for (i = 0, len = ref.length; i < len; i++) {
+      pane = ref[i];
       if (pane.name === name) {
         this.removePane(pane);
         break;
       } else {
-        _results.push(void 0);
+        results.push(void 0);
       }
     }
-    return _results;
+    return results;
   };
 
   KDTabView.prototype.appendHandleContainer = function() {
@@ -12034,11 +12073,11 @@ module.exports = KDTabView = (function(_super) {
   };
 
   KDTabView.prototype.appendHandle = function(tabHandle) {
-    var enableMoveTabHandle, maxHandleWidth, _ref;
+    var enableMoveTabHandle, maxHandleWidth, ref;
     this.handleHeight || (this.handleHeight = this.tabHandleContainer.getHeight());
     tabHandle.setDelegate(this);
     this.tabHandleContainer.tabs.addSubView(tabHandle);
-    _ref = this.getOptions(), enableMoveTabHandle = _ref.enableMoveTabHandle, maxHandleWidth = _ref.maxHandleWidth;
+    ref = this.getOptions(), enableMoveTabHandle = ref.enableMoveTabHandle, maxHandleWidth = ref.maxHandleWidth;
     if (enableMoveTabHandle) {
       return this._tabsWidth = this.handles.length * maxHandleWidth;
     }
@@ -12084,23 +12123,23 @@ module.exports = KDTabView = (function(_super) {
   };
 
   KDTabView.prototype.hideAllPanes = function() {
-    var handle, pane, _i, _j, _len, _len1, _ref, _ref1, _results;
-    _ref = this.panes;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      pane = _ref[_i];
+    var handle, i, j, len, len1, pane, ref, ref1, results;
+    ref = this.panes;
+    for (i = 0, len = ref.length; i < len; i++) {
+      pane = ref[i];
       if (pane) {
         pane.hide();
       }
     }
-    _ref1 = this.handles;
-    _results = [];
-    for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-      handle = _ref1[_j];
+    ref1 = this.handles;
+    results = [];
+    for (j = 0, len1 = ref1.length; j < len1; j++) {
+      handle = ref1[j];
       if (handle) {
-        _results.push(handle.makeInactive());
+        results.push(handle.makeInactive());
       }
     }
-    return _results;
+    return results;
   };
 
   KDTabView.prototype.hideHandleContainer = function() {
@@ -12129,16 +12168,16 @@ module.exports = KDTabView = (function(_super) {
   };
 
   KDTabView.prototype.handleMouseDownDefaultAction = function(clickedTabHandle, event) {
-    var handle, index, _i, _len, _ref, _results;
-    _ref = this.handles;
-    _results = [];
-    for (index = _i = 0, _len = _ref.length; _i < _len; index = ++_i) {
-      handle = _ref[index];
+    var handle, i, index, len, ref, results;
+    ref = this.handles;
+    results = [];
+    for (index = i = 0, len = ref.length; i < len; index = ++i) {
+      handle = ref[index];
       if (clickedTabHandle === handle) {
-        _results.push(this.handleClicked(index, event));
+        results.push(this.handleClicked(index, event));
       }
     }
-    return _results;
+    return results;
   };
 
   KDTabView.prototype.handleClicked = function(event, handle) {
@@ -12176,11 +12215,11 @@ module.exports = KDTabView = (function(_super) {
   };
 
   KDTabView.prototype.checkPaneExistenceById = function(id) {
-    var pane, result, _i, _len, _ref;
+    var i, len, pane, ref, result;
     result = false;
-    _ref = this.panes;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      pane = _ref[_i];
+    ref = this.panes;
+    for (i = 0, len = ref.length; i < len; i++) {
+      pane = ref[i];
       if (pane.id === id) {
         result = true;
       }
@@ -12189,11 +12228,11 @@ module.exports = KDTabView = (function(_super) {
   };
 
   KDTabView.prototype.getPaneByName = function(name) {
-    var pane, result, _i, _len, _ref;
+    var i, len, pane, ref, result;
     result = false;
-    _ref = this.panes;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      pane = _ref[_i];
+    ref = this.panes;
+    for (i = 0, len = ref.length; i < len; i++) {
+      pane = ref[i];
       if (pane.name === name) {
         result = pane;
       }
@@ -12202,11 +12241,11 @@ module.exports = KDTabView = (function(_super) {
   };
 
   KDTabView.prototype.getPaneById = function(id) {
-    var pane, paneInstance, _i, _len, _ref;
+    var i, len, pane, paneInstance, ref;
     paneInstance = null;
-    _ref = this.panes;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      pane = _ref[_i];
+    ref = this.panes;
+    for (i = 0, len = ref.length; i < len; i++) {
+      pane = ref[i];
       if (pane.id === id) {
         paneInstance = pane;
       }
@@ -12222,8 +12261,8 @@ module.exports = KDTabView = (function(_super) {
     return this.getPaneIndex(this.getActivePane());
   };
 
-  KDTabView.prototype.setActivePane = function(activePane) {
-    this.activePane = activePane;
+  KDTabView.prototype.setActivePane = function(activePane1) {
+    this.activePane = activePane1;
   };
 
   KDTabView.prototype.getPaneByIndex = function(index) {
@@ -12296,7 +12335,7 @@ module.exports = KDTabView = (function(_super) {
   };
 
   KDTabView.prototype.resizeTabHandles = function() {
-    var containerMargin, containerSize, handle, lastTabHandleMargin, outerWidth, possiblePercent, visibleHandles, visibleTotalSize, _i, _j, _len, _len1, _ref, _results;
+    var containerMargin, containerSize, handle, i, j, lastTabHandleMargin, len, len1, outerWidth, possiblePercent, ref, results, visibleHandles, visibleTotalSize;
     if (!this.getOptions().resizeTabHandles || this._tabHandleContainerHidden || this.blockTabHandleResize) {
       return;
     }
@@ -12309,9 +12348,9 @@ module.exports = KDTabView = (function(_super) {
     }
     containerSize = outerWidth - lastTabHandleMargin;
     containerMargin = 100 - (100 * lastTabHandleMargin / containerSize);
-    _ref = this.handles;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      handle = _ref[_i];
+    ref = this.handles;
+    for (i = 0, len = ref.length; i < len; i++) {
+      handle = ref[i];
       if (!(!handle.isHidden())) {
         continue;
       }
@@ -12319,12 +12358,12 @@ module.exports = KDTabView = (function(_super) {
       visibleTotalSize += handle.getElement().offsetWidth;
     }
     possiblePercent = (containerMargin / visibleHandles.length).toFixed(2);
-    _results = [];
-    for (_j = 0, _len1 = visibleHandles.length; _j < _len1; _j++) {
-      handle = visibleHandles[_j];
-      _results.push(handle.setWidth(possiblePercent, "%"));
+    results = [];
+    for (j = 0, len1 = visibleHandles.length; j < len1; j++) {
+      handle = visibleHandles[j];
+      results.push(handle.setWidth(possiblePercent, "%"));
     }
-    return _results;
+    return results;
   };
 
   return KDTabView;
@@ -12335,8 +12374,8 @@ module.exports = KDTabView = (function(_super) {
 
 },{"../../core/kd":99,"../scrollview/scrollview":68,"./tabhandlecontainer":77,"./tabhandlemovenav":78,"./tabhandleview":79,"./tabpaneview":80,"jquery":111}],82:[function(require,module,exports){
 var $, KDFormViewWithFields, KDTabPaneView, KDTabView, KDTabViewWithForms,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -12346,8 +12385,8 @@ KDTabPaneView = require('./tabpaneview');
 
 KDFormViewWithFields = require('../forms/formviewwithfields');
 
-module.exports = KDTabViewWithForms = (function(_super) {
-  __extends(KDTabViewWithForms, _super);
+module.exports = KDTabViewWithForms = (function(superClass) {
+  extend(KDTabViewWithForms, superClass);
 
   function KDTabViewWithForms(options, data) {
     var forms;
@@ -12420,20 +12459,20 @@ module.exports = KDTabViewWithForms = (function(_super) {
   };
 
   KDTabViewWithForms.prototype.getFinalData = function() {
-    var finalData, pane, _i, _len, _ref;
+    var finalData, j, len, pane, ref;
     finalData = {};
-    _ref = this.panes;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      pane = _ref[_i];
+    ref = this.panes;
+    for (j = 0, len = ref.length; j < len; j++) {
+      pane = ref[j];
       finalData = $.extend(pane.form.getData(), finalData);
     }
     return finalData;
   };
 
   KDTabViewWithForms.prototype.fireFinalCallback = function() {
-    var finalData, _base;
+    var base, finalData;
     finalData = this.getFinalData();
-    return typeof (_base = this.getOptions()).callback === "function" ? _base.callback(finalData) : void 0;
+    return typeof (base = this.getOptions()).callback === "function" ? base.callback(finalData) : void 0;
   };
 
   return KDTabViewWithForms;
@@ -12444,8 +12483,8 @@ module.exports = KDTabViewWithForms = (function(_super) {
 
 },{"../forms/formviewwithfields":33,"./tabpaneview":80,"./tabview":81,"jquery":111}],83:[function(require,module,exports){
 var $, KD, KDTimeAgoView, KDView, timeago,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
@@ -12455,8 +12494,8 @@ KDView = require('../../core/view');
 
 timeago = require('timeago');
 
-module.exports = KDTimeAgoView = (function(_super) {
-  __extends(KDTimeAgoView, _super);
+module.exports = KDTimeAgoView = (function(superClass) {
+  extend(KDTimeAgoView, superClass);
 
   KDTimeAgoView.registerStaticEmitter();
 
@@ -12496,8 +12535,8 @@ module.exports = KDTimeAgoView = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"jquery":111,"timeago":129}],84:[function(require,module,exports){
 var Encoder, KD, KDTooltip, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
@@ -12520,10 +12559,10 @@ KDView = require('../../core/view');
 
 Encoder = require('htmlencode');
 
-module.exports = KDTooltip = (function(_super) {
+module.exports = KDTooltip = (function(superClass) {
   var directionMap, getBoundaryViolations, getCoordsDiff, getCoordsFromPlacement, placementMap;
 
-  __extends(KDTooltip, _super);
+  extend(KDTooltip, superClass);
 
   function KDTooltip(options, data) {
     var windowController;
@@ -12548,8 +12587,8 @@ module.exports = KDTooltip = (function(_super) {
     windowController.on('ScrollHappened', this.bound("hide"));
     this.once('viewAppended', (function(_this) {
       return function() {
-        var html, title, view, _ref;
-        _ref = _this.getOptions(), view = _ref.view, title = _ref.title, html = _ref.html;
+        var html, ref, title, view;
+        ref = _this.getOptions(), view = ref.view, title = ref.title, html = ref.html;
         if (view != null) {
           _this.setView(view);
         } else {
@@ -12605,12 +12644,12 @@ module.exports = KDTooltip = (function(_super) {
   };
 
   KDTooltip.prototype.addListeners = function() {
-    var events, name, permanent, sticky, _hide, _i, _len, _ref, _show;
-    _ref = this.getOptions(), events = _ref.events, sticky = _ref.sticky, permanent = _ref.permanent;
+    var _hide, _show, events, i, len, name, permanent, ref, sticky;
+    ref = this.getOptions(), events = ref.events, sticky = ref.sticky, permanent = ref.permanent;
     _show = this.bound('show');
     _hide = this.bound('hide');
-    for (_i = 0, _len = events.length; _i < _len; _i++) {
-      name = events[_i];
+    for (i = 0, len = events.length; i < len; i++) {
+      name = events[i];
       this.parentView.bindEvent(name);
     }
     this.parentView.on('mouseenter', _show);
@@ -12665,9 +12704,9 @@ module.exports = KDTooltip = (function(_super) {
   };
 
   KDTooltip.prototype.display = function() {
-    var animate, gravity, o, permanent, windowController, _ref;
+    var animate, gravity, o, permanent, ref, windowController;
     o = this.getOptions();
-    _ref = this.getOptions(), permanent = _ref.permanent, gravity = _ref.gravity, animate = _ref.animate;
+    ref = this.getOptions(), permanent = ref.permanent, gravity = ref.gravity, animate = ref.animate;
     this.appendToDomBody();
     windowController = KD.getSingleton('windowController');
     if (!permanent) {
@@ -12689,7 +12728,7 @@ module.exports = KDTooltip = (function(_super) {
   };
 
   KDTooltip.prototype.getCorrectPositionCoordinates = function(o, positionValues, callback) {
-    var container, correctValues, d, direction, forcePosition, placement, selector, variant, variants, violations, _i, _len;
+    var container, correctValues, d, direction, forcePosition, i, len, placement, selector, variant, variants, violations;
     if (o == null) {
       o = {};
     }
@@ -12714,8 +12753,8 @@ module.exports = KDTooltip = (function(_super) {
     violations = getBoundaryViolations(getCoordsFromPlacement(d, placement, direction), d.container.width, d.container.height);
     if (!forcePosition && Object.keys(violations).length > 0) {
       variants = [['top', 'right'], ['right', 'top'], ['right', 'bottom'], ['bottom', 'right'], ['top', 'left'], ['top', 'center'], ['right', 'center'], ['bottom', 'center'], ['bottom', 'left'], ['left', 'bottom'], ['left', 'center'], ['left', 'top']];
-      for (_i = 0, _len = variants.length; _i < _len; _i++) {
-        variant = variants[_i];
+      for (i = 0, len = variants.length; i < len; i++) {
+        variant = variants[i];
         if (Object.keys(getBoundaryViolations(getCoordsFromPlacement(d, variant[0], variant[1]), d.container.width, d.container.height)).length === 0) {
           placement = variant[0], direction = variant[1];
           break;
@@ -12732,7 +12771,7 @@ module.exports = KDTooltip = (function(_super) {
   };
 
   KDTooltip.prototype.setPositions = function(o, animate) {
-    var coords, direction, direction_, offset, placement, placement_, _i, _j, _len, _len1, _ref, _ref1, _ref2;
+    var coords, direction, direction_, i, j, len, len1, offset, placement, placement_, ref, ref1, ref2;
     if (o == null) {
       o = this.getOptions();
     }
@@ -12749,22 +12788,22 @@ module.exports = KDTooltip = (function(_super) {
       left: 0
     } : o.offset;
     direction = (placement === 'top' || placement === 'bottom') && (direction === 'top' || direction === 'bottom') ? 'center' : (placement === 'left' || placement === 'right') && (direction === 'left' || direction === 'right') ? 'center' : direction;
-    _ref = this.getCorrectPositionCoordinates(o, {
+    ref = this.getCorrectPositionCoordinates(o, {
       placement: placement,
       direction: direction
-    }), coords = _ref.coords, placement = _ref.placement, direction = _ref.direction;
-    _ref1 = ['top', 'bottom', 'left', 'right'];
-    for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-      placement_ = _ref1[_i];
+    }), coords = ref.coords, placement = ref.placement, direction = ref.direction;
+    ref1 = ['top', 'bottom', 'left', 'right'];
+    for (i = 0, len = ref1.length; i < len; i++) {
+      placement_ = ref1[i];
       if (placement === placement_) {
         this.setClass('placement-' + placement_);
       } else {
         this.unsetClass('placement-' + placement_);
       }
     }
-    _ref2 = ['top', 'bottom', 'left', 'right', 'center'];
-    for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
-      direction_ = _ref2[_j];
+    ref2 = ['top', 'bottom', 'left', 'right', 'center'];
+    for (j = 0, len1 = ref2.length; j < len1; j++) {
+      direction_ = ref2[j];
       if (direction === direction_) {
         this.setClass('direction-' + direction_);
       } else {
@@ -12850,12 +12889,12 @@ module.exports = KDTooltip = (function(_super) {
   };
 
   getCoordsFromPlacement = function(dimensions, placement, direction) {
-    var coordinates, dynamicAxis, dynamicC, exclusion, staticAxis, staticC, _ref;
+    var coordinates, dynamicAxis, dynamicC, exclusion, ref, staticAxis, staticC;
     coordinates = {
       top: dimensions.selector.offset.top,
       left: dimensions.selector.offset.left
     };
-    _ref = /o/.test(placement) ? ['height', 'width', 'top', 'left', 'right'] : ['width', 'height', 'left', 'top', 'bottom'], staticAxis = _ref[0], dynamicAxis = _ref[1], staticC = _ref[2], dynamicC = _ref[3], exclusion = _ref[4];
+    ref = /o/.test(placement) ? ['height', 'width', 'top', 'left', 'right'] : ['width', 'height', 'left', 'top', 'bottom'], staticAxis = ref[0], dynamicAxis = ref[1], staticC = ref[2], dynamicC = ref[3], exclusion = ref[4];
     coordinates[staticC] += !(placement.length < 5) ? dimensions.selector[staticAxis] + 10 : -(dimensions.container[staticAxis] + 10);
     if (direction !== exclusion) {
       coordinates[dynamicC] += getCoordsDiff(dimensions, dynamicAxis, direction === 'center');
@@ -12871,16 +12910,16 @@ module.exports = KDTooltip = (function(_super) {
 
 },{"../../core/kd":99,"../../core/view":105,"htmlencode":115}],85:[function(require,module,exports){
 var JTreeItemView, KDListItemView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KDListItemView = require('../list/listitemview');
 
-module.exports = JTreeItemView = (function(_super) {
-  __extends(JTreeItemView, _super);
+module.exports = JTreeItemView = (function(superClass) {
+  extend(JTreeItemView, superClass);
 
   function JTreeItemView(options, data) {
-    var childClass, childOptions, _ref;
+    var childClass, childOptions, ref;
     if (options == null) {
       options = {};
     }
@@ -12895,18 +12934,18 @@ module.exports = JTreeItemView = (function(_super) {
     JTreeItemView.__super__.constructor.call(this, options, data);
     this.setClass("jtreeitem");
     this.expanded = false;
-    _ref = this.getOptions(), childClass = _ref.childClass, childOptions = _ref.childOptions;
+    ref = this.getOptions(), childClass = ref.childClass, childOptions = ref.childOptions;
     if (childClass) {
       this.child = new childClass(childOptions, this.getData());
     }
   }
 
   JTreeItemView.prototype.viewAppended = function() {
-    var _ref;
+    var ref;
     if (this.getOptions().childClass) {
       return this.addSubView(this.child);
     } else {
-      return this.updatePartial("<span class='arrow'></span>\n" + ((_ref = this.getData().title) != null ? _ref : ""));
+      return this.updatePartial("<span class='arrow'></span>\n" + ((ref = this.getData().title) != null ? ref : ""));
     }
   };
 
@@ -12947,15 +12986,15 @@ module.exports = JTreeItemView = (function(_super) {
 
 },{"../list/listitemview":51}],86:[function(require,module,exports){
 var JTreeView, KD, KDListView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KD = require('../../core/kd');
 
 KDListView = require('../list/listview');
 
-module.exports = JTreeView = (function(_super) {
-  __extends(JTreeView, _super);
+module.exports = JTreeView = (function(superClass) {
+  extend(JTreeView, superClass);
 
   function JTreeView(options, data) {
     if (options == null) {
@@ -13028,9 +13067,9 @@ module.exports = JTreeView = (function(_super) {
 
 },{"../../core/kd":99,"../list/listview":52}],87:[function(require,module,exports){
 var JTreeItemView, JTreeView, JTreeViewController, KD, KDListViewController, KDScrollView, KDViewController,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty,
+  indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 KD = require('../../core/kd');
 
@@ -13044,10 +13083,10 @@ KDScrollView = require('../scrollview/scrollview');
 
 KDListViewController = require('../list/listviewcontroller');
 
-module.exports = JTreeViewController = (function(_super) {
+module.exports = JTreeViewController = (function(superClass) {
   var cacheDragHelper, dragHelper, keyMap;
 
-  __extends(JTreeViewController, _super);
+  extend(JTreeViewController, superClass);
 
   keyMap = function() {
     return {
@@ -13145,16 +13184,16 @@ module.exports = JTreeViewController = (function(_super) {
   };
 
   JTreeViewController.prototype.logTreeStructure = function() {
-    var index, node, o, _ref, _results;
+    var index, node, o, ref, results;
     o = this.getOptions();
-    _ref = this.indexedNodes;
-    _results = [];
-    for (index in _ref) {
-      if (!__hasProp.call(_ref, index)) continue;
-      node = _ref[index];
-      _results.push(KD.log(index, this.getNodeId(node), this.getNodePId(node), node.depth));
+    ref = this.indexedNodes;
+    results = [];
+    for (index in ref) {
+      if (!hasProp.call(ref, index)) continue;
+      node = ref[index];
+      results.push(KD.log(index, this.getNodeId(node), this.getNodePId(node), node.depth));
     }
-    return _results;
+    return results;
   };
 
   JTreeViewController.prototype.getNodeId = function(nodeData) {
@@ -13166,10 +13205,10 @@ module.exports = JTreeViewController = (function(_super) {
   };
 
   JTreeViewController.prototype.getPathIndex = function(targetPath) {
-    var index, node, _i, _len, _ref;
-    _ref = this.indexedNodes;
-    for (index = _i = 0, _len = _ref.length; _i < _len; index = ++_i) {
-      node = _ref[index];
+    var i, index, len, node, ref;
+    ref = this.indexedNodes;
+    for (index = i = 0, len = ref.length; i < len; index = ++i) {
+      node = ref[index];
       if (this.getNodeId(node) === targetPath) {
         return index;
       }
@@ -13178,7 +13217,7 @@ module.exports = JTreeViewController = (function(_super) {
   };
 
   JTreeViewController.prototype.repairIds = function(nodeData) {
-    var idPath, options, pIdPath, _ref;
+    var idPath, options, pIdPath, ref;
     options = this.getOptions();
     idPath = options.nodeIdPath;
     pIdPath = options.nodeParentIdPath;
@@ -13187,7 +13226,7 @@ module.exports = JTreeViewController = (function(_super) {
     nodeData[pIdPath] = this.getNodePId(nodeData) ? "" + (this.getNodePId(nodeData)) : "0";
     this.nodes[this.getNodeId(nodeData)] = {};
     if (options.putDepthInfo) {
-      if ((_ref = this.nodes[nodeData[pIdPath]]) != null ? _ref.getData : void 0) {
+      if ((ref = this.nodes[nodeData[pIdPath]]) != null ? ref.getData : void 0) {
         nodeData.depth = this.nodes[nodeData[pIdPath]].getData().depth + 1;
       } else {
         nodeData.depth = 0;
@@ -13258,7 +13297,7 @@ module.exports = JTreeViewController = (function(_super) {
     if (!nodeData) {
       return;
     }
-    if (__indexOf.call(this.getData(), nodeData) < 0) {
+    if (indexOf.call(this.getData(), nodeData) < 0) {
       this.getData().push(nodeData);
     }
     this.registerListData(nodeData);
@@ -13276,21 +13315,21 @@ module.exports = JTreeViewController = (function(_super) {
   };
 
   JTreeViewController.prototype.addNodes = function(nodes) {
-    var node, _i, _len, _results;
-    _results = [];
-    for (_i = 0, _len = nodes.length; _i < _len; _i++) {
-      node = nodes[_i];
-      _results.push(this.addNode(node));
+    var i, len, node, results;
+    results = [];
+    for (i = 0, len = nodes.length; i < len; i++) {
+      node = nodes[i];
+      results.push(this.addNode(node));
     }
-    return _results;
+    return results;
   };
 
   JTreeViewController.prototype.removeNode = function(id) {
-    var index, nodeData, nodeIndexToRemove, nodeToRemove, parentId, _i, _len, _ref;
+    var i, index, len, nodeData, nodeIndexToRemove, nodeToRemove, parentId, ref;
     nodeIndexToRemove = null;
-    _ref = this.getData();
-    for (index = _i = 0, _len = _ref.length; _i < _len; index = ++_i) {
-      nodeData = _ref[index];
+    ref = this.getData();
+    for (index = i = 0, len = ref.length; i < len; index = ++i) {
+      nodeData = ref[index];
       if (this.getNodeId(nodeData) === id) {
         this.removeIndexedNode(nodeData);
         nodeIndexToRemove = index;
@@ -13310,11 +13349,11 @@ module.exports = JTreeViewController = (function(_super) {
   };
 
   JTreeViewController.prototype.removeAllNodes = function() {
-    var id, listController, _ref;
-    _ref = this.listControllers;
-    for (id in _ref) {
-      if (!__hasProp.call(_ref, id)) continue;
-      listController = _ref[id];
+    var id, listController, ref;
+    ref = this.listControllers;
+    for (id in ref) {
+      if (!hasProp.call(ref, id)) continue;
+      listController = ref[id];
       listController.getListItems().forEach(this.bound('removeNodeView'));
       if (listController != null) {
         listController.getView().destroy();
@@ -13330,21 +13369,21 @@ module.exports = JTreeViewController = (function(_super) {
   };
 
   JTreeViewController.prototype.removeChildNodes = function(id) {
-    var childNodeId, childNodeIdsToRemove, index, nodeData, _i, _j, _len, _len1, _ref, _ref1;
+    var childNodeId, childNodeIdsToRemove, i, index, j, len, len1, nodeData, ref, ref1;
     childNodeIdsToRemove = [];
-    _ref = this.getData();
-    for (index = _i = 0, _len = _ref.length; _i < _len; index = ++_i) {
-      nodeData = _ref[index];
+    ref = this.getData();
+    for (index = i = 0, len = ref.length; i < len; index = ++i) {
+      nodeData = ref[index];
       if (this.getNodePId(nodeData) === id) {
         childNodeIdsToRemove.push(this.getNodeId(nodeData));
       }
     }
-    for (_j = 0, _len1 = childNodeIdsToRemove.length; _j < _len1; _j++) {
-      childNodeId = childNodeIdsToRemove[_j];
+    for (j = 0, len1 = childNodeIdsToRemove.length; j < len1; j++) {
+      childNodeId = childNodeIdsToRemove[j];
       this.removeNode(childNodeId);
     }
-    if ((_ref1 = this.listControllers[id]) != null) {
-      _ref1.getView().destroy();
+    if ((ref1 = this.listControllers[id]) != null) {
+      ref1.getView().destroy();
     }
     delete this.listControllers[id];
     return delete this.listData[id];
@@ -13419,7 +13458,7 @@ module.exports = JTreeViewController = (function(_super) {
 
   JTreeViewController.prototype.removeIndexedNode = function(nodeData) {
     var index;
-    if (__indexOf.call(this.indexedNodes, nodeData) >= 0) {
+    if (indexOf.call(this.indexedNodes, nodeData) >= 0) {
       index = this.indexedNodes.indexOf(nodeData);
       this.indexedNodes.splice(index, 1);
       if (this.nodes[this.getNodePId(nodeData)] && !this.getChildNodes(this.nodes[this.getNodePId(nodeData)].getData())) {
@@ -13434,21 +13473,21 @@ module.exports = JTreeViewController = (function(_super) {
    */
 
   JTreeViewController.prototype.registerListData = function(node) {
-    var parentId, _base;
+    var base, parentId;
     parentId = this.getNodePId(node);
-    (_base = this.listData)[parentId] || (_base[parentId] = []);
+    (base = this.listData)[parentId] || (base[parentId] = []);
     return this.listData[parentId].push(node);
   };
 
   JTreeViewController.prototype.createList = function(listId, listItems) {
-    var options, _ref, _ref1;
+    var options, ref, ref1;
     options = this.getOptions();
     this.listControllers[listId] = new options.listViewControllerClass({
-      id: "" + (this.getId()) + "_" + listId,
+      id: (this.getId()) + "_" + listId,
       wrapper: false,
       scrollView: false,
-      selection: (_ref = options.selection) != null ? _ref : false,
-      multipleSelection: (_ref1 = options.multipleSelection) != null ? _ref1 : false,
+      selection: (ref = options.selection) != null ? ref : false,
+      multipleSelection: (ref1 = options.multipleSelection) != null ? ref1 : false,
       view: new options.listViewClass({
         tagName: "ul",
         type: options.type,
@@ -13506,16 +13545,16 @@ module.exports = JTreeViewController = (function(_super) {
       };
     })(this));
     this.listControllers[listId].on("ItemSelectionPerformed", (function(_this) {
-      return function(listController, _arg) {
+      return function(listController, arg) {
         var event, items;
-        event = _arg.event, items = _arg.items;
+        event = arg.event, items = arg.items;
         return _this.organizeSelectedNodes(listController, items, event);
       };
     })(this));
     this.listControllers[listId].on("ItemDeselectionPerformed", (function(_this) {
-      return function(listController, _arg) {
+      return function(listController, arg) {
         var event, items;
-        event = _arg.event, items = _arg.items;
+        event = arg.event, items = arg.items;
         return _this.deselectNodes(listController, items, event);
       };
     })(this));
@@ -13549,45 +13588,45 @@ module.exports = JTreeViewController = (function(_super) {
    */
 
   JTreeViewController.prototype.organizeSelectedNodes = function(listController, nodes, event) {
-    var node, _i, _len, _results;
+    var i, len, node, results;
     if (event == null) {
       event = {};
     }
     if (!((event.metaKey || event.ctrlKey || event.shiftKey) && this.getOptions().multipleSelection)) {
       this.deselectAllNodes(listController);
     }
-    _results = [];
-    for (_i = 0, _len = nodes.length; _i < _len; _i++) {
-      node = nodes[_i];
-      if (__indexOf.call(this.selectedNodes, node) < 0) {
-        _results.push(this.selectedNodes.push(node));
+    results = [];
+    for (i = 0, len = nodes.length; i < len; i++) {
+      node = nodes[i];
+      if (indexOf.call(this.selectedNodes, node) < 0) {
+        results.push(this.selectedNodes.push(node));
       } else {
-        _results.push(void 0);
+        results.push(void 0);
       }
     }
-    return _results;
+    return results;
   };
 
   JTreeViewController.prototype.deselectNodes = function(listController, nodes, event) {
-    var node, _i, _len, _results;
-    _results = [];
-    for (_i = 0, _len = nodes.length; _i < _len; _i++) {
-      node = nodes[_i];
-      if (__indexOf.call(this.selectedNodes, node) >= 0) {
-        _results.push(this.selectedNodes.splice(this.selectedNodes.indexOf(node), 1));
+    var i, len, node, results;
+    results = [];
+    for (i = 0, len = nodes.length; i < len; i++) {
+      node = nodes[i];
+      if (indexOf.call(this.selectedNodes, node) >= 0) {
+        results.push(this.selectedNodes.splice(this.selectedNodes.indexOf(node), 1));
       } else {
-        _results.push(void 0);
+        results.push(void 0);
       }
     }
-    return _results;
+    return results;
   };
 
   JTreeViewController.prototype.deselectAllNodes = function(exceptThisController) {
-    var id, listController, _ref;
-    _ref = this.listControllers;
-    for (id in _ref) {
-      if (!__hasProp.call(_ref, id)) continue;
-      listController = _ref[id];
+    var id, listController, ref;
+    ref = this.listControllers;
+    for (id in ref) {
+      if (!hasProp.call(ref, id)) continue;
+      listController = ref[id];
       if (listController !== exceptThisController) {
         listController.deselectAllItems();
       }
@@ -13621,20 +13660,20 @@ module.exports = JTreeViewController = (function(_super) {
   };
 
   JTreeViewController.prototype.selectNodesByRange = function(node1, node2) {
-    var indicesToBeSliced, itemsToBeSelected, node, _i, _len, _results;
+    var i, indicesToBeSliced, itemsToBeSelected, len, node, results;
     indicesToBeSliced = [this.indexedNodes.indexOf(node1.getData()), this.indexedNodes.indexOf(node2.getData())];
     indicesToBeSliced.sort(function(a, b) {
       return a - b;
     });
     itemsToBeSelected = this.indexedNodes.slice(indicesToBeSliced[0], indicesToBeSliced[1] + 1);
-    _results = [];
-    for (_i = 0, _len = itemsToBeSelected.length; _i < _len; _i++) {
-      node = itemsToBeSelected[_i];
-      _results.push(this.selectNode(this.nodes[this.getNodeId(node)], {
+    results = [];
+    for (i = 0, len = itemsToBeSelected.length; i < len; i++) {
+      node = itemsToBeSelected[i];
+      results.push(this.selectNode(this.nodes[this.getNodeId(node)], {
         shiftKey: true
       }));
     }
-    return _results;
+    return results;
   };
 
 
@@ -13651,16 +13690,16 @@ module.exports = JTreeViewController = (function(_super) {
   };
 
   JTreeViewController.prototype.expand = function(nodeView) {
-    var nodeData, _ref;
+    var nodeData, ref;
     nodeData = nodeView.getData();
     nodeView.expand();
-    return (_ref = this.listControllers[this.getNodeId(nodeData)]) != null ? _ref.getView().expand() : void 0;
+    return (ref = this.listControllers[this.getNodeId(nodeData)]) != null ? ref.getView().expand() : void 0;
   };
 
   JTreeViewController.prototype.collapse = function(nodeView) {
-    var nodeData, _ref;
+    var nodeData, ref;
     nodeData = nodeView.getData();
-    return (_ref = this.listControllers[this.getNodeId(nodeData)]) != null ? _ref.getView().collapse((function(_this) {
+    return (ref = this.listControllers[this.getNodeId(nodeData)]) != null ? ref.getView().collapse((function(_this) {
       return function() {
         return nodeView.collapse();
       };
@@ -13674,16 +13713,16 @@ module.exports = JTreeViewController = (function(_super) {
 
   JTreeViewController.prototype.showDragOverFeedback = (function() {
     return KD.utils.throttle(function(nodeView, event) {
-      var nodeData, _ref, _ref1;
+      var nodeData, ref, ref1;
       nodeData = nodeView.getData();
       if (nodeData.type !== "file") {
         nodeView.setClass("drop-target");
       } else {
-        if ((_ref = this.nodes[nodeData.parentPath]) != null) {
-          _ref.setClass("drop-target");
+        if ((ref = this.nodes[nodeData.parentPath]) != null) {
+          ref.setClass("drop-target");
         }
-        if ((_ref1 = this.listControllers[nodeData.parentPath]) != null) {
-          _ref1.getListView().setClass("drop-target");
+        if ((ref1 = this.listControllers[nodeData.parentPath]) != null) {
+          ref1.getListView().setClass("drop-target");
         }
       }
       return nodeView.setClass("items-hovering");
@@ -13692,16 +13731,16 @@ module.exports = JTreeViewController = (function(_super) {
 
   JTreeViewController.prototype.clearDragOverFeedback = (function() {
     return KD.utils.throttle(function(nodeView, event) {
-      var nodeData, _ref, _ref1;
+      var nodeData, ref, ref1;
       nodeData = nodeView.getData();
       if (nodeData.type !== "file") {
         nodeView.unsetClass("drop-target");
       } else {
-        if ((_ref = this.nodes[nodeData.parentPath]) != null) {
-          _ref.unsetClass("drop-target");
+        if ((ref = this.nodes[nodeData.parentPath]) != null) {
+          ref.unsetClass("drop-target");
         }
-        if ((_ref1 = this.listControllers[nodeData.parentPath]) != null) {
-          _ref1.getListView().unsetClass("drop-target");
+        if ((ref1 = this.listControllers[nodeData.parentPath]) != null) {
+          ref1.getListView().unsetClass("drop-target");
         }
       }
       return nodeView.unsetClass("items-hovering");
@@ -13711,23 +13750,23 @@ module.exports = JTreeViewController = (function(_super) {
   JTreeViewController.prototype.clearAllDragFeedback = function() {
     return this.utils.wait(101, (function(_this) {
       return function() {
-        var listController, nodeView, path, _ref, _ref1, _results;
+        var listController, nodeView, path, ref, ref1, results;
         _this.getView().$('.drop-target').removeClass("drop-target");
         _this.getView().$('.items-hovering').removeClass("items-hovering");
-        _ref = _this.listControllers;
-        for (path in _ref) {
-          if (!__hasProp.call(_ref, path)) continue;
-          listController = _ref[path];
+        ref = _this.listControllers;
+        for (path in ref) {
+          if (!hasProp.call(ref, path)) continue;
+          listController = ref[path];
           listController.getListView().unsetClass("drop-target");
         }
-        _ref1 = _this.nodes;
-        _results = [];
-        for (path in _ref1) {
-          if (!__hasProp.call(_ref1, path)) continue;
-          nodeView = _ref1[path];
-          _results.push(nodeView.unsetClass("items-hovering drop-target"));
+        ref1 = _this.nodes;
+        results = [];
+        for (path in ref1) {
+          if (!hasProp.call(ref1, path)) continue;
+          nodeView = ref1[path];
+          results.push(nodeView.unsetClass("items-hovering drop-target"));
         }
-        return _results;
+        return results;
       };
     })(this));
   };
@@ -13795,7 +13834,7 @@ module.exports = JTreeViewController = (function(_super) {
 
   JTreeViewController.prototype.mouseDown = function(nodeView, event) {
     this.lastEvent = event;
-    if (__indexOf.call(this.selectedNodes, nodeView) < 0) {
+    if (indexOf.call(this.selectedNodes, nodeView) < 0) {
       this.mouseIsDown = true;
       this.cancelDrag = true;
       this.mouseDownTempItem = nodeView;
@@ -13847,14 +13886,14 @@ module.exports = JTreeViewController = (function(_super) {
     e = event.originalEvent;
     e.dataTransfer.effectAllowed = 'copyMove';
     transferredData = (function() {
-      var _i, _len, _ref, _results;
-      _ref = this.selectedNodes;
-      _results = [];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        node = _ref[_i];
-        _results.push(this.getNodeId(node.getData()));
+      var i, len, ref, results;
+      ref = this.selectedNodes;
+      results = [];
+      for (i = 0, len = ref.length; i < len; i++) {
+        node = ref[i];
+        results.push(this.getNodeId(node.getData()));
       }
-      return _results;
+      return results;
     }).call(this);
     e.dataTransfer.setData('Text', transferredData.join());
     if (this.selectedNodes.length > 1) {
@@ -13903,7 +13942,7 @@ module.exports = JTreeViewController = (function(_super) {
   };
 
   JTreeViewController.prototype.keyEventHappened = function(event) {
-    var key, nextNode, nodeView, _base;
+    var base, key, nextNode, nodeView;
     key = keyMap()[event.which];
     nodeView = this.selectedNodes[0];
     this.emit("keyEventPerformedOnTreeView", event);
@@ -13916,7 +13955,7 @@ module.exports = JTreeViewController = (function(_super) {
         event.preventDefault();
         nextNode = this["perform" + (key.capitalize()) + "Key"](nodeView, event);
         if (nextNode) {
-          return typeof (_base = this.getView()).scrollToSubView === "function" ? _base.scrollToSubView(nextNode) : void 0;
+          return typeof (base = this.getView()).scrollToSubView === "function" ? base.scrollToSubView(nextNode) : void 0;
         }
         break;
       case "left":
@@ -13948,7 +13987,7 @@ module.exports = JTreeViewController = (function(_super) {
     if (this.indexedNodes[nextIndex]) {
       nextNode = this.nodes[this.getNodeId(this.indexedNodes[nextIndex])];
       if (this.isNodeVisible(nextNode)) {
-        if (__indexOf.call(this.selectedNodes, nextNode) >= 0) {
+        if (indexOf.call(this.selectedNodes, nextNode) >= 0) {
           return this.deselectNode(this.nodes[this.getNodeId(nodeData)]);
         } else {
           this.selectNode(nextNode, event);
@@ -13974,7 +14013,7 @@ module.exports = JTreeViewController = (function(_super) {
     if (this.indexedNodes[nextIndex]) {
       nextNode = this.nodes[this.getNodeId(this.indexedNodes[nextIndex])];
       if (this.isNodeVisible(nextNode)) {
-        if (__indexOf.call(this.selectedNodes, nextNode) >= 0) {
+        if (indexOf.call(this.selectedNodes, nextNode) >= 0) {
           this.deselectNode(this.nodes[this.getNodeId(nodeData)]);
         } else {
           this.selectNode(nextNode, event);
@@ -14014,15 +14053,15 @@ module.exports = JTreeViewController = (function(_super) {
 
 },{"../../core/kd":99,"../../core/viewcontroller":106,"../list/listviewcontroller":54,"../scrollview/scrollview":68,"./treeitemview":85,"./treeview":86}],88:[function(require,module,exports){
 var KDCustomHTMLView, KDFileUploadArea, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KDView = require('../../core/view');
 
 KDCustomHTMLView = require('../../core/customhtmlview');
 
-module.exports = KDFileUploadArea = (function(_super) {
-  __extends(KDFileUploadArea, _super);
+module.exports = KDFileUploadArea = (function(superClass) {
+  extend(KDFileUploadArea, superClass);
 
   function KDFileUploadArea() {
     return KDFileUploadArea.__super__.constructor.apply(this, arguments);
@@ -14047,14 +14086,14 @@ module.exports = KDFileUploadArea = (function(_super) {
   };
 
   KDFileUploadArea.prototype.drop = function(jQueryEvent) {
-    var file, files, orgEvent, _i, _len;
+    var file, files, i, len, orgEvent;
     jQueryEvent.preventDefault();
     jQueryEvent.stopPropagation();
     this.unsetClass("hover");
     orgEvent = jQueryEvent.originalEvent;
     files = orgEvent.dataTransfer.files;
-    for (_i = 0, _len = files.length; _i < _len; _i++) {
-      file = files[_i];
+    for (i = 0, len = files.length; i < len; i++) {
+      file = files[i];
       this.getDelegate().fileDropped(file);
     }
     return false;
@@ -14089,15 +14128,15 @@ module.exports = KDFileUploadArea = (function(_super) {
 
 },{"../../core/customhtmlview":96,"../../core/view":105}],89:[function(require,module,exports){
 var $, KDFileUploadListItemView, KDListItemView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
 KDListItemView = require('../list/listitemview');
 
-module.exports = KDFileUploadListItemView = (function(_super) {
-  __extends(KDFileUploadListItemView, _super);
+module.exports = KDFileUploadListItemView = (function(superClass) {
+  extend(KDFileUploadListItemView, superClass);
 
   function KDFileUploadListItemView(options, data) {
     KDFileUploadListItemView.__super__.constructor.call(this, options, data);
@@ -14129,15 +14168,15 @@ module.exports = KDFileUploadListItemView = (function(_super) {
 
 },{"../list/listitemview":51,"jquery":111}],90:[function(require,module,exports){
 var KDFileUploadListItemView, KDFileUploadListView, KDListView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KDListView = require('../list/listview');
 
 KDFileUploadListItemView = require('./fileuploadlistitemview');
 
-module.exports = KDFileUploadListView = (function(_super) {
-  __extends(KDFileUploadListView, _super);
+module.exports = KDFileUploadListView = (function(superClass) {
+  extend(KDFileUploadListView, superClass);
 
   function KDFileUploadListView(options, data) {
     if (options.itemClass == null) {
@@ -14166,15 +14205,15 @@ module.exports = KDFileUploadListView = (function(_super) {
 
 },{"../list/listview":52,"./fileuploadlistitemview":89}],91:[function(require,module,exports){
 var $, KDFileUploadThumbItemView, KDListItemView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 $ = require('jquery');
 
 KDListItemView = require('../list/listitemview');
 
-module.exports = KDFileUploadThumbItemView = (function(_super) {
-  __extends(KDFileUploadThumbItemView, _super);
+module.exports = KDFileUploadThumbItemView = (function(superClass) {
+  extend(KDFileUploadThumbItemView, superClass);
 
   function KDFileUploadThumbItemView(options, data) {
     KDFileUploadThumbItemView.__super__.constructor.call(this, options, data);
@@ -14214,15 +14253,15 @@ module.exports = KDFileUploadThumbItemView = (function(_super) {
 
 },{"../list/listitemview":51,"jquery":111}],92:[function(require,module,exports){
 var KDFileUploadListView, KDFileUploadThumbItemView, KDFileUploadThumbListView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KDFileUploadThumbItemView = require('./fileuploadthumbitemview');
 
 KDFileUploadListView = require('./fileuploadlistview');
 
-module.exports = KDFileUploadThumbListView = (function(_super) {
-  __extends(KDFileUploadThumbListView, _super);
+module.exports = KDFileUploadThumbListView = (function(superClass) {
+  extend(KDFileUploadThumbListView, superClass);
 
   function KDFileUploadThumbListView(options, data) {
     if (options.itemClass == null) {
@@ -14240,8 +14279,8 @@ module.exports = KDFileUploadThumbListView = (function(_super) {
 
 },{"./fileuploadlistview":90,"./fileuploadthumbitemview":91}],93:[function(require,module,exports){
 var KDFileUploadArea, KDFileUploadListView, KDFileUploadThumbListView, KDFileUploadView, KDListViewController, KDMultipartUploader, KDNotificationView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KDView = require('../../core/view');
 
@@ -14257,8 +14296,8 @@ KDFileUploadThumbListView = require('./fileuploadthumblistview');
 
 KDMultipartUploader = require('./multipartuploader');
 
-module.exports = KDFileUploadView = (function(_super) {
-  __extends(KDFileUploadView, _super);
+module.exports = KDFileUploadView = (function(superClass) {
+  extend(KDFileUploadView, superClass);
 
   function KDFileUploadView(options, data) {
     if (window.FileReader != null) {
@@ -14360,9 +14399,9 @@ module.exports = KDFileUploadView = (function(_super) {
   KDFileUploadView.prototype.handleUploadError = function(xhr) {};
 
   KDFileUploadView.prototype.fileUploadComplete = function(file, res) {
-    var _ref;
-    if ((_ref = this.fileList.itemsByName[file.name]) != null) {
-      _ref.setClass('uploaded');
+    var ref;
+    if ((ref = this.fileList.itemsByName[file.name]) != null) {
+      ref.setClass('uploaded');
     }
     return this.emit('FileUploadComplete', res);
   };
@@ -14407,13 +14446,13 @@ module.exports = KDFileUploadView = (function(_super) {
   };
 
   KDFileUploadView.prototype.checkFileAmount = function() {
-    var amount, file, maxAmount, name, _ref;
+    var amount, file, maxAmount, name, ref;
     maxAmount = this.getOptions().limit;
     amount = 1;
-    _ref = this.files;
-    for (name in _ref) {
-      if (!__hasProp.call(_ref, name)) continue;
-      file = _ref[name];
+    ref = this.files;
+    for (name in ref) {
+      if (!hasProp.call(ref, name)) continue;
+      file = ref[name];
       amount++;
     }
     if (amount > maxAmount) {
@@ -14425,13 +14464,13 @@ module.exports = KDFileUploadView = (function(_super) {
   };
 
   KDFileUploadView.prototype.checkTotalSize = function(file) {
-    var name, totalMaxSize, totalSize, _ref;
+    var name, ref, totalMaxSize, totalSize;
     totalMaxSize = this.getOptions().totalMaxSize;
     totalSize = file.size;
-    _ref = this.files;
-    for (name in _ref) {
-      if (!__hasProp.call(_ref, name)) continue;
-      file = _ref[name];
+    ref = this.files;
+    for (name in ref) {
+      if (!hasProp.call(ref, name)) continue;
+      file = ref[name];
       totalSize += file.size;
     }
     if (totalSize / 1024 > totalMaxSize) {
@@ -14469,21 +14508,21 @@ module.exports = KDFileUploadView = (function(_super) {
 
 },{"../../core/view":105,"../list/listviewcontroller":54,"../notifications/notificationview":60,"./fileuploadarea":88,"./fileuploadlistview":90,"./fileuploadthumblistview":92,"./multipartuploader":94}],94:[function(require,module,exports){
 var KDEventEmitter, KDMultipartUploader,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KDEventEmitter = require('../../core/eventemitter');
 
-module.exports = KDMultipartUploader = (function(_super) {
+module.exports = KDMultipartUploader = (function(superClass) {
   var boundary;
 
-  __extends(KDMultipartUploader, _super);
+  extend(KDMultipartUploader, superClass);
 
   boundary = "gc0p4Jq0M2Yt08jU534c0p";
 
-  function KDMultipartUploader(_arg) {
+  function KDMultipartUploader(arg) {
     var id;
-    this.url = _arg.url, this.file = _arg.file, id = _arg.id;
+    this.url = arg.url, this.file = arg.file, id = arg.id;
     if (!("FileReader" in window)) {
       throw new Error("FileReader API not found!");
     }
@@ -14498,13 +14537,13 @@ module.exports = KDMultipartUploader = (function(_super) {
   KDMultipartUploader.prototype.serializedToMultipart = function(list) {
     var i;
     return ((function() {
-      var _i, _len, _results;
-      _results = [];
-      for (_i = 0, _len = list.length; _i < _len; _i++) {
-        i = list[_i];
-        _results.push(this.makeMultipartItem(i.name, i.value));
+      var j, len1, results;
+      results = [];
+      for (j = 0, len1 = list.length; j < len1; j++) {
+        i = list[j];
+        results.push(this.makeMultipartItem(i.name, i.value));
       }
-      return _results;
+      return results;
     }).call(this)).join("");
   };
 
@@ -14552,7 +14591,7 @@ module.exports = KDMultipartUploader = (function(_super) {
     })(this);
     body += this.serializedToMultipart([
       {
-        name: "" + this.id + "-size",
+        name: this.id + "-size",
         value: this.file.size
       }
     ]);
@@ -14579,13 +14618,13 @@ module.exports = KDMultipartUploader = (function(_super) {
 
 },{"../../core/eventemitter":97}],95:[function(require,module,exports){
 var KDController, KDObject,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KDObject = require('./object');
 
-module.exports = KDController = (function(_super) {
-  __extends(KDController, _super);
+module.exports = KDController = (function(superClass) {
+  extend(KDController, superClass);
 
   function KDController() {
     return KDController.__super__.constructor.apply(this, arguments);
@@ -14599,16 +14638,16 @@ module.exports = KDController = (function(_super) {
 
 },{"./object":102}],96:[function(require,module,exports){
 var KDCustomHTMLView, KDView,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KDView = require('./view');
 
-module.exports = KDCustomHTMLView = (function(_super) {
-  __extends(KDCustomHTMLView, _super);
+module.exports = KDCustomHTMLView = (function(superClass) {
+  extend(KDCustomHTMLView, superClass);
 
   function KDCustomHTMLView(options, data) {
-    var _ref, _ref1;
+    var ref, ref1;
     if (options == null) {
       options = {};
     }
@@ -14616,9 +14655,9 @@ module.exports = KDCustomHTMLView = (function(_super) {
       this.tagName = options;
     }
     if (this.tagName == null) {
-      this.tagName = (_ref = options.tagName) != null ? _ref : 'div';
+      this.tagName = (ref = options.tagName) != null ? ref : 'div';
     }
-    if (this.tagName === 'a' && (((_ref1 = options.attributes) != null ? _ref1.href : void 0) == null)) {
+    if (this.tagName === 'a' && (((ref1 = options.attributes) != null ? ref1.href : void 0) == null)) {
       options.attributes || (options.attributes = {});
       options.attributes.href = '#';
     }
@@ -14643,7 +14682,7 @@ module.exports = KDCustomHTMLView = (function(_super) {
 
 },{"./view":105}],97:[function(require,module,exports){
 var KDEventEmitter,
-  __slice = [].slice;
+  slice = [].slice;
 
 module.exports = KDEventEmitter = (function() {
   var _off, _on, _registerEvent, _unregisterEvent;
@@ -14674,7 +14713,7 @@ module.exports = KDEventEmitter = (function() {
   };
 
   _on = function(registry, eventName, listener) {
-    var name, _i, _len, _results;
+    var i, len, name, results;
     if (eventName == null) {
       throw new Error('Try passing an event, genius!');
     }
@@ -14682,40 +14721,40 @@ module.exports = KDEventEmitter = (function() {
       throw new Error('Try passing a listener, genius!');
     }
     if (Array.isArray(eventName)) {
-      _results = [];
-      for (_i = 0, _len = eventName.length; _i < _len; _i++) {
-        name = eventName[_i];
-        _results.push(_registerEvent(registry, name, listener));
+      results = [];
+      for (i = 0, len = eventName.length; i < len; i++) {
+        name = eventName[i];
+        results.push(_registerEvent(registry, name, listener));
       }
-      return _results;
+      return results;
     } else {
       return _registerEvent(registry, eventName, listener);
     }
   };
 
   _off = function(registry, eventName, listener) {
-    var name, _i, _len, _results;
+    var i, len, name, results;
     if (Array.isArray(eventName)) {
-      _results = [];
-      for (_i = 0, _len = eventName.length; _i < _len; _i++) {
-        name = eventName[_i];
-        _results.push(_unregisterEvent(registry, name, listener));
+      results = [];
+      for (i = 0, len = eventName.length; i < len; i++) {
+        name = eventName[i];
+        results.push(_unregisterEvent(registry, name, listener));
       }
-      return _results;
+      return results;
     } else {
       return _unregisterEvent(registry, eventName, listener);
     }
   };
 
   KDEventEmitter.emit = function() {
-    var args, eventName, listener, listeners, _base, _i, _len;
+    var args, base, eventName, i, len, listener, listeners;
     if (this._e == null) {
       throw new Error('Static events are not enabled for this constructor.');
     }
-    eventName = arguments[0], args = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
-    listeners = (_base = this._e)[eventName] != null ? _base[eventName] : _base[eventName] = [];
-    for (_i = 0, _len = listeners.length; _i < _len; _i++) {
-      listener = listeners[_i];
+    eventName = arguments[0], args = 2 <= arguments.length ? slice.call(arguments, 1) : [];
+    listeners = (base = this._e)[eventName] != null ? base[eventName] : base[eventName] = [];
+    for (i = 0, len = listeners.length; i < len; i++) {
+      listener = listeners[i];
       listener.apply(null, args);
     }
     return this;
@@ -14750,10 +14789,10 @@ module.exports = KDEventEmitter = (function() {
   }
 
   KDEventEmitter.prototype.emit = function() {
-    var args, eventName, listenerStack, _base;
-    eventName = arguments[0], args = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
-    if ((_base = this._e)[eventName] == null) {
-      _base[eventName] = [];
+    var args, base, eventName, listenerStack;
+    eventName = arguments[0], args = 2 <= arguments.length ? slice.call(arguments, 1) : [];
+    if ((base = this._e)[eventName] == null) {
+      base[eventName] = [];
     }
     listenerStack = [];
     listenerStack = listenerStack.concat(this._e[eventName].slice(0));
@@ -14802,16 +14841,16 @@ module.exports = KDEventEmitter = (function() {
 
 },{}],98:[function(require,module,exports){
 var KDEventEmitter,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  __slice = [].slice;
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty,
+  slice = [].slice;
 
 KDEventEmitter = require('./eventemitter');
 
-module.exports = KDEventEmitter.Wildcard = (function(_super) {
+module.exports = KDEventEmitter.Wildcard = (function(superClass) {
   var getAllListeners, listenerKey, removeAllListeners, wildcardKey;
 
-  __extends(Wildcard, _super);
+  extend(Wildcard, superClass);
 
   wildcardKey = '*';
 
@@ -14864,15 +14903,15 @@ module.exports = KDEventEmitter.Wildcard = (function(_super) {
     }
     if ((it != null) && ((listeners = node[listenerKey]) != null)) {
       node[listenerKey] = (function() {
-        var _i, _len, _results;
-        _results = [];
-        for (_i = 0, _len = listeners.length; _i < _len; _i++) {
-          listener = listeners[_i];
+        var j, len, results;
+        results = [];
+        for (j = 0, len = listeners.length; j < len; j++) {
+          listener = listeners[j];
           if (listener !== it) {
-            _results.push(listener);
+            results.push(listener);
           }
         }
-        return _results;
+        return results;
       })();
     } else {
       node[listenerKey] = [];
@@ -14880,16 +14919,16 @@ module.exports = KDEventEmitter.Wildcard = (function(_super) {
   };
 
   Wildcard.prototype.emit = function() {
-    var eventName, listener, listeners, oldEvent, rest, _i, _len;
-    eventName = arguments[0], rest = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
+    var eventName, j, len, listener, listeners, oldEvent, rest;
+    eventName = arguments[0], rest = 2 <= arguments.length ? slice.call(arguments, 1) : [];
     "use strict";
     if (this.hasOwnProperty('event')) {
       oldEvent = this.event;
     }
     this.event = eventName;
     listeners = getAllListeners(this._e, eventName.split(this._delim));
-    for (_i = 0, _len = listeners.length; _i < _len; _i++) {
-      listener = listeners[_i];
+    for (j = 0, len = listeners.length; j < len; j++) {
+      listener = listeners[j];
       listener.apply(this, rest);
     }
     if (oldEvent != null) {
@@ -14906,15 +14945,15 @@ module.exports = KDEventEmitter.Wildcard = (function(_super) {
   };
 
   Wildcard.prototype.on = function(eventName, listener) {
-    var edge, edges, listeners, node, _i, _len;
+    var edge, edges, j, len, listeners, node;
     if ('function' !== typeof listener) {
       throw new Error('listener is not a function');
     }
     this.emit('newListener', eventName, listener);
     edges = eventName.split(this._delim);
     node = this._e;
-    for (_i = 0, _len = edges.length; _i < _len; _i++) {
-      edge = edges[_i];
+    for (j = 0, len = edges.length; j < len; j++) {
+      edge = edges[j];
       node = node[edge] != null ? node[edge] : node[edge] = {};
     }
     listeners = node[listenerKey] != null ? node[listenerKey] : node[listenerKey] = [];
@@ -14958,17 +14997,17 @@ getSingleton = function(name) {
 
 module.exports = {
   extend: function(obj) {
-    var key, val, _results;
-    _results = [];
+    var key, results, val;
+    results = [];
     for (key in obj) {
       val = obj[key];
       if (this[key]) {
-        throw new Error("" + key + " is already registered");
+        throw new Error(key + " is already registered");
       } else {
-        _results.push(this[key] = val);
+        results.push(this[key] = val);
       }
     }
-    return _results;
+    return results;
   },
   registerSingleton: function(name, obj, override) {
     var existing;
@@ -15041,7 +15080,7 @@ module.exports = {
 
 },{"./utils":104,"kd-dom":112}],100:[function(require,module,exports){
 var KDKeyboardListener,
-  __hasProp = {}.hasOwnProperty;
+  hasProp = {}.hasOwnProperty;
 
 require('mousetrap');
 
@@ -15073,18 +15112,18 @@ module.exports = KDKeyboardListener = (function() {
   };
 
   KDKeyboardListener.prototype.addComboMap = makeUpdater(function(comboMap, priority) {
-    var m, _base, _name, _ref;
-    m = (_base = this.maps)[_name = (_ref = priority != null ? priority : comboMap.priority) != null ? _ref : 0] != null ? _base[_name] : _base[_name] = [];
+    var base, m, name, ref;
+    m = (base = this.maps)[name = (ref = priority != null ? priority : comboMap.priority) != null ? ref : 0] != null ? base[name] : base[name] = [];
     m.push(comboMap);
     return this;
   });
 
   KDKeyboardListener.prototype.removeComboMap = makeUpdater(function(comboMap) {
-    var ms, priority, _ref;
-    _ref = this.maps;
-    for (priority in _ref) {
-      if (!__hasProp.call(_ref, priority)) continue;
-      ms = _ref[priority];
+    var ms, priority, ref;
+    ref = this.maps;
+    for (priority in ref) {
+      if (!hasProp.call(ref, priority)) continue;
+      ms = ref[priority];
       this.maps[priority] = ms.filter(function(m) {
         return m !== comboMap;
       });
@@ -15093,12 +15132,12 @@ module.exports = KDKeyboardListener = (function() {
   });
 
   KDKeyboardListener.prototype.listen = function() {
-    var seen, _ref;
+    var ref, seen;
     if (this.isActive()) {
       return this;
     }
-    if ((_ref = KDKeyboardListener.currentListener) != null) {
-      _ref.reset();
+    if ((ref = KDKeyboardListener.currentListener) != null) {
+      ref.reset();
     }
     seen = {};
     this.combos(function(combo, options, listener) {
@@ -15174,7 +15213,7 @@ module.exports = KDKeyboardListener = (function() {
 
 },{"mousetrap":126,"mousetrap-global-bind":127,"mousetrap-record":128}],101:[function(require,module,exports){
 var KDKeyboardMap,
-  __hasProp = {}.hasOwnProperty;
+  hasProp = {}.hasOwnProperty;
 
 module.exports = KDKeyboardMap = (function() {
   function KDKeyboardMap(options) {
@@ -15185,7 +15224,7 @@ module.exports = KDKeyboardMap = (function() {
     }
     if (combos != null) {
       for (combo in combos) {
-        if (!__hasProp.call(combos, combo)) continue;
+        if (!hasProp.call(combos, combo)) continue;
         listener = combos[combo];
         this.addCombo(combo, null, listener);
       }
@@ -15193,9 +15232,9 @@ module.exports = KDKeyboardMap = (function() {
   }
 
   KDKeyboardMap.prototype.addCombo = function(combo, options, listener) {
-    var _ref;
+    var ref;
     if (listener == null) {
-      _ref = [options, listener], listener = _ref[0], options = _ref[1];
+      ref = [options, listener], listener = ref[0], options = ref[1];
     }
     this.combos[combo] = {
       listener: listener,
@@ -15210,11 +15249,11 @@ module.exports = KDKeyboardMap = (function() {
   };
 
   KDKeyboardMap.prototype.eachCombo = function(fn, thisArg) {
-    var combo, listener, options, _ref, _ref1;
-    _ref = this.combos;
-    for (combo in _ref) {
-      if (!__hasProp.call(_ref, combo)) continue;
-      _ref1 = _ref[combo], options = _ref1.options, listener = _ref1.listener;
+    var combo, listener, options, ref, ref1;
+    ref = this.combos;
+    for (combo in ref) {
+      if (!hasProp.call(ref, combo)) continue;
+      ref1 = ref[combo], options = ref1.options, listener = ref1.listener;
       fn.call(thisArg, combo, options, listener);
     }
   };
@@ -15227,20 +15266,20 @@ module.exports = KDKeyboardMap = (function() {
 
 },{}],102:[function(require,module,exports){
 var KD, KDEventEmitter, KDObject,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  __slice = [].slice;
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty,
+  slice = [].slice;
 
 KD = require('./kd');
 
 KDEventEmitter = require('./eventemitter');
 
-module.exports = KDObject = (function(_super) {
-  var NOTREADY, READY, _ref;
+module.exports = KDObject = (function(superClass) {
+  var NOTREADY, READY, ref;
 
-  __extends(KDObject, _super);
+  extend(KDObject, superClass);
 
-  _ref = [0, 1], NOTREADY = _ref[0], READY = _ref[1];
+  ref = [0, 1], NOTREADY = ref[0], READY = ref[1];
 
   KDObject.prototype.utils = KD.utils;
 
@@ -15291,9 +15330,9 @@ module.exports = KDObject = (function(_super) {
   };
 
   KDObject.prototype.lazyBound = function() {
-    var method, rest, _ref1;
-    method = arguments[0], rest = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
-    return (_ref1 = this[method]).bind.apply(_ref1, [this].concat(__slice.call(rest)));
+    var method, ref1, rest;
+    method = arguments[0], rest = 2 <= arguments.length ? slice.call(arguments, 1) : [];
+    return (ref1 = this[method]).bind.apply(ref1, [this].concat(slice.call(rest)));
   };
 
   KDObject.prototype.forwardEvent = function(target, eventName, prefix) {
@@ -15304,16 +15343,16 @@ module.exports = KDObject = (function(_super) {
   };
 
   KDObject.prototype.forwardEvents = function(target, eventNames, prefix) {
-    var eventName, _i, _len, _results;
+    var eventName, i, len, results;
     if (prefix == null) {
       prefix = "";
     }
-    _results = [];
-    for (_i = 0, _len = eventNames.length; _i < _len; _i++) {
-      eventName = eventNames[_i];
-      _results.push(this.forwardEvent(target, eventName, prefix));
+    results = [];
+    for (i = 0, len = eventNames.length; i < len; i++) {
+      eventName = eventNames[i];
+      results.push(this.forwardEvent(target, eventName, prefix));
     }
-    return _results;
+    return results;
   };
 
   KDObject.prototype.ready = function(listener) {
@@ -15338,24 +15377,24 @@ module.exports = KDObject = (function(_super) {
   KDObject.prototype.getSingleton = KD.getSingleton;
 
   KDObject.prototype.getInstance = function(instanceId) {
-    var _ref1;
-    return (_ref1 = KD.getAllKDInstances()[instanceId]) != null ? _ref1 : null;
+    var ref1;
+    return (ref1 = KD.getAllKDInstances()[instanceId]) != null ? ref1 : null;
   };
 
   KDObject.prototype.registerKDObjectInstance = function() {
     return KD.registerInstance(this);
   };
 
-  KDObject.prototype.setData = function(data) {
-    this.data = data;
+  KDObject.prototype.setData = function(data1) {
+    this.data = data1;
   };
 
   KDObject.prototype.getData = function() {
     return this.data;
   };
 
-  KDObject.prototype.setOptions = function(options) {
-    this.options = options != null ? options : {};
+  KDObject.prototype.setOptions = function(options1) {
+    this.options = options1 != null ? options1 : {};
   };
 
   KDObject.prototype.setOption = function(option, value) {
@@ -15373,8 +15412,8 @@ module.exports = KDObject = (function(_super) {
   };
 
   KDObject.prototype.getOption = function(key) {
-    var _ref1;
-    return (_ref1 = this.options[key]) != null ? _ref1 : null;
+    var ref1;
+    return (ref1 = this.options[key]) != null ? ref1 : null;
   };
 
   KDObject.prototype.changeId = function(id) {
@@ -15404,7 +15443,7 @@ module.exports = KDObject = (function(_super) {
   KDObject.prototype.chainNames = function(options) {
     options.chain;
     options.newLink;
-    return "" + options.chain + "." + options.newLink;
+    return options.chain + "." + options.newLink;
   };
 
   return KDObject;
@@ -15415,10 +15454,10 @@ module.exports = KDObject = (function(_super) {
 
 },{"./eventemitter":97,"./kd":99}],103:[function(require,module,exports){
 var Encoder, KD, KDNotificationView, KDObject, KDRouter,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; },
-  __slice = [].slice;
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty,
+  indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; },
+  slice = [].slice;
 
 KD = require('./kd');
 
@@ -15428,10 +15467,10 @@ KDNotificationView = require('../components/notifications/notificationview');
 
 Encoder = require('htmlencode');
 
-module.exports = KDRouter = (function(_super) {
+module.exports = KDRouter = (function(superClass) {
   var createObjectRef, history, listenerKey, revive, routeWithoutEdgeAtIndex;
 
-  __extends(KDRouter, _super);
+  extend(KDRouter, superClass);
 
   history = window.history;
 
@@ -15440,12 +15479,12 @@ module.exports = KDRouter = (function(_super) {
   KDRouter.registerStaticEmitter();
 
   createObjectRef = function(obj) {
-    var _ref;
+    var ref;
     if (!(((obj != null ? obj.bongo_ : void 0) != null) && (obj.getId != null))) {
       return;
     }
     return {
-      constructorName: (_ref = obj.bongo_) != null ? _ref.constructorName : void 0,
+      constructorName: (ref = obj.bongo_) != null ? ref.constructorName : void 0,
       id: obj.getId()
     };
   };
@@ -15568,12 +15607,12 @@ module.exports = KDRouter = (function(_super) {
   };
 
   KDRouter.prototype.addRoute = function(route, listener) {
-    var edge, i, last, node, _i, _len;
+    var edge, i, j, last, len, node;
     this.routes[route] = listener;
     node = this.tree;
     route = route.split('/');
     route.shift();
-    for (i = _i = 0, _len = route.length; _i < _len; i = ++_i) {
+    for (i = j = 0, len = route.length; j < len; i = ++j) {
       edge = route[i];
       last = edge.length - 1;
       if ('?' === edge.charAt(last)) {
@@ -15591,24 +15630,24 @@ module.exports = KDRouter = (function(_super) {
       }
     }
     node[listenerKey] || (node[listenerKey] = []);
-    if (__indexOf.call(node[listenerKey], listener) < 0) {
+    if (indexOf.call(node[listenerKey], listener) < 0) {
       return node[listenerKey].push(listener);
     }
   };
 
   KDRouter.prototype.addRoutes = function(routes) {
-    var listener, route, _results;
-    _results = [];
+    var listener, results, route;
+    results = [];
     for (route in routes) {
-      if (!__hasProp.call(routes, route)) continue;
+      if (!hasProp.call(routes, route)) continue;
       listener = routes[route];
-      _results.push(this.addRoute(route, listener));
+      results.push(this.addRoute(route, listener));
     }
-    return _results;
+    return results;
   };
 
   KDRouter.prototype.handleRoute = function(userRoute, options) {
-    var edge, frags, listener, listeners, method, node, notFound, objRef, param, params, path, qs, query, replaceState, routeInfo, shouldPushState, state, suppressListeners, _i, _j, _len, _len1, _ref, _ref1;
+    var edge, frags, j, k, len, len1, listener, listeners, method, node, notFound, objRef, param, params, path, qs, query, ref, ref1, replaceState, routeInfo, shouldPushState, state, suppressListeners;
     if (options == null) {
       options = {};
     }
@@ -15618,7 +15657,7 @@ module.exports = KDRouter = (function(_super) {
     if (this.visitedRoutes.last !== userRoute) {
       this.visitedRoutes.push(userRoute);
     }
-    _ref1 = ((_ref = userRoute != null ? userRoute : typeof this.getDefaultRoute === "function" ? this.getDefaultRoute() : void 0) != null ? _ref : '/').split('?'), frags = _ref1[0], query = 2 <= _ref1.length ? __slice.call(_ref1, 1) : [];
+    ref1 = ((ref = userRoute != null ? userRoute : typeof this.getDefaultRoute === "function" ? this.getDefaultRoute() : void 0) != null ? ref : '/').split('?'), frags = ref1[0], query = 2 <= ref1.length ? slice.call(ref1, 1) : [];
     query = this.utils.parseQuery(query.join('&'));
     shouldPushState = options.shouldPushState, replaceState = options.replaceState, state = options.state, suppressListeners = options.suppressListeners;
     if (shouldPushState == null) {
@@ -15636,8 +15675,8 @@ module.exports = KDRouter = (function(_super) {
       path += "?" + qs;
     }
     notFound = false;
-    for (_i = 0, _len = frags.length; _i < _len; _i++) {
-      edge = frags[_i];
+    for (j = 0, len = frags.length; j < len; j++) {
+      edge = frags[j];
       if (node[edge]) {
         node = node[edge];
       } else {
@@ -15677,8 +15716,8 @@ module.exports = KDRouter = (function(_super) {
     if (!suppressListeners) {
       listeners = node[listenerKey];
       if (listeners != null ? listeners.length : void 0) {
-        for (_j = 0, _len1 = listeners.length; _j < _len1; _j++) {
-          listener = listeners[_j];
+        for (k = 0, len1 = listeners.length; k < len1; k++) {
+          listener = listeners[k];
           listener.call(this, routeInfo, state, path);
         }
       }
@@ -15694,7 +15733,7 @@ module.exports = KDRouter = (function(_super) {
     if (!query.length) {
       return;
     }
-    nextRoute = "" + this.currentPath + "?" + query;
+    nextRoute = this.currentPath + "?" + query;
     return this.handleRoute(nextRoute);
   };
 
@@ -15706,17 +15745,17 @@ module.exports = KDRouter = (function(_super) {
 
 },{"../components/notifications/notificationview":60,"./kd":99,"./object":102,"htmlencode":115}],104:[function(require,module,exports){
 var Inflector, createCounter,
-  __slice = [].slice;
+  slice = [].slice;
 
 Inflector = require('inflector');
 
 module.exports = {
   idCounter: 0,
   extend: function() {
-    var key, source, sources, target, val, _i, _len;
-    target = arguments[0], sources = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
-    for (_i = 0, _len = sources.length; _i < _len; _i++) {
-      source = sources[_i];
+    var j, key, len, source, sources, target, val;
+    target = arguments[0], sources = 2 <= arguments.length ? slice.call(arguments, 1) : [];
+    for (j = 0, len = sources.length; j < len; j++) {
+      source = sources[j];
       for (key in source) {
         val = source[key];
         target[key] = val;
@@ -15738,8 +15777,8 @@ module.exports = {
     return el != null ? el.classList.add("hidden") : void 0;
   },
   elementHasTag: function(el, tagName) {
-    var _ref;
-    return Boolean(((_ref = el.tagName) != null ? _ref.toLowerCase() : void 0) === tagName.toLowerCase());
+    var ref;
+    return Boolean(((ref = el.tagName) != null ? ref.toLowerCase() : void 0) === tagName.toLowerCase());
   },
   elementIsVisible: function(el) {
     var height, i, inViewport, l, onTop, r, rects;
@@ -15770,11 +15809,11 @@ module.exports = {
     if (showCount == null) {
       showCount = true;
     }
-    return "" + (showCount ? "" + (count || 0) + " " : '') + (count === 1 ? noun : Inflector.pluralize(noun));
+    return "" + (showCount ? (count || 0) + " " : '') + (count === 1 ? noun : Inflector.pluralize(noun));
   },
   formatIndefiniteArticle: function(noun) {
-    var _ref;
-    if ((_ref = noun[0].toLowerCase()) === 'a' || _ref === 'e' || _ref === 'i' || _ref === 'o' || _ref === 'u') {
+    var ref;
+    if ((ref = noun[0].toLowerCase()) === 'a' || ref === 'e' || ref === 'i' || ref === 'o' || ref === 'u') {
       return "an " + noun;
     }
     return "a " + noun;
@@ -15944,21 +15983,21 @@ module.exports = {
     };
     return stringifyQuery = function(obj) {
       return Object.keys(obj).map(function(key) {
-        return "" + (encode(key)) + "=" + (encode(obj[key]));
+        return (encode(key)) + "=" + (encode(obj[key]));
       }).join('&').trim();
     };
   })(),
   capAndRemovePeriods: function(path) {
     var arg, newPath;
     newPath = (function() {
-      var _i, _len, _ref, _results;
-      _ref = path.split(".");
-      _results = [];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        arg = _ref[_i];
-        _results.push(arg.capitalize());
+      var j, len, ref, results;
+      ref = path.split(".");
+      results = [];
+      for (j = 0, len = ref.length; j < len; j++) {
+        arg = ref[j];
+        results.push(arg.capitalize());
       }
-      return _results;
+      return results;
     })();
     return newPath.join("");
   },
@@ -15973,9 +16012,9 @@ module.exports = {
     return value.replace(/<(?:.|\n)*?>/gm, '');
   },
   decimalToAnother: function(n, radix) {
-    var a, b, hex, i, s, t, _i, _j;
+    var a, b, hex, i, j, k, ref, s, t;
     hex = [];
-    for (i = _i = 0; _i <= 10; i = ++_i) {
+    for (i = j = 0; j <= 10; i = ++j) {
       hex[i + 1] = i;
     }
     s = '';
@@ -15988,7 +16027,7 @@ module.exports = {
     s += hex[a + 1];
     n = s.length;
     t = '';
-    for (i = _j = 0; 0 <= n ? _j < n : _j > n; i = 0 <= n ? ++_j : --_j) {
+    for (i = k = 0, ref = n; 0 <= ref ? k < ref : k > ref; i = 0 <= ref ? ++k : --k) {
       t = t + s.substring(n - i - 1, n - i);
     }
     s = t;
@@ -16083,7 +16122,7 @@ module.exports = {
     cancelled = false;
     kallback = function() {
       var rest;
-      rest = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
+      rest = 1 <= arguments.length ? slice.call(arguments, 0) : [];
       if (!cancelled) {
         return callback.apply(null, rest);
       }
@@ -16101,7 +16140,7 @@ module.exports = {
     cancelled = false;
     kallback = function() {
       var rest;
-      rest = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
+      rest = 1 <= arguments.length ? slice.call(arguments, 0) : [];
       clearTimeout(fallbackTimer);
       if (!cancelled) {
         return callback.apply(null, rest);
@@ -16109,7 +16148,7 @@ module.exports = {
     };
     fallback = function() {
       var rest;
-      rest = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
+      rest = 1 <= arguments.length ? slice.call(arguments, 0) : [];
       if (!cancelled) {
         failcallback.apply(null, rest);
       }
@@ -16132,7 +16171,7 @@ module.exports = {
     kallback = (function(_this) {
       return function() {
         var rest;
-        rest = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
+        rest = 1 <= arguments.length ? slice.call(arguments, 0) : [];
         clearTimeout(fallbackTimer);
         _this.updateLogTimer(timerName, fallbackTimer, Date.now());
         if (timedOut) {
@@ -16145,7 +16184,7 @@ module.exports = {
     fallback = (function(_this) {
       return function() {
         var rest;
-        rest = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
+        rest = 1 <= arguments.length ? slice.call(arguments, 0) : [];
         timedOut = true;
         _this.updateLogTimer(timerName, fallbackTimer);
         return onTimeout.apply(null, rest);
@@ -16159,9 +16198,9 @@ module.exports = {
     return kallback;
   },
   logTimer: function(timerName, timerNumber, startTime) {
-    var _base;
+    var base;
     log("logTimer name:" + timerName);
-    (_base = this.timers)[timerName] || (_base[timerName] = {});
+    (base = this.timers)[timerName] || (base[timerName] = {});
     return this.timers[timerName][timerNumber] = {
       start: startTime,
       status: "started"
@@ -16256,9 +16295,9 @@ module.exports = {
         return callback((data != null ? data.id : void 0) || url, data);
       };
     })(this));
-    return request.error(function(_arg) {
+    return request.error(function(arg1) {
       var responseText, status, statusText;
-      status = _arg.status, statusText = _arg.statusText, responseText = _arg.responseText;
+      status = arg1.status, statusText = arg1.statusText, responseText = arg1.responseText;
       error("URL shorten error, returning self as fallback.", status, statusText, responseText);
       return callback(url);
     });
@@ -16277,7 +16316,7 @@ module.exports = {
     units = ["kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
     unitIndex = -1;
     if (bytes < thresh) {
-      return "" + bytes + " B";
+      return bytes + " B";
     }
     while (true) {
       bytes /= thresh;
@@ -16289,26 +16328,26 @@ module.exports = {
     return "" + minus + (bytes.toFixed(fixedAmout)) + " " + units[unitIndex];
   },
   splitTrim: function(str, delim, filterEmpty) {
-    var arr, _ref;
+    var arr, ref;
     if (delim == null) {
       delim = ',';
     }
     if (filterEmpty == null) {
       filterEmpty = true;
     }
-    arr = (_ref = str != null ? str.split(delim).map(function(part) {
+    arr = (ref = str != null ? str.split(delim).map(function(part) {
       return part.trim();
-    }) : void 0) != null ? _ref : [];
+    }) : void 0) != null ? ref : [];
     if (filterEmpty) {
       arr = arr.filter(Boolean);
     }
     return arr;
   },
   arrayToObject: function(list, key) {
-    var dict, obj, _i, _len;
+    var dict, j, len, obj;
     dict = {};
-    for (_i = 0, _len = list.length; _i < _len; _i++) {
-      obj = list[_i];
+    for (j = 0, len = list.length; j < len; j++) {
+      obj = list[j];
       if (obj[key] != null) {
         dict[obj[key]] = obj;
       }
@@ -16316,10 +16355,10 @@ module.exports = {
     return dict;
   },
   partition: function(list, fn) {
-    var item, result, _i, _len;
+    var item, j, len, result;
     result = [[], []];
-    for (_i = 0, _len = list.length; _i < _len; _i++) {
-      item = list[_i];
+    for (j = 0, len = list.length; j < len; j++) {
+      item = list[j];
       result[+(!fn(item))].push(item);
     }
     return result;
@@ -16335,9 +16374,9 @@ module.exports = {
   //     http://documentcloud.github.com/underscore
    */
   throttle: function(wait, func, options) {
-    var args, context, later, previous, result, timeout, _ref;
+    var args, context, later, previous, ref, result, timeout;
     if ((typeof func) === 'number') {
-      _ref = [func, wait], wait = _ref[0], func = _ref[1];
+      ref = [func, wait], wait = ref[0], func = ref[1];
     }
     context = null;
     args = null;
@@ -16381,9 +16420,9 @@ module.exports = {
     };
   },
   debounce: function(wait, func, immediate) {
-    var args, context, later, result, timeout, timestamp, _ref;
+    var args, context, later, ref, result, timeout, timestamp;
     if ((typeof func) === 'number') {
-      _ref = [func, wait], wait = _ref[0], func = _ref[1];
+      ref = [func, wait], wait = ref[0], func = ref[1];
     }
     timeout = null;
     args = null;
@@ -16438,6 +16477,16 @@ module.exports = {
       }
     }
     return [x, y];
+  },
+  isTouchDevice: function() {
+    var e;
+    try {
+      document.createEvent('TouchEvent');
+      return true;
+    } catch (_error) {
+      e = _error;
+      return false;
+    }
   }
 };
 
@@ -16445,10 +16494,10 @@ module.exports = {
 
 },{"inflector":116}],105:[function(require,module,exports){
 var $, KD, KDObject, KDView, MutationSummary,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; },
-  __slice = [].slice;
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty,
+  indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; },
+  slice = [].slice;
 
 $ = require('jquery');
 
@@ -16458,15 +16507,15 @@ KDObject = require('./object');
 
 MutationSummary = require('mutation-summary');
 
-module.exports = KDView = (function(_super) {
+module.exports = KDView = (function(superClass) {
   var defineProperty, deprecated, eventNames, eventToMethodMap, overrideAndMergeObjects;
 
-  __extends(KDView, _super);
+  extend(KDView, superClass);
 
   defineProperty = Object.defineProperty;
 
   deprecated = function(methodName) {
-    return KD.warn("" + methodName + " is deprecated from KDView if you need it override in your subclass");
+    return KD.warn(methodName + " is deprecated from KDView if you need it override in your subclass");
   };
 
   eventNames = /^((dbl)?click|key(up|down|press)|mouse(up|down|over|enter|leave|move)|drag(start|end|enter|leave|over)|blur|change|focus|drop|contextmenu|scroll|paste|error|load|wheel)$/;
@@ -16496,11 +16545,11 @@ module.exports = KDView = (function(_super) {
   };
 
   overrideAndMergeObjects = function(objects) {
-    var item, title, _ref;
-    _ref = objects.overridden;
-    for (title in _ref) {
-      if (!__hasProp.call(_ref, title)) continue;
-      item = _ref[title];
+    var item, ref, title;
+    ref = objects.overridden;
+    for (title in ref) {
+      if (!hasProp.call(ref, title)) continue;
+      item = ref[title];
       if (objects.overrider[title]) {
         continue;
       }
@@ -16595,7 +16644,7 @@ module.exports = KDView = (function(_super) {
     this.on('childAppended', this.childAppended.bind(this));
     return this.on('viewAppended', (function(_this) {
       return function() {
-        var child, fireViewAppended, key, subViews, _i, _len, _results, _results1;
+        var child, fireViewAppended, i, key, len, results, results1, subViews;
         _this.setViewReady();
         _this.viewAppended();
         _this.childAppended(_this);
@@ -16610,20 +16659,20 @@ module.exports = KDView = (function(_super) {
         };
         subViews = _this.getSubViews();
         if (Array.isArray(subViews)) {
-          _results = [];
-          for (_i = 0, _len = subViews.length; _i < _len; _i++) {
-            child = subViews[_i];
-            _results.push(fireViewAppended(child));
+          results = [];
+          for (i = 0, len = subViews.length; i < len; i++) {
+            child = subViews[i];
+            results.push(fireViewAppended(child));
           }
-          return _results;
+          return results;
         } else if ((subViews != null) && 'object' === typeof subViews) {
-          _results1 = [];
+          results1 = [];
           for (key in subViews) {
-            if (!__hasProp.call(subViews, key)) continue;
+            if (!hasProp.call(subViews, key)) continue;
             child = subViews[key];
-            _results1.push(fireViewAppended(child));
+            results1.push(fireViewAppended(child));
           }
-          return _results1;
+          return results1;
         }
       };
     })(this));
@@ -16634,18 +16683,18 @@ module.exports = KDView = (function(_super) {
   };
 
   KDView.prototype.setDomElement = function(cssClass) {
-    var domId, el, klass, tagName, _i, _len, _ref, _ref1;
+    var domId, el, i, klass, len, ref, ref1, tagName;
     if (cssClass == null) {
       cssClass = '';
     }
-    _ref = this.getOptions(), domId = _ref.domId, tagName = _ref.tagName;
+    ref = this.getOptions(), domId = ref.domId, tagName = ref.tagName;
     if (domId) {
       el = document.getElementById(domId);
     }
     this.lazy = el == null ? (el = document.createElement(tagName), domId ? el.id = domId : void 0, false) : true;
-    _ref1 = ("kdview " + cssClass).split(' ');
-    for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-      klass = _ref1[_i];
+    ref1 = ("kdview " + cssClass).split(' ');
+    for (i = 0, len = ref1.length; i < len; i++) {
+      klass = ref1[i];
       if (klass.length) {
         el.classList.add(klass);
       }
@@ -16665,16 +16714,16 @@ module.exports = KDView = (function(_super) {
   };
 
   KDView.prototype.setData = function(data) {
-    var _ref, _ref1;
-    if ((_ref = this.data) != null) {
-      if (typeof _ref.off === "function") {
-        _ref.off('update', this.bound('render'));
+    var ref, ref1;
+    if ((ref = this.data) != null) {
+      if (typeof ref.off === "function") {
+        ref.off('update', this.bound('render'));
       }
     }
     KDView.__super__.setData.call(this, data);
-    if ((_ref1 = this.data) != null) {
-      if (typeof _ref1.on === "function") {
-        _ref1.on('update', this.bound('render'));
+    if ((ref1 = this.data) != null) {
+      if (typeof ref1.on === "function") {
+        ref1.on('update', this.bound('render'));
       }
     }
     if (this.parentIsInDom) {
@@ -16695,14 +16744,14 @@ module.exports = KDView = (function(_super) {
   };
 
   KDView.prototype.setAttributes = function(attributes) {
-    var attr, val, _results;
-    _results = [];
+    var attr, results, val;
+    results = [];
     for (attr in attributes) {
-      if (!__hasProp.call(attributes, attr)) continue;
+      if (!hasProp.call(attributes, attr)) continue;
       val = attributes[attr];
-      _results.push(this.setAttribute(attr, val));
+      results.push(this.setAttribute(attr, val));
     }
-    return _results;
+    return results;
   };
 
   KDView.prototype.isInDom = (function() {
@@ -16796,16 +16845,16 @@ module.exports = KDView = (function(_super) {
   };
 
   KDView.setElementClass = function(el, addOrRemove, cssClass) {
-    var cl, _i, _len, _ref, _results;
-    _ref = cssClass.split(' ');
-    _results = [];
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      cl = _ref[_i];
+    var cl, i, len, ref, results;
+    ref = cssClass.split(' ');
+    results = [];
+    for (i = 0, len = ref.length; i < len; i++) {
+      cl = ref[i];
       if (cl !== '') {
-        _results.push(el.classList[addOrRemove](cl));
+        results.push(el.classList[addOrRemove](cl));
       }
     }
-    return _results;
+    return results;
   };
 
   KDView.prototype.setCss = function(property, value) {
@@ -16813,14 +16862,14 @@ module.exports = KDView = (function(_super) {
   };
 
   KDView.prototype.setStyle = function(properties) {
-    var property, value, _results;
-    _results = [];
+    var property, results, value;
+    results = [];
     for (property in properties) {
-      if (!__hasProp.call(properties, property)) continue;
+      if (!hasProp.call(properties, property)) continue;
       value = properties[property];
-      _results.push(this.$().css(property, value));
+      results.push(this.$().css(property, value));
     }
-    return _results;
+    return results;
   };
 
   KDView.prototype.setClass = function(cssClass) {
@@ -16943,10 +16992,10 @@ module.exports = KDView = (function(_super) {
   };
 
   KDView.prototype.destroyChild = function(prop) {
-    var _base;
+    var base;
     if (this[prop] != null) {
-      if (typeof (_base = this[prop]).destroy === "function") {
-        _base.destroy();
+      if (typeof (base = this[prop]).destroy === "function") {
+        base.destroy();
       }
       delete this[prop];
       return true;
@@ -16962,17 +17011,17 @@ module.exports = KDView = (function(_super) {
   };
 
   KDView.prototype.detach = function() {
-    var _ref;
-    if ((_ref = this.parent) != null) {
-      _ref.getElement().removeChild(this.getElement());
+    var ref;
+    if ((ref = this.parent) != null) {
+      ref.getElement().removeChild(this.getElement());
     }
     this.orphanize();
     return this.unsetParent();
   };
 
   KDView.prototype.orphanize = function() {
-    var index, _ref;
-    if (((_ref = this.parent) != null ? _ref.subViews : void 0) && (index = this.parent.subViews.indexOf(this)) >= 0) {
+    var index, ref;
+    if (((ref = this.parent) != null ? ref.subViews : void 0) && (index = this.parent.subViews.indexOf(this)) >= 0) {
       this.parent.subViews.splice(index, 1);
       return this.unsetParent();
     }
@@ -16991,10 +17040,10 @@ module.exports = KDView = (function(_super) {
   };
 
   KDView.prototype.destroySubViews = function() {
-    var view, _i, _len, _ref;
-    _ref = this.getSubViews().slice();
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      view = _ref[_i];
+    var i, len, ref, view;
+    ref = this.getSubViews().slice();
+    for (i = 0, len = ref.length; i < len; i++) {
+      view = ref[i];
       if (typeof view.destroy === "function") {
         view.destroy();
       }
@@ -17077,30 +17126,30 @@ module.exports = KDView = (function(_super) {
   };
 
   KDView.prototype.addEventHandlers = function(options) {
-    var cb, eventName, _results;
-    _results = [];
+    var cb, eventName, results;
+    results = [];
     for (eventName in options) {
-      if (!__hasProp.call(options, eventName)) continue;
+      if (!hasProp.call(options, eventName)) continue;
       cb = options[eventName];
       if (eventNames.test(eventName) && "function" === typeof cb) {
-        _results.push(this.on(eventName, cb));
+        results.push(this.on(eventName, cb));
       } else {
-        _results.push(void 0);
+        results.push(void 0);
       }
     }
-    return _results;
+    return results;
   };
 
   KDView.prototype.parentDidResize = function(parent, event) {
-    var subView, _i, _len, _ref, _results;
+    var i, len, ref, results, subView;
     if (this.getSubViews()) {
-      _ref = this.getSubViews();
-      _results = [];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        subView = _ref[_i];
-        _results.push(subView.parentDidResize(parent, event));
+      ref = this.getSubViews();
+      results = [];
+      for (i = 0, len = ref.length; i < len; i++) {
+        subView = ref[i];
+        results.push(subView.parentDidResize(parent, event));
       }
-      return _results;
+      return results;
     }
   };
 
@@ -17119,8 +17168,8 @@ module.exports = KDView = (function(_super) {
       threshold = Math.max(50, threshold);
       lastPos = 0;
       return function(event) {
-        var currentPos, direction, height, scrollHeight, scrollTop, _ref;
-        _ref = this.getElement(), scrollHeight = _ref.scrollHeight, scrollTop = _ref.scrollTop;
+        var currentPos, direction, height, ref, scrollHeight, scrollTop;
+        ref = this.getElement(), scrollHeight = ref.scrollHeight, scrollTop = ref.scrollTop;
         height = this.getHeight();
         if (scrollTop < 0) {
           return lastPos = height;
@@ -17147,13 +17196,13 @@ module.exports = KDView = (function(_super) {
     defaultEvents = "mousedown mouseup click dblclick";
     instanceEvents = this.getOptions().bind;
     eventsToBeBound = (function() {
-      var _i, _len;
+      var i, len;
       if (instanceEvents) {
         eventsToBeBound = defaultEvents.trim().split(" ");
         instanceEvents = instanceEvents.trim().split(" ");
-        for (_i = 0, _len = instanceEvents.length; _i < _len; _i++) {
-          event = instanceEvents[_i];
-          if (__indexOf.call(eventsToBeBound, event) < 0) {
+        for (i = 0, len = instanceEvents.length; i < len; i++) {
+          event = instanceEvents[i];
+          if (indexOf.call(eventsToBeBound, event) < 0) {
             eventsToBeBound.push(event);
           }
         }
@@ -17185,7 +17234,7 @@ module.exports = KDView = (function(_super) {
     };
     transitionEvent = 'transitionend';
     for (key in transitions) {
-      if (!__hasProp.call(transitions, key)) continue;
+      if (!hasProp.call(transitions, key)) continue;
       val = transitions[key];
       if (!(key in el.style)) {
         continue;
@@ -17200,9 +17249,9 @@ module.exports = KDView = (function(_super) {
   };
 
   KDView.prototype.bindEvent = function($elm, eventName) {
-    var _ref;
+    var ref;
     if (!eventName) {
-      _ref = [$elm, this.$()], eventName = _ref[0], $elm = _ref[1];
+      ref = [$elm, this.$()], eventName = ref[0], $elm = ref[1];
     }
     return $elm.bind(eventName, (function(_this) {
       return function(event) {
@@ -17410,7 +17459,7 @@ module.exports = KDView = (function(_super) {
           oPad = options.containment.padding;
           if ('number' === typeof oPad) {
             for (p in padding) {
-              if (!__hasProp.call(padding, p)) continue;
+              if (!hasProp.call(padding, p)) continue;
               v = padding[p];
               v = oPad;
             }
@@ -17440,8 +17489,8 @@ module.exports = KDView = (function(_super) {
   };
 
   KDView.prototype.drag = function(event, delta) {
-    var axis, containment, cp, directionX, directionY, dragCurDir, dragDir, dragGlobDir, dragGlobPos, dragInitPos, dragMeta, dragPos, dragRelPos, draggedDistance, el, m, newX, newY, p, targetPosX, targetPosY, x, y, _ref;
-    _ref = this.dragState, directionX = _ref.directionX, directionY = _ref.directionY, axis = _ref.axis, containment = _ref.containment;
+    var axis, containment, cp, directionX, directionY, dragCurDir, dragDir, dragGlobDir, dragGlobPos, dragInitPos, dragMeta, dragPos, dragRelPos, draggedDistance, el, m, newX, newY, p, ref, targetPosX, targetPosY, x, y;
+    ref = this.dragState, directionX = ref.directionX, directionY = ref.directionY, axis = ref.axis, containment = ref.containment;
     x = delta.x, y = delta.y;
     dragPos = this.dragState.position;
     dragRelPos = dragPos.relative;
@@ -17506,8 +17555,8 @@ module.exports = KDView = (function(_super) {
   KDView.prototype.viewAppended = function() {};
 
   KDView.prototype.childAppended = function(child) {
-    var _ref;
-    return (_ref = this.parent) != null ? _ref.emit('childAppended', child) : void 0;
+    var ref;
+    return (ref = this.parent) != null ? ref.emit('childAppended', child) : void 0;
   };
 
   KDView.prototype.setViewReady = function() {
@@ -17528,8 +17577,8 @@ module.exports = KDView = (function(_super) {
       callback: (function(_this) {
         return function() {
           var rest;
-          rest = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
-          return _this.emit.apply(_this, ['MutationHappened'].concat(__slice.call(rest)));
+          rest = 1 <= arguments.length ? slice.call(arguments, 0) : [];
+          return _this.emit.apply(_this, ['MutationHappened'].concat(slice.call(rest)));
         };
       })(this),
       rootNode: this.getElement(),
@@ -17552,14 +17601,14 @@ module.exports = KDView = (function(_super) {
   };
 
   KDView.prototype.removeOverlay = function() {
-    var _ref;
-    return (_ref = this.overlay) != null ? _ref.destroy() : void 0;
+    var ref;
+    return (ref = this.overlay) != null ? ref.destroy() : void 0;
   };
 
   KDView.prototype.unsetTooltip = function() {
-    var _ref;
-    if ((_ref = this.tooltip) != null) {
-      _ref.destroy();
+    var ref;
+    if ((ref = this.tooltip) != null) {
+      ref.destroy();
     }
     return this.tooltip = null;
   };
@@ -17652,8 +17701,8 @@ module.exports = KDView = (function(_super) {
 
 },{"../components/overlay/overlayview":61,"../components/tooltip/tooltip":84,"./kd":99,"./object":102,"jquery":111,"mutation-summary":118}],106:[function(require,module,exports){
 var KD, KDController, KDView, KDViewController,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 KD = require('./kd');
 
@@ -17661,8 +17710,8 @@ KDView = require('./view');
 
 KDController = require('./controller');
 
-module.exports = KDViewController = (function(_super) {
-  __extends(KDViewController, _super);
+module.exports = KDViewController = (function(superClass) {
+  extend(KDViewController, superClass);
 
   function KDViewController(options, data) {
     if (options == null) {
@@ -17706,9 +17755,9 @@ module.exports = KDViewController = (function(_super) {
 
 },{"./controller":95,"./kd":99,"./view":105}],107:[function(require,module,exports){
 var $, KD, KDController, KDKeyboardListener, KDKeyboardMap, KDWindowController,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty,
+  indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 $ = require('jquery');
 
@@ -17729,10 +17778,10 @@ todo:
 
 KDController = require('./controller');
 
-module.exports = KDWindowController = (function(_super) {
+module.exports = KDWindowController = (function(superClass) {
   var addListener, superKey, superizeCombos;
 
-  __extends(KDWindowController, _super);
+  extend(KDWindowController, superClass);
 
   KDWindowController.keyViewHistory = [];
 
@@ -17760,7 +17809,7 @@ module.exports = KDWindowController = (function(_super) {
   }
 
   KDWindowController.prototype.addLayer = function(layer) {
-    if (__indexOf.call(this.layers, layer) < 0) {
+    if (indexOf.call(this.layers, layer) < 0) {
       this.layers.push(layer);
       return layer.on('KDObjectWillBeDestroyed', (function(_this) {
         return function() {
@@ -17772,17 +17821,17 @@ module.exports = KDWindowController = (function(_super) {
 
   KDWindowController.prototype.removeLayer = function(layer) {
     var index;
-    if (__indexOf.call(this.layers, layer) >= 0) {
+    if (indexOf.call(this.layers, layer) >= 0) {
       index = this.layers.indexOf(layer);
       return this.layers.splice(index, 1);
     }
   };
 
   KDWindowController.prototype.bindEvents = function() {
-    var eventName, layers, _i, _len, _ref;
-    _ref = this.keyEventsToBeListened;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      eventName = _ref[_i];
+    var eventName, i, layers, len, ref;
+    ref = this.keyEventsToBeListened;
+    for (i = 0, len = ref.length; i < len; i++) {
+      eventName = ref[i];
       window.addEventListener(eventName, this.bound('key'));
     }
     window.addEventListener('resize', this.bound('notifyWindowResizeListeners'));
@@ -17806,8 +17855,8 @@ module.exports = KDWindowController = (function(_super) {
     })(this));
     addListener("dragleave", (function(_this) {
       return function(event) {
-        var _ref1, _ref2;
-        if (!((0 < (_ref1 = event.clientX) && _ref1 < _this.winWidth) && (0 < (_ref2 = event.clientY) && _ref2 < _this.winHeight))) {
+        var ref1, ref2;
+        if (!((0 < (ref1 = event.clientX) && ref1 < _this.winWidth) && (0 < (ref2 = event.clientY) && ref2 < _this.winHeight))) {
           _this.emit('DragExitOnWindow', event);
           return _this.setDragInAction(false);
         }
@@ -17847,9 +17896,9 @@ module.exports = KDWindowController = (function(_super) {
       };
     })(this));
     addListener('click', function(e) {
-      var href, isHttp, isMail, nearestLink, _ref1;
+      var href, isHttp, isMail, nearestLink, ref1;
       nearestLink = KD.utils.getNearestElementByTagName(e.target, 'a');
-      if ((nearestLink != null ? (_ref1 = nearestLink.target) != null ? _ref1.length : void 0 : void 0) === 0) {
+      if ((nearestLink != null ? (ref1 = nearestLink.target) != null ? ref1.length : void 0 : void 0) === 0) {
         href = nearestLink.getAttribute("href");
         isHttp = (href != null ? href.indexOf("http") : void 0) === 0;
         isMail = (href != null ? href.indexOf("mailto") : void 0) === 0;
@@ -17877,8 +17926,8 @@ module.exports = KDWindowController = (function(_super) {
   };
 
   KDWindowController.prototype.addUnloadListener = function(key, listener) {
-    var _base;
-    (_base = this.unloadListeners)[key] || (_base[key] = []);
+    var base;
+    (base = this.unloadListeners)[key] || (base[key] = []);
     return this.unloadListeners[key].push(listener);
   };
 
@@ -17899,31 +17948,31 @@ module.exports = KDWindowController = (function(_super) {
   };
 
   KDWindowController.prototype.focusChange = function(event, state) {
-    var listener, _i, _len, _ref, _results;
+    var i, len, listener, ref, results;
     if (!event) {
       return;
     }
     this.focused = state;
-    _ref = this.focusListeners;
-    _results = [];
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      listener = _ref[_i];
-      _results.push(listener(state, event));
+    ref = this.focusListeners;
+    results = [];
+    for (i = 0, len = ref.length; i < len; i++) {
+      listener = ref[i];
+      results.push(listener(state, event));
     }
-    return _results;
+    return results;
   };
 
   KDWindowController.prototype.beforeUnload = function(event) {
-    var key, listener, listeners, message, _i, _len, _ref;
+    var i, key, len, listener, listeners, message, ref;
     if (!event) {
       return;
     }
-    _ref = this.unloadListeners;
-    for (key in _ref) {
-      if (!__hasProp.call(_ref, key)) continue;
-      listeners = _ref[key];
-      for (_i = 0, _len = listeners.length; _i < _len; _i++) {
-        listener = listeners[_i];
+    ref = this.unloadListeners;
+    for (key in ref) {
+      if (!hasProp.call(ref, key)) continue;
+      listeners = ref[key];
+      for (i = 0, len = listeners.length; i < len; i++) {
+        listener = listeners[i];
         if (!(listener() === false)) {
           continue;
         }
@@ -17960,7 +18009,7 @@ module.exports = KDWindowController = (function(_super) {
     var cb, combo, safeCombos;
     safeCombos = {};
     for (combo in combos) {
-      if (!__hasProp.call(combos, combo)) continue;
+      if (!hasProp.call(combos, combo)) continue;
       cb = combos[combo];
       if (/\bsuper(\+|\s)/.test(combo)) {
         combo = combo.replace(/super/g, superKey);
@@ -17971,20 +18020,20 @@ module.exports = KDWindowController = (function(_super) {
   };
 
   KDWindowController.prototype.viewHasKeyCombos = function(view) {
-    var cb, combo, combos, e, o, _i, _len, _ref, _ref1;
+    var cb, combo, combos, e, i, len, o, ref, ref1;
     if (!view) {
       return;
     }
     o = view.getOptions();
     combos = {};
-    _ref = this.keyEventsToBeListened;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      e = _ref[_i];
+    ref = this.keyEventsToBeListened;
+    for (i = 0, len = ref.length; i < len; i++) {
+      e = ref[i];
       if ("object" === typeof o[e]) {
-        _ref1 = o[e];
-        for (combo in _ref1) {
-          if (!__hasProp.call(_ref1, combo)) continue;
-          cb = _ref1[combo];
+        ref1 = o[e];
+        for (combo in ref1) {
+          if (!hasProp.call(ref1, combo)) continue;
+          cb = ref1[combo];
           combos[combo] = cb;
         }
       }
@@ -18066,9 +18115,9 @@ module.exports = KDWindowController = (function(_super) {
   };
 
   KDWindowController.prototype.key = function(event) {
-    var _ref;
+    var ref;
     this.emit(event.type, event);
-    return (_ref = this.keyView) != null ? _ref.handleEvent(event) : void 0;
+    return (ref = this.keyView) != null ? ref.handleEvent(event) : void 0;
   };
 
   KDWindowController.prototype.registerWindowResizeListener = function(instance) {
@@ -18085,20 +18134,20 @@ module.exports = KDWindowController = (function(_super) {
   };
 
   KDWindowController.prototype.notifyWindowResizeListeners = function(event) {
-    var inst, key, _ref, _results;
+    var inst, key, ref, results;
     event || (event = {
       type: "resize"
     });
-    _ref = this.windowResizeListeners;
-    _results = [];
-    for (key in _ref) {
-      if (!__hasProp.call(_ref, key)) continue;
-      inst = _ref[key];
+    ref = this.windowResizeListeners;
+    results = [];
+    for (key in ref) {
+      if (!hasProp.call(ref, key)) continue;
+      inst = ref[key];
       if (inst != null ? inst._windowDidResize : void 0) {
-        _results.push(inst._windowDidResize(event));
+        results.push(inst._windowDidResize(event));
       }
     }
-    return _results;
+    return results;
   };
 
   return KDWindowController;
@@ -18228,92 +18277,2096 @@ module.exports.extend({
 
 
 },{"./components/autocomplete/autocomplete":1,"./components/autocomplete/autocompletecontroller":2,"./components/autocomplete/autocompleteditems":3,"./components/autocomplete/autocompletefetchingitem":4,"./components/autocomplete/autocompletelist":5,"./components/autocomplete/autocompletelistitem":6,"./components/autocomplete/autocompletenothingfounditem":7,"./components/autocomplete/autocompleteunselecteableitem":8,"./components/autocomplete/multipleinputlistview":9,"./components/autocomplete/multipleinputview":10,"./components/autocomplete/multiplelistitemview":11,"./components/autocomplete/noautocompleteinputview":12,"./components/autocomplete/noautocompletemultiplelistview":13,"./components/autocomplete/simpleautocomplete":14,"./components/buttons/buttonbar":15,"./components/buttons/buttongroupview":16,"./components/buttons/buttonmenu":17,"./components/buttons/buttonview":18,"./components/buttons/buttonviewwithmenu":19,"./components/buttons/togglebutton":20,"./components/contextmenu/contextmenu":21,"./components/contextmenu/contextmenuitem":22,"./components/contextmenu/contextmenutreeview":23,"./components/contextmenu/contextmenutreeviewcontroller":24,"./components/counter/counterdigitview":25,"./components/counter/counterview":26,"./components/dia/diacontainer":27,"./components/dia/diajoint":28,"./components/dia/diaobject":29,"./components/dia/diascene":30,"./components/dialog/dialogview":31,"./components/forms/formview":32,"./components/forms/formviewwithfields":33,"./components/header/headerview":34,"./components/image/webcamview":35,"./components/inputs/checkbox":36,"./components/inputs/contenteditableview":37,"./components/inputs/delimitedinputview":38,"./components/inputs/hitenterinputview":39,"./components/inputs/inputcheckboxgroup":40,"./components/inputs/inputradiogroup":41,"./components/inputs/inputswitch":42,"./components/inputs/inputvalidator":43,"./components/inputs/inputview":44,"./components/inputs/labelview":45,"./components/inputs/multiplechoice":46,"./components/inputs/onoffswitch":47,"./components/inputs/selectbox":48,"./components/inputs/tokenizedinputview":49,"./components/inputs/wmdinput":50,"./components/list/listitemview":51,"./components/list/listview":52,"./components/list/listviewbox":53,"./components/list/listviewcontroller":54,"./components/loader/loaderview":55,"./components/modals/blockingmodalview":56,"./components/modals/modalview":57,"./components/modals/modalviewstack":58,"./components/modals/modalviewwithforms":59,"./components/notifications/notificationview":60,"./components/overlay/overlayview":61,"./components/overlay/spotlightview":62,"./components/progressbar/progressbarview":63,"./components/scrollview/customscrollview":64,"./components/scrollview/customscrollviewinner":65,"./components/scrollview/scrollthumb":66,"./components/scrollview/scrolltrack":67,"./components/scrollview/scrollview":68,"./components/sliderbar/sliderbarhandleview":69,"./components/sliderbar/sliderbarview":70,"./components/slideshow/slidepageview":71,"./components/slideshow/slideshowview":72,"./components/split/splitcomboview":73,"./components/split/splitpanel":74,"./components/split/splitresizer":75,"./components/split/splitview":76,"./components/tabs/tabhandlecontainer":77,"./components/tabs/tabhandlemovenav":78,"./components/tabs/tabhandleview":79,"./components/tabs/tabpaneview":80,"./components/tabs/tabview":81,"./components/tabs/tabviewwithforms":82,"./components/time/timeagoview":83,"./components/tooltip/tooltip":84,"./components/tree/treeitemview":85,"./components/tree/treeview":86,"./components/tree/treeviewcontroller":87,"./components/upload/fileuploadarea":88,"./components/upload/fileuploadlistitemview":89,"./components/upload/fileuploadlistview":90,"./components/upload/fileuploadthumbitemview":91,"./components/upload/fileuploadthumblistview":92,"./components/upload/fileuploadview":93,"./components/upload/multipartuploader":94,"./core/controller":95,"./core/customhtmlview":96,"./core/eventemitter":97,"./core/eventemitterwildcard":98,"./core/kd":99,"./core/keyboard/listener":100,"./core/keyboard/map":101,"./core/object":102,"./core/router":103,"./core/view":105,"./core/viewcontroller":106,"./core/windowcontroller":107,"kd-polyfills":113}],109:[function(require,module,exports){
-/*! Hammer.JS - v1.1.3 - 2014-05-20
- * http://eightmedia.github.io/hammer.js
+/*! Hammer.JS - v2.0.4 - 2014-09-28
+ * http://hammerjs.github.io/
  *
- * Copyright (c) 2014 Jorik Tangelder <j.tangelder@gmail.com>;
+ * Copyright (c) 2014 Jorik Tangelder;
  * Licensed under the MIT license */
-
-(function(window, undefined) {
+(function(window, document, exportName, undefined) {
   'use strict';
 
-/**
- * @main
- * @module hammer
- *
- * @class Hammer
- * @static
- */
+var VENDOR_PREFIXES = ['', 'webkit', 'moz', 'MS', 'ms', 'o'];
+var TEST_ELEMENT = document.createElement('div');
+
+var TYPE_FUNCTION = 'function';
+
+var round = Math.round;
+var abs = Math.abs;
+var now = Date.now;
 
 /**
- * Hammer, use this to create instances
- * ````
- * var hammertime = new Hammer(myElement);
- * ````
- *
- * @method Hammer
- * @param {HTMLElement} element
- * @param {Object} [options={}]
- * @return {Hammer.Instance}
+ * set a timeout with a given scope
+ * @param {Function} fn
+ * @param {Number} timeout
+ * @param {Object} context
+ * @returns {number}
  */
-var Hammer = function Hammer(element, options) {
-    return new Hammer.Instance(element, options || {});
+function setTimeoutContext(fn, timeout, context) {
+    return setTimeout(bindFn(fn, context), timeout);
+}
+
+/**
+ * if the argument is an array, we want to execute the fn on each entry
+ * if it aint an array we don't want to do a thing.
+ * this is used by all the methods that accept a single and array argument.
+ * @param {*|Array} arg
+ * @param {String} fn
+ * @param {Object} [context]
+ * @returns {Boolean}
+ */
+function invokeArrayArg(arg, fn, context) {
+    if (Array.isArray(arg)) {
+        each(arg, context[fn], context);
+        return true;
+    }
+    return false;
+}
+
+/**
+ * walk objects and arrays
+ * @param {Object} obj
+ * @param {Function} iterator
+ * @param {Object} context
+ */
+function each(obj, iterator, context) {
+    var i;
+
+    if (!obj) {
+        return;
+    }
+
+    if (obj.forEach) {
+        obj.forEach(iterator, context);
+    } else if (obj.length !== undefined) {
+        i = 0;
+        while (i < obj.length) {
+            iterator.call(context, obj[i], i, obj);
+            i++;
+        }
+    } else {
+        for (i in obj) {
+            obj.hasOwnProperty(i) && iterator.call(context, obj[i], i, obj);
+        }
+    }
+}
+
+/**
+ * extend object.
+ * means that properties in dest will be overwritten by the ones in src.
+ * @param {Object} dest
+ * @param {Object} src
+ * @param {Boolean} [merge]
+ * @returns {Object} dest
+ */
+function extend(dest, src, merge) {
+    var keys = Object.keys(src);
+    var i = 0;
+    while (i < keys.length) {
+        if (!merge || (merge && dest[keys[i]] === undefined)) {
+            dest[keys[i]] = src[keys[i]];
+        }
+        i++;
+    }
+    return dest;
+}
+
+/**
+ * merge the values from src in the dest.
+ * means that properties that exist in dest will not be overwritten by src
+ * @param {Object} dest
+ * @param {Object} src
+ * @returns {Object} dest
+ */
+function merge(dest, src) {
+    return extend(dest, src, true);
+}
+
+/**
+ * simple class inheritance
+ * @param {Function} child
+ * @param {Function} base
+ * @param {Object} [properties]
+ */
+function inherit(child, base, properties) {
+    var baseP = base.prototype,
+        childP;
+
+    childP = child.prototype = Object.create(baseP);
+    childP.constructor = child;
+    childP._super = baseP;
+
+    if (properties) {
+        extend(childP, properties);
+    }
+}
+
+/**
+ * simple function bind
+ * @param {Function} fn
+ * @param {Object} context
+ * @returns {Function}
+ */
+function bindFn(fn, context) {
+    return function boundFn() {
+        return fn.apply(context, arguments);
+    };
+}
+
+/**
+ * let a boolean value also be a function that must return a boolean
+ * this first item in args will be used as the context
+ * @param {Boolean|Function} val
+ * @param {Array} [args]
+ * @returns {Boolean}
+ */
+function boolOrFn(val, args) {
+    if (typeof val == TYPE_FUNCTION) {
+        return val.apply(args ? args[0] || undefined : undefined, args);
+    }
+    return val;
+}
+
+/**
+ * use the val2 when val1 is undefined
+ * @param {*} val1
+ * @param {*} val2
+ * @returns {*}
+ */
+function ifUndefined(val1, val2) {
+    return (val1 === undefined) ? val2 : val1;
+}
+
+/**
+ * addEventListener with multiple events at once
+ * @param {EventTarget} target
+ * @param {String} types
+ * @param {Function} handler
+ */
+function addEventListeners(target, types, handler) {
+    each(splitStr(types), function(type) {
+        target.addEventListener(type, handler, false);
+    });
+}
+
+/**
+ * removeEventListener with multiple events at once
+ * @param {EventTarget} target
+ * @param {String} types
+ * @param {Function} handler
+ */
+function removeEventListeners(target, types, handler) {
+    each(splitStr(types), function(type) {
+        target.removeEventListener(type, handler, false);
+    });
+}
+
+/**
+ * find if a node is in the given parent
+ * @method hasParent
+ * @param {HTMLElement} node
+ * @param {HTMLElement} parent
+ * @return {Boolean} found
+ */
+function hasParent(node, parent) {
+    while (node) {
+        if (node == parent) {
+            return true;
+        }
+        node = node.parentNode;
+    }
+    return false;
+}
+
+/**
+ * small indexOf wrapper
+ * @param {String} str
+ * @param {String} find
+ * @returns {Boolean} found
+ */
+function inStr(str, find) {
+    return str.indexOf(find) > -1;
+}
+
+/**
+ * split string on whitespace
+ * @param {String} str
+ * @returns {Array} words
+ */
+function splitStr(str) {
+    return str.trim().split(/\s+/g);
+}
+
+/**
+ * find if a array contains the object using indexOf or a simple polyFill
+ * @param {Array} src
+ * @param {String} find
+ * @param {String} [findByKey]
+ * @return {Boolean|Number} false when not found, or the index
+ */
+function inArray(src, find, findByKey) {
+    if (src.indexOf && !findByKey) {
+        return src.indexOf(find);
+    } else {
+        var i = 0;
+        while (i < src.length) {
+            if ((findByKey && src[i][findByKey] == find) || (!findByKey && src[i] === find)) {
+                return i;
+            }
+            i++;
+        }
+        return -1;
+    }
+}
+
+/**
+ * convert array-like objects to real arrays
+ * @param {Object} obj
+ * @returns {Array}
+ */
+function toArray(obj) {
+    return Array.prototype.slice.call(obj, 0);
+}
+
+/**
+ * unique array with objects based on a key (like 'id') or just by the array's value
+ * @param {Array} src [{id:1},{id:2},{id:1}]
+ * @param {String} [key]
+ * @param {Boolean} [sort=False]
+ * @returns {Array} [{id:1},{id:2}]
+ */
+function uniqueArray(src, key, sort) {
+    var results = [];
+    var values = [];
+    var i = 0;
+
+    while (i < src.length) {
+        var val = key ? src[i][key] : src[i];
+        if (inArray(values, val) < 0) {
+            results.push(src[i]);
+        }
+        values[i] = val;
+        i++;
+    }
+
+    if (sort) {
+        if (!key) {
+            results = results.sort();
+        } else {
+            results = results.sort(function sortUniqueArray(a, b) {
+                return a[key] > b[key];
+            });
+        }
+    }
+
+    return results;
+}
+
+/**
+ * get the prefixed property
+ * @param {Object} obj
+ * @param {String} property
+ * @returns {String|Undefined} prefixed
+ */
+function prefixed(obj, property) {
+    var prefix, prop;
+    var camelProp = property[0].toUpperCase() + property.slice(1);
+
+    var i = 0;
+    while (i < VENDOR_PREFIXES.length) {
+        prefix = VENDOR_PREFIXES[i];
+        prop = (prefix) ? prefix + camelProp : property;
+
+        if (prop in obj) {
+            return prop;
+        }
+        i++;
+    }
+    return undefined;
+}
+
+/**
+ * get a unique id
+ * @returns {number} uniqueId
+ */
+var _uniqueId = 1;
+function uniqueId() {
+    return _uniqueId++;
+}
+
+/**
+ * get the window object of an element
+ * @param {HTMLElement} element
+ * @returns {DocumentView|Window}
+ */
+function getWindowForElement(element) {
+    var doc = element.ownerDocument;
+    return (doc.defaultView || doc.parentWindow);
+}
+
+var MOBILE_REGEX = /mobile|tablet|ip(ad|hone|od)|android/i;
+
+var SUPPORT_TOUCH = ('ontouchstart' in window);
+var SUPPORT_POINTER_EVENTS = prefixed(window, 'PointerEvent') !== undefined;
+var SUPPORT_ONLY_TOUCH = SUPPORT_TOUCH && MOBILE_REGEX.test(navigator.userAgent);
+
+var INPUT_TYPE_TOUCH = 'touch';
+var INPUT_TYPE_PEN = 'pen';
+var INPUT_TYPE_MOUSE = 'mouse';
+var INPUT_TYPE_KINECT = 'kinect';
+
+var COMPUTE_INTERVAL = 25;
+
+var INPUT_START = 1;
+var INPUT_MOVE = 2;
+var INPUT_END = 4;
+var INPUT_CANCEL = 8;
+
+var DIRECTION_NONE = 1;
+var DIRECTION_LEFT = 2;
+var DIRECTION_RIGHT = 4;
+var DIRECTION_UP = 8;
+var DIRECTION_DOWN = 16;
+
+var DIRECTION_HORIZONTAL = DIRECTION_LEFT | DIRECTION_RIGHT;
+var DIRECTION_VERTICAL = DIRECTION_UP | DIRECTION_DOWN;
+var DIRECTION_ALL = DIRECTION_HORIZONTAL | DIRECTION_VERTICAL;
+
+var PROPS_XY = ['x', 'y'];
+var PROPS_CLIENT_XY = ['clientX', 'clientY'];
+
+/**
+ * create new input type manager
+ * @param {Manager} manager
+ * @param {Function} callback
+ * @returns {Input}
+ * @constructor
+ */
+function Input(manager, callback) {
+    var self = this;
+    this.manager = manager;
+    this.callback = callback;
+    this.element = manager.element;
+    this.target = manager.options.inputTarget;
+
+    // smaller wrapper around the handler, for the scope and the enabled state of the manager,
+    // so when disabled the input events are completely bypassed.
+    this.domHandler = function(ev) {
+        if (boolOrFn(manager.options.enable, [manager])) {
+            self.handler(ev);
+        }
+    };
+
+    this.init();
+
+}
+
+Input.prototype = {
+    /**
+     * should handle the inputEvent data and trigger the callback
+     * @virtual
+     */
+    handler: function() { },
+
+    /**
+     * bind the events
+     */
+    init: function() {
+        this.evEl && addEventListeners(this.element, this.evEl, this.domHandler);
+        this.evTarget && addEventListeners(this.target, this.evTarget, this.domHandler);
+        this.evWin && addEventListeners(getWindowForElement(this.element), this.evWin, this.domHandler);
+    },
+
+    /**
+     * unbind the events
+     */
+    destroy: function() {
+        this.evEl && removeEventListeners(this.element, this.evEl, this.domHandler);
+        this.evTarget && removeEventListeners(this.target, this.evTarget, this.domHandler);
+        this.evWin && removeEventListeners(getWindowForElement(this.element), this.evWin, this.domHandler);
+    }
 };
 
 /**
- * version, as defined in package.json
- * the value will be set at each build
- * @property VERSION
- * @final
- * @type {String}
+ * create new input type manager
+ * called by the Manager constructor
+ * @param {Hammer} manager
+ * @returns {Input}
  */
-Hammer.VERSION = '1.1.3';
+function createInputInstance(manager) {
+    var Type;
+    var inputClass = manager.options.inputClass;
+
+    if (inputClass) {
+        Type = inputClass;
+    } else if (SUPPORT_POINTER_EVENTS) {
+        Type = PointerEventInput;
+    } else if (SUPPORT_ONLY_TOUCH) {
+        Type = TouchInput;
+    } else if (!SUPPORT_TOUCH) {
+        Type = MouseInput;
+    } else {
+        Type = TouchMouseInput;
+    }
+    return new (Type)(manager, inputHandler);
+}
 
 /**
- * default settings.
- * more settings are defined per gesture at `/gestures`. Each gesture can be disabled/enabled
- * by setting it's name (like `swipe`) to false.
- * You can set the defaults for all instances by changing this object before creating an instance.
- * @example
- * ````
- *  Hammer.defaults.drag = false;
- *  Hammer.defaults.behavior.touchAction = 'pan-y';
- *  delete Hammer.defaults.behavior.userSelect;
- * ````
- * @property defaults
- * @type {Object}
+ * handle input events
+ * @param {Manager} manager
+ * @param {String} eventType
+ * @param {Object} input
+ */
+function inputHandler(manager, eventType, input) {
+    var pointersLen = input.pointers.length;
+    var changedPointersLen = input.changedPointers.length;
+    var isFirst = (eventType & INPUT_START && (pointersLen - changedPointersLen === 0));
+    var isFinal = (eventType & (INPUT_END | INPUT_CANCEL) && (pointersLen - changedPointersLen === 0));
+
+    input.isFirst = !!isFirst;
+    input.isFinal = !!isFinal;
+
+    if (isFirst) {
+        manager.session = {};
+    }
+
+    // source event is the normalized value of the domEvents
+    // like 'touchstart, mouseup, pointerdown'
+    input.eventType = eventType;
+
+    // compute scale, rotation etc
+    computeInputData(manager, input);
+
+    // emit secret event
+    manager.emit('hammer.input', input);
+
+    manager.recognize(input);
+    manager.session.prevInput = input;
+}
+
+/**
+ * extend the data with some usable properties like scale, rotate, velocity etc
+ * @param {Object} manager
+ * @param {Object} input
+ */
+function computeInputData(manager, input) {
+    var session = manager.session;
+    var pointers = input.pointers;
+    var pointersLength = pointers.length;
+
+    // store the first input to calculate the distance and direction
+    if (!session.firstInput) {
+        session.firstInput = simpleCloneInputData(input);
+    }
+
+    // to compute scale and rotation we need to store the multiple touches
+    if (pointersLength > 1 && !session.firstMultiple) {
+        session.firstMultiple = simpleCloneInputData(input);
+    } else if (pointersLength === 1) {
+        session.firstMultiple = false;
+    }
+
+    var firstInput = session.firstInput;
+    var firstMultiple = session.firstMultiple;
+    var offsetCenter = firstMultiple ? firstMultiple.center : firstInput.center;
+
+    var center = input.center = getCenter(pointers);
+    input.timeStamp = now();
+    input.deltaTime = input.timeStamp - firstInput.timeStamp;
+
+    input.angle = getAngle(offsetCenter, center);
+    input.distance = getDistance(offsetCenter, center);
+
+    computeDeltaXY(session, input);
+    input.offsetDirection = getDirection(input.deltaX, input.deltaY);
+
+    input.scale = firstMultiple ? getScale(firstMultiple.pointers, pointers) : 1;
+    input.rotation = firstMultiple ? getRotation(firstMultiple.pointers, pointers) : 0;
+
+    computeIntervalInputData(session, input);
+
+    // find the correct target
+    var target = manager.element;
+    if (hasParent(input.srcEvent.target, target)) {
+        target = input.srcEvent.target;
+    }
+    input.target = target;
+}
+
+function computeDeltaXY(session, input) {
+    var center = input.center;
+    var offset = session.offsetDelta || {};
+    var prevDelta = session.prevDelta || {};
+    var prevInput = session.prevInput || {};
+
+    if (input.eventType === INPUT_START || prevInput.eventType === INPUT_END) {
+        prevDelta = session.prevDelta = {
+            x: prevInput.deltaX || 0,
+            y: prevInput.deltaY || 0
+        };
+
+        offset = session.offsetDelta = {
+            x: center.x,
+            y: center.y
+        };
+    }
+
+    input.deltaX = prevDelta.x + (center.x - offset.x);
+    input.deltaY = prevDelta.y + (center.y - offset.y);
+}
+
+/**
+ * velocity is calculated every x ms
+ * @param {Object} session
+ * @param {Object} input
+ */
+function computeIntervalInputData(session, input) {
+    var last = session.lastInterval || input,
+        deltaTime = input.timeStamp - last.timeStamp,
+        velocity, velocityX, velocityY, direction;
+
+    if (input.eventType != INPUT_CANCEL && (deltaTime > COMPUTE_INTERVAL || last.velocity === undefined)) {
+        var deltaX = last.deltaX - input.deltaX;
+        var deltaY = last.deltaY - input.deltaY;
+
+        var v = getVelocity(deltaTime, deltaX, deltaY);
+        velocityX = v.x;
+        velocityY = v.y;
+        velocity = (abs(v.x) > abs(v.y)) ? v.x : v.y;
+        direction = getDirection(deltaX, deltaY);
+
+        session.lastInterval = input;
+    } else {
+        // use latest velocity info if it doesn't overtake a minimum period
+        velocity = last.velocity;
+        velocityX = last.velocityX;
+        velocityY = last.velocityY;
+        direction = last.direction;
+    }
+
+    input.velocity = velocity;
+    input.velocityX = velocityX;
+    input.velocityY = velocityY;
+    input.direction = direction;
+}
+
+/**
+ * create a simple clone from the input used for storage of firstInput and firstMultiple
+ * @param {Object} input
+ * @returns {Object} clonedInputData
+ */
+function simpleCloneInputData(input) {
+    // make a simple copy of the pointers because we will get a reference if we don't
+    // we only need clientXY for the calculations
+    var pointers = [];
+    var i = 0;
+    while (i < input.pointers.length) {
+        pointers[i] = {
+            clientX: round(input.pointers[i].clientX),
+            clientY: round(input.pointers[i].clientY)
+        };
+        i++;
+    }
+
+    return {
+        timeStamp: now(),
+        pointers: pointers,
+        center: getCenter(pointers),
+        deltaX: input.deltaX,
+        deltaY: input.deltaY
+    };
+}
+
+/**
+ * get the center of all the pointers
+ * @param {Array} pointers
+ * @return {Object} center contains `x` and `y` properties
+ */
+function getCenter(pointers) {
+    var pointersLength = pointers.length;
+
+    // no need to loop when only one touch
+    if (pointersLength === 1) {
+        return {
+            x: round(pointers[0].clientX),
+            y: round(pointers[0].clientY)
+        };
+    }
+
+    var x = 0, y = 0, i = 0;
+    while (i < pointersLength) {
+        x += pointers[i].clientX;
+        y += pointers[i].clientY;
+        i++;
+    }
+
+    return {
+        x: round(x / pointersLength),
+        y: round(y / pointersLength)
+    };
+}
+
+/**
+ * calculate the velocity between two points. unit is in px per ms.
+ * @param {Number} deltaTime
+ * @param {Number} x
+ * @param {Number} y
+ * @return {Object} velocity `x` and `y`
+ */
+function getVelocity(deltaTime, x, y) {
+    return {
+        x: x / deltaTime || 0,
+        y: y / deltaTime || 0
+    };
+}
+
+/**
+ * get the direction between two points
+ * @param {Number} x
+ * @param {Number} y
+ * @return {Number} direction
+ */
+function getDirection(x, y) {
+    if (x === y) {
+        return DIRECTION_NONE;
+    }
+
+    if (abs(x) >= abs(y)) {
+        return x > 0 ? DIRECTION_LEFT : DIRECTION_RIGHT;
+    }
+    return y > 0 ? DIRECTION_UP : DIRECTION_DOWN;
+}
+
+/**
+ * calculate the absolute distance between two points
+ * @param {Object} p1 {x, y}
+ * @param {Object} p2 {x, y}
+ * @param {Array} [props] containing x and y keys
+ * @return {Number} distance
+ */
+function getDistance(p1, p2, props) {
+    if (!props) {
+        props = PROPS_XY;
+    }
+    var x = p2[props[0]] - p1[props[0]],
+        y = p2[props[1]] - p1[props[1]];
+
+    return Math.sqrt((x * x) + (y * y));
+}
+
+/**
+ * calculate the angle between two coordinates
+ * @param {Object} p1
+ * @param {Object} p2
+ * @param {Array} [props] containing x and y keys
+ * @return {Number} angle
+ */
+function getAngle(p1, p2, props) {
+    if (!props) {
+        props = PROPS_XY;
+    }
+    var x = p2[props[0]] - p1[props[0]],
+        y = p2[props[1]] - p1[props[1]];
+    return Math.atan2(y, x) * 180 / Math.PI;
+}
+
+/**
+ * calculate the rotation degrees between two pointersets
+ * @param {Array} start array of pointers
+ * @param {Array} end array of pointers
+ * @return {Number} rotation
+ */
+function getRotation(start, end) {
+    return getAngle(end[1], end[0], PROPS_CLIENT_XY) - getAngle(start[1], start[0], PROPS_CLIENT_XY);
+}
+
+/**
+ * calculate the scale factor between two pointersets
+ * no scale is 1, and goes down to 0 when pinched together, and bigger when pinched out
+ * @param {Array} start array of pointers
+ * @param {Array} end array of pointers
+ * @return {Number} scale
+ */
+function getScale(start, end) {
+    return getDistance(end[0], end[1], PROPS_CLIENT_XY) / getDistance(start[0], start[1], PROPS_CLIENT_XY);
+}
+
+var MOUSE_INPUT_MAP = {
+    mousedown: INPUT_START,
+    mousemove: INPUT_MOVE,
+    mouseup: INPUT_END
+};
+
+var MOUSE_ELEMENT_EVENTS = 'mousedown';
+var MOUSE_WINDOW_EVENTS = 'mousemove mouseup';
+
+/**
+ * Mouse events input
+ * @constructor
+ * @extends Input
+ */
+function MouseInput() {
+    this.evEl = MOUSE_ELEMENT_EVENTS;
+    this.evWin = MOUSE_WINDOW_EVENTS;
+
+    this.allow = true; // used by Input.TouchMouse to disable mouse events
+    this.pressed = false; // mousedown state
+
+    Input.apply(this, arguments);
+}
+
+inherit(MouseInput, Input, {
+    /**
+     * handle mouse events
+     * @param {Object} ev
+     */
+    handler: function MEhandler(ev) {
+        var eventType = MOUSE_INPUT_MAP[ev.type];
+
+        // on start we want to have the left mouse button down
+        if (eventType & INPUT_START && ev.button === 0) {
+            this.pressed = true;
+        }
+
+        if (eventType & INPUT_MOVE && ev.which !== 1) {
+            eventType = INPUT_END;
+        }
+
+        // mouse must be down, and mouse events are allowed (see the TouchMouse input)
+        if (!this.pressed || !this.allow) {
+            return;
+        }
+
+        if (eventType & INPUT_END) {
+            this.pressed = false;
+        }
+
+        this.callback(this.manager, eventType, {
+            pointers: [ev],
+            changedPointers: [ev],
+            pointerType: INPUT_TYPE_MOUSE,
+            srcEvent: ev
+        });
+    }
+});
+
+var POINTER_INPUT_MAP = {
+    pointerdown: INPUT_START,
+    pointermove: INPUT_MOVE,
+    pointerup: INPUT_END,
+    pointercancel: INPUT_CANCEL,
+    pointerout: INPUT_CANCEL
+};
+
+// in IE10 the pointer types is defined as an enum
+var IE10_POINTER_TYPE_ENUM = {
+    2: INPUT_TYPE_TOUCH,
+    3: INPUT_TYPE_PEN,
+    4: INPUT_TYPE_MOUSE,
+    5: INPUT_TYPE_KINECT // see https://twitter.com/jacobrossi/status/480596438489890816
+};
+
+var POINTER_ELEMENT_EVENTS = 'pointerdown';
+var POINTER_WINDOW_EVENTS = 'pointermove pointerup pointercancel';
+
+// IE10 has prefixed support, and case-sensitive
+if (window.MSPointerEvent) {
+    POINTER_ELEMENT_EVENTS = 'MSPointerDown';
+    POINTER_WINDOW_EVENTS = 'MSPointerMove MSPointerUp MSPointerCancel';
+}
+
+/**
+ * Pointer events input
+ * @constructor
+ * @extends Input
+ */
+function PointerEventInput() {
+    this.evEl = POINTER_ELEMENT_EVENTS;
+    this.evWin = POINTER_WINDOW_EVENTS;
+
+    Input.apply(this, arguments);
+
+    this.store = (this.manager.session.pointerEvents = []);
+}
+
+inherit(PointerEventInput, Input, {
+    /**
+     * handle mouse events
+     * @param {Object} ev
+     */
+    handler: function PEhandler(ev) {
+        var store = this.store;
+        var removePointer = false;
+
+        var eventTypeNormalized = ev.type.toLowerCase().replace('ms', '');
+        var eventType = POINTER_INPUT_MAP[eventTypeNormalized];
+        var pointerType = IE10_POINTER_TYPE_ENUM[ev.pointerType] || ev.pointerType;
+
+        var isTouch = (pointerType == INPUT_TYPE_TOUCH);
+
+        // get index of the event in the store
+        var storeIndex = inArray(store, ev.pointerId, 'pointerId');
+
+        // start and mouse must be down
+        if (eventType & INPUT_START && (ev.button === 0 || isTouch)) {
+            if (storeIndex < 0) {
+                store.push(ev);
+                storeIndex = store.length - 1;
+            }
+        } else if (eventType & (INPUT_END | INPUT_CANCEL)) {
+            removePointer = true;
+        }
+
+        // it not found, so the pointer hasn't been down (so it's probably a hover)
+        if (storeIndex < 0) {
+            return;
+        }
+
+        // update the event in the store
+        store[storeIndex] = ev;
+
+        this.callback(this.manager, eventType, {
+            pointers: store,
+            changedPointers: [ev],
+            pointerType: pointerType,
+            srcEvent: ev
+        });
+
+        if (removePointer) {
+            // remove from the store
+            store.splice(storeIndex, 1);
+        }
+    }
+});
+
+var SINGLE_TOUCH_INPUT_MAP = {
+    touchstart: INPUT_START,
+    touchmove: INPUT_MOVE,
+    touchend: INPUT_END,
+    touchcancel: INPUT_CANCEL
+};
+
+var SINGLE_TOUCH_TARGET_EVENTS = 'touchstart';
+var SINGLE_TOUCH_WINDOW_EVENTS = 'touchstart touchmove touchend touchcancel';
+
+/**
+ * Touch events input
+ * @constructor
+ * @extends Input
+ */
+function SingleTouchInput() {
+    this.evTarget = SINGLE_TOUCH_TARGET_EVENTS;
+    this.evWin = SINGLE_TOUCH_WINDOW_EVENTS;
+    this.started = false;
+
+    Input.apply(this, arguments);
+}
+
+inherit(SingleTouchInput, Input, {
+    handler: function TEhandler(ev) {
+        var type = SINGLE_TOUCH_INPUT_MAP[ev.type];
+
+        // should we handle the touch events?
+        if (type === INPUT_START) {
+            this.started = true;
+        }
+
+        if (!this.started) {
+            return;
+        }
+
+        var touches = normalizeSingleTouches.call(this, ev, type);
+
+        // when done, reset the started state
+        if (type & (INPUT_END | INPUT_CANCEL) && touches[0].length - touches[1].length === 0) {
+            this.started = false;
+        }
+
+        this.callback(this.manager, type, {
+            pointers: touches[0],
+            changedPointers: touches[1],
+            pointerType: INPUT_TYPE_TOUCH,
+            srcEvent: ev
+        });
+    }
+});
+
+/**
+ * @this {TouchInput}
+ * @param {Object} ev
+ * @param {Number} type flag
+ * @returns {undefined|Array} [all, changed]
+ */
+function normalizeSingleTouches(ev, type) {
+    var all = toArray(ev.touches);
+    var changed = toArray(ev.changedTouches);
+
+    if (type & (INPUT_END | INPUT_CANCEL)) {
+        all = uniqueArray(all.concat(changed), 'identifier', true);
+    }
+
+    return [all, changed];
+}
+
+var TOUCH_INPUT_MAP = {
+    touchstart: INPUT_START,
+    touchmove: INPUT_MOVE,
+    touchend: INPUT_END,
+    touchcancel: INPUT_CANCEL
+};
+
+var TOUCH_TARGET_EVENTS = 'touchstart touchmove touchend touchcancel';
+
+/**
+ * Multi-user touch events input
+ * @constructor
+ * @extends Input
+ */
+function TouchInput() {
+    this.evTarget = TOUCH_TARGET_EVENTS;
+    this.targetIds = {};
+
+    Input.apply(this, arguments);
+}
+
+inherit(TouchInput, Input, {
+    handler: function MTEhandler(ev) {
+        var type = TOUCH_INPUT_MAP[ev.type];
+        var touches = getTouches.call(this, ev, type);
+        if (!touches) {
+            return;
+        }
+
+        this.callback(this.manager, type, {
+            pointers: touches[0],
+            changedPointers: touches[1],
+            pointerType: INPUT_TYPE_TOUCH,
+            srcEvent: ev
+        });
+    }
+});
+
+/**
+ * @this {TouchInput}
+ * @param {Object} ev
+ * @param {Number} type flag
+ * @returns {undefined|Array} [all, changed]
+ */
+function getTouches(ev, type) {
+    var allTouches = toArray(ev.touches);
+    var targetIds = this.targetIds;
+
+    // when there is only one touch, the process can be simplified
+    if (type & (INPUT_START | INPUT_MOVE) && allTouches.length === 1) {
+        targetIds[allTouches[0].identifier] = true;
+        return [allTouches, allTouches];
+    }
+
+    var i,
+        targetTouches,
+        changedTouches = toArray(ev.changedTouches),
+        changedTargetTouches = [],
+        target = this.target;
+
+    // get target touches from touches
+    targetTouches = allTouches.filter(function(touch) {
+        return hasParent(touch.target, target);
+    });
+
+    // collect touches
+    if (type === INPUT_START) {
+        i = 0;
+        while (i < targetTouches.length) {
+            targetIds[targetTouches[i].identifier] = true;
+            i++;
+        }
+    }
+
+    // filter changed touches to only contain touches that exist in the collected target ids
+    i = 0;
+    while (i < changedTouches.length) {
+        if (targetIds[changedTouches[i].identifier]) {
+            changedTargetTouches.push(changedTouches[i]);
+        }
+
+        // cleanup removed touches
+        if (type & (INPUT_END | INPUT_CANCEL)) {
+            delete targetIds[changedTouches[i].identifier];
+        }
+        i++;
+    }
+
+    if (!changedTargetTouches.length) {
+        return;
+    }
+
+    return [
+        // merge targetTouches with changedTargetTouches so it contains ALL touches, including 'end' and 'cancel'
+        uniqueArray(targetTouches.concat(changedTargetTouches), 'identifier', true),
+        changedTargetTouches
+    ];
+}
+
+/**
+ * Combined touch and mouse input
+ *
+ * Touch has a higher priority then mouse, and while touching no mouse events are allowed.
+ * This because touch devices also emit mouse events while doing a touch.
+ *
+ * @constructor
+ * @extends Input
+ */
+function TouchMouseInput() {
+    Input.apply(this, arguments);
+
+    var handler = bindFn(this.handler, this);
+    this.touch = new TouchInput(this.manager, handler);
+    this.mouse = new MouseInput(this.manager, handler);
+}
+
+inherit(TouchMouseInput, Input, {
+    /**
+     * handle mouse and touch events
+     * @param {Hammer} manager
+     * @param {String} inputEvent
+     * @param {Object} inputData
+     */
+    handler: function TMEhandler(manager, inputEvent, inputData) {
+        var isTouch = (inputData.pointerType == INPUT_TYPE_TOUCH),
+            isMouse = (inputData.pointerType == INPUT_TYPE_MOUSE);
+
+        // when we're in a touch event, so  block all upcoming mouse events
+        // most mobile browser also emit mouseevents, right after touchstart
+        if (isTouch) {
+            this.mouse.allow = false;
+        } else if (isMouse && !this.mouse.allow) {
+            return;
+        }
+
+        // reset the allowMouse when we're done
+        if (inputEvent & (INPUT_END | INPUT_CANCEL)) {
+            this.mouse.allow = true;
+        }
+
+        this.callback(manager, inputEvent, inputData);
+    },
+
+    /**
+     * remove the event listeners
+     */
+    destroy: function destroy() {
+        this.touch.destroy();
+        this.mouse.destroy();
+    }
+});
+
+var PREFIXED_TOUCH_ACTION = prefixed(TEST_ELEMENT.style, 'touchAction');
+var NATIVE_TOUCH_ACTION = PREFIXED_TOUCH_ACTION !== undefined;
+
+// magical touchAction value
+var TOUCH_ACTION_COMPUTE = 'compute';
+var TOUCH_ACTION_AUTO = 'auto';
+var TOUCH_ACTION_MANIPULATION = 'manipulation'; // not implemented
+var TOUCH_ACTION_NONE = 'none';
+var TOUCH_ACTION_PAN_X = 'pan-x';
+var TOUCH_ACTION_PAN_Y = 'pan-y';
+
+/**
+ * Touch Action
+ * sets the touchAction property or uses the js alternative
+ * @param {Manager} manager
+ * @param {String} value
+ * @constructor
+ */
+function TouchAction(manager, value) {
+    this.manager = manager;
+    this.set(value);
+}
+
+TouchAction.prototype = {
+    /**
+     * set the touchAction value on the element or enable the polyfill
+     * @param {String} value
+     */
+    set: function(value) {
+        // find out the touch-action by the event handlers
+        if (value == TOUCH_ACTION_COMPUTE) {
+            value = this.compute();
+        }
+
+        if (NATIVE_TOUCH_ACTION) {
+            this.manager.element.style[PREFIXED_TOUCH_ACTION] = value;
+        }
+        this.actions = value.toLowerCase().trim();
+    },
+
+    /**
+     * just re-set the touchAction value
+     */
+    update: function() {
+        this.set(this.manager.options.touchAction);
+    },
+
+    /**
+     * compute the value for the touchAction property based on the recognizer's settings
+     * @returns {String} value
+     */
+    compute: function() {
+        var actions = [];
+        each(this.manager.recognizers, function(recognizer) {
+            if (boolOrFn(recognizer.options.enable, [recognizer])) {
+                actions = actions.concat(recognizer.getTouchAction());
+            }
+        });
+        return cleanTouchActions(actions.join(' '));
+    },
+
+    /**
+     * this method is called on each input cycle and provides the preventing of the browser behavior
+     * @param {Object} input
+     */
+    preventDefaults: function(input) {
+        // not needed with native support for the touchAction property
+        if (NATIVE_TOUCH_ACTION) {
+            return;
+        }
+
+        var srcEvent = input.srcEvent;
+        var direction = input.offsetDirection;
+
+        // if the touch action did prevented once this session
+        if (this.manager.session.prevented) {
+            srcEvent.preventDefault();
+            return;
+        }
+
+        var actions = this.actions;
+        var hasNone = inStr(actions, TOUCH_ACTION_NONE);
+        var hasPanY = inStr(actions, TOUCH_ACTION_PAN_Y);
+        var hasPanX = inStr(actions, TOUCH_ACTION_PAN_X);
+
+        if (hasNone ||
+            (hasPanY && direction & DIRECTION_HORIZONTAL) ||
+            (hasPanX && direction & DIRECTION_VERTICAL)) {
+            return this.preventSrc(srcEvent);
+        }
+    },
+
+    /**
+     * call preventDefault to prevent the browser's default behavior (scrolling in most cases)
+     * @param {Object} srcEvent
+     */
+    preventSrc: function(srcEvent) {
+        this.manager.session.prevented = true;
+        srcEvent.preventDefault();
+    }
+};
+
+/**
+ * when the touchActions are collected they are not a valid value, so we need to clean things up. *
+ * @param {String} actions
+ * @returns {*}
+ */
+function cleanTouchActions(actions) {
+    // none
+    if (inStr(actions, TOUCH_ACTION_NONE)) {
+        return TOUCH_ACTION_NONE;
+    }
+
+    var hasPanX = inStr(actions, TOUCH_ACTION_PAN_X);
+    var hasPanY = inStr(actions, TOUCH_ACTION_PAN_Y);
+
+    // pan-x and pan-y can be combined
+    if (hasPanX && hasPanY) {
+        return TOUCH_ACTION_PAN_X + ' ' + TOUCH_ACTION_PAN_Y;
+    }
+
+    // pan-x OR pan-y
+    if (hasPanX || hasPanY) {
+        return hasPanX ? TOUCH_ACTION_PAN_X : TOUCH_ACTION_PAN_Y;
+    }
+
+    // manipulation
+    if (inStr(actions, TOUCH_ACTION_MANIPULATION)) {
+        return TOUCH_ACTION_MANIPULATION;
+    }
+
+    return TOUCH_ACTION_AUTO;
+}
+
+/**
+ * Recognizer flow explained; *
+ * All recognizers have the initial state of POSSIBLE when a input session starts.
+ * The definition of a input session is from the first input until the last input, with all it's movement in it. *
+ * Example session for mouse-input: mousedown -> mousemove -> mouseup
+ *
+ * On each recognizing cycle (see Manager.recognize) the .recognize() method is executed
+ * which determines with state it should be.
+ *
+ * If the recognizer has the state FAILED, CANCELLED or RECOGNIZED (equals ENDED), it is reset to
+ * POSSIBLE to give it another change on the next cycle.
+ *
+ *               Possible
+ *                  |
+ *            +-----+---------------+
+ *            |                     |
+ *      +-----+-----+               |
+ *      |           |               |
+ *   Failed      Cancelled          |
+ *                          +-------+------+
+ *                          |              |
+ *                      Recognized       Began
+ *                                         |
+ *                                      Changed
+ *                                         |
+ *                                  Ended/Recognized
+ */
+var STATE_POSSIBLE = 1;
+var STATE_BEGAN = 2;
+var STATE_CHANGED = 4;
+var STATE_ENDED = 8;
+var STATE_RECOGNIZED = STATE_ENDED;
+var STATE_CANCELLED = 16;
+var STATE_FAILED = 32;
+
+/**
+ * Recognizer
+ * Every recognizer needs to extend from this class.
+ * @constructor
+ * @param {Object} options
+ */
+function Recognizer(options) {
+    this.id = uniqueId();
+
+    this.manager = null;
+    this.options = merge(options || {}, this.defaults);
+
+    // default is enable true
+    this.options.enable = ifUndefined(this.options.enable, true);
+
+    this.state = STATE_POSSIBLE;
+
+    this.simultaneous = {};
+    this.requireFail = [];
+}
+
+Recognizer.prototype = {
+    /**
+     * @virtual
+     * @type {Object}
+     */
+    defaults: {},
+
+    /**
+     * set options
+     * @param {Object} options
+     * @return {Recognizer}
+     */
+    set: function(options) {
+        extend(this.options, options);
+
+        // also update the touchAction, in case something changed about the directions/enabled state
+        this.manager && this.manager.touchAction.update();
+        return this;
+    },
+
+    /**
+     * recognize simultaneous with an other recognizer.
+     * @param {Recognizer} otherRecognizer
+     * @returns {Recognizer} this
+     */
+    recognizeWith: function(otherRecognizer) {
+        if (invokeArrayArg(otherRecognizer, 'recognizeWith', this)) {
+            return this;
+        }
+
+        var simultaneous = this.simultaneous;
+        otherRecognizer = getRecognizerByNameIfManager(otherRecognizer, this);
+        if (!simultaneous[otherRecognizer.id]) {
+            simultaneous[otherRecognizer.id] = otherRecognizer;
+            otherRecognizer.recognizeWith(this);
+        }
+        return this;
+    },
+
+    /**
+     * drop the simultaneous link. it doesnt remove the link on the other recognizer.
+     * @param {Recognizer} otherRecognizer
+     * @returns {Recognizer} this
+     */
+    dropRecognizeWith: function(otherRecognizer) {
+        if (invokeArrayArg(otherRecognizer, 'dropRecognizeWith', this)) {
+            return this;
+        }
+
+        otherRecognizer = getRecognizerByNameIfManager(otherRecognizer, this);
+        delete this.simultaneous[otherRecognizer.id];
+        return this;
+    },
+
+    /**
+     * recognizer can only run when an other is failing
+     * @param {Recognizer} otherRecognizer
+     * @returns {Recognizer} this
+     */
+    requireFailure: function(otherRecognizer) {
+        if (invokeArrayArg(otherRecognizer, 'requireFailure', this)) {
+            return this;
+        }
+
+        var requireFail = this.requireFail;
+        otherRecognizer = getRecognizerByNameIfManager(otherRecognizer, this);
+        if (inArray(requireFail, otherRecognizer) === -1) {
+            requireFail.push(otherRecognizer);
+            otherRecognizer.requireFailure(this);
+        }
+        return this;
+    },
+
+    /**
+     * drop the requireFailure link. it does not remove the link on the other recognizer.
+     * @param {Recognizer} otherRecognizer
+     * @returns {Recognizer} this
+     */
+    dropRequireFailure: function(otherRecognizer) {
+        if (invokeArrayArg(otherRecognizer, 'dropRequireFailure', this)) {
+            return this;
+        }
+
+        otherRecognizer = getRecognizerByNameIfManager(otherRecognizer, this);
+        var index = inArray(this.requireFail, otherRecognizer);
+        if (index > -1) {
+            this.requireFail.splice(index, 1);
+        }
+        return this;
+    },
+
+    /**
+     * has require failures boolean
+     * @returns {boolean}
+     */
+    hasRequireFailures: function() {
+        return this.requireFail.length > 0;
+    },
+
+    /**
+     * if the recognizer can recognize simultaneous with an other recognizer
+     * @param {Recognizer} otherRecognizer
+     * @returns {Boolean}
+     */
+    canRecognizeWith: function(otherRecognizer) {
+        return !!this.simultaneous[otherRecognizer.id];
+    },
+
+    /**
+     * You should use `tryEmit` instead of `emit` directly to check
+     * that all the needed recognizers has failed before emitting.
+     * @param {Object} input
+     */
+    emit: function(input) {
+        var self = this;
+        var state = this.state;
+
+        function emit(withState) {
+            self.manager.emit(self.options.event + (withState ? stateStr(state) : ''), input);
+        }
+
+        // 'panstart' and 'panmove'
+        if (state < STATE_ENDED) {
+            emit(true);
+        }
+
+        emit(); // simple 'eventName' events
+
+        // panend and pancancel
+        if (state >= STATE_ENDED) {
+            emit(true);
+        }
+    },
+
+    /**
+     * Check that all the require failure recognizers has failed,
+     * if true, it emits a gesture event,
+     * otherwise, setup the state to FAILED.
+     * @param {Object} input
+     */
+    tryEmit: function(input) {
+        if (this.canEmit()) {
+            return this.emit(input);
+        }
+        // it's failing anyway
+        this.state = STATE_FAILED;
+    },
+
+    /**
+     * can we emit?
+     * @returns {boolean}
+     */
+    canEmit: function() {
+        var i = 0;
+        while (i < this.requireFail.length) {
+            if (!(this.requireFail[i].state & (STATE_FAILED | STATE_POSSIBLE))) {
+                return false;
+            }
+            i++;
+        }
+        return true;
+    },
+
+    /**
+     * update the recognizer
+     * @param {Object} inputData
+     */
+    recognize: function(inputData) {
+        // make a new copy of the inputData
+        // so we can change the inputData without messing up the other recognizers
+        var inputDataClone = extend({}, inputData);
+
+        // is is enabled and allow recognizing?
+        if (!boolOrFn(this.options.enable, [this, inputDataClone])) {
+            this.reset();
+            this.state = STATE_FAILED;
+            return;
+        }
+
+        // reset when we've reached the end
+        if (this.state & (STATE_RECOGNIZED | STATE_CANCELLED | STATE_FAILED)) {
+            this.state = STATE_POSSIBLE;
+        }
+
+        this.state = this.process(inputDataClone);
+
+        // the recognizer has recognized a gesture
+        // so trigger an event
+        if (this.state & (STATE_BEGAN | STATE_CHANGED | STATE_ENDED | STATE_CANCELLED)) {
+            this.tryEmit(inputDataClone);
+        }
+    },
+
+    /**
+     * return the state of the recognizer
+     * the actual recognizing happens in this method
+     * @virtual
+     * @param {Object} inputData
+     * @returns {Const} STATE
+     */
+    process: function(inputData) { }, // jshint ignore:line
+
+    /**
+     * return the preferred touch-action
+     * @virtual
+     * @returns {Array}
+     */
+    getTouchAction: function() { },
+
+    /**
+     * called when the gesture isn't allowed to recognize
+     * like when another is being recognized or it is disabled
+     * @virtual
+     */
+    reset: function() { }
+};
+
+/**
+ * get a usable string, used as event postfix
+ * @param {Const} state
+ * @returns {String} state
+ */
+function stateStr(state) {
+    if (state & STATE_CANCELLED) {
+        return 'cancel';
+    } else if (state & STATE_ENDED) {
+        return 'end';
+    } else if (state & STATE_CHANGED) {
+        return 'move';
+    } else if (state & STATE_BEGAN) {
+        return 'start';
+    }
+    return '';
+}
+
+/**
+ * direction cons to string
+ * @param {Const} direction
+ * @returns {String}
+ */
+function directionStr(direction) {
+    if (direction == DIRECTION_DOWN) {
+        return 'down';
+    } else if (direction == DIRECTION_UP) {
+        return 'up';
+    } else if (direction == DIRECTION_LEFT) {
+        return 'left';
+    } else if (direction == DIRECTION_RIGHT) {
+        return 'right';
+    }
+    return '';
+}
+
+/**
+ * get a recognizer by name if it is bound to a manager
+ * @param {Recognizer|String} otherRecognizer
+ * @param {Recognizer} recognizer
+ * @returns {Recognizer}
+ */
+function getRecognizerByNameIfManager(otherRecognizer, recognizer) {
+    var manager = recognizer.manager;
+    if (manager) {
+        return manager.get(otherRecognizer);
+    }
+    return otherRecognizer;
+}
+
+/**
+ * This recognizer is just used as a base for the simple attribute recognizers.
+ * @constructor
+ * @extends Recognizer
+ */
+function AttrRecognizer() {
+    Recognizer.apply(this, arguments);
+}
+
+inherit(AttrRecognizer, Recognizer, {
+    /**
+     * @namespace
+     * @memberof AttrRecognizer
+     */
+    defaults: {
+        /**
+         * @type {Number}
+         * @default 1
+         */
+        pointers: 1
+    },
+
+    /**
+     * Used to check if it the recognizer receives valid input, like input.distance > 10.
+     * @memberof AttrRecognizer
+     * @param {Object} input
+     * @returns {Boolean} recognized
+     */
+    attrTest: function(input) {
+        var optionPointers = this.options.pointers;
+        return optionPointers === 0 || input.pointers.length === optionPointers;
+    },
+
+    /**
+     * Process the input and return the state for the recognizer
+     * @memberof AttrRecognizer
+     * @param {Object} input
+     * @returns {*} State
+     */
+    process: function(input) {
+        var state = this.state;
+        var eventType = input.eventType;
+
+        var isRecognized = state & (STATE_BEGAN | STATE_CHANGED);
+        var isValid = this.attrTest(input);
+
+        // on cancel input and we've recognized before, return STATE_CANCELLED
+        if (isRecognized && (eventType & INPUT_CANCEL || !isValid)) {
+            return state | STATE_CANCELLED;
+        } else if (isRecognized || isValid) {
+            if (eventType & INPUT_END) {
+                return state | STATE_ENDED;
+            } else if (!(state & STATE_BEGAN)) {
+                return STATE_BEGAN;
+            }
+            return state | STATE_CHANGED;
+        }
+        return STATE_FAILED;
+    }
+});
+
+/**
+ * Pan
+ * Recognized when the pointer is down and moved in the allowed direction.
+ * @constructor
+ * @extends AttrRecognizer
+ */
+function PanRecognizer() {
+    AttrRecognizer.apply(this, arguments);
+
+    this.pX = null;
+    this.pY = null;
+}
+
+inherit(PanRecognizer, AttrRecognizer, {
+    /**
+     * @namespace
+     * @memberof PanRecognizer
+     */
+    defaults: {
+        event: 'pan',
+        threshold: 10,
+        pointers: 1,
+        direction: DIRECTION_ALL
+    },
+
+    getTouchAction: function() {
+        var direction = this.options.direction;
+        var actions = [];
+        if (direction & DIRECTION_HORIZONTAL) {
+            actions.push(TOUCH_ACTION_PAN_Y);
+        }
+        if (direction & DIRECTION_VERTICAL) {
+            actions.push(TOUCH_ACTION_PAN_X);
+        }
+        return actions;
+    },
+
+    directionTest: function(input) {
+        var options = this.options;
+        var hasMoved = true;
+        var distance = input.distance;
+        var direction = input.direction;
+        var x = input.deltaX;
+        var y = input.deltaY;
+
+        // lock to axis?
+        if (!(direction & options.direction)) {
+            if (options.direction & DIRECTION_HORIZONTAL) {
+                direction = (x === 0) ? DIRECTION_NONE : (x < 0) ? DIRECTION_LEFT : DIRECTION_RIGHT;
+                hasMoved = x != this.pX;
+                distance = Math.abs(input.deltaX);
+            } else {
+                direction = (y === 0) ? DIRECTION_NONE : (y < 0) ? DIRECTION_UP : DIRECTION_DOWN;
+                hasMoved = y != this.pY;
+                distance = Math.abs(input.deltaY);
+            }
+        }
+        input.direction = direction;
+        return hasMoved && distance > options.threshold && direction & options.direction;
+    },
+
+    attrTest: function(input) {
+        return AttrRecognizer.prototype.attrTest.call(this, input) &&
+            (this.state & STATE_BEGAN || (!(this.state & STATE_BEGAN) && this.directionTest(input)));
+    },
+
+    emit: function(input) {
+        this.pX = input.deltaX;
+        this.pY = input.deltaY;
+
+        var direction = directionStr(input.direction);
+        if (direction) {
+            this.manager.emit(this.options.event + direction, input);
+        }
+
+        this._super.emit.call(this, input);
+    }
+});
+
+/**
+ * Pinch
+ * Recognized when two or more pointers are moving toward (zoom-in) or away from each other (zoom-out).
+ * @constructor
+ * @extends AttrRecognizer
+ */
+function PinchRecognizer() {
+    AttrRecognizer.apply(this, arguments);
+}
+
+inherit(PinchRecognizer, AttrRecognizer, {
+    /**
+     * @namespace
+     * @memberof PinchRecognizer
+     */
+    defaults: {
+        event: 'pinch',
+        threshold: 0,
+        pointers: 2
+    },
+
+    getTouchAction: function() {
+        return [TOUCH_ACTION_NONE];
+    },
+
+    attrTest: function(input) {
+        return this._super.attrTest.call(this, input) &&
+            (Math.abs(input.scale - 1) > this.options.threshold || this.state & STATE_BEGAN);
+    },
+
+    emit: function(input) {
+        this._super.emit.call(this, input);
+        if (input.scale !== 1) {
+            var inOut = input.scale < 1 ? 'in' : 'out';
+            this.manager.emit(this.options.event + inOut, input);
+        }
+    }
+});
+
+/**
+ * Press
+ * Recognized when the pointer is down for x ms without any movement.
+ * @constructor
+ * @extends Recognizer
+ */
+function PressRecognizer() {
+    Recognizer.apply(this, arguments);
+
+    this._timer = null;
+    this._input = null;
+}
+
+inherit(PressRecognizer, Recognizer, {
+    /**
+     * @namespace
+     * @memberof PressRecognizer
+     */
+    defaults: {
+        event: 'press',
+        pointers: 1,
+        time: 500, // minimal time of the pointer to be pressed
+        threshold: 5 // a minimal movement is ok, but keep it low
+    },
+
+    getTouchAction: function() {
+        return [TOUCH_ACTION_AUTO];
+    },
+
+    process: function(input) {
+        var options = this.options;
+        var validPointers = input.pointers.length === options.pointers;
+        var validMovement = input.distance < options.threshold;
+        var validTime = input.deltaTime > options.time;
+
+        this._input = input;
+
+        // we only allow little movement
+        // and we've reached an end event, so a tap is possible
+        if (!validMovement || !validPointers || (input.eventType & (INPUT_END | INPUT_CANCEL) && !validTime)) {
+            this.reset();
+        } else if (input.eventType & INPUT_START) {
+            this.reset();
+            this._timer = setTimeoutContext(function() {
+                this.state = STATE_RECOGNIZED;
+                this.tryEmit();
+            }, options.time, this);
+        } else if (input.eventType & INPUT_END) {
+            return STATE_RECOGNIZED;
+        }
+        return STATE_FAILED;
+    },
+
+    reset: function() {
+        clearTimeout(this._timer);
+    },
+
+    emit: function(input) {
+        if (this.state !== STATE_RECOGNIZED) {
+            return;
+        }
+
+        if (input && (input.eventType & INPUT_END)) {
+            this.manager.emit(this.options.event + 'up', input);
+        } else {
+            this._input.timeStamp = now();
+            this.manager.emit(this.options.event, this._input);
+        }
+    }
+});
+
+/**
+ * Rotate
+ * Recognized when two or more pointer are moving in a circular motion.
+ * @constructor
+ * @extends AttrRecognizer
+ */
+function RotateRecognizer() {
+    AttrRecognizer.apply(this, arguments);
+}
+
+inherit(RotateRecognizer, AttrRecognizer, {
+    /**
+     * @namespace
+     * @memberof RotateRecognizer
+     */
+    defaults: {
+        event: 'rotate',
+        threshold: 0,
+        pointers: 2
+    },
+
+    getTouchAction: function() {
+        return [TOUCH_ACTION_NONE];
+    },
+
+    attrTest: function(input) {
+        return this._super.attrTest.call(this, input) &&
+            (Math.abs(input.rotation) > this.options.threshold || this.state & STATE_BEGAN);
+    }
+});
+
+/**
+ * Swipe
+ * Recognized when the pointer is moving fast (velocity), with enough distance in the allowed direction.
+ * @constructor
+ * @extends AttrRecognizer
+ */
+function SwipeRecognizer() {
+    AttrRecognizer.apply(this, arguments);
+}
+
+inherit(SwipeRecognizer, AttrRecognizer, {
+    /**
+     * @namespace
+     * @memberof SwipeRecognizer
+     */
+    defaults: {
+        event: 'swipe',
+        threshold: 10,
+        velocity: 0.65,
+        direction: DIRECTION_HORIZONTAL | DIRECTION_VERTICAL,
+        pointers: 1
+    },
+
+    getTouchAction: function() {
+        return PanRecognizer.prototype.getTouchAction.call(this);
+    },
+
+    attrTest: function(input) {
+        var direction = this.options.direction;
+        var velocity;
+
+        if (direction & (DIRECTION_HORIZONTAL | DIRECTION_VERTICAL)) {
+            velocity = input.velocity;
+        } else if (direction & DIRECTION_HORIZONTAL) {
+            velocity = input.velocityX;
+        } else if (direction & DIRECTION_VERTICAL) {
+            velocity = input.velocityY;
+        }
+
+        return this._super.attrTest.call(this, input) &&
+            direction & input.direction &&
+            input.distance > this.options.threshold &&
+            abs(velocity) > this.options.velocity && input.eventType & INPUT_END;
+    },
+
+    emit: function(input) {
+        var direction = directionStr(input.direction);
+        if (direction) {
+            this.manager.emit(this.options.event + direction, input);
+        }
+
+        this.manager.emit(this.options.event, input);
+    }
+});
+
+/**
+ * A tap is ecognized when the pointer is doing a small tap/click. Multiple taps are recognized if they occur
+ * between the given interval and position. The delay option can be used to recognize multi-taps without firing
+ * a single tap.
+ *
+ * The eventData from the emitted event contains the property `tapCount`, which contains the amount of
+ * multi-taps being recognized.
+ * @constructor
+ * @extends Recognizer
+ */
+function TapRecognizer() {
+    Recognizer.apply(this, arguments);
+
+    // previous time and center,
+    // used for tap counting
+    this.pTime = false;
+    this.pCenter = false;
+
+    this._timer = null;
+    this._input = null;
+    this.count = 0;
+}
+
+inherit(TapRecognizer, Recognizer, {
+    /**
+     * @namespace
+     * @memberof PinchRecognizer
+     */
+    defaults: {
+        event: 'tap',
+        pointers: 1,
+        taps: 1,
+        interval: 300, // max time between the multi-tap taps
+        time: 250, // max time of the pointer to be down (like finger on the screen)
+        threshold: 2, // a minimal movement is ok, but keep it low
+        posThreshold: 10 // a multi-tap can be a bit off the initial position
+    },
+
+    getTouchAction: function() {
+        return [TOUCH_ACTION_MANIPULATION];
+    },
+
+    process: function(input) {
+        var options = this.options;
+
+        var validPointers = input.pointers.length === options.pointers;
+        var validMovement = input.distance < options.threshold;
+        var validTouchTime = input.deltaTime < options.time;
+
+        this.reset();
+
+        if ((input.eventType & INPUT_START) && (this.count === 0)) {
+            return this.failTimeout();
+        }
+
+        // we only allow little movement
+        // and we've reached an end event, so a tap is possible
+        if (validMovement && validTouchTime && validPointers) {
+            if (input.eventType != INPUT_END) {
+                return this.failTimeout();
+            }
+
+            var validInterval = this.pTime ? (input.timeStamp - this.pTime < options.interval) : true;
+            var validMultiTap = !this.pCenter || getDistance(this.pCenter, input.center) < options.posThreshold;
+
+            this.pTime = input.timeStamp;
+            this.pCenter = input.center;
+
+            if (!validMultiTap || !validInterval) {
+                this.count = 1;
+            } else {
+                this.count += 1;
+            }
+
+            this._input = input;
+
+            // if tap count matches we have recognized it,
+            // else it has began recognizing...
+            var tapCount = this.count % options.taps;
+            if (tapCount === 0) {
+                // no failing requirements, immediately trigger the tap event
+                // or wait as long as the multitap interval to trigger
+                if (!this.hasRequireFailures()) {
+                    return STATE_RECOGNIZED;
+                } else {
+                    this._timer = setTimeoutContext(function() {
+                        this.state = STATE_RECOGNIZED;
+                        this.tryEmit();
+                    }, options.interval, this);
+                    return STATE_BEGAN;
+                }
+            }
+        }
+        return STATE_FAILED;
+    },
+
+    failTimeout: function() {
+        this._timer = setTimeoutContext(function() {
+            this.state = STATE_FAILED;
+        }, this.options.interval, this);
+        return STATE_FAILED;
+    },
+
+    reset: function() {
+        clearTimeout(this._timer);
+    },
+
+    emit: function() {
+        if (this.state == STATE_RECOGNIZED ) {
+            this._input.tapCount = this.count;
+            this.manager.emit(this.options.event, this._input);
+        }
+    }
+});
+
+/**
+ * Simple way to create an manager with a default set of recognizers.
+ * @param {HTMLElement} element
+ * @param {Object} [options]
+ * @constructor
+ */
+function Hammer(element, options) {
+    options = options || {};
+    options.recognizers = ifUndefined(options.recognizers, Hammer.defaults.preset);
+    return new Manager(element, options);
+}
+
+/**
+ * @const {string}
+ */
+Hammer.VERSION = '2.0.4';
+
+/**
+ * default settings
+ * @namespace
  */
 Hammer.defaults = {
     /**
-     * this setting object adds styles and attributes to the element to prevent the browser from doing
-     * its native behavior. The css properties are auto prefixed for the browsers when needed.
-     * @property defaults.behavior
-     * @type {Object}
+     * set if DOM events are being triggered.
+     * But this is slower and unused by simple implementations, so disabled by default.
+     * @type {Boolean}
+     * @default false
      */
-    behavior: {
+    domEvents: false,
+
+    /**
+     * The value for the touchAction property/fallback.
+     * When set to `compute` it will magically set the correct value based on the added recognizers.
+     * @type {String}
+     * @default compute
+     */
+    touchAction: TOUCH_ACTION_COMPUTE,
+
+    /**
+     * @type {Boolean}
+     * @default true
+     */
+    enable: true,
+
+    /**
+     * EXPERIMENTAL FEATURE -- can be removed/changed
+     * Change the parent input target element.
+     * If Null, then it is being set the to main element.
+     * @type {Null|EventTarget}
+     * @default null
+     */
+    inputTarget: null,
+
+    /**
+     * force an input class
+     * @type {Null|Function}
+     * @default null
+     */
+    inputClass: null,
+
+    /**
+     * Default recognizer setup when calling `Hammer()`
+     * When creating a new Manager these will be skipped.
+     * @type {Array}
+     */
+    preset: [
+        // RecognizerClass, options, [recognizeWith, ...], [requireFailure, ...]
+        [RotateRecognizer, { enable: false }],
+        [PinchRecognizer, { enable: false }, ['rotate']],
+        [SwipeRecognizer,{ direction: DIRECTION_HORIZONTAL }],
+        [PanRecognizer, { direction: DIRECTION_HORIZONTAL }, ['swipe']],
+        [TapRecognizer],
+        [TapRecognizer, { event: 'doubletap', taps: 2 }, ['tap']],
+        [PressRecognizer]
+    ],
+
+    /**
+     * Some CSS properties can be used to improve the working of Hammer.
+     * Add them to this method and they will be set when creating a new Manager.
+     * @namespace
+     */
+    cssProps: {
         /**
-         * Disables text selection to improve the dragging gesture. When the value is `none` it also sets
-         * `onselectstart=false` for IE on the element. Mainly for desktop browsers.
-         * @property defaults.behavior.userSelect
+         * Disables text selection to improve the dragging gesture. Mainly for desktop browsers.
          * @type {String}
          * @default 'none'
          */
         userSelect: 'none',
 
         /**
-         * Specifies whether and how a given region can be manipulated by the user (for instance, by panning or zooming).
-         * Used by Chrome 35> and IE10>. By default this makes the element blocking any touch event.
-         * @property defaults.behavior.touchAction
+         * Disable the Windows Phone grippers when pressing an element.
          * @type {String}
-         * @default: 'pan-y'
+         * @default 'none'
          */
-        touchAction: 'pan-y',
+        touchSelect: 'none',
 
         /**
          * Disables the default callout shown when you touch and hold a touch target.
          * On iOS, when you touch and hold a touch target such as a link, Safari displays
          * a callout containing information about the link. This property allows you to disable that callout.
-         * @property defaults.behavior.touchCallout
          * @type {String}
          * @default 'none'
          */
@@ -18321,16 +20374,13 @@ Hammer.defaults = {
 
         /**
          * Specifies whether zooming is enabled. Used by IE10>
-         * @property defaults.behavior.contentZooming
          * @type {String}
          * @default 'none'
          */
         contentZooming: 'none',
 
         /**
-         * Specifies that an entire element should be draggable instead of its contents.
-         * Mainly for desktop browsers.
-         * @property defaults.behavior.userDrag
+         * Specifies that an entire element should be draggable instead of its contents. Mainly for desktop browsers.
          * @type {String}
          * @default 'none'
          */
@@ -18338,12 +20388,7 @@ Hammer.defaults = {
 
         /**
          * Overrides the highlight color shown when the user taps a link or a JavaScript
-         * clickable element in Safari on iPhone. This property obeys the alpha value, if specified.
-         *
-         * If you don't specify an alpha value, Safari on iPhone applies a default alpha value
-         * to the color. To disable tap highlighting, set the alpha value to 0 (invisible).
-         * If you set the alpha value to 1.0 (opaque), the element is not visible when tapped.
-         * @property defaults.behavior.tapHighlightColor
+         * clickable element in iOS. This property obeys the alpha value, if specified.
          * @type {String}
          * @default 'rgba(0,0,0,0)'
          */
@@ -18351,2045 +20396,351 @@ Hammer.defaults = {
     }
 };
 
-/**
- * hammer document where the base events are added at
- * @property DOCUMENT
- * @type {HTMLElement}
- * @default window.document
- */
-Hammer.DOCUMENT = document;
+var STOP = 1;
+var FORCED_STOP = 2;
 
 /**
- * detect support for pointer events
- * @property HAS_POINTEREVENTS
- * @type {Boolean}
+ * Manager
+ * @param {HTMLElement} element
+ * @param {Object} [options]
+ * @constructor
  */
-Hammer.HAS_POINTEREVENTS = navigator.pointerEnabled || navigator.msPointerEnabled;
+function Manager(element, options) {
+    options = options || {};
 
-/**
- * detect support for touch events
- * @property HAS_TOUCHEVENTS
- * @type {Boolean}
- */
-Hammer.HAS_TOUCHEVENTS = ('ontouchstart' in window);
+    this.options = merge(options, Hammer.defaults);
+    this.options.inputTarget = this.options.inputTarget || element;
 
-/**
- * detect mobile browsers
- * @property IS_MOBILE
- * @type {Boolean}
- */
-Hammer.IS_MOBILE = /mobile|tablet|ip(ad|hone|od)|android|silk/i.test(navigator.userAgent);
+    this.handlers = {};
+    this.session = {};
+    this.recognizers = [];
 
-/**
- * detect if we want to support mouseevents at all
- * @property NO_MOUSEEVENTS
- * @type {Boolean}
- */
-Hammer.NO_MOUSEEVENTS = (Hammer.HAS_TOUCHEVENTS && Hammer.IS_MOBILE) || Hammer.HAS_POINTEREVENTS;
+    this.element = element;
+    this.input = createInputInstance(this);
+    this.touchAction = new TouchAction(this, this.options.touchAction);
 
-/**
- * interval in which Hammer recalculates current velocity/direction/angle in ms
- * @property CALCULATE_INTERVAL
- * @type {Number}
- * @default 25
- */
-Hammer.CALCULATE_INTERVAL = 25;
+    toggleCssProps(this, true);
 
-/**
- * eventtypes per touchevent (start, move, end) are filled by `Event.determineEventTypes` on `setup`
- * the object contains the DOM event names per type (`EVENT_START`, `EVENT_MOVE`, `EVENT_END`)
- * @property EVENT_TYPES
- * @private
- * @writeOnce
- * @type {Object}
- */
-var EVENT_TYPES = {};
+    each(options.recognizers, function(item) {
+        var recognizer = this.add(new (item[0])(item[1]));
+        item[2] && recognizer.recognizeWith(item[2]);
+        item[3] && recognizer.requireFailure(item[3]);
+    }, this);
+}
 
-/**
- * direction strings, for safe comparisons
- * @property DIRECTION_DOWN|LEFT|UP|RIGHT
- * @final
- * @type {String}
- * @default 'down' 'left' 'up' 'right'
- */
-var DIRECTION_DOWN = Hammer.DIRECTION_DOWN = 'down';
-var DIRECTION_LEFT = Hammer.DIRECTION_LEFT = 'left';
-var DIRECTION_UP = Hammer.DIRECTION_UP = 'up';
-var DIRECTION_RIGHT = Hammer.DIRECTION_RIGHT = 'right';
+Manager.prototype = {
+    /**
+     * set options
+     * @param {Object} options
+     * @returns {Manager}
+     */
+    set: function(options) {
+        extend(this.options, options);
 
-/**
- * pointertype strings, for safe comparisons
- * @property POINTER_MOUSE|TOUCH|PEN
- * @final
- * @type {String}
- * @default 'mouse' 'touch' 'pen'
- */
-var POINTER_MOUSE = Hammer.POINTER_MOUSE = 'mouse';
-var POINTER_TOUCH = Hammer.POINTER_TOUCH = 'touch';
-var POINTER_PEN = Hammer.POINTER_PEN = 'pen';
+        // Options that need a little more setup
+        if (options.touchAction) {
+            this.touchAction.update();
+        }
+        if (options.inputTarget) {
+            // Clean up existing event listeners and reinitialize
+            this.input.destroy();
+            this.input.target = options.inputTarget;
+            this.input.init();
+        }
+        return this;
+    },
 
-/**
- * eventtypes
- * @property EVENT_START|MOVE|END|RELEASE|TOUCH
- * @final
- * @type {String}
- * @default 'start' 'change' 'move' 'end' 'release' 'touch'
- */
-var EVENT_START = Hammer.EVENT_START = 'start';
-var EVENT_MOVE = Hammer.EVENT_MOVE = 'move';
-var EVENT_END = Hammer.EVENT_END = 'end';
-var EVENT_RELEASE = Hammer.EVENT_RELEASE = 'release';
-var EVENT_TOUCH = Hammer.EVENT_TOUCH = 'touch';
+    /**
+     * stop recognizing for this session.
+     * This session will be discarded, when a new [input]start event is fired.
+     * When forced, the recognizer cycle is stopped immediately.
+     * @param {Boolean} [force]
+     */
+    stop: function(force) {
+        this.session.stopped = force ? FORCED_STOP : STOP;
+    },
 
-/**
- * if the window events are set...
- * @property READY
- * @writeOnce
- * @type {Boolean}
- * @default false
- */
-Hammer.READY = false;
+    /**
+     * run the recognizers!
+     * called by the inputHandler function on every movement of the pointers (touches)
+     * it walks through all the recognizers and tries to detect the gesture that is being made
+     * @param {Object} inputData
+     */
+    recognize: function(inputData) {
+        var session = this.session;
+        if (session.stopped) {
+            return;
+        }
 
-/**
- * plugins namespace
- * @property plugins
- * @type {Object}
- */
-Hammer.plugins = Hammer.plugins || {};
+        // run the touch-action polyfill
+        this.touchAction.preventDefaults(inputData);
 
-/**
- * gestures namespace
- * see `/gestures` for the definitions
- * @property gestures
- * @type {Object}
- */
-Hammer.gestures = Hammer.gestures || {};
+        var recognizer;
+        var recognizers = this.recognizers;
 
-/**
- * setup events to detect gestures on the document
- * this function is called when creating an new instance
- * @private
- */
-function setup() {
-    if(Hammer.READY) {
-        return;
+        // this holds the recognizer that is being recognized.
+        // so the recognizer's state needs to be BEGAN, CHANGED, ENDED or RECOGNIZED
+        // if no recognizer is detecting a thing, it is set to `null`
+        var curRecognizer = session.curRecognizer;
+
+        // reset when the last recognizer is recognized
+        // or when we're in a new session
+        if (!curRecognizer || (curRecognizer && curRecognizer.state & STATE_RECOGNIZED)) {
+            curRecognizer = session.curRecognizer = null;
+        }
+
+        var i = 0;
+        while (i < recognizers.length) {
+            recognizer = recognizers[i];
+
+            // find out if we are allowed try to recognize the input for this one.
+            // 1.   allow if the session is NOT forced stopped (see the .stop() method)
+            // 2.   allow if we still haven't recognized a gesture in this session, or the this recognizer is the one
+            //      that is being recognized.
+            // 3.   allow if the recognizer is allowed to run simultaneous with the current recognized recognizer.
+            //      this can be setup with the `recognizeWith()` method on the recognizer.
+            if (session.stopped !== FORCED_STOP && ( // 1
+                    !curRecognizer || recognizer == curRecognizer || // 2
+                    recognizer.canRecognizeWith(curRecognizer))) { // 3
+                recognizer.recognize(inputData);
+            } else {
+                recognizer.reset();
+            }
+
+            // if the recognizer has been recognizing the input as a valid gesture, we want to store this one as the
+            // current active recognizer. but only if we don't already have an active recognizer
+            if (!curRecognizer && recognizer.state & (STATE_BEGAN | STATE_CHANGED | STATE_ENDED)) {
+                curRecognizer = session.curRecognizer = recognizer;
+            }
+            i++;
+        }
+    },
+
+    /**
+     * get a recognizer by its event name.
+     * @param {Recognizer|String} recognizer
+     * @returns {Recognizer|Null}
+     */
+    get: function(recognizer) {
+        if (recognizer instanceof Recognizer) {
+            return recognizer;
+        }
+
+        var recognizers = this.recognizers;
+        for (var i = 0; i < recognizers.length; i++) {
+            if (recognizers[i].options.event == recognizer) {
+                return recognizers[i];
+            }
+        }
+        return null;
+    },
+
+    /**
+     * add a recognizer to the manager
+     * existing recognizers with the same event name will be removed
+     * @param {Recognizer} recognizer
+     * @returns {Recognizer|Manager}
+     */
+    add: function(recognizer) {
+        if (invokeArrayArg(recognizer, 'add', this)) {
+            return this;
+        }
+
+        // remove existing
+        var existing = this.get(recognizer.options.event);
+        if (existing) {
+            this.remove(existing);
+        }
+
+        this.recognizers.push(recognizer);
+        recognizer.manager = this;
+
+        this.touchAction.update();
+        return recognizer;
+    },
+
+    /**
+     * remove a recognizer by name or instance
+     * @param {Recognizer|String} recognizer
+     * @returns {Manager}
+     */
+    remove: function(recognizer) {
+        if (invokeArrayArg(recognizer, 'remove', this)) {
+            return this;
+        }
+
+        var recognizers = this.recognizers;
+        recognizer = this.get(recognizer);
+        recognizers.splice(inArray(recognizers, recognizer), 1);
+
+        this.touchAction.update();
+        return this;
+    },
+
+    /**
+     * bind event
+     * @param {String} events
+     * @param {Function} handler
+     * @returns {EventEmitter} this
+     */
+    on: function(events, handler) {
+        var handlers = this.handlers;
+        each(splitStr(events), function(event) {
+            handlers[event] = handlers[event] || [];
+            handlers[event].push(handler);
+        });
+        return this;
+    },
+
+    /**
+     * unbind event, leave emit blank to remove all handlers
+     * @param {String} events
+     * @param {Function} [handler]
+     * @returns {EventEmitter} this
+     */
+    off: function(events, handler) {
+        var handlers = this.handlers;
+        each(splitStr(events), function(event) {
+            if (!handler) {
+                delete handlers[event];
+            } else {
+                handlers[event].splice(inArray(handlers[event], handler), 1);
+            }
+        });
+        return this;
+    },
+
+    /**
+     * emit event to the listeners
+     * @param {String} event
+     * @param {Object} data
+     */
+    emit: function(event, data) {
+        // we also want to trigger dom events
+        if (this.options.domEvents) {
+            triggerDomEvent(event, data);
+        }
+
+        // no handlers, so skip it all
+        var handlers = this.handlers[event] && this.handlers[event].slice();
+        if (!handlers || !handlers.length) {
+            return;
+        }
+
+        data.type = event;
+        data.preventDefault = function() {
+            data.srcEvent.preventDefault();
+        };
+
+        var i = 0;
+        while (i < handlers.length) {
+            handlers[i](data);
+            i++;
+        }
+    },
+
+    /**
+     * destroy the manager and unbinds all events
+     * it doesn't unbind dom events, that is the user own responsibility
+     */
+    destroy: function() {
+        this.element && toggleCssProps(this, false);
+
+        this.handlers = {};
+        this.session = {};
+        this.input.destroy();
+        this.element = null;
     }
+};
 
-    // find what eventtypes we add listeners to
-    Event.determineEventTypes();
-
-    // Register all gestures inside Hammer.gestures
-    Utils.each(Hammer.gestures, function(gesture) {
-        Detection.register(gesture);
+/**
+ * add/remove the css properties as defined in manager.options.cssProps
+ * @param {Manager} manager
+ * @param {Boolean} add
+ */
+function toggleCssProps(manager, add) {
+    var element = manager.element;
+    each(manager.options.cssProps, function(value, name) {
+        element.style[prefixed(element.style, name)] = add ? value : '';
     });
-
-    // Add touch events on the document
-    Event.onTouch(Hammer.DOCUMENT, EVENT_MOVE, Detection.detect);
-    Event.onTouch(Hammer.DOCUMENT, EVENT_END, Detection.detect);
-
-    // Hammer is ready...!
-    Hammer.READY = true;
 }
 
 /**
- * @module hammer
- *
- * @class Utils
- * @static
+ * trigger dom event
+ * @param {String} event
+ * @param {Object} data
  */
-var Utils = Hammer.utils = {
-    /**
-     * extend method, could also be used for cloning when `dest` is an empty object.
-     * changes the dest object
-     * @method extend
-     * @param {Object} dest
-     * @param {Object} src
-     * @param {Boolean} [merge=false]  do a merge
-     * @return {Object} dest
-     */
-    extend: function extend(dest, src, merge) {
-        for(var key in src) {
-            if(!src.hasOwnProperty(key) || (dest[key] !== undefined && merge)) {
-                continue;
-            }
-            dest[key] = src[key];
-        }
-        return dest;
-    },
-
-    /**
-     * simple addEventListener wrapper
-     * @method on
-     * @param {HTMLElement} element
-     * @param {String} type
-     * @param {Function} handler
-     */
-    on: function on(element, type, handler) {
-        element.addEventListener(type, handler, false);
-    },
-
-    /**
-     * simple removeEventListener wrapper
-     * @method off
-     * @param {HTMLElement} element
-     * @param {String} type
-     * @param {Function} handler
-     */
-    off: function off(element, type, handler) {
-        element.removeEventListener(type, handler, false);
-    },
-
-    /**
-     * forEach over arrays and objects
-     * @method each
-     * @param {Object|Array} obj
-     * @param {Function} iterator
-     * @param {any} iterator.item
-     * @param {Number} iterator.index
-     * @param {Object|Array} iterator.obj the source object
-     * @param {Object} context value to use as `this` in the iterator
-     */
-    each: function each(obj, iterator, context) {
-        var i, len;
-
-        // native forEach on arrays
-        if('forEach' in obj) {
-            obj.forEach(iterator, context);
-        // arrays
-        } else if(obj.length !== undefined) {
-            for(i = 0, len = obj.length; i < len; i++) {
-                if(iterator.call(context, obj[i], i, obj) === false) {
-                    return;
-                }
-            }
-        // objects
-        } else {
-            for(i in obj) {
-                if(obj.hasOwnProperty(i) &&
-                    iterator.call(context, obj[i], i, obj) === false) {
-                    return;
-                }
-            }
-        }
-    },
-
-    /**
-     * find if a string contains the string using indexOf
-     * @method inStr
-     * @param {String} src
-     * @param {String} find
-     * @return {Boolean} found
-     */
-    inStr: function inStr(src, find) {
-        return src.indexOf(find) > -1;
-    },
-
-    /**
-     * find if a array contains the object using indexOf or a simple polyfill
-     * @method inArray
-     * @param {String} src
-     * @param {String} find
-     * @return {Boolean|Number} false when not found, or the index
-     */
-    inArray: function inArray(src, find) {
-        if(src.indexOf) {
-            var index = src.indexOf(find);
-            return (index === -1) ? false : index;
-        } else {
-            for(var i = 0, len = src.length; i < len; i++) {
-                if(src[i] === find) {
-                    return i;
-                }
-            }
-            return false;
-        }
-    },
-
-    /**
-     * convert an array-like object (`arguments`, `touchlist`) to an array
-     * @method toArray
-     * @param {Object} obj
-     * @return {Array}
-     */
-    toArray: function toArray(obj) {
-        return Array.prototype.slice.call(obj, 0);
-    },
-
-    /**
-     * find if a node is in the given parent
-     * @method hasParent
-     * @param {HTMLElement} node
-     * @param {HTMLElement} parent
-     * @return {Boolean} found
-     */
-    hasParent: function hasParent(node, parent) {
-        while(node) {
-            if(node == parent) {
-                return true;
-            }
-            node = node.parentNode;
-        }
-        return false;
-    },
-
-    /**
-     * get the center of all the touches
-     * @method getCenter
-     * @param {Array} touches
-     * @return {Object} center contains `pageX`, `pageY`, `clientX` and `clientY` properties
-     */
-    getCenter: function getCenter(touches) {
-        var pageX = [],
-            pageY = [],
-            clientX = [],
-            clientY = [],
-            min = Math.min,
-            max = Math.max;
-
-        // no need to loop when only one touch
-        if(touches.length === 1) {
-            return {
-                pageX: touches[0].pageX,
-                pageY: touches[0].pageY,
-                clientX: touches[0].clientX,
-                clientY: touches[0].clientY
-            };
-        }
-
-        Utils.each(touches, function(touch) {
-            pageX.push(touch.pageX);
-            pageY.push(touch.pageY);
-            clientX.push(touch.clientX);
-            clientY.push(touch.clientY);
-        });
-
-        return {
-            pageX: (min.apply(Math, pageX) + max.apply(Math, pageX)) / 2,
-            pageY: (min.apply(Math, pageY) + max.apply(Math, pageY)) / 2,
-            clientX: (min.apply(Math, clientX) + max.apply(Math, clientX)) / 2,
-            clientY: (min.apply(Math, clientY) + max.apply(Math, clientY)) / 2
-        };
-    },
-
-    /**
-     * calculate the velocity between two points. unit is in px per ms.
-     * @method getVelocity
-     * @param {Number} deltaTime
-     * @param {Number} deltaX
-     * @param {Number} deltaY
-     * @return {Object} velocity `x` and `y`
-     */
-    getVelocity: function getVelocity(deltaTime, deltaX, deltaY) {
-        return {
-            x: Math.abs(deltaX / deltaTime) || 0,
-            y: Math.abs(deltaY / deltaTime) || 0
-        };
-    },
-
-    /**
-     * calculate the angle between two coordinates
-     * @method getAngle
-     * @param {Touch} touch1
-     * @param {Touch} touch2
-     * @return {Number} angle
-     */
-    getAngle: function getAngle(touch1, touch2) {
-        var x = touch2.clientX - touch1.clientX,
-            y = touch2.clientY - touch1.clientY;
-
-        return Math.atan2(y, x) * 180 / Math.PI;
-    },
-
-    /**
-     * do a small comparision to get the direction between two touches.
-     * @method getDirection
-     * @param {Touch} touch1
-     * @param {Touch} touch2
-     * @return {String} direction matches `DIRECTION_LEFT|RIGHT|UP|DOWN`
-     */
-    getDirection: function getDirection(touch1, touch2) {
-        var x = Math.abs(touch1.clientX - touch2.clientX),
-            y = Math.abs(touch1.clientY - touch2.clientY);
-
-        if(x >= y) {
-            return touch1.clientX - touch2.clientX > 0 ? DIRECTION_LEFT : DIRECTION_RIGHT;
-        }
-        return touch1.clientY - touch2.clientY > 0 ? DIRECTION_UP : DIRECTION_DOWN;
-    },
-
-    /**
-     * calculate the distance between two touches
-     * @method getDistance
-     * @param {Touch}touch1
-     * @param {Touch} touch2
-     * @return {Number} distance
-     */
-    getDistance: function getDistance(touch1, touch2) {
-        var x = touch2.clientX - touch1.clientX,
-            y = touch2.clientY - touch1.clientY;
-
-        return Math.sqrt((x * x) + (y * y));
-    },
-
-    /**
-     * calculate the scale factor between two touchLists
-     * no scale is 1, and goes down to 0 when pinched together, and bigger when pinched out
-     * @method getScale
-     * @param {Array} start array of touches
-     * @param {Array} end array of touches
-     * @return {Number} scale
-     */
-    getScale: function getScale(start, end) {
-        // need two fingers...
-        if(start.length >= 2 && end.length >= 2) {
-            return this.getDistance(end[0], end[1]) / this.getDistance(start[0], start[1]);
-        }
-        return 1;
-    },
-
-    /**
-     * calculate the rotation degrees between two touchLists
-     * @method getRotation
-     * @param {Array} start array of touches
-     * @param {Array} end array of touches
-     * @return {Number} rotation
-     */
-    getRotation: function getRotation(start, end) {
-        // need two fingers
-        if(start.length >= 2 && end.length >= 2) {
-            return this.getAngle(end[1], end[0]) - this.getAngle(start[1], start[0]);
-        }
-        return 0;
-    },
-
-    /**
-     * find out if the direction is vertical   *
-     * @method isVertical
-     * @param {String} direction matches `DIRECTION_UP|DOWN`
-     * @return {Boolean} is_vertical
-     */
-    isVertical: function isVertical(direction) {
-        return direction == DIRECTION_UP || direction == DIRECTION_DOWN;
-    },
-
-    /**
-     * set css properties with their prefixes
-     * @param {HTMLElement} element
-     * @param {String} prop
-     * @param {String} value
-     * @param {Boolean} [toggle=true]
-     * @return {Boolean}
-     */
-    setPrefixedCss: function setPrefixedCss(element, prop, value, toggle) {
-        var prefixes = ['', 'Webkit', 'Moz', 'O', 'ms'];
-        prop = Utils.toCamelCase(prop);
-
-        for(var i = 0; i < prefixes.length; i++) {
-            var p = prop;
-            // prefixes
-            if(prefixes[i]) {
-                p = prefixes[i] + p.slice(0, 1).toUpperCase() + p.slice(1);
-            }
-
-            // test the style
-            if(p in element.style) {
-                element.style[p] = (toggle == null || toggle) && value || '';
-                break;
-            }
-        }
-    },
-
-    /**
-     * toggle browser default behavior by setting css properties.
-     * `userSelect='none'` also sets `element.onselectstart` to false
-     * `userDrag='none'` also sets `element.ondragstart` to false
-     *
-     * @method toggleBehavior
-     * @param {HtmlElement} element
-     * @param {Object} props
-     * @param {Boolean} [toggle=true]
-     */
-    toggleBehavior: function toggleBehavior(element, props, toggle) {
-        if(!props || !element || !element.style) {
-            return;
-        }
-
-        // set the css properties
-        Utils.each(props, function(value, prop) {
-            Utils.setPrefixedCss(element, prop, value, toggle);
-        });
-
-        var falseFn = toggle && function() {
-            return false;
-        };
-
-        // also the disable onselectstart
-        if(props.userSelect == 'none') {
-            element.onselectstart = falseFn;
-        }
-        // and disable ondragstart
-        if(props.userDrag == 'none') {
-            element.ondragstart = falseFn;
-        }
-    },
-
-    /**
-     * convert a string with underscores to camelCase
-     * so prevent_default becomes preventDefault
-     * @param {String} str
-     * @return {String} camelCaseStr
-     */
-    toCamelCase: function toCamelCase(str) {
-        return str.replace(/[_-]([a-z])/g, function(s) {
-            return s[1].toUpperCase();
-        });
-    }
-};
-
-
-/**
- * @module hammer
- */
-/**
- * @class Event
- * @static
- */
-var Event = Hammer.event = {
-    /**
-     * when touch events have been fired, this is true
-     * this is used to stop mouse events
-     * @property prevent_mouseevents
-     * @private
-     * @type {Boolean}
-     */
-    preventMouseEvents: false,
-
-    /**
-     * if EVENT_START has been fired
-     * @property started
-     * @private
-     * @type {Boolean}
-     */
-    started: false,
-
-    /**
-     * when the mouse is hold down, this is true
-     * @property should_detect
-     * @private
-     * @type {Boolean}
-     */
-    shouldDetect: false,
-
-    /**
-     * simple event binder with a hook and support for multiple types
-     * @method on
-     * @param {HTMLElement} element
-     * @param {String} type
-     * @param {Function} handler
-     * @param {Function} [hook]
-     * @param {Object} hook.type
-     */
-    on: function on(element, type, handler, hook) {
-        var types = type.split(' ');
-        Utils.each(types, function(type) {
-            Utils.on(element, type, handler);
-            hook && hook(type);
-        });
-    },
-
-    /**
-     * simple event unbinder with a hook and support for multiple types
-     * @method off
-     * @param {HTMLElement} element
-     * @param {String} type
-     * @param {Function} handler
-     * @param {Function} [hook]
-     * @param {Object} hook.type
-     */
-    off: function off(element, type, handler, hook) {
-        var types = type.split(' ');
-        Utils.each(types, function(type) {
-            Utils.off(element, type, handler);
-            hook && hook(type);
-        });
-    },
-
-    /**
-     * the core touch event handler.
-     * this finds out if we should to detect gestures
-     * @method onTouch
-     * @param {HTMLElement} element
-     * @param {String} eventType matches `EVENT_START|MOVE|END`
-     * @param {Function} handler
-     * @return onTouchHandler {Function} the core event handler
-     */
-    onTouch: function onTouch(element, eventType, handler) {
-        var self = this;
-
-        var onTouchHandler = function onTouchHandler(ev) {
-            var srcType = ev.type.toLowerCase(),
-                isPointer = Hammer.HAS_POINTEREVENTS,
-                isMouse = Utils.inStr(srcType, 'mouse'),
-                triggerType;
-
-            // if we are in a mouseevent, but there has been a touchevent triggered in this session
-            // we want to do nothing. simply break out of the event.
-            if(isMouse && self.preventMouseEvents) {
-                return;
-
-            // mousebutton must be down
-            } else if(isMouse && eventType == EVENT_START && ev.button === 0) {
-                self.preventMouseEvents = false;
-                self.shouldDetect = true;
-            } else if(isPointer && eventType == EVENT_START) {
-                self.shouldDetect = (ev.buttons === 1 || PointerEvent.matchType(POINTER_TOUCH, ev));
-            // just a valid start event, but no mouse
-            } else if(!isMouse && eventType == EVENT_START) {
-                self.preventMouseEvents = true;
-                self.shouldDetect = true;
-            }
-
-            // update the pointer event before entering the detection
-            if(isPointer && eventType != EVENT_END) {
-                PointerEvent.updatePointer(eventType, ev);
-            }
-
-            // we are in a touch/down state, so allowed detection of gestures
-            if(self.shouldDetect) {
-                triggerType = self.doDetect.call(self, ev, eventType, element, handler);
-            }
-
-            // ...and we are done with the detection
-            // so reset everything to start each detection totally fresh
-            if(triggerType == EVENT_END) {
-                self.preventMouseEvents = false;
-                self.shouldDetect = false;
-                PointerEvent.reset();
-            // update the pointerevent object after the detection
-            }
-
-            if(isPointer && eventType == EVENT_END) {
-                PointerEvent.updatePointer(eventType, ev);
-            }
-        };
-
-        this.on(element, EVENT_TYPES[eventType], onTouchHandler);
-        return onTouchHandler;
-    },
-
-    /**
-     * the core detection method
-     * this finds out what hammer-touch-events to trigger
-     * @method doDetect
-     * @param {Object} ev
-     * @param {String} eventType matches `EVENT_START|MOVE|END`
-     * @param {HTMLElement} element
-     * @param {Function} handler
-     * @return {String} triggerType matches `EVENT_START|MOVE|END`
-     */
-    doDetect: function doDetect(ev, eventType, element, handler) {
-        var touchList = this.getTouchList(ev, eventType);
-        var touchListLength = touchList.length;
-        var triggerType = eventType;
-        var triggerChange = touchList.trigger; // used by fakeMultitouch plugin
-        var changedLength = touchListLength;
-
-        // at each touchstart-like event we want also want to trigger a TOUCH event...
-        if(eventType == EVENT_START) {
-            triggerChange = EVENT_TOUCH;
-        // ...the same for a touchend-like event
-        } else if(eventType == EVENT_END) {
-            triggerChange = EVENT_RELEASE;
-
-            // keep track of how many touches have been removed
-            changedLength = touchList.length - ((ev.changedTouches) ? ev.changedTouches.length : 1);
-        }
-
-        // after there are still touches on the screen,
-        // we just want to trigger a MOVE event. so change the START or END to a MOVE
-        // but only after detection has been started, the first time we actualy want a START
-        if(changedLength > 0 && this.started) {
-            triggerType = EVENT_MOVE;
-        }
-
-        // detection has been started, we keep track of this, see above
-        this.started = true;
-
-        // generate some event data, some basic information
-        var evData = this.collectEventData(element, triggerType, touchList, ev);
-
-        // trigger the triggerType event before the change (TOUCH, RELEASE) events
-        // but the END event should be at last
-        if(eventType != EVENT_END) {
-            handler.call(Detection, evData);
-        }
-
-        // trigger a change (TOUCH, RELEASE) event, this means the length of the touches changed
-        if(triggerChange) {
-            evData.changedLength = changedLength;
-            evData.eventType = triggerChange;
-
-            handler.call(Detection, evData);
-
-            evData.eventType = triggerType;
-            delete evData.changedLength;
-        }
-
-        // trigger the END event
-        if(triggerType == EVENT_END) {
-            handler.call(Detection, evData);
-
-            // ...and we are done with the detection
-            // so reset everything to start each detection totally fresh
-            this.started = false;
-        }
-
-        return triggerType;
-    },
-
-    /**
-     * we have different events for each device/browser
-     * determine what we need and set them in the EVENT_TYPES constant
-     * the `onTouch` method is bind to these properties.
-     * @method determineEventTypes
-     * @return {Object} events
-     */
-    determineEventTypes: function determineEventTypes() {
-        var types;
-        if(Hammer.HAS_POINTEREVENTS) {
-            if(window.PointerEvent) {
-                types = [
-                    'pointerdown',
-                    'pointermove',
-                    'pointerup pointercancel lostpointercapture'
-                ];
-            } else {
-                types = [
-                    'MSPointerDown',
-                    'MSPointerMove',
-                    'MSPointerUp MSPointerCancel MSLostPointerCapture'
-                ];
-            }
-        } else if(Hammer.NO_MOUSEEVENTS) {
-            types = [
-                'touchstart',
-                'touchmove',
-                'touchend touchcancel'
-            ];
-        } else {
-            types = [
-                'touchstart mousedown',
-                'touchmove mousemove',
-                'touchend touchcancel mouseup'
-            ];
-        }
-
-        EVENT_TYPES[EVENT_START] = types[0];
-        EVENT_TYPES[EVENT_MOVE] = types[1];
-        EVENT_TYPES[EVENT_END] = types[2];
-        return EVENT_TYPES;
-    },
-
-    /**
-     * create touchList depending on the event
-     * @method getTouchList
-     * @param {Object} ev
-     * @param {String} eventType
-     * @return {Array} touches
-     */
-    getTouchList: function getTouchList(ev, eventType) {
-        // get the fake pointerEvent touchlist
-        if(Hammer.HAS_POINTEREVENTS) {
-            return PointerEvent.getTouchList();
-        }
-
-        // get the touchlist
-        if(ev.touches) {
-            if(eventType == EVENT_MOVE) {
-                return ev.touches;
-            }
-
-            var identifiers = [];
-            var concat = [].concat(Utils.toArray(ev.touches), Utils.toArray(ev.changedTouches));
-            var touchList = [];
-
-            Utils.each(concat, function(touch) {
-                if(Utils.inArray(identifiers, touch.identifier) === false) {
-                    touchList.push(touch);
-                }
-                identifiers.push(touch.identifier);
-            });
-
-            return touchList;
-        }
-
-        // make fake touchList from mouse position
-        ev.identifier = 1;
-        return [ev];
-    },
-
-    /**
-     * collect basic event data
-     * @method collectEventData
-     * @param {HTMLElement} element
-     * @param {String} eventType matches `EVENT_START|MOVE|END`
-     * @param {Array} touches
-     * @param {Object} ev
-     * @return {Object} ev
-     */
-    collectEventData: function collectEventData(element, eventType, touches, ev) {
-        // find out pointerType
-        var pointerType = POINTER_TOUCH;
-        if(Utils.inStr(ev.type, 'mouse') || PointerEvent.matchType(POINTER_MOUSE, ev)) {
-            pointerType = POINTER_MOUSE;
-        } else if(PointerEvent.matchType(POINTER_PEN, ev)) {
-            pointerType = POINTER_PEN;
-        }
-
-        return {
-            center: Utils.getCenter(touches),
-            timeStamp: Date.now(),
-            target: ev.target,
-            touches: touches,
-            eventType: eventType,
-            pointerType: pointerType,
-            srcEvent: ev,
-
-            /**
-             * prevent the browser default actions
-             * mostly used to disable scrolling of the browser
-             */
-            preventDefault: function() {
-                var srcEvent = this.srcEvent;
-                srcEvent.preventManipulation && srcEvent.preventManipulation();
-                srcEvent.preventDefault && srcEvent.preventDefault();
-            },
-
-            /**
-             * stop bubbling the event up to its parents
-             */
-            stopPropagation: function() {
-                this.srcEvent.stopPropagation();
-            },
-
-            /**
-             * immediately stop gesture detection
-             * might be useful after a swipe was detected
-             * @return {*}
-             */
-            stopDetect: function() {
-                return Detection.stopDetect();
-            }
-        };
-    }
-};
-
-
-/**
- * @module hammer
- *
- * @class PointerEvent
- * @static
- */
-var PointerEvent = Hammer.PointerEvent = {
-    /**
-     * holds all pointers, by `identifier`
-     * @property pointers
-     * @type {Object}
-     */
-    pointers: {},
-
-    /**
-     * get the pointers as an array
-     * @method getTouchList
-     * @return {Array} touchlist
-     */
-    getTouchList: function getTouchList() {
-        var touchlist = [];
-        // we can use forEach since pointerEvents only is in IE10
-        Utils.each(this.pointers, function(pointer) {
-            touchlist.push(pointer);
-        });
-        return touchlist;
-    },
-
-    /**
-     * update the position of a pointer
-     * @method updatePointer
-     * @param {String} eventType matches `EVENT_START|MOVE|END`
-     * @param {Object} pointerEvent
-     */
-    updatePointer: function updatePointer(eventType, pointerEvent) {
-        if(eventType == EVENT_END || (eventType != EVENT_END && pointerEvent.buttons !== 1)) {
-            delete this.pointers[pointerEvent.pointerId];
-        } else {
-            pointerEvent.identifier = pointerEvent.pointerId;
-            this.pointers[pointerEvent.pointerId] = pointerEvent;
-        }
-    },
-
-    /**
-     * check if ev matches pointertype
-     * @method matchType
-     * @param {String} pointerType matches `POINTER_MOUSE|TOUCH|PEN`
-     * @param {PointerEvent} ev
-     */
-    matchType: function matchType(pointerType, ev) {
-        if(!ev.pointerType) {
-            return false;
-        }
-
-        var pt = ev.pointerType,
-            types = {};
-
-        types[POINTER_MOUSE] = (pt === (ev.MSPOINTER_TYPE_MOUSE || POINTER_MOUSE));
-        types[POINTER_TOUCH] = (pt === (ev.MSPOINTER_TYPE_TOUCH || POINTER_TOUCH));
-        types[POINTER_PEN] = (pt === (ev.MSPOINTER_TYPE_PEN || POINTER_PEN));
-        return types[pointerType];
-    },
-
-    /**
-     * reset the stored pointers
-     * @method reset
-     */
-    reset: function resetList() {
-        this.pointers = {};
-    }
-};
-
-
-/**
- * @module hammer
- *
- * @class Detection
- * @static
- */
-var Detection = Hammer.detection = {
-    // contains all registred Hammer.gestures in the correct order
-    gestures: [],
-
-    // data of the current Hammer.gesture detection session
-    current: null,
-
-    // the previous Hammer.gesture session data
-    // is a full clone of the previous gesture.current object
-    previous: null,
-
-    // when this becomes true, no gestures are fired
-    stopped: false,
-
-    /**
-     * start Hammer.gesture detection
-     * @method startDetect
-     * @param {Hammer.Instance} inst
-     * @param {Object} eventData
-     */
-    startDetect: function startDetect(inst, eventData) {
-        // already busy with a Hammer.gesture detection on an element
-        if(this.current) {
-            return;
-        }
-
-        this.stopped = false;
-
-        // holds current session
-        this.current = {
-            inst: inst, // reference to HammerInstance we're working for
-            startEvent: Utils.extend({}, eventData), // start eventData for distances, timing etc
-            lastEvent: false, // last eventData
-            lastCalcEvent: false, // last eventData for calculations.
-            futureCalcEvent: false, // last eventData for calculations.
-            lastCalcData: {}, // last lastCalcData
-            name: '' // current gesture we're in/detected, can be 'tap', 'hold' etc
-        };
-
-        this.detect(eventData);
-    },
-
-    /**
-     * Hammer.gesture detection
-     * @method detect
-     * @param {Object} eventData
-     * @return {any}
-     */
-    detect: function detect(eventData) {
-        if(!this.current || this.stopped) {
-            return;
-        }
-
-        // extend event data with calculations about scale, distance etc
-        eventData = this.extendEventData(eventData);
-
-        // hammer instance and instance options
-        var inst = this.current.inst,
-            instOptions = inst.options;
-
-        // call Hammer.gesture handlers
-        Utils.each(this.gestures, function triggerGesture(gesture) {
-            // only when the instance options have enabled this gesture
-            if(!this.stopped && inst.enabled && instOptions[gesture.name]) {
-                gesture.handler.call(gesture, eventData, inst);
-            }
-        }, this);
-
-        // store as previous event event
-        if(this.current) {
-            this.current.lastEvent = eventData;
-        }
-
-        if(eventData.eventType == EVENT_END) {
-            this.stopDetect();
-        }
-
-        return eventData;
-    },
-
-    /**
-     * clear the Hammer.gesture vars
-     * this is called on endDetect, but can also be used when a final Hammer.gesture has been detected
-     * to stop other Hammer.gestures from being fired
-     * @method stopDetect
-     */
-    stopDetect: function stopDetect() {
-        // clone current data to the store as the previous gesture
-        // used for the double tap gesture, since this is an other gesture detect session
-        this.previous = Utils.extend({}, this.current);
-
-        // reset the current
-        this.current = null;
-        this.stopped = true;
-    },
-
-    /**
-     * calculate velocity, angle and direction
-     * @method getVelocityData
-     * @param {Object} ev
-     * @param {Object} center
-     * @param {Number} deltaTime
-     * @param {Number} deltaX
-     * @param {Number} deltaY
-     */
-    getCalculatedData: function getCalculatedData(ev, center, deltaTime, deltaX, deltaY) {
-        var cur = this.current,
-            recalc = false,
-            calcEv = cur.lastCalcEvent,
-            calcData = cur.lastCalcData;
-
-        if(calcEv && ev.timeStamp - calcEv.timeStamp > Hammer.CALCULATE_INTERVAL) {
-            center = calcEv.center;
-            deltaTime = ev.timeStamp - calcEv.timeStamp;
-            deltaX = ev.center.clientX - calcEv.center.clientX;
-            deltaY = ev.center.clientY - calcEv.center.clientY;
-            recalc = true;
-        }
-
-        if(ev.eventType == EVENT_TOUCH || ev.eventType == EVENT_RELEASE) {
-            cur.futureCalcEvent = ev;
-        }
-
-        if(!cur.lastCalcEvent || recalc) {
-            calcData.velocity = Utils.getVelocity(deltaTime, deltaX, deltaY);
-            calcData.angle = Utils.getAngle(center, ev.center);
-            calcData.direction = Utils.getDirection(center, ev.center);
-
-            cur.lastCalcEvent = cur.futureCalcEvent || ev;
-            cur.futureCalcEvent = ev;
-        }
-
-        ev.velocityX = calcData.velocity.x;
-        ev.velocityY = calcData.velocity.y;
-        ev.interimAngle = calcData.angle;
-        ev.interimDirection = calcData.direction;
-    },
-
-    /**
-     * extend eventData for Hammer.gestures
-     * @method extendEventData
-     * @param {Object} ev
-     * @return {Object} ev
-     */
-    extendEventData: function extendEventData(ev) {
-        var cur = this.current,
-            startEv = cur.startEvent,
-            lastEv = cur.lastEvent || startEv;
-
-        // update the start touchlist to calculate the scale/rotation
-        if(ev.eventType == EVENT_TOUCH || ev.eventType == EVENT_RELEASE) {
-            startEv.touches = [];
-            Utils.each(ev.touches, function(touch) {
-                startEv.touches.push({
-                    clientX: touch.clientX,
-                    clientY: touch.clientY
-                });
-            });
-        }
-
-        var deltaTime = ev.timeStamp - startEv.timeStamp,
-            deltaX = ev.center.clientX - startEv.center.clientX,
-            deltaY = ev.center.clientY - startEv.center.clientY;
-
-        this.getCalculatedData(ev, lastEv.center, deltaTime, deltaX, deltaY);
-
-        Utils.extend(ev, {
-            startEvent: startEv,
-
-            deltaTime: deltaTime,
-            deltaX: deltaX,
-            deltaY: deltaY,
-
-            distance: Utils.getDistance(startEv.center, ev.center),
-            angle: Utils.getAngle(startEv.center, ev.center),
-            direction: Utils.getDirection(startEv.center, ev.center),
-            scale: Utils.getScale(startEv.touches, ev.touches),
-            rotation: Utils.getRotation(startEv.touches, ev.touches)
-        });
-
-        return ev;
-    },
-
-    /**
-     * register new gesture
-     * @method register
-     * @param {Object} gesture object, see `gestures/` for documentation
-     * @return {Array} gestures
-     */
-    register: function register(gesture) {
-        // add an enable gesture options if there is no given
-        var options = gesture.defaults || {};
-        if(options[gesture.name] === undefined) {
-            options[gesture.name] = true;
-        }
-
-        // extend Hammer default options with the Hammer.gesture options
-        Utils.extend(Hammer.defaults, options, true);
-
-        // set its index
-        gesture.index = gesture.index || 1000;
-
-        // add Hammer.gesture to the list
-        this.gestures.push(gesture);
-
-        // sort the list by index
-        this.gestures.sort(function(a, b) {
-            if(a.index < b.index) {
-                return -1;
-            }
-            if(a.index > b.index) {
-                return 1;
-            }
-            return 0;
-        });
-
-        return this.gestures;
-    }
-};
-
-
-/**
- * @module hammer
- */
-
-/**
- * create new hammer instance
- * all methods should return the instance itself, so it is chainable.
- *
- * @class Instance
- * @constructor
- * @param {HTMLElement} element
- * @param {Object} [options={}] options are merged with `Hammer.defaults`
- * @return {Hammer.Instance}
- */
-Hammer.Instance = function(element, options) {
-    var self = this;
-
-    // setup HammerJS window events and register all gestures
-    // this also sets up the default options
-    setup();
-
-    /**
-     * @property element
-     * @type {HTMLElement}
-     */
-    this.element = element;
-
-    /**
-     * @property enabled
-     * @type {Boolean}
-     * @protected
-     */
-    this.enabled = true;
-
-    /**
-     * options, merged with the defaults
-     * options with an _ are converted to camelCase
-     * @property options
-     * @type {Object}
-     */
-    Utils.each(options, function(value, name) {
-        delete options[name];
-        options[Utils.toCamelCase(name)] = value;
-    });
-
-    this.options = Utils.extend(Utils.extend({}, Hammer.defaults), options || {});
-
-    // add some css to the element to prevent the browser from doing its native behavoir
-    if(this.options.behavior) {
-        Utils.toggleBehavior(this.element, this.options.behavior, true);
-    }
-
-    /**
-     * event start handler on the element to start the detection
-     * @property eventStartHandler
-     * @type {Object}
-     */
-    this.eventStartHandler = Event.onTouch(element, EVENT_START, function(ev) {
-        if(self.enabled && ev.eventType == EVENT_START) {
-            Detection.startDetect(self, ev);
-        } else if(ev.eventType == EVENT_TOUCH) {
-            Detection.detect(ev);
-        }
-    });
-
-    /**
-     * keep a list of user event handlers which needs to be removed when calling 'dispose'
-     * @property eventHandlers
-     * @type {Array}
-     */
-    this.eventHandlers = [];
-};
-
-Hammer.Instance.prototype = {
-    /**
-     * bind events to the instance
-     * @method on
-     * @chainable
-     * @param {String} gestures multiple gestures by splitting with a space
-     * @param {Function} handler
-     * @param {Object} handler.ev event object
-     */
-    on: function onEvent(gestures, handler) {
-        var self = this;
-        Event.on(self.element, gestures, handler, function(type) {
-            self.eventHandlers.push({ gesture: type, handler: handler });
-        });
-        return self;
-    },
-
-    /**
-     * unbind events to the instance
-     * @method off
-     * @chainable
-     * @param {String} gestures
-     * @param {Function} handler
-     */
-    off: function offEvent(gestures, handler) {
-        var self = this;
-
-        Event.off(self.element, gestures, handler, function(type) {
-            var index = Utils.inArray({ gesture: type, handler: handler });
-            if(index !== false) {
-                self.eventHandlers.splice(index, 1);
-            }
-        });
-        return self;
-    },
-
-    /**
-     * trigger gesture event
-     * @method trigger
-     * @chainable
-     * @param {String} gesture
-     * @param {Object} [eventData]
-     */
-    trigger: function triggerEvent(gesture, eventData) {
-        // optional
-        if(!eventData) {
-            eventData = {};
-        }
-
-        // create DOM event
-        var event = Hammer.DOCUMENT.createEvent('Event');
-        event.initEvent(gesture, true, true);
-        event.gesture = eventData;
-
-        // trigger on the target if it is in the instance element,
-        // this is for event delegation tricks
-        var element = this.element;
-        if(Utils.hasParent(eventData.target, element)) {
-            element = eventData.target;
-        }
-
-        element.dispatchEvent(event);
-        return this;
-    },
-
-    /**
-     * enable of disable hammer.js detection
-     * @method enable
-     * @chainable
-     * @param {Boolean} state
-     */
-    enable: function enable(state) {
-        this.enabled = state;
-        return this;
-    },
-
-    /**
-     * dispose this hammer instance
-     * @method dispose
-     * @return {Null}
-     */
-    dispose: function dispose() {
-        var i, eh;
-
-        // undo all changes made by stop_browser_behavior
-        Utils.toggleBehavior(this.element, this.options.behavior, false);
-
-        // unbind all custom event handlers
-        for(i = -1; (eh = this.eventHandlers[++i]);) {
-            Utils.off(this.element, eh.gesture, eh.handler);
-        }
-
-        this.eventHandlers = [];
-
-        // unbind the start event listener
-        Event.off(this.element, EVENT_TYPES[EVENT_START], this.eventStartHandler);
-
-        return null;
-    }
-};
-
-
-/**
- * @module gestures
- */
-/**
- * Move with x fingers (default 1) around on the page.
- * Preventing the default browser behavior is a good way to improve feel and working.
- * ````
- *  hammertime.on("drag", function(ev) {
- *    console.log(ev);
- *    ev.gesture.preventDefault();
- *  });
- * ````
- *
- * @class Drag
- * @static
- */
-/**
- * @event drag
- * @param {Object} ev
- */
-/**
- * @event dragstart
- * @param {Object} ev
- */
-/**
- * @event dragend
- * @param {Object} ev
- */
-/**
- * @event drapleft
- * @param {Object} ev
- */
-/**
- * @event dragright
- * @param {Object} ev
- */
-/**
- * @event dragup
- * @param {Object} ev
- */
-/**
- * @event dragdown
- * @param {Object} ev
- */
-
-/**
- * @param {String} name
- */
-(function(name) {
-    var triggered = false;
-
-    function dragGesture(ev, inst) {
-        var cur = Detection.current;
-
-        // max touches
-        if(inst.options.dragMaxTouches > 0 &&
-            ev.touches.length > inst.options.dragMaxTouches) {
-            return;
-        }
-
-        switch(ev.eventType) {
-            case EVENT_START:
-                triggered = false;
-                break;
-
-            case EVENT_MOVE:
-                // when the distance we moved is too small we skip this gesture
-                // or we can be already in dragging
-                if(ev.distance < inst.options.dragMinDistance &&
-                    cur.name != name) {
-                    return;
-                }
-
-                var startCenter = cur.startEvent.center;
-
-                // we are dragging!
-                if(cur.name != name) {
-                    cur.name = name;
-                    if(inst.options.dragDistanceCorrection && ev.distance > 0) {
-                        // When a drag is triggered, set the event center to dragMinDistance pixels from the original event center.
-                        // Without this correction, the dragged distance would jumpstart at dragMinDistance pixels instead of at 0.
-                        // It might be useful to save the original start point somewhere
-                        var factor = Math.abs(inst.options.dragMinDistance / ev.distance);
-                        startCenter.pageX += ev.deltaX * factor;
-                        startCenter.pageY += ev.deltaY * factor;
-                        startCenter.clientX += ev.deltaX * factor;
-                        startCenter.clientY += ev.deltaY * factor;
-
-                        // recalculate event data using new start point
-                        ev = Detection.extendEventData(ev);
-                    }
-                }
-
-                // lock drag to axis?
-                if(cur.lastEvent.dragLockToAxis ||
-                    ( inst.options.dragLockToAxis &&
-                        inst.options.dragLockMinDistance <= ev.distance
-                        )) {
-                    ev.dragLockToAxis = true;
-                }
-
-                // keep direction on the axis that the drag gesture started on
-                var lastDirection = cur.lastEvent.direction;
-                if(ev.dragLockToAxis && lastDirection !== ev.direction) {
-                    if(Utils.isVertical(lastDirection)) {
-                        ev.direction = (ev.deltaY < 0) ? DIRECTION_UP : DIRECTION_DOWN;
-                    } else {
-                        ev.direction = (ev.deltaX < 0) ? DIRECTION_LEFT : DIRECTION_RIGHT;
-                    }
-                }
-
-                // first time, trigger dragstart event
-                if(!triggered) {
-                    inst.trigger(name + 'start', ev);
-                    triggered = true;
-                }
-
-                // trigger events
-                inst.trigger(name, ev);
-                inst.trigger(name + ev.direction, ev);
-
-                var isVertical = Utils.isVertical(ev.direction);
-
-                // block the browser events
-                if((inst.options.dragBlockVertical && isVertical) ||
-                    (inst.options.dragBlockHorizontal && !isVertical)) {
-                    ev.preventDefault();
-                }
-                break;
-
-            case EVENT_RELEASE:
-                if(triggered && ev.changedLength <= inst.options.dragMaxTouches) {
-                    inst.trigger(name + 'end', ev);
-                    triggered = false;
-                }
-                break;
-
-            case EVENT_END:
-                triggered = false;
-                break;
-        }
-    }
-
-    Hammer.gestures.Drag = {
-        name: name,
-        index: 50,
-        handler: dragGesture,
-        defaults: {
-            /**
-             * minimal movement that have to be made before the drag event gets triggered
-             * @property dragMinDistance
-             * @type {Number}
-             * @default 10
-             */
-            dragMinDistance: 10,
-
-            /**
-             * Set dragDistanceCorrection to true to make the starting point of the drag
-             * be calculated from where the drag was triggered, not from where the touch started.
-             * Useful to avoid a jerk-starting drag, which can make fine-adjustments
-             * through dragging difficult, and be visually unappealing.
-             * @property dragDistanceCorrection
-             * @type {Boolean}
-             * @default true
-             */
-            dragDistanceCorrection: true,
-
-            /**
-             * set 0 for unlimited, but this can conflict with transform
-             * @property dragMaxTouches
-             * @type {Number}
-             * @default 1
-             */
-            dragMaxTouches: 1,
-
-            /**
-             * prevent default browser behavior when dragging occurs
-             * be careful with it, it makes the element a blocking element
-             * when you are using the drag gesture, it is a good practice to set this true
-             * @property dragBlockHorizontal
-             * @type {Boolean}
-             * @default false
-             */
-            dragBlockHorizontal: false,
-
-            /**
-             * same as `dragBlockHorizontal`, but for vertical movement
-             * @property dragBlockVertical
-             * @type {Boolean}
-             * @default false
-             */
-            dragBlockVertical: false,
-
-            /**
-             * dragLockToAxis keeps the drag gesture on the axis that it started on,
-             * It disallows vertical directions if the initial direction was horizontal, and vice versa.
-             * @property dragLockToAxis
-             * @type {Boolean}
-             * @default false
-             */
-            dragLockToAxis: false,
-
-            /**
-             * drag lock only kicks in when distance > dragLockMinDistance
-             * This way, locking occurs only when the distance has become large enough to reliably determine the direction
-             * @property dragLockMinDistance
-             * @type {Number}
-             * @default 25
-             */
-            dragLockMinDistance: 25
-        }
-    };
-})('drag');
-
-/**
- * @module gestures
- */
-/**
- * trigger a simple gesture event, so you can do anything in your handler.
- * only usable if you know what your doing...
- *
- * @class Gesture
- * @static
- */
-/**
- * @event gesture
- * @param {Object} ev
- */
-Hammer.gestures.Gesture = {
-    name: 'gesture',
-    index: 1337,
-    handler: function releaseGesture(ev, inst) {
-        inst.trigger(this.name, ev);
-    }
-};
-
-/**
- * @module gestures
- */
-/**
- * Touch stays at the same place for x time
- *
- * @class Hold
- * @static
- */
-/**
- * @event hold
- * @param {Object} ev
- */
-
-/**
- * @param {String} name
- */
-(function(name) {
-    var timer;
-
-    function holdGesture(ev, inst) {
-        var options = inst.options,
-            current = Detection.current;
-
-        switch(ev.eventType) {
-            case EVENT_START:
-                clearTimeout(timer);
-
-                // set the gesture so we can check in the timeout if it still is
-                current.name = name;
-
-                // set timer and if after the timeout it still is hold,
-                // we trigger the hold event
-                timer = setTimeout(function() {
-                    if(current && current.name == name) {
-                        inst.trigger(name, ev);
-                    }
-                }, options.holdTimeout);
-                break;
-
-            case EVENT_MOVE:
-                if(ev.distance > options.holdThreshold) {
-                    clearTimeout(timer);
-                }
-                break;
-
-            case EVENT_RELEASE:
-                clearTimeout(timer);
-                break;
-        }
-    }
-
-    Hammer.gestures.Hold = {
-        name: name,
-        index: 10,
-        defaults: {
-            /**
-             * @property holdTimeout
-             * @type {Number}
-             * @default 500
-             */
-            holdTimeout: 500,
-
-            /**
-             * movement allowed while holding
-             * @property holdThreshold
-             * @type {Number}
-             * @default 2
-             */
-            holdThreshold: 2
-        },
-        handler: holdGesture
-    };
-})('hold');
-
-/**
- * @module gestures
- */
-/**
- * when a touch is being released from the page
- *
- * @class Release
- * @static
- */
-/**
- * @event release
- * @param {Object} ev
- */
-Hammer.gestures.Release = {
-    name: 'release',
-    index: Infinity,
-    handler: function releaseGesture(ev, inst) {
-        if(ev.eventType == EVENT_RELEASE) {
-            inst.trigger(this.name, ev);
-        }
-    }
-};
-
-/**
- * @module gestures
- */
-/**
- * triggers swipe events when the end velocity is above the threshold
- * for best usage, set `preventDefault` (on the drag gesture) to `true`
- * ````
- *  hammertime.on("dragleft swipeleft", function(ev) {
- *    console.log(ev);
- *    ev.gesture.preventDefault();
- *  });
- * ````
- *
- * @class Swipe
- * @static
- */
-/**
- * @event swipe
- * @param {Object} ev
- */
-/**
- * @event swipeleft
- * @param {Object} ev
- */
-/**
- * @event swiperight
- * @param {Object} ev
- */
-/**
- * @event swipeup
- * @param {Object} ev
- */
-/**
- * @event swipedown
- * @param {Object} ev
- */
-Hammer.gestures.Swipe = {
-    name: 'swipe',
-    index: 40,
-    defaults: {
-        /**
-         * @property swipeMinTouches
-         * @type {Number}
-         * @default 1
-         */
-        swipeMinTouches: 1,
-
-        /**
-         * @property swipeMaxTouches
-         * @type {Number}
-         * @default 1
-         */
-        swipeMaxTouches: 1,
-
-        /**
-         * horizontal swipe velocity
-         * @property swipeVelocityX
-         * @type {Number}
-         * @default 0.6
-         */
-        swipeVelocityX: 0.6,
-
-        /**
-         * vertical swipe velocity
-         * @property swipeVelocityY
-         * @type {Number}
-         * @default 0.6
-         */
-        swipeVelocityY: 0.6
-    },
-
-    handler: function swipeGesture(ev, inst) {
-        if(ev.eventType == EVENT_RELEASE) {
-            var touches = ev.touches.length,
-                options = inst.options;
-
-            // max touches
-            if(touches < options.swipeMinTouches ||
-                touches > options.swipeMaxTouches) {
-                return;
-            }
-
-            // when the distance we moved is too small we skip this gesture
-            // or we can be already in dragging
-            if(ev.velocityX > options.swipeVelocityX ||
-                ev.velocityY > options.swipeVelocityY) {
-                // trigger swipe events
-                inst.trigger(this.name, ev);
-                inst.trigger(this.name + ev.direction, ev);
-            }
-        }
-    }
-};
-
-/**
- * @module gestures
- */
-/**
- * Single tap and a double tap on a place
- *
- * @class Tap
- * @static
- */
-/**
- * @event tap
- * @param {Object} ev
- */
-/**
- * @event doubletap
- * @param {Object} ev
- */
-
-/**
- * @param {String} name
- */
-(function(name) {
-    var hasMoved = false;
-
-    function tapGesture(ev, inst) {
-        var options = inst.options,
-            current = Detection.current,
-            prev = Detection.previous,
-            sincePrev,
-            didDoubleTap;
-
-        switch(ev.eventType) {
-            case EVENT_START:
-                hasMoved = false;
-                break;
-
-            case EVENT_MOVE:
-                hasMoved = hasMoved || (ev.distance > options.tapMaxDistance);
-                break;
-
-            case EVENT_END:
-                if(!Utils.inStr(ev.srcEvent.type, 'cancel') && ev.deltaTime < options.tapMaxTime && !hasMoved) {
-                    // previous gesture, for the double tap since these are two different gesture detections
-                    sincePrev = prev && prev.lastEvent && ev.timeStamp - prev.lastEvent.timeStamp;
-                    didDoubleTap = false;
-
-                    // check if double tap
-                    if(prev && prev.name == name &&
-                        (sincePrev && sincePrev < options.doubleTapInterval) &&
-                        ev.distance < options.doubleTapDistance) {
-                        inst.trigger('doubletap', ev);
-                        didDoubleTap = true;
-                    }
-
-                    // do a single tap
-                    if(!didDoubleTap || options.tapAlways) {
-                        current.name = name;
-                        inst.trigger(current.name, ev);
-                    }
-                }
-                break;
-        }
-    }
-
-    Hammer.gestures.Tap = {
-        name: name,
-        index: 100,
-        handler: tapGesture,
-        defaults: {
-            /**
-             * max time of a tap, this is for the slow tappers
-             * @property tapMaxTime
-             * @type {Number}
-             * @default 250
-             */
-            tapMaxTime: 250,
-
-            /**
-             * max distance of movement of a tap, this is for the slow tappers
-             * @property tapMaxDistance
-             * @type {Number}
-             * @default 10
-             */
-            tapMaxDistance: 10,
-
-            /**
-             * always trigger the `tap` event, even while double-tapping
-             * @property tapAlways
-             * @type {Boolean}
-             * @default true
-             */
-            tapAlways: true,
-
-            /**
-             * max distance between two taps
-             * @property doubleTapDistance
-             * @type {Number}
-             * @default 20
-             */
-            doubleTapDistance: 20,
-
-            /**
-             * max time between two taps
-             * @property doubleTapInterval
-             * @type {Number}
-             * @default 300
-             */
-            doubleTapInterval: 300
-        }
-    };
-})('tap');
-
-/**
- * @module gestures
- */
-/**
- * when a touch is being touched at the page
- *
- * @class Touch
- * @static
- */
-/**
- * @event touch
- * @param {Object} ev
- */
-Hammer.gestures.Touch = {
-    name: 'touch',
-    index: -Infinity,
-    defaults: {
-        /**
-         * call preventDefault at touchstart, and makes the element blocking by disabling the scrolling of the page,
-         * but it improves gestures like transforming and dragging.
-         * be careful with using this, it can be very annoying for users to be stuck on the page
-         * @property preventDefault
-         * @type {Boolean}
-         * @default false
-         */
-        preventDefault: false,
-
-        /**
-         * disable mouse events, so only touch (or pen!) input triggers events
-         * @property preventMouse
-         * @type {Boolean}
-         * @default false
-         */
-        preventMouse: false
-    },
-    handler: function touchGesture(ev, inst) {
-        if(inst.options.preventMouse && ev.pointerType == POINTER_MOUSE) {
-            ev.stopDetect();
-            return;
-        }
-
-        if(inst.options.preventDefault) {
-            ev.preventDefault();
-        }
-
-        if(ev.eventType == EVENT_TOUCH) {
-            inst.trigger('touch', ev);
-        }
-    }
-};
-
-/**
- * @module gestures
- */
-/**
- * User want to scale or rotate with 2 fingers
- * Preventing the default browser behavior is a good way to improve feel and working. This can be done with the
- * `preventDefault` option.
- *
- * @class Transform
- * @static
- */
-/**
- * @event transform
- * @param {Object} ev
- */
-/**
- * @event transformstart
- * @param {Object} ev
- */
-/**
- * @event transformend
- * @param {Object} ev
- */
-/**
- * @event pinchin
- * @param {Object} ev
- */
-/**
- * @event pinchout
- * @param {Object} ev
- */
-/**
- * @event rotate
- * @param {Object} ev
- */
-
-/**
- * @param {String} name
- */
-(function(name) {
-    var triggered = false;
-
-    function transformGesture(ev, inst) {
-        switch(ev.eventType) {
-            case EVENT_START:
-                triggered = false;
-                break;
-
-            case EVENT_MOVE:
-                // at least multitouch
-                if(ev.touches.length < 2) {
-                    return;
-                }
-
-                var scaleThreshold = Math.abs(1 - ev.scale);
-                var rotationThreshold = Math.abs(ev.rotation);
-
-                // when the distance we moved is too small we skip this gesture
-                // or we can be already in dragging
-                if(scaleThreshold < inst.options.transformMinScale &&
-                    rotationThreshold < inst.options.transformMinRotation) {
-                    return;
-                }
-
-                // we are transforming!
-                Detection.current.name = name;
-
-                // first time, trigger dragstart event
-                if(!triggered) {
-                    inst.trigger(name + 'start', ev);
-                    triggered = true;
-                }
-
-                inst.trigger(name, ev); // basic transform event
-
-                // trigger rotate event
-                if(rotationThreshold > inst.options.transformMinRotation) {
-                    inst.trigger('rotate', ev);
-                }
-
-                // trigger pinch event
-                if(scaleThreshold > inst.options.transformMinScale) {
-                    inst.trigger('pinch', ev);
-                    inst.trigger('pinch' + (ev.scale < 1 ? 'in' : 'out'), ev);
-                }
-                break;
-
-            case EVENT_RELEASE:
-                if(triggered && ev.changedLength < 2) {
-                    inst.trigger(name + 'end', ev);
-                    triggered = false;
-                }
-                break;
-        }
-    }
-
-    Hammer.gestures.Transform = {
-        name: name,
-        index: 45,
-        defaults: {
-            /**
-             * minimal scale factor, no scale is 1, zoomin is to 0 and zoomout until higher then 1
-             * @property transformMinScale
-             * @type {Number}
-             * @default 0.01
-             */
-            transformMinScale: 0.01,
-
-            /**
-             * rotation in degrees
-             * @property transformMinRotation
-             * @type {Number}
-             * @default 1
-             */
-            transformMinRotation: 1
-        },
-
-        handler: transformGesture
-    };
-})('transform');
-
-/**
- * @module hammer
- */
-
-// AMD export
-if(typeof define == 'function' && define.amd) {
+function triggerDomEvent(event, data) {
+    var gestureEvent = document.createEvent('Event');
+    gestureEvent.initEvent(event, true, true);
+    gestureEvent.gesture = data;
+    data.target.dispatchEvent(gestureEvent);
+}
+
+extend(Hammer, {
+    INPUT_START: INPUT_START,
+    INPUT_MOVE: INPUT_MOVE,
+    INPUT_END: INPUT_END,
+    INPUT_CANCEL: INPUT_CANCEL,
+
+    STATE_POSSIBLE: STATE_POSSIBLE,
+    STATE_BEGAN: STATE_BEGAN,
+    STATE_CHANGED: STATE_CHANGED,
+    STATE_ENDED: STATE_ENDED,
+    STATE_RECOGNIZED: STATE_RECOGNIZED,
+    STATE_CANCELLED: STATE_CANCELLED,
+    STATE_FAILED: STATE_FAILED,
+
+    DIRECTION_NONE: DIRECTION_NONE,
+    DIRECTION_LEFT: DIRECTION_LEFT,
+    DIRECTION_RIGHT: DIRECTION_RIGHT,
+    DIRECTION_UP: DIRECTION_UP,
+    DIRECTION_DOWN: DIRECTION_DOWN,
+    DIRECTION_HORIZONTAL: DIRECTION_HORIZONTAL,
+    DIRECTION_VERTICAL: DIRECTION_VERTICAL,
+    DIRECTION_ALL: DIRECTION_ALL,
+
+    Manager: Manager,
+    Input: Input,
+    TouchAction: TouchAction,
+
+    TouchInput: TouchInput,
+    MouseInput: MouseInput,
+    PointerEventInput: PointerEventInput,
+    TouchMouseInput: TouchMouseInput,
+    SingleTouchInput: SingleTouchInput,
+
+    Recognizer: Recognizer,
+    AttrRecognizer: AttrRecognizer,
+    Tap: TapRecognizer,
+    Pan: PanRecognizer,
+    Swipe: SwipeRecognizer,
+    Pinch: PinchRecognizer,
+    Rotate: RotateRecognizer,
+    Press: PressRecognizer,
+
+    on: addEventListeners,
+    off: removeEventListeners,
+    each: each,
+    merge: merge,
+    extend: extend,
+    inherit: inherit,
+    bindFn: bindFn,
+    prefixed: prefixed
+});
+
+if (typeof define == TYPE_FUNCTION && define.amd) {
     define(function() {
         return Hammer;
     });
-// commonjs export
-} else if(typeof module !== 'undefined' && module.exports) {
+} else if (typeof module != 'undefined' && module.exports) {
     module.exports = Hammer;
-// browser export
 } else {
-    window.Hammer = Hammer;
+    window[exportName] = Hammer;
 }
 
-})(window);
+})(window, document, 'Hammer');
+
 },{}],110:[function(require,module,exports){
 /*! Copyright (c) 2013 Brandon Aaron (http://brandon.aaron.sh)
  * Licensed under the MIT License (LICENSE.txt).
@@ -32935,7 +33286,7 @@ module.exports = Inflector = (function() {
 
 },{}],117:[function(require,module,exports){
 var JsPath,
-  __slice = [].slice;
+  slice = [].slice;
 
 module.exports = JsPath = (function() {
   var primTypes;
@@ -32962,7 +33313,7 @@ module.exports = JsPath = (function() {
   ['forEach', 'indexOf', 'join', 'pop', 'reverse', 'shift', 'sort', 'splice', 'unshift', 'push'].forEach(function(method) {
     return JsPath[method + 'At'] = function() {
       var obj, path, rest, target;
-      obj = arguments[0], path = arguments[1], rest = 3 <= arguments.length ? __slice.call(arguments, 2) : [];
+      obj = arguments[0], path = arguments[1], rest = 3 <= arguments.length ? slice.call(arguments, 2) : [];
       target = JsPath.getAt(obj, path);
       if ('function' === typeof (target != null ? target[method] : void 0)) {
         return target[method].apply(target, rest);
@@ -33015,7 +33366,7 @@ module.exports = JsPath = (function() {
    */
 
   JsPath.setAt = function(obj, path, val) {
-    var component, last, prev, ref, _i, _len;
+    var component, i, last, len, prev, ref;
     if ('function' === typeof path.split) {
       path = path.split('.');
     } else {
@@ -33024,10 +33375,10 @@ module.exports = JsPath = (function() {
     last = path.pop();
     prev = [];
     ref = obj;
-    for (_i = 0, _len = path.length; _i < _len; _i++) {
-      component = path[_i];
+    for (i = 0, len = path.length; i < len; i++) {
+      component = path[i];
       if (primTypes.test(typeof ref[component])) {
-        throw new Error("" + (prev.concat(component).join('.')) + " is\nprimitive, and cannot be extended.");
+        throw new Error((prev.concat(component).join('.')) + " is\nprimitive, and cannot be extended.");
       }
       ref = ref[component] || (ref[component] = {});
       prev.push(component);
@@ -33060,7 +33411,7 @@ module.exports = JsPath = (function() {
    */
 
   JsPath.deleteAt = function(ref, path) {
-    var component, last, prev, _i, _len;
+    var component, i, last, len, prev;
     if ('function' === typeof path.split) {
       path = path.split('.');
     } else {
@@ -33068,10 +33419,10 @@ module.exports = JsPath = (function() {
     }
     prev = [];
     last = path.pop();
-    for (_i = 0, _len = path.length; _i < _len; _i++) {
-      component = path[_i];
+    for (i = 0, len = path.length; i < len; i++) {
+      component = path[i];
       if (primTypes.test(typeof ref[component])) {
-        throw new Error("" + (prev.concat(component).join('.')) + " is\nprimitive; cannot drill any deeper.");
+        throw new Error((prev.concat(component).join('.')) + " is\nprimitive; cannot drill any deeper.");
       }
       if (!(ref = ref[component])) {
         return false;

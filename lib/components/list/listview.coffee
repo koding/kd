@@ -106,9 +106,10 @@ module.exports = class KDListView extends KDView
     {boxed, lastToFirst} = @getOptions()
 
 
-    isLastIndex  = index >= @items.length - 1
+    endIndex = @items.length - 1
+    isLastIndex  = index > endIndex
     isFirstIndex = index is 0
-    isInBetween  = 0 < index < @items.length - 1
+    isInBetween  = 0 < index <= endIndex
 
     if isFirstIndex      then @items.unshift item
     else if isLastIndex  then @items.push item
@@ -118,7 +119,8 @@ module.exports = class KDListView extends KDView
 
     addNeighborItem = (item, index) =>
       element      = item.getElement()
-      neighborItem = @items[index + 1].getElement()
+      neighborIndex = if @items.length - 1 is index then index else index + 1
+      neighborItem = @items[neighborIndex].getElement()
       neighborItem.parentNode.insertBefore element, neighborItem
       item.emit 'viewAppended'  if @parentIsInDom
 

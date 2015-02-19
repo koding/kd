@@ -81,15 +81,15 @@ module.exports = class KDFormViewWithFields extends KDFormView
 #   buttons             :
 #     Add               :
 #       title           : "Add"
-#       style           : "modal-clean-gray"
+#       style           : "solid light-gray medium"
 #       type            : "submit"
 #     Delete            :
 #       title           : "Delete"
-#       style           : "modal-clean-red"
+#       style           : "solid red medium"
 #       callback        : -> log "delete"
 #     Reset             :
 #       title           : "Reset"
-#       style           : "modal-clean-red"
+#       style           : "solid red medium"
 #       type            : "reset"
 #   callback            : (formOutput)->
 #     log formOutput,"  ::::::"

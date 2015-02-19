@@ -273,11 +273,11 @@ module.exports = class KDModalView extends KDView
       buttons       :
         OK          :
           title     : ok.title
-          style     : ok.style or "modal-clean-red"
+          style     : ok.style or "solid red medium"
           callback  : ok.callback or noop
         cancel      :
           title     : cancel.title
-          style     : cancel.style or "modal-cancel"
+          style     : cancel.style or "solid light-gray medium"
           callback  : cancel.callback or noop
     modal.addSubView options.subView  if options.subView
     modal

@@ -13,8 +13,9 @@ prepublish: $(TARGETS)
 build/%.js: %.coffee
 	@mkdir -p $(@D)
 	@$(BIN)/coffee -p -b $< >$@
+	@echo 'written $@'
 
-development:
+development-dist:
 	@$(BIN)/watchify \
 		-v \
 		-g coffeeify \
@@ -23,6 +24,21 @@ development:
 		--standalone kd \
 		--debug \
 		lib/index.coffee
+
+development: $(TARGETS)
+	@echo "watching kd.js/lib"
+	@node -e "\
+		var chokidar = require('chokidar'); \
+		var child_process = require('child_process'); \
+		var w = chokidar.watch('./lib/**/*.coffee', {  persistent: true  }); \
+		w.on('change', function (path) { \
+			console.log('changed ' + path); \
+			child_process.exec('make build/' + path.replace('coffee', 'js'), \
+				function (err, stdout) { \
+					if (err) return console.log(err); \
+					process.stdout.write(stdout); \
+				}); \
+			});"
 
 example: watch-example
 	@$(BIN)/serve

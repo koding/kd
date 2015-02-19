@@ -24,10 +24,10 @@ development:
 		--debug \
 		lib/index.coffee
 
-example: build-example
+example: watch-example
 	@$(BIN)/serve
 
-build-example: 
+watch-example: 
 	@$(BIN)/watchify \
 		-v \
 		-g coffeeify \

@@ -30,9 +30,11 @@ development: $(TARGETS)
 	@node -e "\
 		var chokidar = require('chokidar'); \
 		var child_process = require('child_process'); \
+		var rimraf = require('rimraf'); \
 		var w = chokidar.watch('./lib/**/*.coffee', {  persistent: true  }); \
 		w.on('change', function (path) { \
 			console.log('changed ' + path); \
+			rimraf.sync('./build/' + path.replace('coffee', 'js')); \
 			child_process.exec('make build/' + path.replace('coffee', 'js'), \
 				function (err, stdout) { \
 					if (err) return console.log(err); \

@@ -1,6 +1,6 @@
 {
   "name": "kd.js",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "a collection of ui widgets and other nice things",
   "main": "build/lib/index.js",
   "scripts": {
@@ -20,7 +20,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "hammerjs": "^1.0.5",
+    "hammerjs": "^2.0.4",
     "jquery": "^2.1.3",
     "jquery-mousewheel": "^3.1.12",
     "kd-dom": "^0.1.1",

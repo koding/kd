@@ -571,3 +571,10 @@ module.exports =
       node = node.parentNode
       throw new Error "Not a descendant!" unless node?
     [x, y]
+
+  isTouchDevice: ->
+    try
+      document.createEvent 'TouchEvent'
+      return yes
+    catch e
+      return no

@@ -90,7 +90,7 @@ module.exports = KDAutoComplete = (function(superClass) {
 
 
 
-},{"../../core/kd":99,"../inputs/inputview":44,"jquery":111}],2:[function(require,module,exports){
+},{"../../core/kd":99,"../inputs/inputview":44,"jquery":117}],2:[function(require,module,exports){
 var $, Inflector, JsPath, KD, KDAutoComplete, KDAutoCompleteController, KDAutoCompleteFetchingItem, KDAutoCompleteListItemView, KDAutoCompleteListView, KDAutoCompleteNothingFoundItem, KDAutoCompletedItem, KDInputView, KDLabelView, KDListViewController, KDNotificationView, KDView, KDViewController,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty,
@@ -610,7 +610,7 @@ module.exports = KDAutoCompleteController = (function(superClass) {
 
 
 
-},{"../../core/kd":99,"../../core/view":105,"../../core/viewcontroller":106,"../inputs/inputview":44,"../inputs/labelview":45,"../list/listviewcontroller":54,"../notifications/notificationview":60,"./autocomplete":1,"./autocompleteditems":3,"./autocompletefetchingitem":4,"./autocompletelist":5,"./autocompletelistitem":6,"./autocompletenothingfounditem":7,"inflector":116,"jquery":111,"jspath":117}],3:[function(require,module,exports){
+},{"../../core/kd":99,"../../core/view":105,"../../core/viewcontroller":106,"../inputs/inputview":44,"../inputs/labelview":45,"../list/listviewcontroller":54,"../notifications/notificationview":60,"./autocomplete":1,"./autocompleteditems":3,"./autocompletefetchingitem":4,"./autocompletelist":5,"./autocompletelistitem":6,"./autocompletenothingfounditem":7,"inflector":121,"jquery":117,"jspath":122}],3:[function(require,module,exports){
 var $, KDAutoCompletedItem, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -651,7 +651,7 @@ module.exports = KDAutoCompletedItem = (function(superClass) {
 
 
 
-},{"../../core/view":105,"jquery":111}],4:[function(require,module,exports){
+},{"../../core/view":105,"jquery":117}],4:[function(require,module,exports){
 var KD, KDAutoCompleteFetchingItem, KDAutocompleteUnselecteableItem,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -937,7 +937,7 @@ module.exports = MultipleInputListView = (function(superClass) {
 
 
 
-},{"../list/listview":52,"./multiplelistitemview":11,"jquery":111}],10:[function(require,module,exports){
+},{"../list/listview":52,"./multiplelistitemview":11,"jquery":117}],10:[function(require,module,exports){
 var $, KD, KDInputView, KDMultipleInputView, KDSimpleAutocomplete, MultipleInputListView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty,
@@ -1072,7 +1072,7 @@ module.exports = KDMultipleInputView = (function(superClass) {
 
 
 
-},{"../../core/kd":99,"../inputs/inputview":44,"./multipleinputlistview":9,"./simpleautocomplete":14,"jquery":111}],11:[function(require,module,exports){
+},{"../../core/kd":99,"../inputs/inputview":44,"./multipleinputlistview":9,"./simpleautocomplete":14,"jquery":117}],11:[function(require,module,exports){
 var $, KDListItemView, MultipleListItemView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -1108,7 +1108,7 @@ module.exports = MultipleListItemView = (function(superClass) {
 
 
 
-},{"../list/listitemview":51,"jquery":111}],12:[function(require,module,exports){
+},{"../list/listitemview":51,"jquery":117}],12:[function(require,module,exports){
 var $, KDMultipleInputView, NoAutocompleteInputView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -1146,7 +1146,7 @@ module.exports = NoAutocompleteInputView = (function(superClass) {
 
 
 
-},{"./multipleinputview":10,"jquery":111}],13:[function(require,module,exports){
+},{"./multipleinputview":10,"jquery":117}],13:[function(require,module,exports){
 var $, KDButtonView, KDCustomHTMLView, KDNoAutocompleteInputView, KDView, NoAutocompleteMultipleListView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -1211,7 +1211,7 @@ module.exports = NoAutocompleteMultipleListView = (function(superClass) {
 
 
 
-},{"../../core/customhtmlview":96,"../../core/view":105,"../buttons/buttonview":18,"./noautocompleteinputview":12,"jquery":111}],14:[function(require,module,exports){
+},{"../../core/customhtmlview":96,"../../core/view":105,"../buttons/buttonview":18,"./noautocompleteinputview":12,"jquery":117}],14:[function(require,module,exports){
 var JsPath, KDAutoComplete, KDSimpleAutocomplete,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -1251,7 +1251,7 @@ module.exports = KDSimpleAutocomplete = (function(superClass) {
 
 
 
-},{"./autocomplete":1,"jspath":117}],15:[function(require,module,exports){
+},{"./autocomplete":1,"jspath":122}],15:[function(require,module,exports){
 var $, KD, KDButtonBar, KDButtonView, KDFormView, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -1304,7 +1304,7 @@ module.exports = KDButtonBar = (function(superClass) {
 
 
 
-},{"../../core/kd":99,"../../core/view":105,"../forms/formview":32,"./buttonview":18,"jquery":111}],16:[function(require,module,exports){
+},{"../../core/kd":99,"../../core/view":105,"../forms/formview":32,"./buttonview":18,"jquery":117}],16:[function(require,module,exports){
 var KDButtonGroupView, KDButtonView, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -1427,7 +1427,7 @@ module.exports = JButtonMenu = (function(superClass) {
 
 
 
-},{"../../core/kd":99,"../contextmenu/contextmenu":21,"../contextmenu/contextmenutreeview":23,"jquery":111}],18:[function(require,module,exports){
+},{"../../core/kd":99,"../contextmenu/contextmenu":21,"../contextmenu/contextmenutreeview":23,"jquery":117}],18:[function(require,module,exports){
 var $, KD, KDButtonView, KDLoaderView, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -1743,7 +1743,7 @@ module.exports = KDButtonView = (function(superClass) {
 
 
 
-},{"../../core/kd":99,"../../core/view":105,"../loader/loaderview":55,"jquery":111}],19:[function(require,module,exports){
+},{"../../core/kd":99,"../../core/view":105,"../loader/loaderview":55,"jquery":117}],19:[function(require,module,exports){
 var $, JButtonMenu, KDButtonView, KDButtonViewWithMenu,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -1869,7 +1869,7 @@ module.exports = KDButtonViewWithMenu = (function(superClass) {
 
 
 
-},{"./buttonmenu":17,"./buttonview":18,"jquery":111}],20:[function(require,module,exports){
+},{"./buttonmenu":17,"./buttonview":18,"jquery":117}],20:[function(require,module,exports){
 var $, KD, KDButtonView, KDToggleButton,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -1960,7 +1960,7 @@ module.exports = KDToggleButton = (function(superClass) {
 
 
 
-},{"../../core/kd":99,"./buttonview":18,"jquery":111}],21:[function(require,module,exports){
+},{"../../core/kd":99,"./buttonview":18,"jquery":117}],21:[function(require,module,exports){
 var JContextMenuTreeViewController, KD, KDContextMenu, KDCustomHTMLView, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -3570,7 +3570,7 @@ module.exports = KDDiaScene = (function(superClass) {
 
 
 
-},{"../../core/customhtmlview":96,"../../core/kd":99,"../../core/view":105,"jquery":111,"lodash.throttle":119}],31:[function(require,module,exports){
+},{"../../core/customhtmlview":96,"../../core/kd":99,"../../core/view":105,"jquery":117,"lodash.throttle":124}],31:[function(require,module,exports){
 var KD, KDButtonView, KDDialogView, KDOverlayView, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -3902,7 +3902,7 @@ module.exports = KDFormView = (function(superClass) {
 
 
 
-},{"../../core/kd":99,"../../core/view":105,"../inputs/inputview":44,"jquery":111,"jspath":117}],33:[function(require,module,exports){
+},{"../../core/kd":99,"../../core/view":105,"../inputs/inputview":44,"jquery":117,"jspath":122}],33:[function(require,module,exports){
 var KD, KDButtonBar, KDCustomHTMLView, KDFormView, KDFormViewWithFields, KDInputView, KDLabelView, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -4755,7 +4755,7 @@ module.exports = KDContentEditableView = (function(superClass) {
 
 
 
-},{"../../core/kd":99,"../../core/view":105,"../notifications/notificationview":60,"./inputvalidator":43,"htmlencode":115,"jquery":111}],38:[function(require,module,exports){
+},{"../../core/kd":99,"../../core/view":105,"../notifications/notificationview":60,"./inputvalidator":43,"htmlencode":115,"jquery":117}],38:[function(require,module,exports){
 var KDDelimitedInputView, KDInputView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -5008,7 +5008,7 @@ module.exports = KDInputCheckboxGroup = (function(superClass) {
 
 
 
-},{"./inputradiogroup":41,"jquery":111}],41:[function(require,module,exports){
+},{"./inputradiogroup":41,"jquery":117}],41:[function(require,module,exports){
 var $, KDInputRadioGroup, KDInputView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -5129,7 +5129,7 @@ module.exports = KDInputRadioGroup = (function(superClass) {
 
 
 
-},{"./inputview":44,"jquery":111}],42:[function(require,module,exports){
+},{"./inputview":44,"jquery":117}],42:[function(require,module,exports){
 var $, KDInputSwitch, KDInputView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -5264,7 +5264,7 @@ module.exports = KDInputSwitch = (function(superClass) {
 
 
 
-},{"./inputview":44,"jquery":111}],43:[function(require,module,exports){
+},{"./inputview":44,"jquery":117}],43:[function(require,module,exports){
 var $, KD, KDInputValidator;
 
 $ = require('jquery');
@@ -5465,7 +5465,7 @@ Credits
 
 
 
-},{"../../core/kd":99,"jquery":111}],44:[function(require,module,exports){
+},{"../../core/kd":99,"jquery":117}],44:[function(require,module,exports){
 var $, Encoder, KD, KDInputValidator, KDInputView, KDNotificationView, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty,
@@ -6251,7 +6251,7 @@ module.exports = KDInputView = (function(superClass) {
 
 
 
-},{"../../core/kd":99,"../../core/view":105,"../notifications/notificationview":60,"./inputvalidator":43,"htmlencode":115,"jquery":111}],45:[function(require,module,exports){
+},{"../../core/kd":99,"../../core/view":105,"../notifications/notificationview":60,"./inputvalidator":43,"htmlencode":115,"jquery":117}],45:[function(require,module,exports){
 var $, KDLabelView, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -6293,7 +6293,7 @@ module.exports = KDLabelView = (function(superClass) {
 
 
 
-},{"../../core/view":105,"jquery":111}],46:[function(require,module,exports){
+},{"../../core/view":105,"jquery":117}],46:[function(require,module,exports){
 var $, KDInputView, KDMultipleChoice,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty,
@@ -6456,7 +6456,7 @@ module.exports = KDMultipleChoice = (function(superClass) {
 
 
 
-},{"./inputview":44,"jquery":111}],47:[function(require,module,exports){
+},{"./inputview":44,"jquery":117}],47:[function(require,module,exports){
 var $, KD, KDInputView, KDOnOffSwitch,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -6579,7 +6579,7 @@ module.exports = KDOnOffSwitch = (function(superClass) {
 
 
 
-},{"../../core/kd":99,"./inputview":44,"jquery":111}],48:[function(require,module,exports){
+},{"../../core/kd":99,"./inputview":44,"jquery":117}],48:[function(require,module,exports){
 var $, KD, KDInputView, KDSelectBox,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -6711,7 +6711,7 @@ module.exports = KDSelectBox = (function(superClass) {
 
 
 
-},{"../../core/kd":99,"./inputview":44,"jquery":111}],49:[function(require,module,exports){
+},{"../../core/kd":99,"./inputview":44,"jquery":117}],49:[function(require,module,exports){
 var Encoder, KD, KDContentEditableView, KDContextMenu, KDTokenizedInput,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -8169,7 +8169,7 @@ module.exports = KDLoaderView = (function(superClass) {
 
 
 
-},{"../../core/view":105,"canvas-loader":114}],56:[function(require,module,exports){
+},{"../../core/view":105,"canvas-loader":120}],56:[function(require,module,exports){
 var $, KD, KDBlockingModalView, KDModalView, KDOverlayView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -8225,7 +8225,7 @@ module.exports = KDBlockingModalView = (function(superClass) {
 
 
 
-},{"../../core/kd":99,"../overlay/overlayview":61,"./modalview":57,"jquery":111}],57:[function(require,module,exports){
+},{"../../core/kd":99,"../overlay/overlayview":61,"./modalview":57,"jquery":117}],57:[function(require,module,exports){
 var $, KD, KDButtonView, KDModalView, KDModalViewStack, KDOverlayView, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -8629,7 +8629,7 @@ module.exports = KDModalView = (function(superClass) {
 
 
 
-},{"../../core/kd":99,"../../core/view":105,"../buttons/buttonview":18,"../overlay/overlayview":61,"./modalviewstack":58,"jquery":111}],58:[function(require,module,exports){
+},{"../../core/kd":99,"../../core/view":105,"../buttons/buttonview":18,"../overlay/overlayview":61,"./modalviewstack":58,"jquery":117}],58:[function(require,module,exports){
 var KD, KDModalView, KDModalViewStack, KDObject,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -9142,7 +9142,7 @@ module.exports = KDNotificationView = (function(superClass) {
 
 
 
-},{"../../core/view":105,"../loader/loaderview":55,"jquery":111}],61:[function(require,module,exports){
+},{"../../core/view":105,"../loader/loaderview":55,"jquery":117}],61:[function(require,module,exports){
 var KD, KDOverlayView, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -9711,7 +9711,7 @@ module.exports = KDCustomScrollViewWrapper = (function(superClass) {
 
 
 
-},{"../../core/customhtmlview":96,"../../core/kd":99,"./scrollthumb":66,"./scrolltrack":67,"./scrollview":68,"hammerjs":109}],66:[function(require,module,exports){
+},{"../../core/customhtmlview":96,"../../core/kd":99,"./scrollthumb":66,"./scrolltrack":67,"./scrollview":68,"hammerjs":113}],66:[function(require,module,exports){
 var KD, KDScrollThumb, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -10072,7 +10072,7 @@ module.exports = KDScrollView = (function(superClass) {
 
 
 
-},{"../../core/kd":99,"../../core/view":105,"jquery":111,"jquery-mousewheel":110}],69:[function(require,module,exports){
+},{"../../core/kd":99,"../../core/view":105,"jquery":117,"jquery-mousewheel":116}],69:[function(require,module,exports){
 var KDCustomHTMLView, KDSliderBarHandleView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -10615,7 +10615,7 @@ module.exports = KDSlideShowView = (function(superClass) {
 
 
 
-},{"../../core/kd":99,"../../core/view":105,"hammerjs":109}],73:[function(require,module,exports){
+},{"../../core/kd":99,"../../core/view":105,"hammerjs":113}],73:[function(require,module,exports){
 var KDSplitComboView, KDSplitView, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -11670,7 +11670,7 @@ module.exports = KDTabHandleView = (function(superClass) {
 
 
 
-},{"../../core/view":105,"jquery":111}],80:[function(require,module,exports){
+},{"../../core/view":105,"jquery":117}],80:[function(require,module,exports){
 var KD, KDTabPaneView, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -12372,7 +12372,7 @@ module.exports = KDTabView = (function(superClass) {
 
 
 
-},{"../../core/kd":99,"../scrollview/scrollview":68,"./tabhandlecontainer":77,"./tabhandlemovenav":78,"./tabhandleview":79,"./tabpaneview":80,"jquery":111}],82:[function(require,module,exports){
+},{"../../core/kd":99,"../scrollview/scrollview":68,"./tabhandlecontainer":77,"./tabhandlemovenav":78,"./tabhandleview":79,"./tabpaneview":80,"jquery":117}],82:[function(require,module,exports){
 var $, KDFormViewWithFields, KDTabPaneView, KDTabView, KDTabViewWithForms,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -12481,7 +12481,7 @@ module.exports = KDTabViewWithForms = (function(superClass) {
 
 
 
-},{"../forms/formviewwithfields":33,"./tabpaneview":80,"./tabview":81,"jquery":111}],83:[function(require,module,exports){
+},{"../forms/formviewwithfields":33,"./tabpaneview":80,"./tabview":81,"jquery":117}],83:[function(require,module,exports){
 var $, KD, KDTimeAgoView, KDView, timeago,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -12533,7 +12533,7 @@ module.exports = KDTimeAgoView = (function(superClass) {
 
 
 
-},{"../../core/kd":99,"../../core/view":105,"jquery":111,"timeago":129}],84:[function(require,module,exports){
+},{"../../core/kd":99,"../../core/view":105,"jquery":117,"timeago":134}],84:[function(require,module,exports){
 var Encoder, KD, KDTooltip, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -14166,7 +14166,7 @@ module.exports = KDFileUploadListItemView = (function(superClass) {
 
 
 
-},{"../list/listitemview":51,"jquery":111}],90:[function(require,module,exports){
+},{"../list/listitemview":51,"jquery":117}],90:[function(require,module,exports){
 var KDFileUploadListItemView, KDFileUploadListView, KDListView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -14251,7 +14251,7 @@ module.exports = KDFileUploadThumbItemView = (function(superClass) {
 
 
 
-},{"../list/listitemview":51,"jquery":111}],92:[function(require,module,exports){
+},{"../list/listitemview":51,"jquery":117}],92:[function(require,module,exports){
 var KDFileUploadListView, KDFileUploadThumbItemView, KDFileUploadThumbListView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -15078,7 +15078,7 @@ module.exports = {
 
 
 
-},{"./utils":104,"kd-dom":112}],100:[function(require,module,exports){
+},{"./utils":104,"kd-dom":118}],100:[function(require,module,exports){
 var KDKeyboardListener,
   hasProp = {}.hasOwnProperty;
 
@@ -15211,7 +15211,7 @@ module.exports = KDKeyboardListener = (function() {
 
 
 
-},{"mousetrap":126,"mousetrap-global-bind":127,"mousetrap-record":128}],101:[function(require,module,exports){
+},{"mousetrap":131,"mousetrap-global-bind":132,"mousetrap-record":133}],101:[function(require,module,exports){
 var KDKeyboardMap,
   hasProp = {}.hasOwnProperty;
 
@@ -16492,7 +16492,7 @@ module.exports = {
 
 
 
-},{"inflector":116}],105:[function(require,module,exports){
+},{"inflector":121}],105:[function(require,module,exports){
 var $, KD, KDObject, KDView, MutationSummary,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty,
@@ -17699,7 +17699,7 @@ module.exports = KDView = (function(superClass) {
 
 
 
-},{"../components/overlay/overlayview":61,"../components/tooltip/tooltip":84,"./kd":99,"./object":102,"jquery":111,"mutation-summary":118}],106:[function(require,module,exports){
+},{"../components/overlay/overlayview":61,"../components/tooltip/tooltip":84,"./kd":99,"./object":102,"jquery":117,"mutation-summary":123}],106:[function(require,module,exports){
 var KD, KDController, KDView, KDViewController,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -18161,7 +18161,7 @@ module.exports = KDWindowController = (function(superClass) {
 
 
 
-},{"./controller":95,"./kd":99,"./keyboard/listener":100,"./keyboard/map":101,"jquery":111}],108:[function(require,module,exports){
+},{"./controller":95,"./kd":99,"./keyboard/listener":100,"./keyboard/map":101,"jquery":117}],108:[function(require,module,exports){
 require('kd-polyfills');
 
 module.exports = require('./core/kd');
@@ -18276,7 +18276,688 @@ module.exports.extend({
 
 
 
-},{"./components/autocomplete/autocomplete":1,"./components/autocomplete/autocompletecontroller":2,"./components/autocomplete/autocompleteditems":3,"./components/autocomplete/autocompletefetchingitem":4,"./components/autocomplete/autocompletelist":5,"./components/autocomplete/autocompletelistitem":6,"./components/autocomplete/autocompletenothingfounditem":7,"./components/autocomplete/autocompleteunselecteableitem":8,"./components/autocomplete/multipleinputlistview":9,"./components/autocomplete/multipleinputview":10,"./components/autocomplete/multiplelistitemview":11,"./components/autocomplete/noautocompleteinputview":12,"./components/autocomplete/noautocompletemultiplelistview":13,"./components/autocomplete/simpleautocomplete":14,"./components/buttons/buttonbar":15,"./components/buttons/buttongroupview":16,"./components/buttons/buttonmenu":17,"./components/buttons/buttonview":18,"./components/buttons/buttonviewwithmenu":19,"./components/buttons/togglebutton":20,"./components/contextmenu/contextmenu":21,"./components/contextmenu/contextmenuitem":22,"./components/contextmenu/contextmenutreeview":23,"./components/contextmenu/contextmenutreeviewcontroller":24,"./components/counter/counterdigitview":25,"./components/counter/counterview":26,"./components/dia/diacontainer":27,"./components/dia/diajoint":28,"./components/dia/diaobject":29,"./components/dia/diascene":30,"./components/dialog/dialogview":31,"./components/forms/formview":32,"./components/forms/formviewwithfields":33,"./components/header/headerview":34,"./components/image/webcamview":35,"./components/inputs/checkbox":36,"./components/inputs/contenteditableview":37,"./components/inputs/delimitedinputview":38,"./components/inputs/hitenterinputview":39,"./components/inputs/inputcheckboxgroup":40,"./components/inputs/inputradiogroup":41,"./components/inputs/inputswitch":42,"./components/inputs/inputvalidator":43,"./components/inputs/inputview":44,"./components/inputs/labelview":45,"./components/inputs/multiplechoice":46,"./components/inputs/onoffswitch":47,"./components/inputs/selectbox":48,"./components/inputs/tokenizedinputview":49,"./components/inputs/wmdinput":50,"./components/list/listitemview":51,"./components/list/listview":52,"./components/list/listviewbox":53,"./components/list/listviewcontroller":54,"./components/loader/loaderview":55,"./components/modals/blockingmodalview":56,"./components/modals/modalview":57,"./components/modals/modalviewstack":58,"./components/modals/modalviewwithforms":59,"./components/notifications/notificationview":60,"./components/overlay/overlayview":61,"./components/overlay/spotlightview":62,"./components/progressbar/progressbarview":63,"./components/scrollview/customscrollview":64,"./components/scrollview/customscrollviewinner":65,"./components/scrollview/scrollthumb":66,"./components/scrollview/scrolltrack":67,"./components/scrollview/scrollview":68,"./components/sliderbar/sliderbarhandleview":69,"./components/sliderbar/sliderbarview":70,"./components/slideshow/slidepageview":71,"./components/slideshow/slideshowview":72,"./components/split/splitcomboview":73,"./components/split/splitpanel":74,"./components/split/splitresizer":75,"./components/split/splitview":76,"./components/tabs/tabhandlecontainer":77,"./components/tabs/tabhandlemovenav":78,"./components/tabs/tabhandleview":79,"./components/tabs/tabpaneview":80,"./components/tabs/tabview":81,"./components/tabs/tabviewwithforms":82,"./components/time/timeagoview":83,"./components/tooltip/tooltip":84,"./components/tree/treeitemview":85,"./components/tree/treeview":86,"./components/tree/treeviewcontroller":87,"./components/upload/fileuploadarea":88,"./components/upload/fileuploadlistitemview":89,"./components/upload/fileuploadlistview":90,"./components/upload/fileuploadthumbitemview":91,"./components/upload/fileuploadthumblistview":92,"./components/upload/fileuploadview":93,"./components/upload/multipartuploader":94,"./core/controller":95,"./core/customhtmlview":96,"./core/eventemitter":97,"./core/eventemitterwildcard":98,"./core/kd":99,"./core/keyboard/listener":100,"./core/keyboard/map":101,"./core/object":102,"./core/router":103,"./core/view":105,"./core/viewcontroller":106,"./core/windowcontroller":107,"kd-polyfills":113}],109:[function(require,module,exports){
+},{"./components/autocomplete/autocomplete":1,"./components/autocomplete/autocompletecontroller":2,"./components/autocomplete/autocompleteditems":3,"./components/autocomplete/autocompletefetchingitem":4,"./components/autocomplete/autocompletelist":5,"./components/autocomplete/autocompletelistitem":6,"./components/autocomplete/autocompletenothingfounditem":7,"./components/autocomplete/autocompleteunselecteableitem":8,"./components/autocomplete/multipleinputlistview":9,"./components/autocomplete/multipleinputview":10,"./components/autocomplete/multiplelistitemview":11,"./components/autocomplete/noautocompleteinputview":12,"./components/autocomplete/noautocompletemultiplelistview":13,"./components/autocomplete/simpleautocomplete":14,"./components/buttons/buttonbar":15,"./components/buttons/buttongroupview":16,"./components/buttons/buttonmenu":17,"./components/buttons/buttonview":18,"./components/buttons/buttonviewwithmenu":19,"./components/buttons/togglebutton":20,"./components/contextmenu/contextmenu":21,"./components/contextmenu/contextmenuitem":22,"./components/contextmenu/contextmenutreeview":23,"./components/contextmenu/contextmenutreeviewcontroller":24,"./components/counter/counterdigitview":25,"./components/counter/counterview":26,"./components/dia/diacontainer":27,"./components/dia/diajoint":28,"./components/dia/diaobject":29,"./components/dia/diascene":30,"./components/dialog/dialogview":31,"./components/forms/formview":32,"./components/forms/formviewwithfields":33,"./components/header/headerview":34,"./components/image/webcamview":35,"./components/inputs/checkbox":36,"./components/inputs/contenteditableview":37,"./components/inputs/delimitedinputview":38,"./components/inputs/hitenterinputview":39,"./components/inputs/inputcheckboxgroup":40,"./components/inputs/inputradiogroup":41,"./components/inputs/inputswitch":42,"./components/inputs/inputvalidator":43,"./components/inputs/inputview":44,"./components/inputs/labelview":45,"./components/inputs/multiplechoice":46,"./components/inputs/onoffswitch":47,"./components/inputs/selectbox":48,"./components/inputs/tokenizedinputview":49,"./components/inputs/wmdinput":50,"./components/list/listitemview":51,"./components/list/listview":52,"./components/list/listviewbox":53,"./components/list/listviewcontroller":54,"./components/loader/loaderview":55,"./components/modals/blockingmodalview":56,"./components/modals/modalview":57,"./components/modals/modalviewstack":58,"./components/modals/modalviewwithforms":59,"./components/notifications/notificationview":60,"./components/overlay/overlayview":61,"./components/overlay/spotlightview":62,"./components/progressbar/progressbarview":63,"./components/scrollview/customscrollview":64,"./components/scrollview/customscrollviewinner":65,"./components/scrollview/scrollthumb":66,"./components/scrollview/scrolltrack":67,"./components/scrollview/scrollview":68,"./components/sliderbar/sliderbarhandleview":69,"./components/sliderbar/sliderbarview":70,"./components/slideshow/slidepageview":71,"./components/slideshow/slideshowview":72,"./components/split/splitcomboview":73,"./components/split/splitpanel":74,"./components/split/splitresizer":75,"./components/split/splitview":76,"./components/tabs/tabhandlecontainer":77,"./components/tabs/tabhandlemovenav":78,"./components/tabs/tabhandleview":79,"./components/tabs/tabpaneview":80,"./components/tabs/tabview":81,"./components/tabs/tabviewwithforms":82,"./components/time/timeagoview":83,"./components/tooltip/tooltip":84,"./components/tree/treeitemview":85,"./components/tree/treeview":86,"./components/tree/treeviewcontroller":87,"./components/upload/fileuploadarea":88,"./components/upload/fileuploadlistitemview":89,"./components/upload/fileuploadlistview":90,"./components/upload/fileuploadthumbitemview":91,"./components/upload/fileuploadthumblistview":92,"./components/upload/fileuploadview":93,"./components/upload/multipartuploader":94,"./core/controller":95,"./core/customhtmlview":96,"./core/eventemitter":97,"./core/eventemitterwildcard":98,"./core/kd":99,"./core/keyboard/listener":100,"./core/keyboard/map":101,"./core/object":102,"./core/router":103,"./core/view":105,"./core/viewcontroller":106,"./core/windowcontroller":107,"kd-polyfills":119}],109:[function(require,module,exports){
+if (typeof Object.create === 'function') {
+  // implementation from standard node.js 'util' module
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    ctor.prototype = Object.create(superCtor.prototype, {
+      constructor: {
+        value: ctor,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+  };
+} else {
+  // old school shim for old browsers
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    var TempCtor = function () {}
+    TempCtor.prototype = superCtor.prototype
+    ctor.prototype = new TempCtor()
+    ctor.prototype.constructor = ctor
+  }
+}
+
+},{}],110:[function(require,module,exports){
+// shim for using process in browser
+
+var process = module.exports = {};
+var queue = [];
+var draining = false;
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    draining = true;
+    var currentQueue;
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        var i = -1;
+        while (++i < len) {
+            currentQueue[i]();
+        }
+        len = queue.length;
+    }
+    draining = false;
+}
+process.nextTick = function (fun) {
+    queue.push(fun);
+    if (!draining) {
+        setTimeout(drainQueue, 0);
+    }
+};
+
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+// TODO(shtylman)
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}],111:[function(require,module,exports){
+module.exports = function isBuffer(arg) {
+  return arg && typeof arg === 'object'
+    && typeof arg.copy === 'function'
+    && typeof arg.fill === 'function'
+    && typeof arg.readUInt8 === 'function';
+}
+},{}],112:[function(require,module,exports){
+(function (process,global){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+var formatRegExp = /%[sdj%]/g;
+exports.format = function(f) {
+  if (!isString(f)) {
+    var objects = [];
+    for (var i = 0; i < arguments.length; i++) {
+      objects.push(inspect(arguments[i]));
+    }
+    return objects.join(' ');
+  }
+
+  var i = 1;
+  var args = arguments;
+  var len = args.length;
+  var str = String(f).replace(formatRegExp, function(x) {
+    if (x === '%%') return '%';
+    if (i >= len) return x;
+    switch (x) {
+      case '%s': return String(args[i++]);
+      case '%d': return Number(args[i++]);
+      case '%j':
+        try {
+          return JSON.stringify(args[i++]);
+        } catch (_) {
+          return '[Circular]';
+        }
+      default:
+        return x;
+    }
+  });
+  for (var x = args[i]; i < len; x = args[++i]) {
+    if (isNull(x) || !isObject(x)) {
+      str += ' ' + x;
+    } else {
+      str += ' ' + inspect(x);
+    }
+  }
+  return str;
+};
+
+
+// Mark that a method should not be used.
+// Returns a modified function which warns once by default.
+// If --no-deprecation is set, then it is a no-op.
+exports.deprecate = function(fn, msg) {
+  // Allow for deprecating things in the process of starting up.
+  if (isUndefined(global.process)) {
+    return function() {
+      return exports.deprecate(fn, msg).apply(this, arguments);
+    };
+  }
+
+  if (process.noDeprecation === true) {
+    return fn;
+  }
+
+  var warned = false;
+  function deprecated() {
+    if (!warned) {
+      if (process.throwDeprecation) {
+        throw new Error(msg);
+      } else if (process.traceDeprecation) {
+        console.trace(msg);
+      } else {
+        console.error(msg);
+      }
+      warned = true;
+    }
+    return fn.apply(this, arguments);
+  }
+
+  return deprecated;
+};
+
+
+var debugs = {};
+var debugEnviron;
+exports.debuglog = function(set) {
+  if (isUndefined(debugEnviron))
+    debugEnviron = process.env.NODE_DEBUG || '';
+  set = set.toUpperCase();
+  if (!debugs[set]) {
+    if (new RegExp('\\b' + set + '\\b', 'i').test(debugEnviron)) {
+      var pid = process.pid;
+      debugs[set] = function() {
+        var msg = exports.format.apply(exports, arguments);
+        console.error('%s %d: %s', set, pid, msg);
+      };
+    } else {
+      debugs[set] = function() {};
+    }
+  }
+  return debugs[set];
+};
+
+
+/**
+ * Echos the value of a value. Trys to print the value out
+ * in the best way possible given the different types.
+ *
+ * @param {Object} obj The object to print out.
+ * @param {Object} opts Optional options object that alters the output.
+ */
+/* legacy: obj, showHidden, depth, colors*/
+function inspect(obj, opts) {
+  // default options
+  var ctx = {
+    seen: [],
+    stylize: stylizeNoColor
+  };
+  // legacy...
+  if (arguments.length >= 3) ctx.depth = arguments[2];
+  if (arguments.length >= 4) ctx.colors = arguments[3];
+  if (isBoolean(opts)) {
+    // legacy...
+    ctx.showHidden = opts;
+  } else if (opts) {
+    // got an "options" object
+    exports._extend(ctx, opts);
+  }
+  // set default options
+  if (isUndefined(ctx.showHidden)) ctx.showHidden = false;
+  if (isUndefined(ctx.depth)) ctx.depth = 2;
+  if (isUndefined(ctx.colors)) ctx.colors = false;
+  if (isUndefined(ctx.customInspect)) ctx.customInspect = true;
+  if (ctx.colors) ctx.stylize = stylizeWithColor;
+  return formatValue(ctx, obj, ctx.depth);
+}
+exports.inspect = inspect;
+
+
+// http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
+inspect.colors = {
+  'bold' : [1, 22],
+  'italic' : [3, 23],
+  'underline' : [4, 24],
+  'inverse' : [7, 27],
+  'white' : [37, 39],
+  'grey' : [90, 39],
+  'black' : [30, 39],
+  'blue' : [34, 39],
+  'cyan' : [36, 39],
+  'green' : [32, 39],
+  'magenta' : [35, 39],
+  'red' : [31, 39],
+  'yellow' : [33, 39]
+};
+
+// Don't use 'blue' not visible on cmd.exe
+inspect.styles = {
+  'special': 'cyan',
+  'number': 'yellow',
+  'boolean': 'yellow',
+  'undefined': 'grey',
+  'null': 'bold',
+  'string': 'green',
+  'date': 'magenta',
+  // "name": intentionally not styling
+  'regexp': 'red'
+};
+
+
+function stylizeWithColor(str, styleType) {
+  var style = inspect.styles[styleType];
+
+  if (style) {
+    return '\u001b[' + inspect.colors[style][0] + 'm' + str +
+           '\u001b[' + inspect.colors[style][1] + 'm';
+  } else {
+    return str;
+  }
+}
+
+
+function stylizeNoColor(str, styleType) {
+  return str;
+}
+
+
+function arrayToHash(array) {
+  var hash = {};
+
+  array.forEach(function(val, idx) {
+    hash[val] = true;
+  });
+
+  return hash;
+}
+
+
+function formatValue(ctx, value, recurseTimes) {
+  // Provide a hook for user-specified inspect functions.
+  // Check that value is an object with an inspect function on it
+  if (ctx.customInspect &&
+      value &&
+      isFunction(value.inspect) &&
+      // Filter out the util module, it's inspect function is special
+      value.inspect !== exports.inspect &&
+      // Also filter out any prototype objects using the circular check.
+      !(value.constructor && value.constructor.prototype === value)) {
+    var ret = value.inspect(recurseTimes, ctx);
+    if (!isString(ret)) {
+      ret = formatValue(ctx, ret, recurseTimes);
+    }
+    return ret;
+  }
+
+  // Primitive types cannot have properties
+  var primitive = formatPrimitive(ctx, value);
+  if (primitive) {
+    return primitive;
+  }
+
+  // Look up the keys of the object.
+  var keys = Object.keys(value);
+  var visibleKeys = arrayToHash(keys);
+
+  if (ctx.showHidden) {
+    keys = Object.getOwnPropertyNames(value);
+  }
+
+  // IE doesn't make error fields non-enumerable
+  // http://msdn.microsoft.com/en-us/library/ie/dww52sbt(v=vs.94).aspx
+  if (isError(value)
+      && (keys.indexOf('message') >= 0 || keys.indexOf('description') >= 0)) {
+    return formatError(value);
+  }
+
+  // Some type of object without properties can be shortcutted.
+  if (keys.length === 0) {
+    if (isFunction(value)) {
+      var name = value.name ? ': ' + value.name : '';
+      return ctx.stylize('[Function' + name + ']', 'special');
+    }
+    if (isRegExp(value)) {
+      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
+    }
+    if (isDate(value)) {
+      return ctx.stylize(Date.prototype.toString.call(value), 'date');
+    }
+    if (isError(value)) {
+      return formatError(value);
+    }
+  }
+
+  var base = '', array = false, braces = ['{', '}'];
+
+  // Make Array say that they are Array
+  if (isArray(value)) {
+    array = true;
+    braces = ['[', ']'];
+  }
+
+  // Make functions say that they are functions
+  if (isFunction(value)) {
+    var n = value.name ? ': ' + value.name : '';
+    base = ' [Function' + n + ']';
+  }
+
+  // Make RegExps say that they are RegExps
+  if (isRegExp(value)) {
+    base = ' ' + RegExp.prototype.toString.call(value);
+  }
+
+  // Make dates with properties first say the date
+  if (isDate(value)) {
+    base = ' ' + Date.prototype.toUTCString.call(value);
+  }
+
+  // Make error with message first say the error
+  if (isError(value)) {
+    base = ' ' + formatError(value);
+  }
+
+  if (keys.length === 0 && (!array || value.length == 0)) {
+    return braces[0] + base + braces[1];
+  }
+
+  if (recurseTimes < 0) {
+    if (isRegExp(value)) {
+      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
+    } else {
+      return ctx.stylize('[Object]', 'special');
+    }
+  }
+
+  ctx.seen.push(value);
+
+  var output;
+  if (array) {
+    output = formatArray(ctx, value, recurseTimes, visibleKeys, keys);
+  } else {
+    output = keys.map(function(key) {
+      return formatProperty(ctx, value, recurseTimes, visibleKeys, key, array);
+    });
+  }
+
+  ctx.seen.pop();
+
+  return reduceToSingleString(output, base, braces);
+}
+
+
+function formatPrimitive(ctx, value) {
+  if (isUndefined(value))
+    return ctx.stylize('undefined', 'undefined');
+  if (isString(value)) {
+    var simple = '\'' + JSON.stringify(value).replace(/^"|"$/g, '')
+                                             .replace(/'/g, "\\'")
+                                             .replace(/\\"/g, '"') + '\'';
+    return ctx.stylize(simple, 'string');
+  }
+  if (isNumber(value))
+    return ctx.stylize('' + value, 'number');
+  if (isBoolean(value))
+    return ctx.stylize('' + value, 'boolean');
+  // For some reason typeof null is "object", so special case here.
+  if (isNull(value))
+    return ctx.stylize('null', 'null');
+}
+
+
+function formatError(value) {
+  return '[' + Error.prototype.toString.call(value) + ']';
+}
+
+
+function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
+  var output = [];
+  for (var i = 0, l = value.length; i < l; ++i) {
+    if (hasOwnProperty(value, String(i))) {
+      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
+          String(i), true));
+    } else {
+      output.push('');
+    }
+  }
+  keys.forEach(function(key) {
+    if (!key.match(/^\d+$/)) {
+      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
+          key, true));
+    }
+  });
+  return output;
+}
+
+
+function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
+  var name, str, desc;
+  desc = Object.getOwnPropertyDescriptor(value, key) || { value: value[key] };
+  if (desc.get) {
+    if (desc.set) {
+      str = ctx.stylize('[Getter/Setter]', 'special');
+    } else {
+      str = ctx.stylize('[Getter]', 'special');
+    }
+  } else {
+    if (desc.set) {
+      str = ctx.stylize('[Setter]', 'special');
+    }
+  }
+  if (!hasOwnProperty(visibleKeys, key)) {
+    name = '[' + key + ']';
+  }
+  if (!str) {
+    if (ctx.seen.indexOf(desc.value) < 0) {
+      if (isNull(recurseTimes)) {
+        str = formatValue(ctx, desc.value, null);
+      } else {
+        str = formatValue(ctx, desc.value, recurseTimes - 1);
+      }
+      if (str.indexOf('\n') > -1) {
+        if (array) {
+          str = str.split('\n').map(function(line) {
+            return '  ' + line;
+          }).join('\n').substr(2);
+        } else {
+          str = '\n' + str.split('\n').map(function(line) {
+            return '   ' + line;
+          }).join('\n');
+        }
+      }
+    } else {
+      str = ctx.stylize('[Circular]', 'special');
+    }
+  }
+  if (isUndefined(name)) {
+    if (array && key.match(/^\d+$/)) {
+      return str;
+    }
+    name = JSON.stringify('' + key);
+    if (name.match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/)) {
+      name = name.substr(1, name.length - 2);
+      name = ctx.stylize(name, 'name');
+    } else {
+      name = name.replace(/'/g, "\\'")
+                 .replace(/\\"/g, '"')
+                 .replace(/(^"|"$)/g, "'");
+      name = ctx.stylize(name, 'string');
+    }
+  }
+
+  return name + ': ' + str;
+}
+
+
+function reduceToSingleString(output, base, braces) {
+  var numLinesEst = 0;
+  var length = output.reduce(function(prev, cur) {
+    numLinesEst++;
+    if (cur.indexOf('\n') >= 0) numLinesEst++;
+    return prev + cur.replace(/\u001b\[\d\d?m/g, '').length + 1;
+  }, 0);
+
+  if (length > 60) {
+    return braces[0] +
+           (base === '' ? '' : base + '\n ') +
+           ' ' +
+           output.join(',\n  ') +
+           ' ' +
+           braces[1];
+  }
+
+  return braces[0] + base + ' ' + output.join(', ') + ' ' + braces[1];
+}
+
+
+// NOTE: These type checking functions intentionally don't use `instanceof`
+// because it is fragile and can be easily faked with `Object.create()`.
+function isArray(ar) {
+  return Array.isArray(ar);
+}
+exports.isArray = isArray;
+
+function isBoolean(arg) {
+  return typeof arg === 'boolean';
+}
+exports.isBoolean = isBoolean;
+
+function isNull(arg) {
+  return arg === null;
+}
+exports.isNull = isNull;
+
+function isNullOrUndefined(arg) {
+  return arg == null;
+}
+exports.isNullOrUndefined = isNullOrUndefined;
+
+function isNumber(arg) {
+  return typeof arg === 'number';
+}
+exports.isNumber = isNumber;
+
+function isString(arg) {
+  return typeof arg === 'string';
+}
+exports.isString = isString;
+
+function isSymbol(arg) {
+  return typeof arg === 'symbol';
+}
+exports.isSymbol = isSymbol;
+
+function isUndefined(arg) {
+  return arg === void 0;
+}
+exports.isUndefined = isUndefined;
+
+function isRegExp(re) {
+  return isObject(re) && objectToString(re) === '[object RegExp]';
+}
+exports.isRegExp = isRegExp;
+
+function isObject(arg) {
+  return typeof arg === 'object' && arg !== null;
+}
+exports.isObject = isObject;
+
+function isDate(d) {
+  return isObject(d) && objectToString(d) === '[object Date]';
+}
+exports.isDate = isDate;
+
+function isError(e) {
+  return isObject(e) &&
+      (objectToString(e) === '[object Error]' || e instanceof Error);
+}
+exports.isError = isError;
+
+function isFunction(arg) {
+  return typeof arg === 'function';
+}
+exports.isFunction = isFunction;
+
+function isPrimitive(arg) {
+  return arg === null ||
+         typeof arg === 'boolean' ||
+         typeof arg === 'number' ||
+         typeof arg === 'string' ||
+         typeof arg === 'symbol' ||  // ES6 symbol
+         typeof arg === 'undefined';
+}
+exports.isPrimitive = isPrimitive;
+
+exports.isBuffer = require('./support/isBuffer');
+
+function objectToString(o) {
+  return Object.prototype.toString.call(o);
+}
+
+
+function pad(n) {
+  return n < 10 ? '0' + n.toString(10) : n.toString(10);
+}
+
+
+var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
+              'Oct', 'Nov', 'Dec'];
+
+// 26 Feb 16:19:34
+function timestamp() {
+  var d = new Date();
+  var time = [pad(d.getHours()),
+              pad(d.getMinutes()),
+              pad(d.getSeconds())].join(':');
+  return [d.getDate(), months[d.getMonth()], time].join(' ');
+}
+
+
+// log is just a thin wrapper to console.log that prepends a timestamp
+exports.log = function() {
+  console.log('%s - %s', timestamp(), exports.format.apply(exports, arguments));
+};
+
+
+/**
+ * Inherit the prototype methods from one constructor into another.
+ *
+ * The Function.prototype.inherits from lang.js rewritten as a standalone
+ * function (not on Function.prototype). NOTE: If this file is to be loaded
+ * during bootstrapping this function needs to be rewritten using some native
+ * functions as prototype setup using normal JavaScript does not work as
+ * expected during bootstrapping (see mirror.js in r114903).
+ *
+ * @param {function} ctor Constructor function which needs to inherit the
+ *     prototype.
+ * @param {function} superCtor Constructor function to inherit prototype from.
+ */
+exports.inherits = require('inherits');
+
+exports._extend = function(origin, add) {
+  // Don't do anything if add isn't an object
+  if (!add || !isObject(add)) return origin;
+
+  var keys = Object.keys(add);
+  var i = keys.length;
+  while (i--) {
+    origin[keys[i]] = add[keys[i]];
+  }
+  return origin;
+};
+
+function hasOwnProperty(obj, prop) {
+  return Object.prototype.hasOwnProperty.call(obj, prop);
+}
+
+}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./support/isBuffer":111,"_process":110,"inherits":109}],113:[function(require,module,exports){
 /*! Hammer.JS - v2.0.4 - 2014-09-28
  * http://hammerjs.github.io/
  *
@@ -20741,7 +21422,293 @@ if (typeof define == TYPE_FUNCTION && define.amd) {
 
 })(window, document, 'Hammer');
 
-},{}],110:[function(require,module,exports){
+},{}],114:[function(require,module,exports){
+/**
+ * A Javascript object to encode and/or decode html characters using HTML or Numeric entities that handles double or partial encoding
+ * Author: R Reid
+ * source: http://www.strictly-software.com/htmlencode
+ * Licences: GPL, The MIT License (MIT)
+ * Copyright: (c) 2011 Robert Reid - Strictly-Software.com
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * 
+ * Revision:
+ *  2011-07-14, Jacques-Yves Bleau: 
+ *       - fixed conversion error with capitalized accentuated characters
+ *       + converted arr1 and arr2 to object property to remove redundancy
+ *
+ * Revision:
+ *  2011-11-10, Ce-Yi Hio: 
+ *       - fixed conversion error with a number of capitalized entity characters
+ *
+ * Revision:
+ *  2011-11-10, Rob Reid: 
+ *		 - changed array format
+ *
+ * Revision:
+ *  2012-09-23, Alex Oss: 
+ *		 - replaced string concatonation in numEncode with string builder, push and join for peformance with ammendments by Rob Reid
+ *
+ * Revision:
+ * 2013-01-21, Dan MacTough:
+ * 		 - renamed Encoder to module.exports; fixed leaking global in htmlDecode
+ */
+
+// Encoder = {
+module.exports = {
+
+	// When encoding do we convert characters into html or numerical entities
+	EncodeType : "entity",  // entity OR numerical
+
+	isEmpty : function(val){
+		if(val){
+			return ((val===null) || val.length==0 || /^\s+$/.test(val));
+		}else{
+			return true;
+		}
+	},
+	
+	// arrays for conversion from HTML Entities to Numerical values
+	arr1: ['&nbsp;','&iexcl;','&cent;','&pound;','&curren;','&yen;','&brvbar;','&sect;','&uml;','&copy;','&ordf;','&laquo;','&not;','&shy;','&reg;','&macr;','&deg;','&plusmn;','&sup2;','&sup3;','&acute;','&micro;','&para;','&middot;','&cedil;','&sup1;','&ordm;','&raquo;','&frac14;','&frac12;','&frac34;','&iquest;','&Agrave;','&Aacute;','&Acirc;','&Atilde;','&Auml;','&Aring;','&AElig;','&Ccedil;','&Egrave;','&Eacute;','&Ecirc;','&Euml;','&Igrave;','&Iacute;','&Icirc;','&Iuml;','&ETH;','&Ntilde;','&Ograve;','&Oacute;','&Ocirc;','&Otilde;','&Ouml;','&times;','&Oslash;','&Ugrave;','&Uacute;','&Ucirc;','&Uuml;','&Yacute;','&THORN;','&szlig;','&agrave;','&aacute;','&acirc;','&atilde;','&auml;','&aring;','&aelig;','&ccedil;','&egrave;','&eacute;','&ecirc;','&euml;','&igrave;','&iacute;','&icirc;','&iuml;','&eth;','&ntilde;','&ograve;','&oacute;','&ocirc;','&otilde;','&ouml;','&divide;','&oslash;','&ugrave;','&uacute;','&ucirc;','&uuml;','&yacute;','&thorn;','&yuml;','&quot;','&amp;','&lt;','&gt;','&OElig;','&oelig;','&Scaron;','&scaron;','&Yuml;','&circ;','&tilde;','&ensp;','&emsp;','&thinsp;','&zwnj;','&zwj;','&lrm;','&rlm;','&ndash;','&mdash;','&lsquo;','&rsquo;','&sbquo;','&ldquo;','&rdquo;','&bdquo;','&dagger;','&Dagger;','&permil;','&lsaquo;','&rsaquo;','&euro;','&fnof;','&Alpha;','&Beta;','&Gamma;','&Delta;','&Epsilon;','&Zeta;','&Eta;','&Theta;','&Iota;','&Kappa;','&Lambda;','&Mu;','&Nu;','&Xi;','&Omicron;','&Pi;','&Rho;','&Sigma;','&Tau;','&Upsilon;','&Phi;','&Chi;','&Psi;','&Omega;','&alpha;','&beta;','&gamma;','&delta;','&epsilon;','&zeta;','&eta;','&theta;','&iota;','&kappa;','&lambda;','&mu;','&nu;','&xi;','&omicron;','&pi;','&rho;','&sigmaf;','&sigma;','&tau;','&upsilon;','&phi;','&chi;','&psi;','&omega;','&thetasym;','&upsih;','&piv;','&bull;','&hellip;','&prime;','&Prime;','&oline;','&frasl;','&weierp;','&image;','&real;','&trade;','&alefsym;','&larr;','&uarr;','&rarr;','&darr;','&harr;','&crarr;','&lArr;','&uArr;','&rArr;','&dArr;','&hArr;','&forall;','&part;','&exist;','&empty;','&nabla;','&isin;','&notin;','&ni;','&prod;','&sum;','&minus;','&lowast;','&radic;','&prop;','&infin;','&ang;','&and;','&or;','&cap;','&cup;','&int;','&there4;','&sim;','&cong;','&asymp;','&ne;','&equiv;','&le;','&ge;','&sub;','&sup;','&nsub;','&sube;','&supe;','&oplus;','&otimes;','&perp;','&sdot;','&lceil;','&rceil;','&lfloor;','&rfloor;','&lang;','&rang;','&loz;','&spades;','&clubs;','&hearts;','&diams;'],
+	arr2: ['&#160;','&#161;','&#162;','&#163;','&#164;','&#165;','&#166;','&#167;','&#168;','&#169;','&#170;','&#171;','&#172;','&#173;','&#174;','&#175;','&#176;','&#177;','&#178;','&#179;','&#180;','&#181;','&#182;','&#183;','&#184;','&#185;','&#186;','&#187;','&#188;','&#189;','&#190;','&#191;','&#192;','&#193;','&#194;','&#195;','&#196;','&#197;','&#198;','&#199;','&#200;','&#201;','&#202;','&#203;','&#204;','&#205;','&#206;','&#207;','&#208;','&#209;','&#210;','&#211;','&#212;','&#213;','&#214;','&#215;','&#216;','&#217;','&#218;','&#219;','&#220;','&#221;','&#222;','&#223;','&#224;','&#225;','&#226;','&#227;','&#228;','&#229;','&#230;','&#231;','&#232;','&#233;','&#234;','&#235;','&#236;','&#237;','&#238;','&#239;','&#240;','&#241;','&#242;','&#243;','&#244;','&#245;','&#246;','&#247;','&#248;','&#249;','&#250;','&#251;','&#252;','&#253;','&#254;','&#255;','&#34;','&#38;','&#60;','&#62;','&#338;','&#339;','&#352;','&#353;','&#376;','&#710;','&#732;','&#8194;','&#8195;','&#8201;','&#8204;','&#8205;','&#8206;','&#8207;','&#8211;','&#8212;','&#8216;','&#8217;','&#8218;','&#8220;','&#8221;','&#8222;','&#8224;','&#8225;','&#8240;','&#8249;','&#8250;','&#8364;','&#402;','&#913;','&#914;','&#915;','&#916;','&#917;','&#918;','&#919;','&#920;','&#921;','&#922;','&#923;','&#924;','&#925;','&#926;','&#927;','&#928;','&#929;','&#931;','&#932;','&#933;','&#934;','&#935;','&#936;','&#937;','&#945;','&#946;','&#947;','&#948;','&#949;','&#950;','&#951;','&#952;','&#953;','&#954;','&#955;','&#956;','&#957;','&#958;','&#959;','&#960;','&#961;','&#962;','&#963;','&#964;','&#965;','&#966;','&#967;','&#968;','&#969;','&#977;','&#978;','&#982;','&#8226;','&#8230;','&#8242;','&#8243;','&#8254;','&#8260;','&#8472;','&#8465;','&#8476;','&#8482;','&#8501;','&#8592;','&#8593;','&#8594;','&#8595;','&#8596;','&#8629;','&#8656;','&#8657;','&#8658;','&#8659;','&#8660;','&#8704;','&#8706;','&#8707;','&#8709;','&#8711;','&#8712;','&#8713;','&#8715;','&#8719;','&#8721;','&#8722;','&#8727;','&#8730;','&#8733;','&#8734;','&#8736;','&#8743;','&#8744;','&#8745;','&#8746;','&#8747;','&#8756;','&#8764;','&#8773;','&#8776;','&#8800;','&#8801;','&#8804;','&#8805;','&#8834;','&#8835;','&#8836;','&#8838;','&#8839;','&#8853;','&#8855;','&#8869;','&#8901;','&#8968;','&#8969;','&#8970;','&#8971;','&#9001;','&#9002;','&#9674;','&#9824;','&#9827;','&#9829;','&#9830;'],
+		
+	// Convert HTML entities into numerical entities
+	HTML2Numerical : function(s){
+		return this.swapArrayVals(s,this.arr1,this.arr2);
+	},	
+
+	// Convert Numerical entities into HTML entities
+	NumericalToHTML : function(s){
+		return this.swapArrayVals(s,this.arr2,this.arr1);
+	},
+
+
+	// Numerically encodes all unicode characters
+	numEncode : function(s){ 
+		if(this.isEmpty(s)) return ""; 
+
+		var a = [],
+			l = s.length; 
+		
+		for (var i=0;i<l;i++){ 
+			var c = s.charAt(i); 
+			if (c < " " || c > "~"){ 
+				a.push("&#"); 
+				a.push(c.charCodeAt()); //numeric value of code point 
+				a.push(";"); 
+			}else{ 
+				a.push(c); 
+			} 
+		} 
+		
+		return a.join(""); 	
+	}, 
+	
+	// HTML Decode numerical and HTML entities back to original values
+	htmlDecode : function(s){
+
+		var c,m,d = s;
+		var arr;
+		
+		if(this.isEmpty(d)) return "";
+
+		// convert HTML entites back to numerical entites first
+		d = this.HTML2Numerical(d);
+		
+		// look for numerical entities &#34;
+		arr=d.match(/&#[0-9]{1,5};/g);
+		
+		// if no matches found in string then skip
+		if(arr!=null){
+			for(var x=0;x<arr.length;x++){
+				m = arr[x];
+				c = m.substring(2,m.length-1); //get numeric part which is refernce to unicode character
+				// if its a valid number we can decode
+				if(c >= -32768 && c <= 65535){
+					// decode every single match within string
+					d = d.replace(m, String.fromCharCode(c));
+				}else{
+					d = d.replace(m, ""); //invalid so replace with nada
+				}
+			}			
+		}
+
+		return d;
+	},		
+
+	// encode an input string into either numerical or HTML entities
+	htmlEncode : function(s,dbl){
+			
+		if(this.isEmpty(s)) return "";
+
+		// do we allow double encoding? E.g will &amp; be turned into &amp;amp;
+		dbl = dbl || false; //default to prevent double encoding
+		
+		// if allowing double encoding we do ampersands first
+		if(dbl){
+			if(this.EncodeType=="numerical"){
+				s = s.replace(/&/g, "&#38;");
+			}else{
+				s = s.replace(/&/g, "&amp;");
+			}
+		}
+
+		// convert the xss chars to numerical entities ' " < >
+		s = this.XSSEncode(s,false);
+		
+		if(this.EncodeType=="numerical" || !dbl){
+			// Now call function that will convert any HTML entities to numerical codes
+			s = this.HTML2Numerical(s);
+		}
+
+		// Now encode all chars above 127 e.g unicode
+		s = this.numEncode(s);
+
+		// now we know anything that needs to be encoded has been converted to numerical entities we
+		// can encode any ampersands & that are not part of encoded entities
+		// to handle the fact that I need to do a negative check and handle multiple ampersands &&&
+		// I am going to use a placeholder
+
+		// if we don't want double encoded entities we ignore the & in existing entities
+		if(!dbl){
+			s = s.replace(/&#/g,"##AMPHASH##");
+		
+			if(this.EncodeType=="numerical"){
+				s = s.replace(/&/g, "&#38;");
+			}else{
+				s = s.replace(/&/g, "&amp;");
+			}
+
+			s = s.replace(/##AMPHASH##/g,"&#");
+		}
+		
+		// replace any malformed entities
+		s = s.replace(/&#\d*([^\d;]|$)/g, "$1");
+
+		if(!dbl){
+			// safety check to correct any double encoded &amp;
+			s = this.correctEncoding(s);
+		}
+
+		// now do we need to convert our numerical encoded string into entities
+		if(this.EncodeType=="entity"){
+			s = this.NumericalToHTML(s);
+		}
+
+		return s;					
+	},
+
+	// Encodes the basic 4 characters used to malform HTML in XSS hacks
+	XSSEncode : function(s,en){
+		if(!this.isEmpty(s)){
+			en = en || true;
+			// do we convert to numerical or html entity?
+			if(en){
+				s = s.replace(/\'/g,"&#39;"); //no HTML equivalent as &apos is not cross browser supported
+				s = s.replace(/\"/g,"&quot;");
+				s = s.replace(/</g,"&lt;");
+				s = s.replace(/>/g,"&gt;");
+			}else{
+				s = s.replace(/\'/g,"&#39;"); //no HTML equivalent as &apos is not cross browser supported
+				s = s.replace(/\"/g,"&#34;");
+				s = s.replace(/</g,"&#60;");
+				s = s.replace(/>/g,"&#62;");
+			}
+			return s;
+		}else{
+			return "";
+		}
+	},
+
+	// returns true if a string contains html or numerical encoded entities
+	hasEncoded : function(s){
+		if(/&#[0-9]{1,5};/g.test(s)){
+			return true;
+		}else if(/&[A-Z]{2,6};/gi.test(s)){
+			return true;
+		}else{
+			return false;
+		}
+	},
+
+	// will remove any unicode characters
+	stripUnicode : function(s){
+		return s.replace(/[^\x20-\x7E]/g,"");
+		
+	},
+
+	// corrects any double encoded &amp; entities e.g &amp;amp;
+	correctEncoding : function(s){
+		return s.replace(/(&amp;)(amp;)+/,"$1");
+	},
+
+
+	// Function to loop through an array swaping each item with the value from another array e.g swap HTML entities with Numericals
+	swapArrayVals : function(s,arr1,arr2){
+		if(this.isEmpty(s)) return "";
+		var re;
+		if(arr1 && arr2){
+			//ShowDebug("in swapArrayVals arr1.length = " + arr1.length + " arr2.length = " + arr2.length)
+			// array lengths must match
+			if(arr1.length == arr2.length){
+				for(var x=0,i=arr1.length;x<i;x++){
+					re = new RegExp(arr1[x], 'g');
+					s = s.replace(re,arr2[x]); //swap arr1 item with matching item from arr2	
+				}
+			}
+		}
+		return s;
+	},
+
+	inArray : function( item, arr ) {
+		for ( var i = 0, x = arr.length; i < x; i++ ){
+			if ( arr[i] === item ){
+				return i;
+			}
+		}
+		return -1;
+	}
+
+}
+},{}],115:[function(require,module,exports){
+/*!
+ * node-htmlencode - Wrapped version of http://www.strictly-software.com/htmlencode
+ * Copyright(c) 2013 Dan MacTough <danmactough@gmail.com>
+ * All rights reserved.
+ */
+
+var htmlencode = require('./encoder')
+  , extend = require('util')._extend;
+
+var Encoder = function (type) {
+  if (type) this.EncodeType = type;
+  return this;
+};
+extend(Encoder.prototype, htmlencode);
+
+var it = new Encoder();
+
+Object.defineProperty(module.exports, 'EncodeType', {
+  enumerable: true,
+  get: function () { return it.EncodeType; },
+  set: function (val) { return it.EncodeType = val; }
+});
+[ 'HTML2Numerical',
+  'NumericalToHTML',
+  'numEncode',
+  'htmlDecode',
+  'htmlEncode',
+  'XSSEncode',
+  'hasEncoded',
+  'stripUnicode',
+  'correctEncoding'].forEach(function (method) {
+  module.exports[method] = it[method].bind(it);
+});
+module.exports.Encoder = Encoder;
+
+},{"./encoder":114,"util":112}],116:[function(require,module,exports){
 /*! Copyright (c) 2013 Brandon Aaron (http://brandon.aaron.sh)
  * Licensed under the MIT License (LICENSE.txt).
  *
@@ -20964,7 +21931,7 @@ if (typeof define == TYPE_FUNCTION && define.amd) {
 
 }));
 
-},{}],111:[function(require,module,exports){
+},{}],117:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.3
  * http://jquery.com/
@@ -30171,7 +31138,7 @@ return jQuery;
 
 }));
 
-},{}],112:[function(require,module,exports){
+},{}],118:[function(require,module,exports){
 /*Copyright (c) 2012 Jessie
 
 Permission is hereby granted, free of charge, to any person obtaining
@@ -31754,7 +32721,7 @@ KD.dom.addClass = addClass;
 }(window));
 
 module.exports = KD.dom;
-},{}],113:[function(require,module,exports){
+},{}],119:[function(require,module,exports){
 try {
   document.write = document.writeln = function () {
     throw new Error('document.[write|writeln] is nisht-nisht');
@@ -31840,7 +32807,7 @@ try {
 
 })(this);
 
-},{}],114:[function(require,module,exports){
+},{}],120:[function(require,module,exports){
 /*
 * Copyright (c) 2011 Róbert Pataki
 *
@@ -32482,244 +33449,7 @@ try {
 	};
 	window.CanvasLoader = CanvasLoader;
 }(window));
-},{}],115:[function(require,module,exports){
-/**
- * A Javascript object to encode and/or decode html characters using HTML or Numeric entities that handles double or partial encoding
- * Author: R Reid
- * source: http://www.strictly-software.com/htmlencode
- * Licences: GPL, The MIT License (MIT)
- * Copyright: (c) 2011 Robert Reid - Strictly-Software.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- *
- * Revision:
- *  2011-07-14, Jacques-Yves Bleau:
- *       - fixed conversion error with capitalized accentuated characters
- *       + converted arr1 and arr2 to object property to remove redundancy
- *
- * Revision:
- *  2011-11-10, Ce-Yi Hio:
- *       - fixed conversion error with a number of capitalized entity characters
- *
- * Revision:
- *  2011-11-10, Rob Reid:
- *		 - changed array format
- */
-
-module.exports = {
-
-	// When encoding do we convert characters into html or numerical entities
-	EncodeType : "entity",  // entity OR numerical
-
-	isEmpty : function(val){
-		if(val){
-			return ((val===null) || val.length==0 || /^\s+$/.test(val));
-		}else{
-			return true;
-		}
-	},
-
-	// arrays for conversion from HTML Entities to Numerical values
-	arr1: ['&nbsp;','&iexcl;','&cent;','&pound;','&curren;','&yen;','&brvbar;','&sect;','&uml;','&copy;','&ordf;','&laquo;','&not;','&shy;','&reg;','&macr;','&deg;','&plusmn;','&sup2;','&sup3;','&acute;','&micro;','&para;','&middot;','&cedil;','&sup1;','&ordm;','&raquo;','&frac14;','&frac12;','&frac34;','&iquest;','&Agrave;','&Aacute;','&Acirc;','&Atilde;','&Auml;','&Aring;','&AElig;','&Ccedil;','&Egrave;','&Eacute;','&Ecirc;','&Euml;','&Igrave;','&Iacute;','&Icirc;','&Iuml;','&ETH;','&Ntilde;','&Ograve;','&Oacute;','&Ocirc;','&Otilde;','&Ouml;','&times;','&Oslash;','&Ugrave;','&Uacute;','&Ucirc;','&Uuml;','&Yacute;','&THORN;','&szlig;','&agrave;','&aacute;','&acirc;','&atilde;','&auml;','&aring;','&aelig;','&ccedil;','&egrave;','&eacute;','&ecirc;','&euml;','&igrave;','&iacute;','&icirc;','&iuml;','&eth;','&ntilde;','&ograve;','&oacute;','&ocirc;','&otilde;','&ouml;','&divide;','&oslash;','&ugrave;','&uacute;','&ucirc;','&uuml;','&yacute;','&thorn;','&yuml;','&quot;','&amp;','&lt;','&gt;','&OElig;','&oelig;','&Scaron;','&scaron;','&Yuml;','&circ;','&tilde;','&ensp;','&emsp;','&thinsp;','&zwnj;','&zwj;','&lrm;','&rlm;','&ndash;','&mdash;','&lsquo;','&rsquo;','&sbquo;','&ldquo;','&rdquo;','&bdquo;','&dagger;','&Dagger;','&permil;','&lsaquo;','&rsaquo;','&euro;','&fnof;','&Alpha;','&Beta;','&Gamma;','&Delta;','&Epsilon;','&Zeta;','&Eta;','&Theta;','&Iota;','&Kappa;','&Lambda;','&Mu;','&Nu;','&Xi;','&Omicron;','&Pi;','&Rho;','&Sigma;','&Tau;','&Upsilon;','&Phi;','&Chi;','&Psi;','&Omega;','&alpha;','&beta;','&gamma;','&delta;','&epsilon;','&zeta;','&eta;','&theta;','&iota;','&kappa;','&lambda;','&mu;','&nu;','&xi;','&omicron;','&pi;','&rho;','&sigmaf;','&sigma;','&tau;','&upsilon;','&phi;','&chi;','&psi;','&omega;','&thetasym;','&upsih;','&piv;','&bull;','&hellip;','&prime;','&Prime;','&oline;','&frasl;','&weierp;','&image;','&real;','&trade;','&alefsym;','&larr;','&uarr;','&rarr;','&darr;','&harr;','&crarr;','&lArr;','&uArr;','&rArr;','&dArr;','&hArr;','&forall;','&part;','&exist;','&empty;','&nabla;','&isin;','&notin;','&ni;','&prod;','&sum;','&minus;','&lowast;','&radic;','&prop;','&infin;','&ang;','&and;','&or;','&cap;','&cup;','&int;','&there4;','&sim;','&cong;','&asymp;','&ne;','&equiv;','&le;','&ge;','&sub;','&sup;','&nsub;','&sube;','&supe;','&oplus;','&otimes;','&perp;','&sdot;','&lceil;','&rceil;','&lfloor;','&rfloor;','&lang;','&rang;','&loz;','&spades;','&clubs;','&hearts;','&diams;'],
-	arr2: ['&#160;','&#161;','&#162;','&#163;','&#164;','&#165;','&#166;','&#167;','&#168;','&#169;','&#170;','&#171;','&#172;','&#173;','&#174;','&#175;','&#176;','&#177;','&#178;','&#179;','&#180;','&#181;','&#182;','&#183;','&#184;','&#185;','&#186;','&#187;','&#188;','&#189;','&#190;','&#191;','&#192;','&#193;','&#194;','&#195;','&#196;','&#197;','&#198;','&#199;','&#200;','&#201;','&#202;','&#203;','&#204;','&#205;','&#206;','&#207;','&#208;','&#209;','&#210;','&#211;','&#212;','&#213;','&#214;','&#215;','&#216;','&#217;','&#218;','&#219;','&#220;','&#221;','&#222;','&#223;','&#224;','&#225;','&#226;','&#227;','&#228;','&#229;','&#230;','&#231;','&#232;','&#233;','&#234;','&#235;','&#236;','&#237;','&#238;','&#239;','&#240;','&#241;','&#242;','&#243;','&#244;','&#245;','&#246;','&#247;','&#248;','&#249;','&#250;','&#251;','&#252;','&#253;','&#254;','&#255;','&#34;','&#38;','&#60;','&#62;','&#338;','&#339;','&#352;','&#353;','&#376;','&#710;','&#732;','&#8194;','&#8195;','&#8201;','&#8204;','&#8205;','&#8206;','&#8207;','&#8211;','&#8212;','&#8216;','&#8217;','&#8218;','&#8220;','&#8221;','&#8222;','&#8224;','&#8225;','&#8240;','&#8249;','&#8250;','&#8364;','&#402;','&#913;','&#914;','&#915;','&#916;','&#917;','&#918;','&#919;','&#920;','&#921;','&#922;','&#923;','&#924;','&#925;','&#926;','&#927;','&#928;','&#929;','&#931;','&#932;','&#933;','&#934;','&#935;','&#936;','&#937;','&#945;','&#946;','&#947;','&#948;','&#949;','&#950;','&#951;','&#952;','&#953;','&#954;','&#955;','&#956;','&#957;','&#958;','&#959;','&#960;','&#961;','&#962;','&#963;','&#964;','&#965;','&#966;','&#967;','&#968;','&#969;','&#977;','&#978;','&#982;','&#8226;','&#8230;','&#8242;','&#8243;','&#8254;','&#8260;','&#8472;','&#8465;','&#8476;','&#8482;','&#8501;','&#8592;','&#8593;','&#8594;','&#8595;','&#8596;','&#8629;','&#8656;','&#8657;','&#8658;','&#8659;','&#8660;','&#8704;','&#8706;','&#8707;','&#8709;','&#8711;','&#8712;','&#8713;','&#8715;','&#8719;','&#8721;','&#8722;','&#8727;','&#8730;','&#8733;','&#8734;','&#8736;','&#8743;','&#8744;','&#8745;','&#8746;','&#8747;','&#8756;','&#8764;','&#8773;','&#8776;','&#8800;','&#8801;','&#8804;','&#8805;','&#8834;','&#8835;','&#8836;','&#8838;','&#8839;','&#8853;','&#8855;','&#8869;','&#8901;','&#8968;','&#8969;','&#8970;','&#8971;','&#9001;','&#9002;','&#9674;','&#9824;','&#9827;','&#9829;','&#9830;'],
-
-	// Convert HTML entities into numerical entities
-	HTML2Numerical : function(s){
-		return this.swapArrayVals(s,this.arr1,this.arr2);
-	},
-
-	// Convert Numerical entities into HTML entities
-	NumericalToHTML : function(s){
-		return this.swapArrayVals(s,this.arr2,this.arr1);
-	},
-
-
-	// Numerically encodes all unicode characters
-	numEncode : function(s){
-
-		if(this.isEmpty(s)) return "";
-
-		var e = "";
-		for (var i = 0; i < s.length; i++)
-		{
-			var c = s.charAt(i);
-			if (c < " " || c > "~")
-			{
-				c = "&#" + c.charCodeAt() + ";";
-			}
-			e += c;
-		}
-		return e;
-	},
-
-	// HTML Decode numerical and HTML entities back to original values
-	htmlDecode : function(s){
-
-		var c,m,d = s;
-
-		if(this.isEmpty(d)) return "";
-
-		// convert HTML entites back to numerical entites first
-		d = this.HTML2Numerical(d);
-
-		// look for numerical entities &#34;
-		arr=d.match(/&#[0-9]{1,5};/g);
-
-		// if no matches found in string then skip
-		if(arr!=null){
-			for(var x=0;x<arr.length;x++){
-				m = arr[x];
-				c = m.substring(2,m.length-1); //get numeric part which is refernce to unicode character
-				// if its a valid number we can decode
-				if(c >= -32768 && c <= 65535){
-					// decode every single match within string
-					d = d.replace(m, String.fromCharCode(c));
-				}else{
-					d = d.replace(m, ""); //invalid so replace with nada
-				}
-			}
-		}
-
-		return d;
-	},
-
-	// encode an input string into either numerical or HTML entities
-	htmlEncode : function(s,dbl){
-
-		if(this.isEmpty(s)) return "";
-
-		// do we allow double encoding? E.g will &amp; be turned into &amp;amp;
-		dbl = dbl || false; //default to prevent double encoding
-
-		// if allowing double encoding we do ampersands first
-		if(dbl){
-			if(this.EncodeType=="numerical"){
-				s = s.replace(/&/g, "&#38;");
-			}else{
-				s = s.replace(/&/g, "&amp;");
-			}
-		}
-
-		// convert the xss chars to numerical entities ' " < >
-		s = this.XSSEncode(s,false);
-
-		if(this.EncodeType=="numerical" || !dbl){
-			// Now call function that will convert any HTML entities to numerical codes
-			s = this.HTML2Numerical(s);
-		}
-
-		// Now encode all chars above 127 e.g unicode
-		s = this.numEncode(s);
-
-		// now we know anything that needs to be encoded has been converted to numerical entities we
-		// can encode any ampersands & that are not part of encoded entities
-		// to handle the fact that I need to do a negative check and handle multiple ampersands &&&
-		// I am going to use a placeholder
-
-		// if we don't want double encoded entities we ignore the & in existing entities
-		if(!dbl){
-			s = s.replace(/&#/g,"##AMPHASH##");
-
-			if(this.EncodeType=="numerical"){
-				s = s.replace(/&/g, "&#38;");
-			}else{
-				s = s.replace(/&/g, "&amp;");
-			}
-
-			s = s.replace(/##AMPHASH##/g,"&#");
-		}
-
-		// replace any malformed entities
-		s = s.replace(/&#\d*([^\d;]|$)/g, "$1");
-
-		if(!dbl){
-			// safety check to correct any double encoded &amp;
-			s = this.correctEncoding(s);
-		}
-
-		// now do we need to convert our numerical encoded string into entities
-		if(this.EncodeType=="entity"){
-			s = this.NumericalToHTML(s);
-		}
-
-		return s;
-	},
-
-	// Encodes the basic 4 characters used to malform HTML in XSS hacks
-	XSSEncode : function(s,en){
-		if(!this.isEmpty(s)){
-			en = en || true;
-			// do we convert to numerical or html entity?
-			if(en){
-				s = s.replace(/\'/g,"&#39;"); //no HTML equivalent as &apos is not cross browser supported
-				s = s.replace(/\"/g,"&quot;");
-				s = s.replace(/</g,"&lt;");
-				s = s.replace(/>/g,"&gt;");
-			}else{
-				s = s.replace(/\'/g,"&#39;"); //no HTML equivalent as &apos is not cross browser supported
-				s = s.replace(/\"/g,"&#34;");
-				s = s.replace(/</g,"&#60;");
-				s = s.replace(/>/g,"&#62;");
-			}
-			return s;
-		}else{
-			return "";
-		}
-	},
-
-	// returns true if a string contains html or numerical encoded entities
-	hasEncoded : function(s){
-		if(/&#[0-9]{1,5};/g.test(s)){
-			return true;
-		}else if(/&[A-Z]{2,6};/gi.test(s)){
-			return true;
-		}else{
-			return false;
-		}
-	},
-
-	// will remove any unicode characters
-	stripUnicode : function(s){
-		return s.replace(/[^\x20-\x7E]/g,"");
-
-	},
-
-	// corrects any double encoded &amp; entities e.g &amp;amp;
-	correctEncoding : function(s){
-		return s.replace(/(&amp;)(amp;)+/,"$1");
-	},
-
-
-	// Function to loop through an array swaping each item with the value from another array e.g swap HTML entities with Numericals
-	swapArrayVals : function(s,arr1,arr2){
-		if(this.isEmpty(s)) return "";
-		var re;
-		if(arr1 && arr2){
-			//ShowDebug("in swapArrayVals arr1.length = " + arr1.length + " arr2.length = " + arr2.length)
-			// array lengths must match
-			if(arr1.length == arr2.length){
-				for(var x=0,i=arr1.length;x<i;x++){
-					re = new RegExp(arr1[x], 'g');
-					s = s.replace(re,arr2[x]); //swap arr1 item with matching item from arr2
-				}
-			}
-		}
-		return s;
-	},
-
-	inArray : function( item, arr ) {
-		for ( var i = 0, x = arr.length; i < x; i++ ){
-			if ( arr[i] === item ){
-				return i;
-			}
-		}
-		return -1;
-	}
-
-}
-},{}],116:[function(require,module,exports){
+},{}],121:[function(require,module,exports){
 var Inflector;
 
 module.exports = Inflector = (function() {
@@ -33284,7 +34014,7 @@ module.exports = Inflector = (function() {
 
 })();
 
-},{}],117:[function(require,module,exports){
+},{}],122:[function(require,module,exports){
 var JsPath,
   slice = [].slice;
 
@@ -33438,7 +34168,7 @@ module.exports = JsPath = (function() {
 
 
 
-},{}],118:[function(require,module,exports){
+},{}],123:[function(require,module,exports){
 // Copyright 2011 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -35107,7 +35837,7 @@ var MutationSummary = (function () {
 
 module.exports = MutationSummary
 
-},{}],119:[function(require,module,exports){
+},{}],124:[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -35180,7 +35910,7 @@ function throttle(func, wait, options) {
 
 module.exports = throttle;
 
-},{"lodash.debounce":120,"lodash.isfunction":123,"lodash.isobject":124}],120:[function(require,module,exports){
+},{"lodash.debounce":125,"lodash.isfunction":128,"lodash.isobject":129}],125:[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -35338,7 +36068,7 @@ function debounce(func, wait, options) {
 
 module.exports = debounce;
 
-},{"lodash.isfunction":123,"lodash.isobject":124,"lodash.now":121}],121:[function(require,module,exports){
+},{"lodash.isfunction":128,"lodash.isobject":129,"lodash.now":126}],126:[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -35368,7 +36098,7 @@ var now = isNative(now = Date.now) && now || function() {
 
 module.exports = now;
 
-},{"lodash._isnative":122}],122:[function(require,module,exports){
+},{"lodash._isnative":127}],127:[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -35404,7 +36134,7 @@ function isNative(value) {
 
 module.exports = isNative;
 
-},{}],123:[function(require,module,exports){
+},{}],128:[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -35433,7 +36163,7 @@ function isFunction(value) {
 
 module.exports = isFunction;
 
-},{}],124:[function(require,module,exports){
+},{}],129:[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -35474,7 +36204,7 @@ function isObject(value) {
 
 module.exports = isObject;
 
-},{"lodash._objecttypes":125}],125:[function(require,module,exports){
+},{"lodash._objecttypes":130}],130:[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -35496,7 +36226,7 @@ var objectTypes = {
 
 module.exports = objectTypes;
 
-},{}],126:[function(require,module,exports){
+},{}],131:[function(require,module,exports){
 /*global define:false */
 /**
  * Copyright 2013 Craig Campbell
@@ -36451,7 +37181,7 @@ module.exports = objectTypes;
     }
 }) (window, document);
 
-},{}],127:[function(require,module,exports){
+},{}],132:[function(require,module,exports){
 /**
  * adds a bindGlobal method to Mousetrap that allows you to
  * bind specific keyboard shortcuts that will still work
@@ -36489,7 +37219,7 @@ Mousetrap = (function(Mousetrap) {
     return Mousetrap;
 }) (Mousetrap);
 
-},{}],128:[function(require,module,exports){
+},{}],133:[function(require,module,exports){
 /**
  * This extension allows you to record a sequence using Mousetrap.
  *
@@ -36680,7 +37410,7 @@ Mousetrap = (function(Mousetrap) {
 
 })(Mousetrap);
 
-},{}],129:[function(require,module,exports){
+},{}],134:[function(require,module,exports){
 /*
  * node-timeago
  * Cam Pedersen

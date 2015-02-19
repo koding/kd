@@ -1,28 +1,44 @@
-KD = require '../../core/kd'
+KD               = require '../../core/kd'
 KDCustomHTMLView = require '../../core/customhtmlview'
 KDScrollView     = require './scrollview'
 KDScrollThumb    = require './scrollthumb'
 KDScrollTrack    = require './scrolltrack'
+Hammer           = require 'hammerjs'
 
 module.exports = class KDCustomScrollViewWrapper extends KDScrollView
 
-  SPACEBAR  = 32
-  PAGEUP    = 33
-  PAGEDOWN  = 34
-  END       = 35
-  HOME      = 36
 
   constructor: (options = {}, data) ->
 
-    options.bind = KD.utils.curry 'keydown', options.bind
-    options.attributes ?= {}
-    options.attributes.tabindex ?= "0"
-
-    @globalKeydownEventBound = no
-
     super options, data
 
-    @on 'MutationHappened', @bound "toggleGlobalKeydownEventOnSizeCheck"
+    return unless KD.utils.isTouchDevice()
+
+    hammer = new Hammer @getElement()
+    hammer.get('pan').set direction: Hammer.DIRECTION_ALL
+    prevDeltaX = prevDeltaY = 0
+
+    # temp solution
+    calculateEvent = (event) ->
+      event.stopPropagation = ->
+      event.preventDefault = ->
+      { velocityX, velocityY, deltaX, deltaY, direction } = event
+
+      currentDeltaX = deltaX
+      currentDeltaY = deltaY
+      currentVeloX  = Math.min .5, (velocityX * if direction is 16 then -1 else 1)
+      currentVeloY  = Math.min .5, (velocityY * if direction is 16 then -1 else 1)
+      event.deltaX  = (currentDeltaX - prevDeltaX) * currentVeloX
+      event.deltaY  = (currentDeltaY - prevDeltaY) * currentVeloY
+      prevDeltaX    = currentDeltaX
+      prevDeltaY    = currentDeltaY
+
+      return event
+
+    hammer.on 'panend pancancel', (event) -> prevDeltaX = prevDeltaY = 0
+    hammer.on 'panup pandown', (event) =>
+
+      @mouseWheel calculateEvent event
 
 
   scroll: (event) ->

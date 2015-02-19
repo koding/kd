@@ -18,7 +18,7 @@
 
 * browserified and re-listed on npm as `kd.js`
 * umd build (`dist/kd.js`) exposes only `kd` to global scope now on
-* we are [exporting all classes and methods](https://github.com/koding/kd/blob/1.0.2/lib/index.coffee) without the `KD` prefix
+* we are exporting all classes and methods without the `KD` prefix
 
 Example:
 
@@ -28,7 +28,7 @@ kd = require 'kd'
 class X extends kd.View
 ```
 
-* [Styl entry file](https://github.com/tetsuo/kd/blob/1.0.1/lib/styles/index.styl) is now being transpiled with `--include-css`
+* styl entry file is now being transpiled with `--include-css`
 * `test` & `docs` became obsolete and removed
 * `KD.EventEmitter.Wildcard` is changed to `kd.EventEmitterWildcard`
 * `underscore` is removed

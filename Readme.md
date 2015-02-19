@@ -44,6 +44,14 @@ main.addSubView(tabs);
 
 Type `make example` and go to http://localhost:3000/example. This also starts a `watchify` process, so any changes you make in `example/index.js` will be recompiled on the spot.
 
+# development
+
+To watch `lib` and build standalone umd package into `dist` folder upon changes, type: `make development-dist`
+
+If you want to recompile each coffee individually into `build` folder, type: `make development`
+
+Since `package.json` exposes only `build` folder; if you are bundling kd.js with browserify, second method (along with a `npm link`) might be a better option.
+
 # license
 
 mit

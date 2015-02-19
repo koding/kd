@@ -24,6 +24,18 @@ development:
 		--debug \
 		lib/index.coffee
 
+example: build-example
+	@$(BIN)/serve
+
+build-example: 
+	@$(BIN)/watchify \
+		-v \
+		-g coffeeify \
+		--extension=".coffee" \
+		--outfile example/bundle.js \
+		--debug \
+		example/index.js &
+
 js:
 	@$(BIN)/browserify \
 		-g coffeeify \
@@ -53,3 +65,4 @@ clean: clean_dist
 clean_dist:
 	@rm -fr dist
 
+.PHONY: example

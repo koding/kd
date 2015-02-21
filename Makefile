@@ -60,7 +60,7 @@ js:
 		--extension=".coffee" \
 		--outfile kd.js \
 		--standalone kd \
-		lib/index.coffee
+		index.coffee
 	@$(BIN)/uglifyjs kd.js \
 		--mangle -c hoist_vars=true,if_return=true \
 		--screw-ie8 \

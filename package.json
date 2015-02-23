@@ -34,7 +34,7 @@
     "del": "^1.1.0",
     "gulp-util": "^3.0.1",
     "gulp-concat": "^2.4.2",
-    "coffee-script": "^1.8.0",
+    "coffee-script": "1.8.0",
     "coffeeify": "~1.0.0",
     "minimist": "1.1.0",
     "gulp-if": "1.2.5",

@@ -20,7 +20,11 @@
   "author": "Koding, Inc. - Sinan Yasar",
   "license": "MIT",
   "dependencies": {
+    "jquery-mousewheel": "^3.1.12"
+  },
+  "devDependencies": {
     "gulp": "^3.8.10",
+    "bluebird": "^2.3.11",
     "gulp-coffee": "^2.2.0",
     "vinyl-source-stream": "^1.0.0",
     "gulp-rename": "^1.2.0",
@@ -36,11 +40,7 @@
     "gulp-if": "1.2.5",
     "gulp-buffer": "0.0.2",
     "browserify": "^7.0.0",
-    "jquery-mousewheel": "^3.1.12",
     "findit": "^2.0.0",
-    "bluebird": "^2.3.11"
-  },
-  "devDependencies": {
     "chai": "^1.10.0",
     "express": "^4.10.4",
     "gulp-karma": "0.0.4",

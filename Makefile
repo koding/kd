@@ -83,4 +83,4 @@ clean: clean_dist
 clean_dist:
 	@rm -fr dist
 
-.PHONY: example
+.PHONY: example dist

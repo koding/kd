@@ -1,10 +1,10 @@
 {
   "name": "kd.js",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "a collection of ui widgets and other nice things",
   "main": "build/lib/index.js",
   "scripts": {
-    "prepublish": "make clean prepublish"
+    "prepublish": "make clean dist prepublish"
   },
   "homepage": "http://kd.io",
   "repository": {

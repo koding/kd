@@ -1,3 +1,4 @@
+$ = require 'jquery'
 KD = require '../../core/kd'
 KDView        = require '../../core/view'
 KDOverlayView = require '../overlay/overlayview'

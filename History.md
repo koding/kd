@@ -1,10 +1,13 @@
 
+1.0.7 / 2015-02-27
+==================
+
+ * windowController: focusChange improved (https://github.com/tetsuo/kd/pull/5)
+
 1.0.6 / 2015-02-27
 ==================
 
- * Merge pull request #4 from alex-ionochkin/84974810-close-dialog-on-esc
- * Close dialog on ESC
- * npm: include dist
+ * Close dialog on ESC (https://github.com/tetsuo/kd/pull/4)
 
 1.0.3 / 2015-02-19
 ==================

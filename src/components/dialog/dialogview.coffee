@@ -19,6 +19,10 @@ module.exports = class KDDialogView extends KDView
     @bindTransitionEnd()
     @setButtons()
 
+    $(window).one "keydown.kddialogview",(event) =>
+      @hide()  if event.which is 27
+
+
   show:->
 
     KD.utils.defer =>
@@ -62,3 +66,9 @@ module.exports = class KDDialogView extends KDView
       callback    : buttonOptions.callback
 
     @buttons[title] = button
+
+
+  destroy: ->
+
+    $(window).off "keydown.kddialogview"
+    super

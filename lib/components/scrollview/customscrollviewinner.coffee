@@ -1,3 +1,4 @@
+$                = require 'jquery'
 KD               = require '../../core/kd'
 KDCustomHTMLView = require '../../core/customhtmlview'
 KDScrollView     = require './scrollview'
@@ -10,7 +11,15 @@ module.exports = class KDCustomScrollViewWrapper extends KDScrollView
 
   constructor: (options = {}, data) ->
 
+    options.bind = KD.utils.curry 'keydown', options.bind
+    options.attributes ?= {}
+    options.attributes.tabindex ?= "0"
+
+    @documentKeydownHandled = no
+
     super options, data
+
+    @on 'MutationHappened', @bound "handleDocumentKeydown"
 
     return unless KD.utils.isTouchDevice()
 
@@ -108,28 +117,19 @@ module.exports = class KDCustomScrollViewWrapper extends KDScrollView
       return shouldStop
 
 
-  toggleGlobalKeydownEventOnSizeCheck: ->
+  handleDocumentKeydown: ->
+
+    return  if @documentKeydownHandled
 
     winHeight = $(window).height()
-    needToBind = @getHeight() >= winHeight
-    @toggleGlobalKeydownEvent needToBind
-
-
-  toggleGlobalKeydownEvent: (needToBind) ->
-
-    eventName = "keydown.customscroll#{@getId()}"
-
-    if needToBind
-      $(document).on eventName, @bound "keyDown"  unless @globalKeydownEventBound
-    else
-      $(document).off eventName  if @globalKeydownEventBound
-
-    @globalKeydownEventBound = needToBind
+    if @getHeight() >= winHeight
+      @documentKeydownHandled = yes
+      $(document).on "keydown.customscroll#{@getId()}", @bound "keyDown"
 
 
   destroy: ->
 
-    @toggleGlobalKeydownEvent no
+    $(document).off "keydown.customscroll#{@getId()}"
     super
 
 
@@ -150,14 +150,14 @@ module.exports = class KDCustomScrollViewWrapper extends KDScrollView
     return yes  if @getScrollHeight() <= @verticalThumb.getTrackSize()
 
     shouldPropagate = no
-    if event.which is SPACEBAR and event.shiftKey
+    if event.which is 32 and event.shiftKey
       @pageUp()
     else
       switch event.which
-        when PAGEUP then @pageUp()
-        when SPACEBAR, PAGEDOWN then @pageDown()
-        when END then @scrollToBottom()
-        when HOME then @scrollTo top : 0
+        when 33 then @pageUp()
+        when 32, 34 then @pageDown()
+        when 35 then @scrollToBottom()
+        when 36 then @scrollTo top : 0
         else shouldPropagate = yes
 
     return shouldPropagate

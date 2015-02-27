@@ -3576,9 +3576,11 @@ module.exports = KDDiaScene = (function(superClass) {
 
 
 },{"../../core/customhtmlview":97,"../../core/kd":100,"../../core/view":106,"jquery":118,"lodash.throttle":125}],32:[function(require,module,exports){
-var KD, KDButtonView, KDDialogView, KDOverlayView, KDView,
+var $, KD, KDButtonView, KDDialogView, KDOverlayView, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
+
+$ = require('jquery');
 
 KD = require('../../core/kd');
 
@@ -3609,6 +3611,13 @@ module.exports = KDDialogView = (function(superClass) {
     KDDialogView.__super__.constructor.call(this, options, data);
     this.bindTransitionEnd();
     this.setButtons();
+    $(window).one("keydown.kddialogview", (function(_this) {
+      return function(event) {
+        if (event.which === 27) {
+          return _this.hide();
+        }
+      };
+    })(this));
   }
 
   KDDialogView.prototype.show = function() {
@@ -3666,13 +3675,18 @@ module.exports = KDDialogView = (function(superClass) {
     return this.buttons[title] = button;
   };
 
+  KDDialogView.prototype.destroy = function() {
+    $(window).off("keydown.kddialogview");
+    return KDDialogView.__super__.destroy.apply(this, arguments);
+  };
+
   return KDDialogView;
 
 })(KDView);
 
 
 
-},{"../../core/kd":100,"../../core/view":106,"../buttons/buttonview":19,"../overlay/overlayview":62}],33:[function(require,module,exports){
+},{"../../core/kd":100,"../../core/view":106,"../buttons/buttonview":19,"../overlay/overlayview":62,"jquery":118}],33:[function(require,module,exports){
 var $, JsPath, KD, KDFormView, KDInputView, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty,

@@ -1,4 +1,11 @@
 
+1.0.6 / 2015-02-27
+==================
+
+ * Merge pull request #4 from alex-ionochkin/84974810-close-dialog-on-esc
+ * Close dialog on ESC
+ * npm: include dist
+
 1.0.3 / 2015-02-19
 ==================
 

@@ -45,7 +45,7 @@ development: $(TARGETS)
 example: watch-example
 	@$(BIN)/serve
 
-watch-example: 
+watch-example:
 	@$(BIN)/watchify \
 		-v \
 		-g coffeeify \
@@ -64,8 +64,7 @@ js:
 	@$(BIN)/uglifyjs kd.js \
 		--mangle -c hoist_vars=true,if_return=true \
 		--screw-ie8 \
-		-o kd.min.js \
-		--source-map kd.min.map --source-map-include-sources
+		-o kd.min.js
 
 css:
 	@$(BIN)/stylus \
@@ -74,7 +73,6 @@ css:
 		lib/styles/index.styl \
 	| $(BIN)/cleancss \
 		--s0 \
-		--source-map \
 		--output kd.css
 
 clean: clean_dist

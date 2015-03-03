@@ -5,8 +5,6 @@
 
 .kdview.jtreeview
   display               none
-  // height                0
-  // vendor                transition, height .15s ease-in-out
   &.expanded
     display             block
     height              auto
@@ -49,40 +47,14 @@
 
 .kdtreeitemview.default
   height                  auto
-  // disabled volkan
-  // width                inherit
   font-size               11px
   noTextSelection()
 
   &:first-child
     margin-top            0px
   .title
-    // margin                1px 0
-    // padding               1px 3px
-    // border                1px solid transparent
-    // border-width          1px 0
-    // color                 #282828
-    // line-height           14px
-    // text-decoration       none
-    // rounded(4px)
-    // fl()
     &:hover
       text-decoration     underline
-
-  ////moved to app.treeview.styl
-  // span,a,.title
-  //   fl()
-  //
-  // span.icon
-  // span.arrow
-  //   kdfsprite()
-  //   margin 2px 3px
-  //   size(16px,16px)
-  //
-  // span.arrow
-  //   bg(position,20px 20px)
-  //   margin 2px 0 0 3px
-  //   size(10px,16px)
 
 .kdtreeitemview.default.has-subitems
   span.arrow
@@ -91,14 +63,6 @@
 .kdtreeitemview.default.has-subitems.expanded
   span.arrow
     bg(position,-40px 0)
-
-.kdtreeitemview.default.selected
-  .title
-    //border 1px solid transparent volkan
-    //border-width 1px 0
-    //color white
-    //text-shadow 0 1px 0 #282828 volkan
-    //gradient(#1A82F7,#009cff) volkan
 
 .kdtreeitemview.default.selected.dimmed
   .title

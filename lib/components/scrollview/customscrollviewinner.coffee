@@ -20,11 +20,11 @@ module.exports = class KDCustomScrollViewWrapper extends KDScrollView
     options.attributes ?= {}
     options.attributes.tabindex ?= "0"
 
-    @documentKeydownHandled = no
+    @globalKeydownEventBound = no
 
     super options, data
 
-    @on 'MutationHappened', @bound "handleDocumentKeydown"
+    @on 'MutationHappened', @bound "toggleGlobalKeydownEventOnSizeCheck"
 
     return unless KD.utils.isTouchDevice()
 
@@ -122,19 +122,28 @@ module.exports = class KDCustomScrollViewWrapper extends KDScrollView
       return shouldStop
 
 
-  handleDocumentKeydown: ->
-
-    return  if @documentKeydownHandled
+  toggleGlobalKeydownEventOnSizeCheck: ->
 
     winHeight = $(window).height()
-    if @getHeight() >= winHeight
-      @documentKeydownHandled = yes
-      $(document).on "keydown.customscroll#{@getId()}", @bound "keyDown"
+    needToBind = @getHeight() >= winHeight
+    @toggleGlobalKeydownEvent needToBind
+
+
+  toggleGlobalKeydownEvent: (needToBind) ->
+
+    eventName = "keydown.customscroll#{@getId()}"
+
+    if needToBind
+      $(document).on eventName, @bound "keyDown"  unless @globalKeydownEventBound
+    else
+      $(document).off eventName  if @globalKeydownEventBound
+
+    @globalKeydownEventBound = needToBind
 
 
   destroy: ->
 
-    $(document).off "keydown.customscroll#{@getId()}"
+    @toggleGlobalKeydownEvent no
     super
 
 

@@ -5,6 +5,25 @@ KDScrollTrack    = require './scrolltrack'
 
 module.exports = class KDCustomScrollViewWrapper extends KDScrollView
 
+  SPACEBAR  = 32
+  PAGEUP    = 33
+  PAGEDOWN  = 34
+  END       = 35
+  HOME      = 36
+
+  constructor: (options = {}, data) ->
+
+    options.bind = KD.utils.curry 'keydown', options.bind
+    options.attributes ?= {}
+    options.attributes.tabindex ?= "0"
+
+    @globalKeydownEventBound = no
+
+    super options, data
+
+    @on 'MutationHappened', @bound "toggleGlobalKeydownEventOnSizeCheck"
+
+
   scroll: (event) ->
 
     if @verticalThumb.beingDragged or @horizontalThumb.beingDragged
@@ -70,3 +89,58 @@ module.exports = class KDCustomScrollViewWrapper extends KDScrollView
       @setScrollLeft lastPosition = newPosition
 
       return shouldStop
+
+
+  toggleGlobalKeydownEventOnSizeCheck: ->
+
+    winHeight = $(window).height()
+    needToBind = @getHeight() >= winHeight
+    @toggleGlobalKeydownEvent needToBind
+
+
+  toggleGlobalKeydownEvent: (needToBind) ->
+
+    eventName = "keydown.customscroll#{@getId()}"
+
+    if needToBind
+      $(document).on eventName, @bound "keyDown"  unless @globalKeydownEventBound
+    else
+      $(document).off eventName  if @globalKeydownEventBound
+
+    @globalKeydownEventBound = needToBind
+
+
+  destroy: ->
+
+    @toggleGlobalKeydownEvent no
+    super
+
+
+  pageUp: ->
+    @scrollTo top : Math.max @getScrollTop() - @getHeight(), 0
+
+
+  pageDown: ->
+    @scrollTo top : @getScrollTop() + @getHeight()
+
+
+  keyDown: (event) ->
+
+    editables = "input,textarea,select,datalist,keygen,[contenteditable='true']"
+
+    return yes  if ($ document.activeElement).is editables
+    return yes  if not(@getDomElement().is ":visible")
+    return yes  if @getScrollHeight() <= @verticalThumb.getTrackSize()
+
+    shouldPropagate = no
+    if event.which is SPACEBAR and event.shiftKey
+      @pageUp()
+    else
+      switch event.which
+        when PAGEUP then @pageUp()
+        when SPACEBAR, PAGEDOWN then @pageDown()
+        when END then @scrollToBottom()
+        when HOME then @scrollTo top : 0
+        else shouldPropagate = yes
+
+    return shouldPropagate

@@ -8,7 +8,7 @@ Hammer           = require 'hammerjs'
 
 module.exports = class KDCustomScrollViewWrapper extends KDScrollView
 
-  BACKSPACE = 32
+  SPACEBAR  = 32
   PAGEUP    = 33
   PAGEDOWN  = 34
   END       = 35
@@ -164,12 +164,12 @@ module.exports = class KDCustomScrollViewWrapper extends KDScrollView
     return yes  if @getScrollHeight() <= @verticalThumb.getTrackSize()
 
     shouldPropagate = no
-    if event.which is BACKSPACE and event.shiftKey
+    if event.which is SPACEBAR and event.shiftKey
       @pageUp()
     else
       switch event.which
         when PAGEUP then @pageUp()
-        when BACKSPACE, PAGEDOWN then @pageDown()
+        when SPACEBAR, PAGEDOWN then @pageDown()
         when END then @scrollToBottom()
         when HOME then @scrollTo top : 0
         else shouldPropagate = yes

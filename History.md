@@ -2,7 +2,14 @@
 1.0.9 / 2015-03-04
 ==================
 
- * customscroll: keyboard handling (https://github.com/tetsuo/kd/pull/6)
+ * Merge pull request #6 from alex-ionochkin/82401098-custom-scroll-keyboard-handling
+ * customview: fix for incorrect constant name
+ * customscroll: document keydown event unbinding, refactoring
+ * customscroll: char code constants
+ * customscroll: keyboard handling
+ * Merge pull request #7 from sinan/get-rid-of-kdfsprite-and-sourcemaps-on-dist
+ * styles: get rid of kdfsprite() util
+ * dist: css/js w/o sourcemaps
 
 1.0.7 / 2015-02-27
 ==================

@@ -1,5 +1,5 @@
 
-1.0.8 / 2015-02-27
+1.0.9 / 2015-03-04
 ==================
 
  * customscroll: keyboard handling (https://github.com/tetsuo/kd/pull/6)

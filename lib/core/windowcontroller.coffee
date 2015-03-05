@@ -23,7 +23,6 @@ module.exports = class KDWindowController extends KDController
 
     @windowResizeListeners = {}
     @keyEventsToBeListened = ['keydown', 'keyup', 'keypress']
-    @currentCombos         = {}
     @keyView               = null
     @dragView              = null
     @layers                = []
@@ -254,10 +253,6 @@ module.exports = class KDWindowController extends KDController
   getKeyView:-> @keyView
 
   key:(event)->
-    # log event.type, @keyView.constructor.name, @keyView.getOptions().name
-    # if Object.keys(@currentCombos).length > 0
-    #   return yes
-    # else
     @emit event.type, event
     @keyView?.handleEvent event
 

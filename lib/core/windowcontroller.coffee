@@ -182,21 +182,6 @@ module.exports = class KDWindowController extends KDController
       @setKeyView @oldKeyView
 
 
-  viewHasKeyCombos:(view)->
-
-    return unless view
-
-    o      = view.getOptions()
-    combos = {}
-
-    for e in @keyEventsToBeListened
-      if "object" is typeof o[e]
-        for own combo, cb of o[e]
-          combos[combo] = cb
-
-    return if Object.keys(combos).length > 0 then combos else no
-
-
   setKeyView:(keyView)->
     keyView?.activateKeyView?()
     return if keyView is @keyView

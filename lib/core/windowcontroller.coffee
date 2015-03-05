@@ -1,17 +1,19 @@
-$ = require 'jquery'
-KD = require './kd'
+$                  = require 'jquery'
+KD                 = require './kd'
 KDKeyboardListener = require './keyboard/listener'
-KDKeyboardMap = require './keyboard/map'
+KDKeyboardMap      = require './keyboard/map'
+KDController       = require './controller'
+
 ###
 todo:
 
   - make addLayer implementation more clear, by default adding a layer
     should set a listener for next ReceivedClickElsewhere and remove the layer automatically
     2012/5/21 Sinan
+  - do not self-invoke (:293) -og
 
 ###
 
-KDController = require './controller'
 
 module.exports = class KDWindowController extends KDController
 
@@ -34,6 +36,7 @@ module.exports = class KDWindowController extends KDController
 
     super options, data
 
+
   addLayer: (layer)->
 
     unless layer in @layers
@@ -42,12 +45,14 @@ module.exports = class KDWindowController extends KDController
       layer.on 'KDObjectWillBeDestroyed', =>
         @removeLayer layer
 
+
   removeLayer: (layer)->
 
     if layer in @layers
       # log "layer removed", layer
       index = @layers.indexOf(layer)
       @layers.splice index, 1
+
 
   bindEvents:->
 
@@ -120,9 +125,11 @@ module.exports = class KDWindowController extends KDController
     window.onfocus = @bound 'focusChange'
     window.onblur  = @bound 'focusChange'
 
+
   addUnloadListener:(key, listener)->
     @unloadListeners[key] or= []
     @unloadListeners[key].push listener
+
 
   clearUnloadListeners: (key)->
 
@@ -133,7 +140,9 @@ module.exports = class KDWindowController extends KDController
 
   isFocused: -> @focused
 
+
   addFocusListener: (listener)-> @focusListeners.push listener
+
 
   focusChange: (event)->
 
@@ -164,7 +173,9 @@ module.exports = class KDWindowController extends KDController
 
   setMainView:(@mainView)->
 
+
   getMainView:(view)-> @mainView
+
 
   revertKeyView:(view)->
 
@@ -175,6 +186,7 @@ module.exports = class KDWindowController extends KDController
     if view is @keyView and @keyView isnt @oldKeyView
       @setKeyView @oldKeyView
 
+
   superizeCombos = (combos)->
 
     safeCombos = {}
@@ -184,6 +196,7 @@ module.exports = class KDWindowController extends KDController
       safeCombos[combo] = cb
 
     return safeCombos
+
 
   viewHasKeyCombos:(view)->
 
@@ -199,21 +212,22 @@ module.exports = class KDWindowController extends KDController
 
     return if Object.keys(combos).length > 0 then combos else no
 
+
   registerKeyCombos:(view)->
     combos = @viewHasKeyCombos view
     if combos?
       @comboMap = new KDKeyboardMap { combos }
       KDKeyboardListener.current().addComboMap @comboMap
 
+
   unregisterKeyCombos:->
     KDKeyboardListener.current().removeComboMap @comboMap
     @keyView.unsetClass "mousetrap" if @keyView
 
+
   setKeyView:(keyView)->
     keyView?.activateKeyView?()
     return if keyView is @keyView
-    # unless keyView
-    # log keyView, "keyView" if keyView
 
     @unregisterKeyCombos()
     @oldKeyView = @keyView
@@ -223,10 +237,12 @@ module.exports = class KDWindowController extends KDController
     keyView?.activateKeyView?()
     @emit 'WindowChangeKeyView', keyView
 
+
   setDragView:(dragView)->
 
     @setDragInAction yes
     @dragView = dragView
+
 
   unsetDragView:(e)->
 
@@ -250,19 +266,24 @@ module.exports = class KDWindowController extends KDController
 
     view.drag event, delta
 
+
   getKeyView:-> @keyView
+
 
   key:(event)->
     @emit event.type, event
     @keyView?.handleEvent event
+
 
   registerWindowResizeListener:(instance)->
     @windowResizeListeners[instance.id] = instance
     instance.on "KDObjectWillBeDestroyed", =>
       @windowResizeListeners[instance.id] = null
 
+
   unregisterWindowResizeListener:(instance)->
     @windowResizeListeners[instance.id] = null
+
 
   notifyWindowResizeListeners: (event)->
     event or= type : "resize"

@@ -15,7 +15,6 @@ KDController = require './controller'
 
 module.exports = class KDWindowController extends KDController
 
-  @keyViewHistory = []
   superKey        = if navigator.userAgent.indexOf("Mac OS X") is -1 then "ctrl" else "command"
   addListener     = (eventName, listener, capturePhase = yes) ->
     window.addEventListener eventName, listener, capturePhase
@@ -221,8 +220,6 @@ module.exports = class KDWindowController extends KDController
     @oldKeyView = @keyView
     @keyView    = keyView
     @registerKeyCombos keyView
-
-    @constructor.keyViewHistory.push keyView
 
     keyView?.activateKeyView?()
     @emit 'WindowChangeKeyView', keyView

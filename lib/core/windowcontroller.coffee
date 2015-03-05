@@ -17,7 +17,6 @@ todo:
 
 module.exports = class KDWindowController extends KDController
 
-  superKey        = if navigator.userAgent.indexOf("Mac OS X") is -1 then "ctrl" else "command"
   addListener     = (eventName, listener, capturePhase = yes) ->
     window.addEventListener eventName, listener, capturePhase
 
@@ -185,17 +184,6 @@ module.exports = class KDWindowController extends KDController
 
     if view is @keyView and @keyView isnt @oldKeyView
       @setKeyView @oldKeyView
-
-
-  superizeCombos = (combos)->
-
-    safeCombos = {}
-    for own combo, cb of combos
-      if /\bsuper(\+|\s)/.test combo
-        combo = combo.replace /super/g, superKey
-      safeCombos[combo] = cb
-
-    return safeCombos
 
 
   viewHasKeyCombos:(view)->

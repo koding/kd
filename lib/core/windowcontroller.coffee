@@ -37,7 +37,6 @@ module.exports = class KDWindowController extends KDController
   addLayer: (layer)->
 
     unless layer in @layers
-      # log "layer added", layer
       @layers.push layer
       layer.on 'KDObjectWillBeDestroyed', =>
         @removeLayer layer
@@ -46,7 +45,6 @@ module.exports = class KDWindowController extends KDController
   removeLayer: (layer)->
 
     if layer in @layers
-      # log "layer removed", layer
       index = @layers.indexOf(layer)
       @layers.splice index, 1
 

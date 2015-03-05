@@ -1,7 +1,5 @@
 $                  = require 'jquery'
 KD                 = require './kd'
-KDKeyboardListener = require './keyboard/listener'
-KDKeyboardMap      = require './keyboard/map'
 KDController       = require './controller'
 
 ###
@@ -201,26 +199,12 @@ module.exports = class KDWindowController extends KDController
     return if Object.keys(combos).length > 0 then combos else no
 
 
-  registerKeyCombos:(view)->
-    combos = @viewHasKeyCombos view
-    if combos?
-      @comboMap = new KDKeyboardMap { combos }
-      KDKeyboardListener.current().addComboMap @comboMap
-
-
-  unregisterKeyCombos:->
-    KDKeyboardListener.current().removeComboMap @comboMap
-    @keyView.unsetClass "mousetrap" if @keyView
-
-
   setKeyView:(keyView)->
     keyView?.activateKeyView?()
     return if keyView is @keyView
 
-    @unregisterKeyCombos()
     @oldKeyView = @keyView
     @keyView    = keyView
-    @registerKeyCombos keyView
 
     keyView?.activateKeyView?()
     @emit 'WindowChangeKeyView', keyView

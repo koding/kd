@@ -31,7 +31,6 @@
     "kd-shim-jspath": "^0.1.0",
     "kd-shim-mutation-summary": "^0.1.0",
     "lodash.throttle": "^2.4.1",
-    "mousetrap": "^1.4.6",
     "timeago": "^0.2.0"
   },
   "devDependencies": {
@@ -50,8 +49,6 @@
     "canvas-loader": "kd-shim-canvas-loader",
     "inflector": "kd-shim-inflector",
     "jspath": "kd-shim-jspath",
-    "mutation-summary": "kd-shim-mutation-summary",
-    "mousetrap-global-bind": "mousetrap/plugins/global-bind/mousetrap-global-bind.js",
-    "mousetrap-record": "mousetrap/plugins/record/mousetrap-record.js"
+    "mutation-summary": "kd-shim-mutation-summary"
   }
 }

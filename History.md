@@ -1,4 +1,10 @@
 
+1.0.10 / 2015-03-08
+==================
+
+ * Merge pull request #8 from tetsuo/bump-up-jspath
+ * npm: bump up jspath
+
 1.0.9 / 2015-03-04
 ==================
 

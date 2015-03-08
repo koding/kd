@@ -9608,9 +9608,11 @@ module.exports = KDCustomScrollView = (function(superClass) {
 
 
 },{"../../core/customhtmlview":97,"../../core/kd":100,"./customscrollviewinner":66,"./scrolltrack":68}],66:[function(require,module,exports){
-var Hammer, KD, KDCustomHTMLView, KDCustomScrollViewWrapper, KDScrollThumb, KDScrollTrack, KDScrollView,
+var $, Hammer, KD, KDCustomHTMLView, KDCustomScrollViewWrapper, KDScrollThumb, KDScrollTrack, KDScrollView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
+
+$ = require('jquery');
 
 KD = require('../../core/kd');
 
@@ -9625,14 +9627,35 @@ KDScrollTrack = require('./scrolltrack');
 Hammer = require('hammerjs');
 
 module.exports = KDCustomScrollViewWrapper = (function(superClass) {
+  var END, HOME, PAGEDOWN, PAGEUP, SPACEBAR;
+
   extend(KDCustomScrollViewWrapper, superClass);
 
+  SPACEBAR = 32;
+
+  PAGEUP = 33;
+
+  PAGEDOWN = 34;
+
+  END = 35;
+
+  HOME = 36;
+
   function KDCustomScrollViewWrapper(options, data) {
-    var calculateEvent, hammer, prevDeltaX, prevDeltaY;
+    var base, calculateEvent, hammer, prevDeltaX, prevDeltaY;
     if (options == null) {
       options = {};
     }
+    options.bind = KD.utils.curry('keydown', options.bind);
+    if (options.attributes == null) {
+      options.attributes = {};
+    }
+    if ((base = options.attributes).tabindex == null) {
+      base.tabindex = "0";
+    }
+    this.globalKeydownEventBound = false;
     KDCustomScrollViewWrapper.__super__.constructor.call(this, options, data);
+    this.on('MutationHappened', this.bound("toggleGlobalKeydownEventOnSizeCheck"));
     if (!KD.utils.isTouchDevice()) {
       return;
     }
@@ -9724,13 +9747,91 @@ module.exports = KDCustomScrollViewWrapper = (function(superClass) {
     };
   })();
 
+  KDCustomScrollViewWrapper.prototype.toggleGlobalKeydownEventOnSizeCheck = function() {
+    var needToBind, winHeight;
+    winHeight = $(window).height();
+    needToBind = this.getHeight() >= winHeight;
+    return this.toggleGlobalKeydownEvent(needToBind);
+  };
+
+  KDCustomScrollViewWrapper.prototype.toggleGlobalKeydownEvent = function(needToBind) {
+    var eventName;
+    eventName = "keydown.customscroll" + (this.getId());
+    if (needToBind) {
+      if (!this.globalKeydownEventBound) {
+        $(document).on(eventName, this.bound("keyDown"));
+      }
+    } else {
+      if (this.globalKeydownEventBound) {
+        $(document).off(eventName);
+      }
+    }
+    return this.globalKeydownEventBound = needToBind;
+  };
+
+  KDCustomScrollViewWrapper.prototype.destroy = function() {
+    this.toggleGlobalKeydownEvent(false);
+    return KDCustomScrollViewWrapper.__super__.destroy.apply(this, arguments);
+  };
+
+  KDCustomScrollViewWrapper.prototype.pageUp = function() {
+    return this.scrollTo({
+      top: Math.max(this.getScrollTop() - this.getHeight(), 0)
+    });
+  };
+
+  KDCustomScrollViewWrapper.prototype.pageDown = function() {
+    return this.scrollTo({
+      top: this.getScrollTop() + this.getHeight()
+    });
+  };
+
+  KDCustomScrollViewWrapper.prototype.keyDown = function(event) {
+    var editables, shouldPropagate;
+    editables = "input,textarea,select,datalist,keygen,[contenteditable='true']";
+    if (($(document.activeElement)).is(editables)) {
+      return true;
+    }
+    if (!(this.getDomElement().is(":visible"))) {
+      return true;
+    }
+    if (this.getScrollHeight() <= this.verticalThumb.getTrackSize()) {
+      return true;
+    }
+    shouldPropagate = false;
+    if (event.which === SPACEBAR && event.shiftKey) {
+      this.pageUp();
+    } else {
+      switch (event.which) {
+        case PAGEUP:
+          this.pageUp();
+          break;
+        case SPACEBAR:
+        case PAGEDOWN:
+          this.pageDown();
+          break;
+        case END:
+          this.scrollToBottom();
+          break;
+        case HOME:
+          this.scrollTo({
+            top: 0
+          });
+          break;
+        default:
+          shouldPropagate = true;
+      }
+    }
+    return shouldPropagate;
+  };
+
   return KDCustomScrollViewWrapper;
 
 })(KDScrollView);
 
 
 
-},{"../../core/customhtmlview":97,"../../core/kd":100,"./scrollthumb":67,"./scrolltrack":68,"./scrollview":69,"hammerjs":114}],67:[function(require,module,exports){
+},{"../../core/customhtmlview":97,"../../core/kd":100,"./scrollthumb":67,"./scrolltrack":68,"./scrollview":69,"hammerjs":114,"jquery":118}],67:[function(require,module,exports){
 var KD, KDScrollThumb, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -18349,6 +18450,7 @@ process.browser = true;
 process.env = {};
 process.argv = [];
 process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
 
 function noop() {}
 
@@ -34027,7 +34129,7 @@ module.exports = Inflector = (function() {
 
 },{}],123:[function(require,module,exports){
 var JsPath,
-  slice = [].slice;
+  __slice = [].slice;
 
 module.exports = JsPath = (function() {
   var primTypes;
@@ -34054,7 +34156,7 @@ module.exports = JsPath = (function() {
   ['forEach', 'indexOf', 'join', 'pop', 'reverse', 'shift', 'sort', 'splice', 'unshift', 'push'].forEach(function(method) {
     return JsPath[method + 'At'] = function() {
       var obj, path, rest, target;
-      obj = arguments[0], path = arguments[1], rest = 3 <= arguments.length ? slice.call(arguments, 2) : [];
+      obj = arguments[0], path = arguments[1], rest = 3 <= arguments.length ? __slice.call(arguments, 2) : [];
       target = JsPath.getAt(obj, path);
       if ('function' === typeof (target != null ? target[method] : void 0)) {
         return target[method].apply(target, rest);
@@ -34107,7 +34209,7 @@ module.exports = JsPath = (function() {
    */
 
   JsPath.setAt = function(obj, path, val) {
-    var component, i, last, len, prev, ref;
+    var component, last, prev, ref, _i, _len;
     if ('function' === typeof path.split) {
       path = path.split('.');
     } else {
@@ -34116,10 +34218,10 @@ module.exports = JsPath = (function() {
     last = path.pop();
     prev = [];
     ref = obj;
-    for (i = 0, len = path.length; i < len; i++) {
-      component = path[i];
+    for (_i = 0, _len = path.length; _i < _len; _i++) {
+      component = path[_i];
       if (primTypes.test(typeof ref[component])) {
-        throw new Error((prev.concat(component).join('.')) + " is\nprimitive, and cannot be extended.");
+        throw new Error("" + (prev.concat(component).join('.')) + " is\nprimitive, and cannot be extended.");
       }
       ref = ref[component] || (ref[component] = {});
       prev.push(component);
@@ -34152,7 +34254,7 @@ module.exports = JsPath = (function() {
    */
 
   JsPath.deleteAt = function(ref, path) {
-    var component, i, last, len, prev;
+    var component, last, prev, _i, _len;
     if ('function' === typeof path.split) {
       path = path.split('.');
     } else {
@@ -34160,10 +34262,10 @@ module.exports = JsPath = (function() {
     }
     prev = [];
     last = path.pop();
-    for (i = 0, len = path.length; i < len; i++) {
-      component = path[i];
+    for (_i = 0, _len = path.length; _i < _len; _i++) {
+      component = path[_i];
       if (primTypes.test(typeof ref[component])) {
-        throw new Error((prev.concat(component).join('.')) + " is\nprimitive; cannot drill any deeper.");
+        throw new Error("" + (prev.concat(component).join('.')) + " is\nprimitive; cannot drill any deeper.");
       }
       if (!(ref = ref[component])) {
         return false;
@@ -34176,8 +34278,6 @@ module.exports = JsPath = (function() {
   return JsPath;
 
 })();
-
-
 
 },{}],124:[function(require,module,exports){
 // Copyright 2011 Google Inc.

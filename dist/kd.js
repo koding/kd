@@ -18450,7 +18450,6 @@ process.browser = true;
 process.env = {};
 process.argv = [];
 process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
 
 function noop() {}
 
@@ -34129,7 +34128,7 @@ module.exports = Inflector = (function() {
 
 },{}],123:[function(require,module,exports){
 var JsPath,
-  __slice = [].slice;
+  slice = [].slice;
 
 module.exports = JsPath = (function() {
   var primTypes;
@@ -34156,7 +34155,7 @@ module.exports = JsPath = (function() {
   ['forEach', 'indexOf', 'join', 'pop', 'reverse', 'shift', 'sort', 'splice', 'unshift', 'push'].forEach(function(method) {
     return JsPath[method + 'At'] = function() {
       var obj, path, rest, target;
-      obj = arguments[0], path = arguments[1], rest = 3 <= arguments.length ? __slice.call(arguments, 2) : [];
+      obj = arguments[0], path = arguments[1], rest = 3 <= arguments.length ? slice.call(arguments, 2) : [];
       target = JsPath.getAt(obj, path);
       if ('function' === typeof (target != null ? target[method] : void 0)) {
         return target[method].apply(target, rest);
@@ -34209,7 +34208,7 @@ module.exports = JsPath = (function() {
    */
 
   JsPath.setAt = function(obj, path, val) {
-    var component, last, prev, ref, _i, _len;
+    var component, i, last, len, prev, ref;
     if ('function' === typeof path.split) {
       path = path.split('.');
     } else {
@@ -34218,10 +34217,10 @@ module.exports = JsPath = (function() {
     last = path.pop();
     prev = [];
     ref = obj;
-    for (_i = 0, _len = path.length; _i < _len; _i++) {
-      component = path[_i];
+    for (i = 0, len = path.length; i < len; i++) {
+      component = path[i];
       if (primTypes.test(typeof ref[component])) {
-        throw new Error("" + (prev.concat(component).join('.')) + " is\nprimitive, and cannot be extended.");
+        throw new Error((prev.concat(component).join('.')) + " is\nprimitive, and cannot be extended.");
       }
       ref = ref[component] || (ref[component] = {});
       prev.push(component);
@@ -34254,7 +34253,7 @@ module.exports = JsPath = (function() {
    */
 
   JsPath.deleteAt = function(ref, path) {
-    var component, last, prev, _i, _len;
+    var component, i, last, len, prev;
     if ('function' === typeof path.split) {
       path = path.split('.');
     } else {
@@ -34262,10 +34261,10 @@ module.exports = JsPath = (function() {
     }
     prev = [];
     last = path.pop();
-    for (_i = 0, _len = path.length; _i < _len; _i++) {
-      component = path[_i];
+    for (i = 0, len = path.length; i < len; i++) {
+      component = path[i];
       if (primTypes.test(typeof ref[component])) {
-        throw new Error("" + (prev.concat(component).join('.')) + " is\nprimitive; cannot drill any deeper.");
+        throw new Error((prev.concat(component).join('.')) + " is\nprimitive; cannot drill any deeper.");
       }
       if (!(ref = ref[component])) {
         return false;
@@ -34278,6 +34277,8 @@ module.exports = JsPath = (function() {
   return JsPath;
 
 })();
+
+
 
 },{}],124:[function(require,module,exports){
 // Copyright 2011 Google Inc.

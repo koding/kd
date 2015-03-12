@@ -3,7 +3,7 @@ module.exports = require('./lib');
 
 
 
-},{"./lib":109}],2:[function(require,module,exports){
+},{"./lib":107}],2:[function(require,module,exports){
 var $, KD, KDAutoComplete, KDInputView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -95,7 +95,7 @@ module.exports = KDAutoComplete = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"../inputs/inputview":45,"jquery":118}],3:[function(require,module,exports){
+},{"../../core/kd":100,"../inputs/inputview":45,"jquery":116}],3:[function(require,module,exports){
 var $, Inflector, JsPath, KD, KDAutoComplete, KDAutoCompleteController, KDAutoCompleteFetchingItem, KDAutoCompleteListItemView, KDAutoCompleteListView, KDAutoCompleteNothingFoundItem, KDAutoCompletedItem, KDInputView, KDLabelView, KDListViewController, KDNotificationView, KDView, KDViewController,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty,
@@ -615,7 +615,7 @@ module.exports = KDAutoCompleteController = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"../../core/view":106,"../../core/viewcontroller":107,"../inputs/inputview":45,"../inputs/labelview":46,"../list/listviewcontroller":55,"../notifications/notificationview":61,"./autocomplete":2,"./autocompleteditems":4,"./autocompletefetchingitem":5,"./autocompletelist":6,"./autocompletelistitem":7,"./autocompletenothingfounditem":8,"inflector":122,"jquery":118,"jspath":123}],4:[function(require,module,exports){
+},{"../../core/kd":100,"../../core/view":104,"../../core/viewcontroller":105,"../inputs/inputview":45,"../inputs/labelview":46,"../list/listviewcontroller":55,"../notifications/notificationview":61,"./autocomplete":2,"./autocompleteditems":4,"./autocompletefetchingitem":5,"./autocompletelist":6,"./autocompletelistitem":7,"./autocompletenothingfounditem":8,"inflector":120,"jquery":116,"jspath":121}],4:[function(require,module,exports){
 var $, KDAutoCompletedItem, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -656,7 +656,7 @@ module.exports = KDAutoCompletedItem = (function(superClass) {
 
 
 
-},{"../../core/view":106,"jquery":118}],5:[function(require,module,exports){
+},{"../../core/view":104,"jquery":116}],5:[function(require,module,exports){
 var KD, KDAutoCompleteFetchingItem, KDAutocompleteUnselecteableItem,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -942,7 +942,7 @@ module.exports = MultipleInputListView = (function(superClass) {
 
 
 
-},{"../list/listview":53,"./multiplelistitemview":12,"jquery":118}],11:[function(require,module,exports){
+},{"../list/listview":53,"./multiplelistitemview":12,"jquery":116}],11:[function(require,module,exports){
 var $, KD, KDInputView, KDMultipleInputView, KDSimpleAutocomplete, MultipleInputListView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty,
@@ -1077,7 +1077,7 @@ module.exports = KDMultipleInputView = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"../inputs/inputview":45,"./multipleinputlistview":10,"./simpleautocomplete":15,"jquery":118}],12:[function(require,module,exports){
+},{"../../core/kd":100,"../inputs/inputview":45,"./multipleinputlistview":10,"./simpleautocomplete":15,"jquery":116}],12:[function(require,module,exports){
 var $, KDListItemView, MultipleListItemView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -1113,7 +1113,7 @@ module.exports = MultipleListItemView = (function(superClass) {
 
 
 
-},{"../list/listitemview":52,"jquery":118}],13:[function(require,module,exports){
+},{"../list/listitemview":52,"jquery":116}],13:[function(require,module,exports){
 var $, KDMultipleInputView, NoAutocompleteInputView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -1151,7 +1151,7 @@ module.exports = NoAutocompleteInputView = (function(superClass) {
 
 
 
-},{"./multipleinputview":11,"jquery":118}],14:[function(require,module,exports){
+},{"./multipleinputview":11,"jquery":116}],14:[function(require,module,exports){
 var $, KDButtonView, KDCustomHTMLView, KDNoAutocompleteInputView, KDView, NoAutocompleteMultipleListView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -1216,7 +1216,7 @@ module.exports = NoAutocompleteMultipleListView = (function(superClass) {
 
 
 
-},{"../../core/customhtmlview":97,"../../core/view":106,"../buttons/buttonview":19,"./noautocompleteinputview":13,"jquery":118}],15:[function(require,module,exports){
+},{"../../core/customhtmlview":97,"../../core/view":104,"../buttons/buttonview":19,"./noautocompleteinputview":13,"jquery":116}],15:[function(require,module,exports){
 var JsPath, KDAutoComplete, KDSimpleAutocomplete,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -1256,7 +1256,7 @@ module.exports = KDSimpleAutocomplete = (function(superClass) {
 
 
 
-},{"./autocomplete":2,"jspath":123}],16:[function(require,module,exports){
+},{"./autocomplete":2,"jspath":121}],16:[function(require,module,exports){
 var $, KD, KDButtonBar, KDButtonView, KDFormView, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -1309,7 +1309,7 @@ module.exports = KDButtonBar = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"../../core/view":106,"../forms/formview":33,"./buttonview":19,"jquery":118}],17:[function(require,module,exports){
+},{"../../core/kd":100,"../../core/view":104,"../forms/formview":33,"./buttonview":19,"jquery":116}],17:[function(require,module,exports){
 var KDButtonGroupView, KDButtonView, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -1371,7 +1371,7 @@ module.exports = KDButtonGroupView = (function(superClass) {
 
 
 
-},{"../../core/view":106,"./buttonview":19}],18:[function(require,module,exports){
+},{"../../core/view":104,"./buttonview":19}],18:[function(require,module,exports){
 var $, JButtonMenu, JContextMenuTreeView, KD, KDContextMenu,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -1432,7 +1432,7 @@ module.exports = JButtonMenu = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"../contextmenu/contextmenu":22,"../contextmenu/contextmenutreeview":24,"jquery":118}],19:[function(require,module,exports){
+},{"../../core/kd":100,"../contextmenu/contextmenu":22,"../contextmenu/contextmenutreeview":24,"jquery":116}],19:[function(require,module,exports){
 var $, KD, KDButtonView, KDLoaderView, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -1748,7 +1748,7 @@ module.exports = KDButtonView = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"../../core/view":106,"../loader/loaderview":56,"jquery":118}],20:[function(require,module,exports){
+},{"../../core/kd":100,"../../core/view":104,"../loader/loaderview":56,"jquery":116}],20:[function(require,module,exports){
 var $, JButtonMenu, KDButtonView, KDButtonViewWithMenu,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -1874,7 +1874,7 @@ module.exports = KDButtonViewWithMenu = (function(superClass) {
 
 
 
-},{"./buttonmenu":18,"./buttonview":19,"jquery":118}],21:[function(require,module,exports){
+},{"./buttonmenu":18,"./buttonview":19,"jquery":116}],21:[function(require,module,exports){
 var $, KD, KDButtonView, KDToggleButton,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -1965,7 +1965,7 @@ module.exports = KDToggleButton = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"./buttonview":19,"jquery":118}],22:[function(require,module,exports){
+},{"../../core/kd":100,"./buttonview":19,"jquery":116}],22:[function(require,module,exports){
 var JContextMenuTreeViewController, KD, KDContextMenu, KDCustomHTMLView, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -2179,7 +2179,7 @@ module.exports = KDContextMenu = (function(superClass) {
 
 
 
-},{"../../core/customhtmlview":97,"../../core/kd":100,"../../core/view":106,"./contextmenutreeviewcontroller":25}],23:[function(require,module,exports){
+},{"../../core/customhtmlview":97,"../../core/kd":100,"../../core/view":104,"./contextmenutreeviewcontroller":25}],23:[function(require,module,exports){
 var JContextMenuItem, JTreeItemView, KD, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -2247,7 +2247,7 @@ module.exports = JContextMenuItem = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"../../core/view":106,"../tree/treeitemview":86}],24:[function(require,module,exports){
+},{"../../core/kd":100,"../../core/view":104,"../tree/treeitemview":86}],24:[function(require,module,exports){
 var JContextMenuTreeView, JTreeView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -2554,7 +2554,7 @@ module.exports = JContextMenuTreeViewController = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"../../core/view":106,"../tree/treeviewcontroller":88,"./contextmenuitem":23,"./contextmenutreeview":24}],26:[function(require,module,exports){
+},{"../../core/kd":100,"../../core/view":104,"../tree/treeviewcontroller":88,"./contextmenuitem":23,"./contextmenutreeview":24}],26:[function(require,module,exports){
 var KD, KDCounterDigitView, KDCustomHTMLView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -2719,7 +2719,7 @@ module.exports = KDCounterView = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"../../core/view":106,"./counterdigitview":26}],28:[function(require,module,exports){
+},{"../../core/kd":100,"../../core/view":104,"./counterdigitview":26}],28:[function(require,module,exports){
 var KD, KDDiaContainer, KDDiaObject, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -2836,7 +2836,7 @@ module.exports = KDDiaContainer = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"../../core/view":106,"./diaobject":30}],29:[function(require,module,exports){
+},{"../../core/kd":100,"../../core/view":104,"./diaobject":30}],29:[function(require,module,exports){
 var KD, KDDiaJoint, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty,
@@ -2929,7 +2929,7 @@ module.exports = KDDiaJoint = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"../../core/view":106}],30:[function(require,module,exports){
+},{"../../core/kd":100,"../../core/view":104}],30:[function(require,module,exports){
 var KD, KDDiaJoint, KDDiaObject, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty,
@@ -3090,7 +3090,7 @@ module.exports = KDDiaObject = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"../../core/view":106,"./diajoint":29}],31:[function(require,module,exports){
+},{"../../core/kd":100,"../../core/view":104,"./diajoint":29}],31:[function(require,module,exports){
 var $, KD, KDCustomHTMLView, KDDiaScene, KDView, _throttle,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty,
@@ -3575,7 +3575,7 @@ module.exports = KDDiaScene = (function(superClass) {
 
 
 
-},{"../../core/customhtmlview":97,"../../core/kd":100,"../../core/view":106,"jquery":118,"lodash.throttle":125}],32:[function(require,module,exports){
+},{"../../core/customhtmlview":97,"../../core/kd":100,"../../core/view":104,"jquery":116,"lodash.throttle":123}],32:[function(require,module,exports){
 var $, KD, KDButtonView, KDDialogView, KDOverlayView, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -3686,7 +3686,7 @@ module.exports = KDDialogView = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"../../core/view":106,"../buttons/buttonview":19,"../overlay/overlayview":62,"jquery":118}],33:[function(require,module,exports){
+},{"../../core/kd":100,"../../core/view":104,"../buttons/buttonview":19,"../overlay/overlayview":62,"jquery":116}],33:[function(require,module,exports){
 var $, JsPath, KD, KDFormView, KDInputView, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty,
@@ -3921,7 +3921,7 @@ module.exports = KDFormView = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"../../core/view":106,"../inputs/inputview":45,"jquery":118,"jspath":123}],34:[function(require,module,exports){
+},{"../../core/kd":100,"../../core/view":104,"../inputs/inputview":45,"jquery":116,"jspath":121}],34:[function(require,module,exports){
 var KD, KDButtonBar, KDCustomHTMLView, KDFormView, KDFormViewWithFields, KDInputView, KDLabelView, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -4049,7 +4049,7 @@ module.exports = KDFormViewWithFields = (function(superClass) {
 
 
 
-},{"../../core/customhtmlview":97,"../../core/kd":100,"../../core/view":106,"../buttons/buttonbar":16,"../inputs/inputview":45,"../inputs/labelview":46,"./formview":33}],35:[function(require,module,exports){
+},{"../../core/customhtmlview":97,"../../core/kd":100,"../../core/view":104,"../buttons/buttonbar":16,"../inputs/inputview":45,"../inputs/labelview":46,"./formview":33}],35:[function(require,module,exports){
 var KDHeaderView, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -4153,7 +4153,7 @@ module.exports = KDHeaderView = (function(superClass) {
 
 
 
-},{"../../core/view":106}],36:[function(require,module,exports){
+},{"../../core/view":104}],36:[function(require,module,exports){
 var KD, KDButtonView, KDCustomHTMLView, KDView, KDWebcamView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -4419,7 +4419,7 @@ module.exports = KDWebcamView = (function(superClass) {
 
 
 
-},{"../../core/customhtmlview":97,"../../core/kd":100,"../../core/view":106,"../buttons/buttonview":19}],37:[function(require,module,exports){
+},{"../../core/customhtmlview":97,"../../core/kd":100,"../../core/view":104,"../buttons/buttonview":19}],37:[function(require,module,exports){
 var KDCheckBox, KDInputView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -4774,7 +4774,7 @@ module.exports = KDContentEditableView = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"../../core/view":106,"../notifications/notificationview":61,"./inputvalidator":44,"htmlencode":116,"jquery":118}],39:[function(require,module,exports){
+},{"../../core/kd":100,"../../core/view":104,"../notifications/notificationview":61,"./inputvalidator":44,"htmlencode":114,"jquery":116}],39:[function(require,module,exports){
 var KDDelimitedInputView, KDInputView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -5027,7 +5027,7 @@ module.exports = KDInputCheckboxGroup = (function(superClass) {
 
 
 
-},{"./inputradiogroup":42,"jquery":118}],42:[function(require,module,exports){
+},{"./inputradiogroup":42,"jquery":116}],42:[function(require,module,exports){
 var $, KDInputRadioGroup, KDInputView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -5148,7 +5148,7 @@ module.exports = KDInputRadioGroup = (function(superClass) {
 
 
 
-},{"./inputview":45,"jquery":118}],43:[function(require,module,exports){
+},{"./inputview":45,"jquery":116}],43:[function(require,module,exports){
 var $, KDInputSwitch, KDInputView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -5283,7 +5283,7 @@ module.exports = KDInputSwitch = (function(superClass) {
 
 
 
-},{"./inputview":45,"jquery":118}],44:[function(require,module,exports){
+},{"./inputview":45,"jquery":116}],44:[function(require,module,exports){
 var $, KD, KDInputValidator;
 
 $ = require('jquery');
@@ -5484,7 +5484,7 @@ Credits
 
 
 
-},{"../../core/kd":100,"jquery":118}],45:[function(require,module,exports){
+},{"../../core/kd":100,"jquery":116}],45:[function(require,module,exports){
 var $, Encoder, KD, KDInputValidator, KDInputView, KDNotificationView, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty,
@@ -6270,7 +6270,7 @@ module.exports = KDInputView = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"../../core/view":106,"../notifications/notificationview":61,"./inputvalidator":44,"htmlencode":116,"jquery":118}],46:[function(require,module,exports){
+},{"../../core/kd":100,"../../core/view":104,"../notifications/notificationview":61,"./inputvalidator":44,"htmlencode":114,"jquery":116}],46:[function(require,module,exports){
 var $, KDLabelView, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -6312,7 +6312,7 @@ module.exports = KDLabelView = (function(superClass) {
 
 
 
-},{"../../core/view":106,"jquery":118}],47:[function(require,module,exports){
+},{"../../core/view":104,"jquery":116}],47:[function(require,module,exports){
 var $, KDInputView, KDMultipleChoice,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty,
@@ -6475,7 +6475,7 @@ module.exports = KDMultipleChoice = (function(superClass) {
 
 
 
-},{"./inputview":45,"jquery":118}],48:[function(require,module,exports){
+},{"./inputview":45,"jquery":116}],48:[function(require,module,exports){
 var $, KD, KDInputView, KDOnOffSwitch,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -6598,7 +6598,7 @@ module.exports = KDOnOffSwitch = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"./inputview":45,"jquery":118}],49:[function(require,module,exports){
+},{"../../core/kd":100,"./inputview":45,"jquery":116}],49:[function(require,module,exports){
 var $, KD, KDInputView, KDSelectBox,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -6730,7 +6730,7 @@ module.exports = KDSelectBox = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"./inputview":45,"jquery":118}],50:[function(require,module,exports){
+},{"../../core/kd":100,"./inputview":45,"jquery":116}],50:[function(require,module,exports){
 var Encoder, KD, KDContentEditableView, KDContextMenu, KDTokenizedInput,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -7061,7 +7061,7 @@ module.exports = KDTokenizedInput = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"../contextmenu/contextmenu":22,"./contenteditableview":38,"htmlencode":116}],51:[function(require,module,exports){
+},{"../../core/kd":100,"../contextmenu/contextmenu":22,"./contenteditableview":38,"htmlencode":114}],51:[function(require,module,exports){
 var KDInputView, KDWmdInput,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -7168,7 +7168,7 @@ module.exports = KDListItemView = (function(superClass) {
 
 
 
-},{"../../core/view":106}],53:[function(require,module,exports){
+},{"../../core/view":104}],53:[function(require,module,exports){
 var KD, KDListItemView, KDListView, KDListViewBox, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -7470,7 +7470,7 @@ module.exports = KDListView = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"../../core/view":106,"./listitemview":52,"./listviewbox":54}],54:[function(require,module,exports){
+},{"../../core/kd":100,"../../core/view":104,"./listitemview":52,"./listviewbox":54}],54:[function(require,module,exports){
 var KDCustomHTMLView, KDListItemView, KDListViewBox,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -8108,7 +8108,7 @@ module.exports = KDListViewController = (function(superClass) {
 
 
 
-},{"../../core/customhtmlview":97,"../../core/kd":100,"../../core/view":106,"../../core/viewcontroller":107,"../list/listview":53,"../loader/loaderview":56,"../scrollview/customscrollview":65,"../scrollview/scrollview":69}],56:[function(require,module,exports){
+},{"../../core/customhtmlview":97,"../../core/kd":100,"../../core/view":104,"../../core/viewcontroller":105,"../list/listview":53,"../loader/loaderview":56,"../scrollview/customscrollview":65,"../scrollview/scrollview":69}],56:[function(require,module,exports){
 var KDLoaderView, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -8188,7 +8188,7 @@ module.exports = KDLoaderView = (function(superClass) {
 
 
 
-},{"../../core/view":106,"canvas-loader":121}],57:[function(require,module,exports){
+},{"../../core/view":104,"canvas-loader":119}],57:[function(require,module,exports){
 var $, KD, KDBlockingModalView, KDModalView, KDOverlayView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -8244,7 +8244,7 @@ module.exports = KDBlockingModalView = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"../overlay/overlayview":62,"./modalview":58,"jquery":118}],58:[function(require,module,exports){
+},{"../../core/kd":100,"../overlay/overlayview":62,"./modalview":58,"jquery":116}],58:[function(require,module,exports){
 var $, KD, KDButtonView, KDModalView, KDModalViewStack, KDOverlayView, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -8648,7 +8648,7 @@ module.exports = KDModalView = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"../../core/view":106,"../buttons/buttonview":19,"../overlay/overlayview":62,"./modalviewstack":59,"jquery":118}],59:[function(require,module,exports){
+},{"../../core/kd":100,"../../core/view":104,"../buttons/buttonview":19,"../overlay/overlayview":62,"./modalviewstack":59,"jquery":116}],59:[function(require,module,exports){
 var KD, KDModalView, KDModalViewStack, KDObject,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -8729,7 +8729,7 @@ module.exports = KDModalViewStack = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"../../core/object":103,"./modalview":58}],60:[function(require,module,exports){
+},{"../../core/kd":100,"../../core/object":101,"./modalview":58}],60:[function(require,module,exports){
 var KDModalView, KDModalViewWithForms, KDTabViewWithForms,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -9161,7 +9161,7 @@ module.exports = KDNotificationView = (function(superClass) {
 
 
 
-},{"../../core/view":106,"../loader/loaderview":56,"jquery":118}],62:[function(require,module,exports){
+},{"../../core/view":104,"../loader/loaderview":56,"jquery":116}],62:[function(require,module,exports){
 var KD, KDOverlayView, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -9261,7 +9261,7 @@ module.exports = KDOverlayView = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"../../core/view":106}],63:[function(require,module,exports){
+},{"../../core/kd":100,"../../core/view":104}],63:[function(require,module,exports){
 var KD, KDSpotlightView, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -9389,7 +9389,7 @@ module.exports = KDSpotlightView = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"../../core/view":106}],64:[function(require,module,exports){
+},{"../../core/kd":100,"../../core/view":104}],64:[function(require,module,exports){
 var KD, KDCustomHTMLView, KDProgressBarView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -9608,9 +9608,11 @@ module.exports = KDCustomScrollView = (function(superClass) {
 
 
 },{"../../core/customhtmlview":97,"../../core/kd":100,"./customscrollviewinner":66,"./scrolltrack":68}],66:[function(require,module,exports){
-var Hammer, KD, KDCustomHTMLView, KDCustomScrollViewWrapper, KDScrollThumb, KDScrollTrack, KDScrollView,
+var $, Hammer, KD, KDCustomHTMLView, KDCustomScrollViewWrapper, KDScrollThumb, KDScrollTrack, KDScrollView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
+
+$ = require('jquery');
 
 KD = require('../../core/kd');
 
@@ -9625,14 +9627,35 @@ KDScrollTrack = require('./scrolltrack');
 Hammer = require('hammerjs');
 
 module.exports = KDCustomScrollViewWrapper = (function(superClass) {
+  var END, HOME, PAGEDOWN, PAGEUP, SPACEBAR;
+
   extend(KDCustomScrollViewWrapper, superClass);
 
+  SPACEBAR = 32;
+
+  PAGEUP = 33;
+
+  PAGEDOWN = 34;
+
+  END = 35;
+
+  HOME = 36;
+
   function KDCustomScrollViewWrapper(options, data) {
-    var calculateEvent, hammer, prevDeltaX, prevDeltaY;
+    var base, calculateEvent, hammer, prevDeltaX, prevDeltaY;
     if (options == null) {
       options = {};
     }
+    options.bind = KD.utils.curry('keydown', options.bind);
+    if (options.attributes == null) {
+      options.attributes = {};
+    }
+    if ((base = options.attributes).tabindex == null) {
+      base.tabindex = "0";
+    }
+    this.globalKeydownEventBound = false;
     KDCustomScrollViewWrapper.__super__.constructor.call(this, options, data);
+    this.on('MutationHappened', this.bound("toggleGlobalKeydownEventOnSizeCheck"));
     if (!KD.utils.isTouchDevice()) {
       return;
     }
@@ -9724,13 +9747,91 @@ module.exports = KDCustomScrollViewWrapper = (function(superClass) {
     };
   })();
 
+  KDCustomScrollViewWrapper.prototype.toggleGlobalKeydownEventOnSizeCheck = function() {
+    var needToBind, winHeight;
+    winHeight = $(window).height();
+    needToBind = this.getHeight() >= winHeight;
+    return this.toggleGlobalKeydownEvent(needToBind);
+  };
+
+  KDCustomScrollViewWrapper.prototype.toggleGlobalKeydownEvent = function(needToBind) {
+    var eventName;
+    eventName = "keydown.customscroll" + (this.getId());
+    if (needToBind) {
+      if (!this.globalKeydownEventBound) {
+        $(document).on(eventName, this.bound("keyDown"));
+      }
+    } else {
+      if (this.globalKeydownEventBound) {
+        $(document).off(eventName);
+      }
+    }
+    return this.globalKeydownEventBound = needToBind;
+  };
+
+  KDCustomScrollViewWrapper.prototype.destroy = function() {
+    this.toggleGlobalKeydownEvent(false);
+    return KDCustomScrollViewWrapper.__super__.destroy.apply(this, arguments);
+  };
+
+  KDCustomScrollViewWrapper.prototype.pageUp = function() {
+    return this.scrollTo({
+      top: Math.max(this.getScrollTop() - this.getHeight(), 0)
+    });
+  };
+
+  KDCustomScrollViewWrapper.prototype.pageDown = function() {
+    return this.scrollTo({
+      top: this.getScrollTop() + this.getHeight()
+    });
+  };
+
+  KDCustomScrollViewWrapper.prototype.keyDown = function(event) {
+    var editables, shouldPropagate;
+    editables = "input,textarea,select,datalist,keygen,[contenteditable='true']";
+    if (($(document.activeElement)).is(editables)) {
+      return true;
+    }
+    if (!(this.getDomElement().is(":visible"))) {
+      return true;
+    }
+    if (this.getScrollHeight() <= this.verticalThumb.getTrackSize()) {
+      return true;
+    }
+    shouldPropagate = false;
+    if (event.which === SPACEBAR && event.shiftKey) {
+      this.pageUp();
+    } else {
+      switch (event.which) {
+        case PAGEUP:
+          this.pageUp();
+          break;
+        case SPACEBAR:
+        case PAGEDOWN:
+          this.pageDown();
+          break;
+        case END:
+          this.scrollToBottom();
+          break;
+        case HOME:
+          this.scrollTo({
+            top: 0
+          });
+          break;
+        default:
+          shouldPropagate = true;
+      }
+    }
+    return shouldPropagate;
+  };
+
   return KDCustomScrollViewWrapper;
 
 })(KDScrollView);
 
 
 
-},{"../../core/customhtmlview":97,"../../core/kd":100,"./scrollthumb":67,"./scrolltrack":68,"./scrollview":69,"hammerjs":114}],67:[function(require,module,exports){
+},{"../../core/customhtmlview":97,"../../core/kd":100,"./scrollthumb":67,"./scrolltrack":68,"./scrollview":69,"hammerjs":112,"jquery":116}],67:[function(require,module,exports){
 var KD, KDScrollThumb, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -9892,7 +9993,7 @@ module.exports = KDScrollThumb = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"../../core/view":106}],68:[function(require,module,exports){
+},{"../../core/kd":100,"../../core/view":104}],68:[function(require,module,exports){
 var KD, KDScrollThumb, KDScrollTrack, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty,
@@ -9960,7 +10061,7 @@ module.exports = KDScrollTrack = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"../../core/view":106,"./scrollthumb":67}],69:[function(require,module,exports){
+},{"../../core/kd":100,"../../core/view":104,"./scrollthumb":67}],69:[function(require,module,exports){
 var $, KD, KDScrollView, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -10091,7 +10192,7 @@ module.exports = KDScrollView = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"../../core/view":106,"jquery":118,"jquery-mousewheel":117}],70:[function(require,module,exports){
+},{"../../core/kd":100,"../../core/view":104,"jquery":116,"jquery-mousewheel":115}],70:[function(require,module,exports){
 var KDCustomHTMLView, KDSliderBarHandleView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -10488,7 +10589,7 @@ module.exports = KDSlidePageView = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"../../core/view":106}],73:[function(require,module,exports){
+},{"../../core/kd":100,"../../core/view":104}],73:[function(require,module,exports){
 var Hammer, KD, KDSlideShowView, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -10634,7 +10735,7 @@ module.exports = KDSlideShowView = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"../../core/view":106,"hammerjs":114}],74:[function(require,module,exports){
+},{"../../core/kd":100,"../../core/view":104,"hammerjs":112}],74:[function(require,module,exports){
 var KDSplitComboView, KDSplitView, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -10684,7 +10785,7 @@ module.exports = KDSplitComboView = (function(superClass) {
 
 
 
-},{"../../core/view":106,"./splitview":77}],75:[function(require,module,exports){
+},{"../../core/view":104,"./splitview":77}],75:[function(require,module,exports){
 var KD, KDScrollView, KDSplitView, KDSplitViewPanel,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -10911,7 +11012,7 @@ module.exports = KDSplitResizer = (function(superClass) {
 
 
 
-},{"../../core/view":106}],77:[function(require,module,exports){
+},{"../../core/view":104}],77:[function(require,module,exports){
 var KD, KDSplitResizer, KDSplitView, KDSplitViewPanel, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -11380,7 +11481,7 @@ module.exports = KDSplitView = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"../../core/view":106,"./splitpanel":75,"./splitresizer":76}],78:[function(require,module,exports){
+},{"../../core/kd":100,"../../core/view":104,"./splitpanel":75,"./splitresizer":76}],78:[function(require,module,exports){
 var KDTabHandleContainer, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -11410,7 +11511,7 @@ module.exports = KDTabHandleContainer = (function(superClass) {
 
 
 
-},{"../../core/view":106}],79:[function(require,module,exports){
+},{"../../core/view":104}],79:[function(require,module,exports){
 var KD, KDCustomHTMLView, KDTabHandleMoveNav,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -11689,7 +11790,7 @@ module.exports = KDTabHandleView = (function(superClass) {
 
 
 
-},{"../../core/view":106,"jquery":118}],81:[function(require,module,exports){
+},{"../../core/view":104,"jquery":116}],81:[function(require,module,exports){
 var KD, KDTabPaneView, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -11836,7 +11937,7 @@ module.exports = KDTabPaneView = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"../../core/view":106}],82:[function(require,module,exports){
+},{"../../core/kd":100,"../../core/view":104}],82:[function(require,module,exports){
 var $, KD, KDScrollView, KDTabHandleContainer, KDTabHandleMoveNav, KDTabHandleView, KDTabPaneView, KDTabView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -12391,7 +12492,7 @@ module.exports = KDTabView = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"../scrollview/scrollview":69,"./tabhandlecontainer":78,"./tabhandlemovenav":79,"./tabhandleview":80,"./tabpaneview":81,"jquery":118}],83:[function(require,module,exports){
+},{"../../core/kd":100,"../scrollview/scrollview":69,"./tabhandlecontainer":78,"./tabhandlemovenav":79,"./tabhandleview":80,"./tabpaneview":81,"jquery":116}],83:[function(require,module,exports){
 var $, KDFormViewWithFields, KDTabPaneView, KDTabView, KDTabViewWithForms,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -12500,7 +12601,7 @@ module.exports = KDTabViewWithForms = (function(superClass) {
 
 
 
-},{"../forms/formviewwithfields":34,"./tabpaneview":81,"./tabview":82,"jquery":118}],84:[function(require,module,exports){
+},{"../forms/formviewwithfields":34,"./tabpaneview":81,"./tabview":82,"jquery":116}],84:[function(require,module,exports){
 var $, KD, KDTimeAgoView, KDView, timeago,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -12552,7 +12653,7 @@ module.exports = KDTimeAgoView = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"../../core/view":106,"jquery":118,"timeago":135}],85:[function(require,module,exports){
+},{"../../core/kd":100,"../../core/view":104,"jquery":116,"timeago":130}],85:[function(require,module,exports){
 var Encoder, KD, KDTooltip, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -12927,7 +13028,7 @@ module.exports = KDTooltip = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"../../core/view":106,"htmlencode":116}],86:[function(require,module,exports){
+},{"../../core/kd":100,"../../core/view":104,"htmlencode":114}],86:[function(require,module,exports){
 var JTreeItemView, KDListItemView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -14070,7 +14171,7 @@ module.exports = JTreeViewController = (function(superClass) {
 
 
 
-},{"../../core/kd":100,"../../core/viewcontroller":107,"../list/listviewcontroller":55,"../scrollview/scrollview":69,"./treeitemview":86,"./treeview":87}],89:[function(require,module,exports){
+},{"../../core/kd":100,"../../core/viewcontroller":105,"../list/listviewcontroller":55,"../scrollview/scrollview":69,"./treeitemview":86,"./treeview":87}],89:[function(require,module,exports){
 var KDCustomHTMLView, KDFileUploadArea, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -14145,7 +14246,7 @@ module.exports = KDFileUploadArea = (function(superClass) {
 
 
 
-},{"../../core/customhtmlview":97,"../../core/view":106}],90:[function(require,module,exports){
+},{"../../core/customhtmlview":97,"../../core/view":104}],90:[function(require,module,exports){
 var $, KDFileUploadListItemView, KDListItemView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -14185,7 +14286,7 @@ module.exports = KDFileUploadListItemView = (function(superClass) {
 
 
 
-},{"../list/listitemview":52,"jquery":118}],91:[function(require,module,exports){
+},{"../list/listitemview":52,"jquery":116}],91:[function(require,module,exports){
 var KDFileUploadListItemView, KDFileUploadListView, KDListView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -14270,7 +14371,7 @@ module.exports = KDFileUploadThumbItemView = (function(superClass) {
 
 
 
-},{"../list/listitemview":52,"jquery":118}],93:[function(require,module,exports){
+},{"../list/listitemview":52,"jquery":116}],93:[function(require,module,exports){
 var KDFileUploadListView, KDFileUploadThumbItemView, KDFileUploadThumbListView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -14525,7 +14626,7 @@ module.exports = KDFileUploadView = (function(superClass) {
 
 
 
-},{"../../core/view":106,"../list/listviewcontroller":55,"../notifications/notificationview":61,"./fileuploadarea":89,"./fileuploadlistview":91,"./fileuploadthumblistview":93,"./multipartuploader":95}],95:[function(require,module,exports){
+},{"../../core/view":104,"../list/listviewcontroller":55,"../notifications/notificationview":61,"./fileuploadarea":89,"./fileuploadlistview":91,"./fileuploadthumblistview":93,"./multipartuploader":95}],95:[function(require,module,exports){
 var KDEventEmitter, KDMultipartUploader,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -14655,7 +14756,7 @@ module.exports = KDController = (function(superClass) {
 
 
 
-},{"./object":103}],97:[function(require,module,exports){
+},{"./object":101}],97:[function(require,module,exports){
 var KDCustomHTMLView, KDView,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -14699,7 +14800,7 @@ module.exports = KDCustomHTMLView = (function(superClass) {
 
 
 
-},{"./view":106}],98:[function(require,module,exports){
+},{"./view":104}],98:[function(require,module,exports){
 var KDEventEmitter,
   slice = [].slice;
 
@@ -15097,193 +15198,7 @@ module.exports = {
 
 
 
-},{"./utils":105,"kd-dom":119}],101:[function(require,module,exports){
-var KDKeyboardListener,
-  hasProp = {}.hasOwnProperty;
-
-require('mousetrap');
-
-require('mousetrap-global-bind');
-
-require('mousetrap-record');
-
-module.exports = KDKeyboardListener = (function() {
-  var makeUpdater;
-
-  function KDKeyboardListener() {
-    this.maps = {};
-    this.isListening = false;
-  }
-
-  makeUpdater = function(fn) {
-    return function() {
-      var isListening, retVal;
-      isListening = this.isListening;
-      if (isListening) {
-        this.reset();
-      }
-      retVal = fn.apply(this, arguments);
-      if (isListening) {
-        this.listen();
-      }
-      return retVal;
-    };
-  };
-
-  KDKeyboardListener.prototype.addComboMap = makeUpdater(function(comboMap, priority) {
-    var base, m, name, ref;
-    m = (base = this.maps)[name = (ref = priority != null ? priority : comboMap.priority) != null ? ref : 0] != null ? base[name] : base[name] = [];
-    m.push(comboMap);
-    return this;
-  });
-
-  KDKeyboardListener.prototype.removeComboMap = makeUpdater(function(comboMap) {
-    var ms, priority, ref;
-    ref = this.maps;
-    for (priority in ref) {
-      if (!hasProp.call(ref, priority)) continue;
-      ms = ref[priority];
-      this.maps[priority] = ms.filter(function(m) {
-        return m !== comboMap;
-      });
-    }
-    return this;
-  });
-
-  KDKeyboardListener.prototype.listen = function() {
-    var ref, seen;
-    if (this.isActive()) {
-      return this;
-    }
-    if ((ref = KDKeyboardListener.currentListener) != null) {
-      ref.reset();
-    }
-    seen = {};
-    this.combos(function(combo, options, listener) {
-      var method;
-      if (options == null) {
-        options = {
-          global: true
-        };
-      }
-      if (seen[combo]) {
-        return;
-      }
-      seen[combo] = true;
-      method = options.global ? 'bindGlobal' : 'bind';
-      return Mousetrap[method](combo, listener);
-    });
-    KDKeyboardListener.currentListener = this;
-    this.isListening = true;
-    return this;
-  };
-
-  KDKeyboardListener.prototype.reset = function() {
-    if (!this.isActive()) {
-      return this;
-    }
-    Mousetrap.reset();
-    this.isListening = false;
-    KDKeyboardListener.currentListener = null;
-    return this;
-  };
-
-  KDKeyboardListener.prototype.getCombos = function() {
-    return Object.keys(this.maps).sort(function(a, b) {
-      return b - a;
-    }).map((function(_this) {
-      return function(k) {
-        return _this.maps[k];
-      };
-    })(this)).reduce(function(a, b) {
-      return a.concat(b);
-    }, []);
-  };
-
-  KDKeyboardListener.prototype.combos = function(fn) {
-    this.getCombos().forEach(function(m) {
-      return m.eachCombo(fn);
-    });
-    return this;
-  };
-
-  KDKeyboardListener.prototype.isActive = function() {
-    return this.isListening && this === KDKeyboardListener.currentListener;
-  };
-
-  KDKeyboardListener.current = function() {
-    if (this.currentListener != null) {
-      return this.currentListener;
-    }
-    this.currentListener = new this;
-    this.currentListener.listen();
-    return this.currentListener;
-  };
-
-  KDKeyboardListener.record = function(fn) {
-    Mousetrap.record(fn.bind(fn));
-  };
-
-  return KDKeyboardListener;
-
-})();
-
-
-
-},{"mousetrap":132,"mousetrap-global-bind":133,"mousetrap-record":134}],102:[function(require,module,exports){
-var KDKeyboardMap,
-  hasProp = {}.hasOwnProperty;
-
-module.exports = KDKeyboardMap = (function() {
-  function KDKeyboardMap(options) {
-    var combo, combos, listener;
-    this.combos = {};
-    if (options != null) {
-      combos = options.combos, this.priority = options.priority;
-    }
-    if (combos != null) {
-      for (combo in combos) {
-        if (!hasProp.call(combos, combo)) continue;
-        listener = combos[combo];
-        this.addCombo(combo, null, listener);
-      }
-    }
-  }
-
-  KDKeyboardMap.prototype.addCombo = function(combo, options, listener) {
-    var ref;
-    if (listener == null) {
-      ref = [options, listener], listener = ref[0], options = ref[1];
-    }
-    this.combos[combo] = {
-      listener: listener,
-      options: options
-    };
-    return this;
-  };
-
-  KDKeyboardMap.prototype.removeCombo = function(combo) {
-    this.combos[combo] = null;
-    return this;
-  };
-
-  KDKeyboardMap.prototype.eachCombo = function(fn, thisArg) {
-    var combo, listener, options, ref, ref1;
-    ref = this.combos;
-    for (combo in ref) {
-      if (!hasProp.call(ref, combo)) continue;
-      ref1 = ref[combo], options = ref1.options, listener = ref1.listener;
-      fn.call(thisArg, combo, options, listener);
-    }
-  };
-
-  return KDKeyboardMap;
-
-})();
-
-
-
-},{}],103:[function(require,module,exports){
+},{"./utils":103,"kd-dom":117}],101:[function(require,module,exports){
 var KD, KDEventEmitter, KDObject,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty,
@@ -15471,7 +15386,7 @@ module.exports = KDObject = (function(superClass) {
 
 
 
-},{"./eventemitter":98,"./kd":100}],104:[function(require,module,exports){
+},{"./eventemitter":98,"./kd":100}],102:[function(require,module,exports){
 var Encoder, KD, KDNotificationView, KDObject, KDRouter,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty,
@@ -15762,7 +15677,7 @@ module.exports = KDRouter = (function(superClass) {
 
 
 
-},{"../components/notifications/notificationview":61,"./kd":100,"./object":103,"htmlencode":116}],105:[function(require,module,exports){
+},{"../components/notifications/notificationview":61,"./kd":100,"./object":101,"htmlencode":114}],103:[function(require,module,exports){
 var Inflector, createCounter,
   slice = [].slice;
 
@@ -16511,7 +16426,7 @@ module.exports = {
 
 
 
-},{"inflector":122}],106:[function(require,module,exports){
+},{"inflector":120}],104:[function(require,module,exports){
 var $, KD, KDObject, KDView, MutationSummary,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty,
@@ -17718,7 +17633,7 @@ module.exports = KDView = (function(superClass) {
 
 
 
-},{"../components/overlay/overlayview":62,"../components/tooltip/tooltip":85,"./kd":100,"./object":103,"jquery":118,"mutation-summary":124}],107:[function(require,module,exports){
+},{"../components/overlay/overlayview":62,"../components/tooltip/tooltip":85,"./kd":100,"./object":101,"jquery":116,"mutation-summary":122}],105:[function(require,module,exports){
 var KD, KDController, KDView, KDViewController,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -17772,8 +17687,8 @@ module.exports = KDViewController = (function(superClass) {
 
 
 
-},{"./controller":96,"./kd":100,"./view":106}],108:[function(require,module,exports){
-var $, KD, KDController, KDKeyboardListener, KDKeyboardMap, KDWindowController,
+},{"./controller":96,"./kd":100,"./view":104}],106:[function(require,module,exports){
+var $, KD, KDController, KDWindowController,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty,
   indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
@@ -17782,9 +17697,7 @@ $ = require('jquery');
 
 KD = require('./kd');
 
-KDKeyboardListener = require('./keyboard/listener');
-
-KDKeyboardMap = require('./keyboard/map');
+KDController = require('./controller');
 
 
 /*
@@ -17793,18 +17706,13 @@ todo:
   - make addLayer implementation more clear, by default adding a layer
     should set a listener for next ReceivedClickElsewhere and remove the layer automatically
     2012/5/21 Sinan
+  - do not self-invoke (:293) -og
  */
 
-KDController = require('./controller');
-
 module.exports = KDWindowController = (function(superClass) {
-  var addListener, superKey, superizeCombos;
+  var addListener;
 
   extend(KDWindowController, superClass);
-
-  KDWindowController.keyViewHistory = [];
-
-  superKey = navigator.userAgent.indexOf("Mac OS X") === -1 ? "ctrl" : "command";
 
   addListener = function(eventName, listener, capturePhase) {
     if (capturePhase == null) {
@@ -17816,7 +17724,6 @@ module.exports = KDWindowController = (function(superClass) {
   function KDWindowController(options, data) {
     this.windowResizeListeners = {};
     this.keyEventsToBeListened = ['keydown', 'keyup', 'keypress'];
-    this.currentCombos = {};
     this.keyView = null;
     this.dragView = null;
     this.layers = [];
@@ -18016,64 +17923,6 @@ module.exports = KDWindowController = (function(superClass) {
     }
   };
 
-  superizeCombos = function(combos) {
-    var cb, combo, safeCombos;
-    safeCombos = {};
-    for (combo in combos) {
-      if (!hasProp.call(combos, combo)) continue;
-      cb = combos[combo];
-      if (/\bsuper(\+|\s)/.test(combo)) {
-        combo = combo.replace(/super/g, superKey);
-      }
-      safeCombos[combo] = cb;
-    }
-    return safeCombos;
-  };
-
-  KDWindowController.prototype.viewHasKeyCombos = function(view) {
-    var cb, combo, combos, e, i, len, o, ref, ref1;
-    if (!view) {
-      return;
-    }
-    o = view.getOptions();
-    combos = {};
-    ref = this.keyEventsToBeListened;
-    for (i = 0, len = ref.length; i < len; i++) {
-      e = ref[i];
-      if ("object" === typeof o[e]) {
-        ref1 = o[e];
-        for (combo in ref1) {
-          if (!hasProp.call(ref1, combo)) continue;
-          cb = ref1[combo];
-          combos[combo] = cb;
-        }
-      }
-    }
-    if (Object.keys(combos).length > 0) {
-      return combos;
-    } else {
-      return false;
-    }
-  };
-
-  KDWindowController.prototype.registerKeyCombos = function(view) {
-    var combos;
-    combos = this.viewHasKeyCombos(view);
-    if (combos != null) {
-      this.comboMap = new KDKeyboardMap({
-        combos: combos
-      });
-      return KDKeyboardListener.current().addComboMap(this.comboMap);
-    }
-  };
-
-  KDWindowController.prototype.unregisterKeyCombos = function() {
-    KDKeyboardListener.current().removeComboMap(this.comboMap);
-    if (this.keyView) {
-      return this.keyView.unsetClass("mousetrap");
-    }
-  };
-
   KDWindowController.prototype.setKeyView = function(keyView) {
     if (keyView != null) {
       if (typeof keyView.activateKeyView === "function") {
@@ -18083,11 +17932,8 @@ module.exports = KDWindowController = (function(superClass) {
     if (keyView === this.keyView) {
       return;
     }
-    this.unregisterKeyCombos();
     this.oldKeyView = this.keyView;
     this.keyView = keyView;
-    this.registerKeyCombos(keyView);
-    this.constructor.keyViewHistory.push(keyView);
     if (keyView != null) {
       if (typeof keyView.activateKeyView === "function") {
         keyView.activateKeyView();
@@ -18172,7 +18018,7 @@ module.exports = KDWindowController = (function(superClass) {
 
 
 
-},{"./controller":96,"./kd":100,"./keyboard/listener":101,"./keyboard/map":102,"jquery":118}],109:[function(require,module,exports){
+},{"./controller":96,"./kd":100,"jquery":116}],107:[function(require,module,exports){
 require('kd-polyfills');
 
 module.exports = require('./core/kd');
@@ -18276,8 +18122,6 @@ module.exports.extend({
   CustomHTMLView: require("./core/customhtmlview"),
   EventEmitter: require("./core/eventemitter"),
   EventEmitterWildcard: require("./core/eventemitterwildcard"),
-  KeyboardListener: require("./core/keyboard/listener"),
-  KeyboardMap: require("./core/keyboard/map"),
   Object: require("./core/object"),
   Router: require("./core/router"),
   View: require("./core/view"),
@@ -18287,7 +18131,7 @@ module.exports.extend({
 
 
 
-},{"./components/autocomplete/autocomplete":2,"./components/autocomplete/autocompletecontroller":3,"./components/autocomplete/autocompleteditems":4,"./components/autocomplete/autocompletefetchingitem":5,"./components/autocomplete/autocompletelist":6,"./components/autocomplete/autocompletelistitem":7,"./components/autocomplete/autocompletenothingfounditem":8,"./components/autocomplete/autocompleteunselecteableitem":9,"./components/autocomplete/multipleinputlistview":10,"./components/autocomplete/multipleinputview":11,"./components/autocomplete/multiplelistitemview":12,"./components/autocomplete/noautocompleteinputview":13,"./components/autocomplete/noautocompletemultiplelistview":14,"./components/autocomplete/simpleautocomplete":15,"./components/buttons/buttonbar":16,"./components/buttons/buttongroupview":17,"./components/buttons/buttonmenu":18,"./components/buttons/buttonview":19,"./components/buttons/buttonviewwithmenu":20,"./components/buttons/togglebutton":21,"./components/contextmenu/contextmenu":22,"./components/contextmenu/contextmenuitem":23,"./components/contextmenu/contextmenutreeview":24,"./components/contextmenu/contextmenutreeviewcontroller":25,"./components/counter/counterdigitview":26,"./components/counter/counterview":27,"./components/dia/diacontainer":28,"./components/dia/diajoint":29,"./components/dia/diaobject":30,"./components/dia/diascene":31,"./components/dialog/dialogview":32,"./components/forms/formview":33,"./components/forms/formviewwithfields":34,"./components/header/headerview":35,"./components/image/webcamview":36,"./components/inputs/checkbox":37,"./components/inputs/contenteditableview":38,"./components/inputs/delimitedinputview":39,"./components/inputs/hitenterinputview":40,"./components/inputs/inputcheckboxgroup":41,"./components/inputs/inputradiogroup":42,"./components/inputs/inputswitch":43,"./components/inputs/inputvalidator":44,"./components/inputs/inputview":45,"./components/inputs/labelview":46,"./components/inputs/multiplechoice":47,"./components/inputs/onoffswitch":48,"./components/inputs/selectbox":49,"./components/inputs/tokenizedinputview":50,"./components/inputs/wmdinput":51,"./components/list/listitemview":52,"./components/list/listview":53,"./components/list/listviewbox":54,"./components/list/listviewcontroller":55,"./components/loader/loaderview":56,"./components/modals/blockingmodalview":57,"./components/modals/modalview":58,"./components/modals/modalviewstack":59,"./components/modals/modalviewwithforms":60,"./components/notifications/notificationview":61,"./components/overlay/overlayview":62,"./components/overlay/spotlightview":63,"./components/progressbar/progressbarview":64,"./components/scrollview/customscrollview":65,"./components/scrollview/customscrollviewinner":66,"./components/scrollview/scrollthumb":67,"./components/scrollview/scrolltrack":68,"./components/scrollview/scrollview":69,"./components/sliderbar/sliderbarhandleview":70,"./components/sliderbar/sliderbarview":71,"./components/slideshow/slidepageview":72,"./components/slideshow/slideshowview":73,"./components/split/splitcomboview":74,"./components/split/splitpanel":75,"./components/split/splitresizer":76,"./components/split/splitview":77,"./components/tabs/tabhandlecontainer":78,"./components/tabs/tabhandlemovenav":79,"./components/tabs/tabhandleview":80,"./components/tabs/tabpaneview":81,"./components/tabs/tabview":82,"./components/tabs/tabviewwithforms":83,"./components/time/timeagoview":84,"./components/tooltip/tooltip":85,"./components/tree/treeitemview":86,"./components/tree/treeview":87,"./components/tree/treeviewcontroller":88,"./components/upload/fileuploadarea":89,"./components/upload/fileuploadlistitemview":90,"./components/upload/fileuploadlistview":91,"./components/upload/fileuploadthumbitemview":92,"./components/upload/fileuploadthumblistview":93,"./components/upload/fileuploadview":94,"./components/upload/multipartuploader":95,"./core/controller":96,"./core/customhtmlview":97,"./core/eventemitter":98,"./core/eventemitterwildcard":99,"./core/kd":100,"./core/keyboard/listener":101,"./core/keyboard/map":102,"./core/object":103,"./core/router":104,"./core/view":106,"./core/viewcontroller":107,"./core/windowcontroller":108,"kd-polyfills":120}],110:[function(require,module,exports){
+},{"./components/autocomplete/autocomplete":2,"./components/autocomplete/autocompletecontroller":3,"./components/autocomplete/autocompleteditems":4,"./components/autocomplete/autocompletefetchingitem":5,"./components/autocomplete/autocompletelist":6,"./components/autocomplete/autocompletelistitem":7,"./components/autocomplete/autocompletenothingfounditem":8,"./components/autocomplete/autocompleteunselecteableitem":9,"./components/autocomplete/multipleinputlistview":10,"./components/autocomplete/multipleinputview":11,"./components/autocomplete/multiplelistitemview":12,"./components/autocomplete/noautocompleteinputview":13,"./components/autocomplete/noautocompletemultiplelistview":14,"./components/autocomplete/simpleautocomplete":15,"./components/buttons/buttonbar":16,"./components/buttons/buttongroupview":17,"./components/buttons/buttonmenu":18,"./components/buttons/buttonview":19,"./components/buttons/buttonviewwithmenu":20,"./components/buttons/togglebutton":21,"./components/contextmenu/contextmenu":22,"./components/contextmenu/contextmenuitem":23,"./components/contextmenu/contextmenutreeview":24,"./components/contextmenu/contextmenutreeviewcontroller":25,"./components/counter/counterdigitview":26,"./components/counter/counterview":27,"./components/dia/diacontainer":28,"./components/dia/diajoint":29,"./components/dia/diaobject":30,"./components/dia/diascene":31,"./components/dialog/dialogview":32,"./components/forms/formview":33,"./components/forms/formviewwithfields":34,"./components/header/headerview":35,"./components/image/webcamview":36,"./components/inputs/checkbox":37,"./components/inputs/contenteditableview":38,"./components/inputs/delimitedinputview":39,"./components/inputs/hitenterinputview":40,"./components/inputs/inputcheckboxgroup":41,"./components/inputs/inputradiogroup":42,"./components/inputs/inputswitch":43,"./components/inputs/inputvalidator":44,"./components/inputs/inputview":45,"./components/inputs/labelview":46,"./components/inputs/multiplechoice":47,"./components/inputs/onoffswitch":48,"./components/inputs/selectbox":49,"./components/inputs/tokenizedinputview":50,"./components/inputs/wmdinput":51,"./components/list/listitemview":52,"./components/list/listview":53,"./components/list/listviewbox":54,"./components/list/listviewcontroller":55,"./components/loader/loaderview":56,"./components/modals/blockingmodalview":57,"./components/modals/modalview":58,"./components/modals/modalviewstack":59,"./components/modals/modalviewwithforms":60,"./components/notifications/notificationview":61,"./components/overlay/overlayview":62,"./components/overlay/spotlightview":63,"./components/progressbar/progressbarview":64,"./components/scrollview/customscrollview":65,"./components/scrollview/customscrollviewinner":66,"./components/scrollview/scrollthumb":67,"./components/scrollview/scrolltrack":68,"./components/scrollview/scrollview":69,"./components/sliderbar/sliderbarhandleview":70,"./components/sliderbar/sliderbarview":71,"./components/slideshow/slidepageview":72,"./components/slideshow/slideshowview":73,"./components/split/splitcomboview":74,"./components/split/splitpanel":75,"./components/split/splitresizer":76,"./components/split/splitview":77,"./components/tabs/tabhandlecontainer":78,"./components/tabs/tabhandlemovenav":79,"./components/tabs/tabhandleview":80,"./components/tabs/tabpaneview":81,"./components/tabs/tabview":82,"./components/tabs/tabviewwithforms":83,"./components/time/timeagoview":84,"./components/tooltip/tooltip":85,"./components/tree/treeitemview":86,"./components/tree/treeview":87,"./components/tree/treeviewcontroller":88,"./components/upload/fileuploadarea":89,"./components/upload/fileuploadlistitemview":90,"./components/upload/fileuploadlistview":91,"./components/upload/fileuploadthumbitemview":92,"./components/upload/fileuploadthumblistview":93,"./components/upload/fileuploadview":94,"./components/upload/multipartuploader":95,"./core/controller":96,"./core/customhtmlview":97,"./core/eventemitter":98,"./core/eventemitterwildcard":99,"./core/kd":100,"./core/object":101,"./core/router":102,"./core/view":104,"./core/viewcontroller":105,"./core/windowcontroller":106,"kd-polyfills":118}],108:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -18312,7 +18156,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],111:[function(require,module,exports){
+},{}],109:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -18349,6 +18193,7 @@ process.browser = true;
 process.env = {};
 process.argv = [];
 process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
 
 function noop() {}
 
@@ -18371,14 +18216,14 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],112:[function(require,module,exports){
+},{}],110:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],113:[function(require,module,exports){
+},{}],111:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -18968,7 +18813,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":112,"_process":111,"inherits":110}],114:[function(require,module,exports){
+},{"./support/isBuffer":110,"_process":109,"inherits":108}],112:[function(require,module,exports){
 /*! Hammer.JS - v2.0.4 - 2014-09-28
  * http://hammerjs.github.io/
  *
@@ -21433,7 +21278,7 @@ if (typeof define == TYPE_FUNCTION && define.amd) {
 
 })(window, document, 'Hammer');
 
-},{}],115:[function(require,module,exports){
+},{}],113:[function(require,module,exports){
 /**
  * A Javascript object to encode and/or decode html characters using HTML or Numeric entities that handles double or partial encoding
  * Author: R Reid
@@ -21683,7 +21528,7 @@ module.exports = {
 	}
 
 }
-},{}],116:[function(require,module,exports){
+},{}],114:[function(require,module,exports){
 /*!
  * node-htmlencode - Wrapped version of http://www.strictly-software.com/htmlencode
  * Copyright(c) 2013 Dan MacTough <danmactough@gmail.com>
@@ -21719,7 +21564,7 @@ Object.defineProperty(module.exports, 'EncodeType', {
 });
 module.exports.Encoder = Encoder;
 
-},{"./encoder":115,"util":113}],117:[function(require,module,exports){
+},{"./encoder":113,"util":111}],115:[function(require,module,exports){
 /*! Copyright (c) 2013 Brandon Aaron (http://brandon.aaron.sh)
  * Licensed under the MIT License (LICENSE.txt).
  *
@@ -21942,7 +21787,7 @@ module.exports.Encoder = Encoder;
 
 }));
 
-},{}],118:[function(require,module,exports){
+},{}],116:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.3
  * http://jquery.com/
@@ -31149,7 +30994,7 @@ return jQuery;
 
 }));
 
-},{}],119:[function(require,module,exports){
+},{}],117:[function(require,module,exports){
 /*Copyright (c) 2012 Jessie
 
 Permission is hereby granted, free of charge, to any person obtaining
@@ -32732,7 +32577,7 @@ KD.dom.addClass = addClass;
 }(window));
 
 module.exports = KD.dom;
-},{}],120:[function(require,module,exports){
+},{}],118:[function(require,module,exports){
 try {
   document.write = document.writeln = function () {
     throw new Error('document.[write|writeln] is nisht-nisht');
@@ -32818,7 +32663,7 @@ try {
 
 })(this);
 
-},{}],121:[function(require,module,exports){
+},{}],119:[function(require,module,exports){
 /*
 * Copyright (c) 2011 Róbert Pataki
 *
@@ -33460,7 +33305,7 @@ try {
 	};
 	window.CanvasLoader = CanvasLoader;
 }(window));
-},{}],122:[function(require,module,exports){
+},{}],120:[function(require,module,exports){
 var Inflector;
 
 module.exports = Inflector = (function() {
@@ -34025,9 +33870,9 @@ module.exports = Inflector = (function() {
 
 })();
 
-},{}],123:[function(require,module,exports){
+},{}],121:[function(require,module,exports){
 var JsPath,
-  slice = [].slice;
+  __slice = [].slice;
 
 module.exports = JsPath = (function() {
   var primTypes;
@@ -34054,7 +33899,7 @@ module.exports = JsPath = (function() {
   ['forEach', 'indexOf', 'join', 'pop', 'reverse', 'shift', 'sort', 'splice', 'unshift', 'push'].forEach(function(method) {
     return JsPath[method + 'At'] = function() {
       var obj, path, rest, target;
-      obj = arguments[0], path = arguments[1], rest = 3 <= arguments.length ? slice.call(arguments, 2) : [];
+      obj = arguments[0], path = arguments[1], rest = 3 <= arguments.length ? __slice.call(arguments, 2) : [];
       target = JsPath.getAt(obj, path);
       if ('function' === typeof (target != null ? target[method] : void 0)) {
         return target[method].apply(target, rest);
@@ -34107,7 +33952,7 @@ module.exports = JsPath = (function() {
    */
 
   JsPath.setAt = function(obj, path, val) {
-    var component, i, last, len, prev, ref;
+    var component, last, prev, ref, _i, _len;
     if ('function' === typeof path.split) {
       path = path.split('.');
     } else {
@@ -34116,10 +33961,10 @@ module.exports = JsPath = (function() {
     last = path.pop();
     prev = [];
     ref = obj;
-    for (i = 0, len = path.length; i < len; i++) {
-      component = path[i];
+    for (_i = 0, _len = path.length; _i < _len; _i++) {
+      component = path[_i];
       if (primTypes.test(typeof ref[component])) {
-        throw new Error((prev.concat(component).join('.')) + " is\nprimitive, and cannot be extended.");
+        throw new Error("" + (prev.concat(component).join('.')) + " is\nprimitive, and cannot be extended.");
       }
       ref = ref[component] || (ref[component] = {});
       prev.push(component);
@@ -34152,7 +33997,7 @@ module.exports = JsPath = (function() {
    */
 
   JsPath.deleteAt = function(ref, path) {
-    var component, i, last, len, prev;
+    var component, last, prev, _i, _len;
     if ('function' === typeof path.split) {
       path = path.split('.');
     } else {
@@ -34160,10 +34005,10 @@ module.exports = JsPath = (function() {
     }
     prev = [];
     last = path.pop();
-    for (i = 0, len = path.length; i < len; i++) {
-      component = path[i];
+    for (_i = 0, _len = path.length; _i < _len; _i++) {
+      component = path[_i];
       if (primTypes.test(typeof ref[component])) {
-        throw new Error((prev.concat(component).join('.')) + " is\nprimitive; cannot drill any deeper.");
+        throw new Error("" + (prev.concat(component).join('.')) + " is\nprimitive; cannot drill any deeper.");
       }
       if (!(ref = ref[component])) {
         return false;
@@ -34177,9 +34022,7 @@ module.exports = JsPath = (function() {
 
 })();
 
-
-
-},{}],124:[function(require,module,exports){
+},{}],122:[function(require,module,exports){
 // Copyright 2011 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -35848,7 +35691,7 @@ var MutationSummary = (function () {
 
 module.exports = MutationSummary
 
-},{}],125:[function(require,module,exports){
+},{}],123:[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -35921,7 +35764,7 @@ function throttle(func, wait, options) {
 
 module.exports = throttle;
 
-},{"lodash.debounce":126,"lodash.isfunction":129,"lodash.isobject":130}],126:[function(require,module,exports){
+},{"lodash.debounce":124,"lodash.isfunction":127,"lodash.isobject":128}],124:[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -36079,7 +35922,7 @@ function debounce(func, wait, options) {
 
 module.exports = debounce;
 
-},{"lodash.isfunction":129,"lodash.isobject":130,"lodash.now":127}],127:[function(require,module,exports){
+},{"lodash.isfunction":127,"lodash.isobject":128,"lodash.now":125}],125:[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -36109,7 +35952,7 @@ var now = isNative(now = Date.now) && now || function() {
 
 module.exports = now;
 
-},{"lodash._isnative":128}],128:[function(require,module,exports){
+},{"lodash._isnative":126}],126:[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -36145,7 +35988,7 @@ function isNative(value) {
 
 module.exports = isNative;
 
-},{}],129:[function(require,module,exports){
+},{}],127:[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -36174,7 +36017,7 @@ function isFunction(value) {
 
 module.exports = isFunction;
 
-},{}],130:[function(require,module,exports){
+},{}],128:[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -36215,7 +36058,7 @@ function isObject(value) {
 
 module.exports = isObject;
 
-},{"lodash._objecttypes":131}],131:[function(require,module,exports){
+},{"lodash._objecttypes":129}],129:[function(require,module,exports){
 /**
  * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash modularize modern exports="npm" -o ./npm/`
@@ -36237,1191 +36080,7 @@ var objectTypes = {
 
 module.exports = objectTypes;
 
-},{}],132:[function(require,module,exports){
-/*global define:false */
-/**
- * Copyright 2013 Craig Campbell
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- * Mousetrap is a simple keyboard shortcut library for Javascript with
- * no external dependencies
- *
- * @version 1.4.6
- * @url craig.is/killing/mice
- */
-(function(window, document, undefined) {
-
-    /**
-     * mapping of special keycodes to their corresponding keys
-     *
-     * everything in this dictionary cannot use keypress events
-     * so it has to be here to map to the correct keycodes for
-     * keyup/keydown events
-     *
-     * @type {Object}
-     */
-    var _MAP = {
-            8: 'backspace',
-            9: 'tab',
-            13: 'enter',
-            16: 'shift',
-            17: 'ctrl',
-            18: 'alt',
-            20: 'capslock',
-            27: 'esc',
-            32: 'space',
-            33: 'pageup',
-            34: 'pagedown',
-            35: 'end',
-            36: 'home',
-            37: 'left',
-            38: 'up',
-            39: 'right',
-            40: 'down',
-            45: 'ins',
-            46: 'del',
-            91: 'meta',
-            93: 'meta',
-            224: 'meta'
-        },
-
-        /**
-         * mapping for special characters so they can support
-         *
-         * this dictionary is only used incase you want to bind a
-         * keyup or keydown event to one of these keys
-         *
-         * @type {Object}
-         */
-        _KEYCODE_MAP = {
-            106: '*',
-            107: '+',
-            109: '-',
-            110: '.',
-            111 : '/',
-            186: ';',
-            187: '=',
-            188: ',',
-            189: '-',
-            190: '.',
-            191: '/',
-            192: '`',
-            219: '[',
-            220: '\\',
-            221: ']',
-            222: '\''
-        },
-
-        /**
-         * this is a mapping of keys that require shift on a US keypad
-         * back to the non shift equivelents
-         *
-         * this is so you can use keyup events with these keys
-         *
-         * note that this will only work reliably on US keyboards
-         *
-         * @type {Object}
-         */
-        _SHIFT_MAP = {
-            '~': '`',
-            '!': '1',
-            '@': '2',
-            '#': '3',
-            '$': '4',
-            '%': '5',
-            '^': '6',
-            '&': '7',
-            '*': '8',
-            '(': '9',
-            ')': '0',
-            '_': '-',
-            '+': '=',
-            ':': ';',
-            '\"': '\'',
-            '<': ',',
-            '>': '.',
-            '?': '/',
-            '|': '\\'
-        },
-
-        /**
-         * this is a list of special strings you can use to map
-         * to modifier keys when you specify your keyboard shortcuts
-         *
-         * @type {Object}
-         */
-        _SPECIAL_ALIASES = {
-            'option': 'alt',
-            'command': 'meta',
-            'return': 'enter',
-            'escape': 'esc',
-            'mod': /Mac|iPod|iPhone|iPad/.test(navigator.platform) ? 'meta' : 'ctrl'
-        },
-
-        /**
-         * variable to store the flipped version of _MAP from above
-         * needed to check if we should use keypress or not when no action
-         * is specified
-         *
-         * @type {Object|undefined}
-         */
-        _REVERSE_MAP,
-
-        /**
-         * a list of all the callbacks setup via Mousetrap.bind()
-         *
-         * @type {Object}
-         */
-        _callbacks = {},
-
-        /**
-         * direct map of string combinations to callbacks used for trigger()
-         *
-         * @type {Object}
-         */
-        _directMap = {},
-
-        /**
-         * keeps track of what level each sequence is at since multiple
-         * sequences can start out with the same sequence
-         *
-         * @type {Object}
-         */
-        _sequenceLevels = {},
-
-        /**
-         * variable to store the setTimeout call
-         *
-         * @type {null|number}
-         */
-        _resetTimer,
-
-        /**
-         * temporary state where we will ignore the next keyup
-         *
-         * @type {boolean|string}
-         */
-        _ignoreNextKeyup = false,
-
-        /**
-         * temporary state where we will ignore the next keypress
-         *
-         * @type {boolean}
-         */
-        _ignoreNextKeypress = false,
-
-        /**
-         * are we currently inside of a sequence?
-         * type of action ("keyup" or "keydown" or "keypress") or false
-         *
-         * @type {boolean|string}
-         */
-        _nextExpectedAction = false;
-
-    /**
-     * loop through the f keys, f1 to f19 and add them to the map
-     * programatically
-     */
-    for (var i = 1; i < 20; ++i) {
-        _MAP[111 + i] = 'f' + i;
-    }
-
-    /**
-     * loop through to map numbers on the numeric keypad
-     */
-    for (i = 0; i <= 9; ++i) {
-        _MAP[i + 96] = i;
-    }
-
-    /**
-     * cross browser add event method
-     *
-     * @param {Element|HTMLDocument} object
-     * @param {string} type
-     * @param {Function} callback
-     * @returns void
-     */
-    function _addEvent(object, type, callback) {
-        if (object.addEventListener) {
-            object.addEventListener(type, callback, false);
-            return;
-        }
-
-        object.attachEvent('on' + type, callback);
-    }
-
-    /**
-     * takes the event and returns the key character
-     *
-     * @param {Event} e
-     * @return {string}
-     */
-    function _characterFromEvent(e) {
-
-        // for keypress events we should return the character as is
-        if (e.type == 'keypress') {
-            var character = String.fromCharCode(e.which);
-
-            // if the shift key is not pressed then it is safe to assume
-            // that we want the character to be lowercase.  this means if
-            // you accidentally have caps lock on then your key bindings
-            // will continue to work
-            //
-            // the only side effect that might not be desired is if you
-            // bind something like 'A' cause you want to trigger an
-            // event when capital A is pressed caps lock will no longer
-            // trigger the event.  shift+a will though.
-            if (!e.shiftKey) {
-                character = character.toLowerCase();
-            }
-
-            return character;
-        }
-
-        // for non keypress events the special maps are needed
-        if (_MAP[e.which]) {
-            return _MAP[e.which];
-        }
-
-        if (_KEYCODE_MAP[e.which]) {
-            return _KEYCODE_MAP[e.which];
-        }
-
-        // if it is not in the special map
-
-        // with keydown and keyup events the character seems to always
-        // come in as an uppercase character whether you are pressing shift
-        // or not.  we should make sure it is always lowercase for comparisons
-        return String.fromCharCode(e.which).toLowerCase();
-    }
-
-    /**
-     * checks if two arrays are equal
-     *
-     * @param {Array} modifiers1
-     * @param {Array} modifiers2
-     * @returns {boolean}
-     */
-    function _modifiersMatch(modifiers1, modifiers2) {
-        return modifiers1.sort().join(',') === modifiers2.sort().join(',');
-    }
-
-    /**
-     * resets all sequence counters except for the ones passed in
-     *
-     * @param {Object} doNotReset
-     * @returns void
-     */
-    function _resetSequences(doNotReset) {
-        doNotReset = doNotReset || {};
-
-        var activeSequences = false,
-            key;
-
-        for (key in _sequenceLevels) {
-            if (doNotReset[key]) {
-                activeSequences = true;
-                continue;
-            }
-            _sequenceLevels[key] = 0;
-        }
-
-        if (!activeSequences) {
-            _nextExpectedAction = false;
-        }
-    }
-
-    /**
-     * finds all callbacks that match based on the keycode, modifiers,
-     * and action
-     *
-     * @param {string} character
-     * @param {Array} modifiers
-     * @param {Event|Object} e
-     * @param {string=} sequenceName - name of the sequence we are looking for
-     * @param {string=} combination
-     * @param {number=} level
-     * @returns {Array}
-     */
-    function _getMatches(character, modifiers, e, sequenceName, combination, level) {
-        var i,
-            callback,
-            matches = [],
-            action = e.type;
-
-        // if there are no events related to this keycode
-        if (!_callbacks[character]) {
-            return [];
-        }
-
-        // if a modifier key is coming up on its own we should allow it
-        if (action == 'keyup' && _isModifier(character)) {
-            modifiers = [character];
-        }
-
-        // loop through all callbacks for the key that was pressed
-        // and see if any of them match
-        for (i = 0; i < _callbacks[character].length; ++i) {
-            callback = _callbacks[character][i];
-
-            // if a sequence name is not specified, but this is a sequence at
-            // the wrong level then move onto the next match
-            if (!sequenceName && callback.seq && _sequenceLevels[callback.seq] != callback.level) {
-                continue;
-            }
-
-            // if the action we are looking for doesn't match the action we got
-            // then we should keep going
-            if (action != callback.action) {
-                continue;
-            }
-
-            // if this is a keypress event and the meta key and control key
-            // are not pressed that means that we need to only look at the
-            // character, otherwise check the modifiers as well
-            //
-            // chrome will not fire a keypress if meta or control is down
-            // safari will fire a keypress if meta or meta+shift is down
-            // firefox will fire a keypress if meta or control is down
-            if ((action == 'keypress' && !e.metaKey && !e.ctrlKey) || _modifiersMatch(modifiers, callback.modifiers)) {
-
-                // when you bind a combination or sequence a second time it
-                // should overwrite the first one.  if a sequenceName or
-                // combination is specified in this call it does just that
-                //
-                // @todo make deleting its own method?
-                var deleteCombo = !sequenceName && callback.combo == combination;
-                var deleteSequence = sequenceName && callback.seq == sequenceName && callback.level == level;
-                if (deleteCombo || deleteSequence) {
-                    _callbacks[character].splice(i, 1);
-                }
-
-                matches.push(callback);
-            }
-        }
-
-        return matches;
-    }
-
-    /**
-     * takes a key event and figures out what the modifiers are
-     *
-     * @param {Event} e
-     * @returns {Array}
-     */
-    function _eventModifiers(e) {
-        var modifiers = [];
-
-        if (e.shiftKey) {
-            modifiers.push('shift');
-        }
-
-        if (e.altKey) {
-            modifiers.push('alt');
-        }
-
-        if (e.ctrlKey) {
-            modifiers.push('ctrl');
-        }
-
-        if (e.metaKey) {
-            modifiers.push('meta');
-        }
-
-        return modifiers;
-    }
-
-    /**
-     * prevents default for this event
-     *
-     * @param {Event} e
-     * @returns void
-     */
-    function _preventDefault(e) {
-        if (e.preventDefault) {
-            e.preventDefault();
-            return;
-        }
-
-        e.returnValue = false;
-    }
-
-    /**
-     * stops propogation for this event
-     *
-     * @param {Event} e
-     * @returns void
-     */
-    function _stopPropagation(e) {
-        if (e.stopPropagation) {
-            e.stopPropagation();
-            return;
-        }
-
-        e.cancelBubble = true;
-    }
-
-    /**
-     * actually calls the callback function
-     *
-     * if your callback function returns false this will use the jquery
-     * convention - prevent default and stop propogation on the event
-     *
-     * @param {Function} callback
-     * @param {Event} e
-     * @returns void
-     */
-    function _fireCallback(callback, e, combo, sequence) {
-
-        // if this event should not happen stop here
-        if (Mousetrap.stopCallback(e, e.target || e.srcElement, combo, sequence)) {
-            return;
-        }
-
-        if (callback(e, combo) === false) {
-            _preventDefault(e);
-            _stopPropagation(e);
-        }
-    }
-
-    /**
-     * handles a character key event
-     *
-     * @param {string} character
-     * @param {Array} modifiers
-     * @param {Event} e
-     * @returns void
-     */
-    function _handleKey(character, modifiers, e) {
-        var callbacks = _getMatches(character, modifiers, e),
-            i,
-            doNotReset = {},
-            maxLevel = 0,
-            processedSequenceCallback = false;
-
-        // Calculate the maxLevel for sequences so we can only execute the longest callback sequence
-        for (i = 0; i < callbacks.length; ++i) {
-            if (callbacks[i].seq) {
-                maxLevel = Math.max(maxLevel, callbacks[i].level);
-            }
-        }
-
-        // loop through matching callbacks for this key event
-        for (i = 0; i < callbacks.length; ++i) {
-
-            // fire for all sequence callbacks
-            // this is because if for example you have multiple sequences
-            // bound such as "g i" and "g t" they both need to fire the
-            // callback for matching g cause otherwise you can only ever
-            // match the first one
-            if (callbacks[i].seq) {
-
-                // only fire callbacks for the maxLevel to prevent
-                // subsequences from also firing
-                //
-                // for example 'a option b' should not cause 'option b' to fire
-                // even though 'option b' is part of the other sequence
-                //
-                // any sequences that do not match here will be discarded
-                // below by the _resetSequences call
-                if (callbacks[i].level != maxLevel) {
-                    continue;
-                }
-
-                processedSequenceCallback = true;
-
-                // keep a list of which sequences were matches for later
-                doNotReset[callbacks[i].seq] = 1;
-                _fireCallback(callbacks[i].callback, e, callbacks[i].combo, callbacks[i].seq);
-                continue;
-            }
-
-            // if there were no sequence matches but we are still here
-            // that means this is a regular match so we should fire that
-            if (!processedSequenceCallback) {
-                _fireCallback(callbacks[i].callback, e, callbacks[i].combo);
-            }
-        }
-
-        // if the key you pressed matches the type of sequence without
-        // being a modifier (ie "keyup" or "keypress") then we should
-        // reset all sequences that were not matched by this event
-        //
-        // this is so, for example, if you have the sequence "h a t" and you
-        // type "h e a r t" it does not match.  in this case the "e" will
-        // cause the sequence to reset
-        //
-        // modifier keys are ignored because you can have a sequence
-        // that contains modifiers such as "enter ctrl+space" and in most
-        // cases the modifier key will be pressed before the next key
-        //
-        // also if you have a sequence such as "ctrl+b a" then pressing the
-        // "b" key will trigger a "keypress" and a "keydown"
-        //
-        // the "keydown" is expected when there is a modifier, but the
-        // "keypress" ends up matching the _nextExpectedAction since it occurs
-        // after and that causes the sequence to reset
-        //
-        // we ignore keypresses in a sequence that directly follow a keydown
-        // for the same character
-        var ignoreThisKeypress = e.type == 'keypress' && _ignoreNextKeypress;
-        if (e.type == _nextExpectedAction && !_isModifier(character) && !ignoreThisKeypress) {
-            _resetSequences(doNotReset);
-        }
-
-        _ignoreNextKeypress = processedSequenceCallback && e.type == 'keydown';
-    }
-
-    /**
-     * handles a keydown event
-     *
-     * @param {Event} e
-     * @returns void
-     */
-    function _handleKeyEvent(e) {
-
-        // normalize e.which for key events
-        // @see http://stackoverflow.com/questions/4285627/javascript-keycode-vs-charcode-utter-confusion
-        if (typeof e.which !== 'number') {
-            e.which = e.keyCode;
-        }
-
-        var character = _characterFromEvent(e);
-
-        // no character found then stop
-        if (!character) {
-            return;
-        }
-
-        // need to use === for the character check because the character can be 0
-        if (e.type == 'keyup' && _ignoreNextKeyup === character) {
-            _ignoreNextKeyup = false;
-            return;
-        }
-
-        Mousetrap.handleKey(character, _eventModifiers(e), e);
-    }
-
-    /**
-     * determines if the keycode specified is a modifier key or not
-     *
-     * @param {string} key
-     * @returns {boolean}
-     */
-    function _isModifier(key) {
-        return key == 'shift' || key == 'ctrl' || key == 'alt' || key == 'meta';
-    }
-
-    /**
-     * called to set a 1 second timeout on the specified sequence
-     *
-     * this is so after each key press in the sequence you have 1 second
-     * to press the next key before you have to start over
-     *
-     * @returns void
-     */
-    function _resetSequenceTimer() {
-        clearTimeout(_resetTimer);
-        _resetTimer = setTimeout(_resetSequences, 1000);
-    }
-
-    /**
-     * reverses the map lookup so that we can look for specific keys
-     * to see what can and can't use keypress
-     *
-     * @return {Object}
-     */
-    function _getReverseMap() {
-        if (!_REVERSE_MAP) {
-            _REVERSE_MAP = {};
-            for (var key in _MAP) {
-
-                // pull out the numeric keypad from here cause keypress should
-                // be able to detect the keys from the character
-                if (key > 95 && key < 112) {
-                    continue;
-                }
-
-                if (_MAP.hasOwnProperty(key)) {
-                    _REVERSE_MAP[_MAP[key]] = key;
-                }
-            }
-        }
-        return _REVERSE_MAP;
-    }
-
-    /**
-     * picks the best action based on the key combination
-     *
-     * @param {string} key - character for key
-     * @param {Array} modifiers
-     * @param {string=} action passed in
-     */
-    function _pickBestAction(key, modifiers, action) {
-
-        // if no action was picked in we should try to pick the one
-        // that we think would work best for this key
-        if (!action) {
-            action = _getReverseMap()[key] ? 'keydown' : 'keypress';
-        }
-
-        // modifier keys don't work as expected with keypress,
-        // switch to keydown
-        if (action == 'keypress' && modifiers.length) {
-            action = 'keydown';
-        }
-
-        return action;
-    }
-
-    /**
-     * binds a key sequence to an event
-     *
-     * @param {string} combo - combo specified in bind call
-     * @param {Array} keys
-     * @param {Function} callback
-     * @param {string=} action
-     * @returns void
-     */
-    function _bindSequence(combo, keys, callback, action) {
-
-        // start off by adding a sequence level record for this combination
-        // and setting the level to 0
-        _sequenceLevels[combo] = 0;
-
-        /**
-         * callback to increase the sequence level for this sequence and reset
-         * all other sequences that were active
-         *
-         * @param {string} nextAction
-         * @returns {Function}
-         */
-        function _increaseSequence(nextAction) {
-            return function() {
-                _nextExpectedAction = nextAction;
-                ++_sequenceLevels[combo];
-                _resetSequenceTimer();
-            };
-        }
-
-        /**
-         * wraps the specified callback inside of another function in order
-         * to reset all sequence counters as soon as this sequence is done
-         *
-         * @param {Event} e
-         * @returns void
-         */
-        function _callbackAndReset(e) {
-            _fireCallback(callback, e, combo);
-
-            // we should ignore the next key up if the action is key down
-            // or keypress.  this is so if you finish a sequence and
-            // release the key the final key will not trigger a keyup
-            if (action !== 'keyup') {
-                _ignoreNextKeyup = _characterFromEvent(e);
-            }
-
-            // weird race condition if a sequence ends with the key
-            // another sequence begins with
-            setTimeout(_resetSequences, 10);
-        }
-
-        // loop through keys one at a time and bind the appropriate callback
-        // function.  for any key leading up to the final one it should
-        // increase the sequence. after the final, it should reset all sequences
-        //
-        // if an action is specified in the original bind call then that will
-        // be used throughout.  otherwise we will pass the action that the
-        // next key in the sequence should match.  this allows a sequence
-        // to mix and match keypress and keydown events depending on which
-        // ones are better suited to the key provided
-        for (var i = 0; i < keys.length; ++i) {
-            var isFinal = i + 1 === keys.length;
-            var wrappedCallback = isFinal ? _callbackAndReset : _increaseSequence(action || _getKeyInfo(keys[i + 1]).action);
-            _bindSingle(keys[i], wrappedCallback, action, combo, i);
-        }
-    }
-
-    /**
-     * Converts from a string key combination to an array
-     *
-     * @param  {string} combination like "command+shift+l"
-     * @return {Array}
-     */
-    function _keysFromString(combination) {
-        if (combination === '+') {
-            return ['+'];
-        }
-
-        return combination.split('+');
-    }
-
-    /**
-     * Gets info for a specific key combination
-     *
-     * @param  {string} combination key combination ("command+s" or "a" or "*")
-     * @param  {string=} action
-     * @returns {Object}
-     */
-    function _getKeyInfo(combination, action) {
-        var keys,
-            key,
-            i,
-            modifiers = [];
-
-        // take the keys from this pattern and figure out what the actual
-        // pattern is all about
-        keys = _keysFromString(combination);
-
-        for (i = 0; i < keys.length; ++i) {
-            key = keys[i];
-
-            // normalize key names
-            if (_SPECIAL_ALIASES[key]) {
-                key = _SPECIAL_ALIASES[key];
-            }
-
-            // if this is not a keypress event then we should
-            // be smart about using shift keys
-            // this will only work for US keyboards however
-            if (action && action != 'keypress' && _SHIFT_MAP[key]) {
-                key = _SHIFT_MAP[key];
-                modifiers.push('shift');
-            }
-
-            // if this key is a modifier then add it to the list of modifiers
-            if (_isModifier(key)) {
-                modifiers.push(key);
-            }
-        }
-
-        // depending on what the key combination is
-        // we will try to pick the best event for it
-        action = _pickBestAction(key, modifiers, action);
-
-        return {
-            key: key,
-            modifiers: modifiers,
-            action: action
-        };
-    }
-
-    /**
-     * binds a single keyboard combination
-     *
-     * @param {string} combination
-     * @param {Function} callback
-     * @param {string=} action
-     * @param {string=} sequenceName - name of sequence if part of sequence
-     * @param {number=} level - what part of the sequence the command is
-     * @returns void
-     */
-    function _bindSingle(combination, callback, action, sequenceName, level) {
-
-        // store a direct mapped reference for use with Mousetrap.trigger
-        _directMap[combination + ':' + action] = callback;
-
-        // make sure multiple spaces in a row become a single space
-        combination = combination.replace(/\s+/g, ' ');
-
-        var sequence = combination.split(' '),
-            info;
-
-        // if this pattern is a sequence of keys then run through this method
-        // to reprocess each pattern one key at a time
-        if (sequence.length > 1) {
-            _bindSequence(combination, sequence, callback, action);
-            return;
-        }
-
-        info = _getKeyInfo(combination, action);
-
-        // make sure to initialize array if this is the first time
-        // a callback is added for this key
-        _callbacks[info.key] = _callbacks[info.key] || [];
-
-        // remove an existing match if there is one
-        _getMatches(info.key, info.modifiers, {type: info.action}, sequenceName, combination, level);
-
-        // add this call back to the array
-        // if it is a sequence put it at the beginning
-        // if not put it at the end
-        //
-        // this is important because the way these are processed expects
-        // the sequence ones to come first
-        _callbacks[info.key][sequenceName ? 'unshift' : 'push']({
-            callback: callback,
-            modifiers: info.modifiers,
-            action: info.action,
-            seq: sequenceName,
-            level: level,
-            combo: combination
-        });
-    }
-
-    /**
-     * binds multiple combinations to the same callback
-     *
-     * @param {Array} combinations
-     * @param {Function} callback
-     * @param {string|undefined} action
-     * @returns void
-     */
-    function _bindMultiple(combinations, callback, action) {
-        for (var i = 0; i < combinations.length; ++i) {
-            _bindSingle(combinations[i], callback, action);
-        }
-    }
-
-    // start!
-    _addEvent(document, 'keypress', _handleKeyEvent);
-    _addEvent(document, 'keydown', _handleKeyEvent);
-    _addEvent(document, 'keyup', _handleKeyEvent);
-
-    var Mousetrap = {
-
-        /**
-         * binds an event to mousetrap
-         *
-         * can be a single key, a combination of keys separated with +,
-         * an array of keys, or a sequence of keys separated by spaces
-         *
-         * be sure to list the modifier keys first to make sure that the
-         * correct key ends up getting bound (the last key in the pattern)
-         *
-         * @param {string|Array} keys
-         * @param {Function} callback
-         * @param {string=} action - 'keypress', 'keydown', or 'keyup'
-         * @returns void
-         */
-        bind: function(keys, callback, action) {
-            keys = keys instanceof Array ? keys : [keys];
-            _bindMultiple(keys, callback, action);
-            return this;
-        },
-
-        /**
-         * unbinds an event to mousetrap
-         *
-         * the unbinding sets the callback function of the specified key combo
-         * to an empty function and deletes the corresponding key in the
-         * _directMap dict.
-         *
-         * TODO: actually remove this from the _callbacks dictionary instead
-         * of binding an empty function
-         *
-         * the keycombo+action has to be exactly the same as
-         * it was defined in the bind method
-         *
-         * @param {string|Array} keys
-         * @param {string} action
-         * @returns void
-         */
-        unbind: function(keys, action) {
-            return Mousetrap.bind(keys, function() {}, action);
-        },
-
-        /**
-         * triggers an event that has already been bound
-         *
-         * @param {string} keys
-         * @param {string=} action
-         * @returns void
-         */
-        trigger: function(keys, action) {
-            if (_directMap[keys + ':' + action]) {
-                _directMap[keys + ':' + action]({}, keys);
-            }
-            return this;
-        },
-
-        /**
-         * resets the library back to its initial state.  this is useful
-         * if you want to clear out the current keyboard shortcuts and bind
-         * new ones - for example if you switch to another page
-         *
-         * @returns void
-         */
-        reset: function() {
-            _callbacks = {};
-            _directMap = {};
-            return this;
-        },
-
-       /**
-        * should we stop this event before firing off callbacks
-        *
-        * @param {Event} e
-        * @param {Element} element
-        * @return {boolean}
-        */
-        stopCallback: function(e, element) {
-
-            // if the element has the class "mousetrap" then no need to stop
-            if ((' ' + element.className + ' ').indexOf(' mousetrap ') > -1) {
-                return false;
-            }
-
-            // stop for input, select, and textarea
-            return element.tagName == 'INPUT' || element.tagName == 'SELECT' || element.tagName == 'TEXTAREA' || element.isContentEditable;
-        },
-
-        /**
-         * exposes _handleKey publicly so it can be overwritten by extensions
-         */
-        handleKey: _handleKey
-    };
-
-    // expose mousetrap to the global object
-    window.Mousetrap = Mousetrap;
-
-    // expose mousetrap as an AMD module
-    if (typeof define === 'function' && define.amd) {
-        define(Mousetrap);
-    }
-}) (window, document);
-
-},{}],133:[function(require,module,exports){
-/**
- * adds a bindGlobal method to Mousetrap that allows you to
- * bind specific keyboard shortcuts that will still work
- * inside a text input field
- *
- * usage:
- * Mousetrap.bindGlobal('ctrl+s', _saveChanges);
- */
-/* global Mousetrap:true */
-Mousetrap = (function(Mousetrap) {
-    var _globalCallbacks = {},
-        _originalStopCallback = Mousetrap.stopCallback;
-
-    Mousetrap.stopCallback = function(e, element, combo, sequence) {
-        if (_globalCallbacks[combo] || _globalCallbacks[sequence]) {
-            return false;
-        }
-
-        return _originalStopCallback(e, element, combo);
-    };
-
-    Mousetrap.bindGlobal = function(keys, callback, action) {
-        Mousetrap.bind(keys, callback, action);
-
-        if (keys instanceof Array) {
-            for (var i = 0; i < keys.length; i++) {
-                _globalCallbacks[keys[i]] = true;
-            }
-            return;
-        }
-
-        _globalCallbacks[keys] = true;
-    };
-
-    return Mousetrap;
-}) (Mousetrap);
-
-},{}],134:[function(require,module,exports){
-/**
- * This extension allows you to record a sequence using Mousetrap.
- *
- * @author Dan Tao <daniel.tao@gmail.com>
- */
-(function(Mousetrap) {
-    /**
-     * the sequence currently being recorded
-     *
-     * @type {Array}
-     */
-    var _recordedSequence = [],
-
-        /**
-         * a callback to invoke after recording a sequence
-         *
-         * @type {Function|null}
-         */
-        _recordedSequenceCallback = null,
-
-        /**
-         * a list of all of the keys currently held down
-         *
-         * @type {Array}
-         */
-        _currentRecordedKeys = [],
-
-        /**
-         * temporary state where we remember if we've already captured a
-         * character key in the current combo
-         *
-         * @type {boolean}
-         */
-        _recordedCharacterKey = false,
-
-        /**
-         * a handle for the timer of the current recording
-         *
-         * @type {null|number}
-         */
-        _recordTimer = null,
-
-        /**
-         * the original handleKey method to override when Mousetrap.record() is
-         * called
-         *
-         * @type {Function}
-         */
-        _origHandleKey = Mousetrap.handleKey;
-
-    /**
-     * handles a character key event
-     *
-     * @param {string} character
-     * @param {Array} modifiers
-     * @param {Event} e
-     * @returns void
-     */
-    function _handleKey(character, modifiers, e) {
-        // remember this character if we're currently recording a sequence
-        if (e.type == 'keydown') {
-            if (character.length === 1 && _recordedCharacterKey) {
-                _recordCurrentCombo();
-            }
-
-            for (i = 0; i < modifiers.length; ++i) {
-                _recordKey(modifiers[i]);
-            }
-            _recordKey(character);
-
-        // once a key is released, all keys that were held down at the time
-        // count as a keypress
-        } else if (e.type == 'keyup' && _currentRecordedKeys.length > 0) {
-            _recordCurrentCombo();
-        }
-    }
-
-    /**
-     * marks a character key as held down while recording a sequence
-     *
-     * @param {string} key
-     * @returns void
-     */
-    function _recordKey(key) {
-        var i;
-
-        // one-off implementation of Array.indexOf, since IE6-9 don't support it
-        for (i = 0; i < _currentRecordedKeys.length; ++i) {
-            if (_currentRecordedKeys[i] === key) {
-                return;
-            }
-        }
-
-        _currentRecordedKeys.push(key);
-
-        if (key.length === 1) {
-            _recordedCharacterKey = true;
-        }
-    }
-
-    /**
-     * marks whatever key combination that's been recorded so far as finished
-     * and gets ready for the next combo
-     *
-     * @returns void
-     */
-    function _recordCurrentCombo() {
-        _recordedSequence.push(_currentRecordedKeys);
-        _currentRecordedKeys = [];
-        _recordedCharacterKey = false;
-        _restartRecordTimer();
-    }
-
-    /**
-     * ensures each combo in a sequence is in a predictable order and formats
-     * key combos to be '+'-delimited
-     *
-     * modifies the sequence in-place
-     *
-     * @param {Array} sequence
-     * @returns void
-     */
-    function _normalizeSequence(sequence) {
-        var i;
-
-        for (i = 0; i < sequence.length; ++i) {
-            sequence[i].sort(function(x, y) {
-                // modifier keys always come first, in alphabetical order
-                if (x.length > 1 && y.length === 1) {
-                    return -1;
-                } else if (x.length === 1 && y.length > 1) {
-                    return 1;
-                }
-
-                // character keys come next (list should contain no duplicates,
-                // so no need for equality check)
-                return x > y ? 1 : -1;
-            });
-
-            sequence[i] = sequence[i].join('+');
-        }
-    }
-
-    /**
-     * finishes the current recording, passes the recorded sequence to the stored
-     * callback, and sets Mousetrap.handleKey back to its original function
-     *
-     * @returns void
-     */
-    function _finishRecording() {
-        if (_recordedSequenceCallback) {
-            _normalizeSequence(_recordedSequence);
-            _recordedSequenceCallback(_recordedSequence);
-        }
-
-        // reset all recorded state
-        _recordedSequence = [];
-        _recordedSequenceCallback = null;
-        _currentRecordedKeys = [];
-
-        Mousetrap.handleKey = _origHandleKey;
-    }
-
-    /**
-     * called to set a 1 second timeout on the current recording
-     *
-     * this is so after each key press in the sequence the recording will wait for
-     * 1 more second before executing the callback
-     *
-     * @returns void
-     */
-    function _restartRecordTimer() {
-        clearTimeout(_recordTimer);
-        _recordTimer = setTimeout(_finishRecording, 1000);
-    }
-
-    /**
-     * records the next sequence and passes it to a callback once it's
-     * completed
-     *
-     * @param {Function} callback
-     * @returns void
-     */
-    Mousetrap.record = function(callback) {
-        Mousetrap.handleKey = _handleKey;
-        _recordedSequenceCallback = callback;
-    };
-
-})(Mousetrap);
-
-},{}],135:[function(require,module,exports){
+},{}],130:[function(require,module,exports){
 /*
  * node-timeago
  * Cam Pedersen

@@ -1,4 +1,16 @@
 
+1.0.11 / 2015-03-12
+==================
+
+ * Merge pull request #9 from sinan/kd.js
+ * CustomScroll: removed nested hidden overflow
+
+1.0.10 / 2015-03-08
+==================
+
+ * Merge pull request #8 from tetsuo/bump-up-jspath
+ * npm: bump up jspath
+
 1.0.9 / 2015-03-04
 ==================
 

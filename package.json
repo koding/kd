@@ -1,6 +1,6 @@
 {
   "name": "kd.js",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "a collection of ui widgets and other nice things",
   "main": "build/lib/index.js",
   "scripts": {

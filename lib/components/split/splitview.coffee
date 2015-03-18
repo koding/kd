@@ -309,6 +309,7 @@ module.exports = class KDSplitView extends KDView
 
     return  unless @sizes[1]?
     return  if @beingResized
+    return  if not @panels.first or not @panels.last
 
     @_resizeDidStart()
 

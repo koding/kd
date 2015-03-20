@@ -13,6 +13,8 @@ module.exports = class KDCustomScrollViewWrapper extends KDScrollView
   PAGEDOWN  = 34
   END       = 35
   HOME      = 36
+  UPARROW   = 38
+  DOWNARROW = 40
 
   constructor: (options = {}, data) ->
 
@@ -166,6 +168,9 @@ module.exports = class KDCustomScrollViewWrapper extends KDScrollView
     shouldPropagate = no
     if event.which is SPACEBAR and event.shiftKey
       @pageUp()
+    else if event.metaKey or event.ctrlKey
+      @scrollTo top : 0  if event.which is UPARROW
+      @scrollToBottom()  if event.which is DOWNARROW
     else
       switch event.which
         when PAGEUP then @pageUp()

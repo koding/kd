@@ -1,4 +1,11 @@
 
+1.0.13 / 2015-03-20
+==================
+
+ * Merge pull request #12 from alex-ionochkin/90763920-custom-scroll-command-key
+ * npm: bump up version
+ * customscroll: key binding for command+up/down
+
 1.0.11 / 2015-03-12
 ==================
 

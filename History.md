@@ -1,21 +1,10 @@
 
-2.0.0 / 2015-03-14
+1.0.13 / 2015-03-20
 ==================
 
- This release brings in some breaking api changes.
-
- * `core/keyboard` module is factored out to [shortcuts](https://github.com/koding/shortcuts)
- * `kd.KeyboardListener` & `kd.KeyboardMap` classes are obsolete along with all key-bindings stuff.
- * winctrl: remove obsolete viewHasKeyCombos
- * winctrl: do not register/unregister Mousetrap bindings
- * winctrl: remove obsolete superizeCombos
- * winctrl: currentCombos is obsolete
- * winctrl: keyViewHistory is obsolete
- * styles: chmod -x
- * utils: chmod -x
- * do not export keyboard
- * rm core/keyboard
- * npm: rm mousetrap
+ * Merge pull request #12 from alex-ionochkin/90763920-custom-scroll-command-key
+ * npm: bump up version
+ * customscroll: key binding for command+up/down
 
 1.0.11 / 2015-03-12
 ==================

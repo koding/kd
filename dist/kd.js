@@ -9627,7 +9627,7 @@ KDScrollTrack = require('./scrolltrack');
 Hammer = require('hammerjs');
 
 module.exports = KDCustomScrollViewWrapper = (function(superClass) {
-  var END, HOME, PAGEDOWN, PAGEUP, SPACEBAR;
+  var DOWNARROW, END, HOME, PAGEDOWN, PAGEUP, SPACEBAR, UPARROW;
 
   extend(KDCustomScrollViewWrapper, superClass);
 
@@ -9640,6 +9640,10 @@ module.exports = KDCustomScrollViewWrapper = (function(superClass) {
   END = 35;
 
   HOME = 36;
+
+  UPARROW = 38;
+
+  DOWNARROW = 40;
 
   function KDCustomScrollViewWrapper(options, data) {
     var base, calculateEvent, hammer, prevDeltaX, prevDeltaY;
@@ -9801,6 +9805,15 @@ module.exports = KDCustomScrollViewWrapper = (function(superClass) {
     shouldPropagate = false;
     if (event.which === SPACEBAR && event.shiftKey) {
       this.pageUp();
+    } else if (event.metaKey || event.ctrlKey) {
+      if (event.which === UPARROW) {
+        this.scrollTo({
+          top: 0
+        });
+      }
+      if (event.which === DOWNARROW) {
+        this.scrollToBottom();
+      }
     } else {
       switch (event.which) {
         case PAGEUP:
@@ -11404,6 +11417,9 @@ module.exports = KDSplitView = (function(superClass) {
       return;
     }
     if (this.beingResized) {
+      return;
+    }
+    if (!this.panels.first || !this.panels.last) {
       return;
     }
     this._resizeDidStart();

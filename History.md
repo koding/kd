@@ -1,5 +1,5 @@
 
-2.0.0 / 2015-03-14
+1.1.0 / 2015-03-31
 ==================
 
  This release brings in some breaking api changes.
@@ -16,6 +16,12 @@
  * do not export keyboard
  * rm core/keyboard
  * npm: rm mousetrap
+
+1.0.13 / 2015-03-20
+==================
+
+ * Merge pull request #12 from alex-ionochkin/90763920-custom-scroll-command-key
+ * customscroll: key binding for command+up/down
 
 1.0.11 / 2015-03-12
 ==================

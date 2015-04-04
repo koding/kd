@@ -16,6 +16,7 @@
  * do not export keyboard
  * rm core/keyboard
  * npm: rm mousetrap
+ * SplitView: Don't try to resize if there is no panel.
 
 1.0.13 / 2015-03-20
 ==================

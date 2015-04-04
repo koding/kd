@@ -1,3 +1,4 @@
+debug = require('debug') 'kd'
 utils = require './utils'
 dom = require 'kd-dom'
 
@@ -12,7 +13,7 @@ getSingleton = (name) ->
   if singletons[name]?
     singletons[name]
   else
-    console.warn "[getSingleton] #{name} doesn't exist"
+    debug "could not found singleton #{name}"
     null
 
 module.exports =
@@ -24,19 +25,18 @@ module.exports =
   registerSingleton: (name, obj, override = no)->
     if (existing = singletons[name])?
       if override
-        console.warn "[registerSingleton] overriding #{name}"
+        debug "overriding singleton #{name}"
         existing.destroy?()
         singletons[name] = obj
       else
-        console.error "[registerSingleton] #{name} exists. if you want to override set override param to true."
+        debug "cowardly refusing to override singleton #{name} without being explicitly told to do so"
         singletons[name]
-      # KDObject.emit "singleton.#{name}.registered"
     else
-      # log "singleton registered! KD.singletons[\"#{name}\"]"
+      debug "registered singleton #{name}"
       singletons[name] = obj
 
   registerInstance: (inst) ->
-    console.warn '[registerInstance] instance is being overwritten' if instances[inst.id]
+    debug "overriding instance #{inst.id}"  if instances[inst.id]
     instances[inst.id] = inst
 
   unregisterInstance: (id) ->

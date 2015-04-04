@@ -84,7 +84,7 @@ module.exports = class JTreeViewController extends KDViewController
 
     o = @getOptions()
     for own index, node of @indexedNodes
-      KD.log index, @getNodeId(node), @getNodePId(node), node.depth
+      console.log index, @getNodeId(node), @getNodePId(node), node.depth
 
   getNodeId:(nodeData)->
 

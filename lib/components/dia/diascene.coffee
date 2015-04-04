@@ -284,7 +284,7 @@ module.exports = class KDDiaScene extends KDView
   getSceneSize:-> width: @getWidth(), height: @getHeight()
 
   dumpScene:->
-    KD.log @containers, @connections
+    console.log @containers, @connections
 
   reset:(update = yes)->
     @connections     = []

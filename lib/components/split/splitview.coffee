@@ -361,10 +361,3 @@ module.exports = class KDSplitView extends KDView
     return debug "invalid view type"  unless view instanceof KDView
 
     @panels[index].addSubView view
-
-
-  # deprecated methods
-  deprecated = -> KD.warn 'deprecated method invoked'
-  _repositionPanels: deprecated
-  _repositionResizers: deprecated
-  _setPanelPositions: deprecated

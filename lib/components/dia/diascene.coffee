@@ -1,8 +1,8 @@
-$ = require 'jquery'
-KD = require '../../core/kd'
+$                = require 'jquery'
+KD               = require '../../core/kd'
 KDView           = require '../../core/view'
 KDCustomHTMLView = require '../../core/customhtmlview'
-_throttle        = require 'lodash.throttle'
+_                = require 'lodash'
 
 module.exports = class KDDiaScene extends KDView
 
@@ -194,11 +194,12 @@ module.exports = class KDDiaScene extends KDView
     @fakeConnections = []
     @updateScene()
 
-  updateScene:->
+  updateScene: _.throttle ->
 
     @cleanup @realCanvas
     @drawConnectionLine connection for connection in @connections
     @drawConnectionLine connection for connection in @fakeConnections
+  , 300
 
   drawConnectionLine:({source, target, options})->
 
@@ -279,7 +280,7 @@ module.exports = class KDDiaScene extends KDView
 
   parentDidResize:->
     super
-    do _throttle => @updateScene()
+    @updateScene()
 
   getSceneSize:-> width: @getWidth(), height: @getHeight()
 

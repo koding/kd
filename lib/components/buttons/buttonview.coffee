@@ -1,3 +1,4 @@
+debug = require('debug') 'kd:buttons:buttonview'
 $ = require 'jquery'
 KD = require '../../core/kd'
 KDView       = require '../../core/view'
@@ -120,7 +121,7 @@ module.exports = class KDButtonView extends KDView
         el.classList.add klass
 
     unless el?
-      KD.warn "No lazy DOM Element found with given id #{lazyDomId}."  if lazyDomId
+      debug "missing lazy dom element #{lazyDomId}"  if lazyDomId
       el =
       """
       <button type='#{@getOptions().type}' class='kdbutton #{cssClass}' id='#{@getId()}'>
@@ -196,7 +197,7 @@ module.exports = class KDButtonView extends KDView
   showLoader:->
 
     unless @loader
-      return KD.warn 'KDButtonView::showLoader is called where no loader is set'
+      debug 'missing loader'
 
     {icon, iconOnly} = @getOptions()
     @setClass "loading"
@@ -209,7 +210,7 @@ module.exports = class KDButtonView extends KDView
   hideLoader:->
 
     unless @loader
-      return KD.warn 'KDButtonView::hideLoader is called where no loader is set'
+      debug 'missing loader'
 
     {icon, iconOnly} = @getOptions()
     @unsetClass "loading"

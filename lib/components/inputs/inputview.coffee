@@ -1,3 +1,4 @@
+debug = require('debug') 'kd:inputs:inputview'
 $ = require 'jquery'
 KD = require '../../core/kd'
 KDNotificationView = require '../notifications/notificationview'
@@ -187,7 +188,7 @@ module.exports = class KDInputView extends KDView
       for option in options
         @$().append "<option value='#{option.value}'>#{option.title}</option>"
     else
-      KD.warn "no valid options specified for the input:", @
+      debug "got invalid arguments"
 
     @$().val @getDefaultValue()
 

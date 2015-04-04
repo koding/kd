@@ -1,3 +1,4 @@
+debug = require('debug') 'kd:list:listviewcontroller'
 KD = require '../../core/kd'
 KDView             = require '../../core/view'
 KDViewController   = require '../../core/viewcontroller'
@@ -26,7 +27,7 @@ module.exports = class KDListViewController extends KDViewController
     options.lastToFirst            ?= no
 
     Object.defineProperty this, "itemsOrdered", get : =>
-      KD.warn "KDListViewController::itemsOrdered is deprecated."
+      debug 'itemsOrdered is deprecated'
       @getListItems()
 
     @itemsIndexed                 = {}

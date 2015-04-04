@@ -4,6 +4,8 @@ module.exports = require './core/kd'
 
 module.exports.extend
 
+  debug                          : require 'debug'
+
   AutoComplete                   : require "./components/autocomplete/autocomplete"
   AutoCompleteController         : require "./components/autocomplete/autocompletecontroller"
   AutoCompletedItem              : require "./components/autocomplete/autocompleteditems"

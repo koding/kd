@@ -1,6 +1,7 @@
-$                  = require 'jquery'
-KD                 = require './kd'
-KDController       = require './controller'
+debug        = require('debug') 'kd:windowcontroller'
+$            = require 'jquery'
+KD           = require './kd'
+KDController = require './controller'
 
 ###
 todo:
@@ -175,7 +176,7 @@ module.exports = class KDWindowController extends KDController
   revertKeyView:(view)->
 
     unless view
-      KD.warn 'view, which shouldn\'t be the keyview anymore, must be passed as a parameter!'
+      debug 'missing view'
       return
 
     if view is @keyView and @keyView isnt @oldKeyView

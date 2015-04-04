@@ -11,8 +11,6 @@ module.exports = class KDView extends KDObject
 
   {defineProperty} = Object
 
-  deprecated = (methodName)-> KD.warn "#{methodName} is deprecated from KDView if you need it override in your subclass"
-
   eventNames =
     ///
     ^(

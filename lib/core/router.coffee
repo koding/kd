@@ -1,3 +1,4 @@
+debug = require('debug') 'kd:router'
 KD = require './kd'
 KDObject           = require './object'
 KDNotificationView = require '../components/notifications/notificationview'
@@ -70,8 +71,7 @@ module.exports = class KDRouter extends KDObject
     return yes
 
   @handleNotFound =(route)->
-    console.trace()
-    KD.log "The route #{ Encoder.XSSEncode route } was not found!"
+    debug "route #{route} not found"
 
   getCurrentPath:-> @currentPath
 
@@ -83,7 +83,7 @@ module.exports = class KDRouter extends KDObject
 
     delete @userRoute
     @clear()
-    KD.log "The route #{route} was not found!"
+    debug "route #{route} not found"
     new KDNotificationView title: message
 
   routeWithoutEdgeAtIndex =(route, i)->

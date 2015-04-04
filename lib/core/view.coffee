@@ -451,7 +451,7 @@ module.exports = class KDView extends KDObject
     subViews
 
   setParent:(parent)->
-    if @parent? then KD.error 'View already has a parent', this, @parent
+    if @parent? then debug 'view already has a parent', this, @parent
     else
       if defineProperty
         defineProperty @, 'parent', value : parent, configurable : yes

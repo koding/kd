@@ -1,3 +1,4 @@
+debug = require('debug') 'kd:utils'
 Inflector = require 'inflector'
 
 module.exports =
@@ -444,7 +445,7 @@ module.exports =
       callback data?.id or url, data
 
     request.error ({status, statusText, responseText})->
-      error "URL shorten error, returning self as fallback.", status, statusText, responseText
+      debug "could not shorten url #{url}", status, statusText, responseText
       callback url
 
   formatBytesToHumanReadable: (bytes, fixedAmout = 2) ->

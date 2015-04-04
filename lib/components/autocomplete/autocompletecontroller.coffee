@@ -1,3 +1,4 @@
+debug = require('debug') 'kd:autocomplete:controller'
 $ = require 'jquery'
 KD = require '../../core/kd'
 KDAutoCompleteListItemView = require './autocompletelistitem'
@@ -363,7 +364,7 @@ module.exports = class KDAutoCompleteController extends KDViewController
         @refreshDropDown data
         @showDropdown()
       else
-        KD.log 'no data found'
+        debug 'data not found'
         @showNoDataFound()
 
   keyUpOnInputView:(event)->

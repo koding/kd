@@ -1,3 +1,4 @@
+debug = require('debug') 'kd:modals:modalviewstack'
 KD = require '../../core/kd'
 KDModalView = require './modalview'
 KDObject = require '../../core/object'
@@ -13,7 +14,8 @@ module.exports = class KDModalViewStack extends KDObject
   addModal: (modal)->
 
     unless modal instanceof KDModalView
-      return KD.warn "You can only add KDModalView instances to the modal stack."
+      debug 'modal must be an instanceof kd.ModalView'
+      return
 
     modal.on "KDObjectWillBeDestroyed", => @next()
 

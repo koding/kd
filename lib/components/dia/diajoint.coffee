@@ -1,3 +1,4 @@
+debug = require('debug') 'kd:dia:diajoint'
 KD = require '../../core/kd'
 KDView = require '../../core/view'
 
@@ -9,7 +10,7 @@ module.exports = class KDDiaJoint extends KDView
 
     options.type   or= 'left'
     unless options.type in types
-      KD.warn "Unknown joint type '#{options.type}', falling back to 'left'"
+      debug "unknown joint type '#{options.type}', falling back to 'left'"
       options.type = 'left'
 
     options.static  ?= no

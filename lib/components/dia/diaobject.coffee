@@ -1,3 +1,4 @@
+debug = require('debug') 'kd:dia:diaobject'
 KD = require '../../core/kd'
 KDDiaJoint = require './diajoint'
 KDView = require '../../core/view'
@@ -65,7 +66,7 @@ module.exports = class KDDiaObject extends KDView
   addJoint:(type)->
 
     if @joints[type]?
-      KD.warn "KDDiaObject: Tried to add same joint! Destroying old one. "
+      debug 'dup joint, overriding previous one'
       @joints[type].destroy?()
 
     {jointItemClass, staticJoints} = @getOptions()

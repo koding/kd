@@ -1,3 +1,4 @@
+debug = require('debug') 'kd:view'
 $ = require 'jquery'
 KD = require './kd'
 KDObject        = require './object'
@@ -170,7 +171,7 @@ module.exports = class KDView extends KDObject
     @domElement = $ el
 
     if @lazy
-      # warn "lazyElement found with id #{domId}"
+      debug "lazyElement found with id #{domId}"
       @utils.defer => @emit 'viewAppended'
 
   setDomId:(id)->
@@ -427,7 +428,6 @@ module.exports = class KDView extends KDObject
       if shouldPrepend
       then @prepend subView, selector
       else @append subView, selector
-    # else log "lazy view", subView
 
     subView.on "ViewResized", -> subView.parentDidResize()
 

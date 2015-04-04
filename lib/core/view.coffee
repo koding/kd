@@ -65,10 +65,6 @@ module.exports = class KDView extends KDObject
       $("body").append @$()
       @utils.defer => @emit "viewAppended"
 
-  @appendToDOMBody = (view) ->
-    KD.warn "KDView.appendToDOMBody is deprecated; use #appendToDomBody instead"
-    view.appendToDomBody()
-
 # #
 # INSTANCE LEVEL
 # #
@@ -915,7 +911,7 @@ module.exports = class KDView extends KDObject
     windowController = KD.getSingleton 'windowController'
     windowController.setKeyView this
 
-  unsetKeyView: -> 
+  unsetKeyView: ->
     windowController = KD.getSingleton 'windowController'
     windowController.setKeyView null
 

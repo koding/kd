@@ -355,7 +355,7 @@ module.exports =
     kallback
 
   logTimer:(timerName, timerNumber, startTime)->
-    log "logTimer name:#{timerName}"
+    console.log "logTimer name:#{timerName}"
 
     @timers[timerName] ||= {}
     @timers[timerName][timerNumber] =
@@ -375,7 +375,7 @@ module.exports =
 
     @timers[timerName][timerNumber] = timer
 
-    log "updateLogTimer name:#{timerName}, status:#{status} elapsed:#{elapsed}"
+    console.log "updateLogTimer name:#{timerName}, status:#{status} elapsed:#{elapsed}"
 
   timers: {}
 

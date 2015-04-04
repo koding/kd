@@ -31,6 +31,7 @@
     "kd-shim-inflector": "^0.1.0",
     "kd-shim-jspath": "^0.2.0",
     "kd-shim-mutation-summary": "^0.1.0",
+    "lodash": "^3.6.0",
     "timeago": "^0.2.0"
   },
   "devDependencies": {

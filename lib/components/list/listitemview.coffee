@@ -50,6 +50,8 @@ module.exports = class KDListItemView extends KDView
   getItemDataId: ->
     data = @getData()
 
+    return  unless data
+
     id = if data.getId?() then data.getId()
     else if data.id?      then data.id
     else if data._id?     then data._id

@@ -1,3 +1,4 @@
+debug = require('debug') 'kd:utils'
 Inflector = require 'inflector'
 
 module.exports =
@@ -355,7 +356,7 @@ module.exports =
     kallback
 
   logTimer:(timerName, timerNumber, startTime)->
-    log "logTimer name:#{timerName}"
+    console.log "logTimer name:#{timerName}"
 
     @timers[timerName] ||= {}
     @timers[timerName][timerNumber] =
@@ -375,7 +376,7 @@ module.exports =
 
     @timers[timerName][timerNumber] = timer
 
-    log "updateLogTimer name:#{timerName}, status:#{status} elapsed:#{elapsed}"
+    console.log "updateLogTimer name:#{timerName}, status:#{status} elapsed:#{elapsed}"
 
   timers: {}
 
@@ -444,7 +445,7 @@ module.exports =
       callback data?.id or url, data
 
     request.error ({status, statusText, responseText})->
-      error "URL shorten error, returning self as fallback.", status, statusText, responseText
+      debug "could not shorten url #{url}", status, statusText, responseText
       callback url
 
   formatBytesToHumanReadable: (bytes, fixedAmout = 2) ->

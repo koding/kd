@@ -1,3 +1,4 @@
+debug = require('debug') 'kd:list:listview'
 KD = require '../../core/kd'
 KDListItemView = require './listitemview'
 KDView        = require '../../core/view'
@@ -205,7 +206,7 @@ module.exports = class KDListView extends KDView
 
     currentIndex = @getItemIndex item
     if currentIndex < 0
-      KD.warn "Item doesn't exists", item
+      debug "missing item", item
       return @items
 
     newIndex = Math.max(0, Math.min(@items.length-1, newIndex))

@@ -1,3 +1,4 @@
+debug = require('debug') 'kd:modals:modalviewwithforms'
 KDModalView        = require './modalview'
 KDTabViewWithForms = require '../tabs/tabviewwithforms'
 
@@ -20,7 +21,7 @@ module.exports = class KDModalViewWithForms extends KDModalView
 
     data.reduce (acc, form) ->
       for own key, val of form.data
-        console.warn "Property #{key} will be overwitten!"  if key of acc
+        debug "overriding #{key}"  if key of acc
         acc[key] = val
       return acc
     , {}

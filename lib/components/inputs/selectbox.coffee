@@ -1,3 +1,4 @@
+debug = require('debug') 'kd:inputs:selectbox'
 $ = require 'jquery'
 KD = require '../../core/kd'
 KDInputView = require './inputview'
@@ -67,7 +68,7 @@ module.exports = class KDSelectBox extends KDInputView
         @_$select.append "<option value='#{option.value}'>#{option.title}</option>"
         firstOption or= option
     else
-      KD.warn "no valid options specified for the input:", @
+      debug "got invalid arguments"
 
     value = @getDefaultValue() or firstOption?.value or ""
     @_$select.val value + "" # casting to number in case, i don't remember why though. SY

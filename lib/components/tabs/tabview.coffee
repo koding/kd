@@ -1,3 +1,4 @@
+debug = require('debug') 'kd:tabs:tabpaneview'
 $ = require 'jquery'
 KD = require '../../core/kd'
 KDTabHandleView = require './tabhandleview'
@@ -69,7 +70,7 @@ module.exports = class KDTabView extends KDScrollView
 
     unless paneInstance instanceof KDTabPaneView
       {name} = paneInstance?.constructor?
-      KD.warn "You can't add #{name if name} as a pane, use KDTabPaneView instead"
+      debug "can't add #{name if name} as a pane, use kd.TabPaneView instead"
       return no
 
 
@@ -198,7 +199,7 @@ module.exports = class KDTabView extends KDScrollView
 
     unless handle instanceof KDTabHandleView
       {name} = handle?.constructor?
-      KD.warn "You can't add #{name if name?} as a pane, use KDTabHandleView instead"
+      debug "can't add #{name if name?} as a pane, use kd.TabHandleView instead"
       return no
 
     @handles.push handle

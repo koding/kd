@@ -1,3 +1,4 @@
+debug = require('debug') 'kd:tabs:tabpaneview'
 KD = require '../../core/kd'
 KDView = require '../../core/view'
 
@@ -92,7 +93,7 @@ module.exports = class KDTabPaneView extends KDView
       {viewClass, options, data} = viewOptions
       @mainView = @addSubView new viewClass options, data
     else
-      return KD.warn "probably you set a weird lazy view!"
+      return debug 'invalid view type'
 
     @emit "KDTabPaneLazyViewAdded", this, @mainView
     return @mainView

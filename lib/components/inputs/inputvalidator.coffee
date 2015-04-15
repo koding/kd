@@ -1,3 +1,4 @@
+debug = require('debug') 'kd:inputs:inputvalidator'
 $ = require 'jquery'
 KD = require '../../core/kd'
 module.exports = class KDInputValidator
@@ -127,7 +128,7 @@ module.exports = class KDInputValidator
     try
       JSON.parse value if value
     catch err
-      KD.error err,doesValidate
+      debug 'could not parse json', err, doesValidate
       doesValidate = no
 
     if doesValidate

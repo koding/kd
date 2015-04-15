@@ -1,3 +1,4 @@
+debug = require('debug') 'kd:split:splitpanel'
 KD = require '../../core/kd'
 KDSplitView = require './splitview'
 KDScrollView = require '../scrollview/scrollview'
@@ -19,7 +20,8 @@ module.exports = class KDSplitViewPanel extends KDScrollView
 
   splitPanel: (options = {}) ->
     if @subViews.first instanceof KDSplitView
-      return KD.warn "this panel is already splitted"
+      debug 'panel is already split'
+      return
 
     view      = @subViews.first
     index     = @parent.panels.indexOf this

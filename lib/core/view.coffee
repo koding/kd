@@ -1,3 +1,4 @@
+debug = require('debug') 'kd:view'
 $ = require 'jquery'
 KD = require './kd'
 KDObject        = require './object'
@@ -10,8 +11,6 @@ module.exports = class KDView extends KDObject
 # #
 
   {defineProperty} = Object
-
-  deprecated = (methodName)-> KD.warn "#{methodName} is deprecated from KDView if you need it override in your subclass"
 
   eventNames =
     ///
@@ -64,10 +63,6 @@ module.exports = class KDView extends KDObject
     unless @lazy
       $("body").append @$()
       @utils.defer => @emit "viewAppended"
-
-  @appendToDOMBody = (view) ->
-    KD.warn "KDView.appendToDOMBody is deprecated; use #appendToDomBody instead"
-    view.appendToDomBody()
 
 # #
 # INSTANCE LEVEL
@@ -176,7 +171,7 @@ module.exports = class KDView extends KDObject
     @domElement = $ el
 
     if @lazy
-      # warn "lazyElement found with id #{domId}"
+      debug "lazyElement found with id #{domId}"
       @utils.defer => @emit 'viewAppended'
 
   setDomId:(id)->
@@ -433,7 +428,6 @@ module.exports = class KDView extends KDObject
       if shouldPrepend
       then @prepend subView, selector
       else @append subView, selector
-    # else log "lazy view", subView
 
     subView.on "ViewResized", -> subView.parentDidResize()
 
@@ -457,7 +451,7 @@ module.exports = class KDView extends KDObject
     subViews
 
   setParent:(parent)->
-    if @parent? then KD.error 'View already has a parent', this, @parent
+    if @parent? then debug 'view already has a parent', this, @parent
     else
       if defineProperty
         defineProperty @, 'parent', value : parent, configurable : yes
@@ -915,7 +909,7 @@ module.exports = class KDView extends KDObject
     windowController = KD.getSingleton 'windowController'
     windowController.setKeyView this
 
-  unsetKeyView: -> 
+  unsetKeyView: ->
     windowController = KD.getSingleton 'windowController'
     windowController.setKeyView null
 

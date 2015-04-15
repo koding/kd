@@ -1,3 +1,4 @@
+debug            = require('debug') 'kd:split:splitview'
 KD               = require '../../core/kd'
 KDView           = require '../../core/view'
 KDSplitViewPanel = require './splitpanel'
@@ -355,15 +356,8 @@ module.exports = class KDSplitView extends KDView
 
   setView: (view, index) ->
 
-    return KD.warn "view is missing at KDSplitView::setView"   unless view
-    return KD.warn "index is missing at KDSplitView::setView"  if index > @panels.length
-    return KD.warn "index is missing at KDSplitView::setView"  unless view instanceof KDView
+    return debug "missing view"       unless view
+    return debug "missing index"      if index > @panels.length
+    return debug "invalid view type"  unless view instanceof KDView
 
     @panels[index].addSubView view
-
-
-  # deprecated methods
-  deprecated = -> KD.warn 'deprecated method invoked'
-  _repositionPanels: deprecated
-  _repositionResizers: deprecated
-  _setPanelPositions: deprecated

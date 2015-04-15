@@ -24,8 +24,9 @@ module.exports = class KDSpotlightView extends KDView
       if width > 0 and height > 0
         view       = new KDView
           cssClass : KD.utils.curry "kdoverlay", position
-          size     : { width, height }
           position : { top,   left   }
+        view.setWidth width
+        view.setHeight height
 
         if isRemovable
           view.on "click", =>

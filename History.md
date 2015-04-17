@@ -1,4 +1,31 @@
 
+1.1.1 / 2015-04-17
+==================
+
+  * Merge pull request #16 from alex-ionochkin/spotlightview-size-fix
+    * spotlightview: code formatting
+    * spotlightview: size fix
+  * Merge branch 'patch/shortcuts-ui' into 1.2.0
+    * list: do not let itemview to freak out when there is no data available
+  * Merge pull request #15 from tetsuo/1.2.0
+    * dia/scene/update-scene: throttle indeed :hatched_chick:
+    * npm: add lodash@3.6.0
+    * npm: remove lodash.throttle
+    * expose debug
+    * use debug instead of KD.error :balloon:
+    * core/object: bind console.error instead of KD.error onError :hatched_chick:
+    * core/windowctrl: use debug instead of KD.log :rabbit:
+    * core/utils: log :arrow_right: console.log
+    * core/router: use debug instead of KD.log
+    * core/kd: use debug instead of console[log|warn|error] :hamster:
+    * core/view: use debug to log lazyElement found warning
+    * core/view: remove unused deprecated fn
+    * core/view: remove obsolete appendToDOMBody
+    * use console.log instead of KD.log to explicitly dump messages :cat:
+    * split: remove obsolete methods :cop:
+    * components: use debug instead of log/warn :hear_no_evil:
+    * npm: add debug
+
 1.1.0 / 2015-03-31
 ==================
 

@@ -198,6 +198,7 @@ module.exports = class KDButtonView extends KDView
 
     unless @loader
       debug 'missing loader'
+      return
 
     {icon, iconOnly} = @getOptions()
     @setClass "loading"
@@ -211,6 +212,7 @@ module.exports = class KDButtonView extends KDView
 
     unless @loader
       debug 'missing loader'
+      return
 
     {icon, iconOnly} = @getOptions()
     @unsetClass "loading"

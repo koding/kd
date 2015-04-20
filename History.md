@@ -1,4 +1,10 @@
 
+1.1.2 / 2015-04-20
+==================
+
+  * Merge pull request #17 from tetsuo/bug/pr-15-missing-returns
+    * buttons: add missing return statements
+
 1.1.1 / 2015-04-17
 ==================
 

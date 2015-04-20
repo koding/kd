@@ -13,7 +13,7 @@ getSingleton = (name) ->
   if singletons[name]?
     singletons[name]
   else
-    debug "could not found singleton #{name}"
+    debug "could not find singleton #{name}"
     null
 
 module.exports =

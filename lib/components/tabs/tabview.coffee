@@ -277,7 +277,7 @@ module.exports = class KDTabView extends KDScrollView
       @tabHandleContainer = new KDTabHandleContainer
       @appendHandleContainer()
 
-    @tabHandleContainer.setClass "kdtabhandlecontainer"
+    @tabHandleContainer.setClass 'kdtabhandlecontainer'
 
   getTabHandleContainer:-> @tabHandleContainer
 

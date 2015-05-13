@@ -173,7 +173,6 @@ module.exports = class KDModalView extends KDView
   _windowDidResize: ->
     @setPositions()
     {innerHeight} = window
-    @$('.kdmodal-content').css maxHeight : innerHeight - 120
     @setY Math.round((innerHeight - @getHeight()) / 2)  unless @getOptions().position.top
 
 

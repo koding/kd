@@ -9,9 +9,11 @@ module.exports = class KDTabHandleView extends KDView
     options.title             or= "Title"   # a String
     options.pane               ?= null      # a KDTabPaneView instance
     options.view               ?= null      # a KDView instance to put in the tab handle
-    options.sortable           ?= no        # yes or no
     options.closable           ?= yes       # yes or no
     options.addTitleAttribute  ?= yes       # yes or no
+
+    options.sortable           ?= no
+    options.droppable          ?= yes
 
     if options.sortable
       options.draggable  = axis: "x"

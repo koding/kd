@@ -169,8 +169,10 @@ module.exports = class KDCustomScrollViewWrapper extends KDScrollView
     if event.which is SPACEBAR and event.shiftKey
       @pageUp()
     else if event.metaKey or event.ctrlKey
-      @scrollTo top : 0  if event.which is UPARROW
-      @scrollToBottom()  if event.which is DOWNARROW
+      switch event.which
+        when UPARROW   then @scrollTo top: 0
+        when DOWNARROW then @scrollToBottom()
+        else shouldPropagate = yes
     else
       switch event.which
         when PAGEUP then @pageUp()

@@ -85,7 +85,7 @@ module.exports = class KDView extends KDObject
     options.suffix            or= ""        # a String
     options.tooltip           or= null      # an Object of kdtooltip options
     options.lazyLoadThreshold  ?= no
-    options.droppable         or= no
+    options.droppable          ?= no
 
     # TO BE IMPLEMENTED
     options.resizable         or= null      # TBDL

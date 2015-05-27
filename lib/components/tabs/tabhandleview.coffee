@@ -1,5 +1,5 @@
-$ = require 'jquery'
-KDView = require '../../core/view'
+$       = require 'jquery'
+KDView  = require '../../core/view'
 
 module.exports = class KDTabHandleView extends KDView
 

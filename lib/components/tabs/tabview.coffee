@@ -1,11 +1,11 @@
-debug = require('debug') 'kd:tabs:tabpaneview'
-$ = require 'jquery'
-KD = require '../../core/kd'
-KDTabHandleView = require './tabhandleview'
-KDTabPaneView = require './tabpaneview'
-KDScrollView         = require '../scrollview/scrollview'
-KDTabHandleContainer = require './tabhandlecontainer'
-KDTabHandleMoveNav   = require './tabhandlemovenav'
+debug                 = require('debug') 'kd:tabs:tabpaneview'
+$                     = require 'jquery'
+KD                    = require '../../core/kd'
+KDTabHandleView       = require './tabhandleview'
+KDTabPaneView         = require './tabpaneview'
+KDScrollView          = require '../scrollview/scrollview'
+KDTabHandleContainer  = require './tabhandlecontainer'
+KDTabHandleMoveNav    = require './tabhandlemovenav'
 
 module.exports = class KDTabView extends KDScrollView
 

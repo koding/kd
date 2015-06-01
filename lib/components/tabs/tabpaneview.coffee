@@ -1,6 +1,6 @@
-debug = require('debug') 'kd:tabs:tabpaneview'
-KD = require '../../core/kd'
-KDView = require '../../core/view'
+debug   = require('debug') 'kd:tabs:tabpaneview'
+KD      = require '../../core/kd'
+KDView  = require '../../core/view'
 
 module.exports = class KDTabPaneView extends KDView
 

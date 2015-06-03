@@ -85,7 +85,6 @@ module.exports = class KDView extends KDObject
     options.suffix            or= ""        # a String
     options.tooltip           or= null      # an Object of kdtooltip options
     options.lazyLoadThreshold  ?= no
-    options.droppable          ?= no
 
     # TO BE IMPLEMENTED
     options.resizable         or= null      # TBDL
@@ -105,7 +104,6 @@ module.exports = class KDView extends KDObject
     { cssClass, attributes, size, position
       partial, draggable, pistachio, pistachioParams
       lazyLoadThreshold, tooltip, draggable, tagName
-      droppable
     } = options
 
     @setDomElement cssClass
@@ -121,7 +119,6 @@ module.exports = class KDView extends KDObject
     @setLazyLoader lazyLoadThreshold  if lazyLoadThreshold
     @setTooltip tooltip               if tooltip
     @setDraggable draggable           if draggable
-    @setAttribute 'draggable', yes    if droppable
 
     @bindEvents()
 

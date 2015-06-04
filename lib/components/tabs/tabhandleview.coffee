@@ -11,9 +11,7 @@ module.exports = class KDTabHandleView extends KDView
     options.view               ?= null      # a KDView instance to put in the tab handle
     options.closable           ?= yes       # yes or no
     options.addTitleAttribute  ?= yes       # yes or no
-
     options.sortable           ?= no        # yes or no
-    options.droppable          ?= no        # yes or no
 
     if options.sortable
       options.draggable  = axis: "x"

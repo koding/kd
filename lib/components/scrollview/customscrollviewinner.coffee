@@ -16,6 +16,8 @@ module.exports = class KDCustomScrollViewWrapper extends KDScrollView
   UPARROW   = 38
   DOWNARROW = 40
 
+  KEYBOARD_SCROLL_DURATION = 300
+
   constructor: (options = {}, data) ->
 
     options.bind = KD.utils.curry 'keydown', options.bind
@@ -150,11 +152,15 @@ module.exports = class KDCustomScrollViewWrapper extends KDScrollView
 
 
   pageUp: ->
-    @scrollTo top : Math.max @getScrollTop() - @getHeight(), 0
+    @scrollTo
+      top      : Math.max @getScrollTop() - @getHeight(), 0
+      duration : KEYBOARD_SCROLL_DURATION
 
 
   pageDown: ->
-    @scrollTo top : @getScrollTop() + @getHeight()
+    @scrollTo
+      top      : @getScrollTop() + @getHeight()
+      duration : KEYBOARD_SCROLL_DURATION
 
 
   keyDown: (event) ->
@@ -170,15 +176,15 @@ module.exports = class KDCustomScrollViewWrapper extends KDScrollView
       @pageUp()
     else if event.metaKey or event.ctrlKey
       switch event.which
-        when UPARROW   then @scrollTo top: 0
-        when DOWNARROW then @scrollToBottom()
+        when UPARROW   then @scrollToTop KEYBOARD_SCROLL_DURATION
+        when DOWNARROW then @scrollToBottom KEYBOARD_SCROLL_DURATION
         else shouldPropagate = yes
     else
       switch event.which
         when PAGEUP then @pageUp()
         when SPACEBAR, PAGEDOWN then @pageDown()
-        when END then @scrollToBottom()
-        when HOME then @scrollTo top : 0
+        when END then @scrollToBottom KEYBOARD_SCROLL_DURATION
+        when HOME then @scrollToTop KEYBOARD_SCROLL_DURATION
         else shouldPropagate = yes
 
     return shouldPropagate

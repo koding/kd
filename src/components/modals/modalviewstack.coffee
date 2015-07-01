@@ -10,9 +10,6 @@ module.exports = class KDModalViewStack extends KDObject
 
   addModal: (modal)->
 
-    unless modal instanceof KDModalView
-      return warn "You can only add KDModalView instances to the modal stack."
-
     modal.on "KDObjectWillBeDestroyed", => @next()
 
     {lastToFirst} = @getOptions()

@@ -15,7 +15,10 @@ module.exports = class KDCustomScrollViewWrapper extends KDScrollView
   HOME      = 36
   UPARROW   = 38
   DOWNARROW = 40
-  DURATION  = 300
+
+  PAGE_KEY_DURATION  = 300
+  ARROW_KEY_DURATION = 150
+  ARROW_KEY_STEP     = 50
 
   constructor: (options = {}, data) ->
 
@@ -151,15 +154,42 @@ module.exports = class KDCustomScrollViewWrapper extends KDScrollView
 
 
   pageUp: ->
+
     @scrollTo
       top      : Math.max @getScrollTop() - @getHeight(), 0
-      duration : DURATION
+      duration : @getAnimationDuration()
 
 
   pageDown: ->
+
     @scrollTo
       top      : @getScrollTop() + @getHeight()
-      duration : DURATION
+      duration : @getAnimationDuration()
+
+
+  scrollOnUpArrow: ->
+
+    @scrollTo
+      top      : Math.max @getScrollTop() - ARROW_KEY_STEP, 0
+      duration : @getAnimationDuration yes
+
+
+  scrollOnDownArrow: ->
+
+    @scrollTo
+      top      : @getScrollTop() + ARROW_KEY_STEP
+      duration : @getAnimationDuration yes
+
+
+  getAnimationDuration: (isArrowKey) ->
+
+    duration = if isArrowKey then ARROW_KEY_DURATION else PAGE_KEY_DURATION
+    timeDifference = new Date() - @lastKeyTime
+
+    # if time passed after the last key down is quite short,
+    # for example, user is steadily pressing down arrow key,
+    # then disable scrolling animation
+    return duration  if not @lastKeyTime or timeDifference > duration
 
 
   keyDown: (event) ->
@@ -175,15 +205,19 @@ module.exports = class KDCustomScrollViewWrapper extends KDScrollView
       @pageUp()
     else if event.metaKey or event.ctrlKey
       switch event.which
-        when UPARROW   then @scrollToTop DURATION
-        when DOWNARROW then @scrollToBottom DURATION
+        when UPARROW   then @scrollToTop @getAnimationDuration()
+        when DOWNARROW then @scrollToBottom @getAnimationDuration()
         else shouldPropagate = yes
     else
       switch event.which
         when PAGEUP then @pageUp()
         when SPACEBAR, PAGEDOWN then @pageDown()
-        when END then @scrollToBottom DURATION
-        when HOME then @scrollToTop DURATION
+        when END then @scrollToBottom @getAnimationDuration()
+        when HOME then @scrollToTop @getAnimationDuration()
+        when UPARROW then @scrollOnUpArrow()
+        when DOWNARROW then @scrollOnDownArrow()
         else shouldPropagate = yes
+
+    @lastKeyTime = new Date()
 
     return shouldPropagate

@@ -194,9 +194,9 @@ module.exports = class KDCustomScrollViewWrapper extends KDScrollView
 
   keyDown: (event) ->
 
-    editables = "input,textarea,select,datalist,keygen,[contenteditable='true']"
+    keyboardElements = "input,textarea,select,datalist,keygen,[contenteditable='true'],button"
 
-    return yes  if ($ document.activeElement).is editables
+    return yes  if ($ document.activeElement).is keyboardElements
     return yes  if not(@getDomElement().is ":visible")
     return yes  if @getScrollHeight() <= @verticalThumb.getTrackSize()
 

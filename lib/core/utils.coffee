@@ -104,6 +104,15 @@ module.exports =
     range.collapse no
     @addRange range
 
+  moveCaretToEnd:(element)->
+    element.focus()
+    if typeof element.selectionStart is "number"
+      element.selectionStart = element.selectionEnd = element.value.length;
+    else if typeof el.createTextRange isnt "undefined"
+      range = element.createTextRange()
+      range.collapse(false)
+      range.select()
+
   replaceRange:(node, replacement, start, end = start, appendTrailingSpace = yes)->
     trailingSpace = document.createTextNode "\u00a0"
 

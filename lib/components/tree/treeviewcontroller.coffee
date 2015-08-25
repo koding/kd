@@ -109,8 +109,6 @@ module.exports = class JTreeViewController extends KDViewController
     nodeData[idPath]   = "#{@getNodeId nodeData}"
     nodeData[pIdPath]  = if @getNodePId nodeData then "#{@getNodePId nodeData}" else "0"
 
-    @nodes[@getNodeId nodeData] = {}
-
     if options.putDepthInfo
       if @nodes[nodeData[pIdPath]]?.getData
         nodeData.depth = @nodes[nodeData[pIdPath]].getData().depth + 1
@@ -119,6 +117,9 @@ module.exports = class JTreeViewController extends KDViewController
 
     if nodeData[pIdPath] isnt "0" and not @nodes[nodeData[pIdPath]]
       if options.addOrphansToRoot then nodeData[pIdPath] = "0" else nodeData = no
+
+    if nodeData
+      @nodes[@getNodeId nodeData] = {}
 
     return nodeData
 

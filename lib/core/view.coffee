@@ -48,6 +48,7 @@ module.exports = class KDView extends KDObject
     dragenter     : 'dragEnter'
     dragleave     : 'dragLeave'
     dragover      : 'dragOver'
+    dragend       : 'dragEnd'
     paste         : 'paste'
     transitionend : 'transitionEnd'
 
@@ -635,6 +636,11 @@ module.exports = class KDView extends KDObject
     e.stopPropagation()
 
   dragLeave:(e)->
+
+    e.preventDefault()
+    e.stopPropagation()
+
+  dragEnd:(e)->
 
     e.preventDefault()
     e.stopPropagation()

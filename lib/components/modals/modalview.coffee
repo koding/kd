@@ -114,7 +114,9 @@ module.exports = class KDModalView extends KDView
 
 
   click:(e) ->
+
     @cancel() if $(e.target).is(".closeModal")
+
     if $(e.target).is(".showHelp")
       {helpContent} = @getOptions()
       if helpContent
@@ -124,6 +126,8 @@ module.exports = class KDModalView extends KDView
           cssClass : "help-dialog"
           overlay  : yes
           content  : "<div class='modalformline'><p>#{helpContent}</p></div>"
+
+    super e
 
     # KD.getSingleton("windowController").setKeyView @ ---------> disabled because KDEnterinputView was not working in KDmodal
 

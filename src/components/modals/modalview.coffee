@@ -125,7 +125,7 @@ module.exports = class KDModalView extends KDView
           overlay  : yes
           content  : "<div class='modalformline'><p>#{helpContent}</p></div>"
 
-    super
+    super e
 
     # KD.getSingleton("windowController").setKeyView @ ---------> disabled because KDEnterinputView was not working in KDmodal
 

@@ -34,7 +34,7 @@ module.exports = class KDTabHandleView extends KDView
   setDomElement:(cssClass="")->
     {hidden, closable, tagName, title, addTitleAttribute} = @getOptions()
     cssClass    = if hidden            then "#{cssClass} hidden" else cssClass
-    closeHandle = if closable          then "<span class='close-tab'></span>" else ""
+    closeHandle = if closable          then "<span class='close-tab'><span></span></span>" else ""
     title       = if addTitleAttribute then "title='#{title}'" else ""
 
     @domElement = $ "<#{tagName} #{title} class='kdtabhandle #{cssClass}'>#{closeHandle}</#{tagName}>"

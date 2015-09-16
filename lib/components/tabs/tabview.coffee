@@ -257,10 +257,12 @@ module.exports = class KDTabView extends KDScrollView
   # DEFAULT ACTIONS
   handleClicked: (event, handle) ->
 
-    {pane} = handle.getOptions()
+    { pane }  = handle.getOptions()
+    target    = $ event.target
 
     # fixme: make close icon a kdview and check the view instead.
-    if $(event.target).hasClass 'close-tab'
+    if target.hasClass('close-tab') or target.parent().hasClass('close-tab')
+      @emit 'PaneRemovedByUserAction', pane
       @blockTabHandleResize = yes
       @removePane pane
       return no

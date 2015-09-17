@@ -417,3 +417,80 @@ KDInputView > KDTokenizedInputView styles
 
   .token
     color             #3aaaab
+
+
+/*
+KDCustomCheckbox
+*/
+
+.kdcustomcheckbox
+
+  input[type=checkbox]
+    hidden()
+
+    + label
+      size                  20px, 20px
+      border                1px solid #C0C5CA
+      rounded               2px
+      bg                    color, #FFF
+      vendor                user-select, none
+      display               inline-block
+      rel()
+      pointer()
+      borderBox()
+
+    &:checked + label:after
+      vendor                transform, scaleX(-1) rotate(135deg)
+      vendor                transform-origin, left top
+      border-right          3px solid #00B057
+      border-top            3px solid #00B057
+      content               ''
+      display               block
+      size                  5px, 10px
+      top                   9px
+      left                  2px
+      vendor                animation, checkboxAnimation 0.5s
+      abs()
+
+
+@-webkit-keyframes checkboxAnimation
+  0%
+    height                  0
+    width                   0
+
+  25%
+    height                  0
+    width                   5px
+
+  50%
+    height                  10px
+    width                   5px
+
+
+@-moz-keyframes checkboxAnimation
+  0%
+    height                  0
+    width                   0
+
+  25%
+    height                  0
+    width                   5px
+
+  50%
+    height                  10px
+    width                   5px
+
+
+@keyframes checkboxAnimation
+  0%
+    height                  0
+    width                   0
+
+  25%
+    height                  0
+    width                   5px
+
+  50%
+    height                  10px
+    width                   5px
+

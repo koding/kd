@@ -235,14 +235,21 @@ module.exports = class KDInputView extends KDView
   ###*
    * Set the value of this input field.
   ###
-  setValue:(value)->
-    $el = @$()
-    el  = $el[0]
-    if @getOption("type") in ["checkbox", "radio"]
+  setValue: (value) ->
+
+    $el    = @$()
+    [ el ] = $el
+
+    if @getOption('type') in [ 'checkbox', 'radio' ]
       if value
-      then el.setAttribute "checked", "checked"
-      else el.removeAttribute "checked"
+        el.setAttribute 'checked', 'checked'
+        el.checked = yes
+      else
+        el.removeAttribute 'checked'
+        el.checked = no
+
     else $el.val value
+
 
   setCase:(forceCase)->
     cb = =>

@@ -42,6 +42,7 @@ module.exports.extend
   HeaderView                     : require "./components/header/headerview"
   WebcamView                     : require "./components/image/webcamview"
   CheckBox                       : require "./components/inputs/checkbox"
+  CustomCheckBox                 : require "./components/inputs/customcheckbox"
   ContentEditableView            : require "./components/inputs/contenteditableview"
   DelimitedInputView             : require "./components/inputs/delimitedinputview"
   HitEnterInputView              : require "./components/inputs/hitenterinputview"

@@ -39,6 +39,9 @@ module.exports = class KDTabHandleView extends KDView
       tagName   : 'span'
       cssClass  : 'close-tab'
       partial   : '<span></span>'
+      click     : =>
+        { pane } = @getOptions()
+        @getDelegate().emit 'CloseIconClicked', pane
 
   setDomElement:(cssClass="")->
     {hidden, tagName, title, addTitleAttribute} = @getOptions()

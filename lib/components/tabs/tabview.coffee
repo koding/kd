@@ -51,7 +51,8 @@ module.exports = class KDTabView extends KDScrollView
     @on "PaneAdded", =>
       @blockTabHandleResize = no
       @resizeTabHandles()
-    @on "PaneDidShow", @bound "setActivePane"
+    @on "PaneDidShow",      @bound "setActivePane"
+    @on "CloseIconClicked", @bound "handleCloseIcon"
 
     if options.paneData.length > 0
       @on "viewAppended", => @createPanes options.paneData
@@ -258,15 +259,12 @@ module.exports = class KDTabView extends KDScrollView
   handleClicked: (event, handle) ->
 
     { pane } = handle.getOptions()
-    target   = $ event.target
-
-    if target.hasClass('close-tab') or target.parent().hasClass('close-tab')
-      @emit 'PaneRemovedByUserAction', pane
-      @blockTabHandleResize = yes
-      @removePane pane
-      return no
-
     @showPane pane
+
+  handleCloseIcon: (pane) ->
+
+    @blockTabHandleResize = yes
+    @removePane pane
 
   # DEFINE CUSTOM or DEFAULT tabHandleContainer
   setTabHandleContainer:(aViewInstance)->

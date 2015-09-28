@@ -31,17 +31,14 @@ module.exports = class KDTabHandleView extends KDView
       @handleDragFinished event
       @getDelegate().showPaneByIndex @index
 
-    @createCloseIcon()  if options.closable
+    @createCloseHandler()  if options.closable
 
-  createCloseIcon: ->
+  createCloseHandler: ->
 
-    @addSubView @closeIcon = new KDView
+    @addSubView @closeHandler = new KDView
       tagName   : 'span'
       cssClass  : 'close-tab'
       partial   : '<span></span>'
-      click     : =>
-        { pane } = @getOptions()
-        @getDelegate().emit 'CloseIconClicked', pane
 
   setDomElement:(cssClass="")->
     {hidden, tagName, title, addTitleAttribute} = @getOptions()

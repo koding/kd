@@ -31,13 +31,21 @@ module.exports = class KDTabHandleView extends KDView
       @handleDragFinished event
       @getDelegate().showPaneByIndex @index
 
+    @createCloseHandler()  if options.closable
+
+  createCloseHandler: ->
+
+    @addSubView @closeHandler = new KDView
+      tagName   : 'span'
+      cssClass  : 'close-tab'
+      partial   : '<span></span>'
+
   setDomElement:(cssClass="")->
-    {hidden, closable, tagName, title, addTitleAttribute} = @getOptions()
+    {hidden, tagName, title, addTitleAttribute} = @getOptions()
     cssClass    = if hidden            then "#{cssClass} hidden" else cssClass
-    closeHandle = if closable          then "<span class='close-tab'></span>" else ""
     title       = if addTitleAttribute then "title='#{title}'" else ""
 
-    @domElement = $ "<#{tagName} #{title} class='kdtabhandle #{cssClass}'>#{closeHandle}</#{tagName}>"
+    @domElement = $ "<#{tagName} #{title} class='kdtabhandle #{cssClass}'></#{tagName}>"
 
   viewAppended:->
     {view} = @getOptions()

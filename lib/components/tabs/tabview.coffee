@@ -112,7 +112,7 @@ module.exports = class KDTabView extends KDScrollView
     newTabHandle.on 'HandleIndexHasChanged',  @bound 'resortTabHandles'
 
     unless paneInstance.isDetached
-      newTabHandle.closeHandler?.on 'click', =>
+      newTabHandle.closeHandler?.on 'click', ->
         paneInstance.parent.handleCloseAction paneInstance
 
     return paneInstance

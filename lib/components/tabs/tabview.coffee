@@ -110,7 +110,10 @@ module.exports = class KDTabView extends KDScrollView
       minWidth : minHandleWidth
 
     newTabHandle.on 'HandleIndexHasChanged',  @bound 'resortTabHandles'
-    newTabHandle.closeHandler?.on 'click', => @handleCloseAction paneInstance
+
+    unless paneInstance.isDetached
+      newTabHandle.closeHandler?.on 'click', ->
+        paneInstance.parent.handleCloseAction paneInstance
 
     return paneInstance
 
@@ -152,6 +155,7 @@ module.exports = class KDTabView extends KDScrollView
     if shouldDetach
       @panes   = @panes.filter   (p)-> p isnt pane
       @handles = @handles.filter (h)-> h isnt handle
+      pane.isDetached = yes
       pane.detach()
       handle.detach()
     else

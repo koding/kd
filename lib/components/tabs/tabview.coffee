@@ -110,7 +110,20 @@ module.exports = class KDTabView extends KDScrollView
       minWidth : minHandleWidth
 
     newTabHandle.on 'HandleIndexHasChanged',  @bound 'resortTabHandles'
-    newTabHandle.closeHandler?.on 'click', => @handleCloseAction paneInstance
+
+    closeListener = -> paneInstance.parent.handleCloseAction paneInstance
+
+    # This is a dirty way of doing this, TabViews arent designed d&d in mind
+    # this later needs a refactor - SY
+    # Prevent binding same 'click' event for closeHandler while the tab is being moved by d&d.
+    if newTabHandle.closeHandler
+      { _e } = newTabHandle.closeHandler
+
+      # Check for already bound 'click' events.
+      # bind only if there is no previous closeListener
+      if not _e.click or not closeListener in _e.click
+        newTabHandle.closeHandler.on 'click', closeListener
+
 
     return paneInstance
 

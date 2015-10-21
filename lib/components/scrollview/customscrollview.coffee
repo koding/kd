@@ -39,9 +39,11 @@ module.exports = class KDCustomScrollView extends KDCustomHTMLView
     @wrapper.on 'MutationHappened', =>
       @verticalTrack.thumb.reset()
       @horizontalTrack.thumb.reset()
+      @updateOffscreenIndicators()
 
     @on 'mouseenter', @bound 'showTracks'
     @on 'mouseleave', @bound 'hideTracks'
+
 
   _windowDidResize: ->
     @updateOffscreenIndicators()

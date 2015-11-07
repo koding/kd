@@ -381,7 +381,7 @@ module.exports = class KDTabView extends KDScrollView
     return if outerWidth <= 0
 
     containerSize    = outerWidth - lastTabHandleMargin
-    containerMargin  = 100 - (100 * lastTabHandleMargin / containerSize)
+    containerMargin  = 100 - (100 * lastTabHandleMargin / outerWidth)
 
     for handle in @handles when not handle.isHidden()
       visibleHandles.push handle

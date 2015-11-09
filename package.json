@@ -1,6 +1,6 @@
 {
   "name": "kdf",
-  "version": "0.1.19",
+  "version": "0.1.20",
   "description": "KD: a non-document focused UI Framework for web applications.",
   "main": "gulpfile.js",
   "scripts": {

@@ -11,8 +11,6 @@
     background-color: transparent;
     border: 0;
     overflow: hidden;
-    /* IE 6/7 fallback */
-    *text-indent: -9999px;
 }
 
 .ir:before {
@@ -89,15 +87,6 @@
 
 .clearfix:after {
     clear: both;
-}
-
-/*
- * For IE 6/7 only
- * Include this rule to trigger hasLayout and contain floats.
- */
-
-.clearfix {
-    *zoom: 1;
 }
 
 /* ==========================================================================

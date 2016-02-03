@@ -28,7 +28,7 @@ module.exports = class KDWindowController extends KDController
     @layers                = []
     @unloadListeners       = {}
     @focusListeners        = []
-    @focused               = yes
+    @focused               = document.hasFocus()
 
     @bindEvents()
 

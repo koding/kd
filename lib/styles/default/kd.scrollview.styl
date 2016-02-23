@@ -1,0 +1,63 @@
+@import "./kdfn"
+
+/*
+**  KDScrollView STYLES
+*/
+
+.kdview.kdscrollview
+  overflow          auto
+
+
+.kdcustomscrollview
+  size              100% 100%
+  borderBox()
+  rel()
+
+  &.has-vertical
+    padding-right   15px
+
+  &.has-horizontal
+    padding-bottom  15px
+
+  > .kdscrollview
+    overflow        hidden !important
+    height          100%
+
+    &:focus
+      outline       none
+
+  .kdscrolltrack
+    right           0
+    z-index         1000
+    padding         0
+    opacity         1
+    bg              color rgba(0, 0, 0, .1)
+    vendor          transition, opacity .3s .3s ease
+    abs()
+
+    &.out
+      opacity       0
+
+
+    &.vertical
+      top           0
+      size          15px 100%
+
+      .kdscrollthumb
+        size        100% auto
+
+    &.horizontal
+      bottom        0
+      size          100% 15px
+
+      .kdscrollthumb
+        size        auto 100%
+
+    .kdscrollthumb
+      rel()
+      cursor        default
+      bg            color rgba(0, 0, 0, .2)
+      vendor        transition, width .1s ease \,\
+                              height .1s ease
+
+

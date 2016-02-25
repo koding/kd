@@ -59,12 +59,12 @@ module.exports =
     inst.on 'KDObjectWillBeDestroyed', => delete instancesToBeTested[key]
 
   noop: ->
-  log: console.log.bind console
-  warn: console.warn.bind console
-  error: console.error.bind console
-  info: console.info.bind console
-  time: console.time.bind console
-  timeEnd: console.timeEnd.bind console
+  log: -> console.log.apply console, arguments
+  warn: -> console.warn.apply console, arguments
+  error: -> console.error.apply console, arguments
+  info: -> console.info.apply console, arguments
+  time: -> console.time.apply console, arguments
+  timeEnd: -> console.timeEnd.apply console, arguments
 
   debugStates: debugStates
   instances: instances

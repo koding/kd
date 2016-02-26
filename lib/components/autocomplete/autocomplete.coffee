@@ -24,6 +24,7 @@ module.exports = class KDAutoComplete extends KDInputView
 
   bindEvents:->
     super @$input()
+    @$input().on 'click', @bound 'setFocus'
 
   blur: (event) ->
     @unsetClass 'focus'

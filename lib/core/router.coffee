@@ -21,6 +21,8 @@ module.exports = class KDRouter extends KDObject
     unless objRef?.constructorName? and objRef.id? then callback null
     else KD.remote.cacheable objRef.constructorName, objRef.id, callback
 
+  isWindowLoaded = -> document.readyState is 'complete'
+
   constructor:(routes)->
 
     super()
@@ -44,11 +46,18 @@ module.exports = class KDRouter extends KDObject
     @startListening()
 
   popState:(event)->
+
+    # Safari fires extra popstate event right after window is loaded
+    # Let's skip popstate handling at that moment
+    return  if isWindowLoaded() and @blockPopstateIfWindowLoaded
+
     revive event.state, (err, state)=>
       return KD.showError err  if err
       @handleRoute "#{location.pathname}#{location.search}",
         shouldPushState   : no
         state             : state
+
+  handleWindowLoad: -> KD.utils.defer => @blockPopstateIfWindowLoaded = no
 
   clear:(route = '/', replaceState = yes)->
     delete @userRoute # TODO: i hope deleting the userRoute here doesn't break anything... C.T.
@@ -61,6 +70,13 @@ module.exports = class KDRouter extends KDObject
     @isListening = yes
     # we need to add a listener to the window's popstate event:
     window.addEventListener 'popstate', @bound "popState"
+
+    if isWindowLoaded()
+      @blockPopstateIfWindowLoaded = no
+    else
+      @blockPopstateIfWindowLoaded = yes
+      window.addEventListener 'load', @bound 'handleWindowLoad'
+
     return yes
 
   stopListening:->

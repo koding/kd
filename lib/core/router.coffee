@@ -65,7 +65,9 @@ module.exports = class KDRouter extends KDObject
 
       # Safari fires extra popstate event right after window is loaded
       # this is to avoid this inconsistent initial firing
-      if document.readyState isnt 'complete' and not readyStateBinded
+      unless document.readyState is 'complete'
+        return  if readyStateBinded
+
         readyStateBinded = yes
         return document.addEventListener 'readystatechange', =>
           KD.utils.defer => @startListening()  if document.readyState is 'complete'

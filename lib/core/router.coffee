@@ -21,8 +21,6 @@ module.exports = class KDRouter extends KDObject
     unless objRef?.constructorName? and objRef.id? then callback null
     else KD.remote.cacheable objRef.constructorName, objRef.id, callback
 
-  isWindowLoaded = -> document.readyState is 'complete'
-
   constructor:(routes)->
 
     super()
@@ -46,18 +44,11 @@ module.exports = class KDRouter extends KDObject
     @startListening()
 
   popState:(event)->
-
-    # Safari fires extra popstate event right after window is loaded
-    # Let's skip popstate handling at that moment
-    return  if isWindowLoaded() and @blockPopstateIfWindowLoaded
-
     revive event.state, (err, state)=>
       return KD.showError err  if err
       @handleRoute "#{location.pathname}#{location.search}",
         shouldPushState   : no
         state             : state
-
-  handleWindowLoad: -> KD.utils.defer => @blockPopstateIfWindowLoaded = no
 
   clear:(route = '/', replaceState = yes)->
     delete @userRoute # TODO: i hope deleting the userRoute here doesn't break anything... C.T.
@@ -65,20 +56,25 @@ module.exports = class KDRouter extends KDObject
 
   back:-> if @visitedRoutes.length <= 1 then @clear() else history.back()
 
-  startListening:->
-    return no  if @isListening # make this action idempotent
-    @isListening = yes
+  startListening: do ->
 
-    if isWindowLoaded()
-      @blockPopstateIfWindowLoaded = no
-    else
-      @blockPopstateIfWindowLoaded = yes
-      window.addEventListener 'load', @bound 'handleWindowLoad'
+    readyStateBinded = no
 
-    # we need to add a listener to the window's popstate event:
-    window.addEventListener 'popstate', @bound "popState"
+    ->
+      return no  if @isListening # make this action idempotent
 
-    return yes
+      # Safari fires extra popstate event right after window is loaded
+      # this is to avoid this inconsistent initial firing
+      if document.readyState isnt 'complete' and not readyStateBinded
+        readyStateBinded = yes
+        return document.addEventListener 'readystatechange', =>
+          KD.utils.defer => @startListening()  if document.readyState is 'complete'
+
+      @isListening = yes
+      window.addEventListener 'popstate', @bound "popState"
+
+      return yes
+
 
   stopListening:->
     return no  unless @isListening # make this action idempotent

@@ -68,14 +68,15 @@ module.exports = class KDRouter extends KDObject
   startListening:->
     return no  if @isListening # make this action idempotent
     @isListening = yes
-    # we need to add a listener to the window's popstate event:
-    window.addEventListener 'popstate', @bound "popState"
 
     if isWindowLoaded()
       @blockPopstateIfWindowLoaded = no
     else
       @blockPopstateIfWindowLoaded = yes
       window.addEventListener 'load', @bound 'handleWindowLoad'
+
+    # we need to add a listener to the window's popstate event:
+    window.addEventListener 'popstate', @bound "popState"
 
     return yes
 

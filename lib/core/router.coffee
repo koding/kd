@@ -56,12 +56,27 @@ module.exports = class KDRouter extends KDObject
 
   back:-> if @visitedRoutes.length <= 1 then @clear() else history.back()
 
-  startListening:->
-    return no  if @isListening # make this action idempotent
-    @isListening = yes
-    # we need to add a listener to the window's popstate event:
-    window.addEventListener 'popstate', @bound "popState"
-    return yes
+  startListening: do ->
+
+    readyStateBound = no
+
+    ->
+      return no  if @isListening # make this action idempotent
+
+      # Safari fires extra popstate event right after window is loaded
+      # this is to avoid this inconsistent initial firing
+      unless document.readyState is 'complete'
+        return  if readyStateBound
+
+        readyStateBound = yes
+        return document.addEventListener 'readystatechange', =>
+          KD.utils.defer => @startListening()  if document.readyState is 'complete'
+
+      @isListening = yes
+      window.addEventListener 'popstate', @bound "popState"
+
+      return yes
+
 
   stopListening:->
     return no  unless @isListening # make this action idempotent

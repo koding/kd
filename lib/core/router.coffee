@@ -58,7 +58,7 @@ module.exports = class KDRouter extends KDObject
 
   startListening: do ->
 
-    readyStateBinded = no
+    readyStateBound = no
 
     ->
       return no  if @isListening # make this action idempotent
@@ -66,9 +66,9 @@ module.exports = class KDRouter extends KDObject
       # Safari fires extra popstate event right after window is loaded
       # this is to avoid this inconsistent initial firing
       unless document.readyState is 'complete'
-        return  if readyStateBinded
+        return  if readyStateBound
 
-        readyStateBinded = yes
+        readyStateBound = yes
         return document.addEventListener 'readystatechange', =>
           KD.utils.defer => @startListening()  if document.readyState is 'complete'
 

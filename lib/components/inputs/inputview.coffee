@@ -91,7 +91,7 @@ module.exports = class KDInputView extends KDView
     @validationNotifications = {}
     @valid = yes
     @inputCallback = null
-    @previousHeight= null
+    @previousHeight = null
     @setName options.name
     @setLabel()
     @setCallback()
@@ -449,7 +449,7 @@ module.exports = class KDInputView extends KDView
 
     # input content is copied into clone
     # element to get calculated height
-    @_clone = $ '<div/>', class : 'invisible'
+    @_clone = $ '<div/>', { class: 'invisible' }
 
     @on 'focus', =>
       @_clone.appendTo 'body'

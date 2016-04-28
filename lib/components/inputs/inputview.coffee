@@ -92,6 +92,7 @@ module.exports = class KDInputView extends KDView
     @valid = yes
     @inputCallback = null
     @previousHeight = null
+    @previousWidth = null
     @setName options.name
     @setLabel()
     @setCallback()
@@ -130,6 +131,7 @@ module.exports = class KDInputView extends KDView
     if o.autogrow
       @once "focus", =>
         @initialHeight = @$().height()  unless @initialHeight
+        @initialWidth = @$().width()  unless @initialWidth
 
   setDomElement:(cssClass = "")->
     name = "name='#{@options.name}'"
@@ -451,12 +453,16 @@ module.exports = class KDInputView extends KDView
     # element to get calculated height
     @_clone = $ '<div/>', { class: 'invisible' }
 
+    { type } = @getOptions()
+    isVertical = type.toLowerCase() is 'textarea'
+
+
     @on 'focus', =>
       @_clone.appendTo 'body'
       @_clone.css
-        height        : 'auto'
+        height        : if isVertical then 'auto' else $input.css 'height'
         zIndex        : 100000
-        width         : $input.css 'width'
+        width         : if isVertical then $input.css 'width' else 'auto'
         boxSizing     : $input.css 'box-sizing'
         borderTop     : $input.css 'border-top'
         borderRight   : $input.css 'border-right'
@@ -472,29 +478,56 @@ module.exports = class KDInputView extends KDView
         fontSize      : $input.css 'fontSize'
         fontWeight    : $input.css 'fontWeight'
         lineHeight    : $input.css 'lineHeight'
-        whiteSpace    : 'pre-line'
+        whiteSpace    : if isVertical then 'pre-line' else 'pre'
 
     @on 'blur', => @_clone.detach()
-
-    @on 'input', (event) => KD.utils.defer => @resize event
+    @on 'input', @bound 'resize'
 
 
   resize: (event) ->
-
-    return  unless @_clone
 
     @_clone.appendTo 'body' unless document.body.contains @_clone[0]
     val = @getElement().value.replace(/\n/g,'\n&nbsp;')
     safeValue = Encoder.XSSEncode val
     @_clone.html safeValue
 
-    height = @_clone.height()
+    { type } = @getOptions()
 
-    getValue = (rule) => parseInt @_clone.css(rule), 10
+    if type.toLowerCase() is 'textarea'
+    then return @_resizeVertically event
+    else return @_resizeHorizontally event
+
+  _getValue = (el, rule) -> parseInt el.css(rule), 10
+
+  _resizeHorizontally: (event) ->
+
+    return  unless @_clone
+
+    width = @_clone.width()
 
     if @$().css('boxSizing') is 'border-box'
-      padding = getValue('paddingTop')     + getValue('paddingBottom')
-      border  = getValue('borderTopWidth') + getValue('borderBottomWidth')
+      padding = _getValue(@_clone, 'paddingLeft') + _getValue(@_clone, 'paddingRight')
+      border  = _getValue(@_clone, 'borderLeftWidth') + _getValue(@_clone, 'borderRightWidth')
+      width   = width + border + padding
+
+    newWidth = if @initialWidth then Math.max @initialWidth, width else width
+
+    if @previousWidth isnt newWidth
+      @setWidth newWidth
+      @emit 'InputWidthChanged'
+
+    @previousWidth = newWidth
+
+
+  _resizeVertically: (event) ->
+
+    return  unless @_clone
+
+    height = @_clone.height()
+
+    if @$().css('boxSizing') is 'border-box'
+      padding = _getValue(@_clone, 'paddingTop') + _getValue(@_clone, 'paddingBottom')
+      border  = _getValue(@_clone, 'borderTopWidth') + _getValue(@_clone, 'borderBottomWidth')
       height  = height + border + padding
 
     newHeight = if @initialHeight then Math.max @initialHeight, height else height

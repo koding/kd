@@ -487,6 +487,8 @@ module.exports = class KDInputView extends KDView
 
   resize: (event) ->
 
+    return  unless @_clone
+
     @_clone.appendTo 'body' unless document.body.contains @_clone[0]
     val = @getElement().value.replace(/\n/g,'\n&nbsp;')
     safeValue = Encoder.XSSEncode val
@@ -501,8 +503,6 @@ module.exports = class KDInputView extends KDView
   _getValue = (el, rule) -> parseInt el.css(rule), 10
 
   _resizeHorizontally: (event) ->
-
-    return  unless @_clone
 
     width = @_clone.width()
 
@@ -521,8 +521,6 @@ module.exports = class KDInputView extends KDView
 
 
   _resizeVertically: (event) ->
-
-    return  unless @_clone
 
     height = @_clone.height()
 

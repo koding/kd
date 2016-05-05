@@ -443,48 +443,51 @@ module.exports = class KDInputView extends KDView
 
   setAutoGrow:->
 
-    $input = @$()
-
-    $input.css 'overflow', 'hidden'
-
     @setClass 'autogrow'
 
     # input content is copied into clone
     # element to get calculated height
     @_clone = $ '<div/>', { class: 'invisible' }
 
-    { type } = @getOptions()
-    isVertical = type.toLowerCase() is 'textarea'
-
-
-    @on 'focus', =>
-      @_clone.appendTo 'body'
-      @_clone.css
-        height        : if isVertical then 'auto' else $input.css 'height'
-        zIndex        : 100000
-        width         : if isVertical then $input.css 'width' else 'auto'
-        boxSizing     : $input.css 'box-sizing'
-        borderTop     : $input.css 'border-top'
-        borderRight   : $input.css 'border-right'
-        borderBottom  : $input.css 'border-bottom'
-        borderLeft    : $input.css 'border-left'
-        minHeight     : $input.css 'minHeight'
-        maxHeight     : $input.css 'maxHeight'
-        paddingTop    : $input.css 'padding-top'
-        paddingRight  : $input.css 'padding-right'
-        paddingBottom : $input.css 'padding-bottom'
-        paddingLeft   : $input.css 'padding-left'
-        wordBreak     : $input.css 'wordBreak'
-        fontSize      : $input.css 'fontSize'
-        fontWeight    : $input.css 'fontWeight'
-        lineHeight    : $input.css 'lineHeight'
-        whiteSpace    : if isVertical then 'pre-line' else 'pre'
-
+    @on 'focus', @bound 'prepareClone'
     @on 'blur', => @_clone.detach()
     @on 'input', @bound 'resize'
 
 
+  prepareClone: ->
+
+    $input = @$()
+    $input.css 'overflow', 'hidden'
+    { type } = @getOptions()
+    isVertical = type.toLowerCase() is 'textarea'
+
+    @_clone.appendTo 'body'
+    @_clone.css
+      height        : if isVertical then 'auto' else $input.css 'height'
+      zIndex        : 100000
+      width         : if isVertical then $input.css 'width' else 'auto'
+      boxSizing     : $input.css 'box-sizing'
+      borderTop     : $input.css 'border-top'
+      borderRight   : $input.css 'border-right'
+      borderBottom  : $input.css 'border-bottom'
+      borderLeft    : $input.css 'border-left'
+      minHeight     : $input.css 'minHeight'
+      maxHeight     : $input.css 'maxHeight'
+      paddingTop    : $input.css 'padding-top'
+      paddingRight  : $input.css 'padding-right'
+      paddingBottom : $input.css 'padding-bottom'
+      paddingLeft   : $input.css 'padding-left'
+      wordBreak     : $input.css 'wordBreak'
+      fontSize      : $input.css 'fontSize'
+      fontWeight    : $input.css 'fontWeight'
+      lineHeight    : $input.css 'lineHeight'
+      whiteSpace    : if isVertical then 'pre-line' else 'pre'
+
+
+
   resize: (event) ->
+
+    return  unless @_clone
 
     @_clone.appendTo 'body' unless document.body.contains @_clone[0]
     val = @getElement().value.replace(/\n/g,'\n&nbsp;')
@@ -500,8 +503,6 @@ module.exports = class KDInputView extends KDView
   _getValue = (el, rule) -> parseInt el.css(rule), 10
 
   _resizeHorizontally: (event) ->
-
-    return  unless @_clone
 
     width = @_clone.width()
 
@@ -520,8 +521,6 @@ module.exports = class KDInputView extends KDView
 
 
   _resizeVertically: (event) ->
-
-    return  unless @_clone
 
     height = @_clone.height()
 

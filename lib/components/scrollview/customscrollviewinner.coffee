@@ -74,6 +74,8 @@ module.exports = class KDCustomScrollViewWrapper extends KDScrollView
 
     {deltaX, deltaY, deltaFactor} = event
 
+    return yes  if @getElement().dataset.scrollable
+
     speed = deltaFactor or @getOptions().mouseWheelSpeed or 1
     x     = -deltaX
     y     = -deltaY

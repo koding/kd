@@ -34,19 +34,13 @@ module.exports = class KDRouter extends KDObject
 
 
   listen:->
-    # this handles the case that the url is an "old-style" hash fragment hack.
-    if location.hash.length
-      hashFragment = location.hash.substr 1
-      @userRoute = hashFragment
-      @utils.defer => @handleRoute hashFragment,
-        shouldPushState   : yes
-        replaceState      : yes
     @startListening()
+
 
   popState:(event)->
     revive event.state, (err, state)=>
       return KD.showError err  if err
-      @handleRoute "#{location.pathname}#{location.search}",
+      @handleRoute "#{location.pathname}#{location.search}#{location.hash}",
         shouldPushState   : no
         state             : state
 
@@ -147,6 +141,11 @@ module.exports = class KDRouter extends KDObject
     frags = frags.split '/'
     frags.shift() # first edge is garbage like '' or '#!'
 
+    if exploded = frags.pop()?.split? '#'
+      [lastFrag, anchor] = exploded
+      frags.push lastFrag
+      anchor = if anchor then "##{anchor}" else ''
+
     frags = frags.filter Boolean
 
     path = "/#{frags.join '/'}"
@@ -177,8 +176,8 @@ module.exports = class KDRouter extends KDObject
       method = if replaceState then 'replaceState' else 'pushState'
       history[method] objRef, path, path
 
-    routeInfo = {params, query}
-    @emit 'RouteInfoHandled', {params, query, path}
+    routeInfo = {params, query, anchor}
+    @emit 'RouteInfoHandled', {params, query, path, anchor}
 
     unless suppressListeners
       listeners = node[listenerKey]

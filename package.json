@@ -23,7 +23,6 @@
     "debug": "^2.2.0",
     "hammerjs": "^2.0.6",
     "htmlencode": "0.0.4",
-    "kd-dom": "^0.1.1",
     "kd-polyfills": "^0.1.5",
     "jquery": "^2.2.4",
     "jquery-mousewheel": "^3.1.13",

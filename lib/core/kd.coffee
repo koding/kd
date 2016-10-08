@@ -1,6 +1,5 @@
 debug = require('debug') 'kd'
 utils = require './utils'
-dom = require 'kd-dom'
 
 debugStates = {}
 instances = {}
@@ -74,5 +73,3 @@ module.exports =
   instancesToBeTested: instancesToBeTested
 
   utils: utils
-  dom: dom
-

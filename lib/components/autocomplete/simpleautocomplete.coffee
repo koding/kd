@@ -1,4 +1,5 @@
-JsPath         = require 'jspath'
+KD             = require '../../core/kd'
+JsPath         = KD.utils.JsPath
 KDAutoComplete = require './autocomplete'
 
 module.exports = class KDSimpleAutocomplete extends KDAutoComplete

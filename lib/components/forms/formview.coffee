@@ -1,7 +1,7 @@
 $           = require 'jquery'
 KD          = require '../../core/kd'
 KDInputView = require '../inputs/inputview'
-JsPath      = require 'jspath'
+JsPath      = KD.utils.JsPath
 KDView      = require '../../core/view'
 
 module.exports = class KDFormView extends KDView

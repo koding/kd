@@ -7,7 +7,7 @@ KDAutoCompletedItem = require './autocompleteditems'
 KDInputView = require '../inputs/inputview'
 KDView = require '../../core/view'
 JsPath                     = require 'jspath'
-Inflector                  = require 'inflector'
+pluralize                  = require 'pluralize'
 KDViewController           = require '../../core/viewcontroller'
 KDListViewController       = require '../list/listviewcontroller'
 KDLabelView                = require '../inputs/labelview'
@@ -276,7 +276,7 @@ module.exports = class KDAutoCompleteController extends KDViewController
     {name} = @getOptions()
     throw new Error 'No name!' unless name
     [path..., leaf] = name.split('.')
-    collectionName = Inflector.pluralize(leaf)
+    collectionName = pluralize leaf
     path.push collectionName
     path.join('.')
 

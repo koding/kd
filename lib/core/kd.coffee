@@ -1,5 +1,5 @@
 debug = require('debug') 'kd'
-utils = require './utils'
+utils = require '../utils'
 
 debugStates = {}
 instances = {}

@@ -1,5 +1,4 @@
 debug = require('debug') 'kd:utils'
-Inflector = require 'inflector'
 
 module.exports =
 
@@ -46,7 +45,8 @@ module.exports =
 
     return false
 
-  formatPlural:(count, noun, showCount = yes)->
+  formatPlural:(count, noun, showCount = yes) ->
+    pluralize = require 'pluralize'
     """
     #{
       if showCount
@@ -55,7 +55,7 @@ module.exports =
     }#{
       if count is 1
       then noun
-      else Inflector.pluralize noun
+      else pluralize noun
     }
     """
 

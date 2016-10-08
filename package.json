@@ -23,10 +23,10 @@
     "debug": "^2.2.0",
     "hammerjs": "^2.0.6",
     "htmlencode": "0.0.4",
+    "pluralize": "^3.0.0",
     "jquery": "^2.2.4",
     "jquery-mousewheel": "^3.1.13",
     "kd-shim-canvas-loader": "^0.9.1",
-    "kd-shim-inflector": "^0.1.0",
     "kd-shim-jspath": "^0.2.0",
     "kd-shim-mutation-summary": "^0.1.0",
     "lodash": "^4.16.4",
@@ -46,7 +46,6 @@
   },
   "browser": {
     "canvas-loader": "kd-shim-canvas-loader",
-    "inflector": "kd-shim-inflector",
     "jspath": "kd-shim-jspath",
     "mutation-summary": "kd-shim-mutation-summary"
   }

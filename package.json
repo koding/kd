@@ -27,7 +27,6 @@
     "jquery": "^2.2.4",
     "jquery-mousewheel": "^3.1.13",
     "kd-shim-canvas-loader": "^0.9.1",
-    "kd-shim-jspath": "^0.2.0",
     "kd-shim-mutation-summary": "^0.1.0",
     "lodash": "^4.16.4",
     "timeago": "^1.5.3"
@@ -46,7 +45,6 @@
   },
   "browser": {
     "canvas-loader": "kd-shim-canvas-loader",
-    "jspath": "kd-shim-jspath",
     "mutation-summary": "kd-shim-mutation-summary"
   }
 }

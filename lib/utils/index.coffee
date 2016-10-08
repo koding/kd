@@ -588,3 +588,5 @@ module.exports =
       return yes
     catch e
       return no
+
+  JsPath: require './jspath'

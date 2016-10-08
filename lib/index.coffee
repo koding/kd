@@ -1,4 +1,4 @@
-require './core/polyfills'
+require './utils/polyfills'
 
 module.exports = require './core/kd'
 

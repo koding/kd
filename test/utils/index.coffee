@@ -52,6 +52,12 @@ describe 'Utils', ->
     Utils.formatIndefiniteArticle('car').should.equal 'a car'
     Utils.formatIndefiniteArticle('apple').should.equal 'an apple'
 
+  it 'should throw error on missing api key on shorten url', ->
+    @faulty = ->
+      Utils.shortenUrl 'https://koding.com', (->)
+
+    @faulty().should.throw
+
   # it 'should create external link', ->
   #   appendChildSpy = sinon.spy document.body.appendChild
   #   removeChildSpy = sinon.spy document.body.removeChild

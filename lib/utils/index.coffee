@@ -456,7 +456,7 @@ module.exports =
     request.done (data)=>
       callback data?.id or url, data
 
-    request.error ({status, statusText, responseText})->
+    request.fail ({status, statusText, responseText})->
       debug "could not shorten url #{url}", status, statusText, responseText
       callback url
 

@@ -1,4 +1,5 @@
 debug = require('debug') 'kd:utils'
+$ = require 'jquery'
 
 module.exports =
 

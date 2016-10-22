@@ -2,15 +2,23 @@ gulp = require 'gulp'
 karma = require 'karma'
 path = require 'path'
 
-server = (singleRun, browsers, done) ->
-  new karma.Server({
-    configFile: path.join __dirname, 'karma.conf.js'
-    singleRun
-    browsers
-  }, done)
+options = {
+  configFile: path.join __dirname, 'karma.conf.js'
+  singleRun: false
+  browsers: ['Chrome']
+  coverageReporter: {
+    dir: 'coverage/'
+    type: 'html'
+  }
+}
+server = (options, done) ->
+  new karma.Server(options, done)
 
 gulp.task 'test', (done) ->
-  server(no, ['Chrome'], done).start()
+  server(options, done).start()
 
 gulp.task 'travis-test', (done) ->
-  server(yes, ['Chrome_travis_ci'], done).start()
+  options.singleRun = true
+  options.coverageReporter.type = 'lcov'
+  options.browsers = ['Chrome_travis_ci']
+  server(options, done).start()

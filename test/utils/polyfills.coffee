@@ -27,10 +27,10 @@ describe 'Polyfills', ->
     faulty = ->
       document.write
 
-    faulty().should.throw
+    faulty().should.throw Error
 
   it 'should throw error on document.writeln', ->
     faulty = ->
       document.writeln
 
-    faulty().should.throw
+    faulty().should.throw Error

@@ -443,23 +443,6 @@ module.exports =
     chance = Math.floor(Math.random() * 100)
     chance <= percent
 
-  shortenUrl: (url, key, callback)->
-    throw Error('Missing Google API Key') unless typeof key is 'string' and key?
-
-    request = $.ajax "https://www.googleapis.com/urlshortener/v1/url?key=#{key}",
-      type        : "POST"
-      contentType : "application/json"
-      data        : JSON.stringify {longUrl: url}
-      timeout     : 4000
-      dataType    : "json"
-
-    request.done (data)=>
-      callback data?.id or url, data
-
-    request.fail ({status, statusText, responseText})->
-      debug "could not shorten url #{url}", status, statusText, responseText
-      callback url
-
   formatBytesToHumanReadable: (bytes, fixedAmout = 2) ->
     minus = ''
     if bytes < 0

@@ -21,40 +21,10 @@ module.exports = function(config) {
       'test/**/*.coffee'
     ],
 
-    sauceLabs: {
-      username: process.env.SAUCE_USERNAME,
-      accessKey: process.env.SAUCE_ACCESS_KEY,
-      startConnect: true,
-      testName: 'KD tests'
-    },
-
-    // define SauceLabs browsers
     customLaunchers: {
-
-      sl_firefox_windows: {
-        base: 'SauceLabs',
-        browserName: 'firefox',
-        platform: 'Windows 7'
-      },
-
-      sl_chrome_windows: {
-        base: 'SauceLabs',
-        browserName: 'chrome',
-        platform: 'Windows 7'
-      },
-
-      sl_ie_9: {
-        base: 'SauceLabs',
-        browserName: 'internet explorer',
-        platform: 'Windows 7',
-        version: '9'
-      },
-
-      sl_ie_10: {
-        base: 'SauceLabs',
-        browserName: 'internet explorer',
-        platform: 'Windows 7',
-        version: '10'
+      Chrome_travis_ci: {
+        base: 'Chrome',
+        flags: ['--no-sandbox']
       }
     },
 

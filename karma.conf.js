@@ -78,7 +78,8 @@ module.exports = function(config) {
       'karma-mocha',
       'karma-coverage',
       'karma-chrome-launcher',
-      'karma-browserify'
+      'karma-browserify',
+      'karma-coveralls'
     ],
 
     coverageReporter: {

@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "browserify": "^13.1.0",
+    "browserify-istanbul": "^2.0.0",
     "chokidar": "^1.6.1",
     "clean-css": "^3.4.20",
     "coffee-coverage": "^1.0.1",

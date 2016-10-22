@@ -54,13 +54,6 @@ module.exports =
 
   getAllKDInstances: -> instances
 
-  getInstanceForTesting: (key) -> instancesToBeTested[key]
-
-  registerInstanceForTesting: (inst) ->
-    key = inst.getOption 'testPath'
-    instancesToBeTested[key] = inst
-    inst.on 'KDObjectWillBeDestroyed', => delete instancesToBeTested[key]
-
   noop: ->
   log: -> console.log.apply console, arguments
   warn: -> console.warn.apply console, arguments

@@ -7,7 +7,7 @@
     "test": "./node_modules/gulp/bin/gulp.js travis-test",
     "prepublish": "make clean dist prepublish"
   },
-  "homepage": "http://kd.io",
+  "homepage": "https://kd.io",
   "repository": {
     "type": "git",
     "url": "git://github.com/koding/kd.git"

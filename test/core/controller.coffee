@@ -8,5 +8,5 @@ describe 'KDController', ->
 
   describe 'constructor', ->
     it 'should instantiate without error', ->
-      router = new KDController
-      router.should.exist
+      controller = new KDController
+      controller.should.exist

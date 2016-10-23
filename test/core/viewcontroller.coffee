@@ -8,7 +8,7 @@ describe 'KDViewController', ->
   beforeEach ->
     sinon.spy KDController.emit
     sinon.spy KDController.setView
-    @router = new KDController
+    @controller = new KDController
 
 
   it 'exists', ->
@@ -16,24 +16,24 @@ describe 'KDViewController', ->
 
   describe 'constructor', ->
     it 'should instantiate without error', ->
-      @router.should.exist
+      @controller.should.exist
 
     it 'should call setview', ->
-      @router.setView.should.be.calledOnce
+      @controller.setView.should.be.calledOnce
 
   describe 'getView', ->
     it 'should return the main view', ->
-      @router.getView().should.deepEqual @router.mainView
+      @controller.getView().should.deepEqual @controller.mainView
 
   describe 'setView', ->
     it 'should store main view', ->
-      @router.mainView.should.exist
+      @controller.mainView.should.exist
 
     it 'should emit ControllerHasSetItsView', ->
-      @router.emit.should.be.calledOnce
+      @controller.emit.should.be.calledOnce
 
     it 'should throw error on invalid view instance', ->
       @faulty = ->
-        @router.setView
+        @controller.setView
 
       @faulty().should.throw

@@ -1,3 +1,4 @@
+require('debug').enable 'kd:*'
 debug = require('debug') 'kd'
 utils = require '../utils'
 

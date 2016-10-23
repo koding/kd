@@ -4,6 +4,8 @@ KD = require './kd'
 KDObject        = require './object'
 MutationSummary = require 'mutation-summary'
 
+window.jquery = $
+
 module.exports = class KDView extends KDObject
 
 # #
@@ -62,7 +64,7 @@ module.exports = class KDView extends KDObject
   appendToDomBody: ->
     @parentIsInDom = yes
     unless @lazy
-      $("body").append @$()
+      document.body.appendChild @el()
       @utils.defer => @emit "viewAppended"
 
 # #
@@ -108,7 +110,9 @@ module.exports = class KDView extends KDObject
     } = options
 
     @setDomElement cssClass
-    @setDataId()
+
+    debug "element", @getElement()
+
     @setDomId @domId          if @domId
     @setAttributes attributes if attributes
     @setPosition position     if position
@@ -154,7 +158,10 @@ module.exports = class KDView extends KDObject
 # #
 
 
-  setDomElement:(cssClass='')->
+  setDomElement: (cssClass='') ->
+
+    debug "element", @getElement()
+
     {domId, tagName} = @getOptions()
 
     if domId
@@ -169,23 +176,20 @@ module.exports = class KDView extends KDObject
     for klass in "kdview #{cssClass}".split ' ' when klass.length
       el.classList.add klass
 
-    @domElement = $ el
+    @domElement = el
 
     if @lazy
       debug "lazyElement found with id #{domId}"
       @utils.defer => @emit 'viewAppended'
 
   setDomId:(id)->
-    @domElement.attr "id",id
+    @domElement.setAttribute "id", id
 
   setData: (data) ->
     @data?.off? 'update', @bound 'render'
     super data
     @data?.on? 'update', @bound 'render'
     @render()  if @parentIsInDom
-
-  setDataId:->
-    @domElement.data "data-id",@getId()
 
   getAttribute:(attr)->
     @getElement().getAttribute attr
@@ -202,7 +206,7 @@ module.exports = class KDView extends KDObject
       while ancestor.parentNode
         ancestor = ancestor.parentNode
       ancestor
-    -> findUltimateAncestor(@$()[0]).body?
+    -> findUltimateAncestor(@el()).body?
 
 # #
 # TRAVERSE DOM ELEMENT
@@ -210,12 +214,12 @@ module.exports = class KDView extends KDObject
 
   getDomElement:-> @domElement
 
-  getElement:-> @getDomElement()[0]
+  getElement:-> @getDomElement()
 
   getTagName:-> @options.tagName || 'div'
 
   # shortcut method for @getDomElement()
-  $:(selector)->
+  el: (selector) ->
     if selector
     then @getDomElement().find(selector)
     else @getDomElement()
@@ -225,74 +229,68 @@ module.exports = class KDView extends KDObject
 # #
 
   # TODO: DRY these out.
-  append:(child, selector)->
-    @$(selector).append child.$()
+  append: (child, selector) ->
+    @el(selector).append child.el()
     if @parentIsInDom
       child.emit 'viewAppended'
     this
 
   appendTo:(parent, selector)->
-    @$().appendTo parent.$(selector)
+    @el().appendTo parent.el(selector)
     if @parentIsInDom
       @emit 'viewAppended'
     this
 
   appendToSelector:(selector)->
-    $(selector).append @$()
+    $(selector).append @el()
     @emit 'viewAppended'
 
   prepend:(child, selector)->
-    @$(selector).prepend child.$()
+    @el(selector).prepend child.el()
     if @parentIsInDom
       child.emit 'viewAppended'
     this
 
   prependTo:(parent, selector)->
-    @$().prependTo parent.$(selector)
+    @el().prependTo parent.el(selector)
     if @parentIsInDom
       @emit 'viewAppended'
     this
 
+  $: ->
+    debug 'someone accessed with old signature'
+    console.trace()
+    @el()
+
   prependToSelector:(selector)->
-    $(selector).prepend @$()
+    $(selector).prepend @el()
     @emit 'viewAppended'
 
   setPartial:(partial,selector)->
-    @$(selector).append partial
+    @el(selector).innerHTML += partial
     this
 
   updatePartial: (partial, selector) ->
-    @$(selector).html partial
+    @el(selector).innerHTML = partial
 
   clear:-> @getElement().innerHTML = ''
-
-  # UPDATE PARTIAL EXPERIMENT TO NOT TO ORPHAN SUBVIEWS
-
-  # updatePartial: (partial, selector) ->
-  #   subViews = @getSubViews()
-  #   subViewSelectors = for subView in subViews
-  #     subView.$().parent().attr "class"
-  #
-  #   @$(selector).html partial
-  #
-  #   for subView,i in subViews
-  #     @$(subViewSelectors[i]).append subView.$()
 
 
 # #
 # CSS METHODS
 # #
 
-  @setElementClass = (el, addOrRemove, cssClass)->
+  @setElementClass = (el, addOrRemove, cssClass) ->
+
     el.classList[addOrRemove] cl for cl in cssClass.split(' ') when cl isnt ''
 
   setCss:(property, value)->
 
-    @$().css property, value
+    @el().css property, value
 
   setStyle:(properties)->
 
-    @$().css property, value for own property, value of properties
+    @el().css property, value for own property, value of properties
 
   setClass:(cssClass)->
 
@@ -331,20 +329,20 @@ module.exports = class KDView extends KDObject
 
   hide:(duration)->
     @setClass 'hidden'
-    # @$().hide duration
+    # @el().hide duration
     #@getDomElement()[0].style.display = "none"
 
   show:(duration)->
     @unsetClass 'hidden'
-    # @$().show duration
+    # @el().show duration
     #@getDomElement()[0].style.display = "block"
 
   setPosition:->
     positionOptions = @getOptions().position
     positionOptions.position = "absolute"
-    @$().css positionOptions
+    @el().css positionOptions
 
-  getWidth:-> @$().outerWidth no
+  getWidth:-> @el().outerWidth no
 
   setWidth:(w, unit = "px")->
     @getElement().style.width = "#{w}#{unit}"
@@ -357,12 +355,12 @@ module.exports = class KDView extends KDObject
     @getElement().style.height = "#{h}#{unit}"
     @emit "ViewResized", {newHeight : h, unit}
 
-  setX:(x)-> @$().css left : x
-  setY:(y)-> @$().css top : y
+  setX:(x)-> @el().css left : x
+  setY:(y)-> @el().css top : y
   getX:-> @getElement().getBoundingClientRect().left
   getY:-> @getElement().getBoundingClientRect().top
-  getRelativeX:-> @$().position().left
-  getRelativeY:-> @$().position().top
+  getRelativeX:-> @el().position().left
+  getRelativeY:-> @el().position().top
 
   destroyChild: (prop) ->
     if @[prop]?
@@ -407,7 +405,7 @@ module.exports = class KDView extends KDObject
     # instance removes itself from DOM
     @getDomElement().remove()
 
-    @removeOverlay()  if @$overlay?
+    @removeOverlay()  if @eloverlay?
 
     # call super to remove instance subscriptions
     # and delete instance from KD.instances registry
@@ -465,7 +463,7 @@ module.exports = class KDView extends KDObject
 
     @addSubView child, '#'+placeholderId, no
     unless isCustom
-      @$('#'+placeholderId).replaceWith child.$()
+      @el('#'+placeholderId).replaceWith child.el()
 
   render: (fields) ->
     @template.update fields  if @template?
@@ -527,27 +525,30 @@ module.exports = class KDView extends KDObject
         lastPos = currentPos
 
 
+  bindEvents: (el) ->
 
-
-
-  bindEvents:($elm)->
-    $elm or= @getDomElement()
-    defaultEvents = "mousedown mouseup click dblclick"
+    el or= @getDomElement()
+    defaultEvents = ['mousedown', 'mouseup', 'click', 'dblclick']
     instanceEvents = @getOptions().bind
 
     eventsToBeBound = if instanceEvents
-      eventsToBeBound = defaultEvents.trim().split(" ")
+      eventsToBeBound = defaultEvents
       instanceEvents  = instanceEvents.trim().split(" ")
       for event in instanceEvents
         eventsToBeBound.push event unless event in eventsToBeBound
-      eventsToBeBound.join(" ")
     else
       defaultEvents
 
-    $elm.bind eventsToBeBound, (event)=>
+    debug "adding events for", eventsToBeBound
+
+    handler = (event) =>
+      debug "got event", event
       willPropagateToDOM = @handleEvent event
       event.stopPropagation() unless willPropagateToDOM
       yes
+
+    eventsToBeBound.forEach (eventName) =>
+      @utils.addEvent el, eventName, handler
 
     eventsToBeBound
 
@@ -572,10 +573,10 @@ module.exports = class KDView extends KDObject
     unless transitionEvent is "transitionend"
       @on transitionEvent, @emit.bind @, "transitionend"
 
-  bindEvent:($elm, eventName)->
-    [eventName, $elm] = [$elm, @$()] unless eventName
+  bindEvent:(el, eventName)->
+    [eventName, el] = [el, @el()] unless eventName
 
-    $elm.bind eventName, (event)=>
+    el.bind eventName, (event)=>
       shouldPropagate = @handleEvent event
       event.stopPropagation() unless shouldPropagate
       yes
@@ -656,7 +657,7 @@ module.exports = class KDView extends KDObject
   setEmptyDragState:(moveBacktoInitialPosition = no)->
 
     if moveBacktoInitialPosition and @dragState
-      el = @$()
+      el = @el()
       el.css 'left', 0
       el.css 'top' , 0
 
@@ -697,7 +698,8 @@ module.exports = class KDView extends KDObject
 
     @on "DragFinished", (e) => @beingDragged = no
 
-    handle.on "mousedown", (event)=>
+    handle.on "mousedown", (event) =>
+
       if "string" is typeof options.handle
         return if $(event.target).closest(options.handle).length is 0
 
@@ -790,7 +792,7 @@ module.exports = class KDView extends KDObject
     dragGlobDir.y = if y > 0 then 'bottom' else 'top'
 
     if @dragIsAllowed
-      el = @$()
+      el = @el()
       dragMeta   = @dragState.meta
       targetPosX = if dragMeta.right  and not dragMeta.left then 'right'  else 'left'
       targetPosY = if dragMeta.bottom and not dragMeta.top  then 'bottom' else 'top'

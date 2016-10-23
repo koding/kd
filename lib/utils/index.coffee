@@ -16,6 +16,15 @@ module.exports =
     el = el.parentNode  until not el? or @elementHasTag el, tagName
     return el
 
+  addEvent: (el, eventName, handler) ->
+    if el.addEventListener
+      el.addEventListener eventName, handler
+    else if el.attachEvent
+      el.attachEvent 'on' + eventName, handler
+    else
+      el['on' + eventName] = handler
+    return el
+
   elementShow: (el) ->
     el?.classList.remove "hidden"
 

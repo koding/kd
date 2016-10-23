@@ -256,13 +256,13 @@ module.exports = class KDTabView extends KDScrollView
     @handlesHidden = no
 
   toggleHandleContainer:(duration = 0)->
-    @tabHandleContainer.$().toggle duration
+    @tabHandleContainer.toggleClass duration
 
   hideHandleCloseIcons:->
-    @tabHandleContainer.$().addClass "hide-close-icons"
+    @tabHandleContainer.setClass "hide-close-icons"
 
   showHandleCloseIcons:->
-    @tabHandleContainer.$().removeClass "hide-close-icons"
+    @tabHandleContainer.unsetClass "hide-close-icons"
 
   handleMouseDownDefaultAction:(clickedTabHandle, event)->
     for handle, index in @handles when clickedTabHandle is handle

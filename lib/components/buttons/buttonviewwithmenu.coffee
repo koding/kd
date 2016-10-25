@@ -70,14 +70,6 @@ module.exports = class KDButtonViewWithMenu extends KDButtonView
   setTitle:(title)->
     @$button.append title
 
-  setButtonStyle:(newStyle)->
-    {styles} = @constructor
-    for style in styles
-      @$().removeClass style
-      @$button.removeClass style
-    @$button.addClass newStyle
-    @$().addClass newStyle
-
   setIconOnly:->
     @$button.addClass('icon-only').removeClass('with-icon')
     $icon = @$('span.icon')

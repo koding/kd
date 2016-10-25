@@ -1,3 +1,5 @@
+[![Build Status](https://img.shields.io/travis/anonrig/kd.svg?style=flat)](https://travis-ci.org/koding/kd) [![Coverage Status](https://img.shields.io/coveralls/anonrig/kd.svg?style=flat)](https://coveralls.io/github/koding/kd?branch=master)
+
 # kd.js
 
 a collection of ui widgets and other nice things.

@@ -13,9 +13,6 @@ describe 'KDView', ->
     }
     @view = new KDView
 
-  afterEach ->
-    @sinon.restore()
-
   describe 'scroll', ->
     it 'should return true', ->
       @view.scroll().should.equal yes

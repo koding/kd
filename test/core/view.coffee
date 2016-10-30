@@ -8,8 +8,8 @@ describe 'KDView', ->
   beforeEach ->
     @sinon = sinon.sandbox.create()
     @events = {
-      preventDefault: @sinon.spy (->)
-      stopPropagation: @sinon.spy (->)
+      preventDefault: @sinon.stub()
+      stopPropagation: @sinon.stub()
     }
     @view = new KDView
 

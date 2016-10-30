@@ -7,9 +7,10 @@ _ = require 'lodash'
 
 describe 'KDButtonViewWithMenu', ->
   beforeEach ->
-    @addCallback = sinon.spy (->)
-    @editCallback = sinon.spy (->)
-    @deleteCallback = sinon.spy (->)
+    @sinon = sinon.sandbox.create()
+    @addCallback = @sinon.spy (->)
+    @editCallback = @sinon.spy (->)
+    @deleteCallback = @sinon.spy (->)
     @view = new KDButtonViewWithMenu
       title : 'Settings'
       iconClass : 'settings'
@@ -18,6 +19,9 @@ describe 'KDButtonViewWithMenu', ->
         'Add Into' : { callback: => @addCallback() }
         'Edit' : { callback: => @editCallback() }
         'Delete' : { callback: => @deleteCallback() }
+
+  afterEach ->
+    @sinon.restore()
 
   describe 'constructor', ->
     it 'should instantiate without any errors', ->
@@ -56,6 +60,6 @@ describe 'KDButtonViewWithMenu', ->
 
   describe 'contextMenu', ->
     it 'should create context menu', ->
-      @view.createContextMenu = sinon.stub()
+      @view.createContextMenu = @sinon.stub()
       @view.contextMenu();
       @view.createContextMenu.should.be.calledOnce

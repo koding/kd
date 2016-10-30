@@ -8,10 +8,13 @@ describe 'KDView', ->
   beforeEach ->
     @sinon = sinon.sandbox.create()
     @events = {
-      preventDefault: sinon.spy
-      stopPropagation: sinon.spy
+      preventDefault: @sinon.spy (->)
+      stopPropagation: @sinon.spy (->)
     }
     @view = new KDView
+
+  afterEach ->
+    @sinon.restore()
 
   describe 'scroll', ->
     it 'should return true', ->

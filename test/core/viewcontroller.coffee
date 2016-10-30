@@ -6,11 +6,14 @@ KDController = require '../../lib/core/viewcontroller'
 
 describe 'KDViewController', ->
   beforeEach ->
-    sinon.spy KDController.emit
-    sinon.spy KDController.setView
+    @sinon = sinon.sandbox.create()
+    @sinon.spy KDController.emit
+    @sinon.spy KDController.setView
     @controller = new KDController
 
-
+  afterEach ->
+    @sinon.restore()
+    
   it 'exists', ->
     KDController.should.exist
 

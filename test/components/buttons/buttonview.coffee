@@ -6,12 +6,16 @@ KDButtonView = require '../../../lib/components/buttons/buttonview'
 
 describe 'KDButtonView', ->
   beforeEach ->
-    @callback = sinon.spy (->)
+    @sinon = sinon.sandbox.create()
+    @callback = @sinon.spy (->)
     @view = new KDButtonView
       title: 'button'
       iconClass: 'cupid-green'
       cssClass: 'cupid-green'
       callback: @callback
+
+  afterEach ->
+    @sinon.restore()
 
   describe 'constructor', ->
     it 'should instantiate without error', ->
@@ -79,7 +83,7 @@ describe 'KDButtonView', ->
 
   describe 'triggerClick', ->
     it 'should trigger click', ->
-      @view.doOnSubmit = sinon.stub()
+      @view.doOnSubmit = @sinon.stub()
       @view.triggerClick()
       @view.doOnSubmit.should.be.calledOnce
 

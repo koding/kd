@@ -8,17 +8,14 @@ _ = require 'lodash'
 describe 'KDButtonViewWithMenu', ->
   beforeEach ->
     @sinon = sinon.sandbox.create()
-    @addCallback = @sinon.spy (->)
-    @editCallback = @sinon.spy (->)
-    @deleteCallback = @sinon.spy (->)
     @view = new KDButtonViewWithMenu
       title : 'Settings'
       iconClass : 'settings'
       cssClass : 'settings-menu'
       menu :
-        'Add Into' : { callback: => @addCallback() }
-        'Edit' : { callback: => @editCallback() }
-        'Delete' : { callback: => @deleteCallback() }
+        'Add Into' : { callback: => (->) }
+        'Edit' : { callback: => (->) }
+        'Delete' : { callback: => (->) }
 
   afterEach ->
     @sinon.restore()

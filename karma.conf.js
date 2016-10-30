@@ -95,6 +95,8 @@ module.exports = function(config) {
         })
       ],
       extensions: ['.coffee']
-    }
+    },
+
+    concurrency: 1
   });
 };

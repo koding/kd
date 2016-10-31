@@ -7,7 +7,7 @@ KDButtonView = require '../../../lib/components/buttons/buttonview'
 describe 'KDButtonView', ->
   beforeEach ->
     @sinon = sinon.sandbox.create()
-    @callback = @sinon.spy (->)
+    @callback = @sinon.stub()
     @view = new KDButtonView
       title: 'button'
       iconClass: 'cupid-green'

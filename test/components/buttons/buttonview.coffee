@@ -58,24 +58,6 @@ describe 'KDButtonView', ->
     it 'should set icon only', ->
       @view.setIconOnly()
 
-  describe 'setLoader', ->
-    it 'should set a loader', ->
-      @view.setLoader()
-      @view.loader.should.exist
-
-  describe 'showLoader', ->
-    it 'should show a loader', ->
-      @view.setLoader()
-      @view.showLoader();
-      @view.domElement[0].className.should.equal 'kdbutton cupid-green w-loader loading'
-
-  describe 'hideLoader', ->
-    it 'should hide a loader', ->
-      @view.setLoader()
-      @view.showLoader()
-      @view.hideLoader()
-      @view.domElement[0].className.should.equal 'kdbutton cupid-green w-loader'
-
   describe 'click', ->
     it 'should call callback function', ->
       @view.click()

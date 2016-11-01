@@ -30,7 +30,32 @@ module.exports = function(config) {
 
     // list of files to exclude
     exclude: [
-      'lib/index.coffee'
+      'lib/index.coffee',
+
+      // full folders
+      'lib/components/dia/**/*.coffee',
+      'lib/components/upload/**/*.coffee',
+      'lib/components/slideshow/**/*.coffee',
+      'lib/components/counter/**/*.coffee',
+      'lib/components/sliderbar/**/*.coffee',
+
+      // individual files
+      'lib/components/inputs/contenteditableview.coffee',
+      'lib/components/inputs/multiplechoice.coffee',
+      'lib/components/inputs/inputcheckboxgroup.coffee',
+      'lib/components/inputs/inputswitch.coffee',
+      'lib/components/inputs/wmdinput.coffee',
+      'lib/components/inputs/tokenizedinputview.coffee',
+      'lib/components/inputs/delimitedinputview.coffee',
+
+      'lib/components/image/webcamview.coffee',
+
+      'lib/components/autocomplete/noautocompleteinputview.coffee',
+      'lib/components/autocomplete/noautocompletemultiplelistview.coffee',
+      'lib/components/autocomplete/multipleinputlistview.coffee',
+      'lib/components/autocomplete/multipleinputview.coffee',
+      'lib/components/autocomplete/multiplelistitemview.coffee',
+      'lib/components/autocomplete/simpleautocomplete.coffee',
     ],
 
 

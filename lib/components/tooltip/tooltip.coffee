@@ -19,8 +19,7 @@ Encoder = require 'htmlencode'
 
 module.exports = class KDTooltip extends KDView
 
-  constructor:(options,data)->
-
+  constructor:(options = {}, data)->
     options.bind    or= 'mouseenter mouseleave'
     options.sticky   ?= no
     options.cssClass  = KD.utils.curry 'kdtooltip', options.cssClass
@@ -34,7 +33,7 @@ module.exports = class KDTooltip extends KDView
     if @getOptions().animate then @setClass 'out' else @hide()
 
     @addListeners()
-    
+
     windowController = KD.getSingleton 'windowController'
     windowController.on 'ScrollHappened', @bound "hide"
 
@@ -136,10 +135,10 @@ module.exports = class KDTooltip extends KDView
 
     # converts NESW-Values to topbottomleftright and retains them in @getOptions
     @appendToDomBody()
-    
+
     windowController = KD.getSingleton 'windowController'
     windowController.addLayer this  unless permanent
-    
+
     o = @translateCompassDirections o  if gravity
     o.gravity = null
 

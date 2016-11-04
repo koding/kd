@@ -78,3 +78,24 @@ describe 'KDButtonView', ->
     it 'should enable', ->
       @view.enable()
       @view.domElement[0].disabled.should.be.false
+
+  describe 'focus', ->
+    it 'should focus', ->
+      @view.$().trigger = @sinon.stub()
+      @view.focus()
+      @view.$().trigger.should.calledOnce
+      @view.$().trigger.should.calledWith 'focus'
+
+  describe 'setFocus', ->
+    it 'should set focus', ->
+      @view.$().trigger = @sinon.stub()
+      @view.setFocus()
+      @view.$().trigger.should.calledOnce
+      @view.$().trigger.should.calledWith 'focus'
+
+  describe 'blur', ->
+    it 'should blur', ->
+      @view.$().trigger = @sinon.stub()
+      @view.blur()
+      @view.$().trigger.should.calledOnce
+      @view.$().trigger.should.calledWith 'blur'

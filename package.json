@@ -5,7 +5,7 @@
   "main": "build/lib/index.js",
   "scripts": {
     "test": "./node_modules/gulp/bin/gulp.js travis-test",
-    "prepublish": "make clean dist prepublish"
+    "prepublish": "if [[ ! $KD_CI ]]; then make clean dist prepublish; fi"
   },
   "homepage": "https://kd.io",
   "repository": {

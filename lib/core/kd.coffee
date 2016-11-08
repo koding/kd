@@ -21,7 +21,7 @@ module.exports =
       if @[key] then throw new Error "#{key} is already registered"
       else @[key] = val
 
-  deleteSingletons: -> singletons = []
+  deleteSingletons: -> singletons = {}
 
   registerSingleton: (name, obj, override = no)->
     if (existing = singletons[name])?
@@ -46,7 +46,7 @@ module.exports =
   deleteInstance: (id) ->
     delete instances[id]
 
-  deleteInstances: -> instances = []
+  deleteInstances: -> instances = {}
 
   getSingleton: getSingleton
 

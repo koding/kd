@@ -8,7 +8,6 @@ describe 'MultipleListItemView', ->
   beforeEach ->
     @itemView = new MultipleListItemView
     @el = document.createElement 'div'
-    @el.classList = 'removeIcon'
 
   it 'exists', ->
     MultipleListItemView.should.exist

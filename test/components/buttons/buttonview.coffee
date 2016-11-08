@@ -27,7 +27,7 @@ describe 'KDButtonView', ->
   describe 'setDomElement', ->
     it 'should set a dom element', ->
       @view.setDomElement('cupid-green').should.exist
-      @view.domElement[0].classList.length.should.equal 2
+      @view.getElement().classList.length.should.equal 2
 
   describe 'setTitle', ->
     it 'should set a title', ->
@@ -47,12 +47,12 @@ describe 'KDButtonView', ->
     it 'should show icon', ->
       @view.hideIcon()
       @view.showIcon()
-      @view.domElement[0].querySelector('span.icon').className.should.not.equal 'icon cupid-green hidden'
+      @view.getElement().querySelector('span.icon').className.should.not.equal 'icon cupid-green hidden'
 
   describe 'hideIcon', ->
     it 'should hide icon', ->
       @view.hideIcon()
-      @view.domElement[0].querySelector('span.icon').className.should.equal 'icon cupid-green hidden'
+      @view.getElement().querySelector('span.icon').className.should.equal 'icon cupid-green hidden'
 
   describe 'setIconOnly', ->
     it 'should set icon only', ->
@@ -72,12 +72,12 @@ describe 'KDButtonView', ->
   describe 'disable', ->
     it 'should disable', ->
       @view.disable()
-      @view.domElement[0].disabled.should.be.true
+      @view.getElement().disabled.should.be.true
 
   describe 'enable', ->
     it 'should enable', ->
       @view.enable()
-      @view.domElement[0].disabled.should.be.false
+      @view.getElement().disabled.should.be.false
 
   describe 'focus', ->
     it 'should focus', ->

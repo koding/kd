@@ -38,7 +38,7 @@ describe 'Utils', ->
     extended.should.deepEqual expected
 
   it 'should show an element', ->
-    @el.classList = 'hidden'
+    @el.classList.add 'hidden'
     Utils.elementShow @el
 
     @el.classList.contains('hidden').should.be.false
@@ -49,7 +49,7 @@ describe 'Utils', ->
 
     @el.classList.contains('hidden').should.be.true
 
-  it 'should check if element has tag', ->
+  it 'should check if element has a specified tag', ->
     Utils.elementHasTag(@el, 'div').should.be.true
     Utils.elementHasTag(@el, 'h1').should.be.false
 
@@ -103,7 +103,7 @@ describe 'Utils', ->
     Utils.getSelection()
     spy.should.be.calledOnce
 
-  it 'should create a unique id', ->
+  it 'should prefix a unique id', ->
     prefix = 'kd'
     id = Utils.uniqueId(prefix)
     id.substr(0, 2).should.equal prefix

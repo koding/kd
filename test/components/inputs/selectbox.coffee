@@ -36,10 +36,10 @@ describe 'KDSelectBox', ->
   describe 'focus', ->
     it 'should focus', ->
       @instance.focus()
-      @instance.domElement[0].classList.contains('focus').should.equal yes
+      @instance.hasClass('focus').should.equal yes
 
   describe 'blur', ->
     it 'should blur', ->
       @instance.focus()
       @instance.blur()
-      @instance.domElement[0].classList.contains('focus').should.equal no
+      @instance.hasClass('focus').should.equal no

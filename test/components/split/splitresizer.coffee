@@ -30,10 +30,10 @@ describe 'KDSplitResizer', ->
   describe 'setOffset', ->
     it 'should get offset', ->
       @instance._setOffset 500
-      @instance.domElement[0].style.left.should.equal 500 - @instance.getOption('handleSize') + 'px'
+      @instance.getElement().style.left.should.equal 500 - @instance.getOption('handleSize') + 'px'
 
     it 'should get offset for horizontal', ->
       @o.type = 'horizontal'
       instance = new KDSplitResizer @o, {}
       instance._setOffset -10
-      instance.domElement[0].style.top.should.equal 0 - instance.getOption('handleSize') + 'px'
+      instance.getElement().style.top.should.equal 0 - instance.getOption('handleSize') + 'px'

@@ -2,11 +2,15 @@ should = require 'should'
 sinon = require 'sinon'
 shouldSinon = require 'should-sinon'
 KDInputValidator = require '../../../lib/components/inputs/inputvalidator'
+KDInputView = require '../../../lib/components/inputs/inputview'
 
 describe 'KDInputValidator', ->
   beforeEach ->
     @sinon = sinon.sandbox.create()
     @instance = new KDInputValidator
+    @input = new KDInputView
+      placeholder: 'Testable input view'
+    @input.emit = @sinon.stub()
 
   afterEach ->
     @sinon.restore()
@@ -16,94 +20,72 @@ describe 'KDInputValidator', ->
 
   describe 'ruleRequired', ->
     it 'should validate', ->
-      input =
-        getValue: ->
-          ''
-        getOptions: ->
-          { validate: yes }
+      @input.setValue ''
+      @input.setOptions { validate: yes }
 
-      should(KDInputValidator.ruleRequired(input)).equal 'Field is required'
+      should(KDInputValidator.ruleRequired(@input)).equal 'Field is required'
 
-      input.getValue = ->
-        'Koding'
-      should(KDInputValidator.ruleRequired(input)).equal null
+      @input.setValue 'Koding'
+
+      should(KDInputValidator.ruleRequired(@input)).equal null
 
   describe 'ruleEmail', ->
     it 'should validate', ->
-      input =
-        getValue: ->
-          ''
-        getOptions: ->
-          { validate: yes }
+      @input.setValue ''
+      @input.setOptions { validate: yes }
 
-      should(KDInputValidator.ruleEmail(input)).equal 'Please enter a valid email address'
+      should(KDInputValidator.ruleEmail(@input)).equal 'Please enter a valid email address'
 
-      input.getValue = ->
-        'test@koding.com'
-      should(KDInputValidator.ruleEmail(input)).equal null
+      @input.setValue 'test@koding.com'
+
+      should(KDInputValidator.ruleEmail(@input)).equal null
 
   describe 'ruleCreditCard', ->
     it 'should validate', ->
-      input =
-        getValue: ->
-          ''
-        getOptions: ->
-          { validate: yes }
-        emit: @sinon.stub()
+      @input.setValue ''
+      @input.setOptions { validate: yes }
 
-      should(KDInputValidator.ruleCreditCard(input)).equal 'Please enter a valid credit card number'
-      input.emit.should.calledOnce
+      should(KDInputValidator.ruleCreditCard(@input)).equal 'Please enter a valid credit card number'
+      @input.emit.should.calledOnce
 
-      input.getValue = ->
-        '4000000000000001'
-      should(KDInputValidator.ruleCreditCard(input)).equal null
+      @input.setValue '4000000000000001'
+
+      should(KDInputValidator.ruleCreditCard(@input)).equal null
 
   describe 'ruleJSON', ->
     it 'should validate', ->
-      input =
-        getValue: ->
-          "{foo: 'bar'}"
-        getOptions: ->
-          { validate: yes }
+      @input.setValue "{foo: 'bar'}"
+      @input.setOptions { validate: yes }
 
-      should(KDInputValidator.ruleJSON(input)).equal 'a valid JSON is required'
+      should(KDInputValidator.ruleJSON(@input)).equal 'a valid JSON is required'
 
-      input.getValue = ->
-        '{ "hello": "world"}'
-      should(KDInputValidator.ruleJSON(input)).equal null
+      @input.setValue '{ "hello": "world"}'
+
+      should(KDInputValidator.ruleJSON(@input)).equal null
 
   describe 'ruleMaxLength', ->
     it 'should validate', ->
-      input =
-        getValue: ->
-          'koding'
-        getOptions: ->
-          {
-            validate:
-              rules:
-                maxLength: 5
-          }
+      @input.setValue 'koding'
+      @input.setOptions
+        validate:
+          rules:
+            maxLength: 5
 
-      should(KDInputValidator.ruleMaxLength(input)).equal 'Please enter a value that has 5 characters or less'
+      should(KDInputValidator.ruleMaxLength(@input)).equal 'Please enter a value that has 5 characters or less'
 
-      input.getValue = ->
-        'code'
-      should(KDInputValidator.ruleMaxLength(input)).equal null
+      @input.setValue 'code'
+
+      should(KDInputValidator.ruleMaxLength(@input)).equal null
 
   describe 'ruleMinLength', ->
     it 'should validate', ->
-      input =
-        getValue: ->
-          'code'
-        getOptions: ->
-          {
-            validate:
-              rules:
-                minLength: 5
-          }
+      @input.setValue 'code'
+      @input.setOptions
+        validate:
+          rules:
+            minLength: 5
+      should(KDInputValidator.ruleMinLength(@input)).equal 'Please enter a value that has 5 characters or more'
 
-      should(KDInputValidator.ruleMinLength(input)).equal 'Please enter a value that has 5 characters or more'
+      @input.setValue 'koding'
 
-      input.getValue = ->
-        'koding'
-      should(KDInputValidator.ruleMinLength(input)).equal null
+      should(KDInputValidator.ruleMinLength(@input)).equal null

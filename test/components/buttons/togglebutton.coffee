@@ -6,6 +6,7 @@ KDToggleButton = require '../../../lib/components/buttons/togglebutton'
 
 describe 'KDToggleButton', ->
   beforeEach ->
+    noop = (->)
     @sinon = sinon.sandbox.create()
     @instance = new KDToggleButton
       cssClass: 'toggle-button'
@@ -13,10 +14,10 @@ describe 'KDToggleButton', ->
       defaultState: 'Show details'
       states: [
         title: 'Show details'
-        callback: (->)
+        callback: noop
       ,
         title: 'Hide details'
-        callback: (->)
+        callback: noop
       ]
 
   afterEach ->

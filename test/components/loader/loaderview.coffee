@@ -25,7 +25,7 @@ describe 'KDLoaderView', ->
 
     it 'should set line height', ->
       @instance.viewAppended()
-      @instance.domElement[0].style['line-height'].should.equal '100px'
+      @instance.getElement().style['line-height'].should.equal '100px'
 
   describe 'show', ->
     it 'should show the loader', ->

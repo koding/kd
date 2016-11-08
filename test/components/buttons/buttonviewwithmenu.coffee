@@ -7,15 +7,16 @@ _ = require 'lodash'
 
 describe 'KDButtonViewWithMenu', ->
   beforeEach ->
+    noop = (->)
     @sinon = sinon.sandbox.create()
     @view = new KDButtonViewWithMenu
       title : 'Settings'
       iconClass : 'settings'
       cssClass : 'settings-menu'
       menu :
-        'Add Into' : { callback: => (->) }
-        'Edit' : { callback: => (->) }
-        'Delete' : { callback: => (->) }
+        'Add Into': { callback: noop }
+        'Edit': { callback: noop }
+        'Delete': { callback: noop }
 
   afterEach ->
     @sinon.restore()
@@ -32,13 +33,13 @@ describe 'KDButtonViewWithMenu', ->
   describe 'click', ->
     it 'should click', ->
       e = document.createEvent('MouseEvent')
-      e.target = @view.domElement[0].querySelector('button')
+      e.target = @view.getElement().querySelector('button')
       @view.click(e)
 
   describe 'setIconOnly', ->
     it 'should set icon only', ->
       @view.setIconOnly()
-      @view.domElement[0].querySelector('span').className.should.equal 'icon settings'
+      @view.getElement().querySelector('span').className.should.equal 'icon settings'
 
   describe 'createContextMenu', ->
     it 'should create context menu', ->
@@ -48,12 +49,12 @@ describe 'KDButtonViewWithMenu', ->
   describe 'disable', ->
     it 'should disable', ->
       @view.disable()
-      @view.domElement[0].querySelector('button').disabled.should.be.true
+      @view.getElement().querySelector('button').disabled.should.be.true
 
   describe 'enable', ->
     it 'should enable', ->
       @view.enable()
-      @view.domElement[0].querySelector('button').disabled.should.be.false
+      @view.getElement().querySelector('button').disabled.should.be.false
 
   describe 'contextMenu', ->
     it 'should create context menu', ->

@@ -28,14 +28,14 @@ describe 'KDTabHandleView', ->
   describe 'makeActive', ->
     it 'should make it active', ->
       @instance.makeActive()
-      @instance.domElement[0].classList.contains('active').should.equal yes
+      @instance.hasClass('active').should.equal yes
 
 
   describe 'makeInactive', ->
     it 'should make it inactive', ->
       @instance.makeActive()
       @instance.makeInactive()
-      @instance.domElement[0].classList.contains('active').should.equal no
+      @instance.hasClass('active').should.equal no
 
   describe 'setTitle', ->
     it 'should set a title', ->
@@ -44,7 +44,7 @@ describe 'KDTabHandleView', ->
 
   describe 'isHidden', ->
     it 'should return true if hidden', ->
-      @instance.isHidden().should.equal @instance.getOptions().hidden
+      @instance.isHidden().should.equal @instance.hasClass 'hidden'
 
   describe 'getWidth', ->
     it 'should get width', ->

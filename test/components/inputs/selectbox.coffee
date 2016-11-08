@@ -9,6 +9,7 @@ describe 'KDSelectBox', ->
     @instance = new KDSelectBox
 
   afterEach ->
+    @instance.destroy()
     @sinon.restore()
 
   it 'exists', ->

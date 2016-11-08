@@ -13,6 +13,7 @@ describe 'KDSplitResizer', ->
     @instance = new KDSplitResizer @o, {}
 
   afterEach ->
+    @instance.destroy()
     @sinon.restore()
 
   it 'exists', ->

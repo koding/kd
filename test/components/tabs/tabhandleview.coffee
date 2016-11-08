@@ -12,6 +12,7 @@ describe 'KDTabHandleView', ->
     @instance = new KDTabHandleView @o, {}
 
   afterEach ->
+    @instance.destroy()
     @sinon.restore()
 
   it 'exists', ->

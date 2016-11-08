@@ -42,6 +42,7 @@ describe 'KDTooltip', ->
     @instance = new KDTooltip @o, {}
 
   afterEach ->
+    @instance.destroy()
     @sinon.restore()
 
   it 'exists', ->

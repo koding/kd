@@ -2,14 +2,21 @@ should = require 'should'
 sinon = require 'sinon'
 shouldSinon = require 'should-sinon'
 KDButtonMenu = require '../../../lib/components/buttons/buttonmenu'
+KDButtonView = require '../../../lib/components/buttons/buttonview'
 
 
 describe 'KDButtonMenu', ->
   beforeEach ->
     @sinon = sinon.sandbox.create()
-    @instance = new KDButtonMenu
+    delegate = new KDButtonView
+      title: 'button'
+      iconClass: 'cupid-green'
+      cssClass: 'cupid-green'
+      callback: ->
+    @instance = new KDButtonMenu { delegate }
 
   afterEach ->
+    @instance.destroy()
     @sinon.restore()
 
   describe 'constructor', ->

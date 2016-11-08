@@ -11,6 +11,9 @@ describe 'KDLoaderView', ->
         height: 100
         width: 100
 
+  afterEach ->
+    @instance.destroy()
+    
   it 'exists', ->
     KDLoaderView.should.exist
 

@@ -19,6 +19,7 @@ describe 'KDButtonViewWithMenu', ->
         'Delete': { callback: noop }
 
   afterEach ->
+    @view.destroy()
     @sinon.restore()
 
   describe 'constructor', ->

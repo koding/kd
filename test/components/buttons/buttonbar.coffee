@@ -10,6 +10,7 @@ describe 'KDButtonBar', ->
     @instance = new KDButtonBar
 
   afterEach ->
+    @instance.destroy()
     @sinon.restore()
 
   describe 'constructor', ->

@@ -15,6 +15,7 @@ describe 'KDButtonView', ->
       callback: @callback
 
   afterEach ->
+    @view.destroy()
     @sinon.restore()
 
   describe 'constructor', ->
@@ -23,6 +24,7 @@ describe 'KDButtonView', ->
 
     it 'should instantiate without options', ->
       view = new KDButtonView
+      view.destroy()
 
   describe 'setDomElement', ->
     it 'should set a dom element', ->

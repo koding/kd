@@ -8,6 +8,9 @@ describe 'KDFormView', ->
   beforeEach ->
     @instance = new KDFormView
 
+  afterEach ->
+    @instance.destroy()
+
   it 'exists', ->
     KDFormView.should.exist
 

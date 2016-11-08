@@ -21,6 +21,7 @@ describe 'KDToggleButton', ->
       ]
 
   afterEach ->
+    @instance.destroy()
     @sinon.restore()
 
   describe 'constructor', ->

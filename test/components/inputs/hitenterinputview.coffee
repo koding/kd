@@ -14,6 +14,7 @@ describe 'KDHitEnterInputView', ->
     @instance = new KDHitEnterInputView @o, {}
 
   afterEach ->
+    @instance.destroy()
     @sinon.restore()
 
   it 'exists', ->

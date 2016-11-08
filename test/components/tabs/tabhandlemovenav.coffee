@@ -16,6 +16,7 @@ describe 'KDTabHandleMoveNav', ->
     @instance = new KDTabHandleMoveNav @o, {}
 
   afterEach ->
+    @instance.destroy()
     @sinon.restore()
 
   it 'exists', ->

@@ -17,6 +17,7 @@ describe 'KDSplitViewPanel', ->
     @instance = new KDSplitViewPanel @o, {}
 
   afterEach ->
+    @instance.destroy()
     @sinon.restore()
 
   it 'exists', ->

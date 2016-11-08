@@ -12,8 +12,9 @@ describe 'KDViewController', ->
     @controller = new KDController
 
   afterEach ->
+    @controller.destroy()
     @sinon.restore()
-    
+
   it 'exists', ->
     KDController.should.exist
 

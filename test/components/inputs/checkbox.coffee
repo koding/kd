@@ -9,6 +9,7 @@ describe 'KDCheckBox', ->
     @instance = new KDCheckBox
 
   afterEach ->
+    @instance.destroy()
     @sinon.restore()
 
   it 'exists', ->

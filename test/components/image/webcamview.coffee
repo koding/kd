@@ -8,6 +8,9 @@ describe 'KDWebcamView', ->
   beforeEach ->
     @instance = new KDWebcamView
 
+  afterEach ->
+    @instance.destroy()
+
   it 'exists', ->
     KDWebcamView.should.exist
 

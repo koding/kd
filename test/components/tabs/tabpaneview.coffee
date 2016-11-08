@@ -10,6 +10,7 @@ describe 'KDTabPaneView', ->
     @instance = new KDTabPaneView
 
   afterEach ->
+    @instance.destroy()
     @sinon.restore()
 
   it 'exists', ->

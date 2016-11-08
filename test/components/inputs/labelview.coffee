@@ -11,6 +11,7 @@ describe 'KDLabelView', ->
     @instance = new KDLabelView @o, {}
 
   afterEach ->
+    @instance.destroy()
     @sinon.restore()
 
   it 'exists', ->

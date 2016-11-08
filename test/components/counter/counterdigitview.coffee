@@ -8,6 +8,9 @@ describe 'KDCounterDigitView', ->
   beforeEach ->
     @instance = new KDCounterDigitView
 
+  afterEach ->
+    @instance.destroy()
+
   it 'exists', ->
     KDCounterDigitView.should.exist
 

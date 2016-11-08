@@ -14,6 +14,7 @@ describe 'KDView', ->
     @view = new KDView
 
   afterEach ->
+    @view.destroy()
     @sinon.restore()
 
   describe 'scroll', ->

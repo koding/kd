@@ -18,6 +18,9 @@ describe 'KDButtonGroupView', ->
       cssClass: 'group-buttons'
       buttons: ButtonsList
 
+  afterEach ->
+    @view.destroy()
+
   describe 'constructor', ->
     it 'should instantiate without an error', ->
       @view.should.exist

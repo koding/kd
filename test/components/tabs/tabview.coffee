@@ -12,6 +12,7 @@ describe 'KDTabView', ->
     @instance = new KDTabView
 
   afterEach ->
+    @instance.destroy()
     @sinon.restore()
 
   it 'exists', ->

@@ -13,6 +13,7 @@ describe 'KDInputValidator', ->
     @input.emit = @sinon.stub()
 
   afterEach ->
+    @input.destroy()
     @sinon.restore()
 
   it 'exists', ->

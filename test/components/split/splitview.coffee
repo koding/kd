@@ -19,6 +19,7 @@ describe 'KDSplitView', ->
     @instance = new KDSplitView
 
   afterEach ->
+    @instance.destroy()
     @sinon.restore()
 
   it 'exists', ->

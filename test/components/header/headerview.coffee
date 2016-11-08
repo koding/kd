@@ -8,6 +8,9 @@ describe 'KDHeaderView', ->
   beforeEach ->
     @instance = new KDHeaderView
 
+  afterEach ->
+    @instance.destroy()
+
   it 'exists', ->
     KDHeaderView.should.exist
 

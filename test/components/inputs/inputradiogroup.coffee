@@ -14,6 +14,7 @@ describe 'KDInputRadioGroup', ->
     @instance = new KDInputRadioGroup @o, {}
 
   afterEach ->
+    @instance.destroy()
     @sinon.restore()
 
   it 'exists', ->

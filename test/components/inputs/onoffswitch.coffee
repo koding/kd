@@ -12,6 +12,7 @@ describe 'KDOnOffSwitch', ->
     @instance = new KDOnOffSwitch @o, {}
 
   afterEach ->
+    @instance.destroy()
     @sinon.restore()
 
   it 'exists', ->

@@ -17,6 +17,7 @@ describe 'KDSplitComboView', ->
     @instance = new KDSplitComboView @o, {}
 
   afterEach ->
+    @instance.destroy()
     @sinon.restore()
 
   it 'exists', ->

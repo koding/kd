@@ -12,6 +12,7 @@ describe 'KDTabViewWithForms', ->
     @instance = new KDTabViewWithForms @o, {}
 
   afterEach ->
+    @instance.destroy()
     @sinon.restore()
 
   it 'exists', ->

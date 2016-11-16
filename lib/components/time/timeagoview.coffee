@@ -1,7 +1,7 @@
 $ = require 'jquery'
 KD = require '../../core/kd'
 KDView = require '../../core/view'
-timeago = new require 'timeago'
+timeago = new require 'timeago.js'
 
 module.exports = class KDTimeAgoView extends KDView
 

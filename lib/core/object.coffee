@@ -17,9 +17,6 @@ module.exports = class KDObject extends KDEventEmitter
 
     super
 
-    if options.testPath
-      KD.registerInstanceForTesting this
-
     @on   'error', console.error.bind console
     @once 'ready', => @readyState = READY
 

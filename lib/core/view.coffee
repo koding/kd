@@ -59,11 +59,13 @@ module.exports = class KDView extends KDObject
       objects.overrider[title] = item
     objects.overrider
 
-  appendToDomBody: ->
+  appendToParentElement: (parent) ->
     @parentIsInDom = yes
     unless @lazy
-      $("body").append @$()
+      $(parent).append @$()
       @utils.defer => @emit "viewAppended"
+
+  appendToDomBody: -> @appendToParentElement document.body
 
 # #
 # INSTANCE LEVEL

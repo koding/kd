@@ -1,4 +1,4 @@
-require 'canvas-loader'
+require 'kd-shim-canvas-loader'
 KDView = require '../../core/view'
 
 module.exports = class KDLoaderView extends KDView

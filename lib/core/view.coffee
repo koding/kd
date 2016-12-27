@@ -2,7 +2,7 @@ debug = require('debug') 'kd:view'
 $ = require 'jquery'
 KD = require './kd'
 KDObject        = require './object'
-MutationSummary = require 'mutation-summary'
+MutationSummary = require 'kd-shim-mutation-summary'
 
 module.exports = class KDView extends KDObject
 
@@ -59,11 +59,13 @@ module.exports = class KDView extends KDObject
       objects.overrider[title] = item
     objects.overrider
 
-  appendToDomBody: ->
+  appendToParentElement: (parent) ->
     @parentIsInDom = yes
     unless @lazy
-      $("body").append @$()
+      $(parent).append @$()
       @utils.defer => @emit "viewAppended"
+
+  appendToDomBody: -> @appendToParentElement document.body
 
 # #
 # INSTANCE LEVEL

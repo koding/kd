@@ -2,7 +2,7 @@ debug = require('debug') 'kd:view'
 $ = require 'jquery'
 KD = require './kd'
 KDObject        = require './object'
-MutationSummary = require 'mutation-summary'
+MutationSummary = require 'kd-shim-mutation-summary'
 
 module.exports = class KDView extends KDObject
 

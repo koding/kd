@@ -57,9 +57,5 @@
     "stylus": "^0.54.5",
     "uglify-js": "^2.7.3",
     "watchify": "^3.7.0"
-  },
-  "browser": {
-    "canvas-loader": "kd-shim-canvas-loader",
-    "mutation-summary": "kd-shim-mutation-summary"
   }
 }

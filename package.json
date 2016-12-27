@@ -30,7 +30,7 @@
     "kd-shim-canvas-loader": "^0.9.2",
     "kd-shim-mutation-summary": "^0.1.0",
     "lodash": "^4.16.4",
-    "timeago": "^1.5.3"
+    "timeago.js": "^2.0.3"
   },
   "devDependencies": {
     "browserify": "^13.1.0",

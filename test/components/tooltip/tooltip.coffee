@@ -86,7 +86,7 @@ describe 'KDTooltip', ->
   describe 'setTitle', ->
     it 'should set title', ->
       @instance.setTitle 'Koding', no
-      @instance.wrapper.domElement.context.innerHTML.should.equal 'Koding'
+      @instance.wrapper.getElement().innerHTML.should.equal 'Koding'
 
   describe 'destroy', ->
     it 'should destroy', ->

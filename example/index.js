@@ -3,6 +3,28 @@ var kd = require('../lib/index');
 var main = new kd.View;
 main.appendToDomBody();
 
+var flex = new kd.FlexSplit({
+  cssClass: 'mainview',
+  resizable: true,
+  type: kd.Flex.VERTICAL,
+  views: [
+    new kd.FlexSplit({
+      sizes: [ 40, 60 ],
+      views: [
+        new kd.View({ partial: 'left top' }),
+        new kd.View({ partial: 'left bottom' })
+      ]
+    }),
+    new kd.FlexSplit({
+      sizes: [ 20, 80 ],
+      views: [
+        new kd.View({ partial: 'right top' }),
+        new kd.View({ partial: 'right bottom' })
+      ]
+    })
+  ]
+})
+
 var input = new kd.InputView;
 var form = new kd.View;
 
@@ -16,6 +38,9 @@ form.addSubView(new kd.ButtonView({
 
 var tabs = new kd.TabView({
   hideHandleCloseIcons: true,
+  attributes: {
+    style: 'height: 100vh'
+  },
   paneData: [
     {
       title: 'tab1',
@@ -24,6 +49,10 @@ var tabs = new kd.TabView({
     {
       title: 'form',
       view: form
+    },
+    {
+      title: 'flex split',
+      view: flex
     }
   ]
 });

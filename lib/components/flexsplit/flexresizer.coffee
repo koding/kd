@@ -79,7 +79,7 @@ module.exports = class KDFlexSplitResizer extends KDView
 
     view.on KDFlex.EVENT_HIDE, =>
 
-      fractions = [Flex.MAX, KDFlex.MAX]
+      fractions = [KDFlex.MAX, KDFlex.MAX]
       viewIndex = @_getViewIndex view
       fractions[viewIndex] = KDFlex.MIN
 

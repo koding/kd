@@ -14,6 +14,7 @@ module.exports = class KDFlexSplit extends KDView
   constructor: (options = {}, data) ->
 
     options.cssClass   = KD.utils.curry 'flex-split', options.cssClass
+    options.name      ?= "flex-#{KD.utils.getUniqueId()}"
     options.sizes     ?= []
     options.type      ?= KDFlex.HORIZONTAL
     options.resizable ?= yes

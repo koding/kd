@@ -171,7 +171,6 @@ module.exports = class KDView extends KDObject
     for klass in "kdview #{cssClass}".split ' ' when klass.length
       el.classList.add klass
 
-    @element = el
     @domElement = $ el
 
     if @lazy
@@ -213,7 +212,7 @@ module.exports = class KDView extends KDObject
 
   getDomElement:-> @domElement
 
-  getElement:-> @element
+  getElement:-> @element ? @element = @domElement[0]
 
   getTagName:-> @options.tagName || 'div'
 
@@ -324,7 +323,7 @@ module.exports = class KDView extends KDObject
 
   getBounds: ->
     $el = @domElement
-    rect = @element.getBoundingClientRect()
+    rect = @getElement().getBoundingClientRect()
 
     return {
       x : rect.left
@@ -335,7 +334,8 @@ module.exports = class KDView extends KDObject
     }
 
   getScale: ->
-    return @element.getBoundingClientRect().width / @element.offsetWidth
+    el = @getElement()
+    return el.getBoundingClientRect().width / el.offsetWidth
 
   setRandomBG:->@getDomElement().css "background-color", KD.utils.getRandomRGB()
 

@@ -334,6 +334,9 @@ module.exports = class KDView extends KDObject
       n : @constructor.name
     }
 
+  getScale: ->
+    return @element.getBoundingClientRect().width / @element.offsetWidth
+
   setRandomBG:->@getDomElement().css "background-color", KD.utils.getRandomRGB()
 
   hide:(duration)->
@@ -713,6 +716,9 @@ module.exports = class KDView extends KDObject
 
       dragState = @dragState
 
+      if (ps = @parent.getScale()) isnt 1
+        @dragState.parentScale = ps
+
       if options.containment
 
         dragState.containment = {}
@@ -762,7 +768,7 @@ module.exports = class KDView extends KDObject
 
   drag:(event, delta)->
 
-    {directionX, directionY, axis, containment} = @dragState
+    {directionX, directionY, axis, containment, parentScale} = @dragState
 
     {x, y}       = delta
     dragPos      = @dragState.position
@@ -773,6 +779,10 @@ module.exports = class KDView extends KDObject
     dragGlobDir  = dragDir.global
     dragCurDir   = dragDir.current
     {axis}       = @getOptions().draggable
+
+    if parentScale
+      x = x * 1 / parentScale
+      y = y * 1 / parentScale
 
     draggedDistance = if axis
       if axis is "x" then Math.abs x else Math.abs y

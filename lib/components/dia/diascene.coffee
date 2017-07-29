@@ -176,7 +176,7 @@ module.exports = class KDDiaScene extends KDView
           conn.dia.setClass 'highlight'
           unless conn.dia is dia
             joint = conn.dia.joints[conn.joint]
-            if joint not in @activeJoints
+            if joint and joint not in @activeJoints
               joint.showDeleteButton()
               joint.on 'DeleteRequested', @bound 'disconnect'
               @activeJoints.push joint
@@ -198,13 +198,22 @@ module.exports = class KDDiaScene extends KDView
          ((conn.source.dia is activeDia) or (conn.target.dia is activeDia))
         return conn
 
-  # Needs refactoring ~ GG
-  disconnect:(dia, joint)->
+
+  deleteConnection: (connectionToDelete) ->
+
+    @connections = @connections.filter (connection) ->
+      connection isnt connectionToDelete
+
+
+  disconnect: (dia, joint) ->
+
     return  if @activeDias.length isnt 1
 
-    connectionsToDelete = @findTargetConnection dia, joint
-    @connections = (c for c in @connections when c isnt connectionsToDelete)
+    connectionToDelete = @findTargetConnection dia, joint
+    @deleteConnection connectionToDelete
+
     @highlightLines @activeDias
+
 
   disconnectAllConnections:(dia)->
 
@@ -217,14 +226,13 @@ module.exports = class KDDiaScene extends KDView
 
     @highlightLines()
 
-  allowedToConnect: (source, target)->
+  allowedToConnect: (source, target) ->
 
     return no  unless source and target
     return no  if source.dia?.id is target.dia?.id
 
     for i in [0..1]
-      if source.dia.allowedConnections? and \
-         Object.keys(source.dia.allowedConnections).length > 0
+      if Object.keys(source.dia.allowedConnections).length > 0
         allowList = source.dia.allowedConnections
         restrictions = allowList[target.dia.constructor.name]
         return no  unless restrictions

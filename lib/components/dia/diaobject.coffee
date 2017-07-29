@@ -37,8 +37,14 @@ module.exports = class KDDiaObject extends KDView
         @unsetClass 'highlight'
         joint.hideDeleteButton()  for key, joint of @joints
 
-  mouseDown:(e)->
-    @emit "DiaObjectClicked"
+    @setCss 'zIndex', 2
+
+
+  mouseDown: (e) ->
+
+    @setCss 'zIndex', id = KD.utils.uniqueId() + 2
+    @emit 'DiaObjectClicked'
+
     @_mouseDown = yes
     @wc.once 'ReceivedMouseUpElsewhere', => @_mouseDown = no
     @utils.stopDOMEvent e  unless @getOption 'draggable'

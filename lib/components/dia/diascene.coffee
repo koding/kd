@@ -268,19 +268,19 @@ module.exports = class KDDiaScene extends KDView
     @fakeCanvas?.destroy()
 
     @addSubView @realCanvas = new KDCustomHTMLView
-      tagName    : "canvas"
-      attributes : @getSceneSize()
-    @realContext = @realCanvas.getElement().getContext "2d"
+      tagName    : 'canvas'
+      attributes : @getSceneAttributes()
+    @realContext = @realCanvas.getElement().getContext '2d'
 
     # Fallback function for Firefox and Safari
     # which does not support lineDashes correctly ~ GG
     @realContext.setLineDash = KD.noop  unless @realContext.setLineDash?
 
     @addSubView @fakeCanvas = new KDCustomHTMLView
-      tagName    : "canvas"
-      cssClass   : "fakeCanvas"
-      attributes : @getSceneSize()
-    @fakeContext = @fakeCanvas.getElement().getContext "2d"
+      tagName    : 'canvas'
+      cssClass   : 'fakeCanvas'
+      attributes : @getSceneAttributes()
+    @fakeContext = @fakeCanvas.getElement().getContext '2d'
 
 
   setScale: (scale = 1) ->

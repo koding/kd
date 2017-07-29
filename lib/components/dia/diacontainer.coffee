@@ -17,7 +17,11 @@ module.exports = class KDDiaContainer extends KDView
     @scale = 1
     @dias = {}
 
-  mouseDown:->
+    @setCss 'zIndex', KD.utils.uniqueId() + 1
+
+
+  mouseDown: ->
+
     super
     @emit "HighlightDia", (dia for key, dia of @dias)
 

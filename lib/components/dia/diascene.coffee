@@ -56,12 +56,24 @@ module.exports = class KDDiaScene extends KDView
 
     @createCanvas()
 
-  drawFakeLine:(options={})->
-    {sx,sy,ex,ey} = options
+
+  drawFakeLine: (options = {}) ->
+
+    { sx, sy, ex, ey } = options
 
     @cleanup @fakeCanvas
 
     @fakeContext.beginPath()
+
+    # Take canvas position into account to render correctly
+    # when scale changed on the view ~ GG
+    canvas = { x: @realCanvas.getX(), y: @realCanvas.getY() }
+
+    sx -= canvas.x
+    sy -= canvas.y
+    ex -= canvas.x
+    ey -= canvas.y
+
     @fakeContext.moveTo sx, sy
     @fakeContext.lineTo ex, ey
 
@@ -233,6 +245,13 @@ module.exports = class KDDiaScene extends KDView
 
     sJoint = source.dia.getJointPos source.joint
     tJoint = target.dia.getJointPos target.joint
+
+    # Take canvas position into account to render correctly
+    # when scale changed on the view ~ GG
+    canvas = { x: @realCanvas.getX(), y: @realCanvas.getY() }
+
+    s = { x: sJoint.x - canvas.x, y: sJoint.y - canvas.y }
+    t = { x: tJoint.x - canvas.x, y: tJoint.y - canvas.y }
 
     @realContext.strokeStyle = lineColor
     @realContext.setLineDash lineDashes  if lineDashes.length > 0

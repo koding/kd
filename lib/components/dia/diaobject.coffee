@@ -88,13 +88,14 @@ module.exports = class KDDiaObject extends KDView
 
     if typeof joint is 'string'
       joint = @joints[joint]
-    return {x:0, y:0}  unless joint
 
-    [p, s, j]  = [@parent.getElement(), @getElement(), joint.getElement()]
-    [ x , y  ] = [p.offsetLeft + s.offsetLeft, p.offsetTop + s.offsetTop]
-    [ jx, jy ] = [j.offsetLeft, j.offsetTop]
-    [ dx, dy ] = if joint.type in ['left', 'right'] then [10, 4] else [4, 10]
+    return { x:0, y:0 }  unless joint
 
-    x:x + jx + dx, y: y + jy + dy
+    j = joint.getElement().getBoundingClientRect()
+    return {
+      x: j.left + j.width / 2
+      y: j.top + j.height / 2
+    }
+
 
   getDiaId: -> @domElement.attr 'dia-id'

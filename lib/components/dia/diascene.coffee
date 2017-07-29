@@ -339,18 +339,24 @@ module.exports = class KDDiaScene extends KDView
 
 
   setScale: (scale = 1) ->
+    @scale = scale
     container.setScale scale  for container in @containers
     @updateScene()
 
-    canvas.setAttributes @getSceneSize()
 
   cleanup: (canvas) ->
+    canvas.setAttributes @getSceneAttributes()
+
 
   parentDidResize: ->
     super
     @updateScene()
 
-  getSceneSize:-> width: @getWidth(), height: @getHeight()
+  getSceneAttributes: -> {
+    width  : @getWidth()
+    height : @getHeight()
+    zIndex : 1
+  }
 
   dumpScene: -> console.log @containers, @connections
 

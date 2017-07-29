@@ -258,6 +258,38 @@ module.exports = class KDDiaScene extends KDView
 
     @cleanup @realCanvas
 
+  getBezierCurves = (t, pos) ->
+
+    # Applying Cubic Bézier Curve formula to provided
+    # positions to get specific position in given t
+    # where t is 0 <= t <= 1.
+    #
+    # https://en.wikipedia.org/wiki/Bézier_curve
+
+    mt = 1 - t
+    b  = [
+      mt ** 3          # P0 * (1 - t)^3
+      3 * t * mt ** 2  # P1 * 3 * (1 - t)^2 * t
+      3 * mt * t ** 2  # P2 * 3 * (1 - t) * t^2
+      t ** 3           # P3 * t^3
+    ]
+
+    # Above formula will be applied below with following data;
+    #
+    # Where P0 is s  -> source joint position
+    # Where P1 is c1 -> first control point
+    # Where P2 is c2 -> second control point
+    # Where P3 is t  -> target joint position
+    #
+    # Then sum of Ps will get the curve point
+
+    { s, t, c1, c2 } = pos
+
+    # Applying for both x and y coordinates to get pin point
+    return {
+      x: (s.x * b[0]) + (c1.x * b[1]) + (c2.x * b[2]) + (t.x * b[3])
+      y: (s.y * b[0]) + (c1.y * b[1]) + (c2.y * b[2]) + (t.y * b[3])
+    }
 
 
   drawConnectionLine: ({ source, target, options = {} }) ->

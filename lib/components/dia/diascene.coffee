@@ -114,12 +114,39 @@ module.exports = class KDDiaScene extends KDView
 
     source = @getDia sourceId
     target = @getDia targetId
+
+    debug 'source - target', { source, target }
+
     target.joint = @guessJoint target, source  unless target.joint
     @connect source, target  if target.joint
 
-    return "left"  if source.joint is "right" and target.dia.joints.left?
-    return "right" if source.joint is "left"  and target.dia.joints.right?
   guessJoint: (target, source) ->
+
+    joints = Object.keys target.dia.joints
+    return  if joints.length is 0
+    return joints.first  if joints.length is 1
+
+    if source.joint is 'right'
+      return 'left'    if target.dia.joints.left
+      return 'bottom'  if target.dia.joints.bottom
+      return 'top'     if target.dia.joints.top
+
+    if source.joint is 'left'
+      return 'right'   if target.dia.joints.right
+      return 'bottom'  if target.dia.joints.bottom
+      return 'top'     if target.dia.joints.top
+
+    if source.joint is 'bottom'
+      return 'top'     if target.dia.joints.top
+      return 'bottom'  if target.dia.joints.bottom
+      return 'left'    if target.dia.joints.left
+
+    if source.joint is 'top'
+      return 'bottom'  if target.dia.joints.bottom
+      return 'top'     if target.dia.joints.top
+      return 'right'   if target.dia.jointsright
+
+
 
   getDia:(id)->
     # Find a better way for this

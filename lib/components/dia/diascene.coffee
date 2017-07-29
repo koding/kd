@@ -37,6 +37,9 @@ module.exports = class KDDiaScene extends KDView
 
 
   addContainer: (container, pos = {}) ->
+
+    @createCanvas()
+
     @addSubView container
 
     container.on 'NewDiaObjectAdded', @bound 'diaAdded'
@@ -54,7 +57,7 @@ module.exports = class KDDiaScene extends KDView
     container.setX pos.x  if pos.x?
     container.setY pos.y  if pos.y?
 
-    @createCanvas()
+    return container
 
 
   drawFakeLine: (options = {}) ->

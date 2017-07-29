@@ -343,6 +343,51 @@ module.exports = class KDDiaScene extends KDView
 
     @realContext.stroke()
 
+  addTransfer: (connection, transfer = {}) ->
+
+    transfer = $.extend
+      size        : 3
+      reverse     : no
+      stepSize    : 0.005
+      duration    : 1000
+      font        : '12px sans-serif'
+      color       : 'black'
+      textAlign   : 'center'
+      shadowBlur  : 10
+    , transfer
+
+    transfer.step = 0
+
+    if transfer.duration
+      transfer.stepSize = 1 / (transfer.duration / @updateEvery)
+
+    if transfer.reverse
+      transfer.step = 1
+      transfer.stepSize = -transfer.stepSize  if transfer.stepSize > 0
+
+    hasTransfer = no
+
+    if transfer.id
+      transfers = []
+      connection.options.transfers.forEach (_transfer) ->
+        if transfer.id is _transfer.id
+          transfer.step = _transfer.step
+          transfers.push transfer
+          hasTransfer = yes
+        else
+          transfers.push _transfer
+
+      connection.options.transfers = transfers
+
+    unless hasTransfer
+      transfer.id = KD.utils.getUniqueId()
+      connection.options.transfers.push transfer
+
+    @updateScene()
+
+    return transfer.id
+
+
   addFakeConnection: (connection) ->
 
     @drawConnectionLine connection

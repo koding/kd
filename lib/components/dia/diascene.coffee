@@ -247,8 +247,12 @@ module.exports = class KDDiaScene extends KDView
     return  if not @allowedToConnect source, target
 
     @emit "ConnectionCreated", source, target
-    @connections.push {source, target}
+    options = { transfers: [] }
+    @connections.push connection = { source, target, options }
     @highlightLines target.dia, update
+
+    return connection
+
 
   resetScene:->
     @fakeConnections = []
@@ -336,12 +340,46 @@ module.exports = class KDDiaScene extends KDView
     else if target.joint in ["left", "right"]
       tx = if target.joint is "left" then -cd else cd
 
-    @realContext.bezierCurveTo(sJoint.x + sx, sJoint.y + sy, \
-                               tJoint.x + tx, tJoint.y + ty, \
-                               tJoint.x, tJoint.y)
+    c1 = { x: s.x + sx, y: s.y + sy }
+    c2 = { x: t.x + tx, y: t.y + ty }
+
+    @realContext.bezierCurveTo c1.x, c1.y, c2.x, c2.y, t.x, t.y
     @realContext.lineWidth = lineWidth
 
     @realContext.stroke()
+
+    return  if options.transfers.length is 0
+
+    transfers = []
+    options.transfers.forEach (transfer) =>
+
+      { step, reverse, size, stepSize, textAlign
+        color, text, font, shadowColor, shadowBlur } = transfer
+
+      @realContext.fillStyle = color
+
+      dot = getBezierCurves step, { s, t, c1, c2 }
+      if text
+        @realContext.font        = font         if font
+        @realContext.textAlign   = textAlign    if textAlign
+        @realContext.shadowColor = shadowColor  if shadowColor
+        @realContext.shadowBlur  = shadowBlur   if shadowBlur
+        @realContext.fillText text, dot.x, dot.y
+      else
+        dot.x -= size / 2
+        dot.y -= size / 2
+        @realContext.fillRect dot.x, dot.y, size, size
+
+      if 0 < (step += stepSize) < 1
+        transfer.step = step
+        transfers.push transfer
+      else
+        KD.utils.defer => @emit "Transfer-#{transfer.id}-Done"
+
+    options.transfers = transfers
+
+    return
+
 
   addTransfer: (connection, transfer = {}) ->
 

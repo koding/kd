@@ -5,9 +5,9 @@ KDView = require '../../core/view'
 
 module.exports = class KDDiaObject extends KDView
 
-  constructor:(options, data)->
+  constructor: (options, data) ->
 
-    options.cssClass  = KD.utils.curry 'kddia-object', options.cssClass
+    options.cssClass = KD.utils.curry 'kddia-object', options.cssClass
 
     unless options.draggable?
       options.draggable = {}  unless 'object' is typeof options.draggable
@@ -29,7 +29,7 @@ module.exports = class KDDiaObject extends KDView
     @domElement.attr "dia-id", "dia-#{@getId()}"
     @wc = KD.getSingleton 'windowController'
 
-    @on "KDObjectWillBeDestroyed", => @emit 'RemoveMyConnections'
+    @once 'KDObjectWillBeDestroyed', => @emit 'RemoveMyConnections'
 
     @once 'viewAppended', =>
       @addJoint joint for joint in @getOption 'joints'
@@ -43,7 +43,9 @@ module.exports = class KDDiaObject extends KDView
     @wc.once 'ReceivedMouseUpElsewhere', => @_mouseDown = no
     @utils.stopDOMEvent e  unless @getOption 'draggable'
 
-  mouseLeave:(e)->
+
+  mouseLeave: (e) ->
+
     return  unless @_mouseDown
 
     bounds = @getBounds()
@@ -63,10 +65,11 @@ module.exports = class KDDiaObject extends KDView
 
     if joint then @emit "JointRequestsLine", joint
 
-  addJoint:(type)->
+
+  addJoint: (type) ->
 
     if @joints[type]?
-      debug 'dup joint, overriding previous one'
+      debug 'duplicate joint, overriding previous one'
       @joints[type].destroy?()
 
     {jointItemClass, staticJoints} = @getOptions()
@@ -74,8 +77,10 @@ module.exports = class KDDiaObject extends KDView
 
     @joints[type] = joint
 
-  getJointPos:(joint)->
-    if typeof joint is "string"
+
+  getJointPos: (joint) ->
+
+    if typeof joint is 'string'
       joint = @joints[joint]
     return {x:0, y:0}  unless joint
 
@@ -86,5 +91,4 @@ module.exports = class KDDiaObject extends KDView
 
     x:x + jx + dx, y: y + jy + dy
 
-  getDiaId:->
-    @domElement.attr "dia-id"
+  getDiaId: -> @domElement.attr 'dia-id'

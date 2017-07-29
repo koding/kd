@@ -1,3 +1,4 @@
+debug            = require('debug') 'kd:dia:diascene'
 $                = require 'jquery'
 KD               = require '../../core/kd'
 KDView           = require '../../core/view'
@@ -6,7 +7,7 @@ _                = require 'lodash'
 
 module.exports = class KDDiaScene extends KDView
 
-  constructor:(options = {}, data)->
+  constructor: (options = {}, data) ->
 
     options.cssClass = KD.utils.curry "kddia-scene", options.cssClass
     options.bind     = KD.utils.curry "mousemove",   options.bind
@@ -28,18 +29,20 @@ module.exports = class KDDiaScene extends KDView
     @activeJoints    = []
     @fakeConnections = []
 
-  diaAdded:(container, diaObj)->
+  diaAdded: (container, diaObj) ->
+
     diaObj.on "JointRequestsLine",   @bound "handleLineRequest"
     diaObj.on "DragInAction",        => @highlightLines diaObj
     diaObj.on "RemoveMyConnections", => @disconnectAllConnections diaObj
 
-  addContainer:(container, pos = {})->
+
+  addContainer: (container, pos = {}) ->
     @addSubView container
 
-    container.on "NewDiaObjectAdded", @bound "diaAdded"
-    container.on "DragInAction",      @bound "updateScene"
-    container.on "UpdateScene",       @bound "updateScene"
-    container.on "HighlightDia",      @bound "highlightLines"
+    container.on 'NewDiaObjectAdded', @bound 'diaAdded'
+    container.on 'DragInAction',      @bound 'updateScene'
+    container.on 'UpdateScene',       @bound 'updateScene'
+    container.on 'HighlightDia',      @bound 'highlightLines'
 
     @containers.push container
 
@@ -82,7 +85,7 @@ module.exports = class KDDiaScene extends KDView
     ey = y + (e.clientY - @_trackJoint.getY())
     @drawFakeLine {sx:x, sy:y, ex, ey}
 
-  mouseUp:(e)->
+  mouseUp: (e) ->
     return  unless @_trackJoint
 
     targetId = $(e.target).closest(".kddia-object").attr("dia-id")
@@ -99,13 +102,13 @@ module.exports = class KDDiaScene extends KDView
     target.joint = @guessJoint target, source  unless target.joint
     @connect source, target  if target.joint
 
-  guessJoint:(target, source)->
     return "left"  if source.joint is "right" and target.dia.joints.left?
     return "right" if source.joint is "left"  and target.dia.joints.right?
+  guessJoint: (target, source) ->
 
   getDia:(id)->
     # Find a better way for this
-    parts = ( id.match /dia\-((.*)\-joint\-(.*)|(.*))/ ).filter (m)->return !!m
+    parts = ( id.match /dia\-((.*)\-joint\-(.*)|(.*))/ ).filter (m) -> !!m
     return null  unless parts
     [objId, joint] = parts.slice(-2)
     joint = null  if objId is joint
@@ -136,13 +139,18 @@ module.exports = class KDDiaScene extends KDView
               joint.on 'DeleteRequested', @bound 'disconnect'
               @activeJoints.push joint
 
-  handleLineRequest:(joint)->
+
+  handleLineRequest: (joint) ->
     @_trackJoint = joint
 
-  findTargetConnection:(dia, joint)->
-    isEqual = (connection)=>
+
+  findTargetConnection: (dia, joint) ->
+
+    isEqual = (connection) ->
       (dia is connection.dia) and (joint is connection.joint)
+
     activeDia = @activeDias.first
+
     for conn in @connections
       if ((isEqual conn.source) or (isEqual conn.target)) and \
          ((conn.source.dia is activeDia) or (conn.target.dia is activeDia))
@@ -183,9 +191,11 @@ module.exports = class KDDiaScene extends KDView
 
     return yes
 
-  connect:(source, target, update=yes)->
-    return if not @allowedToConnect source, target
-    # log "Connecting #{source.dia.id} to #{target.dia.id}"
+
+  connect: (source, target, update = yes) ->
+
+    return  if not @allowedToConnect source, target
+
     @emit "ConnectionCreated", source, target
     @connections.push {source, target}
     @highlightLines target.dia, update
@@ -251,7 +261,8 @@ module.exports = class KDDiaScene extends KDView
     @drawConnectionLine connection
     @fakeConnections.push connection
 
-  createCanvas:->
+
+  createCanvas: ->
 
     @realCanvas?.destroy()
     @fakeCanvas?.destroy()
@@ -271,23 +282,24 @@ module.exports = class KDDiaScene extends KDView
       attributes : @getSceneSize()
     @fakeContext = @fakeCanvas.getElement().getContext "2d"
 
-  setScale:(scale = 1)->
+
+  setScale: (scale = 1) ->
     container.setScale scale  for container in @containers
     @updateScene()
 
-  cleanup:(canvas)->
     canvas.setAttributes @getSceneSize()
 
-  parentDidResize:->
+  cleanup: (canvas) ->
+
+  parentDidResize: ->
     super
     @updateScene()
 
   getSceneSize:-> width: @getWidth(), height: @getHeight()
 
-  dumpScene:->
-    console.log @containers, @connections
+  dumpScene: -> console.log @containers, @connections
 
-  reset:(update = yes)->
+  reset: (update = yes) ->
     @connections     = []
     @fakeConnections = []
     @updateScene()  if update

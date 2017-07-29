@@ -257,18 +257,15 @@ module.exports = class KDDiaScene extends KDView
   updateScene: _.throttle ->
 
     @cleanup @realCanvas
-    @drawConnectionLine connection for connection in @connections
-    @drawConnectionLine connection for connection in @fakeConnections
-  , 300
 
-  drawConnectionLine:({source, target, options})->
 
-    return unless source or target
 
-    options    or= {}
-    activeColor  = @getOption 'lineColorActive'
-    lineDashes   = @getOption 'lineDashes'
-    lineColor    = @getOption 'lineColor'
+  drawConnectionLine: ({ source, target, options = {} }) ->
+
+    return  unless source or target
+
+    { lineColorActive, lineDashes, transfers = []
+      lineColor, lineWidth, curveDistance } = @getOptions()
 
     @realContext.beginPath()
 
@@ -276,10 +273,10 @@ module.exports = class KDDiaScene extends KDView
                 else if target.dia in @activeDias then target
 
     if activeDia
-      lineColor  = options.lineColor  or \
-                   (activeDia.dia.getOption 'colorTag') or activeColor
-      lineDashes = options.lineDashes or \
-                   (activeDia.dia.getOption 'lineDashes') or lineDashes
+      lineColor  = options.lineColor  ? \
+                   (activeDia.dia.getOption 'colorTag') ? lineColorActive
+      lineDashes = options.lineDashes ? \
+                   (activeDia.dia.getOption 'lineDashes') ? lineDashes
 
     sJoint = source.dia.getJointPos source.joint
     tJoint = target.dia.getJointPos target.joint
@@ -294,10 +291,10 @@ module.exports = class KDDiaScene extends KDView
     @realContext.strokeStyle = lineColor
     @realContext.setLineDash lineDashes  if lineDashes.length > 0
 
-    @realContext.moveTo sJoint.x, sJoint.y
+    @realContext.moveTo s.x, s.y
 
-    cd = @getOption 'curveDistance'
-    [sx, sy, tx, ty] = [0, 0, 0, 0]
+    cd = curveDistance
+    [ sx, sy, tx, ty ] = [ 0, 0, 0, 0 ]
     if source.joint in ["top", "bottom"]
       sy = if source.joint is "top" then -cd else cd
     else if source.joint in ["left", "right"]
@@ -310,11 +307,12 @@ module.exports = class KDDiaScene extends KDView
     @realContext.bezierCurveTo(sJoint.x + sx, sJoint.y + sy, \
                                tJoint.x + tx, tJoint.y + ty, \
                                tJoint.x, tJoint.y)
+    @realContext.lineWidth = lineWidth
 
-    @realContext.lineWidth = @getOption 'lineWidth'
     @realContext.stroke()
 
-  addFakeConnection:(connection)->
+  addFakeConnection: (connection) ->
+
     @drawConnectionLine connection
     @fakeConnections.push connection
 

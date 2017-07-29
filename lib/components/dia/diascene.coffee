@@ -20,6 +20,7 @@ module.exports = class KDDiaScene extends KDView
     options.fakeLineColor    or= "green"
     options.fakeLineDashes    ?= []
     options.curveDistance     ?= 50
+    options.updateEvery       ?= 10
 
     super
 
@@ -28,6 +29,10 @@ module.exports = class KDDiaScene extends KDView
     @activeDias      = []
     @activeJoints    = []
     @fakeConnections = []
+
+    @_autoUpdate = null
+    @updateEvery = @getOption 'updateEvery'
+
 
   diaAdded: (container, diaObj) ->
 
@@ -258,9 +263,60 @@ module.exports = class KDDiaScene extends KDView
     @fakeConnections = []
     @updateScene()
 
-  updateScene: _.throttle ->
 
+  updateScene: do (queued = no) -> ->
+
+    return  if @_paused
+
+    return unless @parentIsInDom
+      if not queued
+        @once 'viewAppended', @bound 'updateScene'
+        queued = yes
+
+      return
+
+    needsUpdate = !!@_forceUpdate
     @cleanup @realCanvas
+
+    for connection in @connections
+
+      if connection.options.transfers.length > 0
+        needsUpdate = yes
+        KD.utils.defer =>
+          @_autoUpdate ?= KD.utils.repeat @updateEvery, @bound 'updateScene'
+
+      @drawConnectionLine connection
+
+    for connection in @fakeConnections
+      @drawConnectionLine connection
+
+    unless needsUpdate
+      @_autoUpdate = KD.utils.killRepeat @_autoUpdate
+
+
+  pause: ->
+    @_paused = yes
+
+
+  play: ->
+    @_paused = no
+    @updateScene()
+
+
+  startAutoUpdate: do (autoKill = null) -> (duration) ->
+
+    @_forceUpdate = yes
+    @_autoUpdate ?= KD.utils.repeat @updateEvery, @bound 'updateScene'
+
+    return  unless duration
+    KD.utils.killWait autoKill
+    autoKill = KD.utils.wait duration, @bound 'stopAutoUpdate'
+
+
+  stopAutoUpdate: ->
+    @_forceUpdate = no
+    @_autoUpdate = KD.utils.killRepeat @_autoUpdate
+
 
   getBezierCurves = (t, pos) ->
 

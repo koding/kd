@@ -1,5 +1,3 @@
-var kd = require('../lib/index')
-
 var main = new kd.View({ cssClass: 'lobilo' })
 main.appendToDomBody()
 

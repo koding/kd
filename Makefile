@@ -42,17 +42,10 @@ development: $(TARGETS)
 				}); \
 			});"
 
-example: watch-example
-	@$(BIN)/serve
-
-watch-example:
-	@$(BIN)/watchify \
-		-v \
-		-g coffeeify \
-		--extension=".coffee" \
-		--outfile example/bundle.js \
-		--debug \
-		example/index.js &
+example:
+	@cp ./dist/kd.js  examples/
+	@cp ./dist/kd.css examples/
+	@$(BIN)/serve examples -o
 
 js:
 	@$(BIN)/browserify \

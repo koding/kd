@@ -72,8 +72,8 @@ css:
 		--print \
 		lib/styles/index.styl \
 	| $(BIN)/cleancss \
-		--s0 \
-		--output kd.css
+		-O0 \
+		-o kd.css
 
 clean: clean_dist
 	@rm -fr build

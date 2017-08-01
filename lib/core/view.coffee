@@ -3,6 +3,7 @@ $ = require 'jquery'
 KD = require './kd'
 KDObject        = require './object'
 MutationSummary = require 'kd-shim-mutation-summary'
+Pistachio = require './pistachio'
 
 module.exports = class KDView extends KDObject
 
@@ -105,8 +106,8 @@ module.exports = class KDView extends KDObject
     @subViews         = []
 
     { cssClass, attributes, size, position
-      partial, draggable, pistachio, pistachioParams
-      lazyLoadThreshold, tooltip, draggable, tagName
+      partial, lazyLoadThreshold, tooltip
+      draggable, tagName
     } = options
 
     @setDomElement cssClass
@@ -716,7 +717,7 @@ module.exports = class KDView extends KDObject
 
       dragState = @dragState
 
-      if (ps = @parent.getScale()) isnt 1
+      if @parent and (ps = @parent.getScale()) isnt 1
         @dragState.parentScale = ps
 
       if options.containment
@@ -836,7 +837,28 @@ module.exports = class KDView extends KDObject
 # VIEW READY EVENTS
 # #
 
-  viewAppended:->
+  viewAppended: ->
+
+    template = @getOptions().pistachio or @pistachio
+    template = template.call this  if 'function' is typeof template
+
+    if template?
+      @setTemplate template
+      @template.update()
+
+
+  setTemplate: (tmpl, params) ->
+
+    params ?= @getOptions()?.pistachioParams
+    options = if params? then { params }
+    @template = new Pistachio this, tmpl, options
+    @updatePartial @template.html
+    @template.embedSubViews()
+
+
+  pistachio: (tmpl) ->
+    "#{@options.prefix}#{tmpl}#{@options.suffix}"  if tmpl
+
 
   childAppended:(child)->
     # bubbling childAppended event

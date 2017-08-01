@@ -231,6 +231,7 @@ module.exports = class KDDiaScene extends KDView
 
     @highlightLines()
 
+
   allowedToConnect: (source, target) ->
 
     return no  unless source and target
@@ -259,7 +260,8 @@ module.exports = class KDDiaScene extends KDView
     return connection
 
 
-  resetScene:->
+  resetScene: ->
+
     @fakeConnections = []
     @updateScene()
 
@@ -295,10 +297,12 @@ module.exports = class KDDiaScene extends KDView
 
 
   pause: ->
+
     @_paused = yes
 
 
   play: ->
+
     @_paused = no
     @updateScene()
 
@@ -314,8 +318,18 @@ module.exports = class KDDiaScene extends KDView
 
 
   stopAutoUpdate: ->
+
+    return  if @hasActiveTransfer()
+
     @_forceUpdate = no
     @_autoUpdate = KD.utils.killRepeat @_autoUpdate
+
+
+  hasActiveTransfer: ->
+
+    for connection in @connections
+      return yes  if connection.options.transfers.length > 0
+    return no
 
 
   getBezierCurves = (t, pos) ->
@@ -352,6 +366,10 @@ module.exports = class KDDiaScene extends KDView
     }
 
 
+  # TODO: we can implement a cache mechanism for calculated joint positions
+  # if we know the changed node/joint. So, in that case we won't need to re
+  # calculate all the line positions from scratch for example only one node's
+  # position has changed. This requires a bit refactoring here ~ GG
   drawConnectionLine: ({ source, target, options = {} }) ->
 
     return  unless source or target
@@ -510,18 +528,22 @@ module.exports = class KDDiaScene extends KDView
 
 
   setScale: (scale = 1) ->
+
     @scale = scale
     container.setScale scale  for container in @containers
     @updateScene()
 
 
   cleanup: (canvas) ->
+
     canvas.setAttributes @getSceneAttributes()
 
 
   parentDidResize: ->
+
     super
     @updateScene()
+
 
   getSceneAttributes: -> {
     width  : @getWidth()
@@ -532,6 +554,7 @@ module.exports = class KDDiaScene extends KDView
   dumpScene: -> console.log @containers, @connections
 
   reset: (update = yes) ->
+
     @connections     = []
     @fakeConnections = []
     @updateScene()  if update

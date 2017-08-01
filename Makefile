@@ -42,12 +42,14 @@ development: $(TARGETS)
 				}); \
 			});"
 
-example:
+example: dist
+	@echo ' - Running example server...'
 	@cp ./dist/kd.js  examples/
 	@cp ./dist/kd.css examples/
 	@$(BIN)/serve examples -o
 
 js:
+	@echo ' - Browserify and Uglify...'
 	@$(BIN)/browserify \
 		-g coffeeify \
 		--extension=".coffee" \
@@ -60,6 +62,7 @@ js:
 		-o kd.min.js
 
 css:
+	@echo ' - Stylus and clean-css...'
 	@$(BIN)/stylus \
 		--include-css \
 		--print \
@@ -72,6 +75,8 @@ clean: clean_dist
 	@rm -fr build
 
 clean_dist:
+	@echo ' - Cleanup...'
 	@rm -fr dist
+	@rm -f examples/kd.*
 
 .PHONY: example dist

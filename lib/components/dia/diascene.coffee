@@ -43,8 +43,6 @@ module.exports = class KDDiaScene extends KDView
 
   addContainer: (container, pos = {}) ->
 
-    @createCanvas()
-
     @addSubView container
 
     container.on 'NewDiaObjectAdded', @bound 'diaAdded'
@@ -61,6 +59,8 @@ module.exports = class KDDiaScene extends KDView
 
     container.setX pos.x  if pos.x?
     container.setY pos.y  if pos.y?
+
+    @createCanvas()
 
     return container
 
@@ -94,18 +94,24 @@ module.exports = class KDDiaScene extends KDView
 
     @fakeContext.stroke()
 
-  click:(e)->
+
+  click: (e) ->
+
     return if e.target isnt e.currentTarget
     @highlightLines()
 
-  mouseMove:(e)->
+
+  mouseMove: (e) ->
+
     return  unless @_trackJoint
     {x, y} = @_trackJoint.getPos()
     ex = x + (e.clientX - @_trackJoint.getX())
     ey = y + (e.clientY - @_trackJoint.getY())
     @drawFakeLine {sx:x, sy:y, ex, ey}
 
+
   mouseUp: (e) ->
+
     return  unless @_trackJoint
 
     targetId = $(e.target).closest(".kddia-object").attr("dia-id")
@@ -124,6 +130,7 @@ module.exports = class KDDiaScene extends KDView
 
     target.joint = @guessJoint target, source  unless target.joint
     @connect source, target  if target.joint
+
 
   guessJoint: (target, source) ->
 
@@ -152,8 +159,8 @@ module.exports = class KDDiaScene extends KDView
       return 'right'   if target.dia.jointsright
 
 
+  getDia: (id) ->
 
-  getDia:(id)->
     # Find a better way for this
     parts = ( id.match /dia\-((.*)\-joint\-(.*)|(.*))/ ).filter (m) -> !!m
     return null  unless parts
@@ -163,7 +170,8 @@ module.exports = class KDDiaScene extends KDView
       break  if dia = container.dias[objId]
     return {dia, joint, container}
 
-  highlightLines:(dia=[], update=yes)->
+
+  highlightLines: (dia=[], update=yes) ->
 
     if not Array.isArray dia then dia = [dia]
     @activeDias = dia
@@ -548,7 +556,6 @@ module.exports = class KDDiaScene extends KDView
   getSceneAttributes: -> {
     width  : @getWidth()
     height : @getHeight()
-    zIndex : 1
   }
 
 

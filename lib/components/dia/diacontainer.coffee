@@ -17,8 +17,6 @@ module.exports = class KDDiaContainer extends KDView
     @scale = 1
     @dias = {}
 
-    @setCss 'zIndex', KD.utils.uniqueId() + 1
-
 
   mouseDown: ->
 

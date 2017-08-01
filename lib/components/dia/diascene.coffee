@@ -551,7 +551,24 @@ module.exports = class KDDiaScene extends KDView
     zIndex : 1
   }
 
-  dumpScene: -> console.log @containers, @connections
+
+  dumpScene: ->
+
+    containers = {}
+    for _, c of @containers
+      containers[c.id] = c.dumpContainer()
+
+    connections = []
+    for connection in @connections
+      { source, target, options: { transfers } } = connection
+      connections.push {
+        source: source.dia.id
+        target: target.dia.id
+        transfers
+      }
+
+    JSON.stringify { containers, connections }
+
 
   reset: (update = yes) ->
 

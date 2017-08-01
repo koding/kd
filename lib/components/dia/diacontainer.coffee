@@ -61,3 +61,25 @@ module.exports = class KDDiaContainer extends KDView
     css[prop] = "scale(#{scale})"  for prop in props
     @setStyle css
     @scale = scale
+
+
+  dumpContainer: ->
+
+    dias = {}
+    for _, d of @dias
+      dEl = d.getElement()
+      dias[d.id] = {
+        data         : d.getData()
+        joints       : Object.keys d.joints
+        staticJoints : [d.options.staticJoints...]
+        partial      : d.options.partial
+        cssClass     : "#{dEl.className}"
+        position     : d.getBounds()
+      }
+
+    data     = @getData()
+    cssClass = @getElement().className
+    partial  = @getOption 'partial'
+    position = @getBounds()
+
+    return { dias, data, cssClass, partial, position }

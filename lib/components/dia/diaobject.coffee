@@ -5,9 +5,9 @@ KDView = require '../../core/view'
 
 module.exports = class KDDiaObject extends KDView
 
-  constructor:(options, data)->
+  constructor: (options, data) ->
 
-    options.cssClass  = KD.utils.curry 'kddia-object', options.cssClass
+    options.cssClass = KD.utils.curry 'kddia-object', options.cssClass
 
     unless options.draggable?
       options.draggable = {}  unless 'object' is typeof options.draggable
@@ -29,7 +29,7 @@ module.exports = class KDDiaObject extends KDView
     @domElement.attr "dia-id", "dia-#{@getId()}"
     @wc = KD.getSingleton 'windowController'
 
-    @on "KDObjectWillBeDestroyed", => @emit 'RemoveMyConnections'
+    @once 'KDObjectWillBeDestroyed', => @emit 'RemoveMyConnections'
 
     @once 'viewAppended', =>
       @addJoint joint for joint in @getOption 'joints'
@@ -37,13 +37,21 @@ module.exports = class KDDiaObject extends KDView
         @unsetClass 'highlight'
         joint.hideDeleteButton()  for key, joint of @joints
 
-  mouseDown:(e)->
-    @emit "DiaObjectClicked"
+    @setCss 'zIndex', 2
+
+
+  mouseDown: (e) ->
+
+    @setCss 'zIndex', id = KD.utils.uniqueId() + 2
+    @emit 'DiaObjectClicked'
+
     @_mouseDown = yes
     @wc.once 'ReceivedMouseUpElsewhere', => @_mouseDown = no
     @utils.stopDOMEvent e  unless @getOption 'draggable'
 
-  mouseLeave:(e)->
+
+  mouseLeave: (e) ->
+
     return  unless @_mouseDown
 
     bounds = @getBounds()
@@ -63,10 +71,11 @@ module.exports = class KDDiaObject extends KDView
 
     if joint then @emit "JointRequestsLine", joint
 
-  addJoint:(type)->
+
+  addJoint: (type) ->
 
     if @joints[type]?
-      debug 'dup joint, overriding previous one'
+      debug 'duplicate joint, overriding previous one'
       @joints[type].destroy?()
 
     {jointItemClass, staticJoints} = @getOptions()
@@ -74,17 +83,19 @@ module.exports = class KDDiaObject extends KDView
 
     @joints[type] = joint
 
-  getJointPos:(joint)->
-    if typeof joint is "string"
+
+  getJointPos: (joint) ->
+
+    if typeof joint is 'string'
       joint = @joints[joint]
-    return {x:0, y:0}  unless joint
 
-    [p, s, j]  = [@parent.getElement(), @getElement(), joint.getElement()]
-    [ x , y  ] = [p.offsetLeft + s.offsetLeft, p.offsetTop + s.offsetTop]
-    [ jx, jy ] = [j.offsetLeft, j.offsetTop]
-    [ dx, dy ] = if joint.type in ['left', 'right'] then [10, 4] else [4, 10]
+    return { x:0, y:0 }  unless joint
 
-    x:x + jx + dx, y: y + jy + dy
+    j = joint.getElement().getBoundingClientRect()
+    return {
+      x: j.left + j.width / 2
+      y: j.top + j.height / 2
+    }
 
-  getDiaId:->
-    @domElement.attr "dia-id"
+
+  getDiaId: -> @domElement.attr 'dia-id'

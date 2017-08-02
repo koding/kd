@@ -93,8 +93,3 @@ module.exports = class KDObject extends KDEventEmitter
     KD.deleteInstance @id
     # good idea but needs some refactoring
     # @[prop] = null  for own prop of this
-
-  chainNames:(options)->
-    options.chain
-    options.newLink
-    "#{options.chain}.#{options.newLink}"

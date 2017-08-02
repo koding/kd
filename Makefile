@@ -42,19 +42,14 @@ development: $(TARGETS)
 				}); \
 			});"
 
-example: watch-example
-	@$(BIN)/serve
-
-watch-example:
-	@$(BIN)/watchify \
-		-v \
-		-g coffeeify \
-		--extension=".coffee" \
-		--outfile example/bundle.js \
-		--debug \
-		example/index.js &
+example: dist
+	@echo ' - Running example server...'
+	@cp ./dist/kd.js  examples/
+	@cp ./dist/kd.css examples/
+	@$(BIN)/serve examples -o
 
 js:
+	@echo ' - Browserify and Uglify...'
 	@$(BIN)/browserify \
 		-g coffeeify \
 		--extension=".coffee" \
@@ -67,18 +62,21 @@ js:
 		-o kd.min.js
 
 css:
+	@echo ' - Stylus and clean-css...'
 	@$(BIN)/stylus \
 		--include-css \
 		--print \
 		lib/styles/index.styl \
 	| $(BIN)/cleancss \
-		--s0 \
-		--output kd.css
+		-O0 \
+		-o kd.css
 
 clean: clean_dist
 	@rm -fr build
 
 clean_dist:
+	@echo ' - Cleanup...'
 	@rm -fr dist
+	@rm -f examples/kd.*
 
 .PHONY: example dist

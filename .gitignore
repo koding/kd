@@ -5,3 +5,4 @@ build
 dist
 bundle.js
 coverage
+examples/kd.*

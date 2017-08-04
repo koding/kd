@@ -109,7 +109,7 @@ module.exports = class Pistachio
 
       # In the case of prop includes a simple compare code;
       #
-      #   {{ #(foo > 5 ? foo else bar) }}
+      #   {{ #(foo > 5 ? foo : bar) }}
       #
       # This will end up like below;
       #

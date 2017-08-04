@@ -110,6 +110,7 @@ module.exports.extend
   EventEmitter                   : require "./core/eventemitter"
   EventEmitterWildcard           : require "./core/eventemitterwildcard"
   Object                         : require "./core/object"
+  Data                           : require "./core/data"
   Router                         : require "./core/router"
   View                           : require "./core/view"
   ViewController                 : require "./core/viewcontroller"

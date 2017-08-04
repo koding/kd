@@ -21,6 +21,7 @@ module.exports = class KDDiaScene extends KDView
     options.fakeLineDashes    ?= []
     options.curveDistance     ?= 50
     options.updateEvery       ?= 10
+    options.prependCanvas     ?= no
 
     super
 
@@ -30,8 +31,9 @@ module.exports = class KDDiaScene extends KDView
     @activeJoints    = []
     @fakeConnections = []
 
-    @_autoUpdate = null
-    @updateEvery = @getOption 'updateEvery'
+    @_autoUpdate   = null
+    @updateEvery   = @getOption 'updateEvery'
+    @prependCanvas = @getOption 'prependCanvas'
 
 
   diaAdded: (container, diaObj) ->
@@ -42,6 +44,8 @@ module.exports = class KDDiaScene extends KDView
 
 
   addContainer: (container, pos = {}) ->
+
+    @createCanvas()  if @prependCanvas
 
     @addSubView container
 
@@ -60,7 +64,7 @@ module.exports = class KDDiaScene extends KDView
     container.setX pos.x  if pos.x?
     container.setY pos.y  if pos.y?
 
-    @createCanvas()
+    @createCanvas()  unless @prependCanvas
 
     return container
 
@@ -390,6 +394,9 @@ module.exports = class KDDiaScene extends KDView
     activeDia = if source.dia in @activeDias then source \
                 else if target.dia in @activeDias then target
 
+    lineColor = options.lineColor ? lineColor
+    lineWidth = options.lineWidth ? lineWidth
+
     if activeDia
       lineColor  = options.lineColor  ? \
                    (activeDia.dia.getOption 'colorTag') ? lineColorActive
@@ -516,8 +523,7 @@ module.exports = class KDDiaScene extends KDView
 
   createCanvas: ->
 
-    @realCanvas?.destroy()
-    @fakeCanvas?.destroy()
+    return  if @realCanvas
 
     @addSubView @realCanvas = new KDCustomHTMLView
       tagName    : 'canvas'

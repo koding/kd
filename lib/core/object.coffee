@@ -3,32 +3,30 @@ KDEventEmitter = require './eventemitter'
 
 module.exports = class KDObject extends KDEventEmitter
 
-  [NOTREADY, READY] = [0,1]
+  [ NOTREADY, READY ] = [ 0, 1 ]
 
   utils: KD.utils
 
-  constructor:(options = {}, data)->
-
-    @id or= options.id or KD.utils.getUniqueId()
-    @setOptions options
-    @setData data  if data
-    @setDelegate options.delegate if options.delegate
-    @registerKDObjectInstance()
+  constructor: (options = {}, data) ->
 
     super
+
+    @setId options.id or KD.utils.getUniqueId()
+
+    @setOptions options
+    @setDelegate options.delegate  if options.delegate
+
+    @setData data  if data
 
     @on   'error', console.error.bind console
     @once 'ready', => @readyState = READY
 
 
   define: (property, options) ->
-
     options = { get: options }  if 'function' is typeof options
-
     Object.defineProperty this, property, options
 
-
-  bound: (method)->
+  bound: (method) ->
     unless 'function' is typeof @[method]
       throw new Error "bound: unknown method! #{method}"
     boundMethod = "__bound__#{method}"
@@ -37,15 +35,15 @@ module.exports = class KDObject extends KDEventEmitter
     )
     return @[boundMethod]
 
-  lazyBound: (method, rest...)-> @[method].bind this, rest...
+  lazyBound: (method, rest...) -> @[method].bind this, rest...
 
-  forwardEvent: (target, eventName, prefix="") ->
-    target.on eventName, @lazyBound 'emit', prefix + eventName
+  forwardEvent: (target, eventName, prefix='') ->
+    target.on eventName, @lazyBound 'emit', "#{prefix}#{eventName}"
 
-  forwardEvents: (target, eventNames, prefix="") ->
+  forwardEvents: (target, eventNames, prefix='') ->
     @forwardEvent target, eventName, prefix  for eventName in eventNames
 
-  ready:(listener)->
+  ready: (listener) ->
     if Promise?::nodeify
       new Promise (resolve) =>
         resolve() if @readyState is READY
@@ -58,34 +56,55 @@ module.exports = class KDObject extends KDEventEmitter
 
   getSingleton:KD.getSingleton
 
-  getInstance:(instanceId)->
-    KD.getAllKDInstances()[instanceId] ? null
+  getInstance: (instanceId) ->
+    return KD.getAllKDInstances()[instanceId]
 
-  registerKDObjectInstance: -> KD.registerInstance @
+  setData: (data) ->
+    @data = data
+    return @data
 
-  setData:(@data)->
+  getData: ->
+    return @data
 
-  getData:-> @data
+  setDataAt: (path, value) ->
+    @data = data
+    return @data
 
-  setOptions:(@options = {})->
+  getDataAt: ->
+    return @data
 
-  setOption:(option, value)-> @options[option] = value
+  setOptions: (options = {}) ->
+    @options = options
+    return @options
 
-  unsetOption:(option)-> delete @options[option] if @options[option]
+  setOption: (option, value) ->
+    @options[option] = value
+    return @options
 
-  getOptions:-> @options
-  getOption:(key)-> @options[key] ? null
+  unsetOption: (option) ->
+    delete @options[option]
 
-  changeId:(id)->
-    KD.deleteInstance id
+  getOptions: ->
+    return @options
+
+  getOption: (key) ->
+    return @options[key] ? null
+
+  setId: (id) ->
+    KD.deleteInstance id  if @id
     @id = id
     KD.registerInstance @
+    return @id
 
-  getId:->@id
+  getId: ->
+    return @id
 
-  setDelegate:(@delegate)->
+  setDelegate: (delegate) ->
+    @delegate = delegate
+    return @delegate
 
-  getDelegate:->@delegate
+  getDelegate: ->
+    return @delegate
 
   destroy:->
     @isDestroyed = yes

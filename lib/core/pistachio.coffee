@@ -87,11 +87,104 @@ module.exports = class Pistachio
 
   toString: -> @template
 
+  parseProp = (prop, getter) ->
+
+    if prop and isNaN prop
+      if prop[0] is '`' then prop[1...prop.length - 1] else getter prop
+
+
+  notSupported = 'Not supported operation! Check template!'
+
   init: do ->
 
     dataGetter = (prop) ->
-      data = @getData?()
-      return data.getAt?(prop) or Pistachio.getAt data, prop  if data?
+
+      return  unless data = @getData?()
+      getter = data.getAt ? (p) -> Pistachio.getAt data, p
+
+      [ p1, rest... ] = prop.match /[^\s`]+|`([^`]*)`/gi
+
+      # If this is only a single prop we will just return it's value
+      return getter p1  unless rest.length
+
+      # In the case of prop includes a simple compare code;
+      #
+      #   {{ #(foo > 5 ? foo : bar) }}
+      #
+      # This will end up like below;
+      #
+      #   {{ #(p1 op p2 ? r1 : r2) }}
+      #
+      #  where;
+      #
+      #    p1 : first prop or a string in ``
+      #    op : operation which can be >,>=,<,<=,== or !=
+      #    p2 : second prop or a string in ``
+      #    qm : question mark
+      #    r1 : first return value or prop
+      #    ow : otherwise
+      #    r2 : second return value or prop
+      #
+      # Example above will return;
+      #
+      #    data.foo if data.foo is greater than 5 othwerise data.bar
+      #
+      # If needed string values can be used in any place;
+      #
+      #   {{ #(`foo` == foo ? `cool` : bar )}}
+      #
+      # which will return;
+      #
+      #   'cool' string if data.foo equals to 'foo' string otherwise data.bar
+      #
+      # otherwise part is optional which can be simply ignored;
+      #
+      #   item{{ #(items.count != 1 ? `s`)}}
+      #
+      # which will render 'items' when data.items.count != 0
+      #
+      # also return values can be omitted which causes results to be true or
+      # false as string
+      #
+      #   is foo greater than 5? {{ #(foo > 5)}}
+      #
+      [ op, p2, qm = '?', r1, ow = ':', r2 = '' ] = rest
+
+      if qm != '?' or ow != ':'
+        return notSupported
+
+      p1 = parseProp(p1, getter) ? Number p1
+      p2 = parseProp(p2, getter) ? Number p2
+      r1 = parseProp(r1, getter) ? r1
+      unless r1?
+        [ r1, r2 ] = [ !!1, !!0 ]
+      else
+        r2 = parseProp(r2, getter) ? r2
+
+      # Following can be done with a simple eval like following;
+      #
+      #   res = if eval("#{p1}#{op}#{p2}") then r1 else r2
+      #
+      # But it's better to keep the operation limited here. ~ GG
+      #
+      res = switch op
+        when '>'
+          if p1 > p2  then r1 else r2
+        when '>='
+          if p1 >= p2 then r1 else r2
+        when '<'
+          if p1 < p2  then r1 else r2
+        when '<='
+          if p1 <= p2 then r1 else r2
+        when '=='
+          if p1 == p2 then r1 else r2
+        when '!='
+          if p1 != p2 then r1 else r2
+        else
+          notSupported
+
+      return res
+
 
     getEmbedderFn = (pistachio, view, id, symbol) ->
       (childView) ->
@@ -119,7 +212,12 @@ module.exports = class Pistachio
 
         expression = expression
           .replace /#\(([^)]*)\)/g, (_, dataPath) ->
-            dataPaths.push dataPath
+            [ p1, op, p2 ] = dataPath.match /[^\s`]+|`([^`]*)`/gi
+            if p2
+              dataPaths.push p1  if p1 and p1[0] isnt '`' and isNaN p1
+              dataPaths.push p2  if p2 and p2[0] isnt '`' and isNaN p2
+            else
+              dataPaths.push p1
             "data('#{dataPath}')"
           .replace /^(?:> ?|embedChild )(.+)/, (_, subViewName) ->
             subViewNames.push subViewName.replace /\@\.?|this\./, ''
@@ -181,6 +279,7 @@ module.exports = class Pistachio
 
         "<#{tagName}#{classAttr}#{dataPathsAttr}#{subViewNamesAttr} #{attrs} id='#{id}'></#{tagName}>"
 
+
   addSymbolInternal: (symbol) ->
     { dataPaths, subViewNames } = symbol
 
@@ -228,21 +327,18 @@ module.exports = class Pistachio
     unique = {}
 
     for item in items
-
       symbols = @[symbolKeys[childType]][item]
-
       continue  unless symbols?
 
       for symbol in symbols
-
         unique[symbol.id] = symbol
 
     for own id, symbol of unique
       el = @view.getElement().querySelector "##{id}"
-      continue unless el?
+      continue  unless el?
 
       out = symbol?.render()
-      forEach.call el, out  if out
+      forEach.call el, out  if out or out == ''
 
   embedSubViews: (subviews = @getSubViewNames()) ->
     @refreshChildren 'subview', subviews

@@ -95,8 +95,6 @@ module.exports = class KDView extends KDObject
 
     super options, data
 
-    data?.on? 'update', @bound 'render'
-
     @defaultInit()
 
   defaultInit:->

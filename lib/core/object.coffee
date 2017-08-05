@@ -66,13 +66,6 @@ module.exports = class KDObject extends KDEventEmitter
   getData: ->
     return @data
 
-  setDataAt: (path, value) ->
-    @data = data
-    return @data
-
-  getDataAt: ->
-    return @data
-
   setOptions: (options = {}) ->
     @options = options
     return @options

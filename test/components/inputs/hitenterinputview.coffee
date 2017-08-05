@@ -28,23 +28,25 @@ describe 'KDHitEnterInputView', ->
   describe 'enableEnterKey', ->
     it 'should enable enter key', ->
       @instance.enableEnterKey()
-      @instance.button.show.should.calledOnce
+      # one in constructor and other in enableEnterKey call above
+      @instance.button.hide.should.calledTwice()
       @instance.enterKeyEnabled.should.equal yes
 
   describe 'disableEnterKey', ->
     it 'should disable enter key', ->
       @instance.enableEnterKey()
       @instance.disableEnterKey()
-      @instance.button.hide.should.calledOnce
+      @instance.button.show.should.calledOnce()
       @instance.enterKeyEnabled.should.equal no
 
   describe 'toggleEnterKey', ->
     it 'should toggle enter key', ->
       @instance.disableEnterKey = @sinon.stub()
       @instance.toggleEnterKey()
-      @instance.disableEnterKey.should.calledOnce
+      @instance.disableEnterKey.should.calledOnce()
 
-  describe 'keyDown', ->
+  describe 'keyDown for escape', ->
+
     it 'should trigger necessary events for escape', ->
       escapeEvent = {
         which: 27
@@ -52,8 +54,11 @@ describe 'KDHitEnterInputView', ->
 
       @instance.emit = @sinon.stub()
       @instance.keyDown(escapeEvent)
-      @instance.emit.should.calledOnce
+      @instance.emit.should.calledOnce()
       @instance.emit.should.calledWith 'EscapePerformed'
+
+  describe 'keyDown for enter', ->
+
     it 'should trigger necessary events for enter', ->
       enterEvent = {
         which: 13
@@ -63,5 +68,8 @@ describe 'KDHitEnterInputView', ->
       @instance.enterKeyEnabled = yes
       @instance.emit = @sinon.stub()
       @instance.keyDown(enterEvent)
-      @instance.emit.should.calledOnce
+
+      @instance.emit.should.calledThrice()
       @instance.emit.should.calledWith 'EnterPerformed'
+      @instance.emit.should.calledWith 'ValidationPassed'
+      @instance.emit.should.calledWith 'ValidationResult'

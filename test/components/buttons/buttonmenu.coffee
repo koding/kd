@@ -27,9 +27,9 @@ describe 'KDButtonMenu', ->
 
   describe 'viewAppended', ->
     it 'should call set partial', ->
-      spy = sinon.spy @instance.setPartial
+      spy = sinon.spy @instance, 'setPartial'
       @instance.viewAppended()
-      spy.should.be.calledOnce
+      spy.should.be.calledOnce()
 
   describe 'positionContextMenu', ->
     it 'should exist', ->

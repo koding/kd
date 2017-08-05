@@ -7,33 +7,39 @@ module.exports = class KDData extends KDEventEmitter
     get: (target, key) ->
 
       value = target[key]
-      if base.__data__[key]?
-        return value
+      return value  if typeof key isnt 'string' or key[0..1] is '__'
 
-      isObject = typeof value is 'object'
-      if value and isObject and value not instanceof Date
-        proxy = new Proxy value, proxyHandler base
-        proxy.__prefix__ = key  if isObject
-        return proxy
+      if value and dataValue = base.__data__[key]
+        if dataValue instanceof Object and value not instanceof Date
+          proxy = new Proxy value, proxyHandler base
+          proxy.__prefix__ = key
+          return proxy
 
       return value
+
 
     set: (target, key, value, receiver) ->
 
       target[key] = value
-      prefix = if receiver.__prefix__ then "#{receiver.__prefix__}." else ''
-      path = "#{prefix}#{key}"
-      base.emit 'update', [ path ]  if base.__data__[path]?
+
+      if receiver.__prefix__
+        key = "#{receiver.__prefix__}.#{key}"
+
+      unless /^__|__$/.test key
+        base.emit 'update', [ key ]
 
       return true
 
 
-  constructor: (data) ->
+  constructor: (data = {}) ->
 
     super {}
 
     this.__data__  = data
     this.__proxy__ = new Proxy data, proxyHandler this
-    this.__proxy__[key] = val for key, val of this when key isnt 'constructor'
+    this.__proxy__.__proxy__ = {}
+
+    for key, val of this when key not in ['constructor', '__data__']
+      this.__proxy__.__proxy__[key] = val
 
     return this.__proxy__

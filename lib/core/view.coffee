@@ -180,9 +180,23 @@ module.exports = class KDView extends KDObject
     @domElement.attr "id",id
 
   setData: (data) ->
-    @data?.off? 'update', @bound 'render'
+
+    if @data?
+      if @data.off
+        @data.off 'update', @bound 'render'
+      else if @data.__proxy__
+        @data.__proxy__.off? 'update', @bound 'render'
+
     super data
-    @data?.on? 'update', @bound 'render'
+
+    if @data?
+      if @data.on
+        @data.on 'update', @bound 'render'
+      # If the data is `KDData` which has a __proxy__ field for
+      # providing events on updated fields, we need to listen that one ~ GG
+      else if @data.__proxy__
+        @data.__proxy__.on? 'update', @bound 'render'
+
     @render()  if @parentIsInDom
 
   setDataId:->

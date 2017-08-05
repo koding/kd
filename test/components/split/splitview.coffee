@@ -34,11 +34,11 @@ describe 'KDSplitView', ->
       @instance._resizePanels = @sinon.spy()
       @instance._putViews = @sinon.spy()
       @instance.viewAppended()
-      @instance._calculateSizes.should.calledOnce
-      @instance._createPanels.should.calledOnce
-      @instance._putPanels.should.calledOnce
-      @instance._resizePanels.should.calledOnce
-      @instance._putViews.should.calledOnce
+      @instance._calculateSizes.should.calledOnce()
+      @instance._createPanels.should.calledOnce()
+      @instance._putPanels.should.calledOnce()
+      @instance._resizePanels.should.calledOnce()
+      @instance._putViews.should.calledOnce()
 
   describe 'isVertical', ->
     it 'should return true if vertical', ->
@@ -55,7 +55,7 @@ describe 'KDSplitView', ->
       callback = @sinon.stub()
       @instance.viewAppended()
       @instance.hidePanel 0, callback
-      callback.should.calledOnce
+      callback.should.calledOnce()
       should(@instance.panels[0].size).equal null
 
   describe 'showPanel', ->
@@ -63,7 +63,7 @@ describe 'KDSplitView', ->
       callback = @sinon.stub()
       @instance.viewAppended()
       @instance.showPanel 0, callback
-      callback.should.calledOnce
+      callback.should.calledOnce()
       callback.should.calledWith
         panel: @instance.panels[0]
         index: 0
@@ -73,7 +73,7 @@ describe 'KDSplitView', ->
       @instance.viewAppended()
       @instance.destroy = @sinon.stub()
       @instance.merge()
-      @instance.destroy.should.calledOnce
+      @instance.destroy.should.calledOnce()
 
   describe 'setView', ->
     it 'should set sub view of panel', ->

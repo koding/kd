@@ -64,14 +64,14 @@ module.exports =
     return "a #{noun}"
 
   getSelection:->
-    return  window.getSelection()
+    return window.getSelection()
 
   getSelectionRange:->
     selection = @getSelection()
-    return  selection.getRangeAt 0 if selection.type isnt "None"
+    return selection.getRangeAt 0 if selection.type isnt "None"
 
   getCursorNode:->
-    return  @getSelectionRange().commonAncestorContainer
+    return @getSelectionRange().commonAncestorContainer
 
   addRange:(range)->
     selection = window.getSelection()

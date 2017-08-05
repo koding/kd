@@ -25,10 +25,10 @@ describe 'KDButtonBar', ->
       spy = sinon.spy()
       @buttonBar._itemClass = -> spy()
       @buttonBar.createButton()
-      spy.should.be.calledOnce
+      spy.should.be.calledOnce()
 
     it 'should create a new instance of a passed button class', ->
       stub = @sinon.stub()
       buttonView = -> stub()
       @buttonBar.createButton itemClass: buttonView
-      stub.should.be.calledOnce
+      stub.should.be.calledOnce()

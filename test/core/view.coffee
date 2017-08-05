@@ -81,7 +81,7 @@ describe 'KDView', ->
     it 'should return true', ->
       @view.unsetKeyView = @sinon.stub()
       @view.mouseDown().should.equal yes
-      @view.unsetKeyView.should.be.calledOnce
+      @view.unsetKeyView.should.be.calledOnce()
 
   describe 'paste', ->
     it 'should return true', ->
@@ -90,32 +90,32 @@ describe 'KDView', ->
   describe 'dragEnter', ->
     it 'should stop event', ->
       @view.dragEnter(@events)
-      @events.stopPropagation.should.be.calledOnce
-      @events.preventDefault.should.be.calledOnce
+      @events.stopPropagation.should.be.calledOnce()
+      @events.preventDefault.should.be.calledOnce()
 
   describe 'dragOver', ->
     it 'should stop event', ->
       @view.dragOver(@events)
-      @events.stopPropagation.should.be.calledOnce
-      @events.preventDefault.should.be.calledOnce
+      @events.stopPropagation.should.be.calledOnce()
+      @events.preventDefault.should.be.calledOnce()
 
   describe 'dragLeave', ->
     it 'should stop event', ->
       @view.dragLeave(@events)
-      @events.stopPropagation.should.be.calledOnce
-      @events.preventDefault.should.be.calledOnce
+      @events.stopPropagation.should.be.calledOnce()
+      @events.preventDefault.should.be.calledOnce()
 
   describe 'dragEnd', ->
     it 'should stop event', ->
       @view.dragEnd(@events)
-      @events.stopPropagation.should.be.calledOnce
-      @events.preventDefault.should.be.calledOnce
+      @events.stopPropagation.should.be.calledOnce()
+      @events.preventDefault.should.be.calledOnce()
 
   describe 'drop', ->
     it 'should stop event', ->
       @view.drop(@events)
-      @events.stopPropagation.should.be.calledOnce
-      @events.preventDefault.should.be.calledOnce
+      @events.stopPropagation.should.be.calledOnce()
+      @events.preventDefault.should.be.calledOnce()
 
   describe 'submit', ->
     it 'should return false', ->

@@ -60,13 +60,10 @@ describe 'KDEventEmitter', ->
       (-> KDEventEmitter.on('anEvent', yes)).should.throw
 
     it 'should emit newListener', ->
-      KDEventEmitter.registerStaticEmitter()
-      spy = sinon.spy KDEventEmitter.emit
-      listener = -> yes
-
-      KDEventEmitter.on 'anEvent', listener
-
-      spy.should.be.calledOnce
+      emitter = new KDEventEmitter
+      spy = sinon.spy emitter, 'emit'
+      emitter.on 'anEvent', ->
+      spy.should.be.calledOnce()
 
   describe 'once', ->
     it 'should register an event to be called only once', ->
@@ -77,7 +74,7 @@ describe 'KDEventEmitter', ->
       emitter.once 'anEvent', spy
       emitter.emit 'anEvent', 1
       emitter.emit 'anEvent', 2
-      spy.should.be.calledOnce
+      spy.should.be.calledOnce()
 
     it 'should return itself', ->
       emitter = new KDEventEmitter
@@ -91,11 +88,13 @@ describe 'KDEventEmitter', ->
       @listener = -> yes
 
     it 'should emit listenerRemoved', ->
-      spy = sinon.spy KDEventEmitter.emit
+      spy = sinon.spy KDEventEmitter, 'emit'
 
       KDEventEmitter.on 'anEvent', @listener
       KDEventEmitter.off 'anEvent', @listener
-      spy.should.be.calledOnce
+
+      spy.should.be.calledTwice()
+
       KDEventEmitter._e['listenerRemoved'].should.exist
 
     it 'should unregister an event', ->

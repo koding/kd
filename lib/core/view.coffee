@@ -1,7 +1,8 @@
 debug = require('debug') 'kd:view'
 $ = require 'jquery'
 KD = require './kd'
-KDObject        = require './object'
+KDObject = require './object'
+KDData = require './data'
 MutationSummary = require 'kd-shim-mutation-summary'
 Pistachio = require './pistachio'
 
@@ -181,21 +182,21 @@ module.exports = class KDView extends KDObject
 
   setData: (data) ->
 
+    # Check if data is set on the view and has an emitter
+    # turn it off to prevent duplicate handlers
     if @data?
-      if @data.off
-        @data.off 'update', @bound 'render'
-      else if @data.__proxy__
-        @data.__proxy__.off? 'update', @bound 'render'
+      if emitter = KDData.getEmitter @data
+        emitter.off 'update', @bound 'render'
 
     super data
 
     if @data?
-      if @data.on
-        @data.on 'update', @bound 'render'
-      # If the data is `KDData` which has a __proxy__ field for
-      # providing events on updated fields, we need to listen that one ~ GG
-      else if @data.__proxy__
-        @data.__proxy__.on? 'update', @bound 'render'
+      # If the data is extended from KDEventEmitter or KDData
+      # KDData.getEmitter will return the proper emitter for
+      # update events which we can re-render the view by
+      # listening update events of ~ GG
+      if emitter = KDData.getEmitter @data
+        emitter.on 'update', @bound 'render'
 
     @render()  if @parentIsInDom
 

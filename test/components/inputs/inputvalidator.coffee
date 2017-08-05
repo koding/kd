@@ -47,11 +47,10 @@ describe 'KDInputValidator', ->
       @input.setOptions { validate: yes }
 
       should(KDInputValidator.ruleCreditCard(@input)).equal 'Please enter a valid credit card number'
-      @input.emit.should.calledOnce
 
       @input.setValue '4000000000000001'
-
       should(KDInputValidator.ruleCreditCard(@input)).equal null
+      @input.emit.should.calledOnce()
 
   describe 'ruleJSON', ->
     it 'should validate', ->

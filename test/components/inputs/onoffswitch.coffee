@@ -26,9 +26,9 @@ describe 'KDOnOffSwitch', ->
     it 'should event proper events', ->
       @instance.emit = @sinon.stub()
       @instance.switchStateChanged()
-      @instance.emit.should.calledOnce
+      @instance.emit.should.calledOnce()
       @instance.emit.should.calledWith 'SwitchStateChanged', @instance.getValue()
-      @instance.options.callback.should.calledOnce
+      @instance.options.callback.should.calledOnce()
 
   describe 'setOn', ->
     it 'should set on', ->

@@ -46,11 +46,11 @@ describe 'KDTabView', ->
       @instance.addPane @pane
       @instance.showPane = @sinon.stub()
       @instance.showPaneByIndex 0
-      @instance.showPane.should.calledOnce
+      @instance.showPane.should.calledOnce()
 
   describe 'showPaneByName', ->
     it 'should show pane by name', ->
       @instance.addPane @pane
       @instance.showPane = @sinon.stub()
       @instance.showPaneByName 'Koding'
-      @instance.showPane.should.calledOnce
+      @instance.showPane.should.calledOnce()

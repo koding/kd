@@ -76,12 +76,12 @@ describe 'KDTooltip', ->
     it 'should update', ->
       @instance.display = @sinon.spy @instance.display
       @instance.update()
-      @instance.display.should.calledOnce
+      @instance.display.should.calledOnce()
 
     it 'should update view', ->
       @instance.setView = @sinon.spy @instance.setView
       @instance.update {}, @view
-      @instance.setView.should.calledOnce
+      @instance.setView.should.calledOnce()
 
   describe 'setTitle', ->
     it 'should set title', ->

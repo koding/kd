@@ -71,8 +71,7 @@ module.exports = class KDObject extends KDEventEmitter
     return @options
 
   setOption: (option, value) ->
-    @options[option] = value
-    return @options
+    return @options[option] = value
 
   unsetOption: (option) ->
     delete @options[option]

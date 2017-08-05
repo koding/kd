@@ -1,6 +1,36 @@
+KD = require './kd'
 KDEventEmitter = require './eventemitter'
 
-module.exports = class KDData extends KDEventEmitter
+module.exports = class KDData
+
+  @EMITTER = '__kddata__'
+  @NAME    = '__name__'
+
+  constructor: (data = {}) ->
+
+    emitter = new KDEventEmitter
+    emitter.__data__ = data
+    emitter.isArray  = Array.isArray data
+
+    proxy = new Proxy data, proxyHandler emitter
+    Object.defineProperty proxy, KDData.EMITTER, value: emitter
+
+    return proxy
+
+
+  @getEmitter = (data) ->
+
+    return  unless data?
+    return  data  if typeof data.off is 'function'
+    return  emitter  if emitter = data[KDData.EMITTER]
+
+
+  getFullPath = (parent, child) ->
+
+    if root = parent[KDData.NAME]
+      return "#{root}.#{child}"
+    return child
+
 
   proxyHandler = (base) ->
 
@@ -9,10 +39,14 @@ module.exports = class KDData extends KDEventEmitter
       value = target[key]
       return value  if typeof key isnt 'string' or key[0..1] is '__'
 
-      if value and dataValue = base.__data__[key]
+      key = getFullPath target, key
+
+      if value and dataValue = KD.utils.JsPath.getAt base.__data__, key
         if dataValue instanceof Object and value not instanceof Date
           proxy = new Proxy value, proxyHandler base
-          proxy.__prefix__ = key
+          Object.defineProperty proxy, KDData.NAME, {
+            value: key, configurable: yes
+          }
           return proxy
 
       return value
@@ -20,26 +54,30 @@ module.exports = class KDData extends KDEventEmitter
 
     set: (target, key, value, receiver) ->
 
+      if base.isArray
+        currentLength = target.length
+
       target[key] = value
 
-      if receiver.__prefix__
-        key = "#{receiver.__prefix__}.#{key}"
+      if base.isArray
+        lengthChanged = target.length isnt currentLength
+        return true  if key is 'length' and not lengthChanged
 
-      unless /^__|__$/.test key
-        base.emit 'update', [ key ]
+      if root = receiver[KDData.NAME]
+        key = "#{root}.#{key}"
+      else
+        root = ''
 
+      return true  if /^__|__$/.test key
+
+      if lengthChanged
+        prefix = if key.indexOf('.') >= 0 then "#{root}." else ''
+        base.emit 'update', [ "#{prefix}length" ]
+
+      base.emit 'update', [ key ]
       return true
 
 
-  constructor: (data = {}) ->
+    getPrototypeOf: (target) ->
 
-    super {}
-
-    this.__data__  = data
-    this.__proxy__ = new Proxy data, proxyHandler this
-    this.__proxy__.__proxy__ = {}
-
-    for key, val of this when key not in ['constructor', '__data__']
-      this.__proxy__.__proxy__[key] = val
-
-    return this.__proxy__
+      return KDData.prototype

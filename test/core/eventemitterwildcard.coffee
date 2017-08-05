@@ -27,10 +27,11 @@ describe 'KDEventEmitterWildcard', ->
 
   describe 'off', ->
     it 'should remove all listeners', ->
-      emitter = new KDEventEmitterWildcard
-      spy = sinon.spy emitter.removeAllListeners
-      emitter.off
-      spy.should.be.calledOnce
+      @instance.on 'foo', ->
+      @instance._e.foo.should.exist
+      @instance._e.foo._listeners.length.should.equal 1
+      @instance.off 'foo'
+      @instance._e.foo._listeners.length.should.equal 0
 
     it 'should return itself', ->
       @instance.off().should.deepEqual @instance

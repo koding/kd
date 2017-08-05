@@ -33,11 +33,11 @@ describe 'kd', ->
         key: 'value'
         destroy: (->)
       }
-      spy = sinon.spy singleton.destroy
+      spy = sinon.spy singleton, 'destroy'
 
-      KD.registerSingleton 'koding', {}
+      KD.registerSingleton 'koding', singleton
       KD.registerSingleton 'koding', {key: 'value'}, yes
-      spy.should.be.calledOnce
+      spy.should.be.calledOnce()
 
   describe 'getSingleton', ->
     it 'should return null if it doesnt exist', ->

@@ -125,7 +125,13 @@ describe 'Utils', ->
     Utils.stripTags(input).should.equal 'hello world'
 
   it 'should check if touch device', ->
-    Utils.isTouchDevice().should.equal no
+    isTouchDevice = try
+      document.createEvent 'TouchEvent'
+      yes
+    catch e
+      no
+
+    Utils.isTouchDevice().should.equal isTouchDevice
 
   it 'should encode and decode utf8', ->
     Utils.utf8Encode('hello world').should.equal Utils.utf8Decode 'hello world'

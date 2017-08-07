@@ -20,7 +20,9 @@ describe 'KDWebcamView', ->
 
   describe 'getUserMediaVendor', ->
     it 'should get user media vendor', ->
-      KDWebcamView.getUserMediaVendor().should.deepEqual (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia)
+      return this.skip()  unless KDWebcamView.isSupported()
+      vendor = KDWebcamView.getUserMediaVendor()
+      vendor.should.deepEqual (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia)
 
   describe 'getURLVendor', ->
     it 'should get url vendor', ->

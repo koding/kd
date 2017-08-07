@@ -51,7 +51,7 @@ describe 'KDFlexSplit', ->
 
     it 'should instantiate views with 50%-50% base by default', ->
       for view in [ @view1, @view2 ]
-        view.getAttribute('style').should.equal 'flex-basis: 50%;'
+        view.getAttribute('style').should.endWith 'flex-basis: 50%;'
 
     it 'should create a resizer', ->
       (@instance.resizer instanceof KDFlexSplitResizer).should.equal true
@@ -61,8 +61,8 @@ describe 'KDFlexSplit', ->
       @instance.on KDFlex.EVENT_EXPANDED, @callback
 
       @view1.emit KDFlex.EVENT_EXPAND
-      @view1.getAttribute('style').should.equal "flex-basis: #{KDFlex.MAX}%;"
-      @view2.getAttribute('style').should.equal "flex-basis: #{KDFlex.MIN}%;"
+      @view1.getAttribute('style').should.endWith "flex-basis: #{KDFlex.MAX}%;"
+      @view2.getAttribute('style').should.endWith "flex-basis: #{KDFlex.MIN}%;"
 
       @callback.calledOnce.should.equal true
 
@@ -71,13 +71,13 @@ describe 'KDFlexSplit', ->
       @instance.on KDFlex.EVENT_COLLAPSED, @callback
 
       @view1.emit KDFlex.EVENT_COLLAPSE
-      @view1.getAttribute('style').should.equal 'flex-basis: 50%;'
-      @view2.getAttribute('style').should.equal 'flex-basis: 50%;'
+      @view1.getAttribute('style').should.endWith 'flex-basis: 50%;'
+      @view2.getAttribute('style').should.endWith 'flex-basis: 50%;'
 
       @callback.calledOnce.should.equal true
 
     it 'should support custom resizing', ->
 
       @instance.setFractions [20, 80]
-      @view1.getAttribute('style').should.equal 'flex-basis: 20%;'
-      @view2.getAttribute('style').should.equal 'flex-basis: 80%;'
+      @view1.getAttribute('style').should.endWith 'flex-basis: 20%;'
+      @view2.getAttribute('style').should.endWith 'flex-basis: 80%;'

@@ -1,10 +1,20 @@
 KD = require './kd'
 KDEventEmitter = require './eventemitter'
 
+createSymbol = (key) ->
+  (window.Symbol? key) || "__#{key}__"
+
+createProxy = (data, handler) ->
+  if window.Proxy?
+    return new Proxy data, handler
+  else
+    console.warn 'Proxies are not supported on this platform!'
+    return new Object data
+
 module.exports = class KDData
 
-  @EMITTER = '__kddata__'
-  @NAME    = '__name__'
+  @EMITTER = createSymbol 'kddata'
+  @NAME    = createSymbol 'name'
 
   constructor: (data = {}) ->
 
@@ -12,17 +22,20 @@ module.exports = class KDData
     emitter.__data__ = data
     emitter.isArray  = Array.isArray data
 
-    proxy = new Proxy data, proxyHandler emitter
+    proxy = createProxy data, proxyHandler emitter
     Object.defineProperty proxy, KDData.EMITTER, value: emitter
 
     return proxy
 
+  @isSupported = -> !!window.Proxy?
 
   @getEmitter = (data) ->
 
     return  unless data?
-    return  data  if typeof data.off is 'function'
     return  emitter  if emitter = data[KDData.EMITTER]
+
+    if typeof data.on is 'function' and typeof data.off is 'function'
+      return data
 
 
   getFullPath = (parent, child) ->
@@ -37,13 +50,13 @@ module.exports = class KDData
     get: (target, key) ->
 
       value = target[key]
-      return value  if typeof key isnt 'string' or key[0..1] is '__'
+      return value  if typeof key isnt 'string'
 
       key = getFullPath target, key
 
       if value and dataValue = KD.utils.JsPath.getAt base.__data__, key
         if dataValue instanceof Object and value not instanceof Date
-          proxy = new Proxy value, proxyHandler base
+          proxy = createProxy value, proxyHandler base
           Object.defineProperty proxy, KDData.NAME, {
             value: key, configurable: yes
           }
@@ -68,7 +81,7 @@ module.exports = class KDData
       else
         root = ''
 
-      return true  if /^__|__$/.test key
+      return true  if typeof key is 'symbol' or /^__|__$/.test key
 
       if lengthChanged
         prefix = if key.indexOf('.') >= 0 then "#{root}." else ''

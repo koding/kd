@@ -14,6 +14,9 @@ describe 'KDData', ->
   describe 'constructor', ->
 
     beforeEach ->
+      unless KDData.isSupported()
+        console.warn "KDData tests skipped since it's not supported on this platform"
+        return this.skip()
       @instance = new KDData
 
     it 'should create emitter', ->
@@ -25,6 +28,8 @@ describe 'KDData', ->
     describe 'Objects', ->
 
       beforeEach ->
+
+        return this.skip()  unless KDData.isSupported()
         @instance = new KDData {}
 
       it 'should support Object type', ->
@@ -70,6 +75,8 @@ describe 'KDData', ->
     describe 'Arrays', ->
 
       beforeEach ->
+
+        return this.skip()  unless KDData.isSupported()
         @instance = new KDData []
 
       it 'should support Array type', ->
@@ -127,6 +134,7 @@ describe 'KDData', ->
 
       beforeEach ->
 
+        return this.skip()  unless KDData.isSupported()
         @instance = new KDData { foo: 'bar', baz: 100 }
 
         @view = new KDView
@@ -166,6 +174,7 @@ describe 'KDData', ->
 
       beforeEach ->
 
+        return this.skip()  unless KDData.isSupported()
         @instance = new KDData ['foo', 100]
 
         @view = new KDView

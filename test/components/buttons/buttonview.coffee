@@ -63,13 +63,13 @@ describe 'KDButtonView', ->
   describe 'click', ->
     it 'should call callback function', ->
       @view.click()
-      @callback.should.be.calledOnce
+      @callback.should.be.calledOnce()
 
   describe 'triggerClick', ->
     it 'should trigger click', ->
       @view.doOnSubmit = @sinon.stub()
       @view.triggerClick()
-      @view.doOnSubmit.should.be.calledOnce
+      @view.doOnSubmit.should.be.calledOnce()
 
   describe 'disable', ->
     it 'should disable', ->
@@ -85,19 +85,19 @@ describe 'KDButtonView', ->
     it 'should focus', ->
       @view.$().trigger = @sinon.stub()
       @view.focus()
-      @view.$().trigger.should.calledOnce
+      @view.$().trigger.should.calledOnce()
       @view.$().trigger.should.calledWith 'focus'
 
   describe 'setFocus', ->
     it 'should set focus', ->
       @view.$().trigger = @sinon.stub()
       @view.setFocus()
-      @view.$().trigger.should.calledOnce
+      @view.$().trigger.should.calledOnce()
       @view.$().trigger.should.calledWith 'focus'
 
   describe 'blur', ->
     it 'should blur', ->
       @view.$().trigger = @sinon.stub()
       @view.blur()
-      @view.$().trigger.should.calledOnce
+      @view.$().trigger.should.calledOnce()
       @view.$().trigger.should.calledWith 'blur'

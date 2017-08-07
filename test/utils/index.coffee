@@ -65,9 +65,9 @@ describe 'Utils', ->
     Utils.elementIsVisible(@el).should.be.true
 
   it 'should get selection', ->
-    spy = sinon.spy window.getSelection
-    Utils.getSelection
-    spy.should.be.calledOnce
+    spy = sinon.spy window, 'getSelection'
+    Utils.getSelection()
+    spy.should.be.calledOnce()
 
   it 'should pluralize', ->
     Utils.formatPlural(2, 'car').should.equal '2 cars'
@@ -96,12 +96,6 @@ describe 'Utils', ->
     element = selectDummyElement().firstChild
     Utils.selectText element, 2, 5
     window.getSelection().toString().should.equal 'mmy'
-
-  it 'should get selection', ->
-    spy = sinon.spy window.getSelection
-
-    Utils.getSelection()
-    spy.should.be.calledOnce
 
   it 'should prefix a unique id', ->
     prefix = 'kd'
@@ -140,6 +134,6 @@ describe 'Utils', ->
     Utils.formatBytesToHumanReadable(1024, 1).should.equal '1.0 kB'
 
   it 'should get cursor node', ->
-    spy = sinon.spy Utils.getSelectionRange
+    spy = sinon.spy Utils, 'getSelectionRange'
     Utils.getCursorNode().should.exist
-    spy.should.be.calledOnce
+    spy.should.be.calledOnce()

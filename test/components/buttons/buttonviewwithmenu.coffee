@@ -61,4 +61,4 @@ describe 'KDButtonViewWithMenu', ->
     it 'should create context menu', ->
       @view.createContextMenu = @sinon.stub()
       @view.contextMenu();
-      @view.createContextMenu.should.be.calledOnce
+      @view.createContextMenu.should.be.calledOnce()

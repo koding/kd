@@ -47,28 +47,18 @@ module.exports = class KDData
 
   proxyHandler = (base) ->
 
-    get: (target, key) ->
-
-      value = target[key]
-      return value  if typeof key isnt 'string'
-
-      key = getFullPath target, key
-
-      if value and dataValue = KD.utils.JsPath.getAt base.__data__, key
-        if dataValue instanceof Object and value not instanceof Date
-          proxy = createProxy value, proxyHandler base
-          Object.defineProperty proxy, KDData.NAME, {
-            value: key, configurable: yes
-          }
-          return proxy
-
-      return value
-
-
     set: (target, key, value, receiver) ->
 
       if base.isArray
         currentLength = target.length
+
+      if value instanceof Object and value not instanceof Date
+        if root = receiver[KDData.NAME]
+          key = "#{root}.#{key}"
+        value = createProxy value, proxyHandler base
+        Object.defineProperty value, KDData.NAME, {
+          value: key, configurable: yes
+        }
 
       target[key] = value
 
@@ -76,12 +66,12 @@ module.exports = class KDData
         lengthChanged = target.length isnt currentLength
         return true  if key is 'length' and not lengthChanged
 
+      return true  if typeof key is 'symbol' or /^__|__$/.test key
+
       if root = receiver[KDData.NAME]
         key = "#{root}.#{key}"
       else
         root = ''
-
-      return true  if typeof key is 'symbol' or /^__|__$/.test key
 
       if lengthChanged
         prefix = if key.indexOf('.') >= 0 then "#{root}." else ''
@@ -89,8 +79,3 @@ module.exports = class KDData
 
       base.emit 'update', [ key ]
       return true
-
-
-    getPrototypeOf: (target) ->
-
-      return KDData.prototype

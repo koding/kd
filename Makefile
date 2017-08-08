@@ -73,6 +73,7 @@ css:
 
 clean: clean_dist
 	@rm -fr build
+	@rm -fr coverage 
 
 clean_dist:
 	@echo ' - Cleanup...'

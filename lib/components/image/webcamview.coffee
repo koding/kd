@@ -111,7 +111,7 @@ module.exports = class KDWebcamView extends KDView
 
   unsetVideoStream: ->
     video = @video.getElement()
-    video.pause()
+    video.pause?()
     KDWebcamView.setVideoStreamVendor video, ""
     @localMediaStream?.stop()
 
@@ -126,18 +126,20 @@ module.exports = class KDWebcamView extends KDView
       @emit "allowed"
 
   @setVideoStreamVendor: (video, stream)->
-    if video.mozSrcObject isnt undefined
+    if video.mozSrcObject? and typeof stream is 'object'
     then video.mozSrcObject = stream
     else video.src = stream
 
   @getUserMediaVendor: ->
-    navigator.getUserMedia or\
-    navigator.webkitGetUserMedia or\
+    navigator.getUserMedia or \
+    navigator.webkitGetUserMedia or \
     navigator.mozGetUserMedia
 
+  @isSupported: -> !!@getUserMediaVendor()
+
   @getURLVendor: ->
-    window.URL or\
-    window.webkitURL or\
+    window.URL or \
+    window.webkitURL or \
     window.mozURL
 
   getUserMedia: ->

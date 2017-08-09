@@ -104,7 +104,7 @@ describe 'KDData', ->
 
       it 'should support custom depth level', ->
 
-        @instance = new KDData {}, { max_depth: 3 }
+        @instance = new KDData {}, { maxDepth: 3 }
 
         emitter = KDData.getEmitter @instance
         emitter.should.exist
@@ -137,7 +137,7 @@ describe 'KDData', ->
               }
             }
           }, {
-            max_depth: 3
+            maxDepth: 3
           }
 
         emitter = KDData.getEmitter @instance
@@ -265,7 +265,7 @@ describe 'KDData', ->
 
       it 'should support custom depth level', ->
 
-        @instance = new KDData [], { max_depth: 3 }
+        @instance = new KDData [], { maxDepth: 3 }
 
         emitter = KDData.getEmitter @instance
         emitter.should.exist

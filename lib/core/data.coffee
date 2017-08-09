@@ -26,7 +26,7 @@ module.exports = class KDData
     @emitter = new KDEventEmitter
     @emitter.__data__  = data
     @emitter.__event__ = options.updateEvent ? 'update'
-    @emitter.maxdepth  = options.max_depth ? 2
+    @emitter.maxDepth  = options.maxDepth ? 2
 
     @proxy = createProxy data, KDData::proxyHandler.call this
     Object.defineProperty @proxy, KDData.EMITTER, {
@@ -39,7 +39,7 @@ module.exports = class KDData
       depth += 1
       for _key, child of data
         path = if key then "#{key}.#{_key}" else _key
-        if depth < @emitter.maxdepth and isValid child
+        if depth < @emitter.maxDepth and isValid child
           initialize child, path, depth
           KD.utils.JsPath.setAt @proxy, path, child
 
@@ -87,7 +87,7 @@ module.exports = class KDData
     for _key, child of value
       path = if key then "#{key}.#{_key}" else _key
       debug 'path on', _key, path
-      if depth < @emitter.maxdepth and isValid child
+      if depth < @emitter.maxDepth and isValid child
         value[_key] = @createObjectProxy child, path
         @proxify child, path, depth
 

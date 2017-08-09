@@ -23,7 +23,7 @@ module.exports = class KDDiaScene extends KDView
     options.updateEvery       ?= 10
     options.prependCanvas     ?= no
 
-    super
+    super options, data
 
     @containers      = []
     @connections     = []
@@ -523,7 +523,8 @@ module.exports = class KDDiaScene extends KDView
 
   createCanvas: ->
 
-    return  if @realCanvas
+    @realCanvas?.destroy()
+    @fakeCanvas?.destroy()
 
     @addSubView @realCanvas = new KDCustomHTMLView
       tagName    : 'canvas'

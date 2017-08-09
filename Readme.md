@@ -1,4 +1,4 @@
-[![Build Status](https://img.shields.io/travis/koding/kd.svg?style=flat)](https://travis-ci.org/koding/kd) [![Coverage Status](https://img.shields.io/coveralls/koding/kd.svg?style=flat)](https://coveralls.io/github/koding/kd?branch=master)
+[![Build Status](https://img.shields.io/travis/koding/kd.svg?style=flat)](https://travis-ci.org/koding/kd) [![npm](https://img.shields.io/npm/v/kd.js.svg)](https://www.npmjs.com/package/kd.js) [![Coverage Status](https://img.shields.io/coveralls/koding/kd.svg?style=flat)](https://coveralls.io/github/koding/kd?branch=master)
 
 # kd.js
 
@@ -44,7 +44,7 @@ main.addSubView(tabs);
 
 # example
 
-Type `make example` and go to http://localhost:3000/example. This also starts a `watchify` process, so any changes you make in `example/index.js` will be recompiled on the spot.
+Type `make example` to checkout some examples.
 
 # development
 

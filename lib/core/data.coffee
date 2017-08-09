@@ -1,3 +1,4 @@
+debug = require('debug') 'kd:data'
 KD = require './kd'
 KDEventEmitter = require './eventemitter'
 
@@ -11,23 +12,45 @@ createProxy = (data, handler) ->
     console.warn 'Proxies are not supported on this platform!'
     return new Object data
 
+isValid = (value) ->
+  value and typeof value is 'object' and value not instanceof Date
+
+
 module.exports = class KDData
 
   @EMITTER = createSymbol 'kddata'
   @NAME    = createSymbol 'name'
 
-  constructor: (data = {}) ->
+  constructor: (data = {}, options = {}) ->
 
-    emitter = new KDEventEmitter
-    emitter.__data__ = data
-    emitter.isArray  = Array.isArray data
+    @emitter = new KDEventEmitter
+    @emitter.__data__  = data
+    @emitter.__event__ = options.updateEvent ? 'update'
+    @emitter.maxdepth  = options.max_depth ? 2
 
-    proxy = createProxy data, proxyHandler emitter
-    Object.defineProperty proxy, KDData.EMITTER, value: emitter
+    @proxy = createProxy data, KDData::proxyHandler.call this
+    Object.defineProperty @proxy, KDData.EMITTER, {
+      value: @emitter, configurable: yes
+    }
 
-    return proxy
+    initialize = (data, key = null, depth = 0) =>
+      return  if not isValid data
+
+      depth += 1
+      for _key, child of data
+        path = if key then "#{key}.#{_key}" else _key
+        if depth < @emitter.maxdepth and isValid child
+          initialize child, path, depth
+          KD.utils.JsPath.setAt @proxy, path, child
+
+    initialize data
+    @initialized = yes
+
+    return @proxy
+
 
   @isSupported = -> !!window.Proxy?
+
 
   @getEmitter = (data) ->
 
@@ -38,44 +61,65 @@ module.exports = class KDData
       return data
 
 
-  getFullPath = (parent, child) ->
+  emit: (updates) ->
 
-    if root = parent[KDData.NAME]
-      return "#{root}.#{child}"
-    return child
+    return  if not @initialized
+    @emitter.emit @emitter.__event__, [ updates ]
 
 
-  proxyHandler = (base) ->
+  createObjectProxy: (obj, key) ->
 
-    set: (target, key, value, receiver) ->
+    value = createProxy obj, @proxyHandler.call this
+    return value  unless key
 
-      if base.isArray
+    Object.defineProperty value, KDData.NAME, {
+      value: key, configurable: yes
+    }
+    return value
+
+
+  proxify: (value, key, depth = 0) ->
+
+    return value  if not isValid value
+
+    depth += 1
+
+    for _key, child of value
+      path = if key then "#{key}.#{_key}" else _key
+      debug 'path on', _key, path
+      if depth < @emitter.maxdepth and isValid child
+        value[_key] = @createObjectProxy child, path
+        @proxify child, path, depth
+
+    debug 'creating proxy', value, key
+
+    if isValid value
+      return @createObjectProxy value, key
+    else
+      return value
+
+
+  proxyHandler: ->
+
+    set: (target, key, value, receiver) =>
+
+      debug 'setting', key, value
+
+      if isArray = Array.isArray target
         currentLength = target.length
 
-      if value instanceof Object and value not instanceof Date
-        if root = receiver[KDData.NAME]
-          key = "#{root}.#{key}"
-        value = createProxy value, proxyHandler base
-        Object.defineProperty value, KDData.NAME, {
-          value: key, configurable: yes
-        }
+      if parent = receiver[KDData.NAME] ? ''
+        path = "#{parent}.#{key}"
 
-      target[key] = value
+      target[key] = @proxify value, path ? key
 
-      if base.isArray
+      if isArray
         lengthChanged = target.length isnt currentLength
         return true  if key is 'length' and not lengthChanged
 
-      return true  if typeof key is 'symbol' or /^__|__$/.test key
+      @emit path ? key
 
-      if root = receiver[KDData.NAME]
-        key = "#{root}.#{key}"
-      else
-        root = ''
+      if lengthChanged and key isnt 'length'
+        @emit if parent then "#{parent}.length" else 'length'
 
-      if lengthChanged
-        prefix = if key.indexOf('.') >= 0 then "#{root}." else ''
-        base.emit 'update', [ "#{prefix}length" ]
-
-      base.emit 'update', [ key ]
       return true

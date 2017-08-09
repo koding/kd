@@ -26,6 +26,8 @@ gulp.task 'test', (done) ->
 gulp.task 'test-watch', (done) ->
 
   options.singleRun = false
+  options.browsers = ['Chrome']
+
   server(options, ->
     done()  if not doneBefore
     doneBefore = yes

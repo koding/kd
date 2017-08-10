@@ -100,12 +100,12 @@ module.exports = class Pistachio
     dataGetter = (prop) ->
 
       return  unless data = @getData?()
-      getter = data.getAt ? (p) -> Pistachio.getAt data, p
+      getter = (p) -> data.getAt?(p) or Pistachio.getAt data, p
 
       [ p1, rest... ] = prop.match /[^\s`]+|`([^`]*)`/gi
 
       # If this is only a single prop we will just return it's value
-      return getter p1  unless rest.length
+      return getter p1  if rest.length is 0
 
       # In the case of prop includes a simple compare code;
       #

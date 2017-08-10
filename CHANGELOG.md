@@ -1,12 +1,25 @@
+# CHANGELOG
 
-## [v1.2.1](https://github.com/koding/kd/compare/1.1.30...v1.2.1) - 2017-08-09
+## [1.2.2](https://github.com/koding/kd/compare/1.2.1...1.2.2) - 2017-08-10
 
-### Merged
+* Pistachio: template issues fixed
+
+
+## [1.2.1](https://github.com/koding/kd/compare/1.2.0...1.2.1) - 2017-08-09
+
 * KDData: revamp [`#180`](https://github.com/koding/kd/pull/180)
+
+
+## [1.2.0](https://github.com/koding/kd/compare/1.1.31...1.2.0) - 2017-08-07
+
 * KDData: Proxy based realtime update object for kd.js [`#176`](https://github.com/koding/kd/pull/176)
 * Fix Tests [`#179`](https://github.com/koding/kd/pull/179)
 * Pistachio: simple compare support with in templates [`#178`](https://github.com/koding/kd/pull/178)
 * DiaScene: add option to prepend canvas and line options for each node [`#177`](https://github.com/koding/kd/pull/177)
+
+
+## [1.1.31](https://github.com/koding/kd/compare/1.1.30...1.1.31) - 2017-08-01
+
 * Dia v2 [`#175`](https://github.com/koding/kd/pull/175)
 * Back to the Pistachio [`#174`](https://github.com/koding/kd/pull/174)
 * Scaled drag [`#173`](https://github.com/koding/kd/pull/173)
@@ -14,21 +27,18 @@
 
 ## [1.1.30](https://github.com/koding/kd/compare/1.1.29...1.1.30) - 2017-02-22
 
-### Merged
 * New Component FlexSplit [`#172`](https://github.com/koding/kd/pull/172)
 * Upgrade jquery [`#171`](https://github.com/koding/kd/pull/171)
 
 
 ## [1.1.29](https://github.com/koding/kd/compare/1.1.25...1.1.29) - 2017-01-30
 
-### Merged
 * allow entry point from any dom element [`#170`](https://github.com/koding/kd/pull/170)
 * Hotfix [`#169`](https://github.com/koding/kd/pull/169)
 
 
 ## [1.1.25](https://github.com/koding/kd/compare/1.1.19...1.1.25) - 2016-08-10
 
-### Merged
 * Remove image reference [`#160`](https://github.com/koding/kd/pull/160)
 * Kd input Hover and Focus Styling Edit [`#158`](https://github.com/koding/kd/pull/158)
 * Stop Scrolling When Element has scrollable attriubute [`#157`](https://github.com/koding/kd/pull/157)
@@ -39,7 +49,6 @@
 
 ## [1.1.19](https://github.com/koding/kd/compare/0.1.19...1.1.19) - 2016-02-26
 
-### Merged
 * Fix autocomplete issue [`#153`](https://github.com/koding/kd/pull/153)
 * Enable/disable console output [`#151`](https://github.com/koding/kd/pull/151)
 * 1.x becomes master [`#150`](https://github.com/koding/kd/pull/150)
@@ -48,19 +57,16 @@
 
 ## [0.1.19](https://github.com/koding/kd/compare/0.1.18...0.1.19) - 2015-09-08
 
-### Merged
 * ModalView: Call super in click method. [`#137`](https://github.com/koding/kd/pull/137)
 
 
 ## [0.1.18](https://github.com/koding/kd/compare/0.1.17...0.1.18) - 2015-08-26
 
-### Merged
 * Set tree view node placeholder only if node is valid [`#135`](https://github.com/koding/kd/pull/135)
 
 
 ## [0.1.17](https://github.com/koding/kd/compare/0.1.0...0.1.17) - 2015-07-01
 
-### Merged
 * FileTree: ModalViewStack: modalview and modalviewstack causes circular dependency so delete the instanceof check from modalviewstack.coffee file to fix instanceof check error. [`#129`](https://github.com/koding/kd/pull/129)
 * remove modal content auto max height [`#122`](https://github.com/koding/kd/pull/122)
 * customview: keyboard handling [`#119`](https://github.com/koding/kd/pull/119)
@@ -74,7 +80,6 @@
 
 ## 0.1.0 - 2015-01-13
 
-### Merged
 * KDKeyboardListener: add static method 'record(callback)' that lets recording keyboard sequences [`#107`](https://github.com/koding/kd/pull/107)
 * Fixed an autogrow issue that occurs when element is being shown second t... [`#108`](https://github.com/koding/kd/pull/108)
 * Mail links handling [`#106`](https://github.com/koding/kd/pull/106)

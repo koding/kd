@@ -221,7 +221,7 @@ module.exports = class Pistachio
             "data('#{dataPath}')"
           .replace /^(?:> ?|embedChild )(.+)/, (_, subViewName) ->
             subViewNames.push subViewName.replace /\@\.?|this\./, ''
-            "embedChild(#{subViewName})"
+            "embedChild(#{subViewName.replace /@/, 'this.'})"
 
         @registerDataPaths dataPaths
         @registerSubViewNames subViewNames

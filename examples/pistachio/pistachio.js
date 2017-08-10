@@ -48,3 +48,27 @@ new kd.CustomHTMLView({
   tagName: 'pre',
   partial: code,
 }).appendToDomBody()
+
+code = `
+  var three = new kd.ButtonView({
+    title: 'Click Here!',
+    callback: () => {
+      alert('hello from view three!');
+    },
+  });
+
+  var four = new kd.View({
+    pistachioParams: { three },
+    pistachio: 'I include button from view three here: {{> three }}',
+  })
+
+  four.appendToDomBody()
+
+`
+
+eval(code)
+
+new kd.CustomHTMLView({
+  tagName: 'pre',
+  partial: code,
+}).appendToDomBody()

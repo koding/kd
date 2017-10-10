@@ -46,7 +46,7 @@ module.exports =
     return false
 
   formatPlural:(count, noun, showCount = yes) ->
-    pluralize = require 'pluralize'
+    pluralize = require 'plur'
     """
     #{
       if showCount

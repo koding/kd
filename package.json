@@ -30,7 +30,7 @@
     "kd-shim-canvas-loader": "^0.9.2",
     "kd-shim-mutation-summary": "^0.1.0",
     "lodash": "^4.16.4",
-    "pluralize": "^6.0.0",
+    "plur": "^2.1.2",
     "timeago": "^1.5.3"
   },
   "devDependencies": {

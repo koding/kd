@@ -1,6 +1,6 @@
 {
   "name": "kd.js",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "a collection of ui widgets and other nice things",
   "main": "build/lib/index.js",
   "scripts": {
@@ -14,13 +14,7 @@
     "type": "git",
     "url": "git://github.com/koding/kd.git"
   },
-  "keywords": [
-    "kd",
-    "kd.js",
-    "koding",
-    "ui",
-    "framework"
-  ],
+  "keywords": ["kd", "kd.js", "koding", "ui", "framework"],
   "license": "MIT",
   "dependencies": {
     "debug": "^2.2.0",

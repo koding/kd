@@ -6,6 +6,7 @@
   "scripts": {
     "test": "./node_modules/gulp/bin/gulp.js test",
     "test-watch": "./node_modules/gulp/bin/gulp.js test-watch",
+    "prepublish": "make clean dist prepublish",
     "prepare": "if [[ ! $KD_CI ]]; then make clean dist prepublish; fi"
   },
   "homepage": "https://kd.io",

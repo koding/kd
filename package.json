@@ -14,7 +14,13 @@
     "type": "git",
     "url": "git://github.com/koding/kd.git"
   },
-  "keywords": ["kd", "kd.js", "koding", "ui", "framework"],
+  "keywords": [
+    "kd",
+    "kd.js",
+    "koding",
+    "ui",
+    "framework"
+  ],
   "license": "MIT",
   "dependencies": {
     "debug": "^2.2.0",

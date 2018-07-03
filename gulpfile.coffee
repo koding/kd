@@ -17,6 +17,7 @@ gulp.task 'test', (done) ->
 
   options.coverageReporter.type = 'lcov'
 
+  options.browsers = ['PhantomJS']
   if process.env.TRAVIS
     options.browsers = [ 'Chrome_travis_ci', 'Firefox' , 'PhantomJS' ]
 
@@ -26,7 +27,7 @@ gulp.task 'test', (done) ->
 gulp.task 'test-watch', (done) ->
 
   options.singleRun = false
-  options.browsers = ['Chrome']
+  options.browsers = ['PhantomJS']
 
   server(options, ->
     done()  if not doneBefore

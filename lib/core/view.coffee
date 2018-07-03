@@ -715,6 +715,7 @@ module.exports = class KDView extends KDObject
   setDraggable:(options = {})->
 
     options = {} if options is yes
+    @_dragThresold = options.threshold ? 20
 
     @setEmptyDragState()
     handle = if options.handle instanceof KDView then options.handle else this
@@ -780,6 +781,8 @@ module.exports = class KDView extends KDObject
       event.preventDefault()
       return no
 
+  dragVerifyNewPos: -> yes
+
   drag:(event, delta)->
 
     {directionX, directionY, axis, containment, parentScale} = @dragState
@@ -802,7 +805,7 @@ module.exports = class KDView extends KDObject
       if axis is "x" then Math.abs x else Math.abs y
     else Math.max Math.abs(x), Math.abs(y)
 
-    @dragIsAllowed = @beingDragged = !(draggedDistance < 20 and not @beingDragged)
+    @dragIsAllowed = @beingDragged = !(draggedDistance < @_dragThresold and not @beingDragged)
 
     if x > dragRelPos.x
       dragCurDir.x  = 'right'
@@ -838,8 +841,10 @@ module.exports = class KDView extends KDObject
         if newX + m.w >= p.w - cp.right  then newX = p.w - m.w - cp.right
         if newY + m.h >= p.h - cp.bottom then newY = p.h - m.h - cp.bottom
 
-      el.css targetPosX, newX unless axis is 'y'
-      el.css targetPosY, newY unless axis is 'x'
+      if @dragVerifyNewPos { targetPosX, x, newX, axis }
+        el.css targetPosX, newX unless axis is 'y'
+      if @dragVerifyNewPos { targetPosY, y, newY, axis }
+        el.css targetPosY, newY unless axis is 'x'
 
     dragRelPos.x = x
     dragRelPos.y = y
